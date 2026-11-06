@@ -1,0 +1,24 @@
+{
+  "name": "steplearn",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test behavior.test.cjs behavior_test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs"
+  },
+  "dependencies": {
+    "@codemirror/lang-css": "^6.3.1",
+    "@codemirror/lang-html": "^6.4.9",
+    "@codemirror/lang-javascript": "^6.2.4",
+    "@codemirror/lang-json": "^6.0.1",
+    "@webcontainer/api": "^1.6.1",
+    "codemirror": "^6.0.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.11"
+  }
+}

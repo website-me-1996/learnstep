@@ -1,0 +1,76 @@
+# ==============================================================================
+# StepLearn (.gitignore) — Production & Deployment Exclusions
+# ==============================================================================
+
+# 1. Obsolete Platform Code (Explicit User Exclusion: "مش النسخة القديمة")
+old-v1/
+
+# 2. Multi-Agent Teamwork Metadata & Internal Orchestration
+.agents/
+.gemini/
+
+# 3. Dependencies
+node_modules/
+jspm_packages/
+
+# 4. Production Build Artifacts (Built on Netlify via 'npm run build')
+dist/
+dist-ssr/
+build/
+*.local
+
+# 5. Test Execution Dumps, Coverage & Empirical Scratchpads
+test_slot_builder_results.json
+tests/ui_empirical_results.json
+test_m1_review.cjs
+test_simulator_empirical.cjs
+test_slot_builder_empirical.cjs
+coverage/
+*.lcov
+.nyc_output/
+
+# 6. Screen Captures and Local Media Dumps
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+!public/**
+
+# 7. Logs and Runtime Dumps
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 8. Operating System Artifacts
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# 9. IDE & Editor Workspaces
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak
+*.tmp
+*.orig
+
+# 10. Local Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noai, noimageai">
+<meta name="robots" content="max-snippet:0, noarchive">
+<meta name="application-name" content="steplearn">
+<meta name="apple-mobile-web-app-title" content="steplearn">
+<title>steplearn — تعلّم البرمجة بالتجربة</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="#home"><span class="logo" aria-hidden="true"><svg viewBox="0 0 32 32" width="22" height="22" fill="none"><rect x="4" y="18" width="6" height="10" rx="2" fill="currentColor" opacity="0.6"/><rect x="13" y="12" width="6" height="16" rx="2" fill="currentColor" opacity="0.85"/><rect x="22" y="6" width="6" height="22" rx="2" fill="currentColor"/><path d="M19 4L27 10L19 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>steplearn</b><small>تعلّم البرمجة بالتجربة</small></span></a>
+  <div>
+    <p class="nav-label">مساحة التعلّم</p>
+    <nav class="nav">
+      <a class="active" href="#home"><svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</a>
+      <a href="#courses"><svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0-5H20"/><path d="M6 6h10M6 10h10"/></svg>مسارات التعلّم</a>
+      <a href="#project"><svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>مشاريعي</a>
+      <a href="#progress"><svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>التقدّم</a>
+    </nav>
+  </div>
+  <div class="side-tip">
+    <b>🌱 خطوة واحدة كفاية</b>
+    <p>مش لازم الصورة كلها تبقى واضحة قبل أول تجربة.</p>
+    <button id="tip">فكرة صغيرة اليوم ←</button>
+  </div>
+</aside>
+
+<main id="home">
+  <header class="top">
+    <div class="mobile-brand-tag" aria-label="steplearn">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 32 32" width="18" height="18" fill="none"><rect x="4" y="18" width="6" height="10" rx="2" fill="currentColor" opacity="0.6"/><rect x="13" y="12" width="6" height="16" rx="2" fill="currentColor" opacity="0.85"/><rect x="22" y="6" width="6" height="22" rx="2" fill="currentColor"/><path d="M19 4L27 10L19 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <b>steplearn</b>
+    </div>
+    <span class="crumb">مساحة التعلّم / الرئيسية</span>
+    <div class="top-actions">
+      <button class="learner-switch" id="learnerProfileButton" type="button" aria-haspopup="dialog">ملف التعلّم · المتعلم الحالي</button>
+      <span class="date" id="date"></span>
+    </div>
+  </header>
+  <section class="welcome">
+    <div>
+      <div class="eyebrow">مساحة هادئة للتجربة والنمو</div>
+      <h1>أهلًا بك 👋</h1>
+      <p id="greeting">لنر ما الخطوة التالية اليوم.</p>
+    </div>
+    <button class="quiet" id="newGreeting">رسالة جديدة ↻</button>
+  </section>
+
+  <section class="hero">
+    <div class="hero-info">
+      <small id="heroProjectLabel">مشروعك الحالي · بطاقة تعرّف بيك</small>
+      <h2 id="heroNextTitle">خلّينا نشوف الخطوة اللي بعد كده.</h2>
+      <p id="heroNextCopy">تجربة قصيرة تضيف جزءًا حقيقيًا لمشروعك.</p>
+      <div class="meta growth-meta"><span id="heroProjectMeta">لبنات أُضيفت للمشروع · ٠</span><span id="heroUnlockMeta">القدرة التالية · صفحة شخصية</span><span id="heroAbilityMeta">قدراتك · ٠</span></div>
+      <div class="hero-actions"><button class="cta" id="continue">كمّل من آخر خطوة ←</button><button class="hero-challenge" id="openDailyChallenge">تحدي اليوم · ١–٥ دقائق</button></div>
+    </div>
+    <div class="book" aria-hidden="true">
+      <div class="paper">
+        <div class="line"></div>
+        <div class="line short"></div>
+        <div class="line"></div>
+        <div class="line short"></div>
+        <b>&lt;/&gt;</b>
+      </div>
+    </div>
+  </section>
+
+  <section id="progress">
+    <div class="sectionhead">
+      <div>
+        <h2>تقدّمك بيتكوّن من خطوات</h2>
+        <p>كل تجربة محسوبة، حتى لو احتاجت تعديل.</p>
+      </div>
+      <button class="textlink" id="journey">رحلتك كاملة ←</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><label>دروس اكتملت</label><b id="lessons">٠</b><small>كل درس فكرة جديدة</small></div>
+      <div class="stat"><label>أمثلة شغّلتها</label><b id="examples">٠</b><small>التجربة بتوضح الصورة</small></div>
+      <div class="stat"><label>أخطاء اتصلّحت</label><b id="fixes">٠</b><small>كل خطأ معلومة مفيدة</small></div>
+      <div class="stat"><label>دقايق تركيز</label><b id="minutes">٠</b><small>وقت هادئ على طريقتك</small></div>
+    </div>
+    <div class="growth-dashboard" id="growthDashboard">
+      <div class="growth-dashboard-head">
+        <div><span class="eyebrow">إنجازك الحقيقي</span><h2>ماذا أستطيع أن أبني الآن؟</h2></div>
+        <span class="growth-encouragement" id="returnMessage">مفيش مهمة مستنياك، فيه خطوة جديدة لو حبيت.</span>
+      </div>
+      <div class="growth-stats">
+        <article><span>قدرات مكتسبة</span><b id="abilityCount">٠</b></article>
+        <article><span>مشاريع مفتوحة</span><b id="openProjectCount">١</b></article>
+        <article>
+          <span>مهارات مكتملة</span>
+          <b id="skillCount">٠</b>
+          <details class="skill-progress">
+            <summary id="skillProgressLabel">مهارتك التالية في الطريق</summary>
+            <ul id="skillMilestonesList"><li>كل مجموعة مكتملة ستظهر هنا.</li></ul>
+          </details>
+        </article>
+      </div>
+      <div class="growth-build-row">
+        <div class="growth-build-list" id="abilitiesList" aria-live="polite"></div>
+        <article class="next-unlock-card" id="nextUnlockCard">
+          <div class="next-unlock-top"><span>القدرة التالية</span><b id="nextUnlockProgress">٠٪</b></div>
+          <h3 id="nextUnlockName">صفحة شخصية</h3>
+          <p id="nextUnlockCopy">خطوة عملية واحدة تفتح جزءًا جديدًا في مشروعك.</p>
+          <div class="unlock-bar"><span id="nextUnlockBar"></span></div>
+          <small id="nextUnlockNeed">ابدأ بأي خطوة صغيرة؛ تقدمك محفوظ.</small>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="lesson">
+    <div class="sectionhead">
+      <div>
+        <h2>جلسة اليوم</h2>
+        <p>هدف صغير، تجربة سريعة، ونقطة نهاية واضحة.</p>
+      </div>
+        <span class="badge">جلسة مرنة · ٥ دقائق تكفي</span>
+    </div>
+    <div class="grid">
+      <article class="card" data-mobile-view="editor">
+        <div class="cardhead">
+          <div>
+            <h3 id="title">أول صفحة HTML لي</h3>
+            <p id="sub">هنضيف عنوان وفقرة ونشوفهم ظهروا إزاي.</p>
+          </div>
+          <span class="badge" id="level">خطوة ٢ · تطبيق</span>
+        </div>
+        <div class="steps learning-dots" id="lessonDots" role="progressbar" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" aria-label="تقدم الدرس">
+          <span class="growth-node now"></span><span class="growth-wire"></span><span class="growth-node"></span><span class="growth-wire"></span><span class="growth-node"></span><span class="growth-wire"></span><span class="growth-node"></span><span class="growth-wire"></span><span class="growth-node"></span><span class="growth-wire"></span><span class="growth-node"></span><span class="growth-wire"></span><span class="growth-node"></span>
+        </div>
+        <div class="stepnames"><span id="lessonPhaseName">الفكرة</span><span id="lessonObjective" class="lesson-objective"></span></div>
+        <div class="html-guide" id="htmlGuide">
+          <div class="guide-head"><span id="guideTrackLabel">درس قصير · HTML</span><strong id="guideCount">خطوة ١ من ٤</strong></div>
+          <div class="guide-track"><span id="guideMeter"></span></div>
+          <h4 id="guideTitle"></h4>
+          <p class="guide-copy" id="guideCopy"></p>
+          <a class="lesson-reference" id="lessonReference" target="_blank" rel="noopener noreferrer" hidden>افتح شرح W3Schools الكامل ↗</a>
+          <div class="guide-visual" id="guideVisual"></div>
+          <div class="slot-builder-container" id="slotBuilder" hidden></div>
+          <div class="gentle-tree-container" id="gentleTreeGuide" hidden></div>
+          <div class="guide-actions" id="guideActions"></div>
+          <button class="guide-previous" id="guidePrevious" type="button" disabled>← راجع الخطوة السابقة</button>
+          <button class="guide-next" id="guideNext" type="button"></button>
+        </div>
+        <div class="prompt">
+          <b>✳ جرّب حاجة صغيرة</b><br>
+          <span id="prompt">غيّر الجملة داخل علامات التنصيص، وبعدها شغّل الكود.</span>
+        </div>
+        <div class="mobile-editor-tabs" role="tablist" aria-label="التبديل بين الكود والمعاينة">
+          <button type="button" class="mobile-tab-btn active" role="tab" aria-selected="true" data-tab="editor" data-tab-target="editor">الكود ⌨️</button>
+          <button type="button" class="mobile-tab-btn" role="tab" aria-selected="false" data-tab="preview" data-tab-target="preview">المعاينة 👁</button>
+        </div>
+        <div class="editor-preview-split">
+          <div class="editor">
+            <div class="editorhead">
+              <span>● ● ●</span>
+              <div class="tabs">
+                <button class="tab active" data-course="html">HTML</button>
+                <button class="tab" data-course="css">CSS</button>
+                <button class="tab" data-course="js">JavaScript</button>
+              </div>
+              <div class="editor-head-meta">
+                <span class="hand-craft-badge" id="handCraftMeter" title="نسبة البناء اليدوي لصفحتك">🔨 بناء يدوي: ٠٪</span>
+                <span id="filename">script.js</span>
+              </div>
+            </div>
+            <textarea id="code" dir="ltr" aria-label="محرر الكود" spellcheck="false"></textarea>
+            <div class="editorfoot">
+              <span id="hint">عدّل سطرًا واحدًا وشغّله</span>
+              <div class="editor-actions">
+                <button class="editor-download" id="downloadLessonFile" type="button">احفظ الملف</button>
+                <button class="run" id="run">▶ شغّل الكود</button>
+              </div>
+            </div>
+          </div>
+          <div class="previewrow">
+            <div>
+              <div class="previewlabel">النتيجة بعد التشغيل</div>
+              <p class="step-benefit" id="stepBenefit" role="status" aria-live="polite" hidden></p>
+              <iframe class="preview" id="preview" title="نتيجة تشغيل المثال" sandbox="allow-scripts allow-modals"></iframe>
+              <p class="preview-status" id="previewStatus" role="status" aria-live="polite"></p>
+            </div>
+            <button class="complete" id="complete">أنهيت الخطوة ✓</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <section class="angular-course-panel" id="angularCoursePanel" hidden aria-label="مسار Angular">
+      <header class="angular-course-heading">
+        <div>
+          <span class="eyebrow">Angular 22 · تطبيق عملي داخل steplearn</span>
+          <h2 id="angularCourseTitle">ابدأ رحلتك مع Angular</h2>
+          <p id="angularCourseSubtitle">فكرة واحدة، تعديل صغير، ونتيجة تعمل أمامك.</p>
+        </div>
+        <div class="angular-course-count" id="angularCourseCount">٠ من ٤٦ درسًا</div>
+      </header>
+
+      <div class="angular-course-layout">
+        <aside class="angular-roadmap card" aria-label="خريطة دروس Angular">
+          <div class="angular-roadmap-head">
+            <b>خريطة الرحلة</b>
+            <span id="angularRoadProgress">٠٪</span>
+          </div>
+          <label class="sr" for="angularLessonSearch">ابحث في دروس Angular</label>
+          <input id="angularLessonSearch" class="angular-lesson-search" type="search" placeholder="ابحث عن Signals أو النماذج">
+          <div id="angularLessonList" class="angular-lesson-list"></div>
+        </aside>
+
+        <div class="angular-course-main">
+          <article class="angular-lesson-card card" id="angularLessonCard">
+            <div class="angular-lesson-kicker"><span id="angularLessonPhase"></span><span id="angularLessonStep"></span></div>
+            <div class="angular-lesson-progress"><span id="angularLessonProgress"></span></div>
+
+            <!-- شريط تقدم خطوات الدرس مثل دروس HTML و CSS و JS -->
+            <div class="steps learning-dots" id="angularLessonDots" role="progressbar" aria-label="تقدم خطوات الدرس"></div>
+
+            <div class="guide-head">
+              <span id="angularGuideTrackLabel">درس تفاعلي · Angular</span>
+              <strong id="angularStepCount">خطوة ١ من ٥ · الفكرة الأساسية</strong>
+            </div>
+            <div class="guide-track"><span id="angularStepMeter"></span></div>
+
+            <h3 id="angularLessonTitle"></h3>
+            <p id="angularLessonConcept" class="angular-lesson-concept"></p>
+            <div id="angularLessonFlow" class="angular-lesson-flow" dir="ltr"></div>
+            <div id="angularLessonTask" class="angular-lesson-task"></div>
+            <div class="slot-builder-container" id="angularSlotBuilder" hidden></div>
+            <div class="gentle-tree-container" id="angularGentleTreeGuide" hidden></div>
+            <div id="angularStepActions" class="guide-actions"></div>
+
+            <div class="angular-step-navigation">
+              <button id="angularStepPrev" type="button" class="guide-previous" disabled>← راجع الخطوة السابقة</button>
+              <button id="angularStepNext" type="button" class="guide-next">الخطوة التالية داخل الدرس ←</button>
+            </div>
+
+            <div class="angular-lesson-actions">
+              <a id="angularLessonReference" class="lesson-reference" href="https://angular.dev" target="_blank" rel="noopener noreferrer">افتح توثيق Angular الرسمي ↗</a>
+              <span id="angularLessonFeedback" role="status" aria-live="polite"></span>
+            </div>
+          </article>
+
+          <div class="angular-modebar" role="group" aria-label="مساحة العمل">
+            <button class="angular-mode active" type="button" data-angular-mode="playground" aria-pressed="true">Playground · تجربة الدرس</button>
+            <button class="angular-mode" type="button" data-angular-mode="project" aria-pressed="false">مشروعي · حجز السينما</button>
+            <span id="angularRuntimeStatus" class="angular-runtime-status" role="status" aria-live="polite">المحرر جاهز للتحميل عند فتح المسار.</span>
+          </div>
+
+          <div class="angular-workbench">
+            <div class="angular-workbench-toolbar">
+              <div class="angular-file-label">
+                <span class="angular-file-dot"></span>
+                <b id="angularWorkspaceName">Playground</b>
+                <span id="angularCurrentPath">src/app/app.ts</span>
+                <span class="hand-craft-badge angular-craft-badge" id="angularHandCraftMeter" title="نسبة البناء اليدوي للمشروع">🔨 بناء يدوي: ٠٪</span>
+              </div>
+              <div class="angular-workbench-actions">
+                <button id="angularRun" class="run" type="button">▶ شغّل وافحص</button>
+                <button id="angularNewFile" class="angular-tool-button" type="button">＋ ملف</button>
+                <button id="angularReset" class="angular-tool-button" type="button">إعادة تجربة الدرس</button>
+                <button id="angularExport" class="angular-tool-button" type="button">نزّل ZIP</button>
+                <label class="angular-tool-button angular-import-label" for="angularImport">استورد ZIP</label>
+                <input id="angularImport" type="file" accept=".zip,application/zip" hidden>
+              </div>
+            </div>
+
+            <div class="angular-workbench-body">
+              <aside class="angular-file-tree" aria-label="ملفات المشروع">
+                <div class="angular-pane-title">الملفات</div>
+                <div id="angularFileTree"></div>
+              </aside>
+              <section class="angular-code-pane" aria-label="محرر Angular">
+                <div id="angularEditorTabs" class="angular-editor-tabs"></div>
+                <div id="angularCodeEditor" class="angular-code-editor" dir="ltr"></div>
+              </section>
+              <section class="angular-preview-pane" aria-label="معاينة التطبيق">
+                <div class="angular-pane-title"><span>المعاينة</span><span id="angularPreviewStatus">لم يبدأ التشغيل</span></div>
+                <iframe id="angularPreview" title="معاينة تطبيق Angular" sandbox="allow-scripts allow-forms allow-modals"></iframe>
+              </section>
+            </div>
+
+            <section class="angular-terminal-pane" aria-label="مخرجات التشغيل">
+              <div class="angular-pane-title"><span>الترمينال</span><button id="angularClearTerminal" type="button">مسح المخرجات</button></div>
+              <pre id="angularTerminal" aria-live="polite">سيظهر هنا تثبيت الحزم وأخطاء البناء ونتيجة الأوامر.</pre>
+              <form id="angularCommandForm" class="angular-command-form">
+                <label for="angularCommandInput">أمر داخل مشروع Angular</label>
+                <div><input id="angularCommandInput" type="text" dir="ltr" autocomplete="off" spellcheck="false" placeholder="npm exec -- ng version"><button type="submit">نفّذ</button></div>
+                <small>جرّب أوامر Angular CLI مثل ng generate وng test وng build.</small>
+              </form>
+            </section>
+
+            <div class="angular-mobile-panes" role="tablist" aria-label="أقسام المحرر">
+              <button type="button" data-angular-pane="files" aria-selected="false">الملفات</button>
+              <button type="button" data-angular-pane="code" aria-selected="true">الكود</button>
+              <button type="button" data-angular-pane="preview" aria-selected="false">المعاينة</button>
+              <button type="button" data-angular-pane="terminal" aria-selected="false">الترمينال</button>
+            </div>
+            <div id="angularFallback" class="angular-fallback" hidden>
+              <b>التشغيل يحتاج متصفحًا متوافقًا.</b>
+              <p>تقدر تكتب وتحفظ وتحمّل مشروعك الآن. لتشغيل Angular CLI استخدم Chrome أو Edge على جهاز يدعم WebContainers.</p>
+              <button id="angularManualComplete" type="button" class="complete">أكملت التجربة يدويًا</button>
+            </div>
+          </div>
+
+          <div class="angular-lesson-footer">
+            <button id="angularPrevious" type="button" class="guide-previous">← الدرس السابق</button>
+            <button id="angularNext" type="button" class="guide-next">الخطوة التالية ←</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="project-workspace card" id="project">
+    <header class="project-heading">
+      <div>
+        <span class="eyebrow">مشروعك الصغير · تطبيق عملي</span>
+        <h2>ابنِ بطاقة تعرّف بيك</h2>
+        <p>املأ خانة واحدة كل مرة، وشاهد البطاقة تتغير مباشرة.</p>
+      </div>
+      <div class="project-completion">
+        <div class="bar"><span id="projectBar"></span></div>
+        <div class="pct"><span>نمو المشروع</span><b id="projectPct">٠٪</b></div>
+      </div>
+    </header>
+
+    <div class="checks project-checks" id="projectChecks">
+      <div class="check"><i>·</i><span>اسمك وهدفك</span></div>
+      <div class="check"><i>·</i><span>نبذة قصيرة</span></div>
+      <div class="check"><i>·</i><span>لبنات من دروسك</span></div>
+    </div>
+
+    <div class="project-growth" id="projectGrowth">
+      <div><b>المشروع يكبر معك</b><span id="projectPartCount">لسه ما أضفناش أول لبنة — خلّينا نبدأ بخطوة واحدة.</span><small id="projectLatestUpdate" class="project-latest-update" hidden></small></div>
+      <div class="project-parts" id="projectParts" aria-live="polite"></div>
+    </div>
+
+    <div class="project-layout">
+      <div class="project-builder">
+        <div class="profile-step-heading">
+          <strong id="profileStepTitle">ابدأ بالاسم والهدف</strong>
+          <span id="profileStepCount">خطوة ١ من ٣</span>
+        </div>
+        <div class="profile-step-track"><span id="profileStepMeter"></span></div>
+
+        <section class="profile-step" data-profile-step="1">
+          <h3>مين صاحب البطاقة؟</h3>
+          <p>ابدأ بحاجتين بس. تقدر تغيّرهم بعدين.</p>
+          <label for="projectNameInput">الاسم الذي سيظهر</label>
+          <input id="projectNameInput" type="text" maxlength="40" placeholder="مثال: أحمد علي">
+          <label for="projectRoleInput">عنوان قصير عنك</label>
+          <input id="projectRoleInput" type="text" maxlength="55" placeholder="مثال: أتعلم تطوير الويب">
+        </section>
+
+        <section class="profile-step" data-profile-step="2" hidden>
+          <h3>اكتب نبذة صغيرة</h3>
+          <p>جملة واحدة كفاية: ما الشيء الذي تتعلمه أو تحب صنعه؟</p>
+          <label for="projectAboutInput">نبذة عنك</label>
+          <textarea id="projectAboutInput" maxlength="180" rows="4" placeholder="أبني صفحات ويب وأتعلم فكرة جديدة كل يوم."></textarea>
+          <small class="character-count"><span id="aboutCount">٠</span> / ١٨٠ حرفًا</small>
+        </section>
+
+        <section class="profile-step" data-profile-step="3" hidden>
+          <h3>اختار لمستك</h3>
+          <p>اختار لونًا، وأضف صورة لو تحب. الصورة اختيارية.</p>
+          <div class="profile-palette" role="group" aria-label="اختار لون البطاقة">
+            <button class="profile-swatch" type="button" data-profile-color="forest" aria-label="أخضر هادئ" aria-pressed="true"><i style="background:#286b56"></i>أخضر</button>
+            <button class="profile-swatch" type="button" data-profile-color="ocean" aria-label="أزرق هادئ" aria-pressed="false"><i style="background:#35658f"></i>أزرق</button>
+            <button class="profile-swatch" type="button" data-profile-color="plum" aria-label="بنفسجي هادئ" aria-pressed="false"><i style="background:#79527e"></i>بنفسجي</button>
+            <button class="profile-swatch" type="button" data-profile-color="sunset" aria-label="برتقالي دافئ" aria-pressed="false"><i style="background:#a65d32"></i>دافئ</button>
+          </div>
+          <label class="image-picker" for="projectImageInput">أضف صورة اختيارية
+            <input id="projectImageInput" type="file" accept="image/*">
+          </label>
+          <button id="removeProjectImage" class="textlink remove-image" type="button" hidden>احذف الصورة</button>
+        </section>
+
+        <div class="project-actions">
+          <button id="projectBack" type="button" hidden>← خطوة سابقة</button>
+          <button id="projectNext" type="button">ابدأ بالاسم ←</button>
+        </div>
+        <p id="projectFeedback" class="project-feedback" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="project-preview-pane">
+        <div class="live-preview-label"><span>معاينة مباشرة</span><span>تتغير مع كل تعديل</span></div>
+        <article class="profile-card" id="profileCardPreview" data-color="forest">
+          <div class="profile-card-top">
+            <div class="profile-avatar" id="profileInitials" aria-hidden="true">خ</div>
+            <img class="profile-photo" id="profilePhoto" alt="صورة صاحب البطاقة" hidden>
+            <span class="profile-card-mark">بطاقتي</span>
+          </div>
+          <div class="profile-card-copy">
+            <span class="profile-role" id="profileRolePreview">مجال تتعلمه</span>
+            <h3 id="profileNamePreview">اسمك هيظهر هنا</h3>
+            <p id="profileAboutPreview">اكتب نبذة قصيرة، وشاهدها هنا.</p>
+          </div>
+          <div class="profile-card-footer"><span>خطوة صغيرة كل يوم</span><b>✦</b></div>
+          <section class="latest-build" id="profileLatestBuild" hidden>
+            <small>آخر ما أضفت لمشروعي</small>
+            <b id="profileLatestTitle"></b>
+            <p id="profileLatestCopy"></p>
+            <iframe id="profileLatestPreview" class="latest-build-preview" title="معاينة آخر تجربة أضفتها لمشروعي" sandbox="allow-scripts allow-modals" hidden></iframe>
+          </section>
+          <details class="profile-card-parts" id="profileProjectParts" hidden>
+            <summary id="profileProjectPartsSummary">لبنات مشروعي</summary>
+            <ul id="profileProjectPartList"></ul>
+          </details>
+        </article>
+        <div class="profile-feature-modules" id="profileFeatureModules" aria-live="polite"></div>
+        <div class="project-export" id="projectExport" hidden>
+          <button id="downloadProfile" type="button">حمّل البطاقة كملف HTML</button>
+          <details class="profile-code-details">
+            <summary>اعرض الكود النهائي</summary>
+            <textarea id="profileExportCode" rows="10" readonly aria-label="كود البطاقة النهائي"></textarea>
+            <button id="copyProfileCode" type="button">انسخ الكود</button>
+            <span id="copyProfileStatus" role="status" aria-live="polite"></span>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <section class="starter-projects" aria-labelledby="starterProjectsTitle">
+      <div class="starter-projects-head">
+        <div>
+          <span class="eyebrow">مشاريع قصيرة مستقلة</span>
+          <h3 id="starterProjectsTitle">جرّب مشروعًا ثانيًا من اختيارك</h3>
+          <p>كل مشروع له بياناته الخاصة على جهازك؛ ابدأ بفكرة واحدة وشاهدها تعمل.</p>
+        </div>
+      </div>
+      <div class="starter-project-list" role="tablist" aria-label="اختر مشروعًا قصيرًا">
+        <button class="starter-project-card active" type="button" data-starter-project="todo" role="tab" aria-selected="true"><b>قائمة مهام</b><span>أضف مهمة ثم أنجزها.</span></button>
+        <button class="starter-project-card" type="button" data-starter-project="notes" role="tab" aria-selected="false"><b>مفكرة أفكار</b><span>اكتب فكرة وشاهد بطاقتها.</span></button>
+        <button class="starter-project-card" type="button" data-starter-project="calculator" role="tab" aria-selected="false"><b>آلة حاسبة</b><span>اجمع رقمين وراقب النتيجة.</span></button>
+      </div>
+      <div id="starterProjectWorkspace" class="starter-project-workspace" role="tabpanel" aria-live="polite"></div>
+    </section>
+  </section>
+
+  <section id="courses">
+    <div class="sectionhead">
+      <div>
+        <h2>مساراتك</h2>
+        <p>اختار اللي حابب تستكشفه دلوقتي.</p>
+      </div>
+      <button class="textlink" id="allCourses">كل المسارات ←</button>
+    </div>
+    <div class="courses">
+      <button class="course active" data-course="html"><i></i><span id="htmlCourseCount">HTML</span></button>
+      <button class="course" data-course="css"><i></i><span id="cssCourseCount">CSS</span></button>
+      <button class="course" data-course="js"><i></i><span id="jsCourseCount">JavaScript</span></button>
+      <button class="course angular-course-button" data-angular-open type="button"><i></i><span id="angularCourseCard">Angular · من الصفر</span></button>
+    </div>
+  </section>
+
+  <div class="roadmap" id="courseRoadmap">
+    <div class="roadhead">
+      <div><b id="roadTitle">خريطة HTML</b><small id="roadSubtitle">ترتيب الدروس حسب W3Schools</small></div>
+      <span id="roadProgress"></span>
+    </div>
+    <div class="road-search">
+      <label class="sr" for="roadSearch">ابحث في موضوعات المسار</label>
+      <input id="roadSearch" type="search" placeholder="ابحث عن Flexbox أو Forms أو Async أو النماذج" autocomplete="off" aria-describedby="roadSearchStatus">
+      <button id="clearRoadSearch" type="button" aria-label="مسح البحث" hidden>×</button>
+      <label class="sr" for="roadCourseFilter">فلترة نتائج البحث حسب المسار</label>
+      <select id="roadCourseFilter" class="road-search-filter" hidden>
+        <option value="all">كل المسارات</option>
+        <option value="html">HTML</option>
+        <option value="css">CSS</option>
+        <option value="js">JavaScript</option>
+      </select>
+    </div>
+    <p class="road-search-status" id="roadSearchStatus" role="status" aria-live="polite"></p>
+    <div class="roadlist" id="roadList"></div>
+    <details id="roadmap">
+      <summary id="roadMoreTitle">عرض بقية ترتيب المسار</summary>
+      <div class="roadlist" id="roadMore"></div>
+    </details>
+  </div>
+
+  <div class="note"><b>💡 فضولك هو الخطة.</b> اختار سؤالًا صغيرًا وسيب باقي الصورة تتضح بالتجربة.</div>
+</main>
+
+<aside class="rail">
+  <section class="railcard daily">
+    <div class="sectionhead" style="margin:0"><h3>تحدي اليوم</h3><small>١–٥ دقائق</small></div>
+    <p id="daily">تجربة عملية صغيرة من الدرس الحالي — من دقيقة إلى خمس دقائق.</p>
+    <button class="daily-open" id="openDailyChallengeRail" type="button">اكتشف الخطوة الصغيرة ←</button>
+    <div class="meter"><span id="meter"></span></div>
+    <div class="meterlabel"><span>قدرات اكتسبتها</span><b id="progressLabel">٠</b></div>
+  </section>
+
+  <section class="railcard">
+    <div class="soundhead"><h3>أصوات تساعدك تركّز</h3><span>♫</span></div>
+    <p class="soundcopy">اختار خلفية واضبطها زي ما تحب.</p>
+    <div class="sounds">
+      <button class="sound active" data-sound="white" aria-pressed="true">أبيض</button>
+      <button class="sound" data-sound="brown" aria-pressed="false">بني</button>
+      <button class="sound" data-sound="rain" aria-pressed="false">مطر</button>
+      <button class="sound" data-sound="forest" aria-pressed="false">غابة</button>
+      <button class="sound" data-sound="cafe" aria-pressed="false">مقهى</button>
+    </div>
+    <div class="soundbottom">
+      <button class="play" id="play" aria-label="تشغيل الصوت" aria-pressed="false">▶</button>
+      <label class="volume"><span class="sr">مستوى الصوت</span><input id="volume" type="range" min="0" max="100" value="24"></label>
+    </div>
+    <div class="soundstatus" id="soundStatus">الصوت متوقف · اختيارك محفوظ على جهازك</div>
+  </section>
+
+  <section class="railcard focus">
+    <div class="focushead"><h3>مساحة تركيز</h3><small>على مهلك</small></div>
+    <div class="orb" id="orb"><span class="timer" id="timer" role="timer" aria-live="off">٠٥:٠٠</span></div>
+    <div class="focus-durations" id="focusDurations" role="group" aria-label="اختار مدة التركيز">
+      <button type="button" data-focus-duration="300" aria-pressed="true">٥ دقائق</button>
+      <button type="button" data-focus-duration="720" aria-pressed="false">١٢ دقيقة</button>
+    </div>
+    <p id="focusCaption">٥ دقائق تكفي لخطوة واحدة؛ تقدر توقف وتكمل وقت ما تحب.</p>
+    <button id="focusBtn">ابدأ مؤقتًا هادئًا</button>
+  </section>
+
+  <section class="railcard tip">
+    <b>🪴 معلومة سريعة</b><br>HTML يبني هيكل الصفحة، وCSS يهتم بشكلها. كل واحد له وظيفة.
+  </section>
+</aside>
+</div>
+
+<div class="mobile-tools" role="group" aria-label="تنقل سريع بين المحرر والمعاينة">
+  <button type="button" data-mobile-jump="code">المحرر ↑</button>
+  <button type="button" data-mobile-jump="preview">المعاينة ↓</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog class="learner-dialog" id="learnerProfileDialog" aria-labelledby="learnerProfileTitle">
+  <form method="dialog" class="learner-dialog-close"><button class="dialog-close" aria-label="إغلاق ملفات التعلّم">×</button></form>
+  <span class="eyebrow">تقدم منفصل لكل اسم</span>
+  <h2 id="learnerProfileTitle">ملفات التعلّم</h2>
+  <p class="learner-dialog-copy">كل ملف يحتفظ بدروسه ومشروعه وإحصاءاته على هذا الجهاز. إنشاء اسم جديد يبدأ من البداية ويترك الملفات الأخرى كما هي.</p>
+  <p class="learner-active-label">الملف الحالي: <b id="learnerActiveName">المتعلم الحالي</b></p>
+  <div class="learner-list" id="learnerProfileList" aria-label="ملفات التعلّم المحفوظة"></div>
+  <form id="learnerCreateForm" class="learner-create-form">
+    <label for="learnerNameInput">اسم ملف جديد</label>
+    <input id="learnerNameInput" name="name" maxlength="32" autocomplete="off" required placeholder="مثال: محمد">
+    <button class="learner-create-button" type="submit">أنشئ ملفًا وابدأ من الأول</button>
+  </form>
+  <p class="learner-profile-status" id="learnerProfileStatus" role="status" aria-live="polite">لا يحتاج الملف إلى كلمة مرور؛ بياناته محفوظة في هذا المتصفح.</p>
+</dialog>
+
+<dialog class="daily-challenge-dialog" id="dailyChallengeDialog" aria-labelledby="dailyChallengeTitle">
+  <form method="dialog"><button class="dialog-close" aria-label="إغلاق تحدي اليوم">×</button></form>
+  <span class="eyebrow">تحدي اليوم · من دقيقة إلى خمس دقائق</span>
+  <h2 id="dailyChallengeTitle">خطوة صغيرة من درسك</h2>
+  <p id="dailyChallengePrompt"></p>
+  <div class="daily-challenge-progress">
+    <div class="daily-challenge-progress-track" id="dailyChallengeProgress" role="progressbar" aria-label="تقدم تحدي اليوم" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="dailyChallengeProgressBar"></span></div>
+    <small id="dailyChallengeProgressLabel">تجربة صغيرة · ٠٪</small>
+  </div>
+  <div id="dailyChallengeAnswers" class="daily-challenge-answers"></div>
+  <p id="dailyChallengeFeedback" class="daily-challenge-feedback" role="status" aria-live="polite"></p>
+</dialog>
+
+<div class="blur-protection-overlay" aria-hidden="true">
+  <span>🔒 مساحة التعلّم محمية</span>
+  <small>انقر داخل النافذة لاستئناف المتابعة والتدريب</small>
+</div>
+
+<script src="lessons-data.js" defer></script>
+<script src="angular-course-data.js" defer></script>
+<script src="learner-profiles.js" defer></script>
+<script src="content-protection.js" defer></script>
+<script src="app.js" defer></script>
+<script type="module" src="/angular-editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+# robots.txt for steplearn Educational Platform (منصة steplearn التعليمية)
+# Explicit access control directives for web crawlers, AI scraping bots, and automated agents.
+
+# -----------------------------------------------------------------------------
+# AI Model Crawlers & Scraping Bots (Explicitly Blocked)
+# -----------------------------------------------------------------------------
+
+# OpenAI Crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+# Anthropic Crawlers
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Anthropic-ai
+Disallow: /
+
+# Common Crawl
+User-agent: CCBot
+Disallow: /
+
+# Google AI Training Crawler
+User-agent: Google-Extended
+Disallow: /
+
+# Perplexity AI Crawler
+User-agent: PerplexityBot
+Disallow: /
+
+# Bytedance / TikTok AI Crawler
+User-agent: Bytespider
+Disallow: /
+
+# Diffbot AI Extractor
+User-agent: Diffbot
+Disallow: /
+
+# Meta / Facebook AI Bots
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Disallow: /
+
+# Omgili Bot
+User-agent: Omgilibot
+Disallow: /
+
+# Apple AI Scraping
+User-agent: Applebot-Extended
+Disallow: /
+
+# -----------------------------------------------------------------------------
+# General Search Engine Crawlers
+# Allow indexing of main landing pages but protect raw curriculum data files
+# -----------------------------------------------------------------------------
+User-agent: *
+Disallow: /*-course-data.js$
+Disallow: /*-data.js$
+Disallow: /*.test.cjs$
+Disallow: /dist/
+Disallow: /.agents/
+Allow: /
