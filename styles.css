@@ -805,6 +805,8 @@ body.content-blurred .blur-protection-overlay {
   gap: 32px 48px;
   user-select: none;
   -webkit-user-select: none;
+  contain: strict;
+  transform: translateZ(0);
 }
 
 .learning-watermark span {

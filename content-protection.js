@@ -426,6 +426,11 @@
       var h = (win && win.innerHeight) || 800;
       var tilesNeeded = Math.max(18, Math.min(60, Math.floor((w * h) / 32000)));
 
+      if (watermark.getAttribute("data-badge") === badgeText && watermark.children && watermark.children.length === tilesNeeded) {
+        return;
+      }
+      watermark.setAttribute("data-badge", badgeText);
+
       watermark.innerHTML = "";
       for (var i = 0; i < tilesNeeded; i++) {
         var span = doc.createElement("span");
