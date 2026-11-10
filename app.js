@@ -1324,6 +1324,213 @@
     return String(code || "").split("\n").map(normalizeCodeLine).filter(Boolean);
   }
 
+  function normalizeDoc(code) {
+    return String(code || "")
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .split("\n")
+      .map(normalizeCodeLine)
+      .filter(Boolean)
+      .join("\n");
+  }
+
+  function checkHtmlTags(html) {
+    var clean = String(html || "")
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<!doctype[^>]*>/gi, "");
+
+    var tagRegex = /<\/?([a-zA-Z0-9]+)(\s[^>]*)?\/?>/g;
+    var stack = [];
+    var errors = [];
+    var match;
+
+    while ((match = tagRegex.exec(clean)) !== null) {
+      var fullTag = match[0];
+      var tagName = match[1].toLowerCase();
+      var isClosing = fullTag.charAt(1) === "/";
+      var isSelfClosing = fullTag.slice(-2) === "/>" || !!VOID_TAGS[tagName];
+
+      if (isSelfClosing && !isClosing) continue;
+
+      if (isClosing) {
+        if (stack.length === 0) {
+          errors.push({
+            type: "unexpected_close",
+            tag: tagName,
+            message: "وسم إغلاق غير متوقع </" + tagName + ">."
+          });
+        } else {
+          var top = stack.pop();
+          if (top.tag !== tagName) {
+            errors.push({
+              type: "tag_mismatch",
+              openTag: top.tag,
+              closeTag: tagName,
+              message: "اسم وسم الإغلاق </" + tagName + "> لا يطابق وسم البداية <" + top.tag + ">."
+            });
+          }
+        }
+      } else {
+        stack.push({ tag: tagName });
+      }
+    }
+
+    var unclosed = stack.filter(function(item) {
+      return ["html", "head", "body"].indexOf(item.tag) < 0;
+    });
+    if (unclosed.length > 0) {
+      errors.push({
+        type: "unclosed_tags",
+        tags: unclosed.map(function(u) { return u.tag; }),
+        message: "وسوم لم يتم إغلاقها: " + unclosed.map(function(u) { return "<" + u.tag + ">"; }).join(", ") + "."
+      });
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors: errors
+    };
+  }
+
+  function validateLessonAnswer(code, model, step) {
+    var rawCode = String(code || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    if (!step) return { valid: true };
+
+    if (step.build) {
+      var missing = missingBuildLine(rawCode, step.build);
+      if (missing) {
+        return {
+          valid: false,
+          message: "لم تكتمل الخطوة بعد. ينقصك هذا السطر: " + missing
+        };
+      }
+      if (model.key === "html") {
+        var buildTagCheck = checkHtmlTags(rawCode);
+        if (!buildTagCheck.valid) {
+          return {
+            valid: false,
+            message: buildTagCheck.errors[0].message
+          };
+        }
+      }
+      return { valid: true };
+    }
+
+    if (step.type === "edit") {
+      var rawAfter = String(step.after || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      if (rawCode.trim() === rawAfter.trim() || normalizeDoc(rawCode) === normalizeDoc(rawAfter)) {
+        return { valid: true };
+      }
+
+      if (model.key === "html") {
+        var editTagCheck = checkHtmlTags(rawCode);
+        if (!editTagCheck.valid) {
+          return {
+            valid: false,
+            message: editTagCheck.errors[0].message
+          };
+        }
+        if (step.to && (rawCode.indexOf(step.to) >= 0 || normalizeCodeLine(rawCode).indexOf(normalizeCodeLine(step.to)) >= 0)) {
+          return { valid: true };
+        }
+      }
+
+      if (step.to && normalizeCodeLine(rawCode).indexOf(normalizeCodeLine(step.to)) >= 0) {
+        return { valid: true };
+      }
+
+      return {
+        valid: false,
+        message: "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد."
+      };
+    }
+
+    if (step.type === "experiment") {
+      var basePractice = model.practiceSteps && model.practiceSteps.length
+        ? model.practiceSteps[model.practiceSteps.length - 1].after
+        : model.code;
+      basePractice = String(basePractice || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      var modelCode = String(model.code || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      var expCode = String(growth.experimentCodes && growth.experimentCodes[model.id] || basePractice).replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      if (rawCode === expCode || rawCode === modelCode || rawCode.trim() === modelCode.trim()) {
+        return {
+          valid: false,
+          message: "غيّر جزءًا آخر من اختيارك ثم شغّل لتشاهد أثر فكرتك."
+        };
+      }
+
+      if (model.key === "html") {
+        var expTagCheck = checkHtmlTags(rawCode);
+        if (!expTagCheck.valid) {
+          return {
+            valid: false,
+            message: expTagCheck.errors[0].message
+          };
+        }
+      }
+
+      return { valid: true };
+    }
+
+    if (step.type === "repair") {
+      var rawFixed = String(model.fixedCode || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      if (rawCode.trim() === rawFixed.trim() || normalizeDoc(rawCode) === normalizeDoc(rawFixed)) {
+        return { valid: true };
+      }
+
+      if (model.key === "html") {
+        if (/<p\b[^>]*>[^<]*<\/span>/i.test(rawCode)) {
+          return {
+            valid: false,
+            message: "اسم وسم الإغلاق </span> لا يطابق وسم البداية <p>. اجعل وسم الإغلاق </p> ليطابق وسم البداية."
+          };
+        }
+
+        var repairTagCheck = checkHtmlTags(rawCode);
+        if (!repairTagCheck.valid) {
+          return {
+            valid: false,
+            message: repairTagCheck.errors[0].message
+          };
+        }
+
+        var hasMatchedP = /<p\b[^>]*>[\s\S]*?<\/p>/i.test(rawCode);
+        var hasMatchedSpan = /<span\b[^>]*>[\s\S]*?<\/span>/i.test(rawCode);
+        if (hasMatchedP || hasMatchedSpan) {
+          return { valid: true };
+        }
+
+        return {
+          valid: false,
+          message: "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى."
+        };
+      }
+
+      if (model.key === "css") {
+        if (/color\s*:\s*#a65d32/i.test(rawCode) && !/colr\s*:/i.test(rawCode)) {
+          return { valid: true };
+        }
+      }
+
+      if (model.key === "js") {
+        if (/console\.log\(\s*["']وصلت هنا["']\s*\)/.test(rawCode) && (typeof validateJsSource !== "function" || validateJsSource(rawCode))) {
+          return { valid: true };
+        }
+      }
+
+      return {
+        valid: false,
+        message: "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى."
+      };
+    }
+
+    return { valid: true };
+  }
+
   // يحوّل المثال الكامل إلى مراحل تراكمية: كل مرحلة تضيف الجزء الذي يشرحه عنصر breakdown واحد.
   // العناصر البنيوية تضيف أسطرًا (وسوم الإغلاق تتبع وسوم الفتح)، وعناصر الخصائص
   // (src وalt وclass ...) تضيف الخاصية داخل السطر نفسه، فيبقى المستند صالحًا في كل مرحلة.
