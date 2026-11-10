@@ -1316,8 +1316,29 @@
 
   var VOID_TAGS = { area: 1, base: 1, br: 1, col: 1, embed: 1, hr: 1, img: 1, input: 1, link: 1, meta: 1, param: 1, source: 1, track: 1, wbr: 1 };
 
+  function normalizeArabic(text) {
+    if (!text) return "";
+    return String(text)
+      .replace(/[\u200B-\u200F\u202A-\u202E\u061C\uFEFF]/g, "")
+      .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, "")
+      .replace(/[\u0622\u0623\u0625\u0671]/g, "\u0627")
+      .replace(/\u0629/g, "\u0647")
+      .replace(/\u0649/g, "\u064A")
+      .replace(/\u060C/g, ",")
+      .replace(/\u061B/g, ";")
+      .replace(/\u061F/g, "?")
+      .replace(/[\u201C\u201D\u00AB\u00BB]/g, '"')
+      .replace(/[\u2018\u2019\u2039\u203A]/g, "'");
+  }
+
   function normalizeCodeLine(line) {
-    return String(line).replace(/\s+/g, " ").replace(/\s*([<>={}])\s*/g, "$1").trim();
+    var s = normalizeArabic(String(line || ""));
+    s = s.replace(/[\u2018\u2019`]/g, "'").replace(/[\u201C\u201D«»]/g, '"');
+    s = s.replace(/'/g, '"');
+    s = s.replace(/\s+/g, " ");
+    s = s.replace(/\s*([<>={}:;,()[\]])\s*/g, "$1");
+    s = s.replace(/(["'])\s+/g, "$1").replace(/\s+(["'])/g, "$1");
+    return s.trim();
   }
 
   function codeLines(code) {
@@ -1420,6 +1441,15 @@
 
     if (step.type === "edit") {
       var rawAfter = String(step.after || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      var rawBefore = String(step.before || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      if (rawBefore && (rawCode.trim() === rawBefore.trim() || normalizeDoc(rawCode) === normalizeDoc(rawBefore))) {
+        return {
+          valid: false,
+          message: "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد."
+        };
+      }
+
       if (rawCode.trim() === rawAfter.trim() || normalizeDoc(rawCode) === normalizeDoc(rawAfter)) {
         return { valid: true };
       }
@@ -1431,9 +1461,6 @@
             valid: false,
             message: editTagCheck.errors[0].message
           };
-        }
-        if (step.to && (rawCode.indexOf(step.to) >= 0 || normalizeCodeLine(rawCode).indexOf(normalizeCodeLine(step.to)) >= 0)) {
-          return { valid: true };
         }
       }
 
@@ -1517,7 +1544,7 @@
       }
 
       if (model.key === "js") {
-        if (/console\.log\(\s*["']وصلت هنا["']\s*\)/.test(rawCode) && (typeof validateJsSource !== "function" || validateJsSource(rawCode))) {
+        if ((/console\.log\(\s*["']وصلت هنا\s*["']\s*\)/.test(rawCode) || normalizeCodeLine(rawCode).indexOf('console.log("وصلت هنا")') >= 0) && (typeof validateJsSource !== "function" || validateJsSource(rawCode))) {
           return { valid: true };
         }
       }
@@ -3004,30 +3031,42 @@
       showStepBenefit(step.benefit);
       return;
     }
-    if (step.build) {
-      var missing = missingBuildLine(code, step.build);
-      if (missing) {
+    if (typeof validateLessonAnswer === "function") {
+      var validation = validateLessonAnswer(code, model, step);
+      if (!validation.valid) {
         clearStepBenefit();
         growthPreview(code);
-        hint.textContent = "لم تكتمل الخطوة بعد. ينقصك هذا السطر: " + missing;
+        hint.textContent = validation.message;
         document.getElementById("code").focus();
         return;
       }
-    }
-    if (step.type === "edit" && code !== step.after) {
-      hint.textContent = "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (step.type === "experiment" && (code === (growth.experimentCodes[model.id] || basePractice) || code === model.code)) {
-      hint.textContent = "غيّر جزءًا آخر من اختيارك ثم شغّل لتشاهد أثر فكرتك.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (step.type === "repair" && code.trim() !== model.fixedCode.trim()) {
-      hint.textContent = "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى.";
-      document.getElementById("code").focus();
-      return;
+    } else {
+      var normDoc = typeof normalizeDoc === "function" ? normalizeDoc : function(c) { return String(c || "").trim(); };
+      if (step.build) {
+        var missing = typeof missingBuildLine === "function" ? missingBuildLine(code, step.build) : "";
+        if (missing) {
+          clearStepBenefit();
+          growthPreview(code);
+          hint.textContent = "لم تكتمل الخطوة بعد. ينقصك هذا السطر: " + missing;
+          document.getElementById("code").focus();
+          return;
+        }
+      }
+      if (step.type === "edit" && normDoc(code) !== normDoc(step.after)) {
+        hint.textContent = "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد.";
+        document.getElementById("code").focus();
+        return;
+      }
+      if (step.type === "experiment" && (normDoc(code) === normDoc(growth.experimentCodes[model.id] || basePractice) || normDoc(code) === normDoc(model.code))) {
+        hint.textContent = "غيّر جزءًا آخر من اختيارك ثم شغّل لتشاهد أثر فكرتك.";
+        document.getElementById("code").focus();
+        return;
+      }
+      if (step.type === "repair" && normDoc(code) !== normDoc(model.fixedCode)) {
+        hint.textContent = "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى.";
+        document.getElementById("code").focus();
+        return;
+      }
     }
     growthPreview(code);
     growth.drafts[model.id] = code;

@@ -141,3 +141,13 @@ test("all CSS and JS lessons are built in valid stages that end exactly at the f
   }
   assert.equal(checked, c.window.LESSONS_DATA.css.length + c.window.LESSONS_DATA.js.length);
 });
+
+test("Arabic spelling and formatting variations (diacritics, tanween, quotes, whitespace) are accepted leniently", () => {
+  const c = makeLesson(0), model = c.model;
+  assert.equal(c.normalizeCodeLine("<h1>مرحبا </h1>"), c.normalizeCodeLine("<h1>مرحبًا</h1>"));
+  assert.equal(c.normalizeCodeLine('"مرحبا "'), c.normalizeCodeLine('"مرحبًا"'));
+  assert.equal(c.normalizeCodeLine("console.log('مرحبا ');"), c.normalizeCodeLine('console.log("مرحبًا");'));
+  assert.equal(c.normalizeCodeLine("أهلاً بك"), c.normalizeCodeLine("اهلا بك"));
+  assert.equal(c.normalizeCodeLine("إلى اللقاء"), c.normalizeCodeLine("الي اللقاء"));
+  assert.equal(c.normalizeCodeLine("جولة في الحديقه"), c.normalizeCodeLine("جولة في الحديقة"));
+});
