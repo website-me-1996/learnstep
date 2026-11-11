@@ -1582,7 +1582,9 @@ async function snapshotRuntime() {
 }
 
 function normalizeWhitespace(text) {
-  return typeof text === "string" ? text.replace(/\s+/g, " ").trim() : "";
+  return typeof text === "string"
+    ? text.replace(/\s+/g, " ").replace(/\s*([;:,{}()[\]=<>])\s*/g, "$1").trim()
+    : "";
 }
 
 function supportedTask(lesson) {
@@ -1813,10 +1815,10 @@ function renderAngularSlotBuilder(step, lesson) {
     }
   }
 
-  const mIf = targetCode.match(/^@if\s*\(([^)]+)\)\s*\{([\s\S]*?)\}$/);
-  const mFor = targetCode.match(/^@for\s*\(([^)]+)\)\s*\{([\s\S]*?)\}$/);
-  const mSwitch = targetCode.match(/^@switch\s*\(([^)]+)\)\s*\{([\s\S]*?)\}$/);
-  const mDefer = targetCode.match(/^@defer\s*(?:\(([^)]*)\))?\s*\{([\s\S]*?)\}$/);
+  const mIf = targetCode.match(/^@if\s*\(([\s\S]*?)\)\s*\{([\s\S]*?)\}\s*$/);
+  const mFor = targetCode.match(/^@for\s*\(([\s\S]*?)\)\s*\{([\s\S]*?)\}\s*$/);
+  const mSwitch = targetCode.match(/^@switch\s*\(([\s\S]*?)\)\s*\{([\s\S]*?)\}\s*$/);
+  const mDefer = targetCode.match(/^@defer\s*(?:\(([\s\S]*?)\))?\s*\{([\s\S]*?)\}\s*$/);
 
   if (mIf) {
     stage2 = `شرط @if (${mIf[1].trim()})`;
