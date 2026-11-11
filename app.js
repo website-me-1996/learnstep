@@ -150,7 +150,7 @@
         }).join(""),
             emptyMessage = growth.projectData.gallery.length ? "" : exportMode
               ? '<p class="gallery-empty">المعرض جاهز لعرض صور من تجاربك.</p>'
-              : '<p class="gallery-empty">لسه مفيش صور. أضف صورة صغيرة من شغلك أو من جهازك.</p>',
+              : '<p class="gallery-empty">لا توجد صور مضافة بعد. أضف صورة بسيطة من أعمالك أو من جهازك.</p>',
             uploadForm = exportMode ? "" : growth.projectData.gallery.length >= 4
               ? '<p class="module-status">وصلت للحد الأقصى: أربع صور في المعرض.</p>'
               : '<form data-profile-module="gallery"><label>وصف قصير للصورة<input name="caption" maxlength="60" required placeholder="مثال: أول صفحة بنيتها"></label><label>نص بديل يصف الصورة<input name="alt" maxlength="100" required placeholder="مثال: صفحة بعنوان مرحبًا"></label><label>اختر صورة<input name="image" type="file" accept="image/jpeg,image/png,image/webp" required></label><button type="submit">أضف الصورة لمشروعي</button><span class="module-status" data-gallery-status aria-live="polite">نضغط الصورة تلقائيًا لتبقى خفيفة.</span></form>';
@@ -323,7 +323,7 @@
     saveGrowth();
     renderProfileCard();
     renderGrowthDashboard();
-    celebrateGrowth("صورتك بقت جزءًا من معرضك الشخصي.", "#profileCardPreview");
+    celebrateGrowth("أصبحت صورتك جزءًا من معرضك الشخصي.", "#profileCardPreview");
     return true;
   }
 
@@ -710,7 +710,7 @@
     "أهلًا بعودتك. نكمل من حيث وقفنا؟",
     "في تجربة صغيرة مستنياك النهارده.",
     "اختار سؤالًا وسيب الباقي يتكشف.",
-    "ممكن نكتشف حاجة صغيرة النهارده؛ الفكرة تجربة، مش واجب."
+    "يمكننا استكشاف فكرة بسيطة اليوم؛ الخطوة تجربة ممتعة وليست واجبًا."
   ];
 
   function greeting() {
@@ -739,7 +739,7 @@
   var data = {
     html: {
       title: "أول صفحة HTML لي",
-      sub: "هنضيف عنوان وفقرة ونشوفهم ظهروا إزاي.",
+      sub: "سنضيف عنوانًا وفقرة ونشاهد ظهورهما في المعاينة.",
       level: "بناء",
       prompt: "ابدأ بعنوان من اختيارك؛ المثال جاهز للتجربة.",
       file: "index.html",
@@ -2485,7 +2485,7 @@
       }
     }
     if (completed) {
-      next.textContent = model.index + 1 < courseTopics(model.key).length ? "خلّينا نشوف الخطوة اللي بعد كده ←" : "اختر موضوعًا آخر لما تحب ←";
+      next.textContent = model.index + 1 < courseTopics(model.key).length ? "لننتقل إلى الخطوة التالية ←" : "اختر موضوعًا آخر متى شئت ←";
       next.disabled = false;
     } else if (stage === 0 || stage === 1) {
       var readIndexNow = stage === 1 && model.key !== "html" ? courseReadingStep(model) : 0,
@@ -2507,12 +2507,28 @@
   }
 
   function lessonMixedMarkup(value) {
-    var parts = String(value || "").split(/(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>)/gi);
-    return parts.map(function(part) {
-      var isCode = /^`[^`]+`$/.test(part) || /^https?:\/\//i.test(part) || /^<!DOCTYPE/i.test(part) || /^<\/?[A-Za-z]/i.test(part),
-          text = escapeHtml(part.replace(/^`|`$/g, "")).replace(/\n/g, "<br>");
-      return isCode ? '<bdi dir="ltr">' + text + '</bdi>' : text.replace(/\b[A-Za-z][A-Za-z0-9]*(?:[-_.+#][A-Za-z0-9]+)*/g, '<bdi dir="ltr">$&</bdi>');
+    if (!value) return "";
+    var normalized = String(value).replace(/<br\s*\/?>/gi, "\n");
+    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
+    var parts = normalized.split(codePattern);
+    var out = parts.map(function(part) {
+      if (!part) return "";
+      if (/^`[^`]+`$/.test(part)) {
+        return '<code dir="ltr" class="inline-code">' + escapeHtml(part.slice(1, -1)) + '</code>';
+      }
+      if (/^https?:\/\//i.test(part)) {
+        return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
+      }
+      if (/^<!DOCTYPE/i.test(part) || /^<\/?[A-Za-z]/i.test(part)) {
+        return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
+      }
+      if (/^\/\*[\s\S]*?\*\/$/.test(part) || /\{[^}\n]*\}/.test(part) || /^[a-zA-Z-]+\s*:/.test(part)) {
+        return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
+      }
+      var escaped = escapeHtml(part);
+      return escaped.replace(/\b[A-Za-z][A-Za-z0-9]*(?:[-_.+#][A-Za-z0-9]+)*/g, '<bdi dir="ltr">$&</bdi>');
     }).join("");
+    return out.replace(/\r?\n/g, "<br>");
   }
 
   function setLessonCopy(element, value) {
@@ -2556,10 +2572,10 @@
     var meter = document.getElementById("handCraftMeter");
     if (meter) {
       meter.hidden = false;
-      meter.textContent = "🔨 بناء يدوي: " + ar(score) + "٪";
+      meter.textContent = "🔨 كتابتك بيدك: " + ar(score) + "٪";
       var msg = getHandCraftMilestoneMessage(score);
       meter.title = msg;
-      meter.setAttribute("aria-label", "نسبة البناء اليدوي: " + score + " بالمئة. " + msg);
+      meter.setAttribute("aria-label", "نسبة كتابتك بيدك: " + score + " بالمئة. " + msg);
 
       var lastMile = lastHandCraftMilestone[key] || 0;
       if ((score >= 35 && lastMile < 35) || (score >= 60 && lastMile < 60) || (score >= 85 && lastMile < 85)) {
@@ -2820,9 +2836,9 @@
     document.querySelector(".prompt").hidden = true;
     document.getElementById("guideCount").textContent = completed
       ? "اكتمل الدرس · " + ar(steps.length) + " من " + ar(steps.length)
-      : "خطوة " + ar(current + 1) + " من " + ar(steps.length) + " · " + step.title;
-    document.getElementById("guideCount").setAttribute("aria-label", completed ? "اكتمل الدرس" : step.title);
-    document.getElementById("lessonPhaseName").textContent = completed ? "مكتمل" : step.title;
+      : "خطوة " + ar(current + 1) + " من " + ar(steps.length);
+    document.getElementById("guideCount").setAttribute("aria-label", completed ? "اكتمل الدرس" : "خطوة " + (current + 1) + " من " + steps.length);
+    document.getElementById("lessonPhaseName").textContent = completed ? "مكتمل" : (step.type === "edit" || step.type === "repair" ? "تطبيق عملي" : step.build ? "بناء يدوي" : "استكشاف وفهم");
     dots.setAttribute("aria-valuemax", String(steps.length));
     dots.setAttribute("aria-valuenow", String(completed ? steps.length : current + 1));
     dots.innerHTML = steps.map(function(item, index) {
@@ -2877,7 +2893,7 @@
     }
 
     setLessonCopy(title, step.title);
-    setLessonCopy(copy, step.explanation + "\nالمطلوب الآن: " + step.task);
+    setLessonCopy(copy, step.explanation);
     if (step.type === "edit") {
       exampleMarkup = '<div class="basic-structure lesson-target"><span class="comment">غيّر هذا الجزء:</span><br><bdi dir="ltr">' + escapeHtml(step.from) + '</bdi><br><span class="comment">إلى:</span><br><bdi dir="ltr">' + escapeHtml(step.to) + '</bdi></div>';
     } else if (step.type === "diagnose" || step.type === "repair") {
@@ -2962,7 +2978,7 @@
           return "<li><bdi dir=\"ltr\">" + escapeHtml(item.code) + "</bdi> — " + escapeHtml(item.meaning) + "</li>";
         }).join("");
     setLessonCopy(title, step.title);
-    setLessonCopy(copy, step.explanation + "\nالمطلوب الآن: " + step.task);
+    setLessonCopy(copy, step.explanation);
     document.getElementById("guideCount").textContent = "خطوة " + ar(stage + 1) + " من ٧ · " + step.title;
     document.getElementById("guideCount").setAttribute("aria-label", step.title);
     document.getElementById("lessonPhaseName").textContent = step.title;
@@ -3108,7 +3124,7 @@
     saveGrowth(); save();
     renderGrowthLesson(); render();
     showStepBenefit(step.benefit);
-    celebrateGrowth(step.type === "edit" ? "تجربتك اشتغلت." : step.type === "experiment" ? "دي لمستك أنت." : step.type === "repair" ? "الخطأ بقى معلومة مفيدة." : step.build ? "كتبت الجزء بنفسك." : "لاحظت المثال خطوة خطوة.", "#lesson");
+    celebrateGrowth(step.type === "edit" ? "نجحت تجربتك وعملت كما ينبغي." : step.type === "experiment" ? "هذه لمستك الخاصة." : step.type === "repair" ? "أصبح الخطأ تجربة مفيدة." : step.build ? "كتبت هذا الجزء بيدك بنجاح." : "تتبعت المثال خطوة بخطوة.", "#lesson");
   }
 
   function runGrowthLesson() {
@@ -3278,7 +3294,7 @@
     document.getElementById("dailyChallengeFeedback").textContent = "✓ " + result;
     renderDailyChallengeProgress(true);
     document.getElementById("dailyChallengeAnswers").innerHTML = "";
-    celebrateGrowth("تجربة اليوم بقت جزءًا من مشروعك.", "#projectGrowth");
+    celebrateGrowth("أصبحت تجربة اليوم جزءًا من مشروعك.", "#projectGrowth");
     return true;
   }
 
@@ -3295,7 +3311,7 @@
         finished = growth.daily.day === todayKey() && growth.daily.completed === true;
     document.getElementById("dailyChallengeTitle").textContent = finished ? "تحدي اليوم اكتمل ✓" : "تحدي صغير من " + challenge.title;
     document.getElementById("dailyChallengePrompt").textContent = finished ? (growth.daily.result || "خطوة عملية اتضافت لمشروعك.") : challenge.prompt;
-    document.getElementById("dailyChallengeFeedback").textContent = finished ? "مفيش مهمة مستنياك، فيه خطوة جديدة لو حبيت." : "خطوة واحدة تكفي؛ جرّبها وشوف أثرها في مشروعك.";
+    document.getElementById("dailyChallengeFeedback").textContent = finished ? "لا توجد مهام معلّقة، يمكنك خوض تجربة جديدة متى أردت." : "خطوة واحدة تكفي؛ جرّبها وشاهد أثرها في مشروعك.";
     renderDailyChallengeProgress(finished);
     if (finished) { answerHost.innerHTML = ""; return; }
     if (challenge.kind === "color") {
@@ -3397,18 +3413,18 @@
       ? skills.map(function(skill) { return "<li>✓ " + escapeHtml(skill.title) + " · " + courseLabels[skill.course] + "</li>"; }).join("")
       : "<li>كل مجموعة مكتملة ستظهر هنا.</li>";
     document.getElementById("heroProjectLabel").textContent = "مشروعك الحالي · " + (profileCard.name.trim() ? "بطاقة " + profileCard.name.trim() : "بطاقة تعرّف بيك");
-    document.getElementById("heroNextTitle").textContent = growthLessonDone(current.id) ? "اللبنة اتضافت. خلّينا نشوف الخطوة اللي بعد كده." : "بعد الدرس هتقدر " + current.objective;
+    document.getElementById("heroNextTitle").textContent = growthLessonDone(current.id) ? "أُضيفت اللبنة بنجاح. لننتقل إلى الخطوة التالية." : "بعد الدرس ستتمكن من " + current.objective;
     document.getElementById("heroNextCopy").textContent = "حتى خمس دقائق تكفي لتجربة خطوة وإضافة أثرها لمشروعك.";
     document.getElementById("heroProjectMeta").textContent = "لبنات أُضيفت للمشروع · " + ar(growth.projectParts.length);
     document.getElementById("heroUnlockMeta").textContent = "القدرة التالية · " + (next ? next.title : "كل القدرات الحالية اتفتحت");
     document.getElementById("heroAbilityMeta").textContent = "قدرات مكتسبة · " + ar(unlocked.length);
-    document.getElementById("continue").textContent = growthLessonDone(current.id) ? "خلّينا نشوف الخطوة اللي بعد كده ←" : awayDays >= 2 ? "نكمل من آخر خطوة وصلنا لها ←" : "ابدأ خطوة اليوم ←";
+    document.getElementById("continue").textContent = growthLessonDone(current.id) ? "لننتقل إلى الخطوة التالية ←" : awayDays >= 2 ? "نكمل من آخر خطوة وصلنا إليها ←" : "ابدأ خطوة اليوم ←";
     document.getElementById("openDailyChallenge").textContent = completedToday ? "تحدي اليوم اكتمل ✓" : "تحدي اليوم · ١–٥ دقائق";
     document.getElementById("openDailyChallengeRail").textContent = completedToday ? "شوف إنجاز اليوم ✓" : "اكتشف الخطوة الصغيرة ←";
     document.getElementById("daily").textContent = completedToday ? "خطوتك اليومية اتحسبت. نكمل من آخر مكانك وقت ما تحب." : "تجربة عملية صغيرة من الدرس الحالي — من دقيقة إلى خمس دقائق.";
     document.getElementById("progressLabel").textContent = ar(unlocked.length);
     document.getElementById("meter").style.width = Math.round(unlocked.length * 100 / abilityCatalog.length) + "%";
-    document.getElementById("returnMessage").textContent = awayDays >= 2 ? "نكمل من آخر خطوة وصلنا لها. مفيش حاجة ضاعت." : "مفيش مهمة مستنياك، فيه خطوة جديدة لو حبيت.";
+    document.getElementById("returnMessage").textContent = awayDays >= 2 ? "نكمل من آخر خطوة وصلنا إليها؛ لم يفُتك شيء." : "لا توجد مهام معلّقة، يمكنك خوض تجربة جديدة متى أردت.";
     document.getElementById("abilitiesList").innerHTML = unlocked.length
       ? unlocked.map(function(ability) { return '<article class="ability-chip"><span>' + ability.icon + '</span><b>' + escapeHtml(ability.title) + '</b><small>أداة: ' + escapeHtml(ability.tool) + '</small><details class="ability-challenge"><summary>تحدي هذه القدرة</summary><p>' + escapeHtml(ability.challenge) + '</p><a href="#projectTool-' + escapeHtml(ability.id) + '">جرّبها في مشروعك ←</a></details></article>'; }).join("")
       : '<div class="abilities-empty">لسه بنجمع أول قدرة. ابدأ من فكرة واحدة؛ كل خطوة عملية هتظهر هنا.</div>';
@@ -3428,7 +3444,7 @@
     }
     document.getElementById("projectPartCount").textContent = growth.projectParts.length
       ? "أضفت " + ar(growth.projectParts.length) + " لبنة من تعلمك إلى البطاقة."
-      : "لسه ما أضفناش أول لبنة — خلّينا نبدأ بخطوة واحدة.";
+      : "لم نضف أول لبنة بعد — لنبدأ بخطوة أولى بسيطة.";
     var latestPart = growth.projectParts[growth.projectParts.length - 1],
         latestUpdate = document.getElementById("projectLatestUpdate");
     latestUpdate.hidden = !latestPart;
@@ -3603,7 +3619,7 @@
         });
       });
       roadmapDetails.hidden = true;
-      roadList.innerHTML = matches.length ? listMatches(matches) : '<div class="road-empty">ما لقيناش موضوعًا بهذا الاسم. جرّب كلمة أقصر.</div>';
+      roadList.innerHTML = matches.length ? listMatches(matches) : '<div class="road-empty">لم نجد موضوعًا بهذا الاسم. جرب كلمة أقصر.</div>';
       var filterName = roadFilterCourse === "all" ? "كل المسارات" : roadFilterCourse === "js" ? "JavaScript" : roadFilterCourse.toUpperCase();
       roadSearchStatus.textContent = "" + ar(matches.length) + " نتيجة في " + filterName + " · من " + ar(htmlSequence.length + cssSequence.length + jsSequence.length) + " موضوع";
     } else {
@@ -3890,7 +3906,7 @@
       next.textContent = "افتح المحرر وعدّل العنوان ←";
       next.disabled = false;
     } else {
-      title.textContent = "العناصر بقت أوضح";
+      title.textContent = "أصبحت العناصر أكثر وضوحًا";
       copy.textContent = "ميّزت العنصر الكامل عن الوسم، وشفت عنصرًا فارغًا. المحطة التالية: HTML Attributes.";
       visual.innerHTML = '<div class="guide-finish"><b>🌿 HTML Elements اكتمل</b><span>العنوان والفقرة وbr ظهرت في المعاينة.</span></div>';
       next.textContent = "شوف HTML Attributes في الخريطة ←";
@@ -4733,8 +4749,8 @@
     if (step === 1) {
       title.textContent = "الفكرة: " + spec.topic.replace(/^CSS |^JS /, "");
       copy.textContent = spec.concept;
-      visual.innerHTML = '<div class="basic-structure">' + escapeHtml(spec.analogy) + '</div><div class="basic-hint">هنمسك معنى واحدًا، ثم نشوفه في سطر صغير.</div>';
-      next.textContent = "شوف السطر يتحرك إزاي ←";
+      visual.innerHTML = '<div class="basic-structure">' + escapeHtml(spec.analogy) + '</div><div class="basic-hint">سنتناول معنى واحدًا محددًا، ثم نشاهده في سطر برمجي موجز.</div>';
+      next.textContent = "شاهد حركة السطر في النتيجة ←";
       next.disabled = false;
     } else if (step === 2) {
       title.textContent = "تابع السطر حتى النتيجة";

@@ -1912,12 +1912,13 @@ function renderRoadmap() {
     }
     const item = document.createElement("button");
     const isDone = done.has(lesson.id);
-    const locked = index > unlockedThrough && !isDone;
+    const isRecommended = index === unlockedThrough;
+    const isFuture = index > unlockedThrough && !isDone;
     item.type = "button";
-    item.className = "angular-road-item" + (index === currentLessonIndex ? " current" : "") + (isDone ? " done" : "");
-    item.disabled = locked;
+    item.className = "angular-road-item" + (index === currentLessonIndex ? " current" : "") + (isDone ? " done" : "") + (isFuture ? " future-explore" : "");
+    item.disabled = false;
     item.setAttribute("aria-current", index === currentLessonIndex ? "step" : "false");
-    item.innerHTML = '<span class="angular-road-number">' + (isDone ? "✓" : formatNumber(index + 1)) + '</span><span class="angular-road-copy"><b>' + escapeHtml(lesson.title) + '</b><small>' + (isDone ? "اكتمل" : locked ? "مقفل حتى تجرب الخطوات السابقة" : index === currentLessonIndex ? "أنت هنا" : "افتح الدرس") + "</small></span>";
+    item.innerHTML = '<span class="angular-road-number">' + (isDone ? "✓" : formatNumber(index + 1)) + '</span><span class="angular-road-copy"><b>' + escapeHtml(lesson.title) + '</b><small>' + (isDone ? "اكتمل" : index === currentLessonIndex ? "أنت هنا" : isRecommended ? "الدرس الموصى به" : "درس قادم · يمكنك الاستكشاف") + "</small></span>";
     item.addEventListener("click", () => void selectLesson(index));
     host.appendChild(item);
   });
@@ -1975,13 +1976,13 @@ function updateAngularHandCraftScore(isManual = false, boost = 0) {
   const meter = $("angularHandCraftMeter");
   if (!meter) return;
   meter.hidden = false;
-  meter.textContent = "🔨 بناء يدوي: " + formatNumber(angularHandCraftScore) + "٪";
+  meter.textContent = "🔨 كتابتك بيدك: " + formatNumber(angularHandCraftScore) + "٪";
   let msg = "🌱 بداية واعدة.. مشروعك يبدأ بلمستك الخاصة.";
   if (angularHandCraftScore >= 85) msg = "🏆 مكون Angular مبني بحرفية يدوية وبصمتك الخاصة 100%!";
   else if (angularHandCraftScore >= 60) msg = "🔨 رائع! أنت تبني المكون خطوة بخطوة وتستوعب هندسته.";
   else if (angularHandCraftScore >= 35) msg = "✨ هذا السطر لم يأتِ من النسخ.. أنت تبني Angular بيدك.";
   meter.title = msg;
-  meter.setAttribute("aria-label", "نسبة البناء اليدوي: " + angularHandCraftScore + " بالمئة. " + msg);
+  meter.setAttribute("aria-label", "نسبة كتابتك بيدك: " + angularHandCraftScore + " بالمئة. " + msg);
 
   if ((angularHandCraftScore >= 35 && lastAngularHandCraftMilestone < 35) ||
       (angularHandCraftScore >= 60 && lastAngularHandCraftMilestone < 60) ||
