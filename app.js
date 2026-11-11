@@ -3185,12 +3185,14 @@
     if (state.current < state.unlocked) {
       state.current++;
       saveGrowth(); renderGrowthLesson();
+      if (typeof setMobileLessonView === "function") setMobileLessonView("editor");
       return;
     }
     if (step.type === "quiz" || step.type === "diagnose" || step.type === "project") {
       document.getElementById("guideActions").scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
+    if (typeof setMobileLessonView === "function") setMobileLessonView("editor");
     code.scrollIntoView({ behavior: "smooth", block: "center" });
     code.focus();
   }
@@ -4916,6 +4918,9 @@
     render();
     document.getElementById("level").textContent = "خطوة " + ar(s.step) + " · " + data[course].level;
     cheer();
+    if (typeof setMobileLessonView === "function") {
+      setMobileLessonView("editor");
+    }
   }
 
   function soundBuffer(type) {

@@ -230,13 +230,13 @@ main{grid-column:2;min-width:0;padding:23px 27px 42px}
   .shell{grid-template-columns:205px minmax(450px,1fr) 245px}
   .rail{display:flex}
   .mobile-editor-tabs{display:none!important}
-  #lesson .card{display:grid;grid-template-columns:minmax(360px,440px) minmax(0,1fr);grid-template-areas:"head head" "guide workspace";gap:16px 20px;align-items:start}
-  #lesson .cardhead{grid-area:head}
-  #lesson .steps,#lesson .stepnames{grid-column:1}
-  #lesson .html-guide{grid-area:guide;margin:0}
-  #lesson .prompt{grid-area:guide;margin-top:10px}
-  #lesson .editor-preview-split{grid-area:workspace;display:flex;flex-direction:column;gap:12px;position:sticky;top:16px}
-  #lesson .editor-preview-split .previewrow{margin-top:0}
+  .editor-preview-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;margin-top:12px}
+  .editor-preview-split .editor{display:flex;flex-direction:column;height:100%}
+  .editor-preview-split .editor textarea{flex:1;min-height:240px;height:auto}
+  .editor-preview-split .previewrow{display:flex;flex-direction:column;justify-content:space-between;gap:8px;margin-top:0;height:100%}
+  .editor-preview-split .previewrow > div{display:flex;flex-direction:column;flex:1}
+  .editor-preview-split .previewrow .preview{flex:1;min-height:240px;height:auto;margin-top:4px}
+  .editor-preview-split .previewrow .complete{width:100%;min-height:44px;justify-content:center}
 }
 @media(min-width:768px) and (max-width:1024px){
   .shell{grid-template-columns:76px 1fr!important}
@@ -249,8 +249,14 @@ main{grid-column:2;min-width:0;padding:23px 27px 42px}
   .rail{display:none}
   main{padding:16px 20px}
   .grid{grid-template-columns:1fr}
-  .editor-preview-split{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
-  .editor-preview-split .previewrow{margin-top:0}
+  .mobile-editor-tabs{display:none!important}
+  .editor-preview-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch;margin-top:12px}
+  .editor-preview-split .editor{display:flex;flex-direction:column;height:100%}
+  .editor-preview-split .editor textarea{flex:1;min-height:220px;height:auto}
+  .editor-preview-split .previewrow{display:flex;flex-direction:column;justify-content:space-between;gap:8px;margin-top:0;height:100%}
+  .editor-preview-split .previewrow > div{display:flex;flex-direction:column;flex:1}
+  .editor-preview-split .previewrow .preview{flex:1;min-height:220px;height:auto;margin-top:4px}
+  .editor-preview-split .previewrow .complete{width:100%;min-height:44px;justify-content:center}
   .angular-workbench-body{grid-template-columns:minmax(140px,180px) minmax(0,1fr)!important}
   input,textarea,select,.slot-input{font-size:16px!important}
 }
@@ -283,6 +289,11 @@ main{grid-column:2;min-width:0;padding:23px 27px 42px}
   article.card[data-mobile-view="editor"] .previewrow{display:none!important}
   article.card[data-mobile-view="preview"] .editor{display:none!important}
   article.card[data-mobile-view="preview"] .prompt{display:none!important}
+  .editor-preview-split{display:block;margin-top:8px}
+  .editor-preview-split .editor textarea{width:100%;min-height:220px}
+  .editor-preview-split .previewrow{display:flex;flex-direction:column;gap:10px;margin-top:0}
+  .editor-preview-split .previewrow .preview{width:100%;min-height:280px;height:320px}
+  .editor-preview-split .previewrow .complete{width:100%;min-height:48px;font-size:16px;justify-content:center}
   .learner-dialog,.daily-challenge-dialog{position:fixed!important;inset:auto 0 0 0!important;transform:none!important;width:100%!important;max-width:100%!important;max-height:85vh!important;border-radius:20px 20px 0 0!important;border-bottom:0!important;padding:20px 16px calc(20px + env(safe-area-inset-bottom)) 16px!important;margin:0!important;overflow-y:auto!important}
   input,textarea,select,.slot-input{font-size:16px!important}
 }
@@ -666,6 +677,11 @@ main{grid-column:2;min-width:0;padding:23px 27px 42px}
 .angular-workbench-body{grid-template-columns:minmax(170px,220px) minmax(0,1fr);max-height:none}
 .angular-preview-pane{grid-column:1/-1;min-height:320px;border-top:1px solid #2c4438}
 .angular-preview-pane iframe{min-height:280px}
+@media(min-width:1200px){
+  .angular-workbench-body{grid-template-columns:minmax(160px,.42fr) minmax(0,1.15fr) minmax(280px,1fr)!important;min-height:480px;max-height:720px}
+  .angular-preview-pane{grid-column:auto!important;min-height:480px!important;border-top:none!important;border-left:1px solid #2c4438}
+  .angular-preview-pane iframe{min-height:420px!important}
+}
 
 .step-benefit{margin:10px 0 0;padding:12px 14px;border:1px solid #cfe0c8;border-radius:12px;background:#eef6e8;color:#234b3e;font-size:16px;line-height:1.7;display:flex;flex-direction:column;gap:4px}
 .step-benefit[hidden]{display:none}
