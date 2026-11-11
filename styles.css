@@ -133,7 +133,9 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
 .course[data-course="js"] i{background:#e1c953}
 .note{margin-top:12px;padding:9px 11px;border-radius:9px;background:#eef3e8;color:#718077;font-size:13px}
 .note b{color:#41634b}
-.rail{grid-column:3;padding:20px 12px;background:#fbfcf8;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:11px}
+.rail{grid-column:3;position:sticky;top:0;height:100vh;align-self:start;overflow-y:auto;overflow-x:hidden;padding:20px 12px;background:#fbfcf8;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:11px;scrollbar-width:thin;scrollbar-color:#cbd5cb transparent}
+.rail::-webkit-scrollbar{width:4px}
+.rail::-webkit-scrollbar-thumb{background:#cbd5cb;border-radius:4px}
 .railcard{padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff}
 .daily{background:linear-gradient(145deg,#f1f6e8,#fff)}
 .railcard h3{margin:0;font-size:14.5px}
