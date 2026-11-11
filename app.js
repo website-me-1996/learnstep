@@ -5152,6 +5152,39 @@
   });
   setMobileLessonView("editor");
 
+  function initSidebarCollapse() {
+    var toggleBtn = document.getElementById("sidebarToggle");
+    var shell = document.querySelector(".shell");
+    if (!toggleBtn || !shell) return;
+
+    var isCollapsed = false;
+    try {
+      isCollapsed = localStorage.getItem("steplearn_sidebar_collapsed") === "true";
+    } catch (e) {}
+
+    if (isCollapsed) {
+      shell.classList.add("side-collapsed");
+      toggleBtn.setAttribute("aria-label", "توسيع القائمة الجانبية");
+      toggleBtn.setAttribute("title", "توسيع القائمة الجانبية");
+      toggleBtn.setAttribute("aria-expanded", "false");
+    } else {
+      toggleBtn.setAttribute("aria-label", "طي القائمة الجانبية");
+      toggleBtn.setAttribute("title", "طي القائمة الجانبية");
+      toggleBtn.setAttribute("aria-expanded", "true");
+    }
+
+    toggleBtn.onclick = function() {
+      var collapsed = shell.classList.toggle("side-collapsed");
+      try {
+        localStorage.setItem("steplearn_sidebar_collapsed", collapsed ? "true" : "false");
+      } catch (e) {}
+      toggleBtn.setAttribute("aria-label", collapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية");
+      toggleBtn.setAttribute("title", collapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية");
+      toggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    };
+  }
+  initSidebarCollapse();
+
   document.querySelectorAll("[data-mobile-jump]").forEach(function(button) {
     button.onclick = function() {
       var target = document.getElementById(button.dataset.mobileJump);
