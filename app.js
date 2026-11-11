@@ -5174,13 +5174,17 @@
     }
 
     toggleBtn.onclick = function() {
-      var collapsed = shell.classList.toggle("side-collapsed");
-      try {
-        localStorage.setItem("steplearn_sidebar_collapsed", collapsed ? "true" : "false");
-      } catch (e) {}
-      toggleBtn.setAttribute("aria-label", collapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية");
-      toggleBtn.setAttribute("title", collapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية");
-      toggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      if (typeof window.toggleSidebar === "function") {
+        window.toggleSidebar();
+      } else {
+        var collapsed = shell.classList.toggle("side-collapsed");
+        try {
+          localStorage.setItem("steplearn_sidebar_collapsed", collapsed ? "true" : "false");
+        } catch (e) {}
+        toggleBtn.setAttribute("aria-label", collapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية");
+        toggleBtn.setAttribute("title", collapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية");
+        toggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      }
     };
   }
   initSidebarCollapse();
