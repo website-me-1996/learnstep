@@ -23,17 +23,6 @@
     }
   }
 
-  function toggleRail() {
-    var shell = document.querySelector(".shell");
-    if (!shell) return;
-    var collapsed = shell.classList.toggle("rail-collapsed");
-    try { localStorage.setItem("steplearn_rail_collapsed", collapsed ? "true" : "false"); } catch(e){}
-    var btn = document.getElementById("railToggleBtn");
-    if (btn) {
-      btn.classList.toggle("active", !collapsed);
-    }
-  }
-
   try {
     if (localStorage.getItem("steplearn_sidebar_collapsed") === "true") {
       window.addEventListener("DOMContentLoaded", function() {
@@ -44,11 +33,6 @@
           btn.setAttribute("title", "توسيع القائمة الجانبية");
           btn.setAttribute("aria-label", "توسيع القائمة الجانبية");
         }
-      });
-    }
-    if (localStorage.getItem("steplearn_rail_collapsed") === "true") {
-      window.addEventListener("DOMContentLoaded", function() {
-        document.querySelector(".shell")?.classList.add("rail-collapsed");
       });
     }
   } catch(e) {}
@@ -87,7 +71,6 @@
     </div>
     <span class="crumb">مساحة التعلّم / الرئيسية</span>
     <div class="top-actions">
-      <button class="top-rail-toggle" id="railToggleBtn" type="button" onclick="toggleRail()" title="تبديل لوحة الأدوات والتركيز (المؤقت والأصوات)" aria-label="تبديل لوحة الأدوات">الأدوات ♫</button>
       <button class="learner-switch" id="learnerProfileButton" type="button" aria-haspopup="dialog">ملف التعلّم · المتعلم الحالي</button>
       <span class="date" id="date"></span>
     </div>
@@ -538,11 +521,7 @@
   <div class="note"><b>💡 فضولك هو الخطة.</b> اختار سؤالًا صغيرًا وسيب باقي الصورة تتضح بالتجربة.</div>
 </main>
 
-<aside class="rail" id="rightRail">
-  <div class="rail-header">
-    <span class="rail-header-title">أدوات التركيز والأصوات</span>
-    <button class="rail-close-btn" type="button" onclick="toggleRail()" aria-label="طي لوحة الأدوات لتوسيع المحرر" title="طي لوحة الأدوات لتوسيع مساحة المحرر والمعاينة">✕</button>
-  </div>
+<aside class="rail" id="rightRail" hidden style="display:none!important">
   <section class="railcard daily">
     <div class="sectionhead" style="margin:0"><h3>تحدي اليوم</h3><small>١–٥ دقائق</small></div>
     <p id="daily">تجربة عملية صغيرة من الدرس الحالي — من دقيقة إلى خمس دقائق.</p>
