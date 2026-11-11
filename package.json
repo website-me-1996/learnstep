@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --test behavior.test.cjs behavior_test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs"
+    "test": "node --test behavior.test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

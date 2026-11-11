@@ -430,9 +430,9 @@
     style += ".latest-build-preview{display:block;width:100%;height:180px;margin-top:7px;border:1px solid #dfe8dc;border-radius:10px;background:#fff}";
     if (!parts && !modules) return buildProfileHtml();
     return buildProfileHtml()
-      .replace("</style>", style + ".learning{padding:12px 22px;border-top:1px solid #e4e9e2}.learning>summary{cursor:pointer;font-weight:bold;color:#286b56}.learning ul{display:grid;gap:8px;margin:10px 0 0;padding:0;list-style:none}.learning .project-artifact{padding:9px 10px;border:1px solid #e4e9e2;border-radius:10px;background:#f7faf5}.learning .project-artifact p{margin:4px 0;color:#53645a;font-size:14px}.learning .project-artifact details{margin-top:5px}.learning .project-artifact-archive{padding:0;border:0;background:transparent}.learning .project-artifact-archive>details>summary{cursor:pointer;color:#286b56;font-weight:bold}.learning .project-artifact-archive ul{margin-top:8px}.learning pre{max-height:180px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;direction:ltr;text-align:left;padding:9px;border-radius:8px;background:#1b2a20;color:#e2eee4;font:12px/1.5 Consolas,monospace}.learning li{font-size:15px}.personal-page-preview{margin-top:10px;padding:10px;border:1px solid #e5ebe2;border-radius:10px;background:#f7faf5}.personal-page-preview b{color:#286b56}.personal-page-preview p{margin:4px 0;color:#53645a}</style>")
-      .replace("</main>", partSection + modules + "</main>")
-      .replace("</body>", script + "</body>");
+      .replace("</style>", () => style + ".learning{padding:12px 22px;border-top:1px solid #e4e9e2}.learning>summary{cursor:pointer;font-weight:bold;color:#286b56}.learning ul{display:grid;gap:8px;margin:10px 0 0;padding:0;list-style:none}.learning .project-artifact{padding:9px 10px;border:1px solid #e4e9e2;border-radius:10px;background:#f7faf5}.learning .project-artifact p{margin:4px 0;color:#53645a;font-size:14px}.learning .project-artifact details{margin-top:5px}.learning .project-artifact-archive{padding:0;border:0;background:transparent}.learning .project-artifact-archive>details>summary{cursor:pointer;color:#286b56;font-weight:bold}.learning .project-artifact-archive ul{margin-top:8px}.learning pre{max-height:180px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;direction:ltr;text-align:left;padding:9px;border-radius:8px;background:#1b2a20;color:#e2eee4;font:12px/1.5 Consolas,monospace}.learning li{font-size:15px}.personal-page-preview{margin-top:10px;padding:10px;border:1px solid #e5ebe2;border-radius:10px;background:#f7faf5}.personal-page-preview b{color:#286b56}.personal-page-preview p{margin:4px 0;color:#53645a}</style>")
+      .replace("</main>", () => partSection + modules + "</main>")
+      .replace("</body>", () => script + "</body>");
   }
 
   function buildProfileHtml() {
@@ -3113,112 +3113,10 @@
 
   function runGrowthLesson() {
     return runDynamicGrowthLesson();
-    var model = growthLessonModel(),
-        stage = Math.max(0, Math.min(6, Math.floor(growth.stages[model.id] || 0))),
-        code = document.getElementById("code").value;
-    if (model.key === "html" && model.practiceSteps.length === 3 && stage < 3) {
-      var lessonStep = model.practiceSteps[stage];
-      growthPreview(code);
-      if (code !== lessonStep.after) {
-        document.getElementById("hint").textContent = "راجع الجزء المحدد في بطاقة الخطوة. غيّره وحده ثم شغّل؛ كل خطوة لها نتيجة واضحة.";
-        document.getElementById("code").focus();
-        return;
-      }
-      growth.drafts[model.id] = code;
-      growth.experimentCodes[model.id] = code;
-      growth.stages[model.id] = stage + 1;
-      s.htmlCode = code;
-      s.examples++;
-      document.getElementById("hint").textContent = "نفّذت الخطوة ورأيت أثرها. انتقلنا إلى الجزء التالي من الدرس.";
-      saveGrowth(); save(); renderGrowthLesson(); render();
-      celebrateGrowth("خطوة واضحة وتجربة ناجحة.", "#lesson");
-      return;
-    }
-    if ((model.key === "css" || model.key === "js") && stage === 2 && model.practiceSteps.length === 3) {
-      var courseStep = coursePracticeStepFor(model),
-          courseStepIndex = model.practiceSteps.indexOf(courseStep);
-      growthPreview(code);
-      if (!courseStep || code !== courseStep.after) {
-        document.getElementById("hint").textContent = "نفّذ التغيير المكتوب في بطاقة الخطوة الحالية فقط، ثم شغّل مرة أخرى.";
-        document.getElementById("code").focus();
-        return;
-      }
-      growth.drafts[model.id] = code;
-      s[model.key + "Code"] = code;
-      s.examples++;
-      if (courseStepIndex === model.practiceSteps.length - 1) {
-        growth.experimentCodes[model.id] = code;
-        growth.stages[model.id] = 3;
-        document.getElementById("hint").textContent = "أنهيت التعديلات الثلاثة وشاهدت أثر كل واحدة. جرّب الآن تغييرًا من اختيارك.";
-        celebrateGrowth("ثلاث خطوات تطبيقية ظهرت في المعاينة.", "#lesson");
-      } else {
-        document.getElementById("hint").textContent = "ظهر أثر التعديل وحُفظ. اقرأ بطاقة الخطوة التالية ثم جرّبها.";
-        celebrateGrowth("التعديل " + ar(courseStepIndex + 1) + " نجح. نكمل للخطوة التالية.", "#lesson");
-      }
-      saveGrowth(); save(); renderGrowthLesson(); render();
-      return;
-    }
-    if (stage !== 2 && stage !== 3 && stage !== 5) {
-      growthPreview(code); s.examples++; save(); render(); cheer(); return;
-    }
-    growthPreview(code);
-    if (stage === 2 && code !== model.practiceCode) {
-      document.getElementById("hint").textContent = "غيّر الجزء المحدد وحده كما في خطوة اليوم، ثم شغّل مرة أخرى.";
-      document.getElementById("code").focus(); return;
-    }
-    if (stage === 3 && (!growth.experimentCodes[model.id] || code === growth.experimentCodes[model.id] || code === model.code)) {
-      document.getElementById("hint").textContent = "جرّب تغييرًا ثانيًا من اختيارك، ثم شغّل لتشاهد أثره.";
-      document.getElementById("code").focus(); return;
-    }
-    if (stage === 5 && code.trim() !== model.fixedCode.trim()) {
-      document.getElementById("hint").textContent = "لسه فيه اختلاف في السطر. راجع الاسم أو الخاصية التي اكتشفتها، ثم شغّل.";
-      document.getElementById("code").focus(); return;
-    }
-    if (course === "js") {
-      try { new Function(code); } catch(error) {
-        showPreviewError(error && error.message || error);
-        document.getElementById("hint").textContent = "ظهر خطأ في الصياغة. عدّل جزءًا واحدًا ثم شغّل مجددًا.";
-        return;
-      }
-    }
-    growth.drafts[model.id] = code;
-    if (course === "html") s.htmlCode = code;
-    else s[course + "Code"] = code;
-    s.examples++;
-    if (stage === 2) {
-      growth.experimentCodes[model.id] = code;
-      growth.stages[model.id] = 3;
-      document.getElementById("hint").textContent = "اتغير الجزء المطلوب وظهر أثره. دلوقتي جرّب قيمة من اختيارك.";
-      celebrateGrowth("تعديلك ظهر في المعاينة.", "#lesson");
-    } else if (stage === 3) {
-      growth.experimentCodes[model.id] = code;
-      growth.stages[model.id] = 4;
-      document.getElementById("hint").textContent = "دي تجربتك أنت. نكتشف الآن خطأً صغيرًا ونعرف طريقة إصلاحه.";
-      celebrateGrowth("تجربتك أضافت لمسة من اختيارك.", "#lesson");
-    } else {
-      growth.stages[model.id] = 6;
-      s.fixes++;
-      document.getElementById("hint").textContent = "اتصلح الخطأ. أضف اللبنة لمشروعك أو كمل في وقت تاني.";
-      celebrateGrowth("الخطأ بقى معلومة مفيدة.", "#lesson");
-    }
-    saveGrowth(); save(); renderGrowthLesson(); render();
   }
 
   function completeGrowthLesson(model) {
     return completeDynamicGrowthLesson(model);
-    if (growthLessonDone(model.id)) return;
-    growth.completed.push(model.id);
-    growth.stages[model.id] = 6;
-    model.projectPiece.code = typeof growth.drafts[model.id] === "string" ? growth.drafts[model.id].slice(0, 1200) : model.projectPiece.code;
-    addProjectPart(model.projectPiece);
-    var unlockedNow = abilityCatalog.filter(function(ability) { return abilityProgress(ability).unlocked && growth.unlocks.indexOf(ability.id) < 0; });
-    syncUnlockedParts();
-    s.lessons++;
-    s.progress = Math.min(100, s.progress + 2);
-    saveGrowth(); save(); render(); renderProfileCard(); renderGrowthLesson();
-    var reward = unlockedNow.length ? "قدرة جديدة اتفتحت: " + unlockedNow[0].title : "لبنة جديدة اتضافت لمشروعك.";
-    celebrateGrowth(reward, unlockedNow.length ? "#nextUnlockCard" : "#profileCardPreview");
-    renderGrowthDashboard();
   }
 
   function completeDynamicGrowthLesson(model) {
@@ -3283,32 +3181,6 @@
 
   function advanceGrowthLesson() {
     return advanceDynamicGrowthLesson();
-    var model = growthLessonModel(),
-        stage = Math.max(0, Math.min(6, Math.floor(growth.stages[model.id] || 0))),
-        code = document.getElementById("code");
-    if (growthLessonDone(model.id)) {
-      if (model.index + 1 < courseTopics(model.key).length) {
-        if (model.key === "html") s.htmlLesson = model.index + 1;
-        else s[model.key + "Lesson"] = model.index + 1;
-        s[model.key + "Code"] = "";
-        save(); select(model.key); cheer();
-      } else {
-        document.getElementById("courseRoadmap").scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    } else if (model.key === "html" && model.practiceSteps.length === 3 && stage < 3) {
-      code.scrollIntoView({ behavior: "smooth", block: "center" });
-      code.focus();
-    } else if (stage === 0) {
-      growth.stages[model.id] = 1; saveGrowth(); renderGrowthLesson(); celebrateGrowth("وصلت لفكرة الدرس.", "#lesson");
-    } else if (stage === 1 && model.quiz && growth.answers["quiz:" + model.id] !== true) {
-      document.getElementById("hint").textContent = "اختار إجابة من السؤال الظاهر قبل الانتقال للتطبيق؛ ارجع للتفصيلة إذا احتجت.";
-      document.getElementById("guideActions").scrollIntoView({ behavior: "smooth", block: "center" });
-    } else if (stage === 1) {
-      growth.stages[model.id] = 2; growth.drafts[model.id] = model.code; saveGrowth(); renderGrowthLesson();
-      code.scrollIntoView({ behavior: "smooth", block: "center" }); code.focus(); celebrateGrowth("المثال وضّح حركة واحدة.", "#lesson");
-    } else if (stage === 2 || stage === 3 || stage === 5) {
-      code.scrollIntoView({ behavior: "smooth", block: "center" }); code.focus();
-    }
   }
 
   function dailyChallengeModel() {
@@ -4978,142 +4850,9 @@
 
   function renderGuide() {
     renderGrowthLesson();
-    return;
-    if (course === "html") normalizeHtmlStep();
-    var step = s.htmlStep || 1,
-        lesson = s.htmlLesson || 0;
-    document.body.classList.toggle("is-html", course === "html");
-    document.body.classList.toggle("is-course-guide", course === "css" || course === "js");
-    document.body.classList.add("has-roadmap");
-    renderRoadmap();
-    if (course === "css" || course === "js") { renderCourseGuide(s[course + "Step"] || 1); return; }
-    if (course !== "html") return;
-    if (step === 3) { renderHtmlDetailGuide(lesson); return; }
-    var legacyStep = step <= 2 ? step : step - 1;
-    if (lesson === 1) { renderHtmlLegacy(renderEditorsGuide, legacyStep, step); return; }
-    if (lesson === 2) { renderHtmlLegacy(renderBasicGuide, legacyStep, step); return; }
-    if (lesson === 3) { renderHtmlLegacy(renderElementsGuide, legacyStep, step); return; }
-    if (lesson === 4) { renderHtmlLegacy(renderAttributesGuide, legacyStep, step); return; }
-    if (lesson === 5) { renderHtmlLegacy(renderHeadingsGuide, legacyStep, step); return; }
-    if (lesson === 6) { renderHtmlLegacy(renderParagraphsGuide, legacyStep, step); return; }
-    if (lesson === 7) { renderHtmlLegacy(renderStylesGuide, legacyStep, step); return; }
-    if (lesson === 8) { renderHtmlLegacy(renderFormattingGuide, legacyStep, step); return; }
-    if (lesson === 9) { renderHtmlLegacy(renderQuotationsGuide, legacyStep, step); return; }
-    if (lesson === 10) { renderHtmlLegacy(renderCommentsGuide, legacyStep, step); return; }
-    if (lesson === 11) { renderHtmlLegacy(renderColorsGuide, legacyStep, step); return; }
-    if (lesson === 12) { renderHtmlLegacy(renderCssGuide, legacyStep, step); return; }
-    if (lesson === 13) { renderHtmlLegacy(renderLinksGuide, legacyStep, step); return; }
-    var titles = [
-          "HTML بترتّب محتوى الصفحة",
-          "الوسم إطار حوالين المحتوى",
-          "اختيار سريع، من غير درجات",
-          "ابني جزءًا من صفحتك",
-          "أنت بنيت أول عنصر HTML"
-        ],
-        copies = [
-          "الصفحة فيها عنوان وفقرة وصورة. كل وسم يقول للمتصفح نوع الجزء اللي قدامه.",
-          "الكلمة بين القوسين بتحدد النوع، والمحتوى اللي في النص هو اللي هيظهر.",
-          "وسم <p> غالبًا بنستخدمه لمحتوى من أي نوع؟",
-          "اختار قالب عنوان أو فقرة، اكتب نصك مكان المثال، ثم اضغط شغّل.",
-          "لاحظت الفرق لما غيّرت النص وشغّلته. المحطة الجاية: نضيف رابطًا أو صورة."
-        ],
-        i = Math.min(legacyStep, 5) - 1;
-
-    setHtmlGuideProgress(step);
-    document.getElementById("guideTitle").textContent = titles[i];
-    document.getElementById("guideCopy").textContent = copies[i];
-
-    var visual = document.getElementById("guideVisual"),
-        actions = document.getElementById("guideActions"),
-        next = document.getElementById("guideNext");
-    actions.innerHTML = "";
-
-    if (legacyStep === 1) {
-      visual.innerHTML = '<div class="guide-browser"><div class="browser-bar"><i></i><i></i><i></i></div><div class="browser-sample"><b>عنوان واضح</b><span>وفقرة قصيرة تحته.</span></div></div>';
-      next.textContent = "شوف مثالًا صغيرًا ←";
-      next.disabled = false;
-    } else if (legacyStep === 2) {
-      visual.innerHTML = '<div class="tag-demo"><span class="tag-part">&lt;h1&gt;</span><span class="tag-content">عنوان الصفحة</span><span class="tag-part">&lt;/h1&gt;</span></div><div class="tag-note">بداية الوسم ← المحتوى ← نهاية الوسم</div>';
-      next.textContent = "تمام، نجرب حاجة سريعة ←";
-      next.disabled = false;
-    } else if (legacyStep === 3) {
-      visual.innerHTML = '<div class="tag-demo"><span class="tag-content">وسم &lt;p&gt; معناه؟</span></div>';
-      actions.innerHTML = '<button type="button" data-answer="heading">عنوان رئيسي</button><button type="button" data-answer="paragraph">فقرة نصية</button>' +
-        (s.htmlQuiz ? '<p class="guide-feedback">' + (s.htmlQuizCorrect ? "بالضبط! p اختصار paragraph، يعني فقرة." : "قريب! p اختصار paragraph، يعني فقرة.") + '</p>' : "");
-      actions.querySelectorAll("[data-answer]").forEach(function(b) {
-        b.onclick = function() {
-          s.htmlQuiz = true;
-          s.htmlQuizCorrect = b.dataset.answer === "paragraph";
-          save();
-          renderGuide();
-          cheer();
-        };
-      });
-      next.textContent = "يلا نطبّق ←";
-      next.disabled = !s.htmlQuiz;
-    } else if (legacyStep === 4) {
-      visual.innerHTML = '<div class="tag-demo"><span class="tag-content">اختار قالبًا جاهزًا</span></div>';
-      actions.innerHTML = '<button type="button" data-scaffold="h1">＋ عنوان</button><button type="button" data-scaffold="p">＋ فقرة</button>' +
-        (s.htmlScaffold ? '<p class="guide-feedback">القالب قدامك؛ استبدل النص التجريبي بعبارتك واترك الوسمين كما هما.</p>' : "");
-      actions.querySelectorAll("[data-scaffold]").forEach(function(b) {
-        b.classList.toggle("selected", b.dataset.scaffold === s.htmlScaffold);
-        b.onclick = function() {
-          var code = b.dataset.scaffold === "h1" ? "<h1>عنوان صفحتك</h1>" : "<p>اكتب جملة عن شيء بتحبه.</p>";
-          s.htmlScaffold = b.dataset.scaffold;
-          s.htmlDraft = code;
-          s.htmlCode = code;
-          save();
-          document.getElementById("code").value = code;
-          document.getElementById("hint").textContent = "بدّل العبارة الجاهزة بعبارتك، ثم شغّل المثال.";
-          renderGuide();
-          document.getElementById("code").focus();
-        };
-      });
-      next.textContent = s.htmlScaffold ? "روح للمحرر وشغّل الكود ←" : "اختار قالبًا للبدء";
-      next.disabled = !s.htmlScaffold;
-    } else {
-      visual.innerHTML = '<div class="guide-finish"><b>🌿 درس الوسوم اكتمل</b><span>خطوة صغيرة اتبنت، والوسوم بقت أوضح.</span></div>';
-      next.textContent = "ابدأ الدرس التالي: HTML Editors ←";
-      next.disabled = false;
-    }
   }
-
   function advanceGuide() {
     advanceGrowthLesson();
-    return;
-    if (course === "css" || course === "js") { advanceCourseGuide(); return; }
-    var step = s.htmlStep || 1,
-        lesson = s.htmlLesson || 0,
-        answered = lesson === 0 ? s.htmlQuiz : lesson === 1 ? s.htmlEditorQuiz : lesson === 2 ? s.htmlBasicQuiz : lesson === 3 ? s.htmlElementQuiz : lesson === 4 ? s.htmlAttributeQuiz : lesson === 5 ? s.htmlHeadingQuiz : lesson === 6 ? s.htmlParagraphQuiz : lesson === 7 ? s.htmlStyleQuiz : lesson === 8 ? s.htmlFormattingQuiz : lesson === 9 ? s.htmlQuotationsQuiz : lesson === 10 ? s.htmlCommentsQuiz : lesson === 11 ? s.htmlColorQuiz : lesson === 12 ? s.htmlCssQuiz : s.htmlLinkQuiz;
-    if (step >= 1 && step <= 3) {
-      s.htmlStep = step + 1;
-      save();
-      renderGuide();
-      cheer();
-    } else if (step === 4 && answered) {
-      s.htmlStep = 5;
-      save();
-      renderGuide();
-      cheer();
-    } else if (step === 5 && (lesson === 0 ? s.htmlScaffold : true)) {
-      document.getElementById("code").scrollIntoView({ behavior: "smooth", block: "center" });
-      document.getElementById("code").focus();
-    } else if (step === 6) {
-      if (lesson === 0) beginEditors();
-      else if (lesson === 1) beginBasic();
-      else if (lesson === 2) beginElements();
-      else if (lesson === 3) beginAttributes();
-      else if (lesson === 4) beginHeadings();
-      else if (lesson === 5) beginParagraphs();
-      else if (lesson === 6) beginStyles();
-      else if (lesson === 7) beginFormatting();
-      else if (lesson === 8) beginQuotations();
-      else if (lesson === 9) beginComments();
-      else if (lesson === 10) beginColors();
-      else if (lesson === 11) beginCss();
-      else if (lesson === 12) beginLinks();
-      else document.getElementById("courseRoadmap").scrollIntoView({ behavior: "smooth", block: "center" });
-    }
   }
 
   function select(k) {
@@ -5141,187 +4880,8 @@
     document.getElementById("preview").srcdoc = x.build(document.getElementById("code").value);
   }
 
-  function changedText(a, b) {
-    function plain(x) {
-      return String(x || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-    }
-    return plain(a) !== plain(b);
-  }
-
-  function changedAttribute(a, b, name, expected) {
-    var marker = name + '="';
-    function value(x) {
-      var text = String(x || ""),
-          start = text.indexOf(marker);
-      if (start < 0) return "";
-      start += marker.length;
-      var end = text.indexOf('"', start);
-      return end < 0 ? "" : text.slice(start, end).trim();
-    }
-    return value(a) !== value(b) && (!expected || value(a) === expected);
-  }
-
-  function changedHeadingLevel(code, draft) {
-    return String(draft || "").indexOf("<h3>المكتبة الصغيرة</h3>") >= 0 &&
-      String(code || "").indexOf("<h2>المكتبة الصغيرة</h2>") >= 0;
-  }
-
-  function changedStyleValue(code, draft, property, expected) {
-    function value(source) {
-      source = String(source || "");
-      var marker = property + ":",
-          start = source.indexOf(marker);
-      while (start >= 0 && !/[";\s]/.test(source.charAt(start - 1))) {
-        start = source.indexOf(marker, start + marker.length);
-      }
-      if (start < 0) return "";
-      start += marker.length;
-      var end = source.indexOf(";", start);
-      if (end < 0) end = source.indexOf('"', start);
-      return end < 0 ? "" : source.slice(start, end).trim();
-    }
-    return value(code) === expected && value(draft) !== expected;
-  }
-
-  function changedFormattingTag(code, draft) {
-    return String(draft || "").indexOf("<b>احفظ المشروع</b>") >= 0 &&
-      String(code || "").indexOf("<strong>احفظ المشروع</strong>") >= 0;
-  }
-
-  function changedQuotation(code, draft) {
-    function textBetweenQ(source) {
-      source = String(source || "");
-      var start = source.indexOf("<q>"),
-          end = start < 0 ? -1 : source.indexOf("</q>", start + 3);
-      return start < 0 || end < 0 ? "" : source.slice(start + 3, end).trim();
-    }
-    return textBetweenQ(code) !== "" && textBetweenQ(code) !== textBetweenQ(draft);
-  }
-
-  function changedHtmlComment(code, draft) {
-    function firstComment(source) {
-      source = String(source || "");
-      var start = source.indexOf("<!--"),
-          end = start < 0 ? -1 : source.indexOf("-->", start + 4);
-      return start < 0 || end < 0 ? "" : source.slice(start + 4, end).trim();
-    }
-    return firstComment(code) !== "" && firstComment(code) !== firstComment(draft);
-  }
-
-  function changedColorValue(code, draft) {
-    return changedStyleValue(code, draft, "color", "mediumseagreen");
-  }
-
-  function changedCssRuleValue(code, draft) {
-    function hasRule(source, value) {
-      return String(source || "").indexOf("p { color: " + value + ";") >= 0;
-    }
-    return hasRule(draft, "#526b55") && hasRule(code, "teal");
-  }
-
-  function changedLinkDestination(code, draft) {
-    return changedAttribute(code, draft, "href", "#details");
-  }
-
   function run() {
     runGrowthLesson();
-    return;
-    if (course === "css" || course === "js") { runCourseLesson(); return; }
-    var c = document.getElementById("code").value,
-        step = s.htmlStep || 1,
-        lesson = s.htmlLesson || 0;
-
-    if (course === "html" && step === 5 && lesson === 0 && !s.htmlScaffold) {
-      document.getElementById("hint").textContent = "اختار قالبًا (عنوان أو فقرة) من الأعلى أولًا.";
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 0 && s.htmlScaffold && !changedText(c, s.htmlDraft)) {
-      document.getElementById("hint").textContent = "اكتب عنوانك مكان النص التجريبي، ثم أعد التشغيل.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 1 && !changedText(c, s.htmlEditorDraft)) {
-      document.getElementById("hint").textContent = "اكتب عنوانًا مختلفًا في المحرر، ثم اضغط شغّل من جديد.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 2 && !changedText(c, s.htmlBasicDraft)) {
-      document.getElementById("hint").textContent = "اكتب اسم صفحتك بدل العنوان الحالي، ثم شغّل المستند."; 
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 3 && !changedText(c, s.htmlElementDraft)) {
-      document.getElementById("hint").textContent = "استبدل العنوان التجريبي بعنوانك، ثم أعد التشغيل.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 4 && !changedAttribute(c, s.htmlAttributeDraft, "href", "#welcome")) {
-      document.getElementById("hint").textContent = "بدّل #details إلى #welcome داخل href، ثم شغّل المثال.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 5 && !changedHeadingLevel(c, s.htmlHeadingDraft)) {
-      document.getElementById("hint").textContent = "غيّر h3 إلى h2 في وسمَي «المكتبة الصغيرة»، ثم شغّل الصفحة.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 6 && !changedText(c, s.htmlParagraphDraft)) {
-      document.getElementById("hint").textContent = "بدّل جملة «بدأت اليوم بتصوير الشروق» بعبارتك، ثم شغّل الصفحة.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 7 && !changedStyleValue(c, s.htmlStyleDraft, "color", "darkgreen")) {
-      document.getElementById("hint").textContent = "بدّل tomato إلى darkgreen داخل خاصية color، ثم شغّل الصفحة.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 8 && !changedFormattingTag(c, s.htmlFormattingDraft)) {
-      document.getElementById("hint").textContent = "بدّل b إلى strong حول «احفظ المشروع» في وسمَي البداية والنهاية، ثم شغّل.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 9 && !changedQuotation(c, s.htmlQuotationsDraft)) {
-      document.getElementById("hint").textContent = "بدّل العبارة داخل q بجملة قصيرة من اختيارك، ثم شغّل الصفحة.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 10 && !changedHtmlComment(c, s.htmlCommentsDraft)) {
-      document.getElementById("hint").textContent = "بدّل نص التعليق الجاهز بملاحظة قصيرة، واترك علامتَي التعليق كما هما.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 11 && !changedColorValue(c, s.htmlColorDraft)) {
-      document.getElementById("hint").textContent = "بدّل tomato إلى mediumseagreen داخل color في سطر h1، ثم شغّل.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 12 && !changedCssRuleValue(c, s.htmlCssDraft)) {
-      document.getElementById("hint").textContent = "بدّل #526b55 إلى teal في قاعدة p داخل style، ثم شغّل.";
-      document.getElementById("code").focus();
-      return;
-    }
-    if (course === "html" && step === 5 && lesson === 13 && !changedLinkDestination(c, s.htmlLinkDraft)) {
-      document.getElementById("hint").textContent = "بدّل #place إلى #details داخل href، ثم شغّل واضغط الرابط في المعاينة.";
-      document.getElementById("code").focus();
-      return;
-    }
-
-    clearPreviewStatus();
-    document.getElementById("preview").srcdoc = data[course].build(c);
-    s.examples++;
-    if (lastCode !== null && c !== lastCode) s.fixes++;
-    lastCode = c;
-    ran = true;
-
-    if (course === "html" && step === 5 && ((lesson === 0 && s.htmlScaffold && changedText(c, s.htmlDraft)) || (lesson === 1 && changedText(c, s.htmlEditorDraft)) || (lesson === 2 && changedText(c, s.htmlBasicDraft)) || (lesson === 3 && changedText(c, s.htmlElementDraft)) || (lesson === 4 && changedAttribute(c, s.htmlAttributeDraft, "href", "#welcome")) || (lesson === 5 && changedHeadingLevel(c, s.htmlHeadingDraft)) || (lesson === 6 && changedText(c, s.htmlParagraphDraft)) || (lesson === 7 && changedStyleValue(c, s.htmlStyleDraft, "color", "darkgreen")) || (lesson === 8 && changedFormattingTag(c, s.htmlFormattingDraft)) || (lesson === 9 && changedQuotation(c, s.htmlQuotationsDraft)) || (lesson === 10 && changedHtmlComment(c, s.htmlCommentsDraft)) || (lesson === 11 && changedColorValue(c, s.htmlColorDraft)) || (lesson === 12 && changedCssRuleValue(c, s.htmlCssDraft)) || (lesson === 13 && changedLinkDestination(c, s.htmlLinkDraft)))) {
-      s.htmlStep = 6;
-      s.lessons++;
-      s.progress = Math.min(100, s.progress + 2);
-      renderGuide();
-    }
-    save();
-    render();
-    cheer();
   }
 
   function complete() {
@@ -5670,25 +5230,25 @@
     return document.getElementById(id);
   }).filter(Boolean);
   function updateActiveSection() {
-    var marker = window.innerHeight * 0.25,
-        candidates = observedSections.filter(function(section) {
-          var box = section.getBoundingClientRect();
-          return box.top <= marker && box.bottom >= marker;
-        });
+    var marker = window.innerHeight * 0.25;
+    var sectionBoxes = observedSections.map(function(section) {
+      return { section: section, box: section.getBoundingClientRect() };
+    });
+    var candidates = sectionBoxes.filter(function(item) {
+      return item.box.top <= marker && item.box.bottom >= marker;
+    });
     if (candidates.length) {
       candidates.sort(function(a, b) {
-        var aBox = a.getBoundingClientRect(), bBox = b.getBoundingClientRect();
-        return aBox.height - bBox.height;
+        return a.box.height - b.box.height;
       });
     } else {
-      candidates = observedSections.slice().sort(function(a, b) {
-        var aBox = a.getBoundingClientRect(), bBox = b.getBoundingClientRect(),
-            aDistance = Math.max(aBox.top - marker, marker - aBox.bottom, 0),
-            bDistance = Math.max(bBox.top - marker, marker - bBox.bottom, 0);
+      candidates = sectionBoxes.slice().sort(function(a, b) {
+        var aDistance = Math.max(a.box.top - marker, marker - a.box.bottom, 0),
+            bDistance = Math.max(b.box.top - marker, marker - b.box.bottom, 0);
         return aDistance - bDistance;
       });
     }
-    setActiveNav(candidates.length ? candidates[0].id : "home");
+    setActiveNav(candidates.length ? candidates[0].section.id : "home");
   }
   if ("IntersectionObserver" in window) {
     var sectionObserver = new IntersectionObserver(updateActiveSection, {

@@ -106,10 +106,15 @@ function normalizeFiles(value) {
   return result;
 }
 
+const BLOCKED_PATH_SEGMENTS = new Set([
+  ".", "..", "__proto__", "constructor", "prototype",
+  "node_modules", ".angular", ".git", "dist", "coverage"
+]);
+
 function isAllowedProjectPath(path) {
   if (typeof path !== "string" || !path || path.length > 220 || path.startsWith("/") || path.includes("\\")) return false;
   const parts = path.split("/");
-  if (parts.some((part) => !part || part === "." || part === ".." || part === "node_modules" || part === ".angular" || part === ".git" || part === "dist" || part === "coverage")) return false;
+  if (parts.some((part) => !part || BLOCKED_PATH_SEGMENTS.has(part))) return false;
   return /\.(?:ts|html|css|scss|json|md|svg|txt)$/.test(path);
 }
 
@@ -306,11 +311,11 @@ function renderEditorTabs() {
   });
 }
 
-function findMatchingParen(text, startParenIndex) {
+function findMatchingDelimiter(text, startIndex, openChar, closeChar) {
   let depth = 0;
-  for (let i = startParenIndex; i < text.length; i++) {
-    if (text[i] === "(") depth++;
-    else if (text[i] === ")") {
+  for (let i = startIndex; i < text.length; i++) {
+    if (text[i] === openChar) depth++;
+    else if (text[i] === closeChar) {
       depth--;
       if (depth === 0) return i;
     }
@@ -318,16 +323,12 @@ function findMatchingParen(text, startParenIndex) {
   return -1;
 }
 
+function findMatchingParen(text, startParenIndex) {
+  return findMatchingDelimiter(text, startParenIndex, "(", ")");
+}
+
 function findMatchingBrace(text, startBraceIndex) {
-  let depth = 0;
-  for (let i = startBraceIndex; i < text.length; i++) {
-    if (text[i] === "{") depth++;
-    else if (text[i] === "}") {
-      depth--;
-      if (depth === 0) return i;
-    }
-  }
-  return -1;
+  return findMatchingDelimiter(text, startBraceIndex, "{", "}");
 }
 
 function findMatchingTagEnd(html, tagName, contentStartIndex) {
@@ -355,6 +356,294 @@ function isExpressionSafe(expr) {
   return !dangerousTokens.test(expr);
 }
 
+function tokenizeSafeExpression(input) {
+  const tokens = [];
+  let i = 0;
+  const len = input.length;
+  while (i < len) {
+    const ch = input[i];
+    if (/\s/.test(ch)) { i++; continue; }
+    if (/\d/.test(ch) || (ch === "." && /\d/.test(input[i + 1] || ""))) {
+      let numStr = "";
+      while (i < len && /[\d.]/.test(input[i])) { numStr += input[i]; i++; }
+      tokens.push({ type: "NUMBER", value: Number(numStr) });
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === "`") {
+      const q = ch; i++;
+      let str = "";
+      while (i < len && input[i] !== q) {
+        if (input[i] === "\\" && i + 1 < len) { i++; str += input[i]; }
+        else { str += input[i]; }
+        i++;
+      }
+      if (i < len && input[i] === q) i++;
+      tokens.push({ type: "STRING", value: str });
+      continue;
+    }
+    const three = input.slice(i, i + 3);
+    if (three === "===" || three === "!==") {
+      tokens.push({ type: "OP", value: three }); i += 3; continue;
+    }
+    const two = input.slice(i, i + 2);
+    if (["==", "!=", "<=", ">=", "&&", "||", "??"].includes(two)) {
+      tokens.push({ type: "OP", value: two }); i += 2; continue;
+    }
+    if ("+-*/%<>!?:.,()[]{}".includes(ch)) {
+      tokens.push({ type: "PUNCT", value: ch }); i++; continue;
+    }
+    if (/[a-zA-Z_$]/.test(ch)) {
+      let id = "";
+      while (i < len && /[a-zA-Z0-9_$]/.test(input[i])) { id += input[i]; i++; }
+      if (id === "true") tokens.push({ type: "BOOLEAN", value: true });
+      else if (id === "false") tokens.push({ type: "BOOLEAN", value: false });
+      else if (id === "null") tokens.push({ type: "NULL", value: null });
+      else if (id === "undefined") tokens.push({ type: "UNDEFINED", value: undefined });
+      else tokens.push({ type: "IDENT", value: id });
+      continue;
+    }
+    i++;
+  }
+  return tokens;
+}
+
+function evaluateSafeExpression(expr, scope = {}) {
+  if (typeof expr !== "string" || !expr.trim()) return undefined;
+  const dangerousTokens = /\b(?:window|document|globalThis|fetch|XMLHttpRequest|localStorage|sessionStorage|indexedDB|eval|Function|import|process|location|cookie)\b/i;
+  if (dangerousTokens.test(expr)) return undefined;
+
+  const tokens = tokenizeSafeExpression(expr);
+  let pos = 0;
+
+  function peek() { return tokens[pos]; }
+  function consume(expected) {
+    const tok = tokens[pos];
+    if (expected && (!tok || (tok.value !== expected && tok.type !== expected))) {
+      return null;
+    }
+    pos++;
+    return tok;
+  }
+
+  function parseExpression() { return parseTernary(); }
+
+  function parseTernary() {
+    let expr = parseLogicalOr();
+    if (peek() && peek().value === "?") {
+      consume("?");
+      const trueVal = parseExpression();
+      consume(":");
+      const falseVal = parseExpression();
+      return expr ? trueVal : falseVal;
+    }
+    return expr;
+  }
+
+  function parseLogicalOr() {
+    let left = parseLogicalAnd();
+    while (peek() && (peek().value === "||" || peek().value === "??")) {
+      const op = consume().value;
+      const right = parseLogicalAnd();
+      if (op === "||") left = left || right;
+      else left = left ?? right;
+    }
+    return left;
+  }
+
+  function parseLogicalAnd() {
+    let left = parseEquality();
+    while (peek() && peek().value === "&&") {
+      consume();
+      const right = parseEquality();
+      left = left && right;
+    }
+    return left;
+  }
+
+  function parseEquality() {
+    let left = parseRelational();
+    while (peek() && ["===", "!==", "==", "!="].includes(peek().value)) {
+      const op = consume().value;
+      const right = parseRelational();
+      if (op === "===") left = left === right;
+      else if (op === "!==") left = left !== right;
+      else if (op === "==") left = left == right;
+      else if (op === "!=") left = left != right;
+    }
+    return left;
+  }
+
+  function parseRelational() {
+    let left = parseAdditive();
+    while (peek() && ["<", "<=", ">", ">="].includes(peek().value)) {
+      const op = consume().value;
+      const right = parseAdditive();
+      if (op === "<") left = left < right;
+      else if (op === "<=") left = left <= right;
+      else if (op === ">") left = left > right;
+      else if (op === ">=") left = left >= right;
+    }
+    return left;
+  }
+
+  function parseAdditive() {
+    let left = parseMultiplicative();
+    while (peek() && (peek().value === "+" || peek().value === "-")) {
+      const op = consume().value;
+      const right = parseMultiplicative();
+      if (op === "+") left = left + right;
+      else left = left - right;
+    }
+    return left;
+  }
+
+  function parseMultiplicative() {
+    let left = parseUnary();
+    while (peek() && ["*", "/", "%"].includes(peek().value)) {
+      const op = consume().value;
+      const right = parseUnary();
+      if (op === "*") left = left * right;
+      else if (op === "/") left = right !== 0 ? left / right : 0;
+      else if (op === "%") left = left % right;
+    }
+    return left;
+  }
+
+  function parseUnary() {
+    if (peek() && peek().value === "!") {
+      consume("!");
+      return !parseUnary();
+    }
+    if (peek() && peek().value === "+") {
+      consume("+");
+      return +parseUnary();
+    }
+    if (peek() && peek().value === "-") {
+      consume("-");
+      return -parseUnary();
+    }
+    return parsePostfix();
+  }
+
+  function parsePostfix() {
+    let base = parsePrimary();
+    while (peek()) {
+      const tok = peek();
+      if (tok.value === ".") {
+        consume(".");
+        const nextTok = consume();
+        const prop = nextTok ? nextTok.value : "";
+        if (prop === "__proto__" || prop === "constructor" || prop === "prototype") {
+          base = undefined;
+        } else {
+          base = base != null ? base[prop] : undefined;
+        }
+      } else if (tok.value === "[") {
+        consume("[");
+        const key = parseExpression();
+        consume("]");
+        if (key === "__proto__" || key === "constructor" || key === "prototype") {
+          base = undefined;
+        } else {
+          base = base != null ? base[key] : undefined;
+        }
+      } else if (tok.value === "(") {
+        consume("(");
+        const args = [];
+        if (peek() && peek().value !== ")") {
+          args.push(parseExpression());
+          while (peek() && peek().value === ",") {
+            consume(",");
+            args.push(parseExpression());
+          }
+        }
+        consume(")");
+        if (typeof base === "function") {
+          base = base(...args);
+        }
+      } else {
+        break;
+      }
+    }
+    return base;
+  }
+
+  function parsePrimary() {
+    const tok = peek();
+    if (!tok) return undefined;
+
+    if (tok.type === "NUMBER" || tok.type === "STRING" || tok.type === "BOOLEAN") {
+      consume();
+      return tok.value;
+    }
+    if (tok.type === "NULL") { consume(); return null; }
+    if (tok.type === "UNDEFINED") { consume(); return undefined; }
+
+    if (tok.value === "(") {
+      consume("(");
+      const val = parseExpression();
+      consume(")");
+      return val;
+    }
+
+    if (tok.value === "[") {
+      consume("[");
+      const arr = [];
+      if (peek() && peek().value !== "]") {
+        arr.push(parseExpression());
+        while (peek() && peek().value === ",") {
+          consume(",");
+          if (peek() && peek().value === "]") break;
+          arr.push(parseExpression());
+        }
+      }
+      consume("]");
+      return arr;
+    }
+
+    if (tok.value === "{") {
+      consume("{");
+      const obj = {};
+      if (peek() && peek().value !== "}") {
+        do {
+          const keyTok = consume();
+          const key = keyTok ? keyTok.value : "";
+          consume(":");
+          const val = parseExpression();
+          if (key !== "__proto__" && key !== "constructor" && key !== "prototype") {
+            obj[key] = val;
+          }
+          if (peek() && peek().value === ",") consume(",");
+          else break;
+        } while (peek() && peek().value !== "}");
+      }
+      consume("}");
+      return obj;
+    }
+
+    if (tok.type === "IDENT") {
+      consume();
+      const id = tok.value;
+      if (id === "__proto__" || id === "constructor" || id === "prototype") return undefined;
+      if (id === "Math") return Math;
+      if (id === "Number") return Number;
+      if (id === "String") return String;
+      if (id === "Boolean") return Boolean;
+      if (id === "Array") return Array;
+      if (id === "parseInt") return parseInt;
+      if (id === "parseFloat") return parseFloat;
+      if (scope && Object.prototype.hasOwnProperty.call(scope, id)) return scope[id];
+      if (scope && id in scope) return scope[id];
+      return undefined;
+    }
+
+    consume();
+    return undefined;
+  }
+
+  return parseExpression();
+}
+
 function evalTemplateCondition(condStr, scope) {
   if (!condStr) return true;
   let expr = condStr.trim();
@@ -364,16 +653,13 @@ function evalTemplateCondition(condStr, scope) {
   if (!isExpressionSafe(expr)) {
     return false;
   }
-  expr = expr.replace(/([a-zA-Z0-9_$]+)\s*\(\)/g, "$1");
   try {
-    const keys = Object.keys(scope);
-    const values = Object.values(scope);
-    const fn = new Function(...keys, `try { return Boolean(${expr}); } catch(e) { return false; }`);
-    return fn(...values);
+    const result = evaluateSafeExpression(expr, scope);
+    return Boolean(result);
   } catch {
     const clean = expr.trim();
     if (scope && scope[clean] !== undefined) return Boolean(scope[clean]);
-    return true;
+    return false;
   }
 }
 
@@ -828,12 +1114,13 @@ function parseAndEvaluateClassicDirectives(html, scope) {
     });
     let allAttrs = (before + " " + after).replace(/\s+/g, " ").trim();
     if (addedClasses.length) {
+      const sanitizedClasses = addedClasses.map((c) => escapeHtml(c)).join(" ");
       const classMatch = allAttrs.match(/class\s*=\s*(["'])([\s\S]*?)\1/);
       if (classMatch) {
-        const merged = `${classMatch[2]} ${addedClasses.join(" ")}`.trim();
-        allAttrs = allAttrs.replace(classMatch[0], `class="${merged}"`);
+        const merged = `${classMatch[2]} ${sanitizedClasses}`.trim();
+        allAttrs = allAttrs.replace(classMatch[0], () => `class="${merged}"`);
       } else {
-        allAttrs = `class="${addedClasses.join(" ")}"${allAttrs ? " " + allAttrs : ""}`;
+        allAttrs = `class="${sanitizedClasses}"${allAttrs ? " " + allAttrs : ""}`;
       }
     }
     return `<${tag}${allAttrs ? " " + allAttrs : ""}>`;
@@ -1155,13 +1442,12 @@ function updateAngularSimulatedPreview() {
     else if (raw === "false") parsed = false;
     else if (!isNaN(Number(raw))) parsed = Number(raw);
     else if ((raw.startsWith("[") && raw.endsWith("]")) || (raw.startsWith("{") && raw.endsWith("}"))) {
-      if (isExpressionSafe(raw)) {
-        try {
-          parsed = new Function("return (" + raw + ")")();
-        } catch {
-          try { parsed = JSON.parse(raw); } catch { parsed = raw.startsWith("[") ? [] : {}; }
-        }
-      } else {
+      try {
+        parsed = evaluateSafeExpression(raw, {});
+      } catch {
+        try { parsed = JSON.parse(raw); } catch { parsed = raw.startsWith("[") ? [] : {}; }
+      }
+      if (parsed === undefined) {
         try { parsed = JSON.parse(raw); } catch { parsed = raw.startsWith("[") ? [] : {}; }
       }
     }
@@ -1189,25 +1475,12 @@ function updateAngularSimulatedPreview() {
         props[key] = 0;
         continue;
       }
-      let evalExpr = body
-        .replace(/this\.([a-zA-Z0-9_$]+)\s*\(\)/g, "scope.$1")
-        .replace(/([a-zA-Z0-9_$]+)\s*\(\)/g, (m, k) => {
-          if (["Math", "Number", "String", "Boolean", "Array", "Object", "parseInt", "parseFloat"].includes(k)) return m;
-          return `scope.${k}`;
-        })
-        .replace(/this\.([a-zA-Z0-9_$]+)/g, "scope.$1");
-
-      if (!isExpressionSafe(evalExpr)) {
-        props[key] = 0;
-        continue;
-      }
-
-      const fnBody = evalExpr.includes("return ")
-        ? `with(scope) { try { ${evalExpr} } catch(e) { return 0; } }`
-        : `with(scope) { try { return (${evalExpr}); } catch(e) { return 0; } }`;
-      const fn = new Function("scope", fnBody);
-      props[key] = fn(props);
-    } catch {}
+      let evalExpr = body.replace(/this\.([a-zA-Z0-9_$]+)/g, "$1");
+      const val = evaluateSafeExpression(evalExpr, props);
+      props[key] = val !== undefined ? val : 0;
+    } catch {
+      props[key] = 0;
+    }
   }
 
   // Dynamic model & input extraction
@@ -1356,7 +1629,7 @@ function createEditor(path) {
             if (mode === "project") record.workspaces.project = cloneFiles(currentFiles);
             else record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
             scheduleSave();
-            updateAngularSimulatedPreview();
+            schedulePreviewUpdate();
             if (runtime) scheduleRuntimeWrite(activePath, currentFiles[activePath]);
           })
         ]
@@ -1374,7 +1647,7 @@ function createEditor(path) {
       if (mode === "project") record.workspaces.project = cloneFiles(currentFiles);
       else record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
       scheduleSave();
-      updateAngularSimulatedPreview();
+      schedulePreviewUpdate();
       if (runtime) scheduleRuntimeWrite(activePath, currentFiles[activePath]);
     };
     mount.appendChild(textarea);
@@ -1386,6 +1659,14 @@ function createEditor(path) {
   renderFileTree();
   renderEditorTabs();
   updateAngularSimulatedPreview();
+}
+
+let previewDebounceTimer = 0;
+function schedulePreviewUpdate() {
+  window.clearTimeout(previewDebounceTimer);
+  previewDebounceTimer = window.setTimeout(() => {
+    updateAngularSimulatedPreview();
+  }, 120);
 }
 
 let writeTimer = 0;
@@ -2409,9 +2690,11 @@ async function importProject(event) {
     const entries = Object.values(zip.files).filter((entry) => !entry.dir && isAllowedProjectPath(entry.name));
     if (entries.length > MAX_IMPORT_FILES) throw new Error("يحتوي ZIP على ملفات أكثر من الحد المسموح.");
     for (const entry of entries) {
-      const content = await entry.async("string");
-      total += new Blob([content]).size;
+      const bytes = await entry.async("uint8array");
+      if (bytes.byteLength > MAX_IMPORT_BYTES) throw new Error("مجموع ملفات المصدر أكبر من ٤ ميغابايت.");
+      total += bytes.byteLength;
       if (total > MAX_IMPORT_BYTES) throw new Error("مجموع ملفات المصدر أكبر من ٤ ميغابايت.");
+      const content = new TextDecoder("utf-8").decode(bytes);
       imported[entry.name] = content;
     }
     if (!imported["package.json"] || !imported["angular.json"] || !Object.keys(imported).some((path) => path.startsWith("src/"))) {
@@ -2454,11 +2737,12 @@ async function enterCourse() {
     if (!initialized) {
       setRuntimeStatus("نحمّل محرر Angular للمرة الأولى…", "working");
       await initialize();
+    } else {
+      currentLessonIndex = record.progress.lessonIndex;
+      mode = record.progress.mode === "project" ? "project" : "playground";
+      renderLesson();
+      await loadCurrentWorkspace();
     }
-    currentLessonIndex = record.progress.lessonIndex;
-    mode = record.progress.mode === "project" ? "project" : "playground";
-    renderLesson();
-    await loadCurrentWorkspace();
     setMobilePane("code");
     document.getElementById("lesson").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {

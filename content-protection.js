@@ -27,6 +27,7 @@
   var watermarkInterval = null;
   var toastTimer = null;
   var shieldTimer = null;
+  var blurTimer = null;
   var printMedia = null;
   var printMediaHandler = null;
 
@@ -347,11 +348,12 @@
         return;
       }
       // Allow a short tick to confirm activeElement hasn't moved into an iframe
-      setTimeout(function () {
+      if (blurTimer) clearTimeout(blurTimer);
+      blurTimer = setTimeout(function () {
+        blurTimer = null;
         if (!doc) return;
         if (isInternalIframeFocused() || (typeof doc.hasFocus === "function" && doc.hasFocus())) {
           handleFocus();
-          return;
         }
       }, 80);
 
@@ -360,6 +362,10 @@
   }
 
   function handleFocus() {
+    if (blurTimer) {
+      clearTimeout(blurTimer);
+      blurTimer = null;
+    }
     if (!doc) return;
     try {
       if (doc.body) doc.body.classList.remove("content-blurred");
@@ -401,7 +407,7 @@
   }
 
   function renderWatermark() {
-    if (!doc) return;
+    if (!doc || doc.hidden) return;
     try {
       var target = doc.body || doc.documentElement || doc.getElementById("lesson") || doc.querySelector("main");
       if (!target) return;
@@ -493,6 +499,12 @@
   }
 
   function destroy() {
+    if (doc) {
+      doc.removeEventListener("DOMContentLoaded", init);
+    }
+    if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+    if (shieldTimer) { clearTimeout(shieldTimer); shieldTimer = null; }
+    if (blurTimer) { clearTimeout(blurTimer); blurTimer = null; }
     if (!initialized || !doc) return;
     doc.removeEventListener("contextmenu", handleContextMenu, true);
     doc.removeEventListener("copy", handleCopy, true);
