@@ -1,0 +1,395 @@
+[
+  {
+    "id": "css-18-links",
+    "legacyId": "css:17",
+    "title": "تنسيق الروابط التشعبية وحالاتها التفاعلية في CSS",
+    "skill": "روابط وقوائم وجداول",
+    "order": 17,
+    "concept": "تتميز الروابط التشعبية <a> في CSS بإمكانية تنسيق حالاتها التفاعلية الأربع عبر الفئات الزائفة وفق ترتيب LVHA الإلزامي: :link (الرابط غير المزار)، و :visited (الرابط المزار سابقاً)، و :hover (عند تمرير مؤشر الفأرة)، و :active (لحظة النقر على الرابط). كما تضبط text-decoration وجود الخط السفلي.",
+    "whyUse": "توجيه المستخدم بصرياً نحو العناصر القابلة للنقر، وتوضيح الصفحات التي تمت زيارتها بالفعل، وتوفير تغذية راجعة بصرية فورية عند تحويم الفأرة أو الضغط على الرابط، مما يعزز سهولة الملاحة وثقة الزائر.",
+    "browserMechanics": "يعتمد محرك المتصفح ترتيب الشلال للأسبقية؛ فإذا لم تُكتب الحالات بترتيب :hover بعد :link و :visited، فإن قاعدة الرابط العادي ستلغي تأثير التحويم hover! ولأسباب أمنية لمنع تتبع سجل تصفح المستخدم (History Sniffing)، يقيّد المتصفح الخواص المسموح بتعديلها في :visited إلى خصائص الألوان فقط.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Text_styling/Styling_links",
+    "code": ".card a { color: #256b57; text-decoration: none; }",
+    "breakdown": [
+      "محدد الرابط a:hover: يطبق النمط فقط أثناء مرور مؤشر الفأرة فوق الرابط التشعبي.",
+      "خاصية text-decoration: تتحكم في ظهور خط التسطير السفلي أسفل نص الرابط.",
+      "ترتيب الشلال LVHA: يضمن ظهور تأثير التحويم فوق حالة الرابط المزار السابقة."
+    ],
+    "steps": [
+      {
+        "id": "css-18-links-step-1",
+        "title": "تعديل تسطير الرابط التفاعلي",
+        "objective": "تطبيق نمط text-decoration المناسب عند التفاعل مع الرابط",
+        "type": "edit",
+        "instruction": "أعد خط الرابط بتغيير text-decoration من none إلى underline.",
+        "benefit": "فائدة هذا التعديل: إشعار المستخدم فوراً بأن النص قابل للنقر والانتقال.",
+        "expectedLine": "underline",
+        "from": "none",
+        "to": "underline",
+        "task": "أعد خط الرابط بتغيير text-decoration من none إلى underline.",
+        "explanation": "هذه الخاصية تغيّر طريقة ظهور النص أو العنصر الذي يقرأه الزائر. غيّر قيمة واحدة حتى تعرف أثرها وحدها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[\\s,>+~])([a-z0-9_-]+|[.#][a-z0-9_-]+)(?:\\s+:\\s*|:\\s+)(hover|focus|active|visited)\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت مسافة بين العنصر والـ Pseudo-class مثل 'button: hover' أو 'a :hover'. احذف المسافة لتصبح 'button:hover'."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية text-decoration داخل محدد الرابط a.",
+          "قاعدة: تتطلب الفئات الزائفة مثل :hover الالتصاق باسم الوسم دون مسافة فاصلة. هل تأكدت من كتابة القيمة المطلوبة والفاصلة المنقوطة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: underline.",
+          "الحل النموذجي: underline"
+        ]
+      },
+      {
+        "id": "css-18-links-step-2",
+        "title": "اختبار مظهر تسطير بديل",
+        "objective": "مقارنة حالة الرابط بقيمة تزيين أخرى",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى none لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تقييم راحة المظهر البصري لروابط القوائم والمحتوى.",
+        "expectedLine": "none",
+        "from": "underline",
+        "to": "none",
+        "task": "غيّر القيمة الحالية إلى none لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[\\s,>+~])([a-z0-9_-]+|[.#][a-z0-9_-]+)(?:\\s+:\\s*|:\\s+)(hover|focus|active|visited)\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت مسافة بين العنصر والـ Pseudo-class مثل 'button: hover' أو 'a :hover'. احذف المسافة لتصبح 'button:hover'."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة text-decoration الحالية.",
+          "قاعدة: القيمة none تلغي التسطير التقليدي وتعتمد على تغير اللون للتمييز. هل راجعت كتابة القيمة البديلة؟",
+          "مساعدة محددة: عدّل القيمة لتصبح: none.",
+          "الحل النموذجي: none"
+        ]
+      },
+      {
+        "id": "css-18-links-step-3",
+        "title": "اعتماد التنسيق النهائي للروابط",
+        "objective": "تثبيت المظهر المستقر للرابط التشعبي في كافة حالاته",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى underline لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التغذية الراجعة البصرية الدقيقة لكافة روابط الموقع.",
+        "expectedLine": "underline",
+        "from": "none",
+        "to": "underline",
+        "task": "غيّر القيمة إلى underline لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[\\s,>+~])([a-z0-9_-]+|[.#][a-z0-9_-]+)(?:\\s+:\\s*|:\\s+)(hover|focus|active|visited)\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت مسافة بين العنصر والـ Pseudo-class مثل 'button: hover' أو 'a :hover'. احذف المسافة لتصبح 'button:hover'."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الالتزام بترتيب LVHA يضمن عدم طغيان التنسيق العادي على حالة النقر. هل أغلقت السطر بالفاصلة المنقوطة بشكل سليم؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: underline.",
+          "الحل النموذجي: underline"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "a :hover {\n  text-decoration: underline;\n}",
+      "fixedCode": "a:hover {\n  text-decoration: underline;\n}",
+      "question": "لماذا لم يظهر تأثير التسطير عند تحويم الفأرة فوق الرابط في الصفحة؟",
+      "explanation": "وضعت مسافة بين a و :hover؛ فالمسافة تجعل المتصفح يعتبرها محدد عناصر تابعة (Descendant) فيبحث عن عنصر داخل الرابط في حالة تحويم، بينما الصواب a:hover دون أي مسافة.",
+      "options": [
+        "خاصية text-decoration لا تقبل قيمة underline",
+        "المسافة الزائدة بين الوسم والنقطتين 'a :hover' استهدفت عناصر داخل الرابط بدلاً من الرابط نفسه",
+        "يجب استخدام وسم link بدلاً من وسم a",
+        "المتصفح يتطلب إضافة !important لتفعيل التسطير"
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "css-19-lists",
+    "legacyId": "css:18",
+    "title": "تنسيق القوائم النقطية والمرقمة في CSS",
+    "skill": "روابط وقوائم وجداول",
+    "order": 18,
+    "concept": "تتحكم عائلة list-style في مظهر وسلوك القوائم <ul> و <ol>؛ حيث تضبط list-style-type شكل علامة التعداد (مثل disc أو circle أو square أو decimal أو none)، وتحدد list-style-image استخدام صورة مخصصة كرمز نقطي، وتحدد list-style-position موضع العلامة (داخل الكتلة inside أو خارجها outside).",
+    "whyUse": "تعد القوائم الهيكل الأساسي لبناء أشرطة التصفح (Navbars)، وقوائم الروابط، والمقالات النقطية. إزالة التعداد الافتراضي عبر list-style: none يمثل الخطوة الأولى في تحويل القوائم إلى شبكات أزرار وقوائم تنقل أفقية حديثة.",
+    "browserMechanics": "ينشئ المتصفح لكل عنصر <li> صندوقاً إضافياً زائفاً يُعرف باسم شارة العلامة (Marker Box / ::marker) بجانب صندوق المحتوى الرئيسي. في الوضع الافتراضي outside، تطفو العلامة خارج الهامش الداخلي وتعتمد على padding-inline-start الموروث من وسم القائمة الأب.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Text_styling/Styling_lists",
+    "code": ".card ul { list-style-type: disc; }",
+    "breakdown": [
+      "خاصية list-style-type: تحدد الشكل الهندسي أو العددي للرمز النقطي.",
+      "القيمة square: تحول النقطة الدائرية الافتراضية إلى مربع مصمت.",
+      "عنصر ::marker: الصندوق الداخلي المسؤول عن رسم علامة التعداد في محرك العرض."
+    ],
+    "steps": [
+      {
+        "id": "css-19-lists-step-1",
+        "title": "تغيير شكل الرمز النقطي",
+        "objective": "تطبيق نمط التعداد النقطي المختار على عناصر القائمة",
+        "type": "edit",
+        "instruction": "بدّل شكل علامة القائمة من disc إلى square ثم شغّل وشاهد العلامات بجوار العناصر.",
+        "benefit": "فائدة هذا التعديل: تخصيص هوية القائمة وتمييزها عن النمط الافتراضي للمتصفح.",
+        "expectedLine": "square",
+        "from": "disc",
+        "to": "square",
+        "task": "بدّل شكل علامة القائمة من disc إلى square ثم شغّل وشاهد العلامات بجوار العناصر.",
+        "explanation": "هذه الخاصية تغيّر طريقة ظهور النص أو العنصر الذي يقرأه الزائر. غيّر قيمة واحدة حتى تعرف أثرها وحدها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية list-style-type داخل محدد القائمة ul.",
+          "قاعدة: القيمة square تحول الرمز إلى مربع، بينما none تلغي التعداد بالكامل. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: square.",
+          "الحل النموذجي: square"
+        ]
+      },
+      {
+        "id": "css-19-lists-step-2",
+        "title": "اختبار نمط تعداد نقطي بديل",
+        "objective": "مقارنة مظهر الرموز الدائرية والمفرغة",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى circle لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تقييم وضوح الرموز وتناسقها مع الخطوط المجاورة.",
+        "expectedLine": "circle",
+        "from": "square",
+        "to": "circle",
+        "task": "غيّر القيمة الحالية إلى circle لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة التعداد النقطي الحالية.",
+          "قاعدة: تدعم القوائم أنماطاً رقمية وحرفية متنوعة. هل راجعت كتابة القيمة البديلة بدقة؟",
+          "مساعدة محددة: عدّل القيمة لتصبح: circle.",
+          "الحل النموذجي: circle"
+        ]
+      },
+      {
+        "id": "css-19-lists-step-3",
+        "title": "اعتماد مظهر القائمة النهائي",
+        "objective": "تثبيت نمط التعداد المستقر لعناصر القائمة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى decimal لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء الترتيب النقطي المتماسك لكافة عناصر القائمة.",
+        "expectedLine": "decimal",
+        "from": "circle",
+        "to": "decimal",
+        "task": "غيّر القيمة إلى decimal لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية list-style في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان القائمة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: decimal.",
+          "الحل النموذجي: decimal"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "ul.nav {\n  list-style: none;\n  /* النتيجة: لا تزال هناك مسافة بادئة فارغة جهة اليمين/اليسار */\n}",
+      "fixedCode": "ul.nav {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}",
+      "question": "لماذا بقيت مسافة فارغة إضافية بجانب عناصر القائمة ul.nav رغم إلغاء الرموز بـ list-style: none؟",
+      "explanation": "المتصفحات تضع افتراضياً هامشاً داخلياً padding-inline-start بمقدار 40px لعناصر ul لإفساح المجال للنقاط؛ وعند إزالة الرموز النقطية يجب تصفير padding و margin يدوياً لإزالة الفراغ بالكامل.",
+      "options": [
+        "خاصية list-style: none غير مدعومة على الفئات",
+        "يجب تحويل القائمة إلى وسم div",
+        "المتصفح يحتفظ بـ padding افتراضي لعناصر القائمة ويجب تصفيره مع margin لإلغاء الفراغ تماماً",
+        "القائمة تتطلب تعيين width: 100% لإزالة المسافة"
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "css-20-tables",
+    "legacyId": "css:19",
+    "title": "تنسيق الجداول والحدود وخلايا البيانات في CSS",
+    "skill": "روابط وقوائم وجداول",
+    "order": 19,
+    "concept": "تتحكم خصائص تنسيق الجداول في عرض البيانات المنظمة؛ وتعد border-collapse أهم خاصية حيث تقرر دمج حدود الخلايا في حد فردي مشترك (collapse) أو فصلها مع فراغات بينية (separate). كما تضبط border-spacing المسافة بين الحدود المنفصلة، وتتحكم table-layout (سواء auto أو fixed) في سرعة وطريقة حساب عروض الأعمدة.",
+    "whyUse": "تحويل الجداول الخام الصعبة إلى لوحات بيانات أنيقة ومقروءة، وتفادي الحدود المزدوجة السميكة القبيحة، وضبط تباعد خلايا البيانات (padding) وتظليل الصفوف الزوجية والفردية (Zebra Striping) لراحة العين.",
+    "browserMechanics": "عند تطبيق border-collapse: collapse، يُفعّل المتصفح خوارزمية دمج الحدود (Collapsing Border Model) المعقدة؛ حيث يقارن حدود الخلايا المتجاورة ويختار الحد الأعرض والأكثر أسبقية ليرسمه كحد موحد في بكسل واحد مشترك، مما يوفر أداء رسم أسرع مقارنة بوضع الحدود المنفصلة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Tables/Styling",
+    "code": ".card td { border: 1px solid #9bb49a; padding: 4px; }",
+    "breakdown": [
+      "خاصية padding للخلايا: تمنع التصاق البيانات الرقمية والنصية بإطار الخلية.",
+      "خاصية border-collapse: تدمج حدود الخلايا المجاورة وتزيل الفراغات المزدوجة.",
+      "خوارزمية الرسم: تحسب أبعاد الأعمدة بناءً على أطول كلمة أو العرض المحدد مسبقاً."
+    ],
+    "steps": [
+      {
+        "id": "css-20-tables-step-1",
+        "title": "تحديد المسافة الداخلية لخلايا الجدول",
+        "objective": "تطبيق التباعد المريح داخل خلايا th و td",
+        "type": "edit",
+        "instruction": "وسّع المسافة داخل خلايا الجدول من 4px إلى 10px ثم شغّل.",
+        "benefit": "فائدة هذا التعديل: إبعاد الأرقام والكلمات عن إطارات الجدول وتسهيل القراءة.",
+        "expectedLine": "10px",
+        "from": "4px",
+        "to": "10px",
+        "task": "وسّع المسافة داخل خلايا الجدول من 4px إلى 10px ثم شغّل.",
+        "explanation": "هذه الخاصية تغيّر طريقة ظهور النص أو العنصر الذي يقرأه الزائر. غيّر قيمة واحدة حتى تعرف أثرها وحدها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية padding داخل محدد خلايا الجدول td, th.",
+          "قاعدة: تتطلب الأبعاد وحدات صريحة مثل px لإعطاء الخلايا اتساعاً مريحاً. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 10px.",
+          "الحل النموذجي: 10px"
+        ]
+      },
+      {
+        "id": "css-20-tables-step-2",
+        "title": "اختبار تباعد خلايا بديل",
+        "objective": "مقارنة كثافة عرض البيانات بمسافات بديلة",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 14px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: مواءمة حجم الجدول مع كثافة البيانات المعروضة.",
+        "expectedLine": "14px",
+        "from": "10px",
+        "to": "14px",
+        "task": "غيّر القيمة الحالية إلى 14px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة الهامش الداخلي الحالية في خلايا الجدول.",
+          "قاعدة: الجداول المالية والمكتظة تفضل هوامش داخلية متوسطة بينما تفضل لوحات العرض هوامش رحبة. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: عدّل القيمة لتصبح: 14px.",
+          "الحل النموذجي: 14px"
+        ]
+      },
+      {
+        "id": "css-20-tables-step-3",
+        "title": "اعتماد التنسيق النهائي لبيانات الجدول",
+        "objective": "تثبيت المسافات الداخلية النهائية للخلايا",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 20px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إخراج جدول بيانات احترافي متوازن وسهل المتابعة.",
+        "expectedLine": "20px",
+        "from": "14px",
+        "to": "20px",
+        "task": "غيّر القيمة إلى 20px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية padding في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان الخلية بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 20px.",
+          "الحل النموذجي: 20px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "table {\n  border: 1px solid #ccc;\n}\ntd {\n  border: 1px solid #ccc;\n  /* النتيجة: حدود مزدوجة مزعجة وفراغات بين الخلايا */\n}",
+      "fixedCode": "table {\n  border-collapse: collapse;\n  border: 1px solid #ccc;\n}\ntd {\n  border: 1px solid #ccc;\n}",
+      "question": "لماذا تظهر خطوط الجدول مزدوجة مع وجود فراغات بين كل خلية وأخرى؟",
+      "explanation": "القيمة الافتراضية للجدول هي border-collapse: separate؛ ولدمج حدود الخلايا في خط رفيع موحد وإلغاء الفراغات المزدوجة يجب تعيين border-collapse: collapse على وسم table.",
+      "options": [
+        "يجب حذف الحدود من خلايا td كلياً",
+        "يجب تعيين width: 100% لإلغاء الحدود المزدوجة",
+        "خاصية border لا تعمل مع الجداول",
+        "غياب خاصية border-collapse: collapse على جدول البيانات مما ترك الحدود في وضع الانفصال الافتراضي"
+      ],
+      "correctOptionIndex": 3
+    }
+  }
+]

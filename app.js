@@ -823,7 +823,13 @@
       });
       return clean;
     }
-    var completed = Array.isArray(stored.completed) ? stored.completed.filter(function(id, index, all) {
+    var completed = Array.isArray(stored.completed) ? stored.completed.map(function(id) {
+      if (typeof id === "string" && /^(html|css|js)-\d+/i.test(id)) {
+        var m = id.match(/^(html|css|js)-(\d+)/i);
+        return m[1].toLowerCase() + ":" + (parseInt(m[2], 10) - 1);
+      }
+      return id;
+    }).filter(function(id, index, all) {
       return typeof id === "string" && /^(html|css|js):\d{1,3}$/.test(id) && all.indexOf(id) === index;
     }).slice(-267) : [];
     return {
@@ -837,6 +843,7 @@
       experimentCodes: lessonMap(stored.experimentCodes, "code"),
       repairStarted: lessonMap(stored.repairStarted, "flags"),
       answers: lessonMap(stored.answers, "answers"),
+      stepAttempts: (stored.stepAttempts && typeof stored.stepAttempts === "object" && !Array.isArray(stored.stepAttempts)) ? stored.stepAttempts : {},
       unlocks: Array.isArray(stored.unlocks) ? stored.unlocks.filter(function(id) { return typeof id === "string" && /^[a-z][a-z0-9-]{0,79}$/.test(id); }).slice(-32) : [],
       projectParts: Array.isArray(stored.projectParts) ? stored.projectParts.filter(function(x) { return x && typeof x.id === "string" && typeof x.label === "string"; }).slice(-600).map(function(part) {
         return {
@@ -1415,147 +1422,565 @@
     };
   }
 
+  var SmartHintEngine = {
+    evaluate: function(userCode, step, model, attemptCount) {
+      var rawCode = String(userCode || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      if (!step) return { valid: true, passed: true, message: "", hintText: "", tier: 1, ruleMatched: false, solutionRevealable: false };
+
+      var attempts = typeof attemptCount === "number" && attemptCount > 0 ? attemptCount : 1;
+      var tier = Math.min(4, attempts);
+      var solutionRevealable = attempts >= 3;
+
+      // 1. Build line check
+      if (step.build) {
+        var missing = typeof missingBuildLine === "function" ? missingBuildLine(rawCode, step.build) : "";
+        if (missing) {
+          var buildMsg;
+          if (tier === 1) {
+            buildMsg = "لم تكتمل الخطوة بعد. ينقصك هذا السطر: " + missing;
+          } else if (tier === 2) {
+            buildMsg = "تلميح: دقق في السطر المطلوب وموضعه داخل الكود. ينقصك هذا السطر: " + missing;
+          } else if (tier === 3) {
+            buildMsg = "مساعدة محددة: اكتب السطر كما هو دون تغيير في المسافات أو الحروف: ينقصك هذا السطر: " + missing;
+          } else {
+            buildMsg = "كشف الحل: أضف السطر التالي مباشرة في مكانه الصحيح: ينقصك هذا السطر: " + missing;
+          }
+          return {
+            valid: false,
+            passed: false,
+            message: buildMsg,
+            hintText: buildMsg,
+            tier: tier,
+            ruleMatched: false,
+            solutionRevealable: solutionRevealable
+          };
+        }
+        if (model && model.key === "html" && typeof checkHtmlTags === "function") {
+          var bCheck = checkHtmlTags(rawCode);
+          if (!bCheck.valid) {
+            var bMsg = bCheck.errors[0].message;
+            return {
+              valid: false,
+              passed: false,
+              message: tier === 1 ? bMsg : ("تنبيه (مستوى " + tier + "): " + bMsg),
+              hintText: bMsg,
+              tier: tier,
+              ruleMatched: true,
+              solutionRevealable: solutionRevealable
+            };
+          }
+        }
+        return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+      }
+
+      // 2. Edit step checks
+      if (step.type === "edit") {
+        var rawAfter = String(step.after || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+        var rawBefore = String(step.before || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+        var normDocFn = typeof normalizeDoc === "function" ? normalizeDoc : function(c) { return String(c || "").trim(); };
+        var normLineFn = typeof normalizeCodeLine === "function" ? normalizeCodeLine : function(c) { return String(c || "").trim(); };
+
+        if (rawBefore && (rawCode.trim() === rawBefore.trim() || normDocFn(rawCode) === normDocFn(rawBefore))) {
+          var unchMsg;
+          if (tier === 1) {
+            unchMsg = "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد.";
+          } else if (tier === 2) {
+            unchMsg = "قاعدة: الكود لم يتغير عن الحالة السابقة. هل استبدلت القيمة المطلوبة؟";
+          } else if (tier === 3) {
+            unchMsg = "مساعدة: التعديل المطلوب: غيّر «" + (step.before || step.from || "") + "» إلى «" + (step.after || step.to || "") + "».";
+          } else {
+            unchMsg = "كشف الحل: اكتب القيمة المطلوبة:\n" + (step.after || step.to || "");
+          }
+          return {
+            valid: false,
+            passed: false,
+            message: unchMsg,
+            hintText: unchMsg,
+            tier: tier,
+            ruleMatched: false,
+            solutionRevealable: solutionRevealable
+          };
+        }
+
+        if (rawCode.trim() === rawAfter.trim() || normDocFn(rawCode) === normDocFn(rawAfter)) {
+          return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+        }
+
+        if (step.to && normLineFn(rawCode).indexOf(normLineFn(step.to)) >= 0) {
+          return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+        }
+
+        // Code did not match target: run HTML tag validator
+        if (model && model.key === "html" && typeof checkHtmlTags === "function") {
+          var editTagCheck = checkHtmlTags(rawCode);
+          if (!editTagCheck.valid) {
+            var tagErrMsg = editTagCheck.errors[0].message;
+            var tagTierMsg;
+            if (tier === 1) {
+              tagTierMsg = tagErrMsg;
+            } else if (tier === 2) {
+              tagTierMsg = "قاعدة: وسوم HTML يجب أن تتطابق أسماؤها في الفتح والإغلاق. " + tagErrMsg;
+            } else if (tier === 3) {
+              tagTierMsg = "مساعدة: " + tagErrMsg + " - تفحص السطر بعناية وصحح اسم الوسم.";
+            } else {
+              tagTierMsg = "كشف الحل للوسم: " + tagErrMsg;
+            }
+            return {
+              valid: false,
+              passed: false,
+              message: tagTierMsg,
+              hintText: tagTierMsg,
+              tier: tier,
+              ruleMatched: true,
+              solutionRevealable: solutionRevealable
+            };
+          }
+        }
+
+        // Check error rules
+        if (step.errorRules && Array.isArray(step.errorRules) && step.errorRules.length > 0) {
+          for (var i = 0; i < step.errorRules.length; i++) {
+            var rule = step.errorRules[i];
+            try {
+              var re = new RegExp(rule.pattern, rule.flags || "i");
+              var isMissing = rule.type === "missing" || rule.invert;
+              var isMatch = isMissing ? !re.test(rawCode) : re.test(rawCode);
+              if (isMatch) {
+                var rMsg;
+                if (tier === 1) {
+                  rMsg = rule.tier1 || ("تنبيه: " + rule.message);
+                } else if (tier === 2) {
+                  rMsg = rule.tier2 || ("قاعدة الخطوة: " + rule.message);
+                } else if (tier === 3) {
+                  rMsg = rule.tier3 || ("مساعدة محددة: " + rule.message);
+                } else {
+                  rMsg = rule.tier4 || (rule.solution ? ("كشف الحل: " + rule.solution) : ("كشف الحل: " + rule.message));
+                }
+                return {
+                  valid: false,
+                  passed: false,
+                  message: rMsg,
+                  hintText: rMsg,
+                  tier: tier,
+                  ruleMatched: true,
+                  solutionRevealable: solutionRevealable
+                };
+              }
+            } catch (e) {}
+          }
+        }
+
+        // Custom step hints if defined
+        if (step.hints && Array.isArray(step.hints) && step.hints.length >= 4) {
+          var stepHintText = typeof step.hints[tier - 1] === "string" ? step.hints[tier - 1] : (step.hints[tier - 1] && step.hints[tier - 1].text ? step.hints[tier - 1].text : "");
+          if (stepHintText) {
+            return {
+              valid: false,
+              passed: false,
+              message: stepHintText,
+              hintText: stepHintText,
+              tier: tier,
+              ruleMatched: false,
+              solutionRevealable: solutionRevealable
+            };
+          }
+        }
+
+        var editFallback;
+        if (tier === 1) {
+          editFallback = "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد.";
+        } else if (tier === 2) {
+          editFallback = "قاعدة: المطلوب هو " + (step.task || step.objective || "تعديل الكود المعروض") + ". تحقق من خلو السطر من الأخطاء الإملائية.";
+        } else if (tier === 3) {
+          editFallback = "مساعدة: الجزء المطلوب وجوده: «" + (step.to || step.after || "") + "».";
+        } else {
+          editFallback = "كشف الحل: اكتب:\n" + (step.after || step.to || "");
+        }
+        return {
+          valid: false,
+          passed: false,
+          message: editFallback,
+          hintText: editFallback,
+          tier: tier,
+          ruleMatched: false,
+          solutionRevealable: solutionRevealable
+        };
+      }
+
+      // 3. Experiment step checks
+      if (step.type === "experiment") {
+        var basePractice = model && model.practiceSteps && model.practiceSteps.length
+          ? model.practiceSteps[model.practiceSteps.length - 1].after
+          : (model ? model.code : "");
+        basePractice = String(basePractice || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+        var modelCode = String((model && model.code) || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+        var expSaved = typeof growth !== "undefined" && growth && growth.experimentCodes && model ? growth.experimentCodes[model.id] : "";
+        var expCode = String(expSaved || basePractice).replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+        if (rawCode === expCode || rawCode === modelCode || rawCode.trim() === modelCode.trim()) {
+          var expMsg;
+          if (tier === 1) {
+            expMsg = "غيّر جزءًا آخر من اختيارك ثم شغّل لتشاهد أثر فكرتك.";
+          } else if (tier === 2) {
+            expMsg = "تلميح: جرب تعديل قيمة مثل النص أو اللون أو الأبعاد وشاهد ما يتغير في المعاينة.";
+          } else if (tier === 3) {
+            expMsg = "مساعدة: بدّل خاصية واحدة أو قيمة داخل الكود لتثبت استيعابك للمفهوم.";
+          } else {
+            expMsg = "كشف خيار مقترح: جرب تغيير سطر مثل تغيير النص التوضيحي أو القيمة الرقمية.";
+          }
+          return {
+            valid: false,
+            passed: false,
+            message: expMsg,
+            hintText: expMsg,
+            tier: tier,
+            ruleMatched: false,
+            solutionRevealable: solutionRevealable
+          };
+        }
+
+        if (model && model.key === "html" && typeof checkHtmlTags === "function") {
+          var expTagCheck = checkHtmlTags(rawCode);
+          if (!expTagCheck.valid) {
+            return {
+              valid: false,
+              passed: false,
+              message: expTagCheck.errors[0].message,
+              hintText: expTagCheck.errors[0].message,
+              tier: tier,
+              ruleMatched: true,
+              solutionRevealable: solutionRevealable
+            };
+          }
+        }
+
+        return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+      }
+
+      // 4. Repair step checks
+      if (step.type === "repair") {
+        var rawFixed = String((model && model.fixedCode) || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+        var normDocFn2 = typeof normalizeDoc === "function" ? normalizeDoc : function(c) { return String(c || "").trim(); };
+        var normLineFn2 = typeof normalizeCodeLine === "function" ? normalizeCodeLine : function(c) { return String(c || "").trim(); };
+
+        if (rawCode.trim() === rawFixed.trim() || normDocFn2(rawCode) === normDocFn2(rawFixed)) {
+          return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+        }
+
+        if (model && model.key === "html") {
+          if (/<p\b[^>]*>[^<]*<\/span>/i.test(rawCode)) {
+            var spanMsg;
+            if (tier === 1) {
+              spanMsg = "اسم وسم الإغلاق </span> لا يطابق وسم البداية <p>. اجعل وسم الإغلاق </p> ليطابق وسم البداية.";
+            } else if (tier === 2) {
+              spanMsg = "قاعدة: لا يمكن إغلاق عنصر <p> بوسم </span>. بدّل كلمة span بـ p.";
+            } else if (tier === 3) {
+              spanMsg = "مساعدة: غيّر </span> إلى </p> في نهاية السطر.";
+            } else {
+              spanMsg = "كشف الحل: <p>جزء جديد</p>";
+            }
+            return {
+              valid: false,
+              passed: false,
+              message: spanMsg,
+              hintText: spanMsg,
+              tier: tier,
+              ruleMatched: true,
+              solutionRevealable: solutionRevealable
+            };
+          }
+
+          if (typeof checkHtmlTags === "function") {
+            var repTagCheck = checkHtmlTags(rawCode);
+            if (!repTagCheck.valid) {
+              return {
+                valid: false,
+                passed: false,
+                message: repTagCheck.errors[0].message,
+                hintText: repTagCheck.errors[0].message,
+                tier: tier,
+                ruleMatched: true,
+                solutionRevealable: solutionRevealable
+              };
+            }
+          }
+
+          var hasMatchedP = /<p\b[^>]*>[\s\S]*?<\/p>/i.test(rawCode);
+          var hasMatchedSpan = /<span\b[^>]*>[\s\S]*?<\/span>/i.test(rawCode);
+          if (hasMatchedP || hasMatchedSpan) {
+            return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+          }
+        }
+
+        if (model && model.key === "css") {
+          if (/color\s*:\s*#a65d32/i.test(rawCode) && !/colr\s*:/i.test(rawCode)) {
+            return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+          }
+        }
+
+        if (model && model.key === "js") {
+          if ((/console\.log\(\s*["']وصلت هنا\s*["']\s*\)/.test(rawCode) || normLineFn2(rawCode).indexOf('console.log("وصلت هنا")') >= 0) && (typeof validateJsSource !== "function" || validateJsSource(rawCode))) {
+            return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+          }
+        }
+
+        var repMsg;
+        if (tier === 1) {
+          repMsg = "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى.";
+        } else if (tier === 2) {
+          repMsg = "قاعدة الخطأ: " + ((model && model.bugQuestion) || "دقق في السطر غير الصحيح وأصلح الوسم أو الخاصية.");
+        } else if (tier === 3) {
+          repMsg = "مساعدة: الخطأ يقع في: " + ((model && model.bugExample) || "السطر الأخير المضاف");
+        } else {
+          repMsg = "كشف الحل للتصليح: الكود الصحيح هو:\n" + (model && model.fixedCode ? model.fixedCode.split("\n").pop() : "");
+        }
+        return {
+          valid: false,
+          passed: false,
+          message: repMsg,
+          hintText: repMsg,
+          tier: tier,
+          ruleMatched: false,
+          solutionRevealable: solutionRevealable
+        };
+      }
+
+      return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+    },
+
+    recordAttempt: function(modelId, stepId) {
+      if (typeof growth !== "undefined" && growth) {
+        growth.stepAttempts = growth.stepAttempts || {};
+        var k = (modelId || "") + ":" + (stepId || "");
+        growth.stepAttempts[k] = (growth.stepAttempts[k] || 0) + 1;
+        if (typeof saveGrowth === "function") saveGrowth();
+        return growth.stepAttempts[k];
+      }
+      return 1;
+    },
+
+    resetAttempts: function(modelId, stepId) {
+      if (typeof growth !== "undefined" && growth && growth.stepAttempts) {
+        var k = (modelId || "") + ":" + (stepId || "");
+        if (growth.stepAttempts[k] !== undefined) {
+          delete growth.stepAttempts[k];
+          if (typeof saveGrowth === "function") saveGrowth();
+        }
+      }
+    },
+
+    getAttempts: function(modelId, stepId) {
+      if (typeof growth !== "undefined" && growth && growth.stepAttempts) {
+        return growth.stepAttempts[(modelId || "") + ":" + (stepId || "")] || 0;
+      }
+      return 0;
+    }
+  };
+
+  var DataLoader = {
+    _cache: {},
+    mapToLegacyId: function(canonicalId) {
+      if (!canonicalId) return "";
+      if (/^(html|css|js):\d+$/.test(canonicalId) || /^ng-ts-\d+$/.test(canonicalId)) return canonicalId;
+      var m = String(canonicalId).match(/^(html|css|js)-(\d+)/i);
+      if (m) {
+        var idx = parseInt(m[2], 10) - 1;
+        if (idx >= 0) return m[1].toLowerCase() + ":" + idx;
+      }
+      return canonicalId;
+    },
+    mapToCanonicalId: function(track, legacyId) {
+      if (!legacyId) return "";
+      var m = String(legacyId).match(/^(html|css|js):(\d+)$/i);
+      if (m) {
+        var num = parseInt(m[2], 10) + 1;
+        return m[1].toLowerCase() + "-" + String(num).padStart(2, "0");
+      }
+      return legacyId;
+    },
+    loadTrack: function(trackName) {
+      var self = this;
+      if (self._cache[trackName]) {
+        return Promise.resolve(self._cache[trackName]);
+      }
+      if (typeof window !== "undefined" && window.__TRACK_DATA && window.__TRACK_DATA[trackName]) {
+        self._cache[trackName] = window.__TRACK_DATA[trackName];
+        return Promise.resolve(self._cache[trackName]);
+      }
+      if (typeof window !== "undefined" && typeof window.fetch === "function") {
+        var fileName = trackName + "-lessons.json";
+        return window.fetch(fileName)
+          .then(function(res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.json();
+          })
+          .then(function(data) {
+            self._cache[trackName] = data;
+            return data;
+          })
+          .catch(function() {
+            var hydrated = self.hydrateFromLegacy(trackName);
+            self._cache[trackName] = hydrated;
+            return hydrated;
+          });
+      }
+      var fallback = self.hydrateFromLegacy(trackName);
+      self._cache[trackName] = fallback;
+      return Promise.resolve(fallback);
+    },
+    getLesson: function(trackName, lessonId) {
+      var self = this;
+      var track = self._cache[trackName] || self.hydrateFromLegacy(trackName);
+      if (!track || !Array.isArray(track.lessons)) return null;
+      var legacy = self.mapToLegacyId(lessonId);
+      for (var i = 0; i < track.lessons.length; i++) {
+        var l = track.lessons[i];
+        if (l.id === lessonId || l.legacyId === lessonId || l.legacyId === legacy) {
+          return l;
+        }
+      }
+      return null;
+    },
+    hydrateFromLegacy: function(trackName) {
+      var lessons = [];
+      if (trackName === "angular") {
+        var ngData = typeof window !== "undefined" && window.ANGULAR_COURSE_DATA;
+        if (ngData && Array.isArray(ngData.lessons)) {
+          lessons = ngData.lessons.map(function(l, i) {
+            return {
+              id: l.id || ("ng-ts-" + String(i + 1).padStart(2, "0")),
+              legacyId: l.id || ("ng-ts-" + String(i + 1).padStart(2, "0")),
+              title: l.title || "Angular Lesson",
+              skill: l.phase || "angular-modern",
+              order: i,
+              concept: l.concept || l.summary || "مفهوم Angular",
+              whyUse: l.whyUse || l.summary || "أهمية هذا المفهوم في بناء تطبيقات Angular",
+              browserMechanics: l.browserMechanics || "معالجة المتصفح لتطبيقات Angular",
+              documentationUrl: l.reference || "https://angular.dev",
+              code: l.expected || "",
+              breakdown: [l.task || "مهمة الخطوة"],
+              steps: [{
+                id: "step-1",
+                title: l.title || "التطبيق العملي",
+                objective: l.task || "تنفيذ الخطوة",
+                type: "edit",
+                instruction: l.task || "أضف التعديل المطلوب",
+                benefit: "فائدة الخطوة: إضافة اللبنة لمشروع Angular.",
+                errorRules: [],
+                hints: [
+                  "تنبيه: راجع المطلوب في بطاقة الدرس.",
+                  "قاعدة: تأكد من دقة صياغة الكود ومطابقته لـ Angular 22.",
+                  "مساعدة: الجزء المطلوب هو: " + (l.expected || ""),
+                  "كشف الحل: " + (l.expected || "")
+                ]
+              }],
+              bugRepair: {
+                brokenCode: l.expected || "",
+                fixedCode: l.expected || "",
+                question: "ما الإصلاح المطلوب؟",
+                explanation: "إصلاح الخطأ في الكود",
+                options: ["الخيار الأول", "الخيار الثاني"],
+                correctOptionIndex: 0
+              }
+            };
+          });
+        }
+        return {
+          schemaVersion: "1.0.0",
+          track: "angular",
+          title: "مسار تطوير تطبيقات Angular 22 الحديثة",
+          lessons: lessons
+        };
+      }
+
+      var ld = typeof window !== "undefined" && window.LESSONS_DATA;
+      if (!ld) return { schemaVersion: "1.0.0", track: trackName, title: trackName, lessons: [] };
+      var titles = ld[trackName] || [];
+      var guides = (ld.guides && ld.guides[trackName]) || {};
+      var references = (ld.references && ld.references[trackName]) || {};
+
+      lessons = titles.map(function(t, i) {
+        var g = guides[t] || {};
+        var docUrl = (references && references[t]) || g.reference || "https://developer.mozilla.org";
+        return {
+          id: trackName + "-" + String(i + 1).padStart(2, "0"),
+          legacyId: trackName + ":" + i,
+          title: t,
+          skill: (trackName + "-foundation"),
+          order: i,
+          concept: g.concept || ("شرح مفهوم " + t),
+          whyUse: g.concept || ("أهمية استخدام " + t + " في تطوير الويب"),
+          browserMechanics: g.flow || ("طريقة معالجة المتصفح لـ " + t),
+          documentationUrl: docUrl,
+          code: g.code || (trackName === "html" ? "<!DOCTYPE html>\n<html>\n<head><title>" + t + "</title></head>\n<body></body>\n</html>" : "/* " + t + " */"),
+          breakdown: Array.isArray(g.breakdown) ? g.breakdown.map(function(b) {
+            return typeof b === "string" ? b : (b && b.meaning ? (b.code ? b.code + ": " + b.meaning : b.meaning) : "شرح");
+          }) : ["شرح وتفصيل"],
+          steps: [{
+            id: "step-1",
+            title: "تطبيق " + t,
+            objective: "تطبيق ما تعلمته في المحرر",
+            type: "build",
+            instruction: "اكتب الكود المطلوب وشغّل لتلاحظ النتيجة.",
+            benefit: "فائدة ما أنشأته للتو: استيعاب " + t + ".",
+            errorRules: [],
+            hints: [
+              "💡 تلميح ١: راجع المطلوب في بطاقة الخطوة.",
+              "🔍 تلميح ٢: دقق في بناء وسوم وخصائص " + t + ".",
+              "🛠️ تلميح ٣: اكتب الكود المطلوب بدون مسافات زائدة.",
+              "✨ الحل: طالع المثال الكامل في الشرح."
+            ]
+          }],
+          bugRepair: {
+            brokenCode: "/* error */",
+            fixedCode: "/* fixed */",
+            question: "ما سبب الخطأ؟",
+            explanation: "شرح السبب",
+            options: ["الخيار الصحيح", "خيار بديل"],
+            correctOptionIndex: 0
+          }
+        };
+      });
+
+      return {
+        schemaVersion: "1.0.0",
+        track: trackName,
+        title: trackName === "html" ? "مسار تطوير واجهات الويب: HTML القياسية" : trackName === "css" ? "مسار تنسيق صفحات الويب: CSS الحديثة" : "مسار برمجة واجهات الويب: JavaScript",
+        lessons: lessons
+      };
+    }
+  };
+
+  if (typeof window !== "undefined") {
+    window.SmartHintEngine = SmartHintEngine;
+    window.DataLoader = DataLoader;
+  }
+
   function validateLessonAnswer(code, model, step) {
     var rawCode = String(code || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
     if (!step) return { valid: true };
 
-    if (step.build) {
-      var missing = missingBuildLine(rawCode, step.build);
-      if (missing) {
-        return {
-          valid: false,
-          message: "لم تكتمل الخطوة بعد. ينقصك هذا السطر: " + missing
-        };
-      }
-      if (model.key === "html") {
-        var buildTagCheck = checkHtmlTags(rawCode);
-        if (!buildTagCheck.valid) {
-          return {
-            valid: false,
-            message: buildTagCheck.errors[0].message
-          };
-        }
-      }
-      return { valid: true };
+    var stepKey = (model ? model.id : "") + ":" + (step.id || step.type || "step");
+    var attempts = 1;
+    if (typeof growth !== "undefined" && growth) {
+      growth.stepAttempts = growth.stepAttempts || {};
+      attempts = (growth.stepAttempts[stepKey] || 0) + 1;
     }
 
-    if (step.type === "edit") {
-      var rawAfter = String(step.after || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-      var rawBefore = String(step.before || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-
-      if (rawBefore && (rawCode.trim() === rawBefore.trim() || normalizeDoc(rawCode) === normalizeDoc(rawBefore))) {
-        return {
-          valid: false,
-          message: "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد."
-        };
+    var result = SmartHintEngine.evaluate(rawCode, step, model, attempts);
+    if (!result.valid) {
+      if (typeof growth !== "undefined" && growth) {
+        growth.stepAttempts = growth.stepAttempts || {};
+        growth.stepAttempts[stepKey] = attempts;
+        if (typeof saveGrowth === "function") saveGrowth();
       }
-
-      if (rawCode.trim() === rawAfter.trim() || normalizeDoc(rawCode) === normalizeDoc(rawAfter)) {
-        return { valid: true };
+    } else {
+      if (typeof growth !== "undefined" && growth && growth.stepAttempts && growth.stepAttempts[stepKey] !== undefined) {
+        delete growth.stepAttempts[stepKey];
+        if (typeof saveGrowth === "function") saveGrowth();
       }
-
-      if (model.key === "html") {
-        var editTagCheck = checkHtmlTags(rawCode);
-        if (!editTagCheck.valid) {
-          return {
-            valid: false,
-            message: editTagCheck.errors[0].message
-          };
-        }
-      }
-
-      if (step.to && normalizeCodeLine(rawCode).indexOf(normalizeCodeLine(step.to)) >= 0) {
-        return { valid: true };
-      }
-
-      return {
-        valid: false,
-        message: "راجع التغيير المطلوب في بطاقة الخطوة. غيّره وحده ثم شغّل من جديد."
-      };
     }
-
-    if (step.type === "experiment") {
-      var basePractice = model.practiceSteps && model.practiceSteps.length
-        ? model.practiceSteps[model.practiceSteps.length - 1].after
-        : model.code;
-      basePractice = String(basePractice || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-      var modelCode = String(model.code || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-      var expCode = String(growth.experimentCodes && growth.experimentCodes[model.id] || basePractice).replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-
-      if (rawCode === expCode || rawCode === modelCode || rawCode.trim() === modelCode.trim()) {
-        return {
-          valid: false,
-          message: "غيّر جزءًا آخر من اختيارك ثم شغّل لتشاهد أثر فكرتك."
-        };
-      }
-
-      if (model.key === "html") {
-        var expTagCheck = checkHtmlTags(rawCode);
-        if (!expTagCheck.valid) {
-          return {
-            valid: false,
-            message: expTagCheck.errors[0].message
-          };
-        }
-      }
-
-      return { valid: true };
-    }
-
-    if (step.type === "repair") {
-      var rawFixed = String(model.fixedCode || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-
-      if (rawCode.trim() === rawFixed.trim() || normalizeDoc(rawCode) === normalizeDoc(rawFixed)) {
-        return { valid: true };
-      }
-
-      if (model.key === "html") {
-        if (/<p\b[^>]*>[^<]*<\/span>/i.test(rawCode)) {
-          return {
-            valid: false,
-            message: "اسم وسم الإغلاق </span> لا يطابق وسم البداية <p>. اجعل وسم الإغلاق </p> ليطابق وسم البداية."
-          };
-        }
-
-        var repairTagCheck = checkHtmlTags(rawCode);
-        if (!repairTagCheck.valid) {
-          return {
-            valid: false,
-            message: repairTagCheck.errors[0].message
-          };
-        }
-
-        var hasMatchedP = /<p\b[^>]*>[\s\S]*?<\/p>/i.test(rawCode);
-        var hasMatchedSpan = /<span\b[^>]*>[\s\S]*?<\/span>/i.test(rawCode);
-        if (hasMatchedP || hasMatchedSpan) {
-          return { valid: true };
-        }
-
-        return {
-          valid: false,
-          message: "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى."
-        };
-      }
-
-      if (model.key === "css") {
-        if (/color\s*:\s*#a65d32/i.test(rawCode) && !/colr\s*:/i.test(rawCode)) {
-          return { valid: true };
-        }
-      }
-
-      if (model.key === "js") {
-        if ((/console\.log\(\s*["']وصلت هنا\s*["']\s*\)/.test(rawCode) || normalizeCodeLine(rawCode).indexOf('console.log("وصلت هنا")') >= 0) && (typeof validateJsSource !== "function" || validateJsSource(rawCode))) {
-          return { valid: true };
-        }
-      }
-
-      return {
-        valid: false,
-        message: "راجع السطر الذي اكتشفت خطأه، ثم أصلحه وشغّل مرة أخرى."
-      };
-    }
-
-    return { valid: true };
+    return result;
   }
 
   // يحوّل المثال الكامل إلى مراحل تراكمية: كل مرحلة تضيف الجزء الذي يشرحه عنصر breakdown واحد.

@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --test behavior.test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs"
+    "test:json": "node validate-curriculum-json.cjs",
+    "test": "node validate-curriculum-json.cjs && node --test behavior.test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs tests/m1_engine_test.cjs tests/m2_html_curriculum_test.cjs tests/m3_css_curriculum_test.cjs tests/m4_js_curriculum_test.cjs tests/m5_angular_curriculum_test.cjs"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

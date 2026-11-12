@@ -1,0 +1,2101 @@
+[
+  {
+    "id": "capstone-01",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "تخطيط معمارية منصة حجز السينما المؤسسية (Khotwa Cinema Pro: Enterprise Architecture & State Models)",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "بناء المعمارية المؤسسية لمنصة حجز السينما (Khotwa Cinema Pro) وتقسيم المشروع إلى طبقات معمارية واضحة ومستقلة (core و features و shared)؛ تحديد عقود الحالة المشتركة ونماذج البيانات الصارمة (Strongly Typed State Contracts) عبر واجهة CinemaAppState لتنظيم حالة حجز الفيلم والمقاعد المختارة وأكواد الخصم والضرائب، مما يضمن أماناً نوعياً شاملاً وسهولة فائقة في التوسع والاختبار.",
+    "concept": "في المشاريع البرمجية الضخمة والتطبيقات المؤسسية (Enterprise Applications)، لا يُكتب الكود بصورة عشوائية داخل ملفات متفرقة، بل يُبنى على أسس معمارية نظيفة تضمن قابلية الصيانة والتوسع لسنوات طويلة بين فرق عمل متعددة. يُعد نمط المعمارية الموزعة (Modular Architecture) المعيار الذهبي في مشاريع Angular الاحترافية؛ حيث يُقسّم التطبيق هندسياً إلى ثلاثة مجلدات رئيسية واضحة المعالم:\n1. مجلد core: يحتوي على الخدمات الفردية المركزية (Singletons)، ومستودعات الحالة الشاملة للتطبيق (Global State Stores)، والموديلات الأساسية ونماذج البيانات المشتركة بين كل أجزاء النظام، بالإضافة إلى المعترضات الشبكية (HTTP Interceptors) والحراس الأمنيين (Guards).\n2. مجلد features: يضم الشاشات والوحدات الوظيفية المستقلة للتطبيق (مثل كتالوج الأفلام movie-catalog، ومصفوفة المقاعد seat-matrix، وشاشة الدفع checkout، والتذكرة الرقمية ticket-pass)، بحيث يمتلك كل جزء مكوناته وخدماته الخاصة دون تداخل.\n3. مجلد shared: يحتوي على المكونات البصرية القابلة لإعادة الاستخدام (UI Components) مثل الأزرار والبطاقات، والموجهات المخصصة، والأنابيب (Pipes)، ومساعدات التنسيق.\nتبدأ هذه المعمارية بتعريف \"عقد الحالة المركزي\" (Central State Contract) عبر واجهة CinemaAppState؛ وهي واجهة صلبة تحدد شكل حالة التطبيق بدقة متناهية: معرف الفيلم المختار (selectedMovieId)، ومصفوفة معرفات المقاعد المحجوزة (selectedSeats)، وكود الخصم المطبق (couponCode)، ونسبة الخصم الحالية (discountRate). هذا العقد الصارم يمنع أي أخطاء نوعية أثناء تداول الحالة بين شاشات السينما المختلفة.",
+    "flow": "رسم هيكل المجلدات وعقود الحالة ⟶ فصل المسؤوليات (Core/Features/Shared) ⟶ قابلية للتوسع واختبارات الوحدة",
+    "task": "عرّف واجهة حالة السينما المركزية CinemaAppState بخصائص الفيلم والمقاعد والكوبون.",
+    "file": "src/app/core/models/cinema-state.model.ts",
+    "code": "export interface CinemaAppState {\n  selectedMovieId: number | null;\n  selectedSeats: string[];\n  couponCode: string | null;\n  discountRate: number;\n}",
+    "expected": "export interface CinemaAppState {",
+    "reference": "https://angular.dev/guide/components",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: تقسيم التطبيقات المؤسسية وعقود الحالة",
+        "explanation": "عند بناء منصة بحجم Khotwa Cinema Pro، يجب أن نعلم أين يوضع كل سطر برمجي. مجلد core للمركزيات والحالة الشاملة، و features للشاشات والوظائف، و shared للعناصر المشتركة. واجهة CinemaAppState هي حجر الأساس الذي يربط تدفق البيانات بين جميع هذه الطبقات.",
+        "flow": "هندسة core و features و shared ⟶ توحيد عقد CinemaAppState ⟶ تناغم شاشات العرض والحجز",
+        "task": "تأمل كيف ينظم تقسيم المجلدات المعماري وظائف التطبيق ويمنع التداخل والتعقيد البرمجي.",
+        "benefit": "استوعبت أصول المعمارية النظيفة في مشاريع Angular المؤسسية.",
+        "objective": "تأمل كيف ينظم تقسيم المجلدات المعماري وظائف التطبيق ويمنع التداخل والتعقيد البرمجي.",
+        "instruction": "تأمل كيف ينظم تقسيم المجلدات المعماري وظائف التطبيق ويمنع التداخل والتعقيد البرمجي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/models/cinema-state.model.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export interface CinemaAppState {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export interface CinemaAppState {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح واجهة حالة التطبيق CinemaAppState",
+        "explanation": "تحدد الواجهة خصائص الحالة المركزية: selectedMovieId بنوع number | null للسماح بعدم اختيار فيلم في البداية، selectedSeats كمصفوفة نصوص string[] لأسماء المقاعد، couponCode بنوع string | null للكوبونات، و discountRate بنوع number للنسبة المئوية.",
+        "flow": "CinemaAppState ⟶ selectedMovieId + selectedSeats + couponCode + discountRate",
+        "task": "دقق في الخصائص الأربع للواجهة وكيف تعبر عن الدورة الكاملة لعملية حجز التذكرة.",
+        "benefit": "أتقنت صياغة عقود الحالة الصلبة في TypeScript لتأمين تدفق البيانات.",
+        "objective": "دقق في الخصائص الأربع للواجهة وكيف تعبر عن الدورة الكاملة لعملية حجز التذكرة.",
+        "instruction": "دقق في الخصائص الأربع للواجهة وكيف تعبر عن الدورة الكاملة لعملية حجز التذكرة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/models/cinema-state.model.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export interface CinemaAppState {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export interface CinemaAppState {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بكتابة واجهة حالة السينما المركزية CinemaAppState داخل الملف src/app/core/models/cinema-state.model.ts لتكون مرجع الحالة في التطبيق.",
+        "file": "src/app/core/models/cinema-state.model.ts",
+        "code": "export interface CinemaAppState {\n  selectedMovieId: number | null;\n  selectedSeats: string[];\n  couponCode: string | null;\n  discountRate: number;\n}",
+        "expected": "export interface CinemaAppState {",
+        "task": "عرّف واجهة حالة السينما المركزية CinemaAppState بخصائص الفيلم والمقاعد والكوبون في src/app/core/models/cinema-state.model.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت الأساس المعماري الصلب لحالة منصة Khotwa Cinema Pro بنجاح.",
+        "objective": "عرّف واجهة حالة السينما المركزية CinemaAppState بخصائص الفيلم والمقاعد والكوبون في src/app/core/models/cinema-state.model.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "عرّف واجهة حالة السينما المركزية CinemaAppState بخصائص الفيلم والمقاعد والكوبون في src/app/core/models/cinema-state.model.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/models/cinema-state.model.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export interface CinemaAppState {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export interface CinemaAppState {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب إضافة خاصية اختيارية إلى الواجهة مثل customerNotes?: string لتسجيل أي طلبات خاصة للزائر، ولاحظ كيف يقبل TypeScript الخصائص الاختيارية دون كسر التوافق.",
+        "task": "جرّب إضافة خاصية اختيارية واستكشف كيف يوفر TypeScript مرونة لتوسيع عقود الحالة.",
+        "benefit": "أدركت كيفية توسيع وتطوير عقود البيانات المؤسسية مع نمو متطلبات الأعمال.",
+        "objective": "جرّب إضافة خاصية اختيارية واستكشف كيف يوفر TypeScript مرونة لتوسيع عقود الحالة.",
+        "instruction": "جرّب إضافة خاصية اختيارية واستكشف كيف يوفر TypeScript مرونة لتوسيع عقود الحالة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/models/cinema-state.model.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export interface CinemaAppState {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export interface CinemaAppState {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الهدف الأساسي من تقسيم التطبيق المؤسسي إلى مجلدات core و features و shared؟",
+        "options": [
+          "فصل المسؤوليات وتنظيم الكود لسهولة الصيانة والتوسع والاختبار بين فرق العمل",
+          "تقليل عدد الأسطر في ملف package.json",
+          "زيادة سرعة المعالج المركزي"
+        ],
+        "correct": 0,
+        "task": "ما الهدف الأساسي من تقسيم التطبيق المؤسسي إلى مجلدات core و features و shared؟",
+        "benefit": "إجابة نموذجية! التقسيم المعماري إلى Core و Features و Shared يفصل المسؤوليات بدقة ويمنع الاعتماديات الدائرية ويسهل عمل الفرق البرمجية الكبيرة.",
+        "objective": "ما الهدف الأساسي من تقسيم التطبيق المؤسسي إلى مجلدات core و features و shared؟",
+        "instruction": "ما الهدف الأساسي من تقسيم التطبيق المؤسسي إلى مجلدات core و features و shared؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/models/cinema-state.model.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export interface CinemaAppState {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export interface CinemaAppState {"
+        ]
+      }
+    ],
+    "legacyId": "capstone-01",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 51,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/components",
+    "breakdown": [
+      "المرحلة 1: رسم هيكل المجلدات وعقود الحالة",
+      "المرحلة 2: فصل المسؤوليات (Core/Features/Shared)",
+      "المرحلة 3: قابلية للتوسع واختبارات الوحدة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export interface CinemaAppState {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "capstone-02",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "بناء مستودع الحالة المركزي المتكامل (Cinema Signals Store)",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "تصميم وبرمجة مستودع الحالة المركزي المتكامل CinemaStore بالاعتماد كلياً على محرك الإشارات الحديث Angular Signals؛ إدارة المقاعد المختارة عبر إشارة مصفوفية متفاعلة selectedSeats، واستنتاج عدد المقاعد تلقائياً بدقة عبر computed()، وتنفيذ تبديل المقاعد (toggleSeat) بأسلوب البرمجة الوظيفية غير القابلة للتبديل (Immutable Updates) لمزامنة شاشات السينما فورياً وبأعلى كفاءة.",
+    "concept": "في هندسة التطبيقات الحديثة، يُعد مستودع الحالة المركزي (State Store) هو القلب النابض الذي يحفظ بيانات التطبيق المشتركة ويوفر نقطة حقيقة وحيدة (Single Source of Truth) لكافة المكونات والشاشات. بدلاً من الاعتماد على مكتبات خارجية معقدة وذات حجم ثقيل مثل NgRx التقليدي القديم، تتيح إشارات Angular Signals بناء مستودعات حالة خفيفة وسريعة وفائقة القوة تعتمد على مفهوم التفاعلية الدقيقة (Fine-grained Reactivity).\nتعتمد خدمة CinemaStore على مزخرف @Injectable({ providedIn: 'root' }) لتكون خدمة أحادية (Singleton) مشتركة في الذاكرة عبر كامل شاشات السينما. يتم تخزين المقاعد المختارة داخل إشارة تفاعلية مصفوفية readonly selectedSeats = signal<string[]>([])، مما يتيح لأي شاشة الاستماع المباشر للتغييرات دون وميض أو إعادة تصيير غير مبررة للواجهة.\nلإجراء التحديثات على الحالة، نستخدم مبدأ عدم القابلية للتعديل المباشر (Immutability) من خلال استدعاء دالة this.selectedSeats.update()؛ حيث تستقبل الدالة الحالة السابقة للمصفوفة وتُرجع مصفوفة جديدة كلياً: إذا كان معرف المقعد (seatId) موجوداً بالفعل، يتم حذفه باستخدام seats.filter()، وإذا لم يكن موجوداً، يتم إلحاقه عبر عامل النشر [...seats, seatId].\nعلاوة على ذلك، توفر الإشارة المحسوبة readonly seatCount = computed(() => this.selectedSeats().length) اشتقاقاً تلقائياً لحظياً لعدد المقاعد المختارة؛ حيث تُحفظ قيمتها في الذاكرة المخبأة (Memoized) ولا يُعاد حسابها إلا عند تغير إشارة المقاعد، مما يضمن كفاءة حسابية فائقة وسلاسة تفاعلية مذهلة في منصة سينما خطوة.",
+    "flow": "نقرات الحجز ⟶ تعديل إشارات المخزن المركزي ⟶ مزامنة كل شاشات السينما فورياً",
+    "task": "أنشئ مخزن الحالة CinemaStore مع دالة toggleSeat وإشارة محسوبة seatCount.",
+    "file": "src/app/core/store/cinema.store.ts",
+    "code": "import { Injectable, signal, computed } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class CinemaStore {\n  readonly selectedSeats = signal<string[]>([]);\n  readonly seatCount = computed(() => this.selectedSeats().length);\n  toggleSeat(seatId: string) {\n    this.selectedSeats.update(seats => seats.includes(seatId) ? seats.filter(s => s !== seatId) : [...seats, seatId]);\n  }\n}",
+    "expected": "export class CinemaStore {",
+    "reference": "https://angular.dev/guide/signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: مستودع الحالة المركزي بالإشارات (Signals Store)",
+        "explanation": "بدلاً من تشتيت بيانات الحجز بين بطاقات الأفلام وشاشة المقاعد واستمارة الدفع، نضع كافة البيانات في مخزن مركزي واحد CinemaStore. الإشارات تجعل كل شاشة تستمع فقط لما يهمها، فعندما ينقر الزائر مقعداً في قاعة العرض، يتحدث عداد التذاكر في شريط التنقل العلوي لحظياً وبدون أي تعقيد.",
+        "flow": "مكون مصفوفة المقاعد ⟶ CinemaStore (مخزن مركزي) ⟶ شريط التنقل العلوي وملخص الدفع",
+        "task": "تأمل كيف يعمل المخزن المركزي كقناة موحدة تربط كل شاشات الحجز ببعضها البعض.",
+        "benefit": "استوعبت مزايا إدارة الحالة بالإشارات الخفيفة مقارنة بالمكتبات الخارجية المعقدة.",
+        "objective": "تأمل كيف يعمل المخزن المركزي كقناة موحدة تربط كل شاشات الحجز ببعضها البعض.",
+        "instruction": "تأمل كيف يعمل المخزن المركزي كقناة موحدة تربط كل شاشات الحجز ببعضها البعض.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaStore {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaStore {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح إشارة المقاعد selectedSeats ودالة toggleSeat",
+        "explanation": "عرّفنا selectedSeats كإشارة مصفوفة نصوص. دالة toggleSeat تفحص وجود seatId؛ إن وجد تستبعده بـ filter وإن لم يوجد تضيفه بـ [...seats, seatId]. والإشارة المحسوبة seatCount تقرأ selectedSeats().length تلقائياً بفضل computed.",
+        "flow": "toggleSeat(id) ⟶ update() ⟶ هل المقعد موجود؟ (نعم ⟶ احذف / لا ⟶ أضف) ⟶ إعادة حساب seatCount()",
+        "task": "دقق في صياغة دالة update وكيف تطبق منطق التبديل التفاعلي بدقة وأمان.",
+        "benefit": "أتقنت التعامل مع المصفوفات التفاعلية في Signals بأسلوب برمجي نقي غير قابل للتعديل المباشر.",
+        "objective": "دقق في صياغة دالة update وكيف تطبق منطق التبديل التفاعلي بدقة وأمان.",
+        "instruction": "دقق في صياغة دالة update وكيف تطبق منطق التبديل التفاعلي بدقة وأمان.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaStore {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaStore {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإنشاء مخزن الحالة CinemaStore في src/app/core/store/cinema.store.ts مع تعريف selectedSeats و seatCount ودالة toggleSeat.",
+        "file": "src/app/core/store/cinema.store.ts",
+        "code": "import { Injectable, signal, computed } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class CinemaStore {\n  readonly selectedSeats = signal<string[]>([]);\n  readonly seatCount = computed(() => this.selectedSeats().length);\n  toggleSeat(seatId: string) {\n    this.selectedSeats.update(seats => seats.includes(seatId) ? seats.filter(s => s !== seatId) : [...seats, seatId]);\n  }\n}",
+        "expected": "export class CinemaStore {",
+        "task": "أنشئ مخزن الحالة CinemaStore مع دالة toggleSeat وإشارة محسوبة seatCount داخل src/app/core/store/cinema.store.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت مخزن الحالة المركزي لسينما خطوة بكامل تفاعلية Signals الحديثة.",
+        "objective": "أنشئ مخزن الحالة CinemaStore مع دالة toggleSeat وإشارة محسوبة seatCount داخل src/app/core/store/cinema.store.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "أنشئ مخزن الحالة CinemaStore مع دالة toggleSeat وإشارة محسوبة seatCount داخل src/app/core/store/cinema.store.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaStore {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaStore {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب إضافة دالة جديدة لتفريغ الحجز بالكامل باسم clearSelection() تقوم باستدعاء this.selectedSeats.set([])، ولاحظ كيف يتم تصفير المقاعد فورياً بأسلوب أنيق.",
+        "task": "جرّب إضافة دالة تفريغ المقاعد واستكشف قوة دالة .set() في إعادة تعيين الإشارات.",
+        "benefit": "أدركت الفرق العملي بين .set() للإسناد المباشر و .update() للتحويلات المشتقة.",
+        "objective": "جرّب إضافة دالة تفريغ المقاعد واستكشف قوة دالة .set() في إعادة تعيين الإشارات.",
+        "instruction": "جرّب إضافة دالة تفريغ المقاعد واستكشف قوة دالة .set() في إعادة تعيين الإشارات.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaStore {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaStore {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "كيف نحدث مصفوفة المقاعد المختارة داخل CinemaStore عند نقر مقعد؟",
+        "options": [
+          "باستدعاء .update() لإضافة المقعد إن لم يكن موجوداً أو إزالته إن كان موجوداً",
+          "بإعادة تحميل الصفحة",
+          "بمسح قاعدة البيانات"
+        ],
+        "correct": 0,
+        "task": "كيف نحدث مصفوفة المقاعد المختارة داخل CinemaStore عند نقر مقعد؟",
+        "benefit": "أحسنت! استخدام .update() مع دمج أو تصفية العناصر يتبع مبدأ عدم التعديل المباشر (Immutability) ويطلق التحديثات التفاعلية فورياً.",
+        "objective": "كيف نحدث مصفوفة المقاعد المختارة داخل CinemaStore عند نقر مقعد؟",
+        "instruction": "كيف نحدث مصفوفة المقاعد المختارة داخل CinemaStore عند نقر مقعد؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaStore {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaStore {"
+        ]
+      }
+    ],
+    "legacyId": "capstone-02",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 52,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/signals",
+    "breakdown": [
+      "المرحلة 1: نقرات الحجز",
+      "المرحلة 2: تعديل إشارات المخزن المركزي",
+      "المرحلة 3: مزامنة كل شاشات السينما فورياً"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class CinemaStore {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "capstone-03",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "بطاقة الفيلم التفاعلية وشريط البحث والفلترة الفورية (Live Movie Catalog & computed Filtering)",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "تطوير شاشة كتالوج الأفلام MovieCatalogComponent وبناء تجربة بحث وتصفية فورية فائقة السرعة؛ استخدام إشارة النص المدخل searchQuery وإشارة قائمة الأفلام movies مع الإشارة المشتقة filteredMovies عبر دالة computed() لتطبيق التصفية التلقائية لحظة بلحظة مع كل ضغطة زر، وتجنب وميض الشاشة أو هدر موارد المعالج بفضل الذاكرة المخبأة الذكية (Memoization).",
+    "concept": "في واجهات المستخدم الحديثة، يتوقع الزائر استجابة لحظية عند البحث أو التصفية؛ فبمجرد كتابة أي حرف في شريط البحث، يجب أن تتقلص قائمة الأفلام المعروضة فورياً ودون الحاجة للضغط على زر \"بحث\" أو إعادة تحميل الصفحة. في إطارات العمل القديمة، كان تنفيذ هذا السلوك يتطلب الاشتراك اليدوي في أحداث الإدخال وإطلاق دورات فحص التغييرات المتكررة، مما يتسبب في وميض العناصر وإبطاء المتصفح.\nيقدم نظام Angular Signals الحل الأمثل لهذه المعضلة عبر الإشارات المشتقة المحسوبة (Computed Signals). داخل المكون MovieCatalogComponent، نمتلك إشارتين أساسيتين: إشارة نص البحث searchQuery = signal<string>('') وإشارة مصفوفة الأفلام movies = signal<Movie[]>([]).\nعند تعريف filteredMovies = computed(() => this.movies().filter(m => m.title.includes(this.searchQuery())))، يُنشئ مترجم Angular رابطة اعتمادية تلقائية بين دالة الفلترة والإشارتين. عندما تتغير قيمة searchQuery عند كتابة المستخدم لحرف جديد، تدرك إشارة filteredMovies تلقائياً أنها أصبحت قديمة (Stale)، وتعيد حساب النتيجة في اللحظة التي يطلبها القالب بدقة متناهية.\nالميزة الهندسية الاستثنائية لـ computed() هي التخزين المؤقت الذكي (Memoization)؛ فإذا تغير جزء آخر في الشاشة لا علاقة له بالأفلام أو بنص البحث، لن تُنفذ دالة التصفية إطلاقاً، بل تُعاد النتيجة المخزنة سابقاً. هذا يضمن أن واجهة كتالوج أفلام سينما خطوة ستحافظ على أعلى معدل إطارات (60fps) حتى مع وجود مئات الأفلام المعروضة.",
+    "flow": "كتابة كلمة البحث ⟶ تحديث إشارة searchQuery ⟶ فرز فوري للأفلام بدون وميض",
+    "task": "اكتب منطق الفلترة الفورية filteredMovies داخل MovieCatalogComponent بـ computed().",
+    "file": "src/app/features/movies/movie-catalog.component.ts",
+    "code": "import { Component, signal, computed } from '@angular/core';\nimport { Movie } from '../../models/movie.model';\n\n@Component({\n  selector: 'app-movie-catalog',\n  standalone: true,\n  template: '<div class=\"catalog-grid\"></div>'\n})\nexport class MovieCatalogComponent {\n  searchQuery = signal<string>('');\n  movies = signal<Movie[]>([]);\n  filteredMovies = computed(() => this.movies().filter(m => m.title.includes(this.searchQuery())));\n}",
+    "expected": "filteredMovies = computed(() => this.movies().filter(",
+    "reference": "https://angular.dev/guide/signals#computed-signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: الفلترة الحية عبر الإشارات المشتقة (Live Reactive Filtering)",
+        "explanation": "عندما يكتب الزائر حرفاً في شريط البحث، يجب أن تصفى الأفلام فوراً. الإشارة المحسوبة computed() تراقب إشارة البحث searchQuery وإشارة الأفلام movies، وعند تغير أي منهما تُشتق القائمة المصفاة filteredMovies تلقائياً وتُحدث الواجهة بلمح البصر.",
+        "flow": "searchQuery ('خيال') ⟶ computed() تفحص movies() ⟶ filteredMovies تحوي فقط أفلام الخيال العلمي",
+        "task": "تأمل سرعة وسلاسة التصفية المشتقة وكيف تتجنب المعالجات الزائدة بفضل الـ Signals.",
+        "benefit": "فهمت دور computed() في تقديم تجارب بحث فورية وعالية الاستجابة للمستخدم.",
+        "objective": "تأمل سرعة وسلاسة التصفية المشتقة وكيف تتجنب المعالجات الزائدة بفضل الـ Signals.",
+        "instruction": "تأمل سرعة وسلاسة التصفية المشتقة وكيف تتجنب المعالجات الزائدة بفضل الـ Signals.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/movies/movie-catalog.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: filteredMovies = computed(() => this.movies().filter(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: filteredMovies = computed(() => this.movies().filter("
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح تركيبة computed() ودالة التصفية filter()",
+        "explanation": "تستدعي دالة computed كولباك وظيفي يقرأ إشارة this.movies() ويطبق عليها دالة التصفية filter(m => m.title.includes(this.searchQuery())). قراءة الإشارتين داخل القوسين () هي التي تؤسس المراقبة التلقائية الدقيقة.",
+        "flow": "this.movies().filter(...) ⟶ قراءة this.searchQuery() ⟶ تسجيل التبعية ⟶ إنتاج مصفوفة مطابقة",
+        "task": "دقق في كيفية قراءة الإشارات عبر الأقواس () داخل التعبير التصفوي لـ computed.",
+        "benefit": "أتقنت كتابة شروط الفلترة المتقدمة داخل الإشارات المحسوبة.",
+        "objective": "دقق في كيفية قراءة الإشارات عبر الأقواس () داخل التعبير التصفوي لـ computed.",
+        "instruction": "دقق في كيفية قراءة الإشارات عبر الأقواس () داخل التعبير التصفوي لـ computed.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/movies/movie-catalog.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: filteredMovies = computed(() => this.movies().filter(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: filteredMovies = computed(() => this.movies().filter("
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بكتابة مكون كتالوج الأفلام MovieCatalogComponent مع تعريف filteredMovies بـ computed() داخل ملف src/app/features/movies/movie-catalog.component.ts.",
+        "file": "src/app/features/movies/movie-catalog.component.ts",
+        "code": "import { Component, signal, computed } from '@angular/core';\nimport { Movie } from '../../models/movie.model';\n\n@Component({\n  selector: 'app-movie-catalog',\n  standalone: true,\n  template: '<div class=\"catalog-grid\"></div>'\n})\nexport class MovieCatalogComponent {\n  searchQuery = signal<string>('');\n  movies = signal<Movie[]>([]);\n  filteredMovies = computed(() => this.movies().filter(m => m.title.includes(this.searchQuery())));\n}",
+        "expected": "filteredMovies = computed(() => this.movies().filter(",
+        "task": "اكتب منطق الفلترة الفورية filteredMovies داخل MovieCatalogComponent بـ computed() في src/app/features/movies/movie-catalog.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "برمجت محرك البحث والتصفية الفوري لكتالوج أفلام منصة خطوة بنجاح.",
+        "objective": "اكتب منطق الفلترة الفورية filteredMovies داخل MovieCatalogComponent بـ computed() في src/app/features/movies/movie-catalog.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب منطق الفلترة الفورية filteredMovies داخل MovieCatalogComponent بـ computed() في src/app/features/movies/movie-catalog.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/movies/movie-catalog.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: filteredMovies = computed(() => this.movies().filter(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: filteredMovies = computed(() => this.movies().filter("
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب توسيع شرط التصفية ليشمل التصنيف أيضاً عبر: m.title.includes(this.searchQuery()) || m.genre.includes(this.searchQuery())، وتأمل كيف تتيح لك الإشارات تصفية معقدة بأسطر معدودة.",
+        "task": "جرّب دمج البحث بالعنوان والتصنيف معاً واستكشف مرونة التصفية بالـ Signals.",
+        "benefit": "أدركت كيفية بناء فلاتر متعددة الأبعاد تلبي سيناريوهات البحث الحقيقية في المنصات التجارية.",
+        "objective": "جرّب دمج البحث بالعنوان والتصنيف معاً واستكشف مرونة التصفية بالـ Signals.",
+        "instruction": "جرّب دمج البحث بالعنوان والتصنيف معاً واستكشف مرونة التصفية بالـ Signals.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/movies/movie-catalog.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: filteredMovies = computed(() => this.movies().filter(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: filteredMovies = computed(() => this.movies().filter("
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الميزة التي توفرها computed() في شاشات البحث والفلترة المباشرة؟",
+        "options": [
+          "تصفية القائمة فوراً عند كل ضغطة مفتاح مع تخزين النتيجة مؤقتاً لأداء فائق",
+          "إرسال طلبات بحث إلى محركات خارجية",
+          "حفظ النتائج في ملف وورد"
+        ],
+        "correct": 0,
+        "task": "ما الميزة التي توفرها computed() في شاشات البحث والفلترة المباشرة؟",
+        "benefit": "إجابة رائعة! الذاكرة المخبأة (Memoization) والتتبع الدقيق للاعتماديات يمنحان computed تفوقاً ساحقاً في عمليات الفلترة اللحظية.",
+        "objective": "ما الميزة التي توفرها computed() في شاشات البحث والفلترة المباشرة؟",
+        "instruction": "ما الميزة التي توفرها computed() في شاشات البحث والفلترة المباشرة؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/movies/movie-catalog.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: filteredMovies = computed(() => this.movies().filter(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: filteredMovies = computed(() => this.movies().filter("
+        ]
+      }
+    ],
+    "legacyId": "capstone-03",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 53,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/signals#computed-signals",
+    "breakdown": [
+      "المرحلة 1: كتابة كلمة البحث",
+      "المرحلة 2: تحديث إشارة searchQuery",
+      "المرحلة 3: فرز فوري للأفلام بدون وميض"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "filteredMovies = computed(() => this.movies().filter(",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "capstone-04",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "مصفوفة قاعة العرض التفاعلية الذكية (Interactive Seat Matrix Component)",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "بناء مصفوفة مقاعد قاعة السينما التفاعلية SeatMatrixComponent وربطها بمستودع الحالة المركزي؛ تمثيل شبكة المقاعد البصرية وتمييز المقاعد العادية والـ VIP والمحجوزة، واستخدام دالة inject() لحقن CinemaStore ومعالجة نقرات الزوار عبر دالة onSeatClick لتحديث المقاعد المختارة وتحديث السلة المالية فورياً.",
+    "concept": "تُعد شاشة اختيار المقاعد (Seat Picker Matrix) الجزء البصري الأكثر جذباً وتفاعلاً في تطبيقات حجز السينما؛ حيث يرى المستخدم خريطة قاعة العرض أمامه مجسمة في شبكة بصرية توضح موقع الشاشة الرئيسية والمقاعد المتاحة والمقاعد المحجوزة مسبقاً وتصنيفات المقاعد (VIP والمقاعد العادية). التحدي الهندسي في هذا المكون ليس فقط في المظهر الجمالي، بل في ربطه بسلاسة وكفاءة بمستودع الحالة المركزي دون تكرار منطق الأعمال.\nيعتمد المكون المستقل SeatMatrixComponent على دالة الحقن الوظيفي inject(CinemaStore) لاستيراد مستودع الحالة المركزي مباشرة دون الحاجة لكتابة دوال منشئ كلاسيكية (Constructor Injection). هذا النمط الوظيفي الحديث يجعل المكون أكثر إيجازاً وقابلية للقراءة وإعادة الاستخدام.\nعندما يقوم الزائر بالنقر على أي مقعد متاح في الشبكة، ينطلق حدث النقر مستدعياً دالة onSeatClick(id: string). تتولى هذه الدالة البسيطة والذكية تفويض المهمة فورياً إلى مستودع الحالة عبر this.store.toggleSeat(id). وبمجرد قيام المخزن بتحديث إشارة selectedSeats، تتفاعل كافة عناصر الصفحة المتصلة بالمخزن تلقائياً: يتغير لون المقعد في المصفوفة ليدل على تحديده، ويرتفع عداد التذاكر في شريط الملخص، ويُعاد احتساب التكلفة الإجمالية والضريبة لحظياً.\nيُبرز هذا التكامل مبدأ \"المكونات الرشيقة\" (Thin/Presentational Components)؛ حيث يركز المكون فقط على تقديم الواجهة للمستخدم وتمرير التفاعلات لمستودع الحالة، بينما يتولى Store إدارة الحالة والعمليات الحسابية، وهو ما يمثل ذروة المعمارية النظيفة في تطبيقات Angular الاحترافية.",
+    "flow": "مصفوفة مقاعد بصرية ⟶ نقر المقعد المتاح ⟶ تحديث السلة والمجموع فورياً",
+    "task": "أنشئ المكون SeatMatrixComponent مع دالة onSeatClick لتحديث CinemaStore.",
+    "file": "src/app/features/booking/seat-matrix.component.ts",
+    "code": "import { Component, inject } from '@angular/core';\nimport { CinemaStore } from '../../core/store/cinema.store';\n\n@Component({\n  selector: 'app-seat-matrix',\n  standalone: true,\n  template: '<div class=\"seat-picker-grid\"></div>'\n})\nexport class SeatMatrixComponent {\n  store = inject(CinemaStore);\n  onSeatClick(id: string) { this.store.toggleSeat(id); }\n}",
+    "expected": "export class SeatMatrixComponent {",
+    "reference": "https://angular.dev/guide/components",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: مصفوفة المقاعد وفصل العرض عن منطق الحالة",
+        "explanation": "شاشة المقاعد هي واجهة تفاعلية تمثل قاعة السينما. بدلاً من أن تقوم الشاشة بحساب الأسعار وحفظ المقاعد بنفسها، تقوم فقط بإرسال حدث النقر لمستودع الحالة CinemaStore. هذا يضمن أن منطق الحجز موحد وقابل للاختبار بشكل منفصل عن الواجهة الرسومية.",
+        "flow": "نقر الزائر على مقعد (A3) ⟶ المكون يخبر المخزن: toggleSeat('A3') ⟶ المخزن يحدث الإشارات ⟶ كل الشاشات تتحدث",
+        "task": "تأمل كيف يعمل مبدأ المكون الرشيق (Thin Component) على تبسيط كود الواجهة وتوحيد الحالة.",
+        "benefit": "استوعبت أسلوب ربط المكونات التفاعلية المعقدة بمستودعات الحالة المركزية.",
+        "objective": "تأمل كيف يعمل مبدأ المكون الرشيق (Thin Component) على تبسيط كود الواجهة وتوحيد الحالة.",
+        "instruction": "تأمل كيف يعمل مبدأ المكون الرشيق (Thin Component) على تبسيط كود الواجهة وتوحيد الحالة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/booking/seat-matrix.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class SeatMatrixComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class SeatMatrixComponent {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح حقن CinemaStore ودالة onSeatClick",
+        "explanation": "نستخدم store = inject(CinemaStore) للحصول على مرجع المستودع المركزي بأسلوب وظيفي نظيف. ودالة onSeatClick(id: string) تستقبل معرف المقعد وتمرره مباشرة إلى this.store.toggleSeat(id).",
+        "flow": "inject(CinemaStore) ⟶ store ⟶ onSeatClick(id) ⟶ this.store.toggleSeat(id)",
+        "task": "دقق في بساطة الكود وكيف يستبدل الحقن الوظيفي بـ inject() منشئات الفئات الكلاسيكية.",
+        "benefit": "أتقنت استخدام الحقن الوظيفي inject() وتمرير الأحداث لمستودعات الحالة.",
+        "objective": "دقق في بساطة الكود وكيف يستبدل الحقن الوظيفي بـ inject() منشئات الفئات الكلاسيكية.",
+        "instruction": "دقق في بساطة الكود وكيف يستبدل الحقن الوظيفي بـ inject() منشئات الفئات الكلاسيكية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/booking/seat-matrix.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class SeatMatrixComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class SeatMatrixComponent {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإنشاء المكون SeatMatrixComponent داخل src/app/features/booking/seat-matrix.component.ts مع حقن CinemaStore وتعريف دالة onSeatClick.",
+        "file": "src/app/features/booking/seat-matrix.component.ts",
+        "code": "import { Component, inject } from '@angular/core';\nimport { CinemaStore } from '../../core/store/cinema.store';\n\n@Component({\n  selector: 'app-seat-matrix',\n  standalone: true,\n  template: '<div class=\"seat-picker-grid\"></div>'\n})\nexport class SeatMatrixComponent {\n  store = inject(CinemaStore);\n  onSeatClick(id: string) { this.store.toggleSeat(id); }\n}",
+        "expected": "export class SeatMatrixComponent {",
+        "task": "أنشئ المكون SeatMatrixComponent مع دالة onSeatClick لتحديث CinemaStore في src/app/features/booking/seat-matrix.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "أنشأت مصفوفة مقاعد قاعة السينما وربطتها بمخزن الحالة التفاعلي بنجاح.",
+        "objective": "أنشئ المكون SeatMatrixComponent مع دالة onSeatClick لتحديث CinemaStore في src/app/features/booking/seat-matrix.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "أنشئ المكون SeatMatrixComponent مع دالة onSeatClick لتحديث CinemaStore في src/app/features/booking/seat-matrix.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/booking/seat-matrix.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class SeatMatrixComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class SeatMatrixComponent {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب إضافة خاصية تقرأ المقاعد المختارة مباشرة من المخزن عبر selectedSeats = this.store.selectedSeats; وتأمل كيف يمكن للمكون قراءة أي إشارة من المخزن بسهولة تامة.",
+        "task": "جرّب ربط إشارة المقاعد المختارة من المخزن واستكشف سهولة القراءة التفاعلية.",
+        "benefit": "أدركت كيفية قراءة الإشارات وعرضها داخل المكونات التقديمية بسلاسة.",
+        "objective": "جرّب ربط إشارة المقاعد المختارة من المخزن واستكشف سهولة القراءة التفاعلية.",
+        "instruction": "جرّب ربط إشارة المقاعد المختارة من المخزن واستكشف سهولة القراءة التفاعلية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/booking/seat-matrix.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class SeatMatrixComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class SeatMatrixComponent {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "كيف ترتبط شاشة المقاعد التفاعلية بمخزن الحالة المركزي (CinemaStore)؟",
+        "options": [
+          "عبر حقن CinemaStore بدالة inject() واستدعاء toggleSeat(id) عند نقر أي مقعد",
+          "بنسخ كود الكلاس في كل ملف",
+          "بفتح نافذة متصفح جديدة"
+        ],
+        "correct": 0,
+        "task": "كيف ترتبط شاشة المقاعد التفاعلية بمخزن الحالة المركزي (CinemaStore)؟",
+        "benefit": "إجابة عبقرية! الحقن الوظيفي عبر inject() مع تفويض التفاعلات للمخزن يفصل منطق الأعمال عن العرض التقديمي تماماً.",
+        "objective": "كيف ترتبط شاشة المقاعد التفاعلية بمخزن الحالة المركزي (CinemaStore)؟",
+        "instruction": "كيف ترتبط شاشة المقاعد التفاعلية بمخزن الحالة المركزي (CinemaStore)؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/booking/seat-matrix.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class SeatMatrixComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class SeatMatrixComponent {"
+        ]
+      }
+    ],
+    "legacyId": "capstone-04",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 54,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/components",
+    "breakdown": [
+      "المرحلة 1: مصفوفة مقاعد بصرية",
+      "المرحلة 2: نقر المقعد المتاح",
+      "المرحلة 3: تحديث السلة والمجموع فورياً"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class SeatMatrixComponent {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "capstone-05",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "استمارة تأكيد الحجز وحساب التكلفة مع كود الخصم وطرق الدفع",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "بناء مكون إتمام ودفع الحجز CheckoutComponent؛ استيعاب صياغة العمليات الحسابية المالية المعقدة داخل إشارات محسوبة computed()، وتطبيق نسبة كود الخصم، واحتساب ضريبة القيمة المضافة 15% VAT تلقائياً بدقة، وتحديث المجموع النهائي فورياً مع تغير أي من المدخلات دون وميض أو إعادة تصيير غير ضرورية.",
+    "concept": "في التطبيقات التجارية الحقيقية والمنصات المؤسسية كمنصات حجز تذاكر السينما والفعاليات الكبرى، تمثل دقة الحسابات المالية ركيزة الأمان والمصداقية الأولى للخدمة. تتطلب شاشات الدفع وإتمام الطلب (Checkout) معالجة متزامنة لعدة متغيرات ديناميكية: المجموع الفرعي لسعر المقاعد المختارة (Subtotal)، نسبة الخصم المطبقة عبر كوبونات الترويج (Discount Rate)، ومعدل ضريبة القيمة المضافة الإلزامية (VAT) بنسبة 15% وفق المعايير واللوائح المعتمدة.\nفي معماريات تطوير الويب القديمة، كان حساب هذه القيم يتم عبر دوال دورية أو مراقبات أحداث متعددة تؤدي لتضارب البيانات وتكرار العمليات الحسابية وتدني الأداء الحسابي لواجهات المستخدم. ولكن مع إطار عمل Angular الحديث واستخدام محرك التفاعلية الدقيقة Signals، أصبح بالإمكان اشتقاق القيم المالية عبر دالة computed() الرياضية النقية.\nتتميز دالة computed() بخاصيتين هندسيتين حاسمتين:\n1. التخزين المؤقت الذكي (Memoization): لا يتم إعادة حساب المجموع النهائي إلا إذا تغيرت الإشارات الأصلية المعتمدة (مثل subtotal أو discount)، مما يوفر معالجة معمارية فائقة السرعة.\n2. التتبع التلقائي للتبعيات (Automatic Dependency Tracking): تسجل دالة computed تلقائياً أي إشارة signal() يتم قراءتها بداخلها؛ فبمجرد قيام العميل بتفعيل كود خصم جديد مثل KHOTWA10 لتطبيق خصم 10%، يُعاد حساب القيمة المخفضة فوراً، وتُضرب في معامل الضريبة 1.15 لاحتساب الضريبة تلقائياً وعرض المجموع الإجمالي النهائي بدقة متناهية.\nباستخدام هذا النمط، نضمن خلو الكود من أي آثار جانبية غير مرغوبة (Side Effects)، مع ربط سلس ونظيف في قالب المكون standalone component لعرض التكلفة النهائية بدقة وسرعة فائقة في منصة سينما خطوة الاحترافية.",
+    "flow": "مدخلات العميل ⟶ تطبيق كود KHOTWA10 ⟶ احتساب الضريبة والخصم ⟶ تأكيد الدفع",
+    "task": "اكتب حساب finalTotal داخل CheckoutComponent متضمناً الخصم و 15% ضريبة.",
+    "file": "src/app/features/checkout/checkout.component.ts",
+    "code": "import { Component, computed, signal } from '@angular/core';\n\n@Component({\n  selector: 'app-checkout',\n  standalone: true,\n  template: '<div class=\"checkout-summary\">المجموع النهائي: {{ finalTotal() }}</div>'\n})\nexport class CheckoutComponent {\n  subtotal = signal<number>(170);\n  discount = signal<number>(0.10);\n  finalTotal = computed(() => {\n    const discounted = this.subtotal() * (1 - this.discount());\n    return discounted * 1.15;\n  });\n}",
+    "expected": "finalTotal = computed(() => {",
+    "reference": "https://angular.dev/guide/signals#computed-signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية: الحسابات المالية التفاعلية بدقة عبر computed()",
+        "explanation": "تتيح دالة computed() في Angular اشتقاق القيم الرياضية والمالية بدقة فائقة اعتماداً على إشارات أخرى، مع ميزة التخزين المؤقت الذكي التي تضمن عدم إعادة الحساب إلا عند تغير المدخلات الأصلية.",
+        "flow": "تحديد التكلفة الأولية subtotal ⟶ تطبيق الخصم discount ⟶ احتساب 15% ضريبة بـ computed() ⟶ المجموع النهائي المحدث فوراً",
+        "task": "تأمل كيف تضمن دالة computed() اتساق العمليات الحسابية للأسعار والضرائب دون الحاجة لدوال تحديث يدوية.",
+        "benefit": "استوعبت القوة الهندسية للاشتقاق التفاعلي في النظم المالية المعاصرة بـ Angular.",
+        "objective": "تأمل كيف تضمن دالة computed() اتساق العمليات الحسابية للأسعار والضرائب دون الحاجة لدوال تحديث يدوية.",
+        "instruction": "تأمل كيف تضمن دالة computed() اتساق العمليات الحسابية للأسعار والضرائب دون الحاجة لدوال تحديث يدوية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/checkout/checkout.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: finalTotal = computed(() => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: finalTotal = computed(() => {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صياغة computed() وتطبيق معادلة الضريبة والخصم",
+        "explanation": "تقرأ دالة computed إشارة subtotal() وتطرح نسبة الخصم discount()، ثم تضرب الناتج الصافي في 1.15 لإضافة ضريبة القيمة المضافة VAT 15%، منتجة إشارة جديدة للقراءة فقط.",
+        "flow": "subtotal() * (1 - discount()) ⟶ ضرب القيمة في 1.15 ⟶ إرجاع finalTotal كإشارة محسوبة",
+        "task": "حلل المعادلة الرياضية داخل computed() وكيفية قراءة قيم الإشارات عبر استدعائها كدوال ()subtotal.",
+        "benefit": "أتقنت الصياغة الرياضية الدقيقة لتطبيق الضرائب والخصومات داخل الإشارات المحسوبة.",
+        "objective": "حلل المعادلة الرياضية داخل computed() وكيفية قراءة قيم الإشارات عبر استدعائها كدوال ()subtotal.",
+        "instruction": "حلل المعادلة الرياضية داخل computed() وكيفية قراءة قيم الإشارات عبر استدعائها كدوال ()subtotal.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/checkout/checkout.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: finalTotal = computed(() => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: finalTotal = computed(() => {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإنشاء مكون CheckoutComponent في ملف src/app/features/checkout/checkout.component.ts واشتقاق إشارة finalTotal لحساب الإجمالي بعد خصم 10% وإضافة ضريبة 15%.",
+        "file": "src/app/features/checkout/checkout.component.ts",
+        "code": "import { Component, computed, signal } from '@angular/core';\n\n@Component({\n  selector: 'app-checkout',\n  standalone: true,\n  template: '<div class=\"checkout-summary\">المجموع النهائي: {{ finalTotal() }}</div>'\n})\nexport class CheckoutComponent {\n  subtotal = signal<number>(170);\n  discount = signal<number>(0.10);\n  finalTotal = computed(() => {\n    const discounted = this.subtotal() * (1 - this.discount());\n    return discounted * 1.15;\n  });\n}",
+        "expected": "finalTotal = computed(() => {",
+        "task": "اكتب كود CheckoutComponent مع حساب finalTotal ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت عملياً استمارة دفع وحساب تكلفة حقيقية متوافقة مع الأنظمة المالية الحديثة.",
+        "objective": "اكتب كود CheckoutComponent مع حساب finalTotal ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب كود CheckoutComponent مع حساب finalTotal ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/checkout/checkout.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: finalTotal = computed(() => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: finalTotal = computed(() => {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب تعديل قيمة خصم الكوبون discount إلى 0.20 (أي خصم 20%) أو تغيير التكلفة subtotal إلى 200، ولاحظ كيف يتغير المجموع النهائي فورياً بدقة متناهية.",
+        "task": "غيّر قيمة discount أو subtotal وتأمل إعادة الحساب التلقائي اللحظي للمجموع النهائي.",
+        "benefit": "تحققت بنفسك من سرعة وتلقائية تحديث القيم المشتقة عند تغير الإشارات المعتمدة.",
+        "objective": "غيّر قيمة discount أو subtotal وتأمل إعادة الحساب التلقائي اللحظي للمجموع النهائي.",
+        "instruction": "غيّر قيمة discount أو subtotal وتأمل إعادة الحساب التلقائي اللحظي للمجموع النهائي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/checkout/checkout.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: finalTotal = computed(() => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: finalTotal = computed(() => {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "كيف يتم حساب ضريبة القيمة المضافة 15% بعد الخصم تلقائياً؟",
+        "options": [
+          "داخل دالة computed() تضرب السعر المخفض في 1.15 وتتحدث تلقائياً مع أي تغيير",
+          "بكتابة القيمة يدوياً في القالب",
+          "بسؤال الزائر عن نسبة الضريبة"
+        ],
+        "correct": 0,
+        "task": "كيف يتم حساب ضريبة القيمة المضافة 15% بعد الخصم تلقائياً؟",
+        "benefit": "إجابة صحيحة تماماً! دالة computed() تضمن اشتقاق القيمة المالية تلقائياً وتحديث الواجهة فور حدوث أي تعديل في السعر أو الخصم.",
+        "objective": "كيف يتم حساب ضريبة القيمة المضافة 15% بعد الخصم تلقائياً؟",
+        "instruction": "كيف يتم حساب ضريبة القيمة المضافة 15% بعد الخصم تلقائياً؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/checkout/checkout.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: finalTotal = computed(() => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: finalTotal = computed(() => {"
+        ]
+      }
+    ],
+    "legacyId": "capstone-05",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 55,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/signals#computed-signals",
+    "breakdown": [
+      "المرحلة 1: مدخلات العميل",
+      "المرحلة 2: تطبيق كود KHOTWA10",
+      "المرحلة 3: احتساب الضريبة والخصم",
+      "المرحلة 4: تأكيد الدفع"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "finalTotal = computed(() => {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "capstone-06",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "بطاقة التذكرة الإلكترونية الرقمية (Digital Boarding Pass Ticket)",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "تصميم وبرمجة مكون تذكرة الصعود الإلكترونية TicketPassComponent؛ استقبال رقم الحجز المرجعي عبر إشارة المدخل الإلزامية input.required<string>()، وتنسيق بطاقة التذكرة كبطاقة صعود رقمية أنيقة، وإتاحة زر الطباعة المباشر عبر واجهة المتصفح window.print().",
+    "concept": "تمثل مرحلة استخراج التذكرة الرقمية (Digital Boarding Pass) ذروة تجربة المستخدم (User Experience) في منصات حجز السينما والرحلات والفعاليات الترفيهية؛ فبعد إتمام العميل لكافة خطوات اختيار الفيلم وتحديد المقاعد وسداد التكلفة المالية، ينتقل التطبيق إلى مرحلة تأكيد الحجز وإصدار وثيقة الصعود الرقمية التي تحتوي على كافة التفاصيل الأساسية كرقم الحجز المرجعي (Booking Reference)، وتفاصيل القاعة، والمقاعد المحجوزة، وتوقيت العرض.\nفي معمارية Angular الحديثة، يتم تصميم مكون التذكرة TicketPassComponent كمكون مستقل ونقي (Standalone Presentational Component). يستقبل المكون البيانات الحيوية من المكون الأب أو مخزن الحالة عبر إشارات المدخلات الحديثة Signal Inputs وتحديداً دالة input.required<string>()؛ تضمن هذه الدالة أن المكون لن يبدأ دورة حياته دون استلام رقم حجز صالح، وتوفر تدقيقاً نوعياً صارماً في وقت التصريف (Compile-Time Safety) يمنع ظهور شاشات فارغة أو تذاكر غير مكتملة للعملاء.\nعلاوة على ذلك، تتطلب بطاقات الصعود الرقمية تقديم إمكانية حفظ أو طباعة الوثيقة دون إجبار العميل على تثبيت مكتبات خارجية ضخمة من شأنها إبطاء التطبيق وزيادة حجم الحزم البرمجية. هنا تبرز قوة واجهات برمجة تطبيقات المتصفح القياسية (Native Web APIs) من خلال استدعاء دالة window.print(). تمكن هذه الدالة البسيطة والفعالة من فتح نافذة الطباعة الافتراضية للمتصفح فوراً، مما يتيح للعميل طباعة التذكرة على الورق أو تصديرها كملف PDF رقمي عالي الجودة بنقرة زر واحدة داخل منصة سينما خطوة الاحترافية.",
+    "flow": "نجاح عملية الحجز ⟶ استخراج بطاقة الصعود الرقمية ⟶ استدعاء window.print()",
+    "task": "أنشئ مكون التذكرة الرقمية TicketPassComponent مع زر طباعة التذكرة.",
+    "file": "src/app/features/tickets/ticket-pass.component.ts",
+    "code": "import { Component, input } from '@angular/core';\n\n@Component({\n  selector: 'app-ticket-pass',\n  standalone: true,\n  template: `\n    <div class=\"final-ticket-card\">\n      <h3>سينما خطوة · تذكرة دخول إلكترونية</h3>\n      <p>رقم الحجز: {{ bookingRef() }}</p>\n      <button class=\"btn-confirm\" (click)=\"printTicket()\">طباعة التذكرة</button>\n    </div>\n  `\n})\nexport class TicketPassComponent {\n  bookingRef = input.required<string>();\n  printTicket() { window.print(); }\n}",
+    "expected": "export class TicketPassComponent {",
+    "reference": "https://angular.dev/guide/components",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية: تذكرة الصعود الرقمية وتكامل واجهات المتصفح الأصلية",
+        "explanation": "تصميم مكون عرض أنيق ومستقل يعتمد على مدخل إشارة إلزامي input.required ويستخدم إمكانيات المتصفح الأصلية window.print() لتصدير التذكرة دون مكتبات خارجية إضافية.",
+        "flow": "تأكيد نجاح الحجز ⟶ تمرير رقم الحجز كمدخل إشارة ⟶ عرض بطاقة الصعود ⟶ فتح الطباعة بـ window.print()",
+        "task": "تأمل كيف يوفر استخدام window.print() إمكانية حفظ التذكرة كـ PDF وطباعتها بأقل حجم كود ممكن.",
+        "benefit": "استوعبت أسلوب بناء مكونات العرض النقية وتكاملها مع واجهات المتصفح القياسية.",
+        "objective": "تأمل كيف يوفر استخدام window.print() إمكانية حفظ التذكرة كـ PDF وطباعتها بأقل حجم كود ممكن.",
+        "instruction": "تأمل كيف يوفر استخدام window.print() إمكانية حفظ التذكرة كـ PDF وطباعتها بأقل حجم كود ممكن.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/tickets/ticket-pass.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class TicketPassComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class TicketPassComponent {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صياغة input.required ودالة printTicket()",
+        "explanation": "نستخدم bookingRef = input.required<string>() لإلزام تمرير رقم الحجز، ونربط حدث النقر (click)=\"printTicket()\" باستدعاء دالة window.print() الأصلية.",
+        "flow": "bookingRef = input.required<string>() ⟶ عرض {{ bookingRef() }} ⟶ النقر يستدعي window.print()",
+        "task": "حلل استخدام input.required لضمان سلامة البيانات وربط حدث النقر بدالة الطباعة.",
+        "benefit": "أتقنت بناء المكونات المعيارية الآمنة نوعياً وربط الأحداث بالواجهات التفاعلية.",
+        "objective": "حلل استخدام input.required لضمان سلامة البيانات وربط حدث النقر بدالة الطباعة.",
+        "instruction": "حلل استخدام input.required لضمان سلامة البيانات وربط حدث النقر بدالة الطباعة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/tickets/ticket-pass.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class TicketPassComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class TicketPassComponent {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإنشاء المكون TicketPassComponent في ملف src/app/features/tickets/ticket-pass.component.ts لتمثيل بطاقة التذكرة الإلكترونية مع زر الطباعة.",
+        "file": "src/app/features/tickets/ticket-pass.component.ts",
+        "code": "import { Component, input } from '@angular/core';\n\n@Component({\n  selector: 'app-ticket-pass',\n  standalone: true,\n  template: `\n    <div class=\"final-ticket-card\">\n      <h3>سينما خطوة · تذكرة دخول إلكترونية</h3>\n      <p>رقم الحجز: {{ bookingRef() }}</p>\n      <button class=\"btn-confirm\" (click)=\"printTicket()\">طباعة التذكرة</button>\n    </div>\n  `\n})\nexport class TicketPassComponent {\n  bookingRef = input.required<string>();\n  printTicket() { window.print(); }\n}",
+        "expected": "export class TicketPassComponent {",
+        "task": "أنشئ مكون TicketPassComponent مع زر طباعة التذكرة ثم اضغط (شغّل وافحص).",
+        "benefit": "أنجزت بطاقة تذكرة رقمية احترافية تتوّج رحلة الحجز الكاملة في منصة السينما.",
+        "objective": "أنشئ مكون TicketPassComponent مع زر طباعة التذكرة ثم اضغط (شغّل وافحص).",
+        "instruction": "أنشئ مكون TicketPassComponent مع زر طباعة التذكرة ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/tickets/ticket-pass.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class TicketPassComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class TicketPassComponent {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب إضافة معلومات جديدة إلى قالب التذكرة مثل اسم القاعة أو رمز الاستجابة السريعة QR code وتأمل كيف يعرض المكون التذكرة بتنسيق جذاب.",
+        "task": "جرّب إضافة تفاصيل إضافية في القالب وتأمل كيفية تفاعل مكون التذكرة.",
+        "benefit": "تعلمت كيفية تخصيص بطاقات التذاكر الرقمية لتناسب متطلبات العمل المختلفة.",
+        "objective": "جرّب إضافة تفاصيل إضافية في القالب وتأمل كيفية تفاعل مكون التذكرة.",
+        "instruction": "جرّب إضافة تفاصيل إضافية في القالب وتأمل كيفية تفاعل مكون التذكرة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/tickets/ticket-pass.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class TicketPassComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class TicketPassComponent {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هي دالة المتصفح الأصلية المستخدمة لطباعة تذكرة الحجز مباشرة؟",
+        "options": [
+          "استدعاء الدالة window.print()",
+          "استدعاء الدالة document.savePDF()",
+          "استدعاء الدالة console.log()"
+        ],
+        "correct": 0,
+        "task": "ما هي دالة المتصفح الأصلية المستخدمة لطباعة تذكرة الحجز مباشرة؟",
+        "benefit": "إجابة رائعة! دالة window.print() هي دالة المتصفح المعيارية لفتح حوار الطباعة وتصدير المستند بصيغة PDF فورياً.",
+        "objective": "ما هي دالة المتصفح الأصلية المستخدمة لطباعة تذكرة الحجز مباشرة؟",
+        "instruction": "ما هي دالة المتصفح الأصلية المستخدمة لطباعة تذكرة الحجز مباشرة؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/features/tickets/ticket-pass.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class TicketPassComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class TicketPassComponent {"
+        ]
+      }
+    ],
+    "legacyId": "capstone-06",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 56,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/components",
+    "breakdown": [
+      "المرحلة 1: نجاح عملية الحجز",
+      "المرحلة 2: استخراج بطاقة الصعود الرقمية",
+      "المرحلة 3: استدعاء window.print()"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class TicketPassComponent {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "capstone-07",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "كتابة اختبارات الوحدة الحقيقية للمكونات والـ Signals بـ Vitest",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "احتراف كتابة اختبارات الوحدة الصارمة (Unit Testing) لمخازن الحالة ومحرك الإشارات Signals في Angular باستخدام إطار العمل الحديث Vitest؛ توظيف دوال describe و it و expect للتحقق من السلوك الرياضي والمنطقي لدالة toggleSeat ومطابقة المصفوفات بدقة عبر toEqual.",
+    "concept": "في المشاريع البرمجية المؤسسية والتطبيقات الإنتاجية واسعة النطاق، لا يمكن اعتبار أي ميزة مكتملة دون تغطيتها باختبارات وحدة آلية صارمة تضمن استقرار النظام ومنع أي انحدار برمجي (Regression) عند إضافة مزايا جديدة. بعد الانتقال التاريخي لـ Angular نحو نظام الإشارات Signals المعزول عن تبعيات Zone.js، أصبح اختبار الحالة في منتهى البساطة والسرعة والخفة؛ حيث لم تعد هناك حاجة لإنشاء بيئات اختبار معقدة أو تهيئة TestBed ثقيلة لاختبار منطق الأعمال النقي.\nيُعد إطار الاختبار المعاصر Vitest الخيار المفضل والحديث في بيئات البناء فائقة السرعة؛ نظراً لاعتماده على محرك Vite وخفته الاستثنائية ودعمه الأصيل لـ TypeScript ووحدات ESM. عند اختبار مخزن الحالة المركزي CinemaStore، نستخدم بنية الاختبار القياسية:\n1. دالة describe('CinemaStore', ...): لتجميع وتصنيف جناح الاختبارات الخاص بالمخزن ضمن سياق منطقي واحد واضح ومفهوم.\n2. دالة it('toggles seat selection correctly', ...): لتعريف حالة اختبارية محددة تختبر سيناريو عملي من سيناريوهات المستخدم الحقيقي.\n3. محددات الفحص التوكيدي (Assertions): مثل expect(store.selectedSeats()).toEqual([]). هنا نختبر الحالة الابتدائية لمصفوفة المقاعد، ثم نقوم بمحاكاة نقر العميل للمقعد عبر استدعاء store.toggleSeat('B4')، ونتحقق من احتوائها على المقعد المحدد بدقة، ثم نستدعي الدالة مرة أخرى للمقعد ذاته للتأكد من إلغاء تحديده وعودة المصفوفة خالية تماماً.\nيمنح هذا النهج المطورين وفرق العمل الهندسية ثقة مطلقة بأن منطق اختيار المقاعد وسلة الحجز في منصة سينما خطوة يعمل بدقة لا تشوبها شائبة قبل رفعه إلى خوادم الإنتاج.",
+    "flow": "جناح اختبار describe ⟶ محاكاة تفاعل المستخدم ⟶ فحص النتيجة بـ expect()",
+    "task": "اكتب اختبار وحدة لـ CinemaStore للتحقق من إضافة وإزالة المقاعد بـ Vitest.",
+    "file": "src/app/core/store/cinema.store.spec.ts",
+    "code": "import { describe, it, expect } from 'vitest';\nimport { CinemaStore } from './cinema.store';\n\ndescribe('CinemaStore', () => {\n  it('toggles seat selection correctly', () => {\n    const store = new CinemaStore();\n    expect(store.selectedSeats()).toEqual([]);\n    store.toggleSeat('B4');\n    expect(store.selectedSeats()).toEqual(['B4']);\n    store.toggleSeat('B4');\n    expect(store.selectedSeats()).toEqual([]);\n  });\n});",
+    "expected": "describe('CinemaStore', () => {",
+    "reference": "https://angular.dev/guide/testing",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية: اختبارات الوحدة السريعة لمخازن الحالة بـ Vitest",
+        "explanation": "بفضل اعتماد مخازن الحالة على Signals نقية، يمكن اختبارها بسرعة وخفة فائقة دون الحاجة لـ TestBed المعقد؛ نقوم فقط بإنشاء نسخة من الكلاس واستدعاء دواله والتحقق من النتيجة بـ expect().",
+        "flow": "إنشاء كائن CinemaStore ⟶ فحص الحالة الابتدائية ⟶ محاكاة اختيار المقعد ⟶ التأكد من النتيجة بـ toEqual",
+        "task": "تأمل كيف تتيح Signals كتابة اختبارات وحدة شديدة السرعة والنظافة دون أي إعدادات إضافية.",
+        "benefit": "استوعبت مزايا اختبار منطق الأعمال النقي المعزول عن واجهة المستخدم.",
+        "objective": "تأمل كيف تتيح Signals كتابة اختبارات وحدة شديدة السرعة والنظافة دون أي إعدادات إضافية.",
+        "instruction": "تأمل كيف تتيح Signals كتابة اختبارات وحدة شديدة السرعة والنظافة دون أي إعدادات إضافية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.spec.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: describe('CinemaStore', () => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: describe('CinemaStore', () => {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صياغة describe و it و expect(actual).toEqual(expected)",
+        "explanation": "تجمع describe الاختبارات، وتعرف it السيناريو، بينما تقارن expect().toEqual() المصفوفات والكائنات بالقيمة (Deep Equality) بدلاً من المرجع.",
+        "flow": "describe('CinemaStore') ⟶ it('toggles seat') ⟶ store.toggleSeat('B4') ⟶ expect().toEqual(['B4'])",
+        "task": "حلل هيكل كود الاختبار وكيفية تتبع تغير قيمة إشارة ()store.selectedSeats خطوة بخطوة.",
+        "benefit": "أتقنت الصياغة المعيارية لاختبارات الوحدة ومقارنة مصفوفات الإشارات التفاعلية.",
+        "objective": "حلل هيكل كود الاختبار وكيفية تتبع تغير قيمة إشارة ()store.selectedSeats خطوة بخطوة.",
+        "instruction": "حلل هيكل كود الاختبار وكيفية تتبع تغير قيمة إشارة ()store.selectedSeats خطوة بخطوة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.spec.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: describe('CinemaStore', () => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: describe('CinemaStore', () => {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنكتب ملف الاختبار src/app/core/store/cinema.store.spec.ts للتحقق من منطق اختيار وإلغاء اختيار المقاعد في مخزن السينما المركزي CinemaStore باستخدام Vitest.",
+        "file": "src/app/core/store/cinema.store.spec.ts",
+        "code": "import { describe, it, expect } from 'vitest';\nimport { CinemaStore } from './cinema.store';\n\ndescribe('CinemaStore', () => {\n  it('toggles seat selection correctly', () => {\n    const store = new CinemaStore();\n    expect(store.selectedSeats()).toEqual([]);\n    store.toggleSeat('B4');\n    expect(store.selectedSeats()).toEqual(['B4']);\n    store.toggleSeat('B4');\n    expect(store.selectedSeats()).toEqual([]);\n  });\n});",
+        "expected": "describe('CinemaStore', () => {",
+        "task": "اكتب اختبار وحدة لـ CinemaStore للتحقق من إضافة وإزالة المقاعد بـ Vitest ثم اضغط (شغّل وافحص).",
+        "benefit": "بنيت اختبار وحدة حقيقي يضمن دقة وموثوقية حالة المقاعد في مشروع التخرج.",
+        "objective": "اكتب اختبار وحدة لـ CinemaStore للتحقق من إضافة وإزالة المقاعد بـ Vitest ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب اختبار وحدة لـ CinemaStore للتحقق من إضافة وإزالة المقاعد بـ Vitest ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.spec.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: describe('CinemaStore', () => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: describe('CinemaStore', () => {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب إضافة فحص إضافي لإشارة seatCount() للتحقق من أنها تعيد 1 عند اختيار مقعد و 0 عند إلغائه: expect(store.seatCount()).toBe(1).",
+        "task": "أضف توكيداً على إشارة store.seatCount() وتأمل كيف تؤكد الاختبارات صحة الإشارات المشتقة.",
+        "benefit": "تعلمت كيفية توسيع نطاق الاختبار ليشمل الإشارات المشتقة computed أيضاً.",
+        "objective": "أضف توكيداً على إشارة store.seatCount() وتأمل كيف تؤكد الاختبارات صحة الإشارات المشتقة.",
+        "instruction": "أضف توكيداً على إشارة store.seatCount() وتأمل كيف تؤكد الاختبارات صحة الإشارات المشتقة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.spec.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: describe('CinemaStore', () => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: describe('CinemaStore', () => {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هي دالة الفحص في Vitest للتحقق من أن مصفوفة الإشارة تطابق النتيجة المتوقعة؟",
+        "options": [
+          "expect(actual).toEqual(expected)",
+          "assert(true)",
+          "checkResult(val)"
+        ],
+        "correct": 0,
+        "task": "ما هي دالة الفحص في Vitest للتحقق من أن مصفوفة الإشارة تطابق النتيجة المتوقعة؟",
+        "benefit": "إجابة ممتازة! دالة expect(actual).toEqual(expected) تقوم بمقارنة القيم العميقة للمصفوفات والكائنات للتأكد من تطابقها التام.",
+        "objective": "ما هي دالة الفحص في Vitest للتحقق من أن مصفوفة الإشارة تطابق النتيجة المتوقعة؟",
+        "instruction": "ما هي دالة الفحص في Vitest للتحقق من أن مصفوفة الإشارة تطابق النتيجة المتوقعة؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/core/store/cinema.store.spec.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: describe('CinemaStore', () => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: describe('CinemaStore', () => {"
+        ]
+      }
+    ],
+    "legacyId": "capstone-07",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 57,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/guide/testing",
+    "breakdown": [
+      "المرحلة 1: جناح اختبار describe",
+      "المرحلة 2: محاكاة تفاعل المستخدم",
+      "المرحلة 3: فحص النتيجة بـ expect()"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "describe('CinemaStore', () => {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "capstone-08",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "تحسين الأداء وفحص حزم بناء الإنتاج وتطبيق Tree-shaking",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "فهم وتطبيق استراتيجيات تحسين الأداء لبناء الإنتاج Production Build في Angular؛ ضبط إعدادات angular.json لتفعيل optimization: true وخاصية outputHashing: all، وفهم تقنية استبعاد الأكواد الميتة (Tree-shaking) لتقليص حجم الحزم البرمجية وتسريع وقت التحميل الأولي للمستخدمين.",
+    "concept": "عند الانتقال بتطبيق Angular من بيئة التطوير المحلية (Development) إلى بيئة الإنتاج الحقيقية (Production)، يصبح حجم الحزم البرمجية وزمن التحميل الأولي (First Contentful Paint) معيار النجاح الفارق للتطبيق وتجربة المستخدم وترتيب محركات البحث (SEO). في بيئة التطوير، يتم التركيز على سرعة البناء وإعادة التحميل الفوري وتوفير خرائط المصدر (Source Maps) لتسهيل تصحيح الأخطاء، مما يجعل الحزم كبيرة الحجم وغير مهيأة للنشر العام.\nلتحقيق أعلى كفاءة إنتاجية، يعتمد مهندسو Angular على أدوات البناء المتقدمة المضبوطة عبر ملف الإعداد المركزي angular.json. يتم تكوين خيارات البناء تحت الهدف \"build\" والتهيئة الخاصة بـ \"configurations.production\". في هذه التهيئة، نفعّل خيارين هندسيين بالغي الأهمية:\n1. خيار \"optimization\": true: وهو المسؤول عن تفعيل سلسلة من التحسينات الفائقة؛ تشمل ضغط الأكواد المصدرية (Minification)، وحذف التعليقات والمسافات البيضاء، وإعادة تسمية المتغيرات بأسماء مختصرة (Munging)، والأهم من ذلك تفعيل تقنية استبعاد الأكواد غير المستخدمة المعروفة بـ Tree-shaking؛ حيث تقوم أداة البناء بفحص شجرة استيرادات المشروع بالكامل وحذف أي دوال أو فئات تم استيرادها جزئياً ولم يتم استدعاؤها فعلياً في كود التطبيق، مما يوفر عشرات الكيلوبايتات الثمينة.\n2. خيار \"outputHashing\": \"all\": الذي يضيف قيمة تشفير عشوائية (Hash) لكل اسم ملف مبني (مثل main.7b3e2a.js)؛ يضمن هذا التجزير كسر التخزين المؤقت للمتصفح (Cache Busting) عند نشر أي إصدار جديد، ليحصل الزوار فوراً على أحدث كود دون الحاجة لإعادة تحميل قسري.\nبتطبيق هذه الإعدادات الصارمة، نضمن أن منصة سينما خطوة الاحترافية تقدم أسرع تجربة تصفح ممكنة للمستخدمين على مختلف شبكات الاتصال.",
+    "flow": "تفعيل optimization في angular.json ⟶ تشغيل ng build ⟶ التأكد من خفة الحزمة",
+    "task": "تحقق من تفعيل خاصية optimization: true في إعدادات بناء الإنتاج داخل angular.json.",
+    "file": "angular.json",
+    "code": "\"configurations\": { \"production\": { \"optimization\": true, \"outputHashing\": \"all\" } }",
+    "expected": "\"optimization\": true",
+    "reference": "https://angular.dev/tools/cli/deployment",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية: بناء الإنتاج الأمثل وتقنية Tree-shaking",
+        "explanation": "يعمل بناء الإنتاج على إزالة كل الأكواد غير المستخدمة وضغط الملفات لتقليص حجم التطبيق إلى الحد الأدنى، مما يسرع تحميل الموقع بصورة دراماتيكية للزوار.",
+        "flow": "كود المشروع الكامل ⟶ تحليل الاستيرادات والتبعيات ⟶ استبعاد الأكواد الميتة (Tree-shaking) ⟶ حزم إنتاجية مصغرة وخفيفة",
+        "task": "تأمل الفارق الهائل في الأداء وحجم الحزم بين بيئة التطوير وبيئة الإنتاج المحسنة.",
+        "benefit": "استوعبت أثر إعدادات بناء الإنتاج على سرعة تجربة المستخدم وترشيد استهلاك البيانات.",
+        "objective": "تأمل الفارق الهائل في الأداء وحجم الحزم بين بيئة التطوير وبيئة الإنتاج المحسنة.",
+        "instruction": "تأمل الفارق الهائل في الأداء وحجم الحزم بين بيئة التطوير وبيئة الإنتاج المحسنة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف angular.json؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: \"optimization\": true.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: \"optimization\": true"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح إعدادات production داخل ملف angular.json",
+        "explanation": "يحتوي كائن configurations.production على optimization: true لتفعيل تصغير الكود والـ Tree-shaking، و outputHashing: 'all' لمنع مشاكل التخزين المؤقت للمتصفح عند التحديثات.",
+        "flow": "\"configurations\": { \"production\": { \"optimization\": true, \"outputHashing\": \"all\" } }",
+        "task": "حلل إعدادات optimization و outputHashing وأهميتهما لمواقع الإنتاج العالمية.",
+        "benefit": "أتقنت ضبط معاملات البناء الرسمية في ملف الإعداد المعماري angular.json.",
+        "objective": "حلل إعدادات optimization و outputHashing وأهميتهما لمواقع الإنتاج العالمية.",
+        "instruction": "حلل إعدادات optimization و outputHashing وأهميتهما لمواقع الإنتاج العالمية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف angular.json؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: \"optimization\": true.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: \"optimization\": true"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بضبط خيارات بناء الإنتاج داخل ملف angular.json وتأكيد تفعيل خاصية optimization: true وخاصية outputHashing: 'all' لإنتاج حزم فائقة الخفة والسرعة.",
+        "file": "angular.json",
+        "code": "\"configurations\": { \"production\": { \"optimization\": true, \"outputHashing\": \"all\" } }",
+        "expected": "\"optimization\": true",
+        "task": "تحقق من تفعيل خاصية optimization: true في إعدادات بناء الإنتاج داخل angular.json ثم اضغط (شغّل وافحص).",
+        "benefit": "هيأت إعدادات بناء الإنتاج الاحترافية لمشروع سينما خطوة لضمان أعلى مستويات الأداء.",
+        "objective": "تحقق من تفعيل خاصية optimization: true في إعدادات بناء الإنتاج داخل angular.json ثم اضغط (شغّل وافحص).",
+        "instruction": "تحقق من تفعيل خاصية optimization: true في إعدادات بناء الإنتاج داخل angular.json ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف angular.json؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: \"optimization\": true.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: \"optimization\": true"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "تأمل ما يحدث في بيئة التطوير development عند تعيين optimization إلى false لتمكين خرائط المصدر وسرعة إعادة البناء أثناء كتابة الكود.",
+        "task": "قارن بين إعدادات بيئة التطوير والإنتاج في ملف التكوين.",
+        "benefit": "فهمت التوازن الهندسي بين سرعة تصحيح الأخطاء في التطوير وسرعة الأداء في الإنتاج.",
+        "objective": "قارن بين إعدادات بيئة التطوير والإنتاج في ملف التكوين.",
+        "instruction": "قارن بين إعدادات بيئة التطوير والإنتاج في ملف التكوين.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف angular.json؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: \"optimization\": true.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: \"optimization\": true"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الفائدة الأساسية من تفعيل optimization: true في بناء الإنتاج لـ Angular؟",
+        "options": [
+          "ضغط الكود واستبعاد الأجزاء غير المستخدمة (Tree-shaking) لتسريع تحميل الموقع",
+          "تغيير خطوط الموقع",
+          "منع المستخدمين من التقاط لقطة شاشة"
+        ],
+        "correct": 0,
+        "task": "ما الفائدة الأساسية من تفعيل optimization: true في بناء الإنتاج لـ Angular؟",
+        "benefit": "إجابة صحيحة! تفعيل optimization يقوم بضغط الكود وتطبيق Tree-shaking لحذف الأكواد الميتة وتقليل زمن التحميل.",
+        "objective": "ما الفائدة الأساسية من تفعيل optimization: true في بناء الإنتاج لـ Angular؟",
+        "instruction": "ما الفائدة الأساسية من تفعيل optimization: true في بناء الإنتاج لـ Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف angular.json؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: \"optimization\": true.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: \"optimization\": true"
+        ]
+      }
+    ],
+    "legacyId": "capstone-08",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 58,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/tools/cli/deployment",
+    "breakdown": [
+      "المرحلة 1: تفعيل optimization في angular.json",
+      "المرحلة 2: تشغيل ng build",
+      "المرحلة 3: التأكد من خفة الحزمة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "\"optimization\": true",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "capstone-09",
+    "module": "phase-7-capstone",
+    "phase": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "title": "المراجعة المعمارية الشاملة وتأهيل المشروع لسوق العمل",
+    "duration": "20 دقيقة",
+    "level": "متقدم",
+    "summary": "صياغة وثيقة README الاحترافية لمشروع التخرج المؤسسي Khotwa Cinema Pro؛ استعراض المعمارية النظيفة (Clean Architecture)، وتبرير القرارات التقنية الحديثة كـ Signals و DI الوظيفي و Standalone Components، وتأهيل المتعلّم للمقابلات الوظيفية كمهندس Angular محترف.",
+    "concept": "عند الانتهاء من بناء تطبيق برمجي متكامل، يواجه الكثير من المطورين عقبة تقديم أعمالهم بصورة تبرز مهاراتهم الحقيقية أمام مدراء التوظيف واللجان الهندسية في المقابلات التقنية (Technical Interviews). لا يقتصر التميز الهندسي على كتابة كود يعمل فحسب، بل يمتد إلى القدرة على توثيق المعمارية البرمجية، وتوضيح أسباب اختيار تقنيات معينة دون غيرها، وشرح كيفية تقسيم المسؤوليات داخل التطبيق.\nيمثل ملف README.md الواجهة الرئيسية ومحطة الانطباع الأولى لكل من يتصفح مستودع المشروع على GitHub. في منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)، نوثق المعمارية المؤسسية المبنية على أحدث إصدارات Angular 22 ومحرك التفاعلية الفائق Signals وفق المعايير العالمية:\n1. نظرة عامة ورؤية المشروع: التعريف بالمنصة كنظام تجاري متكامل لحجز تذاكر السينما واختيار المقاعد البصرية وسداد التكلفة.\n2. القرارات المعمارية الجوهرية (Architecture Decision Records): شرح مبررات الاستغناء عن وحدات NgModule الكلاسيكية لصالح Standalone Components، ومقارنة نظام Signals الدقيق بنظام Zone.js القديم، وتوضيح كيفية إدارة الحالة عبر CinemaStore مركزي نقي بدون الحاجة لمكتبات خارجية ثقيلة كـ NgRx.\n3. هيكل المجلدات النظيف: توضيح فصل طبقات core (النماذج والمخازن المشتركة) و features (شاشات الأفلام والمقاعد وإتمام الدفع) و shared (المكونات والموجهات المشتركة).\n4. استراتيجية الجودة والاختبارات: توثيق أسلوب اختبارات الوحدة بـ Vitest وضمان موثوقية العمليات المالية والحسابية.\nيمنح هذا التوثيق المعماري الشامل الخريج الثقة التامة للحديث بطلاقة واحترافية في المقابلات الوظيفية، وإثبات امتلاكه لعقلية مهندس البرمجيات المؤهل لسوق العمل العالمي.",
+    "flow": "كود نظيف ومختبر ⟶ توثيق README ⟶ استعراض في المقابلة الوظيفية ⟶ التوظيف",
+    "task": "وثّق المعمارية المؤسسية في ملف README.md بعنوان منصة سينما خطوة الاحترافية.",
+    "file": "README.md",
+    "code": "# منصة سينما خطوة الاحترافية (Khotwa Cinema Pro) - مبنية بـ Angular 22 و Signals\n\nتطبيق ويب مؤسسي متكامل لحجز تذاكر السينما مبني بأحدث معايير Angular الحديثة.\n\n## المعمارية البرمجية (Architecture)\n- **المكونات المستقلة (Standalone Components)**: الاستغناء التام عن وحدات NgModule.\n- **محرك الإشارات (Angular Signals)**: إدارة حالة تفاعلية دقيقة فائقة الأداء دون الاعتماد على Zone.js.\n- **مخزن الحالة المركزي (CinemaStore)**: مستودع مركزي نقي يدير المقاعد وسلة الحجز بـ signal() و computed().\n- **التوجيه الحديث والحراس الوظيفيون**: حماية المسارات بدوال CanActivateFn وربط المعاملات بـ withComponentInputBinding().\n- **النماذج الصارمة والمدققات المخصصة**: Typed Reactive Forms بخيار nonNullable ومدقق الهواتف السعودية.\n- **اختبارات الوحدة (Unit Testing)**: اختبارات جودة سريعة وشاملة باستخدام Vitest.",
+    "expected": "# منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)",
+    "reference": "https://angular.dev/overview",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية: التوثيق المعماري وتأهيل المشاريع لسوق العمل",
+        "explanation": "توثيق المعمارية البرمجية ومبررات القرارات التقنية في ملف README.md هو ما يميّز المطور العادي عن مهندس البرمجيات المحترف أمام مسؤولي التوظيف واللجان الهندسية.",
+        "flow": "معمارية نظيفة ⟶ توثيق هندسي شامل ⟶ محفظة أعمال احترافية على GitHub ⟶ اجتياز المقابلات التقنية بتفوق",
+        "task": "تأمل كيف يعكس ملف README.md الاحترافي مدى عمق فهمك للقرارات المعمارية في Angular.",
+        "benefit": "استوعبت أهمية التوثيق التقني كأداة حاسمة للترويج لخبراتك في سوق العمل.",
+        "objective": "تأمل كيف يعكس ملف README.md الاحترافي مدى عمق فهمك للقرارات المعمارية في Angular.",
+        "instruction": "تأمل كيف يعكس ملف README.md الاحترافي مدى عمق فهمك للقرارات المعمارية في Angular.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف README.md؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح هيكل التوثيق المؤسسي وقرارات المعمارية الحديثة",
+        "explanation": "يشمل التوثيق الاحترافي عنوان المشروع، والمكدس التقني (Angular 22, Signals, Vitest)، وهيكل المجلدات النظيف، ومبررات الاستغناء عن NgModule لصالح Standalone Components.",
+        "flow": "عنوان المشروع ⟶ الميزات والمعمارية ⟶ مبررات استخدام Signals ⟶ استراتيجية الاختبارات والتشغيل",
+        "task": "حلل الأقسام الأساسية لملف التوثيق وكيف تبرز المهارات الهندسية المتقدمة.",
+        "benefit": "أتقنت هيكلة ملفات التوثيق التقنية للمشاريع الكبرى وفق المعايير العالمية.",
+        "objective": "حلل الأقسام الأساسية لملف التوثيق وكيف تبرز المهارات الهندسية المتقدمة.",
+        "instruction": "حلل الأقسام الأساسية لملف التوثيق وكيف تبرز المهارات الهندسية المتقدمة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف README.md؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بتوثيق المعمارية المؤسسية لمنصة سينما خطوة الاحترافية داخل ملف README.md مع إبراز استخدام Angular 22 و Signals والمعمارية النظيفة.",
+        "file": "README.md",
+        "code": "# منصة سينما خطوة الاحترافية (Khotwa Cinema Pro) - مبنية بـ Angular 22 و Signals\n\nتطبيق ويب مؤسسي متكامل لحجز تذاكر السينما مبني بأحدث معايير Angular الحديثة.\n\n## المعمارية البرمجية (Architecture)\n- **المكونات المستقلة (Standalone Components)**: الاستغناء التام عن وحدات NgModule.\n- **محرك الإشارات (Angular Signals)**: إدارة حالة تفاعلية دقيقة فائقة الأداء دون الاعتماد على Zone.js.\n- **مخزن الحالة المركزي (CinemaStore)**: مستودع مركزي نقي يدير المقاعد وسلة الحجز بـ signal() و computed().\n- **التوجيه الحديث والحراس الوظيفيون**: حماية المسارات بدوال CanActivateFn وربط المعاملات بـ withComponentInputBinding().\n- **النماذج الصارمة والمدققات المخصصة**: Typed Reactive Forms بخيار nonNullable ومدقق الهواتف السعودية.\n- **اختبارات الوحدة (Unit Testing)**: اختبارات جودة سريعة وشاملة باستخدام Vitest.",
+        "expected": "# منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)",
+        "task": "وثّق المعمارية المؤسسية في ملف README.md بعنوان منصة سينما خطوة الاحترافية ثم اضغط (شغّل وافحص).",
+        "benefit": "أتممت توثيق مشروع التخرج المؤسسي بنجاح وأصبحت جاهزاً لمقابلات العمل التقنية بثقة واقتدار.",
+        "objective": "وثّق المعمارية المؤسسية في ملف README.md بعنوان منصة سينما خطوة الاحترافية ثم اضغط (شغّل وافحص).",
+        "instruction": "وثّق المعمارية المؤسسية في ملف README.md بعنوان منصة سينما خطوة الاحترافية ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف README.md؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب إضافة قسم جديد يوضح كيفية تشغيل المشروع بالأمر ng serve أو تشغيل الاختبارات بالأمر vitest run.",
+        "task": "أضف قسماً لتعليمات التشغيل والاختبار وتأمل اكتمال الوثيقة الهندسية.",
+        "benefit": "تعلمت كيفية صياغة وثائق مشاريع متكاملة وسهلة التشغيل لأي فريق تطوير.",
+        "objective": "أضف قسماً لتعليمات التشغيل والاختبار وتأمل اكتمال الوثيقة الهندسية.",
+        "instruction": "أضف قسماً لتعليمات التشغيل والاختبار وتأمل اكتمال الوثيقة الهندسية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف README.md؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هو العنصر الأكثر أهمية لتوثيقه في GitHub عند التقدم لوظيفة مهندس Angular؟",
+        "options": [
+          "توضيح المعمارية النظيفة، مبررات القرارات التقنية (مثل Signals و DI الوظيفي)، والاختبارات",
+          "وضع صورة شخصية في كل ملف",
+          "إخفاء الكود البرمجي عن الجميع"
+        ],
+        "correct": 0,
+        "task": "ما هو العنصر الأكثر أهمية لتوثيقه في GitHub عند التقدم لوظيفة مهندس Angular؟",
+        "benefit": "إجابة مثالية! مدراء التوظيف والمهندسون يقيّمون فهمك للمعمارية ومبررات قراراتك البرمجية وجودة الاختبارات.",
+        "objective": "ما هو العنصر الأكثر أهمية لتوثيقه في GitHub عند التقدم لوظيفة مهندس Angular؟",
+        "instruction": "ما هو العنصر الأكثر أهمية لتوثيقه في GitHub عند التقدم لوظيفة مهندس Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف README.md؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: # منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)"
+        ]
+      }
+    ],
+    "legacyId": "capstone-09",
+    "skill": "المرحلة 7: مشروع التخرج المؤسسي واختبارات الوحدة",
+    "order": 59,
+    "whyUse": "تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.",
+    "browserMechanics": "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.",
+    "documentationUrl": "https://angular.dev/overview",
+    "breakdown": [
+      "المرحلة 1: كود نظيف ومختبر",
+      "المرحلة 2: توثيق README",
+      "المرحلة 3: استعراض في المقابلة الوظيفية",
+      "المرحلة 4: التوظيف"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "# منصة سينما خطوة الاحترافية (Khotwa Cinema Pro)",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  }
+]

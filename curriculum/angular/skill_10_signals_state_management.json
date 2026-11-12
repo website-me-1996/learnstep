@@ -1,0 +1,918 @@
+[
+  {
+    "id": "ng-signal-create",
+    "phase": "الحالة التفاعلية بـ Signals",
+    "title": "إنشاء إشارة تفاعلية (`signal()`)",
+    "concept": "الـ Signal هي وسيلة Angular الحديثة لإدارة الحالة؛ صندوق ذكي يحتوي على قيمة، وعند تغيرها يحدّث الأماكن التي تعرضها فقط بسرعة فائقة وأداء مذهل.",
+    "flow": "استيراد signal ⟶ إنشاء ticketCount = signal(1) ⟶ قراءة القيمة ticketCount() في القالب",
+    "task": "أنشئ إشارة تفاعلية لعدد التذاكر تبدأ من 1 داخل كلاس App في src/app/app.ts.",
+    "file": "src/app/app.ts",
+    "code": "readonly ticketCount = signal<number>(1);",
+    "expected": "readonly ticketCount = signal<number>(1);",
+    "reference": "https://angular.dev/guide/signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "الـ Signals تمثل أكبر نقلة نوعية في تاريخ Angular! هي قيم تفاعلية ذكية تعرف بدقة من يقرأها، وعندما تتغير تخبر الواجهة فورًا بتحديث ذلك الجزء الصغير دون فحص بقية التطبيق.",
+        "flow": "signal(1) ⟶ تغيرت القيمة ⟶ تحديث ذري وسريع للواجهة المعنية فقط",
+        "task": "افتح src/app/app.ts لإنشاء أول إشارة في مشروعك.",
+        "benefit": "فهمت سر السرعة الفائقة لـ Signals في Angular الحديث.",
+        "objective": "افتح src/app/app.ts لإنشاء أول إشارة في مشروعك.",
+        "instruction": "افتح src/app/app.ts لإنشاء أول إشارة في مشروعك.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly ticketCount = signal<number>(1);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly ticketCount = signal<number>(1);"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح دالة signal()",
+        "explanation": "نستورد signal من '@angular/core' ونحدد القيمة الابتدائية بين القوسين signal(1). لقراءة القيمة لاحقًا، نستدعيها كدالة ticketCount().",
+        "flow": "const count = signal(1) ⟶ count() تعيد 1",
+        "task": "تأكد من وجود signal في عبارة import أعلى ملف app.ts.",
+        "benefit": "تعلمت صيغة إنشاء وقراءة الـ Signals.",
+        "objective": "تأكد من وجود signal في عبارة import أعلى ملف app.ts.",
+        "instruction": "تأكد من وجود signal في عبارة import أعلى ملف app.ts.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly ticketCount = signal<number>(1);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly ticketCount = signal<number>(1);"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "عرّف إشارة ticketCount بعدد تذاكر افتراضي 1 داخل كلاس App.",
+        "file": "src/app/app.ts",
+        "code": "readonly ticketCount = signal<number>(1);",
+        "expected": "readonly ticketCount = signal<number>(1);",
+        "task": "أضف سطر الإشارة داخل كلاس App في src/app/app.ts ثم اضغط (شغّل وافحص).",
+        "benefit": "أنشأت أول Signal في تطبيق السينما بنجاح.",
+        "objective": "أضف سطر الإشارة داخل كلاس App في src/app/app.ts ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف سطر الإشارة داخل كلاس App في src/app/app.ts ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly ticketCount = signal<number>(1);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly ticketCount = signal<number>(1);"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب تغيير القيمة الابتدائية من 1 إلى 2 لتبدأ الحجوزات بتذكرتين افتراضيًا.",
+        "task": "غيّر القيمة الابتدائية إلى 2 وتأكد من عمل الكود.",
+        "benefit": "أتقنت التحكم في الحالة الابتدائية للإشارات.",
+        "objective": "غيّر القيمة الابتدائية إلى 2 وتأكد من عمل الكود.",
+        "instruction": "غيّر القيمة الابتدائية إلى 2 وتأكد من عمل الكود.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly ticketCount = signal<number>(1);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly ticketCount = signal<number>(1);"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "كيف نقرأ قيمة إشارة تدعى ticketCount داخل الكود أو القالب؟",
+        "options": [
+          "باستدعائها كدالة عبر الأقواس: ticketCount()",
+          "بكتابة ticketCount.value()",
+          "بكتابة get(ticketCount)"
+        ],
+        "correct": 0,
+        "benefit": "تثبيت قاعدة قراءة الـ Signal بالأقواس () دائمًا.",
+        "task": "كيف نقرأ قيمة إشارة تدعى ticketCount داخل الكود أو القالب؟",
+        "objective": "كيف نقرأ قيمة إشارة تدعى ticketCount داخل الكود أو القالب؟",
+        "instruction": "كيف نقرأ قيمة إشارة تدعى ticketCount داخل الكود أو القالب؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly ticketCount = signal<number>(1);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly ticketCount = signal<number>(1);"
+        ]
+      }
+    ],
+    "legacyId": "ng-signal-create",
+    "skill": "الحالة التفاعلية بـ Signals",
+    "order": 70,
+    "whyUse": "تمثل الإشارات Signals نموذج التفاعلية المعاصر في Angular، وتتيح إدارة دقيقة وحبيبية لحالة التطبيق دون الحاجة لفحص شجرة المكونات بأكملها، مما يرفع كفاءة المعالجة ويقلل استهلاك الذاكرة ويجعل تدفق البيانات قابلاً للتتبع والاستنتاج الرياضي بسهولة.",
+    "browserMechanics": "تبني مكتبة Signals رسماً بيانياً للتبعيات (Reactive Dependency Graph) في ذاكرة المتصفح؛ فعند تحديث قيمة إشارة، تخطر الإشارة كافة المشتقات والمؤثرات المعتمدة عليها فقط لتحديث خانات DOM المحددة بدقة متناهية دون الحاجة لتشغيل دورة فحص التغييرات العامة.",
+    "documentationUrl": "https://angular.dev/guide/signals",
+    "breakdown": [
+      "المرحلة 1: استيراد signal",
+      "المرحلة 2: إنشاء ticketCount = signal(1)",
+      "المرحلة 3: قراءة القيمة ticketCount() في القالب"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "readonly ticketCount = signal<number>(1);",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-signal-update",
+    "phase": "الحالة التفاعلية بـ Signals",
+    "title": "تحديث الإشارة بالدوال (`update()` و `set()`)",
+    "concept": "لتعديل قيمة Signal نستخدم دالة update() لتغييرها بناءً على القيمة السابقة (مثل زيادة التذاكر +1)، أو set() لوضع قيمة جديدة مباشرة.",
+    "flow": "زر الزيادة ⟶ ticketCount.update(c => c + 1) ⟶ تتغير الإشارة والواجهة فوريًا",
+    "task": "أضف دالة زيادة التذاكر increaseTickets داخل كلاس App في src/app/app.ts.",
+    "file": "src/app/app.ts",
+    "code": "increaseTickets(): void { this.ticketCount.update((count) => count + 1); }",
+    "expected": "increaseTickets(): void { this.ticketCount.update((count) => count + 1); }",
+    "reference": "https://angular.dev/guide/signals#updating-signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "لا نغير قيمة الـ Signal بمساواة عادية مثل count = 2، بل نستدعي دوالها المدمجة update() أو set() ليعلم Angular بالتغيير ويحدث الواجهة فوريًا.",
+        "flow": "update(n => n + 1) ⟶ قراءة القديم ⟶ حساب الجديد ⟶ إشعار الواجهة",
+        "task": "افتح ملف src/app/app.ts لكتابة دالة الزيادة.",
+        "benefit": "تعلمت الطريقة الصحيحة والآمنة لتحديث الحالة في Angular.",
+        "objective": "افتح ملف src/app/app.ts لكتابة دالة الزيادة.",
+        "instruction": "افتح ملف src/app/app.ts لكتابة دالة الزيادة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح دالة update()",
+        "explanation": "دالة update تأخذ دالة سهمية (count => count + 1). القيمة السابقة تدخل عبر count، والقيمة المرجعة تصبح هي الحالة الجديدة للإشارة.",
+        "flow": "count (الحالي) ⟶ count + 1 (الجديد)",
+        "task": "تأمل كيف تضمن دالة update عدم ضياع التحديثات المتتالية.",
+        "benefit": "أتقنت استخدام الدوال السهمية في تحديث الإشارات.",
+        "objective": "تأمل كيف تضمن دالة update عدم ضياع التحديثات المتتالية.",
+        "instruction": "تأمل كيف تضمن دالة update عدم ضياع التحديثات المتتالية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف دالة increaseTickets داخل كلاس App في src/app/app.ts.",
+        "file": "src/app/app.ts",
+        "code": "increaseTickets(): void { this.ticketCount.update((count) => count + 1); }",
+        "expected": "increaseTickets(): void { this.ticketCount.update((count) => count + 1); }",
+        "task": "أضف الدالة ثم اضغط (شغّل وافحص).",
+        "benefit": "بنيت محرك زيادة التذاكر التفاعلي بـ Signals.",
+        "objective": "أضف الدالة ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف الدالة ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "فكر كيف يمكنك إضافة دالة decreaseTickets لإنقاص التذاكر بشرط ألا تقل عن 1.",
+        "task": "تأمل منطق دالة الإنقاص كخطوة إبداعية.",
+        "benefit": "فهمت كيفية بناء عدادات تفاعلية كاملة.",
+        "objective": "تأمل منطق دالة الإنقاص كخطوة إبداعية.",
+        "instruction": "تأمل منطق دالة الإنقاص كخطوة إبداعية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الدالة المستخدمة لتعديل قيمة Signal بناءً على قيمتها السابقة؟",
+        "options": [
+          "دالة update()",
+          "دالة replace()",
+          "دالة push()"
+        ],
+        "correct": 0,
+        "benefit": "حفظ دالة update() الخاصة بتحديث الإشارات.",
+        "task": "ما الدالة المستخدمة لتعديل قيمة Signal بناءً على قيمتها السابقة؟",
+        "objective": "ما الدالة المستخدمة لتعديل قيمة Signal بناءً على قيمتها السابقة؟",
+        "instruction": "ما الدالة المستخدمة لتعديل قيمة Signal بناءً على قيمتها السابقة؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: increaseTickets(): void { this.ticketCount.update((count) => count + 1); }"
+        ]
+      }
+    ],
+    "legacyId": "ng-signal-update",
+    "skill": "الحالة التفاعلية بـ Signals",
+    "order": 71,
+    "whyUse": "تمثل الإشارات Signals نموذج التفاعلية المعاصر في Angular، وتتيح إدارة دقيقة وحبيبية لحالة التطبيق دون الحاجة لفحص شجرة المكونات بأكملها، مما يرفع كفاءة المعالجة ويقلل استهلاك الذاكرة ويجعل تدفق البيانات قابلاً للتتبع والاستنتاج الرياضي بسهولة.",
+    "browserMechanics": "تبني مكتبة Signals رسماً بيانياً للتبعيات (Reactive Dependency Graph) في ذاكرة المتصفح؛ فعند تحديث قيمة إشارة، تخطر الإشارة كافة المشتقات والمؤثرات المعتمدة عليها فقط لتحديث خانات DOM المحددة بدقة متناهية دون الحاجة لتشغيل دورة فحص التغييرات العامة.",
+    "documentationUrl": "https://angular.dev/guide/signals#updating-signals",
+    "breakdown": [
+      "المرحلة 1: زر الزيادة",
+      "المرحلة 2: ticketCount.update(c => c + 1)",
+      "المرحلة 3: تتغير الإشارة والواجهة فوريًا"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "increaseTickets(): void { this.ticketCount.update((count) => count + 1); }",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-signal-computed",
+    "phase": "الحالة التفاعلية بـ Signals",
+    "title": "الحسابات التلقائية الذكية (`computed()`)",
+    "concept": "دالة computed() تنشئ إشارة محسوبة تشتق قيمتها تلقائيًا من إشارات أخرى، ويُعاد حسابها فقط وبذكاء عند تغير الإشارات المعتمدة عليها.",
+    "flow": "ticketCount() × 85 ⟶ computed() ⟶ يتحدث الإجمالي تلقائيًا دون كتابة أي كود إضافي",
+    "task": "أضف إشارة محسوبة لحساب السعر الإجمالي للتذاكر في src/app/app.ts.",
+    "file": "src/app/app.ts",
+    "code": "readonly totalPrice = computed(() => this.ticketCount() * 85);",
+    "expected": "readonly totalPrice = computed(() => this.ticketCount() * 85);",
+    "reference": "https://angular.dev/guide/signals#computed-signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "تخيل أن سعر التذكرة 85 ج.م. هل يعقل أن تعيد حساب الإجمالي يدويًا في كل مرة يغير فيها المستخدم عدد التذاكر؟ دالة computed() تقوم بذلك تلقائيًا وبأعلى كفاءة!",
+        "flow": "تغير ticketCount ⟶ استشعار تلقائي ⟶ إعادة حساب totalPrice فورًا",
+        "task": "افتح src/app/app.ts لإضافة الإشارة المحسوبة.",
+        "benefit": "اكتشفت القوة السحرية للبيانات المشتقة Computed Signals.",
+        "objective": "افتح src/app/app.ts لإضافة الإشارة المحسوبة.",
+        "instruction": "افتح src/app/app.ts لإضافة الإشارة المحسوبة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly totalPrice = computed(() => this.ticketCount() * 85);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly totalPrice = computed(() => this.ticketCount() * 85);"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح دالة computed()",
+        "explanation": "نستورد computed من '@angular/core'. نمرر لها دالة تعيد المعادلة الرياضية. Angular يتتبع الإشارات المستخدمة بداخلها تلقائيًا (Memoization).",
+        "flow": "computed(() => count() * price) ⟶ إشارة ذكية تقرأ بـ totalPrice()",
+        "task": "لاحظ أن computed للقراءة فقط؛ لا يمكن تعديلها بـ set أو update مباشرة.",
+        "benefit": "فهمت مبدأ مناعة الإشارات المشتقة ضد الأخطاء غير المقصودة.",
+        "objective": "لاحظ أن computed للقراءة فقط؛ لا يمكن تعديلها بـ set أو update مباشرة.",
+        "instruction": "لاحظ أن computed للقراءة فقط؛ لا يمكن تعديلها بـ set أو update مباشرة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly totalPrice = computed(() => this.ticketCount() * 85);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly totalPrice = computed(() => this.ticketCount() * 85);"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف إشارة totalPrice داخل كلاس App في src/app/app.ts.",
+        "file": "src/app/app.ts",
+        "code": "readonly totalPrice = computed(() => this.ticketCount() * 85);",
+        "expected": "readonly totalPrice = computed(() => this.ticketCount() * 85);",
+        "task": "اكتب سطر الإشارة المحسوبة داخل الكلاس ثم اضغط (شغّل وافحص).",
+        "benefit": "أنشأت حاسبة أسعار آلية فائقة السرعة بـ Signals.",
+        "objective": "اكتب سطر الإشارة المحسوبة داخل الكلاس ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب سطر الإشارة المحسوبة داخل الكلاس ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly totalPrice = computed(() => this.ticketCount() * 85);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly totalPrice = computed(() => this.ticketCount() * 85);"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "إذا كان سعر التذكرة 100 ج.م بدل 85، يمكنك تغيير الرقم ببساطة وسيتكفل Angular بالباقي.",
+        "task": "راجع وجود totalPrice بنجاح في كلاس App.",
+        "benefit": "أتقنت إدارة الحسابات المالية والإحصائية المشتقة.",
+        "objective": "راجع وجود totalPrice بنجاح في كلاس App.",
+        "instruction": "راجع وجود totalPrice بنجاح في كلاس App.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly totalPrice = computed(() => this.ticketCount() * 85);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly totalPrice = computed(() => this.ticketCount() * 85);"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "متى يعيد Angular حساب القيمة داخل computed()؟",
+        "options": [
+          "تلقائيًا فقط عند تغير إحدى الإشارات المعتمد عليها بالداخل",
+          "في كل ثانية وبشكل مستمر",
+          "فقط عند إعادة تشغيل الكمبيوتر"
+        ],
+        "correct": 0,
+        "benefit": "فهم آلية التحديث الذكي والكسول لـ Computed Signals.",
+        "task": "متى يعيد Angular حساب القيمة داخل computed()؟",
+        "objective": "متى يعيد Angular حساب القيمة داخل computed()؟",
+        "instruction": "متى يعيد Angular حساب القيمة داخل computed()؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly totalPrice = computed(() => this.ticketCount() * 85);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly totalPrice = computed(() => this.ticketCount() * 85);"
+        ]
+      }
+    ],
+    "legacyId": "ng-signal-computed",
+    "skill": "الحالة التفاعلية بـ Signals",
+    "order": 72,
+    "whyUse": "تمثل الإشارات Signals نموذج التفاعلية المعاصر في Angular، وتتيح إدارة دقيقة وحبيبية لحالة التطبيق دون الحاجة لفحص شجرة المكونات بأكملها، مما يرفع كفاءة المعالجة ويقلل استهلاك الذاكرة ويجعل تدفق البيانات قابلاً للتتبع والاستنتاج الرياضي بسهولة.",
+    "browserMechanics": "تبني مكتبة Signals رسماً بيانياً للتبعيات (Reactive Dependency Graph) في ذاكرة المتصفح؛ فعند تحديث قيمة إشارة، تخطر الإشارة كافة المشتقات والمؤثرات المعتمدة عليها فقط لتحديث خانات DOM المحددة بدقة متناهية دون الحاجة لتشغيل دورة فحص التغييرات العامة.",
+    "documentationUrl": "https://angular.dev/guide/signals#computed-signals",
+    "breakdown": [
+      "المرحلة 1: ticketCount() × 85",
+      "المرحلة 2: computed()",
+      "المرحلة 3: يتحدث الإجمالي تلقائيًا دون كتابة أي كود إضافي"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "readonly totalPrice = computed(() => this.ticketCount() * 85);",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "ng-signal-display",
+    "phase": "الحالة التفاعلية بـ Signals",
+    "title": "عرض الإشارات في واجهة التطبيق",
+    "concept": "لقراءة وعرض قيمة أي Signal في القالب، نستدعيها كدالة باستخدام الأقواس مثل {{ ticketCount() }} و {{ totalPrice() }}.",
+    "flow": "قالب HTML ⟶ {{ ticketCount() }} و {{ totalPrice() }} ⟶ شاشة أسعار حية متجاوبة",
+    "task": "أضف شريط ملخص التذاكر والأسعار داخل src/app/app.html.",
+    "file": "src/app/app.html",
+    "code": "<div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>",
+    "expected": "<div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>",
+    "reference": "https://angular.dev/guide/signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "الآن حان وقت رؤية قوة الـ Signals على شاشة السينما! سنعرض عداد التذاكر والسعر الإجمالي مباشرة في الواجهة.",
+        "flow": "Signals في TypeScript ⟶ عرض في القالب بالأقواس () ⟶ تحديث حي للمستخدم",
+        "task": "انتقل إلى ملف src/app/app.html.",
+        "benefit": "ربطت الحالة الحديثة Signals بواجهة المستخدم المرئية.",
+        "objective": "انتقل إلى ملف src/app/app.html.",
+        "instruction": "انتقل إلى ملف src/app/app.html.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح استدعاء الإشارة في القالب",
+        "explanation": "تذكر دائمًا: لأن Signal هي دالة، يجب وضع القوسين () داخل Interpolation، أي {{ ticketCount() }} وليس {{ ticketCount }}.",
+        "flow": "{{ ticketCount() }} ⟶ قراءة القيمة اللحظية",
+        "task": "تأكد من وجود القوسين () بعد اسم الإشارة.",
+        "benefit": "تجنبت الخطأ الأكثر شيوعًا عند المبتدئين في Signals.",
+        "objective": "تأكد من وجود القوسين () بعد اسم الإشارة.",
+        "instruction": "تأكد من وجود القوسين () بعد اسم الإشارة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف شريط ملخص التذاكر داخل وسم main في src/app/app.html.",
+        "file": "src/app/app.html",
+        "code": "<div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>",
+        "expected": "<div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>",
+        "task": "أضف الكود ثم اضغط (شغّل وافحص) وشاهد شريط التذاكر والأسعار يظهر في المعاينة!",
+        "benefit": "ظهر ملخص التذاكر والسعر الإجمالي في واجهة السينما بنجاح.",
+        "objective": "أضف الكود ثم اضغط (شغّل وافحص) وشاهد شريط التذاكر والأسعار يظهر في المعاينة!",
+        "instruction": "أضف الكود ثم اضغط (شغّل وافحص) وشاهد شريط التذاكر والأسعار يظهر في المعاينة!",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "لاحظ كيف يعرض شريط التذاكر العدد (1) والإجمالي (85 ج.م) بشكل متناسق وأنيق.",
+        "task": "تأمل ظهور ملخص التذاكر في المعاينة الحية.",
+        "benefit": "أتقنت عرض الإشارات المشتقة والمباشرة في قوالب Angular.",
+        "objective": "تأمل ظهور ملخص التذاكر في المعاينة الحية.",
+        "instruction": "تأمل ظهور ملخص التذاكر في المعاينة الحية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "كيف نكتب إشارة count داخل قالب HTML في Angular؟",
+        "options": [
+          "{{ count() }} مع وضع القوسين",
+          "{{ count }} بدون أقواس",
+          "[[ count ]]"
+        ],
+        "correct": 0,
+        "benefit": "إتقان استدعاء الإشارات في قوالب HTML.",
+        "task": "كيف نكتب إشارة count داخل قالب HTML في Angular؟",
+        "objective": "كيف نكتب إشارة count داخل قالب HTML في Angular؟",
+        "instruction": "كيف نكتب إشارة count داخل قالب HTML في Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>"
+        ]
+      }
+    ],
+    "legacyId": "ng-signal-display",
+    "skill": "الحالة التفاعلية بـ Signals",
+    "order": 73,
+    "whyUse": "تمثل الإشارات Signals نموذج التفاعلية المعاصر في Angular، وتتيح إدارة دقيقة وحبيبية لحالة التطبيق دون الحاجة لفحص شجرة المكونات بأكملها، مما يرفع كفاءة المعالجة ويقلل استهلاك الذاكرة ويجعل تدفق البيانات قابلاً للتتبع والاستنتاج الرياضي بسهولة.",
+    "browserMechanics": "تبني مكتبة Signals رسماً بيانياً للتبعيات (Reactive Dependency Graph) في ذاكرة المتصفح؛ فعند تحديث قيمة إشارة، تخطر الإشارة كافة المشتقات والمؤثرات المعتمدة عليها فقط لتحديث خانات DOM المحددة بدقة متناهية دون الحاجة لتشغيل دورة فحص التغييرات العامة.",
+    "documentationUrl": "https://angular.dev/guide/signals",
+    "breakdown": [
+      "المرحلة 1: قالب HTML",
+      "المرحلة 2: {{ ticketCount() }} و {{ totalPrice() }}",
+      "المرحلة 3: شاشة أسعار حية متجاوبة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "<div class=\"ticket-summary\"><span>التذاكر: {{ ticketCount() }}</span><span>الإجمالي: {{ totalPrice() }} ج.م</span></div>",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  }
+]

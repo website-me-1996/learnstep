@@ -1,0 +1,689 @@
+[
+  {
+    "id": "ng-routing-setup",
+    "phase": "التوجيه والصفحات",
+    "title": "إعداد مسارات الصفحات (`Routes`)",
+    "concept": "نظام التوجيه في Angular (Router) يتيح التنقل السلس بين صفحات التطبيق المتعددة (عروض الأفلام، تذاكري، تفاصيل الحجز) في أجزاء من الثانية دون أي إعادة تحميل للصفحة.",
+    "flow": "مسار /movies ⟶ صفحة الأفلام  |  مسار /tickets ⟶ صفحة تذاكري",
+    "task": "عرّف مصفوفة المسارات الأساسية في src/app/app.routes.ts.",
+    "file": "src/app/app.routes.ts",
+    "code": "import { Routes } from '@angular/router';\n\nexport const routes: Routes = [\n  { path: '', redirectTo: 'movies', pathMatch: 'full' }\n];",
+    "expected": "export const routes: Routes",
+    "reference": "https://angular.dev/guide/routing/common-router-tasks",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "في تطبيقات الويب أحادية الصفحة، المستخدم يرى عناوين URL تتغير في شريط المتصفح، ولكن الصفحة لا يُعاد تحميلها أبدًا! Angular Router هو المسؤول عن هذه التجربة الساحرة.",
+        "flow": "تغير الرابط في المتصفح ⟶ Angular Router يعرض المكون المطلوب فوريًا",
+        "task": "افتح src/app/app.routes.ts في محرر الأكواد.",
+        "benefit": "فهمت كيفية عمل التوجيه الداخلي السريع Client-Side Routing.",
+        "objective": "افتح src/app/app.routes.ts في محرر الأكواد.",
+        "instruction": "افتح src/app/app.routes.ts في محرر الأكواد.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.routes.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const routes: Routes.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const routes: Routes"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح مصفوفة Routes",
+        "explanation": "مصفوفة Routes تحتوي على كائنات؛ كل كائن يحدد مسار الرابط path والمكون المرتبط به component، أو التوجيه التلقائي redirectTo.",
+        "flow": "{ path: '', redirectTo: 'movies', pathMatch: 'full' } ⟶ تحويل الرابط الرئيسي",
+        "task": "لاحظ التوجيه التلقائي للصفحة الرئيسية إلى قسم الأفلام مباشرة.",
+        "benefit": "تعلمت الصياغة المعيارية لإعداد مسارات Angular.",
+        "objective": "لاحظ التوجيه التلقائي للصفحة الرئيسية إلى قسم الأفلام مباشرة.",
+        "instruction": "لاحظ التوجيه التلقائي للصفحة الرئيسية إلى قسم الأفلام مباشرة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.routes.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const routes: Routes.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const routes: Routes"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف تعريف المسارات داخل ملف src/app/app.routes.ts.",
+        "file": "src/app/app.routes.ts",
+        "code": "import { Routes } from '@angular/router';\n\nexport const routes: Routes = [\n  { path: '', redirectTo: 'movies', pathMatch: 'full' }\n];",
+        "expected": "export const routes: Routes",
+        "task": "اكتب كود المسارات ثم اضغط (شغّل وافحص).",
+        "benefit": "أسست خريطة مسارات التنقل لمشروع السينما.",
+        "objective": "اكتب كود المسارات ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب كود المسارات ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.routes.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const routes: Routes.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const routes: Routes"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "يمكنك إضافة أي مسار جديد لاحقًا مثل { path: 'tickets', component: TicketsComponent } بكل بساطة.",
+        "task": "تأكد من وجود مصفوفة routes بنجاح.",
+        "benefit": "أتقنت تجهيز بنية مسارات التطبيقات متعددة الصفحات.",
+        "objective": "تأكد من وجود مصفوفة routes بنجاح.",
+        "instruction": "تأكد من وجود مصفوفة routes بنجاح.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.routes.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const routes: Routes.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const routes: Routes"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما فائدة خاصية redirectTo في كائن المسار داخل مصفوفة Routes؟",
+        "options": [
+          "تحويل الزائر تلقائيًا إلى مسار آخر (مثل تحويل الرابط الرئيسي لصفحة الأفلام)",
+          "حذف صفحة من الذاكرة",
+          "إغلاق المتصفح"
+        ],
+        "correct": 0,
+        "benefit": "فهم التوجيه التلقائي في Angular Router.",
+        "task": "ما فائدة خاصية redirectTo في كائن المسار داخل مصفوفة Routes؟",
+        "objective": "ما فائدة خاصية redirectTo في كائن المسار داخل مصفوفة Routes؟",
+        "instruction": "ما فائدة خاصية redirectTo في كائن المسار داخل مصفوفة Routes؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.routes.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const routes: Routes.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const routes: Routes"
+        ]
+      }
+    ],
+    "legacyId": "ng-routing-setup",
+    "skill": "التوجيه والصفحات",
+    "order": 90,
+    "whyUse": "يضمن التوجيه الحديث دعم التحميل الكسول للوحات والشاشات وربط معاملات الرابط مباشرة كإشارات Signal Inputs، بينما تضمن النماذج الصارمة Typed Forms التحقق المحكم من مدخلات المستخدم ومنع إرسال بيانات ناقصة أو غير صالحة للسيرفر.",
+    "browserMechanics": "يراقب موجه Angular تاريخ التصفح (HTML5 History API) ويستجيب لتغيرات العنوان URL ليقوم بتحميل شفرة المكون المستهدف ديناميكياً عبر استيراد وحدات JavaScript (Dynamic Imports)، ثم يركبه في مقبس router-outlet دون إعادة تحميل الصفحة.",
+    "documentationUrl": "https://angular.dev/guide/routing/common-router-tasks",
+    "breakdown": [
+      "المرحلة 1: مسار /movies",
+      "المرحلة 2: صفحة الأفلام  |  مسار /tickets",
+      "المرحلة 3: صفحة تذاكري"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export const routes: Routes",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-routing-outlet",
+    "phase": "التوجيه والصفحات",
+    "title": "عرض الصفحة الحالية بـ `<router-outlet>`",
+    "concept": "الوسم <router-outlet /> هو المنفذ المخصص في القالب الذي يعرض فيه Angular مكوّن الصفحة المختارة حاليًا بناءً على الرابط النشط.",
+    "flow": "الرابط يتغير ⟶ يفرغ Angular مخرج الراوتر ⟶ يعرض المكون المطلوب فورًا",
+    "task": "أضف مخرج الصفحات <router-outlet /> في src/app/app.html.",
+    "file": "src/app/app.html",
+    "code": "<main class=\"router-viewport\"><router-outlet /></main>",
+    "expected": "<main class=\"router-viewport\"><router-outlet /></main>",
+    "reference": "https://angular.dev/guide/routing/common-router-tasks#displaying-a-routed-view",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "أين تظهر الصفحة عندما يضغط الزائر على رابط؟ هنا يأتي دور <router-outlet />؛ هو الإطار أو الشاشة التي يتبدل بداخلها محتوى الصفحات مع بقاء الترويسة والشريط ثابتين!",
+        "flow": "ترويسة ثابتة ⟶ [router-outlet شاشة تبديل الصفحات] ⟶ تذييل ثابت",
+        "task": "انتقل إلى ملف src/app/app.html.",
+        "benefit": "فهمت مكان وكيفية عرض الصفحات المتنقلة.",
+        "objective": "انتقل إلى ملف src/app/app.html.",
+        "instruction": "انتقل إلى ملف src/app/app.html.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <main class=\"router-viewport\"><router-outlet /></main>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <main class=\"router-viewport\"><router-outlet /></main>"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح وسم <router-outlet />",
+        "explanation": "وسم ذاتي الإغلاق يأتي من RouterModule. بمجرد وضعه في القالب، يعرف Angular تلقائيًا أين يرسم صفحات المسارات.",
+        "flow": "<router-outlet /> ⟶ نافذة عرض الصفحات الذكية",
+        "task": "لاحظ كيف يسمح لك بالحفاظ على الهيكل العام ثابتاً وتغيير المحتوى فقط.",
+        "benefit": "أتقنت تجهيز نافذة العرض لتطبيقات SPA.",
+        "objective": "لاحظ كيف يسمح لك بالحفاظ على الهيكل العام ثابتاً وتغيير المحتوى فقط.",
+        "instruction": "لاحظ كيف يسمح لك بالحفاظ على الهيكل العام ثابتاً وتغيير المحتوى فقط.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <main class=\"router-viewport\"><router-outlet /></main>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <main class=\"router-viewport\"><router-outlet /></main>"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف وسم <router-outlet /> داخل src/app/app.html.",
+        "file": "src/app/app.html",
+        "code": "<main class=\"router-viewport\"><router-outlet /></main>",
+        "expected": "<main class=\"router-viewport\"><router-outlet /></main>",
+        "task": "أضف كود المنفذ ثم اضغط (شغّل وافحص).",
+        "benefit": "فتحت منفذ التوجيه الديناميكي في تطبيق السينما.",
+        "objective": "أضف كود المنفذ ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف كود المنفذ ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <main class=\"router-viewport\"><router-outlet /></main>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <main class=\"router-viewport\"><router-outlet /></main>"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "تأكد من أن هذا المنفذ جاهز لاستقبال أي صفحة تطلبها من قائمة التنقل.",
+        "task": "تأمل الهيكل المنظم في القالب.",
+        "benefit": "أصبحت جاهزًا لإضافة أزرار وروابط التنقل السريع.",
+        "objective": "تأمل الهيكل المنظم في القالب.",
+        "instruction": "تأمل الهيكل المنظم في القالب.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <main class=\"router-viewport\"><router-outlet /></main>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <main class=\"router-viewport\"><router-outlet /></main>"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هو دور الوسم <router-outlet /> في قوالب Angular؟",
+        "options": [
+          "يمثل المكان المخصص لعرض وتبديل مكونات الصفحات النشطة",
+          "يقوم برسم زر خروج من الموقع",
+          "يعرض إعلانات تلقائية"
+        ],
+        "correct": 0,
+        "benefit": "حفظ دور الوسم الأساسي <router-outlet />.",
+        "task": "ما هو دور الوسم <router-outlet /> في قوالب Angular؟",
+        "objective": "ما هو دور الوسم <router-outlet /> في قوالب Angular؟",
+        "instruction": "ما هو دور الوسم <router-outlet /> في قوالب Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <main class=\"router-viewport\"><router-outlet /></main>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <main class=\"router-viewport\"><router-outlet /></main>"
+        ]
+      }
+    ],
+    "legacyId": "ng-routing-outlet",
+    "skill": "التوجيه والصفحات",
+    "order": 91,
+    "whyUse": "يضمن التوجيه الحديث دعم التحميل الكسول للوحات والشاشات وربط معاملات الرابط مباشرة كإشارات Signal Inputs، بينما تضمن النماذج الصارمة Typed Forms التحقق المحكم من مدخلات المستخدم ومنع إرسال بيانات ناقصة أو غير صالحة للسيرفر.",
+    "browserMechanics": "يراقب موجه Angular تاريخ التصفح (HTML5 History API) ويستجيب لتغيرات العنوان URL ليقوم بتحميل شفرة المكون المستهدف ديناميكياً عبر استيراد وحدات JavaScript (Dynamic Imports)، ثم يركبه في مقبس router-outlet دون إعادة تحميل الصفحة.",
+    "documentationUrl": "https://angular.dev/guide/routing/common-router-tasks#displaying-a-routed-view",
+    "breakdown": [
+      "المرحلة 1: الرابط يتغير",
+      "المرحلة 2: يفرغ Angular مخرج الراوتر",
+      "المرحلة 3: يعرض المكون المطلوب فورًا"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "<main class=\"router-viewport\"><router-outlet /></main>",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-routing-link",
+    "phase": "التوجيه والصفحات",
+    "title": "الانتقال السريع بـ `routerLink` وتمييز الرابط النشط",
+    "concept": "نستخدم خاصية routerLink=\"/path\" بدلاً من href التقليدي للتنقل الفوري، ونضيف routerLinkActive=\"active\" لتمييز الصفحة النشطة تلقائيًا.",
+    "flow": "نقر على <a routerLink=\"/movies\" routerLinkActive=\"active\"> ⟶ انتقال فوري مع تمييز لوني مميز",
+    "task": "أضف شريط تنقل يحتوي على routerLink و routerLinkActive في src/app/app.html.",
+    "file": "src/app/app.html",
+    "code": "<nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a><a routerLink=\"/tickets\" routerLinkActive=\"active\">تذاكري</a></nav>",
+    "expected": "<nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>",
+    "reference": "https://angular.dev/guide/routing/common-router-tasks#linking-to-routes",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "إذا استخدمت <a href=\"...\"> العادية، سيقوم المتصفح بإعادة تحميل الصفحة ومسح حالة الذاكرة! لذلك نستخدم routerLink لمنع إعادة التحميل، مع routerLinkActive لتمييز الرابط المفتوح.",
+        "flow": "routerLink ⟶ يمنع التحميل التقليدي ⟶ ينقل المسار فوريًا داخل Angular ويميز الرابط",
+        "task": "انتقل إلى ملف src/app/app.html لإضافة شريط التنقل المتكامل.",
+        "benefit": "فهمت الفرق الجوهري بين routerLink و href التقليدي وكيفية تمييز الرابط النشط.",
+        "objective": "انتقل إلى ملف src/app/app.html لإضافة شريط التنقل المتكامل.",
+        "instruction": "انتقل إلى ملف src/app/app.html لإضافة شريط التنقل المتكامل.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح توجيه routerLink و routerLinkActive",
+        "explanation": "نكتب routerLink=\"/movies\" مع routerLinkActive=\"active\". يراقب Angular المسار في شريط العنوان، وعندما يتطابق يضيف كلاس active تلقائيًا!",
+        "flow": "<a routerLink=\"/target\" routerLinkActive=\"active\">اسم الرابط</a>",
+        "task": "لاحظ سهولة قراءة روابط التنقل وأناقتها.",
+        "benefit": "أتقنت إنشاء قوائم التنقل السريعة والمميزة بصريًا.",
+        "objective": "لاحظ سهولة قراءة روابط التنقل وأناقتها.",
+        "instruction": "لاحظ سهولة قراءة روابط التنقل وأناقتها.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف شريط التنقل cinema-nav في أعلى src/app/app.html.",
+        "file": "src/app/app.html",
+        "code": "<nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a><a routerLink=\"/tickets\" routerLinkActive=\"active\">تذاكري</a></nav>",
+        "expected": "<nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>",
+        "task": "أضف شريط التنقل ثم اضغط (شغّل وافحص) وشاهد أزرار التنقل في المعاينة!",
+        "benefit": "أضفت شريط تنقل احترافي وسريع لتطبيق السينما.",
+        "objective": "أضف شريط التنقل ثم اضغط (شغّل وافحص) وشاهد أزرار التنقل في المعاينة!",
+        "instruction": "أضف شريط التنقل ثم اضغط (شغّل وافحص) وشاهد أزرار التنقل في المعاينة!",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرب النقر على روابط الأفلام وتذاكري في المعاينة ولاحظ استجابتها الفورية وتمييز الرابط.",
+        "task": "انقر على روابط التنقل في المعاينة الحية.",
+        "benefit": "شعرت بسلاسة تطبيقات الصفحة الواحدة الحقيقية.",
+        "objective": "انقر على روابط التنقل في المعاينة الحية.",
+        "instruction": "انقر على روابط التنقل في المعاينة الحية.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "لماذا نفضل استخدام routerLink بدلاً من href في روابط التنقل داخل Angular؟",
+        "options": [
+          "لمنع إعادة تحميل الصفحة بالكامل والانتقال فوريًا دون وميض",
+          "لأن href لا تعمل في المتصفحات الحديثة",
+          "لتصغير حجم الصور"
+        ],
+        "correct": 0,
+        "benefit": "ترسيخ أفضل ممارسات الروابط بـ routerLink.",
+        "task": "لماذا نفضل استخدام routerLink بدلاً من href في روابط التنقل داخل Angular؟",
+        "objective": "لماذا نفضل استخدام routerLink بدلاً من href في روابط التنقل داخل Angular؟",
+        "instruction": "لماذا نفضل استخدام routerLink بدلاً من href في روابط التنقل داخل Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>"
+        ]
+      }
+    ],
+    "legacyId": "ng-routing-link",
+    "skill": "التوجيه والصفحات",
+    "order": 92,
+    "whyUse": "يضمن التوجيه الحديث دعم التحميل الكسول للوحات والشاشات وربط معاملات الرابط مباشرة كإشارات Signal Inputs، بينما تضمن النماذج الصارمة Typed Forms التحقق المحكم من مدخلات المستخدم ومنع إرسال بيانات ناقصة أو غير صالحة للسيرفر.",
+    "browserMechanics": "يراقب موجه Angular تاريخ التصفح (HTML5 History API) ويستجيب لتغيرات العنوان URL ليقوم بتحميل شفرة المكون المستهدف ديناميكياً عبر استيراد وحدات JavaScript (Dynamic Imports)، ثم يركبه في مقبس router-outlet دون إعادة تحميل الصفحة.",
+    "documentationUrl": "https://angular.dev/guide/routing/common-router-tasks#linking-to-routes",
+    "breakdown": [
+      "تعريف البنية والمحددات: إعداد المكون أو المتغير أو الواجهة البرمجية في ملفات المشروع.",
+      "معالجة المنطق وتدفق البيانات: تنفيذ الأوامر وحقن التبعيات أو ربط الإشارات التفاعلية.",
+      "تحديث شجرة DOM والعرض: إخراج النتيجة النهائية في قالب Angular وعكس التغييرات في المتصفح."
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "<nav class=\"cinema-nav\"><a routerLink=\"/movies\" routerLinkActive=\"active\">الأفلام</a>",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  }
+]

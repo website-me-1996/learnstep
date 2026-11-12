@@ -1,0 +1,526 @@
+[
+  {
+    "id": "css-35-dropdowns",
+    "legacyId": "css:34",
+    "title": "تصميم القوائم المنسدلة التفاعلية في CSS",
+    "skill": "قوائم ومعارض الصور",
+    "order": 34,
+    "concept": "تعتمد القوائم المنسدلة (Dropdowns) في CSS الصرف على الجمع التكاملي بين التموضع والتحويم: حيث تُعطى الحاوية الأب position: relative، وتُعطى القائمة المنسدلة الفرعية position: absolute مع إخفائها افتراضياً (عبر display: none أو opacity: 0 مع visibility: hidden)، ثم إظهارها عند تحويم المؤشر على الحاوية عبر محدد الفئة الزائفة .dropdown:hover .dropdown-menu.",
+    "whyUse": "تتيح القوائم المنسدلة تكديس مئات الروابط والتصنيفات الفرعية في مساحة شريط تصفح مدمجة ونظيفة، مما يوفر تجربة استكشاف بديهية للمستخدم دون تشويش بصري على الشاشة الرئيسية.",
+    "browserMechanics": "عند تحويم مؤشر الفأرة على الحاوية، يُحدّث المتصفح حالة الـ Hover ويُعدّل شجرة التصيير لإظهار الصندوق المتموضع مطلقاً. وبفضل position: relative على الأب، يُحسب موضع القائمة (top: 100% و left: 0) بالنسبة للحافة السفلية للزر الحاوي مباشرة وتطفو فوق المحتوى دون إزاحة بقية عناصر الصفحة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/:hover",
+    "code": ".card .nav a:first-child { position: relative; }\n.card .nav a:first-child:hover::after { content: \"أساسيات | تطبيق\"; position: absolute; top: 100%; right: 0; padding: 8px; background: #fff2dd; z-index: 3; }",
+    "breakdown": [
+      "محدد الحاوية .dropdown: يوفر نقطة الارتكاز المرجعية عبر التموضع النسبي.",
+      "القائمة المنسدلة المتموضعة: تستخدم إزاحة top: 100% للظهور أسفل الزر تماماً.",
+      "التفاعل عبر :hover: يُظهر القائمة لحظياً بمجرد اقتراب مؤشر الفأرة."
+    ],
+    "steps": [
+      {
+        "id": "css-35-dropdowns-step-1",
+        "title": "تعديل إزاحة هبوط القائمة المنسدلة",
+        "objective": "تطبيق إزاحة top المناسبة لظهور القائمة أسفل الزر مباشرة",
+        "type": "edit",
+        "instruction": "غيّر top من 100% إلى 120%، ثم شغّل ومرّر المؤشر على أول رابط في المعاينة لملاحظة مكان القائمة المنسدلة.",
+        "benefit": "فائدة هذا التعديل: ضبط المسافة الرأسية الفاصلة بين زر الفتح والقائمة المنسدلة.",
+        "expectedLine": "top: 120%",
+        "from": "top: 100%",
+        "to": "top: 120%",
+        "task": "غيّر top من 100% إلى 120%، ثم شغّل ومرّر المؤشر على أول رابط في المعاينة لملاحظة مكان القائمة المنسدلة.",
+        "explanation": "القائمة المنسدلة تعرض خيارات إضافية عندما يمر المؤشر أو يركّز المستخدم على عنصر القائمة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية top داخل محدد القائمة المنسدلة الفرعية.",
+          "قاعدة: القيمة النسبية 100% تعني النزول بمقدار كامل ارتفاع الزر الأب. هل تأكدت من كتابة القيمة والوحدة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: top: 120%;.",
+          "الحل النموذجي: top: 120%"
+        ]
+      },
+      {
+        "id": "css-35-dropdowns-step-2",
+        "title": "اختبار إزاحة هبوط ملاصقة",
+        "objective": "مقارنة مظهر القائمة عند التصاقها بحافة الزر 100%",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى top: 110% لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: منع فقدان حالة التحويم hover بسبب وجود فراغات هوائية بين الزر وقائمته.",
+        "expectedLine": "top: 110%",
+        "from": "top: 120%",
+        "to": "top: 110%",
+        "task": "غيّر القيمة الحالية إلى top: 110% لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة top الحالية في كتلة المحدد.",
+          "قاعدة: الالتصاق المباشر بـ 100% يمنع انغلاق القائمة المفاجئ أثناء حركة الفأرة. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: top: 110%.",
+          "الحل النموذجي: top: 110%"
+        ]
+      },
+      {
+        "id": "css-35-dropdowns-step-3",
+        "title": "اعتماد إزاحة القائمة المنسدلة النهائية",
+        "objective": "تثبيت الموضع الرأسي النهائي لظهور القائمة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى top: 130% لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: توفير تجربة ملاحة موثوقة وسلسة لكافة زوار الموقع.",
+        "expectedLine": "top: 130%",
+        "from": "top: 110%",
+        "to": "top: 130%",
+        "task": "غيّر القيمة إلى top: 130% لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان الإزاحة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: top: 130%.",
+          "الحل النموذجي: top: 130%"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  /* المشكلة: الحاوية الأب تفتقر إلى position: relative */\n}",
+      "fixedCode": ".dropdown {\n  position: relative;\n}\n.dropdown-menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n}",
+      "question": "لماذا تظهر القائمة المنسدلة في أعلى زاوية الصفحة بدلاً من الظهور أسفل الزر الخاص بها؟",
+      "explanation": "القائمة المتموضعة absolute تبحث عن أقرب سلف يحمل position غير static؛ فإذا كانت الحاوية .dropdown تفتقر لـ position: relative، ترتكز القائمة على نافذة المستند بالكامل.",
+      "options": [
+        "يجب تحويل القائمة المنسدلة إلى عنصر سطري inline",
+        "غياب position: relative عن الحاوية الأب .dropdown مما جعل القائمة تفقد ارتكازها الإحداثي",
+        "القيمة 100% غير مدعومة في خاصية top",
+        "المتصفح يتطلب استخدام JavaScript لفتح القوائم"
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "css-36-image-gallery",
+    "legacyId": "css:35",
+    "title": "تنسيق معارض الصور الشبكية في CSS",
+    "skill": "قوائم ومعارض الصور",
+    "order": 35,
+    "concept": "تُبنى معارض الصور الحديثة (Image Galleries) باستخدام نظام التخطيط الشبكي CSS Grid أو الصندوق المرن Flexbox؛ حيث تضبط دالة repeat() مع وحدة الكسر المرن fr تقسيم الأعمدة (مثل grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)))، وتوفر خاصية gap فراغات بينية متساوية ونظيفة دون الحاجة لحساب هوامش خارجية معقدة.",
+    "whyUse": "تضمن معارض الصور المنظمة اصطفاف البطاقات والصور بمقاييس هندسية متناسقة، وتتيح مواءمة تلقائية لعدد الأعمدة بحسب مقاس شاشة العرض دون الحاجة لكتابة استعلامات وسائط متعددة.",
+    "browserMechanics": "ينشئ محرك المتصفح حاوية شبكية (Grid Formatting Context) تقسم المساحة المتاحة إلى مسارات أعمدة وصفوف (Tracks). تقوم خوارزمية التوزيع التلقائي (Auto-placement Algorithm) بحساب عرض الصور واحتساب الفجوات البينية عبر خاصية gap ورسم كل صورة في خليتها المخصصة فوراً وبأعلى أداء.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Grids",
+    "code": ".card .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }",
+    "breakdown": [
+      "دالة repeat(auto-fit, ...): تكرر مسارات الأعمدة تلقائياً لملء العرض المتوفر في الشاشة.",
+      "وحدة الكسر 1fr: توزع المساحة المتبقية بالتساوي بين الصور المعروضة.",
+      "خاصية gap: تنشئ فواصل بينية متجانسة بين صور المعرض دون التأثير على الحواف الخارجية."
+    ],
+    "steps": [
+      {
+        "id": "css-36-image-gallery-step-1",
+        "title": "تعديل تقسيم أعمدة شبكة المعرض",
+        "objective": "تطبيق دالة repeat لضبط عدد أعمدة معرض الصور",
+        "type": "edit",
+        "instruction": "اجعل صور المعرض في عمود واحد بدل عمودين، ثم شغّل وراقب ترتيب البطاقات المصورة.",
+        "benefit": "فائدة هذا التعديل: تنظيم اصطفاف بطاقات الصور في أعمدة شبكية منتظمة.",
+        "expectedLine": "repeat(1, 1fr)",
+        "from": "repeat(2, 1fr)",
+        "to": "repeat(1, 1fr)",
+        "task": "اجعل صور المعرض في عمود واحد بدل عمودين، ثم شغّل وراقب ترتيب البطاقات المصورة.",
+        "explanation": "هذه القاعدة تتحكم في مساحة الصورة أو قصّها أو شكلها. الصورة تظل محتوى؛ CSS يضبط طريقة عرضها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "repeat\\(\\s*\\d+\\s+[^,\\)]+\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "دالة repeat() في CSS Grid تفصل بين عدد التكرارات والحجم بفاصلة عادية ','، مثل repeat(3, 1fr)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية grid-template-columns داخل محدد المعرض.",
+          "قاعدة: دالة repeat() تفصل بين عدد الأعمدة والحجم بفاصلة عادية مثل repeat(1, 1fr). هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: repeat(1, 1fr).",
+          "الحل النموذجي: repeat(1, 1fr)"
+        ]
+      },
+      {
+        "id": "css-36-image-gallery-step-2",
+        "title": "اختبار تقسيم أعمدة ثنائي",
+        "objective": "مقارنة مظهر المعرض بعمودين متجاورين",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى repeat(3, 1fr) لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: استيعاب التوزيع المتكافئ للمساحة المتاحة بنظام الكسور المرنة fr.",
+        "expectedLine": "repeat(3, 1fr)",
+        "from": "repeat(1, 1fr)",
+        "to": "repeat(3, 1fr)",
+        "task": "غيّر القيمة الحالية إلى repeat(3, 1fr) لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "repeat\\(\\s*\\d+\\s+[^,\\)]+\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "دالة repeat() في CSS Grid تفصل بين عدد التكرارات والحجم بفاصلة عادية ','، مثل repeat(3, 1fr)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة تقسيم الأعمدة الحالية.",
+          "قاعدة: زيادة عدد المسارات في repeat(2, 1fr) ينشئ شبكة ثنائية تلقائياً. هل راجعت كتابة القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: repeat(3, 1fr).",
+          "الحل النموذجي: repeat(3, 1fr)"
+        ]
+      },
+      {
+        "id": "css-36-image-gallery-step-3",
+        "title": "اعتماد التقسيم النهائي لمعرض الصور",
+        "objective": "تثبيت التقسيم الشبكي النهائي لشبكة الصور",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى repeat(1, 1fr) لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التخطيط المتكامل والمستقر لمعرض الوسائط.",
+        "expectedLine": "repeat(1, 1fr)",
+        "from": "repeat(3, 1fr)",
+        "to": "repeat(1, 1fr)",
+        "task": "غيّر القيمة إلى repeat(1, 1fr) لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "repeat\\(\\s*\\d+\\s+[^,\\)]+\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "دالة repeat() في CSS Grid تفصل بين عدد التكرارات والحجم بفاصلة عادية ','، مثل repeat(3, 1fr)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان تقسيم الشبكة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: repeat(1, 1fr).",
+          "الحل النموذجي: repeat(1, 1fr)"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".gallery {\n  display: grid;\n  grid-template-columns: repeat(3 1fr);\n}",
+      "fixedCode": ".gallery {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n}",
+      "question": "لماذا أسقط المتصفح سطر تقسيم شبكة المعرض وظلت الصور في عمود واحد؟",
+      "explanation": "في دالة repeat() الخاصة بـ CSS Grid، يلزم وضع فاصلة عادية ',' بين عدد التكرارات وحجم المسار repeat(3, 1fr)؛ وغياب الفاصلة يعتبر خطأ نحوياً يسقط الإعلان كاملاً.",
+      "options": [
+        "خاصية display: grid لا تدعم دالة repeat",
+        "وحدة fr غير صالحة داخل دالة repeat",
+        "يجب كتابة اسم المعرض كمعرف ID بدلاً من فئة",
+        "نسيان الفاصلة العادية ',' للفصل بين وسائط دالة repeat(3, 1fr)"
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "css-37-image-sprites",
+    "legacyId": "css:36",
+    "title": "تقنية حزم الصور الرسومية عبر Sprites",
+    "skill": "قوائم ومعارض الصور",
+    "order": 36,
+    "concept": "تقنية مجمعات الصور (CSS Image Sprites) هي أسلوب كلاسيكي عالي الكفاءة يجمع عشرات الأيقونات والصور الصغيرة في ملف صورة رسومي كبير واحد. يتم إظهار الأيقونة المطلوبة فقط داخل كل عنصر عبر تحديد أبعاد الصندوق بدقة (width و height)، ثم تحريك موضع الخلفية باستخدام background-position بإحداثيات X و Y سالبة لكشف الجزء المستهدف.",
+    "whyUse": "تخفض هذه التقنية طلبات جلب بروتوكول الشبكة HTTP Requests بشكل جذري؛ فبدلاً من إرسال 50 طلباً منفصلاً لجلب 50 أيقونة مما يبطئ تحميل الصفحة، يتم إرسال طلب شبكة واحد فقط وتحميل الصورة بالكامل مرة واحدة في الذاكرة المؤقتة.",
+    "browserMechanics": "يحفظ المتصفح خريطة البتات (Bitmap) للصورة المجمعة في الذاكرة المؤقتة لبطاقة الرسوميات GPU. وعند تطبيق background-position، يغير المحرك فقط إحداثيات نافذة العرض الرسومية (Texture Offset) المقتطعة دون أي استهلاك إضافي للذاكرة أو إعادة تنزيل من الشبكة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_backgrounds_and_borders/Using_CSS_multiple_backgrounds",
+    "code": ".tiles span { color: transparent; background-image: url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2260%22%20height=%2230%22%3E%3Ccircle%20cx=%2215%22%20cy=%2215%22%20r=%2212%22%20fill=%22%23e9f3e5%22/%3E%3Ccircle%20cx=%2245%22%20cy=%2215%22%20r=%2212%22%20fill=%22%238cb275%22/%3E%3C/svg%3E'); background-size: 60px 30px; background-position: left center; background-repeat: no-repeat; }",
+    "breakdown": [
+      "خاصية background-position: تحدد إحداثيات نقطة إزاحة الصورة المجمعة.",
+      "الإحداثيات السالبة: تسحب الصورة نحو اليسار أو الأعلى لإظهار الأيقونة المخفية.",
+      "أبعاد الصندوق: تعمل كعدسة مقتطعة تُخفي باقي أجزاء الصورة المجمعة."
+    ],
+    "steps": [
+      {
+        "id": "css-37-image-sprites-step-1",
+        "title": "توجيه إحداثيات الأيقونة المستهدفة",
+        "objective": "تطبيق موضع الخلفية لكشف الأيقونة المحددة في المجمع",
+        "type": "edit",
+        "instruction": "حرّك موضع الخلفية من left center إلى right center. الفكرة أن الموضع يختار الجزء الظاهر من صورة sprite واحدة.",
+        "benefit": "فائدة هذا التعديل: إظهار الأيقونة الصحيحة من داخل الحزمة الرسومية الموحدة.",
+        "expectedLine": "right center",
+        "from": "left center",
+        "to": "right center",
+        "task": "حرّك موضع الخلفية من left center إلى right center. الفكرة أن الموضع يختار الجزء الظاهر من صورة sprite واحدة.",
+        "explanation": "sprite صورة واحدة تجمع رسومات صغيرة. نعرض جزءًا منها بتحديد حجم العنصر ثم تحريك background-position.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية background-position داخل محدد الأيقونة.",
+          "قاعدة: تحدد background-position إحداثيات المحورين الأفقي والرأسي. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: right center.",
+          "الحل النموذجي: right center"
+        ]
+      },
+      {
+        "id": "css-37-image-sprites-step-2",
+        "title": "اختبار إحداثيات موضع أيقوني بديل",
+        "objective": "مقارنة كشف أيقونة ثانية في موضع آخر من الحزمة",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى center center لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: استيعاب كيفية التنقل بين رموز الحزمة الواحدة بتعديل الإحداثيات فقط.",
+        "expectedLine": "center center",
+        "from": "right center",
+        "to": "center center",
+        "task": "غيّر القيمة الحالية إلى center center لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة background-position الحالية في كتلة المحدد.",
+          "قاعدة: استخدام الكلمات الدلالية مثل left center يحدد زاوية الارتكاز بدقة. هل راجعت كتابة القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: center center.",
+          "الحل النموذجي: center center"
+        ]
+      },
+      {
+        "id": "css-37-image-sprites-step-3",
+        "title": "اعتماد إحداثيات الأيقونة النهائية",
+        "objective": "تثبيت موضع الخلفية النهائي للأيقونة المعتمدة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى left bottom لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: ضمان دقة تمركز الأيقونة داخل إطار الصندوق المقتطع.",
+        "expectedLine": "left bottom",
+        "from": "center center",
+        "to": "left bottom",
+        "task": "غيّر القيمة إلى left bottom لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان موضع الخلفية بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: left bottom.",
+          "الحل النموذجي: left bottom"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".icon-home {\n  width: 24px;\n  height: 24px;\n  background-image: url('sprites.png');\n  /* النتيجة: تظهر أجزاء من الأيقونات المجاورة داخل الصندوق */\n}",
+      "fixedCode": ".icon-home {\n  width: 24px;\n  height: 24px;\n  background-image: url('sprites.png');\n  background-repeat: no-repeat;\n  background-position: 0 0;\n}",
+      "question": "لماذا تظهر أجزاء من الأيقونات المجاورة وتتكرر بشكل مشوه داخل صندوق .icon-home؟",
+      "explanation": "القيمة الافتراضية للخلفيات هي background-repeat: repeat، وبدون إلغاء التكرار وتحديد background-position دقيقة تتكرر حزمة الصور وتتداخل الأيقونات في الصندوق.",
+      "options": [
+        "نسيان إضافة background-repeat: no-repeat وتحديد إحداثيات background-position دقيقة للأيقونة",
+        "حزمة الصور sprites غير مدعومة بصيغة PNG",
+        "يجب مضاعفة عرض الصندوق width إلى 100px",
+        "المتصفح يتطلب استخدام وسم img بدلاً من خاصية الخلفية"
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "css-38-attribute-selectors",
+    "legacyId": "css:37",
+    "title": "محددات الخصائص وقيمها المخصصة في CSS",
+    "skill": "قوائم ومعارض الصور",
+    "order": 37,
+    "concept": "تستهدف محددات الخصائص (Attribute Selectors) عناصر HTML بناءً على وجود سمة معينة أو قيمتها المحصورة بين معقوفتين [ ]: مثل [required] لاستهداف الحقول الإلزامية، و [type=\"text\"] لمطابقة القيمة التامة، و [href^=\"https\"] لمطابقة البداية، و [href$=\" .pdf\"] لمطابقة النهاية، و [class*=\"btn-\"] لمطابقة جزء من الكلمة في أي موضع.",
+    "whyUse": "توفر قوة استهداف هائلة دون الحاجة لإضافة كلاسات يدوية مكررة؛ كتمييز الروابط الآمنة HTTPS بأيقونة قفل، وإضافة أيقونة ملف PDF بجوار ملفات التحميل تلقائياً، وتنسيق حقول النماذج بدقة متناهية بحسب نوعها (text, password, email).",
+    "browserMechanics": "أثناء مرحلة مطابقة الأنماط، يفحص المحرك جدول سمات عُقدة الـ DOM (Element Attributes). تملك محددات الخصائص نفس وزن الأسبقية النوعية للفئات العادية (0, 0, 1, 0) في متجه الأسبقية (Specificity Vector)، مما يجعلها تتفوق على محددات الوسوم العامة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors",
+    "code": "a[href] { color: #256b57; }",
+    "breakdown": [
+      "محدد الخاصية [title]: يستهدف جميع العناصر التي تحمل سمة title في HTML.",
+      "المعاملات المتقدمة: تدعم مطابقة البداية ^ والنهاية $ والاحتواء الجزئي * للقيمة.",
+      "وزن الأسبقية: يماثل وزن محدد الفئة Class تماماً في حسابات الشلال."
+    ],
+    "steps": [
+      {
+        "id": "css-38-attribute-selectors-step-1",
+        "title": "تحديد السمة المستهدفة في المحدد",
+        "objective": "تطبيق التنسيق عبر محدد السمة [title]",
+        "type": "edit",
+        "instruction": "بدّل href إلى title داخل المحدد. جرّب الرابط ولاحظ أن القاعدة لم تعد تختار الرابط بهذه الخاصية.",
+        "benefit": "فائدة هذا التعديل: قصر التنسيق على الروابط التي تحمل نصاً تلميحياً توضيحياً.",
+        "expectedLine": "title",
+        "from": "href",
+        "to": "title",
+        "task": "بدّل href إلى title داخل المحدد. جرّب الرابط ولاحظ أن القاعدة لم تعد تختار الرابط بهذه الخاصية.",
+        "explanation": "المحدد عنوان العنصر داخل CSS. المتصفح يطبّق القاعدة على كل عنصر يطابق هذا العنوان فقط.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى اسم السمة المحصورة بين القوسين المعقوفين في المحدد.",
+          "قاعدة: تحصر محددات الخصائص أسماء السمات بين [ ] مثل [title]. هل تأكدت من كتابة السمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر السمة لتصبح: title.",
+          "الحل النموذجي: title"
+        ]
+      },
+      {
+        "id": "css-38-attribute-selectors-step-2",
+        "title": "اختبار استهداف سمة بديلة",
+        "objective": "مقارنة استهداف العناصر عبر سمة الرابط [href]",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى target لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: فهم شمولية محددات الخصائص لكافة سمات لغة HTML.",
+        "expectedLine": "target",
+        "from": "title",
+        "to": "target",
+        "task": "غيّر القيمة الحالية إلى target لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى اسم السمة الحالية بين القوسين المعقوفين.",
+          "قاعدة: استهداف [href] يطبق التنسيق على أي رابط تشعبي نشط في الوثيقة. هل راجعت كتابة السمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: target.",
+          "الحل النموذجي: target"
+        ]
+      },
+      {
+        "id": "css-38-attribute-selectors-step-3",
+        "title": "اعتماد محدد السمة النهائي",
+        "objective": "تثبيت الصياغة النهائية لمحدد السمة المعتمد",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى href لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: استهداف العناصر المؤهلة وظيفياً بكفاءة وأناقة برمجية.",
+        "expectedLine": "href",
+        "from": "target",
+        "to": "href",
+        "task": "غيّر القيمة إلى href لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سلامة القوسين المعقوفين والقاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان الخاصية بسلام داخل كتلة المحدد. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: href.",
+          "الحل النموذجي: href"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "input[type=text] {\n  border: 2px solid #256b57;\n  /* النتيجة: يعمل أحياناً لكنه يسبب مشاكل في التحليل عند وجود مسافات */\n}",
+      "fixedCode": "input[type=\"text\"] {\n  border: 2px solid #256b57;\n}",
+      "question": "ما الصياغة المعيارية الأكثر أماناً واستقراراً لكتابة قيمة السمة داخل محدد الخاصية؟",
+      "explanation": "في مواصفة CSS الرسمية، يُوصى دائماً بإحاطة قيمة السمة بعلامتي اقتباس مثل [type=\"text\"] لتفادي أخطاء التحليل عند احتواء القيمة على مسافات أو رموز خاصة.",
+      "options": [
+        "يجب استخدام الأقواس المعقوفة {} بدلاً من المربعة []",
+        "إحاطة قيمة السمة بعلامتي اقتباس [type=\"text\"] لضمان معيارية الشيفرة وسلامة التحليل",
+        "محددات الخصائص لا تقبل عناصر input",
+        "يجب كتابة اسم السمة بالأحرف الكبيرة TYPE"
+      ],
+      "correctOptionIndex": 1
+    }
+  }
+]

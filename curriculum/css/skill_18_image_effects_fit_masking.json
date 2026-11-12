@@ -1,0 +1,788 @@
+[
+  {
+    "id": "css-64-image-centering",
+    "legacyId": "css:63",
+    "title": "توسيط الصور ومحاذاتها بدقة في CSS",
+    "skill": "عرض الصور ومعالجتها",
+    "order": 63,
+    "concept": "تختلف تقنيات توسيط الصور بحسب نمط عرضها؛ فالصورة <img> هي عنصر سطري (Inline) بطبيعتها، ولتوسيطها باستخدام الهوامش التلقائية الشهيرة margin: 0 auto يجب صراحة تحويلها إلى عنصر كتلي عبر display: block، أو تركها سطرية وتطبيق text-align: center على الحاوية الأب الحاضنة لها.",
+    "whyUse": "يضمن التوسيط الصحيح استقرار المظهر البصري لصور المقالات، وشعارات الترويسة، وبطاقات المنتجات، مانعاً ارتماء الصور عشوائياً في أقصى اليمين أو اليسار دون مبرر تصميمي.",
+    "browserMechanics": "عند تطبيق display: block مع margin: 0 auto، يحسب المتصفح الفراغ المتبقي في سطر الحاوية (Remaining Space) بعد خصم عرض الصورة الطبيعي، ويقسمه بالتساوي التام بين الهامشين الأيمن والأيسر في مرحلة Layout، مما يضع الصورة في المركز الهندسي الدقيق.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/margin#centering_elements",
+    "code": ".card .art { display: block; margin: 0 auto; }",
+    "breakdown": [
+      "خاصية display: block: تحول الصورة من عنصر سطري إلى كتلة مستقلة تقبل الهوامش التلقائية.",
+      "خاصية margin: 0 auto: توزع المساحة المتبقية بالتساوي يميناً ويساراً لتوسيط الصورة.",
+      "توسيط الحاوية text-align: center: البديل السريع لتوسيط الصور السطرية من خلال العنصر الأب."
+    ],
+    "steps": [
+      {
+        "id": "css-64-image-centering-step-1",
+        "title": "تعديل محاذاة هوامش الصورة",
+        "objective": "تطبيق الهوامش التلقائية أو المخصصة لضبط موقع الصورة",
+        "type": "edit",
+        "instruction": "غيّر margin من 0 auto إلى 0 0 وشغّل لملاحظة تمركز الرسم أو رجوعه للبداية.",
+        "benefit": "فائدة هذا التعديل: تثبيت تمركز الصورة في منتصف الحاوية المخصصة لها.",
+        "expectedLine": "0 0",
+        "from": "0 auto",
+        "to": "0 0",
+        "task": "غيّر margin من 0 auto إلى 0 0 وشغّل لملاحظة تمركز الرسم أو رجوعه للبداية.",
+        "explanation": "هذه القاعدة تتحكم في مساحة الصورة أو قصّها أو شكلها. الصورة تظل محتوى؛ CSS يضبط طريقة عرضها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية margin داخل محدد الصورة img.",
+          "قاعدة: القيمة 0 auto توزع الهوامش بالتساوي لتوسيط الكتلة. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 0 0.",
+          "الحل النموذجي: 0 0"
+        ]
+      },
+      {
+        "id": "css-64-image-centering-step-2",
+        "title": "اختبار توسيط الصورة التلقائي",
+        "objective": "مقارنة ارتكاز الصورة في المنتصف بـ margin: 0 auto",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 0 10px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: التحقق من التوازن البصري لمركز الصفحة مع الصورة المعروضة.",
+        "expectedLine": "0 10px",
+        "from": "0 0",
+        "to": "0 10px",
+        "task": "غيّر القيمة الحالية إلى 0 10px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة margin الحالية في كتلة المحدد.",
+          "قاعدة: يجب أن تحمل الصورة display: block لكي تعمل معها margin: 0 auto. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 0 10px.",
+          "الحل النموذجي: 0 10px"
+        ]
+      },
+      {
+        "id": "css-64-image-centering-step-3",
+        "title": "اعتماد المحاذاة النهائية للصورة",
+        "objective": "تثبيت وضع التمركز النهائي المستقر للصورة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 10px auto لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التناسق المظهري الثابت لكافة صور المقالات.",
+        "expectedLine": "10px auto",
+        "from": "0 10px",
+        "to": "10px auto",
+        "task": "غيّر القيمة إلى 10px auto لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان هوامش الصورة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 10px auto.",
+          "الحل النموذجي: 10px auto"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "img.banner {\n  margin: 0 auto;\n  /* النتيجة: الصورة ترفض التوسيط وتظل ملتصقة بالطرف! */\n}",
+      "fixedCode": "img.banner {\n  display: block;\n  margin: 0 auto;\n}",
+      "question": "لماذا لم تتوسط الصورة img.banner في الصفحة رغم كتابة margin: 0 auto بشكل صحيح؟",
+      "explanation": "وسم <img> هو عنصر سطري (inline) افتراضياً، والهوامش التلقائية margin: auto لا تعمل إلا على العناصر الكتلية؛ ولتوسيطها يجب إضافة display: block على الصورة أولاً.",
+      "options": [
+        "خاصية margin لا تقبل القيمة auto إطلاقاً",
+        "المتصفح يتطلب إضافة !important لكل هامش",
+        "يجب استخدام وسم center القديم",
+        "الصور عناصر سطرية inline افتراضياً والهوامش التلقائية تتطلب تحويل الصورة إلى display: block لتعمل"
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "css-65-image-filters",
+    "legacyId": "css:64",
+    "title": "فلاتر وتأثيرات الصور الرسومية عبر filter",
+    "skill": "عرض الصور ومعالجتها",
+    "order": 64,
+    "concept": "توفر خاصية filter معالجة صور رسومية حية تشبه برامج التصميم؛ وتدعم عدة دوال قياسية: grayscale() لتحويل الصورة للأبيض والأسود، و blur() لإضفاء التمويه البصري، و brightness() لضبط السطوع، و contrast() للتباين، و sepia() للألوان العتيقة، و invert() لعكس الألوان، و drop-shadow() لإسقاط ظلال متوافقة مع تفريغ الشفافية.",
+    "whyUse": "تتيح التعديل المباشر على الصور في المتصفح دون الحاجة لتحريرها مسبقاً في Photoshop؛ كتحويل شعارات الشركاء إلى اللون الرمادي وإضاءتها بالألوان الكاملة عند التحويم :hover، وتمويه الخلفيات خلف النوافذ المنبثقة.",
+    "browserMechanics": "تُطبق دوال filter كعمليات مصفوفات لونية (Pixel Shaders) مباشرة على وحدة معالجة الرسوميات GPU أثناء مرحلة التركيب (Compositing Pass)، مما يضمن تطبيق التعديل اللوني والتمويه دون أي استهلاك للـ CPU ودون المساس بملف الصورة الأصلي المخزن في الذاكرة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/filter",
+    "code": ".card .art { filter: grayscale(0%); }",
+    "breakdown": [
+      "خاصية filter: تطبق التأثيرات والمعالجات الرسومية المباشرة على الصور.",
+      "دالة grayscale(): تحول الصورة إلى تدرج رمادي بنسبة مئوية من 0% إلى 100%.",
+      "التشغيل الرسومي GPU: تعالج الفلاتر عبر كارت الشاشة لضمان أداء فائق وسريع."
+    ],
+    "steps": [
+      {
+        "id": "css-65-image-filters-step-1",
+        "title": "تعديل نسبة الفلتر الرمادي",
+        "objective": "تطبيق قيمة دالة grayscale المطلوبة لإزالة ألوان الصورة",
+        "type": "edit",
+        "instruction": "حوّل grayscale من 0% إلى 100% وشغّل. ستنتقل الصورة من ألوانها إلى درجات الرمادي.",
+        "benefit": "فائدة هذا التعديل: تحويل الصورة إلى النمط الأحادي الرمادي الأنيق.",
+        "expectedLine": "100%",
+        "from": "0%",
+        "to": "100%",
+        "task": "حوّل grayscale من 0% إلى 100% وشغّل. ستنتقل الصورة من ألوانها إلى درجات الرمادي.",
+        "explanation": "هذه القاعدة تتحكم في مساحة الصورة أو قصّها أو شكلها. الصورة تظل محتوى؛ CSS يضبط طريقة عرضها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى النسبة المئوية المحددة داخل دالة grayscale() في خاصية filter.",
+          "قاعدة: القيمة 100% تحول الصورة كلياً للأبيض والأسود بينما 0% تعيد الألوان الكاملة. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 100%.",
+          "الحل النموذجي: 100%"
+        ]
+      },
+      {
+        "id": "css-65-image-filters-step-2",
+        "title": "اختبار استعادة الألوان الطبيعية",
+        "objective": "مقارنة عودة ألوان الصورة بتعيين grayscale إلى 0%",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 50% لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: فهم آلية التبديل التفاعلي للفلاتر عند تحويم مؤشر الفأرة :hover.",
+        "expectedLine": "50%",
+        "from": "100%",
+        "to": "50%",
+        "task": "غيّر القيمة الحالية إلى 50% لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة النسبة الحالية داخل دالة الفلتر.",
+          "قاعدة: دمج filter مع transition يمنح انتقالاً لونياً سلساً وخلاباً. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 50%.",
+          "الحل النموذجي: 50%"
+        ]
+      },
+      {
+        "id": "css-65-image-filters-step-3",
+        "title": "اعتماد تأثير الفلتر النهائي",
+        "objective": "تثبيت نسبة الفلتر الرسومي المعتمدة للصورة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 80% لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء المظهر الفني المتناسق لكافة وسائط المعرض.",
+        "expectedLine": "80%",
+        "from": "50%",
+        "to": "80%",
+        "task": "غيّر القيمة إلى 80% لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان الفلتر الرسومي بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 80%.",
+          "الحل النموذجي: 80%"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".photo {\n  filter: blur(5);\n}",
+      "fixedCode": ".photo {\n  filter: blur(5px);\n}",
+      "question": "لماذا لم يطبق المتصفح تأثير التمويه blur على الصورة واعتبر السطر خطأً نحوياً؟",
+      "explanation": "في مواصفات CSS لدالة filter: blur()، يشترط المتصفح وجود وحدة قياس طولية مثل px (مثل 5px) لتحديد نصف قطر التمويه؛ والرقم 5 بدون وحدة يعتبر قيمة غير صالحة تسقط فوراً.",
+      "options": [
+        "دالة blur تتطلب وحدة قياس صريحة مثل px (5px) لتحديد نصف قطر التمويه وبدونها تسقط القيمة",
+        "دالة blur لا تدعم الأرقام الفردية",
+        "خاصية filter مخصصة للنصوص فقط",
+        "يجب استخدام خاصية opacity بدلاً من blur"
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "css-66-image-shapes",
+    "legacyId": "css:65",
+    "title": "قص الأشكال ومسارات العناصر عبر clip-path",
+    "skill": "عرض الصور ومعالجتها",
+    "order": 65,
+    "concept": "تتيح خاصية clip-path قص العناصر والصور إلى أشكال هندسية غير تقليدية عبر تحديد مسار قص مغلق (Clipping Path). تشمل الدوال الأساسية: circle() لقص دائري بنصف قطر ومركز، و ellipse() للشكل البيضاوي، و inset() للقص الداخلي بزوايا مستديرة، و polygon() لرسم مضلعات حرة كالنجوم والمثلثات والأسهم، ومسارات path() المتجهة من SVG.",
+    "whyUse": "تمنح المصممين حرية تشكيل الواجهات خارج قيود الصناديق المستطيلة التقليدية؛ كصناعة فواصل أقسام مائلة (Angled Dividers)، وصور شخصية سداسية الأضلاع، وبطاقات ذات زوايا مقطوعة كأشكال بطاقات الخصم.",
+    "browserMechanics": "ينشئ محرك الرسوميات قناعاً هندسياً (Geometric Stencil) يطابق إحداثيات المسار المحدد؛ أثناء مرحلة الرسم، تُرسم البكسلات الواقعة داخل مسار القص فقط، بينما يتم تجاهل البكسلات الخارجية وحجبها كلياً من المعالجة الرسومية ومن التفاعل بنقرات الفأرة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path",
+    "code": ".card .art { clip-path: circle(45%); }",
+    "breakdown": [
+      "خاصية clip-path: تقص الصندوق والصورة وفق مسار هندسي محدد.",
+      "دالة circle(): تقص العنصر في دائرة محددة بنسبة نصف القطر ونقطة المركز.",
+      "عزل التفاعل: تصبح المساحة المقصوصة شفافة تماماً ولا تستجيب لنقرات الفأرة."
+    ],
+    "steps": [
+      {
+        "id": "css-66-image-shapes-step-1",
+        "title": "تعديل نصف قطر مسار القص الدائري",
+        "objective": "تطبيق النسبة المئوية المحددة لنصف قطر دالة circle",
+        "type": "edit",
+        "instruction": "صغّر الدائرة إلى 30% ثم شغّل ولاحظ الجزء الذي بقي ظاهرًا من الرسم.",
+        "benefit": "فائدة هذا التعديل: ضبط اتساع نافذة القص الدائرية التي تكشف الصورة.",
+        "expectedLine": "30%",
+        "from": "45%",
+        "to": "30%",
+        "task": "صغّر الدائرة إلى 30% ثم شغّل ولاحظ الجزء الذي بقي ظاهرًا من الرسم.",
+        "explanation": "clip-path يقص الصورة إلى شكل محدد. عدّل نصف قطر الدائرة لتتحكم في مساحة الجزء الظاهر.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى النسبة المئوية لنصف القطر المكتوبة داخل دالة circle() في خاصية clip-path.",
+          "قاعدة: تحدد النسبة المئوية اتساع الدائرة من مركز الصندوق. هل تأكدت من كتابة النسبة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 30%.",
+          "الحل النموذجي: 30%"
+        ]
+      },
+      {
+        "id": "css-66-image-shapes-step-2",
+        "title": "اختبار اتساع دائري أكبر للقص",
+        "objective": "مقارنة كشف مساحة أوسع من الصورة بنصف قطر 45%",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 25% لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: إظهار تفاصيل الصورة المحيطة بمركز التركيز.",
+        "expectedLine": "25%",
+        "from": "30%",
+        "to": "25%",
+        "task": "غيّر القيمة الحالية إلى 25% لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة نصف القطر الحالية في كتلة المحدد.",
+          "قاعدة: القيمة 50% تملأ الصندوق المربع بدائرة تلامس حوافه الأربع تماماً. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 25%.",
+          "الحل النموذجي: 25%"
+        ]
+      },
+      {
+        "id": "css-66-image-shapes-step-3",
+        "title": "اعتماد مسار القص النهائي",
+        "objective": "تثبيت المظهر الهندسي النهائي لمسار قص الصورة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 40% لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء الشكل الهندسي المميز للوسائط البصرية في الموقع.",
+        "expectedLine": "40%",
+        "from": "25%",
+        "to": "40%",
+        "task": "غيّر القيمة إلى 40% لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان مسار القص بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 40%.",
+          "الحل النموذجي: 40%"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".badge {\n  clip-path: polygon(0 0, 100% 0, 100% 100%);\n  /* النتيجة: مثلث مقصوص لكن الأقواس تفتقر إلى نقطة الإغلاق الرابعة */\n}",
+      "fixedCode": ".badge {\n  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);\n}",
+      "question": "كيف نحول مسار polygon في .badge ليقص شكلاً رباعياً مكتملاً بدلاً من المثلث؟",
+      "explanation": "دالة polygon تحدد إحداثيات رؤوس الشكل بالترتيب؛ وكتابة 3 نقاط فقط ينشئ مثلثاً، بينما الشكل الرباعي يتطلب تحديد 4 نقاط إحداثية مفصولة بفواصل.",
+      "options": [
+        "دالة polygon لا تقبل نسباً مئوية",
+        "إضافة النقطة الإحداثية الرابعة 0 100% لإكمال أضلاع الشكل الرباعي المطلوب",
+        "يجب استخدام دالة rect بدلاً من polygon",
+        "المتصفح يتطلب تحويل العنصر إلى SVG"
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "css-67-object-fit",
+    "legacyId": "css:66",
+    "title": "ملاءمة وسائط الصور للحاويات عبر object-fit",
+    "skill": "عرض الصور ومعالجتها",
+    "order": 66,
+    "concept": "تتحكم خاصية object-fit في كيفية ملاءمة واحتواء محتوى العناصر المستبدلة (كالصور <img> ومقاطع الفيديو <video>) داخل أبعاد صندوقها المحددة: القيمة fill (الافتراضية وتمطط المحتوى لتعبئة الصندوق مسببة تشويهاً)، والقيمة contain (تحافظ على التناسب الطبيعي بالكامل مع ترك فراغات جانبية)، والقيمة cover (الحل السحري الذي يملأ الصندوق بالكامل مع الحفاظ على التناسب وقص الزوائد)، والقيمة none.",
+    "whyUse": "تعد object-fit: cover السلاح الأهم لمطوري الواجهات لضمان ظهور صور المقالات والبطاقات بمقاييس موحدة ومثالية، حتى لو كانت الصور المرفوعة من المستخدمين بأبعاد ونسب طول إلى عرض مختلفة تماماً.",
+    "browserMechanics": "أثناء مرحلة التخطيط، يحسب المتصفح أبعاد الصندوق المحدد، ثم يحسب نسبة التكبير اللازمة للصورة وفقاً لقيمة object-fit. في وضع cover، يتم تكبير الصورة لأصغر مقياس يغطي كامل مساحة الصندوق مع توسيطها وقص الأطراف الزائدة بواسطة إطار قص داخلي في بطاقة الرسوميات GPU.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit",
+    "code": ".card .art { width: 140px; height: 70px; object-fit: cover; }",
+    "breakdown": [
+      "خاصية object-fit: تحدد آلية تكييف أبعاد الصورة الأصلية داخل إطار الصندوق المحدد.",
+      "القيمة cover: تملأ الصندوق كلياً دون مط أو تشويه للملامح مع قص الأطراف الفائضة.",
+      "القيمة contain: تضمن ظهور تفاصيل الصورة بالكامل داخل الصندوق دون أي قص."
+    ],
+    "steps": [
+      {
+        "id": "css-67-object-fit-step-1",
+        "title": "تحديد نمط ملاءمة وسيط الصورة",
+        "objective": "تطبيق خاصية object-fit بالقيمة contain لإظهار الصورة كاملة",
+        "type": "edit",
+        "instruction": "بدّل object-fit من cover إلى contain. شغّل وقارن كيف تُعرض الصورة داخل الإطار.",
+        "benefit": "فائدة هذا التعديل: الحفاظ على كافة تفاصيل المحتوى البصري داخل الصندوق دون اقتطاع.",
+        "expectedLine": "contain",
+        "from": "cover",
+        "to": "contain",
+        "task": "بدّل object-fit من cover إلى contain. شغّل وقارن كيف تُعرض الصورة داخل الإطار.",
+        "explanation": "هذه القاعدة تتحكم في مساحة الصورة أو قصّها أو شكلها. الصورة تظل محتوى؛ CSS يضبط طريقة عرضها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية object-fit داخل محدد الصورة.",
+          "قاعدة: القيمة contain تمنع قص أي بكسل من الصورة بينما cover تملأ الإطار تماماً. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: contain.",
+          "الحل النموذجي: contain"
+        ]
+      },
+      {
+        "id": "css-67-object-fit-step-2",
+        "title": "اختبار نمط التغطية الكاملة للصندوق",
+        "objective": "مقارنة مظهر الصورة في وضع التغطية الكاملة cover",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى cover لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: معاينة النمط الاحترافي الأكثر استخداماً لبطاقات المقالات والمنتجات.",
+        "expectedLine": "cover",
+        "from": "contain",
+        "to": "cover",
+        "task": "غيّر القيمة الحالية إلى cover لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة object-fit الحالية في كتلة المحدد.",
+          "قاعدة: القيمة cover تقضي على الفراغات الجانبية المزعجة مع حماية الصورة من التمطط. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: عدّل القيمة لتصبح: cover.",
+          "الحل النموذجي: cover"
+        ]
+      },
+      {
+        "id": "css-67-object-fit-step-3",
+        "title": "اعتماد نمط الملاءمة النهائي للصورة",
+        "objective": "تثبيت خيار الملاءمة النهائي المعتمد لوسائط المعرض",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى fill لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التناسق البصري الأنيق لكافة صور الموقع.",
+        "expectedLine": "fill",
+        "from": "cover",
+        "to": "fill",
+        "task": "غيّر القيمة إلى fill لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان ملاءمة الوسائط بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: fill.",
+          "الحل النموذجي: fill"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "img.card-img {\n  width: 100%;\n  height: 250px;\n  /* النتيجة: الصورة ممطوطة ومضغوطة بصورة قبيحة */\n}",
+      "fixedCode": "img.card-img {\n  width: 100%;\n  height: 250px;\n  object-fit: cover;\n}",
+      "question": "لماذا تظهر الصورة مضغوطة وممطوطة بشكل مشوه داخل بطاقة .card-img وكيف نحلها؟",
+      "explanation": "تحديد أبعاد ثابتة للصورة يجبرها على التمطط لملء الأبعاد وتغيير نسبتها الطبيعية؛ وإضافة object-fit: cover تحل المشكلة فورياً بالحفاظ على النسبة وقص الزوائد بنظافة.",
+      "options": [
+        "يجب إزالة خاصية width من الصورة",
+        "الصور لا تدعم الارتفاع الثابت في CSS",
+        "إضافة خاصية object-fit: cover لحماية النسبة الطبيعية للصورة وتعبئة الصندوق دون تمطط",
+        "المتصفح يتطلب استخدام وسم video للصور الكبيرة"
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "css-68-object-position",
+    "legacyId": "css:67",
+    "title": "تحديد موضع تركيز الصورة عبر object-position",
+    "skill": "عرض الصور ومعالجتها",
+    "order": 67,
+    "concept": "تتكامل خاصية object-position مع object-fit للتحكم في موضع ارتكاز الصورة المقتطعة داخل صندوقها؛ افتراضياً ترتكز الصورة في المركز (50% 50% أو center center). وتتيح object-position إعادة توجيه نقطة التركيز (Focal Point) نحو وجوه الأشخاص في الأعلى (top center) أو نحو عناصر هامة في اليمين أو اليسار لضمان عدم قص الأجزاء الحيوية من الصورة.",
+    "whyUse": "تمنع قص وجوه الأشخاص أو النصوص الهامة المطبوعة في الصور عند تطبيق object-fit: cover، مما يضمن عرض أهم عناصر المحتوى البصري دائماً في منتصف نافذة العرض.",
+    "browserMechanics": "أثناء مرحلة الرسم والقص، يحسب المتصفح إحداثيات إزاحة مستطيل الصورة بالنسبة لمستطيل الصندوق الحاوي؛ فإذا كانت القيمة top center، يحاذي المتصفح الحافة العلوية للصورة مع الحافة العلوية للصندوق، ويقتطع الزوائد من الأسفل فقط.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/object-position",
+    "code": ".card .art { width: 90px; height: 60px; border-radius: 8px; }",
+    "breakdown": [
+      "خاصية object-position: تحدد إحداثيات نقطة ارتكاز الصورة داخل إطارها.",
+      "نقطة التركيز Focal Point: توجه مساحة الاقتطاع لحماية وجوه الأشخاص من القص.",
+      "التكامل مع object-fit: تعمل بالتزامن مع وضع cover لتوجيه الجزء المرئي من الصورة."
+    ],
+    "steps": [
+      {
+        "id": "css-68-object-position-step-1",
+        "title": "تعديل إحداثيات موضع تركيز الصورة",
+        "objective": "تطبيق إحداثيات object-position المحددة لتوجيه كشف الصورة",
+        "type": "edit",
+        "instruction": "وسّع إطار الرسم من 90px إلى 140px ثم شغّل. في موضوع الصورة نفسه سنستخدم object-fit لضبط القصّ.",
+        "benefit": "فائدة هذا التعديل: إبراز المنطقة الحيوية في الصورة داخل إطار الصندوق.",
+        "expectedLine": "140px",
+        "from": "90px",
+        "to": "140px",
+        "task": "وسّع إطار الرسم من 90px إلى 140px ثم شغّل. في موضوع الصورة نفسه سنستخدم object-fit لضبط القصّ.",
+        "explanation": "هذه القاعدة تتحكم في مساحة الصورة أو قصّها أو شكلها. الصورة تظل محتوى؛ CSS يضبط طريقة عرضها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيم الإحداثيات داخل خاصية object-position.",
+          "قاعدة: تقبل object-position كلمات مثل top center أو نسباً مئوية أو بكسل px. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 140px.",
+          "الحل النموذجي: 140px"
+        ]
+      },
+      {
+        "id": "css-68-object-position-step-2",
+        "title": "اختبار موضع تركيز إحداثي بديل",
+        "objective": "مقارنة كشف زاوية أخرى من الصورة بإحداثيات مختلفة",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 144px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: فهم آلية انتقال نافذة الرؤية عبر مساحة الصورة الكبيرة.",
+        "expectedLine": "144px",
+        "from": "140px",
+        "to": "144px",
+        "task": "غيّر القيمة الحالية إلى 144px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة الإحداثيات الحالية في كتلة المحدد.",
+          "قاعدة: تغيير إحداثيات الموضع يعيد توجيه المركز البصري للصورة فوراً. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 144px.",
+          "الحل النموذجي: 144px"
+        ]
+      },
+      {
+        "id": "css-68-object-position-step-3",
+        "title": "اعتماد موضع التركيز النهائي للصورة",
+        "objective": "تثبيت نقطة الارتكاز النهائية لصورة المكون",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 150px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: ضمان ثبات ظهور الموضوع الرئيسي للصورة بدقة تامة.",
+        "expectedLine": "150px",
+        "from": "144px",
+        "to": "150px",
+        "task": "غيّر القيمة إلى 150px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان موضع الصورة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 150px.",
+          "الحل النموذجي: 150px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".profile-cover {\n  object-fit: cover;\n  object-position: center;\n  /* المشكلة: وجوه الأشخاص في أعلى الصورة يتم قصها وتختفي */\n}",
+      "fixedCode": ".profile-cover {\n  object-fit: cover;\n  object-position: top center;\n}",
+      "question": "كيف نمنع قص رؤوس ووجوه الأشخاص في صورة الغلاف .profile-cover عند استخدام object-fit: cover؟",
+      "explanation": "القيمة الافتراضية center تقتطع الزوائد بالتساوي من الأعلى والأسفل مما قد يقص الرؤوس؛ ولتوجيه التركيز نحو الجزء العلوي نستخدم object-position: top center.",
+      "options": [
+        "يجب تحويل الصورة إلى وسم canvas",
+        "يجب إزالة خاصية object-fit تماماً",
+        "خاصية object-position ملغاة في CSS الحديث",
+        "تعديل موضع التركيز إلى object-position: top center لتثبيت أعلى الصورة ومنع قص الوجوه"
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "css-69-masking",
+    "legacyId": "css:68",
+    "title": "الأقنعة البصرية المتقدمة عبر mask-image",
+    "skill": "عرض الصور ومعالجتها",
+    "order": 68,
+    "concept": "تتيح خاصية mask-image حجب أجزاء من العنصر باستخدام صورة أو تدرج لوني كقناع شفافية (Alpha Mask)؛ فالأجزاء الشفافة تماماً في صورة القناع تجعل محتوى العنصر مخفياً كلياً، بينما الأجزاء المعتمة تبقي المحتوى مرئياً، وتسمح التدرجات اللونية (linear-gradient) بصناعة تأثيرات تلاشي تدريجي (Fading Edges) مبهرة.",
+    "whyUse": "تسمح بإنتاج تأثيرات فنية معقدة كانت تتطلب سابقاً دمج الصور في برامج التصميم؛ كجعل الصور تتلاشى تدريجياً نحو أطرافها لتندمج بنعومة مع خلفية الصفحة، وتفريغ النصوص بأشكال رسومية مبتكرة.",
+    "browserMechanics": "أثناء مرحلة التركيب (Compositing)، يستخدم المتصفح قناة الشفافية (Alpha Channel) لصورة القناع كمعامل ضرب بكسلي لقناة الشفافية الخاصة بالعنصر المستهدف في وحدة معالجة الرسوميات GPU؛ مما ينتج تفريغاً ناعماً للبكسلات في أجزاء من الميلي ثانية.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/mask-image",
+    "code": ".card .art { mask-image: linear-gradient(to bottom, black 20%, transparent); }",
+    "breakdown": [
+      "خاصية mask-image: تحدد صورة القناع أو التدرج اللوني المستخدم في تفريغ العنصر.",
+      "قناة الشفافية Alpha: تحكم شفافية كل بكسل بناءً على درجة عتامة صورة القناع.",
+      "التلاشي التدريجي: ينتج تدرجاً انسيابياً يخفي حواف الصور لتندمج مع الواجهة."
+    ],
+    "steps": [
+      {
+        "id": "css-69-masking-step-1",
+        "title": "تعديل اتجاه تلاشي قناع الصورة",
+        "objective": "تطبيق اتجاه تدرج القناع mask-image نحو اليمين to right",
+        "type": "edit",
+        "instruction": "غيّر اتجاه القناع إلى to right ثم شغّل. انتقل التدرج من أعلى الصورة إلى جانبها.",
+        "benefit": "فائدة هذا التعديل: توجيه التلاشي البصري أفقياً ليتناغم مع المحتوى المجاور.",
+        "expectedLine": "to right",
+        "from": "to bottom",
+        "to": "to right",
+        "task": "غيّر اتجاه القناع إلى to right ثم شغّل. انتقل التدرج من أعلى الصورة إلى جانبها.",
+        "explanation": "mask-image تخفي أجزاء من الصورة أو تكشفها بحسب شفافية القناع. التدرج هنا يكشف جزءًا ويذيب الآخر.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى اتجاه التدرج اللوني داخل دالة linear-gradient في خاصية mask-image.",
+          "قاعدة: تحديد to right يجعل القناع يتلاشى أفقياً من اليسار لليمين. هل تأكدت من كتابة الاتجاه المطلوب بدقة؟",
+          "مساعدة محددة: غيّر الاتجاه ليصبح: to right.",
+          "الحل النموذجي: to right"
+        ]
+      },
+      {
+        "id": "css-69-masking-step-2",
+        "title": "اختبار اتجاه قناع رأسي بديل",
+        "objective": "مقارنة مظهر التلاشي الرأسي للقناع نحو الأسفل to bottom",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى to top لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تقييم ملاءمة التلاشي الرأسي لدمج صور المقالات في النصوص.",
+        "expectedLine": "to top",
+        "from": "to right",
+        "to": "to top",
+        "task": "غيّر القيمة الحالية إلى to top لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى اتجاه القناع الحالي في كتلة المحدد.",
+          "قاعدة: الاتجاه to bottom يخلق تلاشياً تدريجياً نحو أسفل الصورة. هل راجعت كتابة الاتجاه البديل؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: to top.",
+          "الحل النموذجي: to top"
+        ]
+      },
+      {
+        "id": "css-69-masking-step-3",
+        "title": "اعتماد اتجاه القناع النهائي",
+        "objective": "تثبيت اتجاه تدرج القناع المعتمد للصورة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 45deg لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التأثير البصري الراقي والمستقر لوسائط الموقع.",
+        "expectedLine": "45deg",
+        "from": "to top",
+        "to": "45deg",
+        "task": "غيّر القيمة إلى 45deg لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان قناع الصورة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 45deg.",
+          "الحل النموذجي: 45deg"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".faded-img {\n  mask-image: linear-gradient(black, transparent);\n  /* المشكلة: لا يعمل في متصفحات WebKit القديمة كـ Safari و Chrome */\n}",
+      "fixedCode": ".faded-img {\n  -webkit-mask-image: linear-gradient(black, transparent);\n  mask-image: linear-gradient(black, transparent);\n}",
+      "question": "لماذا لم يعمل قناع التلاشي mask-image في بعض المتصفحات ومتصفح سفاري؟",
+      "explanation": "خاصية mask-image كانت تتطلب تاريخياً بادئة المورد -webkit-mask-image لدعم التوافق الشامل في محركات WebKit/Blink؛ ويجب كتابة النسخة المسبوقة ببادئة لضمان عمل القناع في كل المتصفحات.",
+      "options": [
+        "إضافة بادئة المورد -webkit-mask-image لضمان التوافقية العكسية مع متصفحات سفاري وكروم القديمة",
+        "دوال التدرج لا تعمل مع الأقنعة",
+        "يجب استخدام صورة PNG حصراً للقناع",
+        "المتصفح يتطلب تحويل الصورة إلى SVG"
+      ],
+      "correctOptionIndex": 0
+    }
+  }
+]

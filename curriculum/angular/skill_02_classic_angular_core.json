@@ -1,0 +1,3046 @@
+[
+  {
+    "id": "ng-classic-01",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "المعمارية الكلاسيكية وتشريح الـ NgModule",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "فهم المعمارية الكلاسيكية لتطبيقات Angular المبنية على الـ NgModule؛ استكشاف الأركان الأربعة للوحدة (declarations, imports, providers, bootstrap)، ولماذا لا غنى عن إتقانها لصيانة الأنظمة المؤسسية الضخمة في سوق العمل.",
+    "concept": "قبل ظهور الإصدارات الحديثة ذات المكونات المستقلة (Standalone Components)، كانت كل ميزة وشاشة في Angular تدور حول مفهوم 'الوحدة النمطية' (NgModule). الوحدة النمطية هي كلاس مزخرف بـ @NgModule يعمل كحاوية تنظيمية تجمع المكونات والتوجيهات والمنقيات المترابطة معاً. تتكون الوحدة من أربعة أركان أساسية: 1) declarations لتسجيل المكونات التابعة للوحدة، 2) imports لجلب وحدات خارجية كـ CommonModule، 3) providers لتسجيل الخدمات وحقن التبعيات، 4) bootstrap لتحديد المكون الجذري الذي ينطلق منه التطبيق. ورغم حداثة الأنظمة الحالية، فإن 80% من مشاريع الشركات والبنوك القائمة مبنية بالكامل على NgModules، مما يجعل فهمها شرطاً أساسياً لاجتياز المقابلات والعمل في السوق.",
+    "flow": "متصفح العميل ⟶ bootstrapModule(AppClassicModule) ⟶ فحص declarations & imports ⟶ تحميل المكون الجذري (App) ⟶ إقلاع نظام السينما",
+    "task": "افتح الملف src/app/classic/app-classic.module.ts وقم بتعريف وتصدير وحدة AppClassicModule مع تسجيل CommonModule في مصفوفة imports.",
+    "file": "src/app/classic/app-classic.module.ts",
+    "code": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@NgModule({\n  declarations: [],\n  imports: [CommonModule],\n  providers: [],\n  bootstrap: []\n})\nexport class AppClassicModule {}",
+    "expected": "export class AppClassicModule {}",
+    "reference": "https://angular.dev/guide/ngmodules",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "تخيل تطبيق سينما ضخم يضم مئات الشاشات: شاشات الحجز، إدارة التذاكر، الدفع الإلكتروني، وتقارير الإيرادات. في معمارية Angular الكلاسيكية، لا يمكن للمكونات أن تعيش منفردة في الهواء الطلق؛ بل يجب أن تنتمي لوحدة تنظيمية (NgModule) تجمع كل العناصر التي تحتاجها الشاشة وتعلن عن المكونات المسموح لها بالظهور معاً. تعمل الـ NgModule كصندوق متكامل يحدد ما يملكه الصندوق (declarations)، وما يستعيره من الصناديق الأخرى (imports)، وما يوفره من خدمات للجميع (providers).",
+        "flow": "المشروع الكلاسيكي ⟶ حاوية @NgModule ⟶ [declarations: مكونات الشاشة] + [imports: وحدات الدعم كـ CommonModule] ⟶ بناء شجرة الواجهة",
+        "task": "تأمل كيف تجمع وحدة NgModule أجزاء التطبيق الكلاسيكي في وحدة عمل متماسكة ومنظمة قبل إقلاع التطبيق.",
+        "benefit": "استوعبت دور NgModule كعمود فقري لتنظيم وتجميع الأكواد في معظم مشاريع Angular بسوق العمل.",
+        "objective": "تأمل كيف تجمع وحدة NgModule أجزاء التطبيق الكلاسيكي في وحدة عمل متماسكة ومنظمة قبل إقلاع التطبيق.",
+        "instruction": "تأمل كيف تجمع وحدة NgModule أجزاء التطبيق الكلاسيكي في وحدة عمل متماسكة ومنظمة قبل إقلاع التطبيق.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/app-classic.module.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class AppClassicModule {}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class AppClassicModule {}"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح الأركان الأربعة للـ NgModule",
+        "explanation": "يتم تعريف الوحدة باستخدام الزخرف @NgModule المستورد من '@angular/core' فوق كلاس فارغ يتم تصديره. يحتوي الزخرف على 4 مصفوفات حاسمة:\n1) declarations: تُسجل فيها المكونات (Components) والتوجيهات (Directives) والمنقيات (Pipes) التي تنتمي لهذه الوحدة فقط.\n2) imports: تُوضع فيها الوحدات الأخرى التي يحتاجها هذا الموديول (مثل CommonModule لتفعيل الأوامر الأساسية).\n3) providers: تُعرّف الخدمات (Services) التي تتاح للحقن في هذه الوحدة.\n4) bootstrap: في الوحدة الجذرية فقط (Root Module)، تحدد المكون الرئيسي الذي ينطلق في الصفحة (مثل AppComponent).",
+        "flow": "@NgModule({ declarations: [...], imports: [...], providers: [...], bootstrap: [...] }) ⟶ export class AppClassicModule {}",
+        "task": "دقق في خصائص كائن البيانات الوصفية (Metadata) داخل @NgModule ولاحظ دور كل مصفوفة في إدارة عناصر التطبيق.",
+        "benefit": "أتقنت تشريح الأركان الأربعة للوحدة الكلاسيكية وفهمت وظيفة كل مصفوفة بدقة.",
+        "objective": "دقق في خصائص كائن البيانات الوصفية (Metadata) داخل @NgModule ولاحظ دور كل مصفوفة في إدارة عناصر التطبيق.",
+        "instruction": "دقق في خصائص كائن البيانات الوصفية (Metadata) داخل @NgModule ولاحظ دور كل مصفوفة في إدارة عناصر التطبيق.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/app-classic.module.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class AppClassicModule {}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class AppClassicModule {}"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بإنشاء أول وحدة كلاسيكية لتطبيق السينما باسم AppClassicModule داخل ملف src/app/classic/app-classic.module.ts مع استيراد CommonModule وتهيئة المصفوفات الأربع الأساسية.",
+        "file": "src/app/classic/app-classic.module.ts",
+        "code": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@NgModule({\n  declarations: [],\n  imports: [CommonModule],\n  providers: [],\n  bootstrap: []\n})\nexport class AppClassicModule {}",
+        "expected": "export class AppClassicModule {}",
+        "task": "اكتب تعريف الوحدة AppClassicModule بكافة مصفوفاتها الأربع في ملف src/app/classic/app-classic.module.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "أنشأت أول وحدة كلاسيكية بيدك وطبقت المعمارية الرسمية للـ NgModule بنجاح.",
+        "objective": "اكتب تعريف الوحدة AppClassicModule بكافة مصفوفاتها الأربع في ملف src/app/classic/app-classic.module.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب تعريف الوحدة AppClassicModule بكافة مصفوفاتها الأربع في ملف src/app/classic/app-classic.module.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/app-classic.module.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class AppClassicModule {}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class AppClassicModule {}"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "في الأنظمة الواقعية، عندما ترغب في مشاركة مكونات هذه الوحدة مع وحدات أخرى، نضيف مصفوفة خامسة باسم exports: []. جرّب إضافة خاصية exports: [] داخل كائن @NgModule لتتعرف على كيفية تجهيز الوحدات لإعادة الاستخدام.",
+        "task": "أضف exports: [] أسفل bootstrap: [] داخل كائن @NgModule وتأكد من سلامة الصياغة النحوية للكود.",
+        "benefit": "تعرفت على مصفوفة exports ودورها في تصدير المكونات المشتركة بين الوحدات المتعددة.",
+        "objective": "أضف exports: [] أسفل bootstrap: [] داخل كائن @NgModule وتأكد من سلامة الصياغة النحوية للكود.",
+        "instruction": "أضف exports: [] أسفل bootstrap: [] داخل كائن @NgModule وتأكد من سلامة الصياغة النحوية للكود.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/app-classic.module.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class AppClassicModule {}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class AppClassicModule {}"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "أين يجب تسجيل المكون الكلاسيكي (Component) حتى يتعرف عليه قالب Angular ويتمكن من عرضه؟",
+        "options": [
+          "في مصفوفة declarations داخل الـ NgModule التابع لها المكون",
+          "في مصفوفة providers الخاصة بالخدمات فقط",
+          "داخل ملف package.json بجانب التبعيات الخارجية"
+        ],
+        "correct": 0,
+        "benefit": "إجابة ممتازة! مصفوفة declarations هي المكان الوحيد الذي يُعلن فيه المكون الكلاسيكي ليتعرف عليه مترجم Angular.",
+        "task": "أين يجب تسجيل المكون الكلاسيكي (Component) حتى يتعرف عليه قالب Angular ويتمكن من عرضه؟",
+        "objective": "أين يجب تسجيل المكون الكلاسيكي (Component) حتى يتعرف عليه قالب Angular ويتمكن من عرضه؟",
+        "instruction": "أين يجب تسجيل المكون الكلاسيكي (Component) حتى يتعرف عليه قالب Angular ويتمكن من عرضه؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/app-classic.module.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class AppClassicModule {}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class AppClassicModule {}"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-01",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 10,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/ngmodules",
+    "breakdown": [
+      "المرحلة 1: متصفح العميل",
+      "المرحلة 2: bootstrapModule(AppClassicModule)",
+      "المرحلة 3: فحص declarations & imports",
+      "المرحلة 4: تحميل المكون الجذري (App)",
+      "المرحلة 5: إقلاع نظام السينما"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class AppClassicModule {}",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-classic-02",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "تشريح المكون الكلاسيكي وتوصيله بالوحدة",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "بناء المكون الكلاسيكي بدون standalone: true، وفهم كيفية توصيله بمصفوفة declarations في الوحدة النمطية، مع استخدام المحدد selector: 'app-movie-card-classic' لعرض بطاقة الفيلم.",
+    "concept": "في المعمارية الكلاسيكية، المكون (Component) ليس كائناً مستقلاً؛ فهو لا يحتوي على خاصية standalone: true. هذا يعني أن المكون عاجز تماماً عن العمل بمفرده، وإذا حاولت استخدامه في الصفحة دون تسجيله في مصفوفة declarations الخاصة بـ NgModule فسيطلق Angular الخطأ الشهير: 'app-movie-card-classic is not a known element'. يتكون المكون الكلاسيكي من الزخرف @Component مع محدد selector (مثل 'app-movie-card-classic')، ومسار القالب templateUrl، ومسار التنسيق styleUrl، وكلاس TypeScript يحتوي على خصائص بيانات الفيلم كالعنوان والتصنيف والتقييم وسعر التذكرة.",
+    "flow": "كلاس MovieCardClassicComponent ⟶ ربطه بـ declarations في AppClassicModule ⟶ استخدام وسم <app-movie-card-classic> ⟶ يظهر كرت الفيلم في الصفحة بنجاح",
+    "task": "افتح الملف src/app/classic/movie-card-classic.component.ts وقم بتعريف كلاس MovieCardClassicComponent مع خصائص الفيلم وحالة نفاذ التذاكر isSoldOut.",
+    "file": "src/app/classic/movie-card-classic.component.ts",
+    "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-movie-card-classic',\n  templateUrl: './movie-card-classic.component.html',\n  styleUrl: './movie-card-classic.component.css'\n})\nexport class MovieCardClassicComponent {\n  movieTitle: string = 'رحلة النجوم';\n  genre: string = 'خيال علمي';\n  rating: number = 4.8;\n  isSoldOut: boolean = false;\n}",
+    "expected": "export class MovieCardClassicComponent {",
+    "reference": "https://angular.dev/guide/components",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "في كود الشركات ومشاريع Angular الكلاسيكية، ستجد آلاف المكونات التي لا تحتوي على كلمة standalone: true إطلاقاً! المكون الكلاسيكي يعتمد بنسبة 100% على 'عقد الانتماء' لوحدته النمطية. وبمجرد تسجيله في declarations تصبح كافة التوجيهات والوحدات المستوردة في ذلك الموديول متاحة تلقائياً داخل قالب هذا المكون دون الحاجة لاستيرادها يدوياً في كل ملف.",
+        "flow": "مكون بدون standalone ⟶ تسجيله في declarations داخل NgModule ⟶ يتعرف القالب على وسم <app-movie-card-classic> ⟶ عرض بطاقة الفيلم",
+        "task": "لاحظ الاختلاف الجوهري: المكون الكلاسيكي لا يستورد توجيهاته بنفسه، بل يكتسبها من الوحدة الحاضنة له.",
+        "benefit": "استوعبت الفرق المعماري الأساسي بين المكونات الكلاسيكية والمستقلة، وهو السؤال رقم 1 في مقابلات Angular.",
+        "objective": "لاحظ الاختلاف الجوهري: المكون الكلاسيكي لا يستورد توجيهاته بنفسه، بل يكتسبها من الوحدة الحاضنة له.",
+        "instruction": "لاحظ الاختلاف الجوهري: المكون الكلاسيكي لا يستورد توجيهاته بنفسه، بل يكتسبها من الوحدة الحاضنة له.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-card-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class MovieCardClassicComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class MovieCardClassicComponent {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح المكون الكلاسيكي والمحدد (Selector)",
+        "explanation": "يتضمن الزخرف @Component ثلاثة حقول محورية:\n1) selector: 'app-movie-card-classic' وهو الاسم المخصص للوسم الجديد في HTML الذي سنضعه في أي صفحة لعرض هذه البطاقة.\n2) templateUrl: المسار النسبي لملف واجهة المستخدم HTML.\n3) styleUrl: المسار النسبي لملف تنسيقات CSS الخاصة بالمكون.\nثم يأتي كلاس المكون ليحمل المتغيرات وحالة العرض: مثل اسم الفيلم movieTitle وحالة التذاكر isSoldOut.",
+        "flow": "@Component({ selector, templateUrl, styleUrl }) ⟶ export class MovieCardClassicComponent { خصائص البيانات }",
+        "task": "تفقد خصائص الزخرف @Component وتأكد من عدم وجود standalone: true لترسيخ النمط الكلاسيكي.",
+        "benefit": "أتقنت كتابة هيكل المكون الكلاسيكي وكيفية اختيار محدد selector مميز يبدأ بـ app-.",
+        "objective": "تفقد خصائص الزخرف @Component وتأكد من عدم وجود standalone: true لترسيخ النمط الكلاسيكي.",
+        "instruction": "تفقد خصائص الزخرف @Component وتأكد من عدم وجود standalone: true لترسيخ النمط الكلاسيكي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-card-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class MovieCardClassicComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class MovieCardClassicComponent {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بتعريف كلاس المكون الكلاسيكي MovieCardClassicComponent داخل ملف src/app/classic/movie-card-classic.component.ts مع ربطه بالمحدد app-movie-card-classic وتعريف بيانات الفيلم.",
+        "file": "src/app/classic/movie-card-classic.component.ts",
+        "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-movie-card-classic',\n  templateUrl: './movie-card-classic.component.html',\n  styleUrl: './movie-card-classic.component.css'\n})\nexport class MovieCardClassicComponent {\n  movieTitle: string = 'رحلة النجوم';\n  genre: string = 'خيال علمي';\n  rating: number = 4.8;\n  isSoldOut: boolean = false;\n}",
+        "expected": "export class MovieCardClassicComponent {",
+        "task": "أدخل كود المكون الكلاسيكي كاملاً في ملف src/app/classic/movie-card-classic.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت بنجاح مكون بطاقة الفيلم الكلاسيكي الجاهز للربط بالوحدة.",
+        "objective": "أدخل كود المكون الكلاسيكي كاملاً في ملف src/app/classic/movie-card-classic.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "أدخل كود المكون الكلاسيكي كاملاً في ملف src/app/classic/movie-card-classic.component.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-card-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class MovieCardClassicComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class MovieCardClassicComponent {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب تغيير قيمة isSoldOut إلى true داخل كلاس المكون، وأضف خاصية جديدة ticketPrice: number = 75; لتمثيل سعر التذكرة بالريال السعودي.",
+        "task": "غيّر isSoldOut إلى true وأضف متغير ticketPrice ثم تأكد من صحة الأنواع وعدم وجود أخطاء.",
+        "benefit": "تدرّبت على إضافة وتعديل خصائص المكون الديناميكية التي تتحكم في سلوك العرض.",
+        "objective": "غيّر isSoldOut إلى true وأضف متغير ticketPrice ثم تأكد من صحة الأنواع وعدم وجود أخطاء.",
+        "instruction": "غيّر isSoldOut إلى true وأضف متغير ticketPrice ثم تأكد من صحة الأنواع وعدم وجود أخطاء.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-card-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class MovieCardClassicComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class MovieCardClassicComponent {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ماذا يحدث إذا استخدمت وسم <app-movie-card-classic> في قالب التطبيق دون إضافة المكون إلى مصفوفة declarations في الـ NgModule؟",
+        "options": [
+          "يظهر خطأ في الكونسول: 'app-movie-card-classic is not a known element' وتفشل الصفحة في تصيير العنصر",
+          "يقوم Angular بتحويل المكون تلقائياً إلى صفحة ويب خارجية",
+          "يعمل المكون بشكل طبيعي دون أي مشكلة لأن Angular يكتشفه سحرياً"
+        ],
+        "correct": 0,
+        "benefit": "إجابة عبقرية! هذا الخطأ الكلاسيكي هو أشهر خطأ يواجهه مطورو Angular في المشاريع التراثية لغياب التصريح في declarations.",
+        "task": "ماذا يحدث إذا استخدمت وسم <app-movie-card-classic> في قالب التطبيق دون إضافة المكون إلى مصفوفة declarations في الـ NgModule؟",
+        "objective": "ماذا يحدث إذا استخدمت وسم <app-movie-card-classic> في قالب التطبيق دون إضافة المكون إلى مصفوفة declarations في الـ NgModule؟",
+        "instruction": "ماذا يحدث إذا استخدمت وسم <app-movie-card-classic> في قالب التطبيق دون إضافة المكون إلى مصفوفة declarations في الـ NgModule؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-card-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class MovieCardClassicComponent {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class MovieCardClassicComponent {"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-02",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 11,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/components",
+    "breakdown": [
+      "المرحلة 1: كلاس MovieCardClassicComponent",
+      "المرحلة 2: ربطه بـ declarations في AppClassicModule",
+      "المرحلة 3: استخدام وسم <app-movie-card-classic>",
+      "المرحلة 4: يظهر كرت الفيلم في الصفحة بنجاح"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class MovieCardClassicComponent {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-classic-03",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "العرض والربط الكلاسيكي (Interpolation & Property Binding)",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "إتقان عرض البيانات في قوالب Angular باستخدام تقنيتي التضمين النصي {{ }} وربط الخصائص بـ [property]؛ التحكم في تعطيل الأزرار [disabled] وتبديل الروابط [src] استناداً لمتغيرات كلاس المكون.",
+    "concept": "في واجهات المستخدم التفاعلية، نحتاج لنقل البيانات من كلاس TypeScript وعرضها ديناميكياً في صفحة HTML. يوفر Angular طريقتين أساسيتين باتجاه واحد (One-Way Data Binding من الكلاس إلى القالب): 1) التضمين النصي (Interpolation) بالأقواس المزدوجة {{ expression }}: يُستخدم لوضع النصوص والأرقام المحسوبة داخل محتوى العناصر كالعناوين والفقرات (مثل {{ title }}). 2) ربط الخصائص (Property Binding) بالأقواس المربعة [property]=\"expression\": يُستخدم للتحكم في خصائص عناصر DOM البرمجية مباشرة، وليس مجرد سمات نصية. أبرز مثال هو خاصية التعطيل [disabled]=\"isSoldOut\"؛ فعندما تكون isSoldOut تساوي true، يقوم المتصفح بتعطيل الزر ومنع الضغط عليه، بينما لو كتبتها disabled=\"isSoldOut\" كـ HTML عادي فسيظل الزر معطلاً دائماً لأن HTML يعتبر أي نص غير فارغ كقيمة تفعيل! كذلك نربط روابط الصور بـ [src]=\"posterUrl\" لضمان التحديث اللحظي.",
+    "flow": "متغير الكلاس (isSoldOut = true) ⟶ معالجة التعبير في القالب ⟶ ربط الخاصية البرمجية [disabled] ⟶ زر الحجز يتعطل في المتصفح تلقائياً",
+    "task": "افتح الملف src/app/app.html وأضف زر حجز التذكرة مع ربط خاصية التعطيل البرمجية بمتغير isSoldOut عبر [disabled]=\"isSoldOut\".",
+    "file": "src/app/app.html",
+    "code": "<button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>",
+    "expected": "<button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>",
+    "reference": "https://angular.dev/guide/templates/property-binding",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "في برمجة JavaScript التقليدية، كنت تضطر لكتابة document.getElementById('bookBtn').disabled = true في كل مرة تنفد فيها تذاكر الفيلم. في Angular، تنتهي هذه المعاناة تماماً! بفضل Property Binding، أنت فقط تربط خاصية الزر بمتغير الحالة في الكلاس عبر [disabled]=\"isSoldOut\"؛ وبمجرد أن تتغير قيمة المتغير في الكلاس إلى true، يتكفل محرك Angular بتعطيل الزر في المتصفح تلقائياً وبأعلى كفاءة.",
+        "flow": "حالة الكلاس: isSoldOut: boolean ⟶ الربط بالقوسين المربعين [disabled] ⟶ تحديث حالة DOM فورا دون تلاعب يدوي",
+        "task": "قارن بين كتابة disabled العادية في HTML وبين استخدام [disabled] في Angular للتحكم المنطقي الديناميكي.",
+        "benefit": "فهمت جوهر ربط البيانات باتجاه واحد وكيف يريحك Angular من التحديث اليدوي المرهق لعناصر الصفحة.",
+        "objective": "قارن بين كتابة disabled العادية في HTML وبين استخدام [disabled] في Angular للتحكم المنطقي الديناميكي.",
+        "instruction": "قارن بين كتابة disabled العادية في HTML وبين استخدام [disabled] في Angular للتحكم المنطقي الديناميكي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صيغة الأقواس المربعة [ ] والتضمين النصي {{ }}",
+        "explanation": "القاعدة الذهبية في قوالب Angular:\n- الأقواس المزدوجة {{ }} تُطبع كنص (Text Content) بين وسوم البداية والنهاية مثل <h1>{{ movieTitle }}</h1>.\n- الأقواس المربعة [property] تخبر مترجم Angular: 'لا تعامل القيمة بين علامتي التنصيص كنص عادي، بل احسبها كتعبير TypeScript من كلاس المكون واحقن النتيجة في خاصية DOM المستهدفة'.\nلذا فإن [src]=\"posterUrl\" تجلب رابط الصورة من المتغير، و [disabled]=\"isSoldOut\" تسند القيمة المنطقية الحقيقية (boolean) للخاصية البرمجية.",
+        "flow": "اسم خاصية DOM بين قوسين [property] ⟶ علامة المساواة = ⟶ اسم متغير الكلاس بين علامتي تنصيص \"variable\"",
+        "task": "تأمل شكل الزر: الوسم button، الفئة class=\"btn-book\"، وخخاصية التعطيل المحاطة بالأقواس [disabled]=\"isSoldOut\".",
+        "benefit": "أتقنت الفرق الحاسم بين السمات النصية (Attributes) وخصائص الـ DOM البرمجية (Properties).",
+        "objective": "تأمل شكل الزر: الوسم button، الفئة class=\"btn-book\"، وخخاصية التعطيل المحاطة بالأقواس [disabled]=\"isSoldOut\".",
+        "instruction": "تأمل شكل الزر: الوسم button، الفئة class=\"btn-book\"، وخخاصية التعطيل المحاطة بالأقواس [disabled]=\"isSoldOut\".",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإضافة زر حجز التذكرة الأنيق في قالب التطبيق src/app/app.html مع ربط خاصية التعطيل بالمتغير isSoldOut لمنع حجز الأفلام المنتهية تذاكرها.",
+        "file": "src/app/app.html",
+        "code": "<button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>",
+        "expected": "<button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>",
+        "task": "اكتب كود زر الحجز مع خاصية [disabled] داخل ملف src/app/app.html ثم اضغط (شغّل وافحص).",
+        "benefit": "ربطت خاصية DOM برمجية بحالة المكون بنجاح وشاهدت استجابة الزر الفورية.",
+        "objective": "اكتب كود زر الحجز مع خاصية [disabled] داخل ملف src/app/app.html ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب كود زر الحجز مع خاصية [disabled] داخل ملف src/app/app.html ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب دمج التضمين النصي مع الزر لتغيير نص الزر نفسه ديناميكياً! اكتب داخل الزر: {{ isSoldOut ? 'نَفِدَت التذاكر' : 'حجز التذكرة الآن' }} ولاحظ كيف يجتمع التضمين النصي مع ربط الخاصية لخلق تجربة مستخدم ذكية.",
+        "task": "استبدل نص 'حجز التذكرة' بالمعامل الشرطي الثلاثي {{ isSoldOut ? 'نَفِدَت التذاكر' : 'حجز التذكرة الآن' }} وافحص النتيجة.",
+        "benefit": "احترفت المزج بين Property Binding و Interpolation لإنتاج واجهات سينما ذكية ومرنة.",
+        "objective": "استبدل نص 'حجز التذكرة' بالمعامل الشرطي الثلاثي {{ isSoldOut ? 'نَفِدَت التذاكر' : 'حجز التذكرة الآن' }} وافحص النتيجة.",
+        "instruction": "استبدل نص 'حجز التذكرة' بالمعامل الشرطي الثلاثي {{ isSoldOut ? 'نَفِدَت التذاكر' : 'حجز التذكرة الآن' }} وافحص النتيجة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الفرق الجوهري بين كتابة disabled=\"false\" وبين [disabled]=\"false\" في قوالب Angular؟",
+        "options": [
+          "في [disabled] تُحسب كقيمة منطقية boolean فيصبح الزر مفعلًا، بينما في disabled العادية تُعامل كنص غير فارغ فيظل الزر معطلًا!",
+          "لا يوجد أي فرق بينهما فكلاهما متطابق تماماً في النتيجة",
+          "الصيغة [disabled] تؤدي لانهيار التطبيق لأن الأقواس المربعة غير مسموح بها في المتصفح"
+        ],
+        "correct": 0,
+        "benefit": "إجابة عبقرية! الأقواس المربعة [ ] تمنحك التحكم في خاصية DOM الحقيقية بنوعها الأصلي (boolean) بعكس نصوص HTML العادية.",
+        "task": "ما الفرق الجوهري بين كتابة disabled=\"false\" وبين [disabled]=\"false\" في قوالب Angular؟",
+        "objective": "ما الفرق الجوهري بين كتابة disabled=\"false\" وبين [disabled]=\"false\" في قوالب Angular؟",
+        "instruction": "ما الفرق الجوهري بين كتابة disabled=\"false\" وبين [disabled]=\"false\" في قوالب Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: <button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-03",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 12,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/templates/property-binding",
+    "breakdown": [
+      "المرحلة 1: متغير الكلاس (isSoldOut = true)",
+      "المرحلة 2: معالجة التعبير في القالب",
+      "المرحلة 3: ربط الخاصية البرمجية [disabled]",
+      "المرحلة 4: زر الحجز يتعطل في المتصفح تلقائياً"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "<button class=\"btn-book\" [disabled]=\"isSoldOut\">حجز التذكرة</button>",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "ng-classic-04",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "الاستماع للأحداث (Event Binding (click))",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "ربط تفاعلات الزائر ونقرات الفأرة بمنطق المكون عبر Event Binding باستخدام صيغة الأقواس الدائرية (click)؛ استدعاء دوال الكلاس مثل onBookTicket() وتحديث بيانات حجز مقاعد السينما.",
+    "concept": "بينما يُستخدم Property Binding لنقل البيانات من الكلاس إلى القالب (من الداخل للخارج)، يعمل ربط الأحداث (Event Binding) بالاتجاه المعاكس تماماً: فهو ينقل تفاعلات المستخدم ونقراته من عناصر الصفحة (DOM) إلى داخل كلاس TypeScript لمعالجتها. نستخدم في Angular صيغة الأقواس الدائرية (eventName)=\"handlerMethod()\". على سبيل المثال، الصيغة (click)=\"onBookTicket()\" تستمع لحدث نقر المستخدم على الزر، وعند وقوع النقر تستدعي فوراً الدالة onBookTicket() المعرفة في كلاس المكون. يتيح لك هذا النمط إتمام عمليات حجز التذاكر، إظهار النوافذ المنبثقة، وتعديل حالة التطبيق دون كتابة أسطر addEventListener التقليدية المرهقة.",
+    "flow": "نقرة المستخدم على الزر في المتصفح ⟶ التقاط الحدث بـ (click) ⟶ استدعاء دالة onBookTicket() في الكلاس ⟶ تحديث حالة الحجز وعدد المقاعد",
+    "task": "افتح الملف src/app/app.html وأضف زر حجز المقعد مع ربط حدث النقر بالدالة onBookTicket() باستخدام (click)=\"onBookTicket()\".",
+    "file": "src/app/app.html",
+    "code": "<button type=\"button\" class=\"btn-book\" (click)=\"onBookTicket()\">احجز مقعدك الآن</button>",
+    "expected": "(click)=\"onBookTicket()\"",
+    "reference": "https://angular.dev/guide/templates/event-binding",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "الصفحات الثابتة ميتة؛ تفاعل المستخدم هو ما يمنح تطبيق السينما روحه وحيويته! عندما يضغط العميل على زر 'احجز مقعدك الآن'، نحتاج لإخبار كود TypeScript فوراً: 'تم النقر، احجز المقعد الآن واحسب الفاتورة'. في جافاسكريبت القديمة كنت تبحث عن الزر وتضيف مستمع أحداث يدوي. في Angular، الأمر أبسط وأجمل بمراحل: قوسان دائريان حول اسم الحدث (click) وبداخلهما اسم الدالة التي تريد تنفيذها.",
+        "flow": "نقرة العميل (User Click) ⟶ الحدث (click) ⟶ تنفيذ onBookTicket() في كلاس TypeScript ⟶ تأكيد الحجز للمستخدم",
+        "task": "تأمل انسياب البيانات: الحدث ينطلق من واجهة HTML باتجاه كلاس TypeScript داخل المكون.",
+        "benefit": "استوعبت تدفق الأحداث باتجاه واحد من القالب إلى الكلاس، وهو الركيزة الأساسية للتفاعل في Angular.",
+        "objective": "تأمل انسياب البيانات: الحدث ينطلق من واجهة HTML باتجاه كلاس TypeScript داخل المكون.",
+        "instruction": "تأمل انسياب البيانات: الحدث ينطلق من واجهة HTML باتجاه كلاس TypeScript داخل المكون.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: (click)=\"onBookTicket()\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: (click)=\"onBookTicket()\""
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صيغة الأقواس الدائرية ( ) واستدعاء الدوال",
+        "explanation": "تتكون صيغة ربط الأحداث في Angular من أربعة أجزاء:\n1) القوسان الدائريان ( ): يرمزان لاستقبال الأحداث الخارجة من العنصر.\n2) اسم الحدث القياسي: مثل click أو input أو submit أو mouseenter بدون كلمة 'on' القديمة (نكتب click وليس onclick).\n3) علامة المساواة = متبوعة بعلامتي اقتباس \" \".\n4) الدالة المستهدفة مع قوسي الاستدعاء: مثل onBookTicket()، أو تمرير متغير الحدث الخاص $event إذا احتجنا بيانات إضافية مثل إحداثيات الفأرة أو النص المكتوب.",
+        "flow": "(اسم الحدث) ⟶ علامة = ⟶ \"اسمالدالة()\" ⟶ تنفيذ المنطق داخل كلاس المكون فوراً",
+        "task": "دقق في تركيبة السطر: <button type=\"button\" class=\"btn-book\" (click)=\"onBookTicket()\">احجز مقعدك الآن</button>.",
+        "benefit": "أتقنت الصيغة القياسية لربط أي حدث في المتصفح بكلاس المكون في Angular.",
+        "objective": "دقق في تركيبة السطر: <button type=\"button\" class=\"btn-book\" (click)=\"onBookTicket()\">احجز مقعدك الآن</button>.",
+        "instruction": "دقق في تركيبة السطر: <button type=\"button\" class=\"btn-book\" (click)=\"onBookTicket()\">احجز مقعدك الآن</button>.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: (click)=\"onBookTicket()\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: (click)=\"onBookTicket()\""
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإضافة زر التفاعل الرئيسي لحجز المقعد في ملف src/app/app.html مع ربط حدث النقر بالدالة onBookTicket() ليتمكن المستخدم من تأكيد حجزه.",
+        "file": "src/app/app.html",
+        "code": "<button type=\"button\" class=\"btn-book\" (click)=\"onBookTicket()\">احجز مقعدك الآن</button>",
+        "expected": "(click)=\"onBookTicket()\"",
+        "task": "اكتب كود زر الحجز مع حدث (click) في ملف src/app/app.html ثم اضغط (شغّل وافحص).",
+        "benefit": "ربطت أول حدث تفاعلي بيدك وشاهدت كيفية انتقال الأوامر من الشاشة إلى كود المكون.",
+        "objective": "اكتب كود زر الحجز مع حدث (click) في ملف src/app/app.html ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب كود زر الحجز مع حدث (click) في ملف src/app/app.html ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: (click)=\"onBookTicket()\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: (click)=\"onBookTicket()\""
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "في تطبيقات السينما الحقيقية، نحتاج في الغالب لتمرير رقم المقعد أو معرف الفيلم للدالة. جرّب تعديل استدعاء الدالة لتمرير معرف المقعد كمعامل نصي مثل: (click)=\"onBookTicket('A-12')\" أو طباعة رسالة تفاعلية.",
+        "task": "عدّل استدعاء الدالة لتمرير وسيط مثل 'VIP-1' داخل الأقواس: onBookTicket('VIP-1') وتأكد من سلامة الصياغة.",
+        "benefit": "تعلمت كيفية تمرير البيانات والوسائط الديناميكية داخل دوال الأحداث في قوالب Angular.",
+        "objective": "عدّل استدعاء الدالة لتمرير وسيط مثل 'VIP-1' داخل الأقواس: onBookTicket('VIP-1') وتأكد من سلامة الصياغة.",
+        "instruction": "عدّل استدعاء الدالة لتمرير وسيط مثل 'VIP-1' داخل الأقواس: onBookTicket('VIP-1') وتأكد من سلامة الصياغة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: (click)=\"onBookTicket()\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: (click)=\"onBookTicket()\""
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الرمز المستخدم في قوالب Angular لربط الأحداث (Event Binding) مثل النقر أو الإدخال؟",
+        "options": [
+          "الأقواس الدائرية ( ) حول اسم الحدث مثل (click)",
+          "الأقواس المربعة [ ] حول اسم الحدث مثل [click]",
+          "الأقواس المعقوفة { } حول اسم الحدث مثل {click}"
+        ],
+        "correct": 0,
+        "benefit": "أحسنت! الأقواس الدائرية ( ) ترمز لانطلاق الحدث من القالب للكلاس، بينما المربعة [ ] ترمز لتدفق البيانات من الكلاس للقالب.",
+        "task": "ما الرمز المستخدم في قوالب Angular لربط الأحداث (Event Binding) مثل النقر أو الإدخال؟",
+        "objective": "ما الرمز المستخدم في قوالب Angular لربط الأحداث (Event Binding) مثل النقر أو الإدخال؟",
+        "instruction": "ما الرمز المستخدم في قوالب Angular لربط الأحداث (Event Binding) مثل النقر أو الإدخال؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: (click)=\"onBookTicket()\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: (click)=\"onBookTicket()\""
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-04",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 13,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/templates/event-binding",
+    "breakdown": [
+      "المرحلة 1: نقرة المستخدم على الزر في المتصفح",
+      "المرحلة 2: التقاط الحدث بـ (click)",
+      "المرحلة 3: استدعاء دالة onBookTicket() في الكلاس",
+      "المرحلة 4: تحديث حالة الحجز وعدد المقاعد"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "(click)=\"onBookTicket()\"",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "ng-classic-05",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "التوجيه الهيكلي الكلاسيكي: الشرط *ngIf والبديل ng-template",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "شرح معمق للتوجيه الهيكلي *ngIf في Angular الكلاسيكية لإضافة وإزالة عناصر شجرة DOM ديناميكياً، واستخدام حاوية القوالب البديلة ng-template مع متغير المرجع المحلي #soldOutTpl لعرض حالة نفاذ التذاكر عند تحقق الشرط العكسي.",
+    "concept": "في معمارية Angular الكلاسيكية، تُعد التوجيهات الهيكلية (Structural Directives) - المسبوقة بعلامة النجمة * - مسؤولة عن التلاعب المباشر ببنية شجرة DOM عن طريق إضافة أو استئصال العناصر وليست مجرد إخفائها بـ CSS (display: none). التوجيه *ngIf يقوم بتقييم تعبير منطقي: فإذا كانت القيمة truthy يتم إدراج العنصر في الصفحة، وإذا كانت falsy يتم حذفه بالكامل من الذاكرة وشجرة DOM. وعند الرغبة في عرض واجهة بديلة (كتلة else)، توفر Angular عنصر <ng-template> غير المرئي افتراضياً، والمقترن بمتغير مرجع محلي (Template Reference Variable) مثل #soldOutTpl، ليتم حقنه في الصفحة تلقائياً كبديل أنيق عند نفاذ المقاعد أو توقف العرض.",
+    "flow": "تقييم شرط isAvailable ⟶ إذا كان متاحاً (true) يتم إدراج بادج 'العرض متاح' في الـ DOM ⟶ إذا كان غير متاح (false) يتم استدعاء قالب البديل ng-template #soldOutTpl وعرض رسالة النفاذ",
+    "task": "افتح الملف src/app/app.html وأضف وسم الشرط الكلاسيكي *ngIf=\"isAvailable; else soldOutTpl\" مع ربطه بقالب البديل لعرض شارة توفر العرض السينمائي.",
+    "file": "src/app/app.html",
+    "code": "<div *ngIf=\"isAvailable; else soldOutTpl\" class=\"badge normal\">العرض متاح</div>\n<ng-template #soldOutTpl>\n  <div class=\"badge discount\">نفدت التذاكر بالكامل</div>\n</ng-template>",
+    "expected": "*ngIf=\"isAvailable; else soldOutTpl\"",
+    "reference": "https://angular.dev/guide/directives",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية ومخطط تدفق *ngIf و ng-template",
+        "explanation": "في تطبيقات السينما، نحتاج لمنع حجز التذاكر فور نفاد المقاعد. الفرق الجوهري بين إخفاء العنصر بـ display: none وبين *ngIf هو أن *ngIf يستأصل العنصر بالكامل من شجرة DOM ومستمعات الأحداث (Event Listeners)، مما يوفر استهلاك الذاكرة ويمنع التفاعل مع أزرار غير صالحة. علامة النجمة * هي اختصار نحوي (Syntactic Sugar) يحوّل العنصر داخلياً إلى <ng-template [ngIf]=\"isAvailable\">، بينما تمثل else soldOutTpl الإشارة إلى القالب البديل الذي يحل محله في DOM عند نفاذ المقاعد.",
+        "flow": "isAvailable === true ⟶ حقن عنصر div.badge.normal في DOM ⟶ isAvailable === false ⟶ إزالة العنصر فوراً من DOM واستبداله بمحتوى #soldOutTpl",
+        "task": "تأمل كيف يقوم Angular بتبديل كتل DOM بالكامل بناءً على قيمة المتغير الشرطي دون تحميل المتصفح عناصر خفية غير مستخدمة.",
+        "benefit": "أدركت الفرق بين الحذف الجذري من DOM وبين الإخفاء البصري، وكيف يدير *ngIf موارد المتصفح بكفاءة.",
+        "objective": "تأمل كيف يقوم Angular بتبديل كتل DOM بالكامل بناءً على قيمة المتغير الشرطي دون تحميل المتصفح عناصر خفية غير مستخدمة.",
+        "instruction": "تأمل كيف يقوم Angular بتبديل كتل DOM بالكامل بناءً على قيمة المتغير الشرطي دون تحميل المتصفح عناصر خفية غير مستخدمة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngIf=\"isAvailable; else soldOutTpl\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngIf=\"isAvailable; else soldOutTpl\""
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح البنية النحوية للشرط الكلاسيكي والقوالب البديلة",
+        "explanation": "تتكون الصيغة من جزأين رئيسيين: التوجيه الهيكلي *ngIf=\"الشرط; else اسم_القالب\"، وعنصر الحاوية <ng-template #اسم_القالب>. علامة النجمة * تنبه المترجم إلى أنه توجيه هيكلي. الفاصلة المنقوطة ; تفصل بين الشرط المنطقي وتوجيه الانتقال else. أما الرمز # فيعرّف متغير مرجع القالب (Template Reference Variable) الذي يرتبط باسم القالب المكتوب بعد else. القالب <ng-template> لا يظهر بذاته في شجرة DOM، بل يعمل كـ 'حاوية خاملة' لا تُعرض إلا إذا تم استدعاؤها صراحة.",
+        "flow": "*ngIf ⟶ الشرط المنطقي (isAvailable) ⟶ فاصلة منقوطة ; ⟶ كلمة else ⟶ اسم المرجع (soldOutTpl) ⟶ قالب <ng-template #soldOutTpl>",
+        "task": "فكك تركيبة السطر: علامة النجمة *، الشرط المنطقي، كلمة else، ورمز الهاشتاغ # المعرّف للقالب البديل.",
+        "benefit": "أتقنت القراءة الدقيقة لشفرة التوجيهات الهيكلية الكلاسيكية ومراجع القوالب في Angular.",
+        "objective": "فكك تركيبة السطر: علامة النجمة *، الشرط المنطقي، كلمة else، ورمز الهاشتاغ # المعرّف للقالب البديل.",
+        "instruction": "فكك تركيبة السطر: علامة النجمة *، الشرط المنطقي، كلمة else، ورمز الهاشتاغ # المعرّف للقالب البديل.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngIf=\"isAvailable; else soldOutTpl\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngIf=\"isAvailable; else soldOutTpl\""
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإضافة شارة توفر العرض السينمائي في واجهة التطبيق الرئيسية src/app/app.html. إذا كان العرض متاحاً ستظهر الشارة بلون طبيعي، وإذا نفدت التذاكر سيتم عرض قالب البديل soldOutTpl.",
+        "file": "src/app/app.html",
+        "code": "<div *ngIf=\"isAvailable; else soldOutTpl\" class=\"badge normal\">العرض متاح</div>\n<ng-template #soldOutTpl>\n  <div class=\"badge discount\">نفدت التذاكر بالكامل</div>\n</ng-template>",
+        "expected": "*ngIf=\"isAvailable; else soldOutTpl\"",
+        "task": "اكتب كود شارة التوفر والقالب البديل في ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت شرط عرض ديناميكي كلاسيكي مع معالجة الحالة البديلة باستخدام ng-template بنجاح.",
+        "objective": "اكتب كود شارة التوفر والقالب البديل في ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب كود شارة التوفر والقالب البديل في ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngIf=\"isAvailable; else soldOutTpl\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngIf=\"isAvailable; else soldOutTpl\""
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "افتح ملف src/app/app.ts وغيّر قيمة المتغير isAvailable من true إلى false، ثم ارجع للمعاينة الحية وشاهد كيف اختفت شارة 'العرض متاح' وظهرت تلقائياً رسالة القالب البديل 'نفدت التذاكر بالكامل'.",
+        "task": "بدّل قيمة isAvailable إلى false في ملف src/app/app.ts ولاحظ التغيير الفوري في شجرة المعاينة.",
+        "benefit": "عاينت بالعين المجردة آلية تبديل عناصر DOM ديناميكياً بين الشرط الأساسي والقالب البديل.",
+        "objective": "بدّل قيمة isAvailable إلى false في ملف src/app/app.ts ولاحظ التغيير الفوري في شجرة المعاينة.",
+        "instruction": "بدّل قيمة isAvailable إلى false في ملف src/app/app.ts ولاحظ التغيير الفوري في شجرة المعاينة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngIf=\"isAvailable; else soldOutTpl\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngIf=\"isAvailable; else soldOutTpl\""
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الفرق الأساسي بين إخفاء عنصر باستخدام تنسيق CSS (display: none) وبين استخدام التوجيه الهيكلي *ngIf؟",
+        "options": [
+          "*ngIf يحذف العنصر ومستمعات أحداثه تماماً من شجرة DOM عند خطأ الشرط، بينما display: none يبقيه في الـ DOM مخفياً بصرياً فقط",
+          "display: none يحذف العنصر من الذاكرة، بينما *ngIf يغير لون خلفية العنصر فقط",
+          "لا يوجد أي فرق بينهما فكلاهما يؤدي نفس النتيجة تماماً في المتصفح والذاكرة"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة تماماً! التوجيهات الهيكلية تتلاعب بتركيب الـ DOM الفعلي، مما يحسن الأداء ويحمي أمان الواجهة من التفاعل مع عناصر غير مصرح بها.",
+        "task": "ما الفرق الأساسي بين إخفاء عنصر باستخدام تنسيق CSS (display: none) وبين استخدام التوجيه الهيكلي *ngIf؟",
+        "objective": "ما الفرق الأساسي بين إخفاء عنصر باستخدام تنسيق CSS (display: none) وبين استخدام التوجيه الهيكلي *ngIf؟",
+        "instruction": "ما الفرق الأساسي بين إخفاء عنصر باستخدام تنسيق CSS (display: none) وبين استخدام التوجيه الهيكلي *ngIf؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngIf=\"isAvailable; else soldOutTpl\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngIf=\"isAvailable; else soldOutTpl\""
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-05",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 14,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/directives",
+    "breakdown": [
+      "المرحلة 1: تقييم شرط isAvailable",
+      "المرحلة 2: إذا كان متاحاً (true) يتم إدراج بادج 'العرض متاح' في الـ DOM",
+      "المرحلة 3: إذا كان غير متاح (false) يتم استدعاء قالب البديل ng-template #soldOutTpl وعرض رسالة النفاذ"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "*ngIf=\"isAvailable; else soldOutTpl\"",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-classic-06",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "التوجيه الهيكلي الكلاسيكي: التكرار *ngFor وتتبع الفهارس",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "تكرار قوائم وعروض السينما في واجهة المستخدم باستخدام التوجيه الهيكلي الكلاسيكي *ngFor، والوصول للمتغيرات المحلية المساعدة كالفهرس index والحد الأول first، والمقارنة المعمارية مع كتلة @for الحديثة في Angular.",
+    "concept": "يُعد تكرار القوائم من أكثر العمليات تكراراً في تطبيقات الويب؛ فمنصة السينما تعرض قوائم الأفلام وقوائم الصالات ومصفوفات المقاعد. في الأسلوب الكلاسيكي لـ Angular، يؤدي التوجيه *ngFor دور حلقة التكرار فوق المصفوفات، حيث ينسخ عنصر الـ DOM وقوالبه الفرعية لكل عنصر في المصفوفة. كما يتيح *ngFor تصدير متغيرات سياقية مساعدة قيّمة مثل let i = index للحصول على ترتيب العنصر بدءاً من الصفر، و let f = first لمعرفة العنصر الأول لتمييزه بشارة خاصة، و let l = last و let even = even. على عكس كتلة @for الحديثة في Angular 17+، كان trackBy في *ngFor اختيارياً، مما كان يسبب أحياناً مشاكل في إعادة رسم كامل عناصر القائمة إذا لم يُستخدم بدقة.",
+    "flow": "مصفوفة أفلام classicMovies ⟶ حلقة *ngFor تنسخ القالب لكل فيلم ⟶ قراءة متغير الفهرس i = index ⟶ عرض رقم الفيلم وعنوانه {{ i + 1 }}. {{ movie }} في شارة مستقلة",
+    "task": "افتح الملف src/app/app.html واستخدم التوجيه الكلاسيكي *ngFor=\"let movie of classicMovies; let i = index\" لتكرار وعرض أفلام السينما الكلاسيكية مع أرقامها التسلسلية.",
+    "file": "src/app/app.html",
+    "code": "<div *ngFor=\"let movie of classicMovies; let i = index\" class=\"movie-pill\"><b>{{ i + 1 }}. {{ movie }}</b></div>",
+    "expected": "*ngFor=\"let movie of classicMovies; let i = index\"",
+    "reference": "https://angular.dev/guide/directives",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية ومخطط تدفق التكرار الكلاسيكي *ngFor",
+        "explanation": "بدلاً من تكرار كود HTML يدوياً لكل فيلم، نكتب قالباً واحداً ونطلب من Angular تكراره ديناميكياً لكل عنصر داخل مصفوفة الأفلام classicMovies. ينشئ *ngFor نطاقاً محلياً (Local Scope) متاحاً داخل العنصر، مما يسمح لنا بقراءة متغير العنصر الحالي let movie والمتغيرات الإضافية مثل let i = index لعرض ترقيم العناصر للمستخدمين بسهولة وأناقة.",
+        "flow": "مصفوفة ['رحلة النجوم', 'واحة الأمل', 'حارس المجرة'] ⟶ دوران *ngFor ⟶ الدورة الأولى (i=0): '1. رحلة النجوم' ⟶ الدورة الثانية (i=1): '2. واحة الأمل' ⟶ الدورة الثالثة (i=2): '3. حارس المجرة'",
+        "task": "لاحظ كيف يتعامل *ngFor مع المصفوفة ويمرر كلاً من العنصر والفهرس الرقمي كمتغيرات محلية جاهزة للعرض.",
+        "benefit": "فهمت معمارية تكرار القوائم في Angular الكلاسيكية وكيفية استغلال المتغيرات المحلية السياقية.",
+        "objective": "لاحظ كيف يتعامل *ngFor مع المصفوفة ويمرر كلاً من العنصر والفهرس الرقمي كمتغيرات محلية جاهزة للعرض.",
+        "instruction": "لاحظ كيف يتعامل *ngFor مع المصفوفة ويمرر كلاً من العنصر والفهرس الرقمي كمتغيرات محلية جاهزة للعرض.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngFor=\"let movie of classicMovies; let i = index\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngFor=\"let movie of classicMovies; let i = index\""
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح الصيغة النحوية للمتغيرات المساعدة في *ngFor",
+        "explanation": "تبدأ الصيغة بـ *ngFor، تليها الكلمة المفتاحية let لتعريف متغير العنصر المحلي، ثم of لتحديد المصفوفة المصدرية في كلاس المكون. بعد ذلك نضع فاصلة منقوطة ; لتعريف المتغيرات السياقية المساعدة: let i = index للحصول على الفهرس الرقمي (يبدأ من 0)، و let isFirst = first لقيمة منطقية تحدد ما إذا كان هذا هو العنصر الأول في القائمة، و let isLast = last للعنصر الأخير. كل هذه المتغيرات تصبح متاحة حصرياً داخل نطاق القالب المكرر.",
+        "flow": "*ngFor=\"let [اسم_العنصر] of [المصفوفة]; let [اسم_الفهرس] = index; let [اسم_الأول] = first\"",
+        "task": "فكك أجزاء العبارة: الكلمة let، الكلمة of، الفاصلة المنقوطة، وتعيين اسم الفهرس المحلي index.",
+        "benefit": "أتقنت تركيب جملة التكرار واستخراج كافة المتغيرات المساعدة المتاحة في بيئة القالب.",
+        "objective": "فكك أجزاء العبارة: الكلمة let، الكلمة of، الفاصلة المنقوطة، وتعيين اسم الفهرس المحلي index.",
+        "instruction": "فكك أجزاء العبارة: الكلمة let، الكلمة of، الفاصلة المنقوطة، وتعيين اسم الفهرس المحلي index.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngFor=\"let movie of classicMovies; let i = index\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngFor=\"let movie of classicMovies; let i = index\""
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بعرض قائمة الأفلام الكلاسيكية المتاحة في السينما داخل ملف src/app/app.html. سنستخدم التوجيه *ngFor مع قراءة الفهرس i = index لعرض رقم كل فيلم متبوعاً باسمه داخل شارة movie-pill أنيقة.",
+        "file": "src/app/app.html",
+        "code": "<div *ngFor=\"let movie of classicMovies; let i = index\" class=\"movie-pill\"><b>{{ i + 1 }}. {{ movie }}</b></div>",
+        "expected": "*ngFor=\"let movie of classicMovies; let i = index\"",
+        "task": "اكتب سطر تكرار الأفلام أعلاه داخل ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "أتقنت تكرار القوائم بالأسلوب الكلاسيكي المعتمد في ملايين مشاريع Angular القائمة في سوق العمل.",
+        "objective": "اكتب سطر تكرار الأفلام أعلاه داخل ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب سطر تكرار الأفلام أعلاه داخل ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngFor=\"let movie of classicMovies; let i = index\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngFor=\"let movie of classicMovies; let i = index\""
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب استخراج متغير المساعدة let f = first بجانب الفهرس داخل جملة التكرار: *ngFor=\"let movie of classicMovies; let i = index; let f = first\"، ثم أضف وسماً شرطياً صغيراً يعرض شارة 'الأكثر طلباً' بجانب الفيلم الأول فقط إذا كان f صحيحاً.",
+        "task": "أضف متغير let f = first وشاهد كيف يمكنك تمييز أول عنصر في القائمة ديناميكياً.",
+        "benefit": "تعمقت في استثمار المتغيرات السياقية المتقدمة لتخصيص واجهة المستخدم بذكاء.",
+        "objective": "أضف متغير let f = first وشاهد كيف يمكنك تمييز أول عنصر في القائمة ديناميكياً.",
+        "instruction": "أضف متغير let f = first وشاهد كيف يمكنك تمييز أول عنصر في القائمة ديناميكياً.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngFor=\"let movie of classicMovies; let i = index\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngFor=\"let movie of classicMovies; let i = index\""
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما القيمة التي يحملها المتغير المحلي المعرّف بـ let i = index في الدورة الأولى لتكرار القائمة بـ *ngFor؟",
+        "options": [
+          "القيمة 0 (لأن مصفوفات جافاسكريبت وفهارسها تبدأ من الصفر دائماً)",
+          "القيمة 1 (لأن الترقيم في شاشات العرض يبدأ من 1 تلقائياً)",
+          "القيمة undefined حتى تكتمل جميع دورات التكرار"
+        ],
+        "correct": 0,
+        "benefit": "إجابة نموذجية! الفهرس index يبدأ دائماً من 0 كما في معايير لغات البرمجة، ولذلك نكتب {{ i + 1 }} إذا أردنا إظهار ترقيم بشري يبدأ من 1.",
+        "task": "ما القيمة التي يحملها المتغير المحلي المعرّف بـ let i = index في الدورة الأولى لتكرار القائمة بـ *ngFor؟",
+        "objective": "ما القيمة التي يحملها المتغير المحلي المعرّف بـ let i = index في الدورة الأولى لتكرار القائمة بـ *ngFor؟",
+        "instruction": "ما القيمة التي يحملها المتغير المحلي المعرّف بـ let i = index في الدورة الأولى لتكرار القائمة بـ *ngFor؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: *ngFor=\"let movie of classicMovies; let i = index\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: *ngFor=\"let movie of classicMovies; let i = index\""
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-06",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 15,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/directives",
+    "breakdown": [
+      "المرحلة 1: مصفوفة أفلام classicMovies",
+      "المرحلة 2: حلقة *ngFor تنسخ القالب لكل فيلم",
+      "المرحلة 3: قراءة متغير الفهرس i = index",
+      "المرحلة 4: عرض رقم الفيلم وعنوانه {{ i + 1 }}. {{ movie }} في شارة مستقلة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "*ngFor=\"let movie of classicMovies; let i = index\"",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-classic-07",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "التوجيهات السمية الكلاسيكية: [ngClass] و [ngStyle]",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "التحكم الديناميكي في مظهر العناصر وفئات CSS وأنماط الألوان والخطوط باستخدام التوجيهات السمية (Attribute Directives) الكلاسيكية [ngClass] و [ngStyle] لتبديل حالة تذاكر ومقاعد السينما بناءً على شروط متغيرة.",
+    "concept": "تختلف التوجيهات السَمية (Attribute Directives) عن التوجيهات الهيكلية في أنها لا تضيف أو تحذف عناصر من شجرة DOM، بل تُغيّر مظهر أو سلوك عنصر موجود بالفعل. يُعد التوجيه الكلاسيكي [ngClass] الوسيلة الأكثر شيوعاً لتطبيق فئات CSS متعددة شرطياً؛ حيث يقبل كائناً تكون مفاتيحه هي أسماء الفئات وقيمه تعبيرات منطقية (Boolean)، فإذا كان التعبير true أُضيفت الفئة، وإذا كان false أُزيلت تلقائياً. وبالمثل، يتيح التوجيه [ngStyle] تعيين أنماط CSS المباشرة (Inline Styles) ديناميكياً كألوان الخلفيات والارتفاعات بناءً على بيانات المكون.",
+    "flow": "حالة hasDiscount في كلاس المكون ⟶ فحص كائن [ngClass] ⟶ إذا كانت hasDiscount = true تُطبق فئة 'badge discount' وتُزال فئة 'badge normal' ⟶ تحديث مظهر التذكرة فوراً",
+    "task": "افتح الملف src/app/app.html واستخدم التوجيه السمي الكلاسيكي [ngClass] لتطبيق فئات التنسيق الشرطية لتذكرة العرض وفق حالة التخفيض.",
+    "file": "src/app/app.html",
+    "code": "<span [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\">تذكرة العرض</span>",
+    "expected": "[ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\"",
+    "reference": "https://angular.dev/guide/directives",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية ومخطط تدفق [ngClass] و [ngStyle]",
+        "explanation": "في شاشات الحجز، يتغير مظهر المقاعد والتذاكر باستمرار: مقعد متاح (أخضر)، محجوز (رمادي)، أو مشمول بخصم خاص (ذهبي). بدلاً من استخدام الربط المباشر لفئة واحدة مثل [class.active] أو التلاعب اليدوي بـ DOM، يوفر [ngClass] صيغة كائن مركزية وقوية تسمح بتقييم شروط متعددة في سطر واحد وإدارة عشرات الفئات التنسيقية بسلاسة متناهية.",
+        "flow": "متغير hasDiscount: true ⟶ كائن { 'badge discount': true, 'badge normal': false } ⟶ إضافة فئتي badge و discount وإلغاء normal ⟶ ظهور التذكرة بلون الخصم الذهبي",
+        "task": "تأمل كيف يقوم ngClass بمزامنة فئات العنصر مع حالة التطبيق اللحظية بدقة متناهية ودون الحاجة لأي كود تلاعب يدوي.",
+        "benefit": "استوعبت فلسفة التوجيهات السمية في تعديل مظهر عناصر الـ DOM القائمة ديناميكياً.",
+        "objective": "تأمل كيف يقوم ngClass بمزامنة فئات العنصر مع حالة التطبيق اللحظية بدقة متناهية ودون الحاجة لأي كود تلاعب يدوي.",
+        "instruction": "تأمل كيف يقوم ngClass بمزامنة فئات العنصر مع حالة التطبيق اللحظية بدقة متناهية ودون الحاجة لأي كود تلاعب يدوي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\""
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح البنية النحوية لتوجيه الربط الشرطي [ngClass]",
+        "explanation": "يُحاط اسم التوجيه بأقواس مربعة [ngClass] للدلالة على ربط الخاصية (Property Binding). تُمرر له قيمة على هيئة كائن جافاسكريبت محاط بأقواس معقوفة {} داخل علامات التنصيص. داخل الكائن، نحدد أسماء فئات CSS كمفاتيح (بين علامات تنصيص مفردة إذا كانت تحتوي على مسافات أو شرطات)، متبوعة بنقطتين : ثم التعبير الشرطي الذي يحدد تفعيل الفئة أو إلغائها. كما يمكن تمرير مصفوفة فئات أو دالة تعيد كائن الفئات.",
+        "flow": "[ngClass] ⟶ علامة المساواة = ⟶ فتح كائن جافاسكريبت { 'اسم_الفئة': شرط_منطقي } ⟶ إسناد الفئة إذا تحقق الشرط",
+        "task": "لاحظ كيف تفصل النقطتان : بين اسم الفئة التنسيقية والتعبير المنطقي المقابل لها داخل الكائن.",
+        "benefit": "أتقنت هندسة كائنات الشروط التنسيقية مع [ngClass] لتطبيق تصاميم واجهات ديناميكية واحترافية.",
+        "objective": "لاحظ كيف تفصل النقطتان : بين اسم الفئة التنسيقية والتعبير المنطقي المقابل لها داخل الكائن.",
+        "instruction": "لاحظ كيف تفصل النقطتان : بين اسم الفئة التنسيقية والتعبير المنطقي المقابل لها داخل الكائن.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\""
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإضافة شارة 'تذكرة العرض' داخل ملف src/app/app.html مع تطبيق التوجيه السمي [ngClass] لتبديل التنسيق تلقائياً بين شارة الخصم المميزة وشارة العرض العادي بناءً على متغير hasDiscount.",
+        "file": "src/app/app.html",
+        "code": "<span [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\">تذكرة العرض</span>",
+        "expected": "[ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\"",
+        "task": "أضف سطر تذكرة العرض مع توجيه [ngClass] داخل ملف src/app/app.html واضغط زر (شغّل وافحص).",
+        "benefit": "طبقت التوجيهات السمية الكلاسيكية بمهارة في قلب شاشة حجز التذاكر.",
+        "objective": "أضف سطر تذكرة العرض مع توجيه [ngClass] داخل ملف src/app/app.html واضغط زر (شغّل وافحص).",
+        "instruction": "أضف سطر تذكرة العرض مع توجيه [ngClass] داخل ملف src/app/app.html واضغط زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\""
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب استخدام التوجيه السمي الشقيق [ngStyle] لإضافة نمط خط عريض ولون مخصص مباشرة: أضف للتذكرة [ngStyle]=\"{ 'font-weight': hasDiscount ? 'bold' : 'normal', 'letter-spacing': '1px' }\" وشاهد كيف تتأثر خصائص الـ CSS المباشرة في شاشة المعاينة.",
+        "task": "أضف توجيه [ngStyle] مع خصائص أسلوبية ولاحظ تطبيقها المباشر في المتصفح.",
+        "benefit": "تمكنت من الجمع بين إدارة فئات CSS بـ [ngClass] والأنماط المباشرة بـ [ngStyle].",
+        "objective": "أضف توجيه [ngStyle] مع خصائص أسلوبية ولاحظ تطبيقها المباشر في المتصفح.",
+        "instruction": "أضف توجيه [ngStyle] مع خصائص أسلوبية ولاحظ تطبيقها المباشر في المتصفح.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\""
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الفرق الجوهري بين التوجيه الهيكلي (مثل *ngIf) والتوجيه السمي (مثل [ngClass])؟",
+        "options": [
+          "التوجيه الهيكلي يضيف أو يحذف عناصر من شجرة DOM بالكامل، بينما التوجيه السمي يعدل مظهر أو خصائص عنصر قائم دون حذفه",
+          "التوجيه السمي يتطلب دائماً علامة النجمة * قبله، بينما التوجيه الهيكلي يوضع بين أقواس مربعة []",
+          "التوجيه الهيكلي يعمل مع ملفات CSS فقط، بينما التوجيه السمي يرسل طلبات HTTP للخادم"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة واعية! التوجيهات الهيكلية تغير هيكل الصفحة (Structural)، بينما التوجيهات السمية تُغني سمات ومظهر العناصر الموجودة بالفعل (Attribute).",
+        "task": "ما الفرق الجوهري بين التوجيه الهيكلي (مثل *ngIf) والتوجيه السمي (مثل [ngClass])؟",
+        "objective": "ما الفرق الجوهري بين التوجيه الهيكلي (مثل *ngIf) والتوجيه السمي (مثل [ngClass])؟",
+        "instruction": "ما الفرق الجوهري بين التوجيه الهيكلي (مثل *ngIf) والتوجيه السمي (مثل [ngClass])؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\".",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: [ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\""
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-07",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 16,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/directives",
+    "breakdown": [
+      "المرحلة 1: حالة hasDiscount في كلاس المكون",
+      "المرحلة 2: فحص كائن [ngClass]",
+      "المرحلة 3: إذا كانت hasDiscount = true تُطبق فئة 'badge discount' وتُزال فئة 'badge normal'",
+      "المرحلة 4: تحديث مظهر التذكرة فوراً"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "[ngClass]=\"{ 'badge discount': hasDiscount, 'badge normal': !hasDiscount }\"",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "ng-classic-08",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "التواصل الكلاسيكي بين المكونات: التمرير للابن بـ @Input()",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "معمارية تدفق البيانات أحادية الاتجاه (One-way Data Flow) في Angular الكلاسيكية، وتمرير البيانات من المكون الأب إلى المكون الابن باستخدام المزخرف @Input() لتخصيص بطاقات وتفاصيل عروض السينما.",
+    "concept": "في تطبيقات Angular الحقيقية، تُبنى الواجهات على هيئة شجرة هرمية من المكونات (Component Tree). لضمان استقلالية وقابلية إعادة استخدام المكونات، يجب أن تكون قادرة على استقبال بيانات خارجية من المكونات الحاضنة لها (Parent Components). في معمارية Angular الكلاسيكية الممتدة عبر الإصدارات من 2 حتى 16 وما زالت مستخدمة في غالبية المشاريع المؤسسية، يُستخدم المزخرف الخاص @Input() من مكتبة @angular/core لوسم خاصية داخل كلاس المكون الابن، مما يجعلها منفذاً (Input Port) يستقبل البيانات عبر ربط الخصائص [title]=\"selectedMovieTitle\" من قالب المكون الأب.",
+    "flow": "المكون الأب يملك عنوان الفيلم 'رحلة النجوم' ⟶ ربط الخاصية في قالب الأب [title]=\"movieTitle\" ⟶ استقبال القيمة عبر مزخرف @Input() title داخل كلاس الابن ⟶ عرض العنوان في قالب المكون الابن",
+    "task": "افتح الملف src/app/classic/movie-detail-classic.component.ts واستقبل عنوان الفيلم القادم من المكون الأب بتعريف الخاصية المزخرفة @Input() title: string = '';.",
+    "file": "src/app/classic/movie-detail-classic.component.ts",
+    "code": "import { Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'app-movie-detail-classic',\n  templateUrl: './movie-detail-classic.component.html',\n  styleUrl: './movie-detail-classic.component.css'\n})\nexport class MovieDetailClassicComponent {\n  // استقبال عنوان الفيلم من المكون الأب عبر مزخرف @Input الكلاسيكي\n  @Input() title: string = '';\n}\n",
+    "expected": "@Input() title: string = '';",
+    "reference": "https://angular.dev/guide/components/inputs",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الهندسية ومخطط تدفق البيانات عبر @Input()",
+        "explanation": "تمثل شجرة المكونات قلب Angular؛ حيث يكون المكون الأب (مثل App أو CinemaHall) مسؤولاً عن جلب وتخزين البيانات العامة، بينما تكون المكونات الأبناء (مثل MovieDetailClassicComponent) بمثابة مكونات عرض محضة (Presentation / Dumb Components). يسمح المزخرف @Input() بفتح نافذة استقبال آمنة في كلاس المكون الابن، حيث تتدفق البيانات دائماً في اتجاه واحد هابط من الأعلى إلى الأسفل (One-way Data Flow) مما يمنع التضارب ويسهل تعقب مصدر البيانات.",
+        "flow": "بيانات المكون الأب (Parent State) ⟶ تدفق هابط عبر [title] ⟶ منفذ الاستقبال @Input() title في المكون الابن ⟶ عرض العنوان داخل بطاقة تفاصيل الفيلم",
+        "task": "تأمل مخطط التدفق الهابط ولاحظ كيف يحافظ المكون الابن على استقلاليته ويعتمد كلياً على البيانات الممررة له من الأب.",
+        "benefit": "استوعبت مبدأ تدفق البيانات أحادي الاتجاه وكيفية تصميم مكونات قابلة لإعادة الاستخدام في سوق العمل.",
+        "objective": "تأمل مخطط التدفق الهابط ولاحظ كيف يحافظ المكون الابن على استقلاليته ويعتمد كلياً على البيانات الممررة له من الأب.",
+        "instruction": "تأمل مخطط التدفق الهابط ولاحظ كيف يحافظ المكون الابن على استقلاليته ويعتمد كلياً على البيانات الممررة له من الأب.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-detail-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Input() title: string = '';.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Input() title: string = '';"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح المزخرف @Input() وتحديد النوع وقيمة البداية",
+        "explanation": "لاستخدام المزخرف، نقوم أولاً باستيراد Input من حزمة @angular/core. ثم نكتب @Input() مباشرة قبل اسم الخاصية المراد جعلها قابلة للتمرير. يُفضل دائماً تحديد نوع البيانات بدقة (title: string) وإعطاؤها قيمة ابتدائية آمنة (= '') لتفادي الأخطاء في وضع Strict Mode في TypeScript. كما يمكن تمرير اسم مستعار داخل المزخرف @Input('movieTitle') إذا رغبنا في تغيير اسم الخاصية عند كتابتها في قالب الأب.",
+        "flow": "استيراد Input من @angular/core ⟶ كتابة المزخرف @Input() ⟶ اسم الخاصية (title) ⟶ نقطتان وتحديد النوع (: string) ⟶ قيمة افتراضية (= '')",
+        "task": "فكك عناصر التعريف: رمز المزخرف @، استدعاء الدالة Input()، واسم الخاصية مع نوعها الصريح.",
+        "benefit": "أتقنت كتابة مدخلات المكونات الكلاسيكية وتفادي مشكلات عدم تطابق الأنواع في TypeScript.",
+        "objective": "فكك عناصر التعريف: رمز المزخرف @، استدعاء الدالة Input()، واسم الخاصية مع نوعها الصريح.",
+        "instruction": "فكك عناصر التعريف: رمز المزخرف @، استدعاء الدالة Input()، واسم الخاصية مع نوعها الصريح.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-detail-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Input() title: string = '';.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Input() title: string = '';"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بتهيئة منفذ استقبال عنوان الفيلم داخل المكون الكلاسيكي src/app/classic/movie-detail-classic.component.ts. عرّف الخاصية title واجعلها مزخرفة بـ @Input() مع نوع string وقيمة افتراضية فارغة ليتمكن المكون الأب من إمدادها بالعناوين ديناميكياً.",
+        "file": "src/app/classic/movie-detail-classic.component.ts",
+        "code": "import { Component, Input } from '@angular/core';\n\n@Component({\n  selector: 'app-movie-detail-classic',\n  templateUrl: './movie-detail-classic.component.html',\n  styleUrl: './movie-detail-classic.component.css'\n})\nexport class MovieDetailClassicComponent {\n  // استقبال عنوان الفيلم من المكون الأب عبر مزخرف @Input الكلاسيكي\n  @Input() title: string = '';\n}\n",
+        "expected": "@Input() title: string = '';",
+        "task": "افتح ملف src/app/classic/movie-detail-classic.component.ts وأضف تعريف الخاصية المزخرفة @Input() ثم اضغط زر (شغّل وافحص).",
+        "benefit": "أنشأت أول مدخل بيانات رسمي يربط المكونات ببعضها وفق المعمارية الكلاسيكية المعتمدة.",
+        "objective": "افتح ملف src/app/classic/movie-detail-classic.component.ts وأضف تعريف الخاصية المزخرفة @Input() ثم اضغط زر (شغّل وافحص).",
+        "instruction": "افتح ملف src/app/classic/movie-detail-classic.component.ts وأضف تعريف الخاصية المزخرفة @Input() ثم اضغط زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-detail-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Input() title: string = '';.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Input() title: string = '';"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "أضف مدخلين إضافيين داخل كلاس المكون الابن لتمثيل مدة الفيلم وتقييمه: @Input() duration: string = '120 دقيقة'; و @Input() rating: number = 5;، ولاحظ كيف يتسع المكون الابن لاستقبال كافة أبعاد كائن الفيلم من أي مكون أب في تطبيق السينما.",
+        "task": "أضف المدخلين duration و rating بنوعيهما string و number وتأكد من خلو الكود من أي تحذيرات.",
+        "benefit": "تعودت على توسيع عقود المكونات الفرعية وتمرير حزم بيانات متكاملة بسهولة.",
+        "objective": "أضف المدخلين duration و rating بنوعيهما string و number وتأكد من خلو الكود من أي تحذيرات.",
+        "instruction": "أضف المدخلين duration و rating بنوعيهما string و number وتأكد من خلو الكود من أي تحذيرات.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-detail-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Input() title: string = '';.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Input() title: string = '';"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الغرض الأساسي من استخدام المزخرف @Input() في مكونات Angular الكلاسيكية؟",
+        "options": [
+          "تمكين المكون الابن من استقبال قيم وبيانات ممررة إليه مباشرة من المكون الأب عبر ربط الخصائص في القالب",
+          "إرسال إشعارات ونقرات من المكون الابن إلى المكون الأب تلقائياً",
+          "تخزين بيانات المكون بشكل دائم في قاعدة بيانات السيرفر"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة بامتياز! مزخرف @Input() يمثل بوابة الدخول الهابطة للبيانات من المكون الأب إلى الابن، بينما يُستخدم @Output() للتدفق الصاعد العكسي.",
+        "task": "ما الغرض الأساسي من استخدام المزخرف @Input() في مكونات Angular الكلاسيكية؟",
+        "objective": "ما الغرض الأساسي من استخدام المزخرف @Input() في مكونات Angular الكلاسيكية؟",
+        "instruction": "ما الغرض الأساسي من استخدام المزخرف @Input() في مكونات Angular الكلاسيكية؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/movie-detail-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Input() title: string = '';.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Input() title: string = '';"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-08",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 17,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/components/inputs",
+    "breakdown": [
+      "المرحلة 1: المكون الأب يملك عنوان الفيلم 'رحلة النجوم'",
+      "المرحلة 2: ربط الخاصية في قالب الأب [title]=\"movieTitle\"",
+      "المرحلة 3: استقبال القيمة عبر مزخرف @Input() title داخل كلاس الابن",
+      "المرحلة 4: عرض العنوان في قالب المكون الابن"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "@Input() title: string = '';",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "ng-classic-09",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "التواصل الكلاسيكي: إرسال الأحداث بـ @Output() و EventEmitter",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "شرح نمط تواصل المكونات الكلاسيكي الصاعد من الابن إلى الأب باستخدام الزخرف @Output() ومطلق الأحداث EventEmitter لنقل تفاعلات المستخدم مثل اختيار مقعد السينما إلى المكون الحاوي.",
+    "concept": "في معمارية Angular الكلاسيكية، يتدفق تدفق البيانات إلى الأسفل عبر @Input() (من الأب إلى الابن)، بينما ترتفع الأحداث والإشعارات إلى الأعلى عبر @Output() ومطلق الأحداث EventEmitter. عندما يتفاعل الزائر مع مكون مقعد سينمائي فردي (الابن) بالضغط عليه، لا يقوم المكون الابن بتعديل حالة الحجز الكلية مباشرة، بل يُطلق حدثاً مخصصاً يحمل معرف المقعد seatId عبر this.seatSelected.emit(seatId). يستمع المكون الأب لهذا الحدث عبر ربط الأحداث (seatSelected)=\"onSeatSelected($event)\"، مما يحافظ على مبدأ المسؤولية الأحادية (Single Responsibility) وفصل طبقات العرض عن منطق إدارة الحالة.",
+    "flow": "نقرة المستخدم على المقعد الابن ⟶ استدعاء .emit(seatId) ⟶ إرسال الحدث عبر @Output() seatSelected ⟶ التقاط الأب للحدث بـ (seatSelected)=\"onSelect($event)\" ⟶ تحديث سلة التذاكر",
+    "task": "افتح الملف src/app/classic/seat-item-classic.component.ts وعرّف مخرج الحدث الكلاسيكي seatSelected باستخدام الزخرف @Output() و EventEmitter<string> لإشعار الأب بالمقعد المختار.",
+    "file": "src/app/classic/seat-item-classic.component.ts",
+    "code": "@Output() seatSelected = new EventEmitter<string>();",
+    "expected": "@Output() seatSelected = new EventEmitter<string>();",
+    "reference": "https://angular.dev/guide/components/outputs",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية وتدفق الأحداث للأعلى",
+        "explanation": "في سيناريوهات واجهات المستخدم الحقيقية، يتكون مخطط الصالة من عشرات المقاعد الصغيرة؛ كل مقعد هو مكون ابن بسيط وظيفته فقط إعلام المكون الأب الحاوي عند اختياره. التعديل المباشر على بيانات الأب من الابن يعتبر انتهاكاً خطيراً لمعمارية Angular. لذلك، يوفر Angular الكلاسيكي قناة اتصال صاعدة تُدعى @Output()؛ يعمل الابن كمذيع راديو يطلق إشارة emit()، بينما يجلس الأب في موضع الاستماع ليلتقط الحدث عبر (seatSelected)=\"$event\" وينفذ منطق الحجز.",
+        "flow": "تفاعل المستخدم في الابن ⟶ إطلاق seatSelected.emit('A1') ⟶ ارتقاء الإشارة للأب ⟶ تنفيذ دالة الأب بمعامل $event",
+        "task": "تأمل كيف يحافظ هذا النمط على نقاء المكون الابن وجعله قابلاً لإعادة الاستخدام في أي قاعة عرض.",
+        "benefit": "فهمت فلسفة إرسال الأحداث للأعلى (Custom Events) ومبدأ تدفق البيانات أحادي الاتجاه.",
+        "objective": "تأمل كيف يحافظ هذا النمط على نقاء المكون الابن وجعله قابلاً لإعادة الاستخدام في أي قاعة عرض.",
+        "instruction": "تأمل كيف يحافظ هذا النمط على نقاء المكون الابن وجعله قابلاً لإعادة الاستخدام في أي قاعة عرض.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/seat-item-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Output() seatSelected = new EventEmitter<string>();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Output() seatSelected = new EventEmitter<string>();"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح الزخرف @Output() ومطلق الأحداث EventEmitter",
+        "explanation": "نعلن عن خاصية مزخرفة بـ @Output() ونسند لها كائناً جديداً من EventEmitter<T>. يحدد النوع العام <string> حمولة الحدث (Payload)؛ هنا معرف المقعد كنص (مثل 'A1'). عند وقوع الحدث (كنقرة زر)، يستدعي المكون دالة this.seatSelected.emit(this.seatNumber). في قالب الأب، نربط الحدث بقوسين دائريين (seatSelected)=\"onSeatSelected($event)\"، حيث يمثل $event القيمة المرسلة.",
+        "flow": "@Output() ⟶ اسم مخرج الحدث ⟶ = new EventEmitter<Type>() ⟶ الاستدعاء بـ .emit(payload)",
+        "task": "تفحص تركيبة السطر: الزخرف @Output()، اسم الحدث seatSelected، وتهيئة new EventEmitter<string>().",
+        "benefit": "أتقنت الصياغة النحوية الدقيقة لمخرجات المكونات الكلاسيكية في Angular.",
+        "objective": "تفحص تركيبة السطر: الزخرف @Output()، اسم الحدث seatSelected، وتهيئة new EventEmitter<string>().",
+        "instruction": "تفحص تركيبة السطر: الزخرف @Output()، اسم الحدث seatSelected، وتهيئة new EventEmitter<string>().",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/seat-item-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Output() seatSelected = new EventEmitter<string>();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Output() seatSelected = new EventEmitter<string>();"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنعرّف الآن مخرج الحدث الكلاسيكي seatSelected داخل مكون المقعد الكلاسيكي src/app/classic/seat-item-classic.component.ts لتمكين إرسال معرف المقعد إلى صالة العرض.",
+        "file": "src/app/classic/seat-item-classic.component.ts",
+        "code": "@Output() seatSelected = new EventEmitter<string>();",
+        "expected": "@Output() seatSelected = new EventEmitter<string>();",
+        "task": "أضف سطر تعريف مخرج الحدث @Output() seatSelected = new EventEmitter<string>(); داخل الصنف SeatItemClassicComponent ثم اضغط (شغّل وافحص).",
+        "benefit": "كتبت مخرج أحداث كلاسيكي حقيقي بيدك وربطت مكون المقعد بقناة اتصال مع الأب.",
+        "objective": "أضف سطر تعريف مخرج الحدث @Output() seatSelected = new EventEmitter<string>(); داخل الصنف SeatItemClassicComponent ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف سطر تعريف مخرج الحدث @Output() seatSelected = new EventEmitter<string>(); داخل الصنف SeatItemClassicComponent ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/seat-item-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Output() seatSelected = new EventEmitter<string>();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Output() seatSelected = new EventEmitter<string>();"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "في بعض السيناريوهات، قد ترغب في إرسال كائن مقعد كامل بدلاً من مجرد نص معرف المقعد، مثل EventEmitter<Seat> أو إرسال حدث نقرة مزدوجة مثل @Output() seatDoubleClicked = new EventEmitter<string>();.",
+        "task": "فكر كيف يمكنك إضافة مخرج حدث ثانٍ باسم seatCancelled من نفس النوع، ولاحظ المرونة الفائقة لإطلاق أحداث متعددة من نفس المكون.",
+        "benefit": "استوعبت إمكانية توسيع قنوات التواصل بإضافة مخرجات أحداث متخصصة لتغطية كافة سيناريوهات تجربة المستخدم.",
+        "objective": "فكر كيف يمكنك إضافة مخرج حدث ثانٍ باسم seatCancelled من نفس النوع، ولاحظ المرونة الفائقة لإطلاق أحداث متعددة من نفس المكون.",
+        "instruction": "فكر كيف يمكنك إضافة مخرج حدث ثانٍ باسم seatCancelled من نفس النوع، ولاحظ المرونة الفائقة لإطلاق أحداث متعددة من نفس المكون.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/seat-item-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Output() seatSelected = new EventEmitter<string>();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Output() seatSelected = new EventEmitter<string>();"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هو دور المتغير الخاص $event في قالب المكون الأب عند الاستماع لحدث صادر عبر @Output()؟",
+        "options": [
+          "يحمل الحمولة (Payload) أو البيانات التي أرسلها المكون الابن عبر دالة emit()",
+          "يحدد لون زر الحجز في شاشة العرض تلقائياً",
+          "يقوم بإلغاء تحميل المكون الابن وحذفه من شجرة DOM"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة! $event يمثل الحمولة المنطلقة مع الحدث الصاعد من المكون الابن.",
+        "task": "ما هو دور المتغير الخاص $event في قالب المكون الأب عند الاستماع لحدث صادر عبر @Output()؟",
+        "objective": "ما هو دور المتغير الخاص $event في قالب المكون الأب عند الاستماع لحدث صادر عبر @Output()؟",
+        "instruction": "ما هو دور المتغير الخاص $event في قالب المكون الأب عند الاستماع لحدث صادر عبر @Output()؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/seat-item-classic.component.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: @Output() seatSelected = new EventEmitter<string>();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: @Output() seatSelected = new EventEmitter<string>();"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-09",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 18,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/components/outputs",
+    "breakdown": [
+      "المرحلة 1: نقرة المستخدم على المقعد الابن",
+      "المرحلة 2: استدعاء .emit(seatId)",
+      "المرحلة 3: إرسال الحدث عبر @Output() seatSelected",
+      "المرحلة 4: التقاط الأب للحدث بـ (seatSelected)=\"onSelect($event)\"",
+      "المرحلة 5: تحديث سلة التذاكر"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "@Output() seatSelected = new EventEmitter<string>();",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-classic-10",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "منقيات البيانات الكلاسيكية (Built-in Pipes)",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "استخدام المنقيات الجاهزة (Built-in Pipes) في قوالب Angular لتنسيق وتحويل عرض البيانات المباشرة مثل العملات (currency) والتواريخ دون تعديل البيانات الأصلية في المكون.",
+    "concept": "تُمكّنك قنوات أو أنابيب البيانات (Pipes) في Angular من تحويل وعرض البيانات الخام في القالب بصيغة مقروءة وجمالية تناسب لغة وثقافة المستخدم، مع الحفاظ التام على نقاء البيانات الأصلية في نموذج الصنف. على سبيل المثال، رقم السعر الخام 85 لا نخزنه كنص مضاف إليه رمز العملة في كود TypeScript، بل نمرره عبر أنبوب التنسيق الكلاسيكي currency في القالب: {{ 85 | currency:'USD':'symbol':'1.2-2' }}. يقوم الأنبوب تلقائياً بضبط رمز العملة، وتنسيق الفاصلة العشرية، وإضافة علامات الآلاف حسب المعايير الدولية المعمول بها.",
+    "flow": "قيمة البيانات الرقمية الخام (85) ⟶ المرور عبر رمز الأنبوب | ⟶ منقي العملات currency:'USD':'symbol':'1.2-2' ⟶ عرض النص المنسق والجاهز للجمهور ($85.00)",
+    "task": "افتح الملف src/app/app.html واستخدم الأنبوب المدمج currency لتنسيق سعر تذكرة السينما 85 دولاراً بعلامة الدولار ورقمين عشريين.",
+    "file": "src/app/app.html",
+    "code": "<span class=\"ticket-price\">{{ 85 | currency:'USD':'symbol':'1.2-2' }}</span>",
+    "expected": "{{ 85 | currency:'USD':'symbol':'1.2-2' }}",
+    "reference": "https://angular.dev/guide/pipes",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية وفلسفة أنابيب التحويل (Pipes)",
+        "explanation": "تخيل أن نظام السينما يحتفظ بأسعار التذاكر كأرقام مجردة في قاعدة البيانات (مثل 85 أو 120.5). إذا حاولت إضافة الرمز $ يدوياً في كود الصنف، فلن تتمكن لاحقاً من إجراء عمليات حسابية رياضية كجمع التذاكر أو تطبيق الخصم! هنا يبرز دور أنابيب البيانات (Pipes) في قوالب Angular؛ وظيفتها أخذ القيمة الخام لحظة العرض فقط وتغليفها بالتنسيق الجمالي المطلوب للمستخدم، دون المساس بالقيمة البرمجية الحقيقية.",
+        "flow": "السعر كرقم 85 ⟶ مرور بالقمع (Pipe |) ⟶ تطبيق بارامترات العملة ⟶ ظهور $85.00 على الشاشة",
+        "task": "تأمل كيف يحافظ الأنبوب على فصل طبقة العرض المرئي (Presentation) عن طبقة البيانات والحسابات (Data Layer).",
+        "benefit": "فهمت الفلسفة المعمارية لاستخدام Pipes لتنسيق وعرض البيانات بأناقة.",
+        "objective": "تأمل كيف يحافظ الأنبوب على فصل طبقة العرض المرئي (Presentation) عن طبقة البيانات والحسابات (Data Layer).",
+        "instruction": "تأمل كيف يحافظ الأنبوب على فصل طبقة العرض المرئي (Presentation) عن طبقة البيانات والحسابات (Data Layer).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ 85 | currency:'USD':'symbol':'1.2-2' }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ 85 | currency:'USD':'symbol':'1.2-2' }}"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح بنية واستدعاء الأنابيب (Pipe Syntax & Arguments)",
+        "explanation": "لاستخدام أي أنبوب، نضع خط الأنبوب العمودي (|) بعد القيمة أو المتغير المراد تنسيقه داخل أقواس الربط {{ }}، متبوعاً باسم الأنبوب. لتمرير المعاملات (Arguments)، نضع نقطتين رأسيتين (:) تليها قيمة المعامل. في حالة currency، المعامل الأول هو كود العملة القياسي الدولي ISO مثل 'USD' أو 'SAR'، والمعامل الثاني هو نوع الرمز مثل 'symbol' لإظهار علامة $ أو ر.س، والمعامل الثالث هو ضوابط الأرقام العشرية مثل '1.2-2' (حد أدنى رقم صحيح واحد، وحد أدنى رقمين عشريين، وحد أقصى رقمين عشريين).",
+        "flow": "{{ القيمة | اسم_الأنبوب : معامل_1 : معامل_2 : معامل_3 }}",
+        "task": "تفحص أجزاء السطر: رمز الأنبوب |، اسم الأنبوب currency، والمعاملات المفصولة بنقطتين رأسيتين.",
+        "benefit": "أتقنت تمرير المعاملات المتقدمة للأنابيب المدمجة في Angular.",
+        "objective": "تفحص أجزاء السطر: رمز الأنبوب |، اسم الأنبوب currency، والمعاملات المفصولة بنقطتين رأسيتين.",
+        "instruction": "تفحص أجزاء السطر: رمز الأنبوب |، اسم الأنبوب currency، والمعاملات المفصولة بنقطتين رأسيتين.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ 85 | currency:'USD':'symbol':'1.2-2' }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ 85 | currency:'USD':'symbol':'1.2-2' }}"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بإضافة وسم سعر التذكرة المنسق باستخدام منقي العملة currency داخل قالب السينما الرئيسي src/app/app.html.",
+        "file": "src/app/app.html",
+        "code": "<span class=\"ticket-price\">{{ 85 | currency:'USD':'symbol':'1.2-2' }}</span>",
+        "expected": "{{ 85 | currency:'USD':'symbol':'1.2-2' }}",
+        "task": "اكتب عنصر span الخاص بسعر التذكرة المنسق أعلاه داخل ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "طبقت أول Pipe مدمج لتنسيق العملات باحترافية في واجهة السينما.",
+        "objective": "اكتب عنصر span الخاص بسعر التذكرة المنسق أعلاه داخل ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب عنصر span الخاص بسعر التذكرة المنسق أعلاه داخل ملف src/app/app.html ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ 85 | currency:'USD':'symbol':'1.2-2' }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ 85 | currency:'USD':'symbol':'1.2-2' }}"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "يمتلك Angular أنابيب مدمجة متنوعة ومهمة، مثل date:'short' لتنسيق تواريخ عروض السينما، و uppercase لتكبير أحرف رمز الفيلم، و percent لنسب الخصم.",
+        "task": "جرّب تغيير كود العملة إلى 'EUR' لتنسيق السعر باليورو، أو إضافة وسم تجريبي <span>{{ 'imax' | uppercase }}</span> لتشاهد كيف يحول الأنبوب النصوص إلى أحرف كبيرة فورياً.",
+        "benefit": "اختبرت تنوع منظومة الأنابيب المدمجة في Angular وقدرتها على التعامل مع شتى أنواع البيانات.",
+        "objective": "جرّب تغيير كود العملة إلى 'EUR' لتنسيق السعر باليورو، أو إضافة وسم تجريبي <span>{{ 'imax' | uppercase }}</span> لتشاهد كيف يحول الأنبوب النصوص إلى أحرف كبيرة فورياً.",
+        "instruction": "جرّب تغيير كود العملة إلى 'EUR' لتنسيق السعر باليورو، أو إضافة وسم تجريبي <span>{{ 'imax' | uppercase }}</span> لتشاهد كيف يحول الأنبوب النصوص إلى أحرف كبيرة فورياً.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ 85 | currency:'USD':'symbol':'1.2-2' }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ 85 | currency:'USD':'symbol':'1.2-2' }}"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ماذا يحدث للبيانات الأصلية المخزنة في كلاس المكون عند تطبيق أنبوب (Pipe) عليها في القالب؟",
+        "options": [
+          "تبقى القيمة الأصلية كما هي تماماً دون أي تغيير، ويقتصر التحويل على طريقة العرض المرئي في القالب فقط",
+          "تتحول القيمة الأصلية في الكلاس تلقائياً ودائماً إلى سلسلة نصية مشفرة",
+          "يتم حذف المتغير من الذاكرة لتوفير استهلاك المتصفح"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة ومتقنة! الأنابيب في Angular نقية ولا تغير في حالة البيانات الأصلية (Pure Transformations).",
+        "task": "ماذا يحدث للبيانات الأصلية المخزنة في كلاس المكون عند تطبيق أنبوب (Pipe) عليها في القالب؟",
+        "objective": "ماذا يحدث للبيانات الأصلية المخزنة في كلاس المكون عند تطبيق أنبوب (Pipe) عليها في القالب؟",
+        "instruction": "ماذا يحدث للبيانات الأصلية المخزنة في كلاس المكون عند تطبيق أنبوب (Pipe) عليها في القالب؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ 85 | currency:'USD':'symbol':'1.2-2' }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ 85 | currency:'USD':'symbol':'1.2-2' }}"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-10",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 19,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/pipes",
+    "breakdown": [
+      "المرحلة 1: قيمة البيانات الرقمية الخام (85)",
+      "المرحلة 2: المرور عبر رمز الأنبوب |",
+      "المرحلة 3: منقي العملات currency:'USD':'symbol':'1.2-2'",
+      "المرحلة 4: عرض النص المنسق والجاهز للجمهور ($85.00)"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "{{ 85 | currency:'USD':'symbol':'1.2-2' }}",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-classic-11",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "حقن التبعيات الكلاسيكي عبر المنشئ (Constructor DI)",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "فهم المعمارية الكلاسيكية لحقن التبعيات (Dependency Injection) في Angular عبر دوال الإنشاء (constructor)، واستيعاب نمط الخدمات المفردة (Singleton Services) لمشاركة البيانات بين المكونات.",
+    "concept": "نظام حقن التبعيات (Dependency Injection - DI) هو النواة الهندسية الأكثر شهرة في إطار عمل Angular. بدلاً من أن يقوم المكون بإنشاء نسخة جديدة من الخدمة بنفسه باستخدام new CinemaService() (مما يؤدي لتشتت البيانات وصعوبة الاختبار وتكرار الكائنات في الذاكرة)، نطلب الخدمة كمعامل داخل دالة المنشئ constructor(private cinemaService: CinemaClassicService). يتولى حاقن Angular (Injector) إنشاء كائن مفرد مركزي (Singleton) للخدمة عند استخدام @Injectable({ providedIn: 'root' }) وتمريره لجميع المكونات المشتركة، مما يضمن أن سلة التذاكر وقائمة الأفلام متزامنة وموحدة عبر التطبيق بأكمله.",
+    "flow": "تسجيل @Injectable({ providedIn: 'root' }) ⟶ طلب الخدمة في المنشئ constructor(private s: CinemaClassicService) ⟶ حاقن Angular يوفر نسخة وحيدة (Singleton) ⟶ وصول المكون لطرق وبيانات الخدمة بسلاسة",
+    "task": "افتح الملف src/app/classic/cinema-classic.service.ts وأنشئ خدمة السينما الكلاسيكية CinemaClassicService المزخرفة بـ @Injectable لإتاحة حقنها المشترك في منشئات مكونات التطبيق.",
+    "file": "src/app/classic/cinema-classic.service.ts",
+    "code": "export class CinemaClassicService {\n  private cinemaName = 'سينما خطوة الكلاسيكية';\n\n  getCinemaName(): string {\n    return this.cinemaName;\n  }\n}",
+    "expected": "export class CinemaClassicService {",
+    "reference": "https://angular.dev/guide/di",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومبدأ حقن التبعيات (DI)",
+        "explanation": "لو افترضنا أن كل صفحة ومكون في نظام السينما ينشئ خدمته المستقلة الخاصة بـ new CinemaService()، لكان للمقاعد سلة مشتريات ولصفحة الدفع سلة مشتريات منفصلة تماماً، ولن يعلم أي منهما عن الآخر! يحل حقن التبعيات (DI) هذه المعضلة عبر إنشاء 'حاقن مركزي' (Root Injector) يملك نسخة وحيدة موحدة (Singleton). عندما يحتاج أي مكون للخدمة، يطلبها عبر بوابته الرسمية: دالة المنشئ constructor، فيزوده الحاقن بالنسخة المركزية المعتمدة فوراً.",
+        "flow": "المكون يحتاج لبيانات السينما ⟶ يطلبها في constructor ⟶ حاقن Angular يتحقق من وجود نسخة مفردة ⟶ تزويد المكون بنفس النسخة المركزية",
+        "task": "تأمل كيف يفصل هذا النمط بين مسؤولية إنشاء الكائنات (Instantiation) ومسؤولية استخدامها (Consumption).",
+        "benefit": "استوعبت جوهر نمط Singleton وكيف يوحد حقن التبعيات حالة التطبيق.",
+        "objective": "تأمل كيف يفصل هذا النمط بين مسؤولية إنشاء الكائنات (Instantiation) ومسؤولية استخدامها (Consumption).",
+        "instruction": "تأمل كيف يفصل هذا النمط بين مسؤولية إنشاء الكائنات (Instantiation) ومسؤولية استخدامها (Consumption).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/cinema-classic.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaClassicService {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaClassicService {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح الزخرف @Injectable وحقن المنشئ الكلاسيكي",
+        "explanation": "تتكون الخدمة من صنف TypeScript مسبوق بالزخرف @Injectable({ providedIn: 'root' }) الذي يخبر Angular بتسجيل هذه الخدمة على مستوى التطبيق بالكامل كـ Singleton. ولحقنها كلاسيكياً داخل أي مكون، نكتب داخل منشئ المكون: constructor(private cinemaService: CinemaClassicService) {}. تحدد الكلمة المفتاحية private أو public تلقائياً خاصية داخل المكون، ويقوم TypeScript بتمرير النوع ليسترشد به نظام الحاقن (Token-based injection).",
+        "flow": "@Injectable({ providedIn: 'root' }) ⟶ export class CinemaClassicService ⟶ الاستهلاك: constructor(private service: CinemaClassicService)",
+        "task": "دقق في تركيبة الخدمة: الزخرف المصدّر، اسم الصنف CinemaClassicService، وطرق جلب البيانات.",
+        "benefit": "أتقنت الهيكل القياسي للخدمات القابلة للحقن في معمارية Angular الكلاسيكية.",
+        "objective": "دقق في تركيبة الخدمة: الزخرف المصدّر، اسم الصنف CinemaClassicService، وطرق جلب البيانات.",
+        "instruction": "دقق في تركيبة الخدمة: الزخرف المصدّر، اسم الصنف CinemaClassicService، وطرق جلب البيانات.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/cinema-classic.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaClassicService {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaClassicService {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنبني صنف خدمة السينما الكلاسيكية CinemaClassicService داخل الملف src/app/classic/cinema-classic.service.ts لتوفر اسم السينما وبياناتها الموحدة لكافة أجزاء التطبيق.",
+        "file": "src/app/classic/cinema-classic.service.ts",
+        "code": "export class CinemaClassicService {\n  private cinemaName = 'سينما خطوة الكلاسيكية';\n\n  getCinemaName(): string {\n    return this.cinemaName;\n  }\n}",
+        "expected": "export class CinemaClassicService {",
+        "task": "عرّف الصنف المصدّر CinemaClassicService داخل ملف src/app/classic/cinema-classic.service.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "أنشأت خدمة سينما كلاسيكية جاهزة للحقن عبر المنشئ وفق أعلى معايير سوق العمل.",
+        "objective": "عرّف الصنف المصدّر CinemaClassicService داخل ملف src/app/classic/cinema-classic.service.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "عرّف الصنف المصدّر CinemaClassicService داخل ملف src/app/classic/cinema-classic.service.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/cinema-classic.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaClassicService {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaClassicService {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "في التطبيقات الكبيرة، تقدم الخدمة وظائف متنوعة لإدارة المقاعد والأسعار، مثل دالة getTicketPrice(): number { return 85; } أو مصفوفة أسماء الأفلام المعروضة.",
+        "task": "جرّب إضافة خاصية private ticketPrice: number = 85; ودالة جلب getTicketPrice(): number داخل الصنف، ولاحظ كيف تحتفظ الخدمة بحالة منطق الأعمال بعيداً عن ملفات واجهة المستخدم.",
+        "benefit": "تدربت على تركيز منطق الأعمال وإدارة البيانات الحيوية داخل الخدمات القابلة للحقن وإعادة الاستخدام.",
+        "objective": "جرّب إضافة خاصية private ticketPrice: number = 85; ودالة جلب getTicketPrice(): number داخل الصنف، ولاحظ كيف تحتفظ الخدمة بحالة منطق الأعمال بعيداً عن ملفات واجهة المستخدم.",
+        "instruction": "جرّب إضافة خاصية private ticketPrice: number = 85; ودالة جلب getTicketPrice(): number داخل الصنف، ولاحظ كيف تحتفظ الخدمة بحالة منطق الأعمال بعيداً عن ملفات واجهة المستخدم.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/cinema-classic.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaClassicService {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaClassicService {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما المعنى الهندسي لخيار { providedIn: 'root' } داخل الزخرف @Injectable()؟",
+        "options": [
+          "يجعل الخدمة مسجلة في الحاقن الجذري للتطبيق كنسخة مفردة واحدة (Singleton) تشترك فيها كافة المكونات",
+          "يقوم بتثبيت الخدمة في المجلد الجذري لنظام التشغيل ويندوز مباشرة",
+          "يمنع حقن الخدمة داخل أي مكون إلا بعد موافقة مستخدم الموقع"
+        ],
+        "correct": 0,
+        "benefit": "إجابة عبقرية! providedIn: 'root' يضمن كائناً مفرد كفوءاً ويسمح لـ Angular بإجراء تقليم الشجرة (Tree-shaking) للخدمات غير المستخدمة تلقائياً.",
+        "task": "ما المعنى الهندسي لخيار { providedIn: 'root' } داخل الزخرف @Injectable()؟",
+        "objective": "ما المعنى الهندسي لخيار { providedIn: 'root' } داخل الزخرف @Injectable()؟",
+        "instruction": "ما المعنى الهندسي لخيار { providedIn: 'root' } داخل الزخرف @Injectable()؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/cinema-classic.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaClassicService {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaClassicService {"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-11",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 20,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/di",
+    "breakdown": [
+      "المرحلة 1: تسجيل @Injectable({ providedIn: 'root' })",
+      "المرحلة 2: طلب الخدمة في المنشئ constructor(private s: CinemaClassicService)",
+      "المرحلة 3: حاقن Angular يوفر نسخة وحيدة (Singleton)",
+      "المرحلة 4: وصول المكون لطرق وبيانات الخدمة بسلاسة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class CinemaClassicService {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "ng-classic-12",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "تدفقات RxJS الكلاسيكية: Observables وإلغاء الاشتراك",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "إتقان التعامل مع تدفقات البيانات غير المتزامنة (Observables) في مكتبة RxJS والاشتراك بها، وفهم خطر تسريب الذاكرة (Memory Leaks) وضرورة إغلاق الاشتراكات بـ unsubscribe().",
+    "concept": "تعتمد تطبيقات Angular الكلاسيكية على مكتبة البرمجة الارتكاسية RxJS لإدارة كافة الأحداث غير المتزامنة (مثل طلبات HTTP، أحداث نقرات الفأرة، وتدفقات رسائل الخادم في الوقت الفعلي). الـ Observable هو أنبوب تدفق ينبعث منه تيار من البيانات عبر الزمن. لقراءة هذه البيانات، نقوم بالاشتراك subscribe(). ولكن في المكونات الكلاسيكية، إذا اشترك المكون في تدفق مستمر ثم غادر المستخدم الصفحة، يبقى الاشتراك مفتوحاً في الخلفية مستهلكاً للذاكرة والمعالج، وهو ما يُعرف بتسريب الذاكرة (Memory Leak). لذلك، من الضروري حفظ كائن الاشتراك واستدعاء subscription.unsubscribe() عند تدمير المكون في دورة حياة ngOnDestroy.",
+    "flow": "تدفق بيانات Observable ⟶ اشتراك صريح بـ .subscribe() ⟶ معالجة القيم المنبعثة ⟶ إلغاء الاشتراك الحتمي بـ .unsubscribe() لمنع تسريب الذاكرة",
+    "task": "افتح الملف src/app/classic/rx-demo.ts وابنِ الصنف RxDemo الذي يدير الاشتراك في تدفق أسعار التذاكر مع استدعاء unsubscribe() لإلغاء الاشتراك بأمان.",
+    "file": "src/app/classic/rx-demo.ts",
+    "code": "export class RxDemo {\n  private sub?: Subscription;\n  ticketPrice: number = 0;\n\n  startListening(price$: Observable<number>): void {\n    this.sub = price$.subscribe((val) => {\n      this.ticketPrice = val;\n    });\n  }\n\n  stopListening(): void {\n    this.sub?.unsubscribe();\n  }\n}",
+    "expected": "export class RxDemo {",
+    "reference": "https://angular.dev/guide/observables",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية وتدفقات البيانات المستمرة (Observables)",
+        "explanation": "فكّر في الـ Observable كبث حي مباشر لقناة سينمائية، وفي الـ subscribe() كتشغيل جهاز التلفاز لاستقبال البث. ما دمت مشتركاً، ستصلك كل لقطة جديدة فور انطلاقها. ولكن ماذا يحدث إذا خرجت من المنزل وتركت التلفاز يعمل؟ ستستمر الكهرباء بالهدر! هذا بالضبط ما يحدث في الذاكرة عند نسيان إلغاء الاشتراك (Unsubscribe) في المكونات الكلاسيكية؛ إذ يستمر الكود بالعمل واستهلاك موارد المتصفح في الخفاء.",
+        "flow": "انبعاث بيانات من المصدر ⟶ وصول البيانات للمشترك ⟶ تدمير شاشة العرض ⟶ استدعاء unsubscribe() الحاسم ⟶ تحرير الذاكرة بنجاح",
+        "task": "تأمل مخطط التدفق ولاحظ خطورة ترك الاشتراكات مفتوحة دون إغلاق محكم.",
+        "benefit": "فهمت طبيعة البرمجة غير المتزامنة بـ RxJS وتجنب الفخ البرمجي الأكبر في Angular: تسريب الذاكرة.",
+        "objective": "تأمل مخطط التدفق ولاحظ خطورة ترك الاشتراكات مفتوحة دون إغلاق محكم.",
+        "instruction": "تأمل مخطط التدفق ولاحظ خطورة ترك الاشتراكات مفتوحة دون إغلاق محكم.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/rx-demo.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class RxDemo {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class RxDemo {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صياغة الاشتراك والإلغاء (Subscribe & Unsubscribe Pattern)",
+        "explanation": "عند استدعاء observable$.subscribe(...)، يعيد هذا الاستدعاء كائناً من نوع Subscription. نحتفظ بهذا الكائن في متغير داخل الصنف (مثل private sub?: Subscription). وعند الرغبة في التوقف عن الاستماع أو عند مغادرة الصفحة داخل خطاف دورة الحياة ngOnDestroy()، نستدعي فوراً this.sub?.unsubscribe(). هذا الاستدعاء يقطع اتصال القناة ويفك ارتباط الذاكرة بالكامل.",
+        "flow": "const sub = stream$.subscribe(callback) ⟶ حفظ المرجع this.sub = sub ⟶ عند الانتهاء: this.sub.unsubscribe()",
+        "task": "تفحص كود الصنف: طريقة استقبال التدفق، إسناد الاشتراك للخاصية sub، ودالة التوقف النظيف stopListening.",
+        "benefit": "أتقنت النمط القياسي لإدارة اشتراكات RxJS اليدوية في سوق العمل.",
+        "objective": "تفحص كود الصنف: طريقة استقبال التدفق، إسناد الاشتراك للخاصية sub، ودالة التوقف النظيف stopListening.",
+        "instruction": "تفحص كود الصنف: طريقة استقبال التدفق، إسناد الاشتراك للخاصية sub، ودالة التوقف النظيف stopListening.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/rx-demo.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class RxDemo {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class RxDemo {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنكتب صنف إدارة التدفقات الكلاسيكي RxDemo داخل الملف src/app/classic/rx-demo.ts للاستماع لتدفق أسعار التذاكر مع توفير آلية إلغاء الاشتراك الصريحة.",
+        "file": "src/app/classic/rx-demo.ts",
+        "code": "export class RxDemo {\n  private sub?: Subscription;\n  ticketPrice: number = 0;\n\n  startListening(price$: Observable<number>): void {\n    this.sub = price$.subscribe((val) => {\n      this.ticketPrice = val;\n    });\n  }\n\n  stopListening(): void {\n    this.sub?.unsubscribe();\n  }\n}",
+        "expected": "export class RxDemo {",
+        "task": "اكتب صنف RxDemo الكامل داخل ملف src/app/classic/rx-demo.ts ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "طبقت إدارة دورة حياة اشتراكات RxJS الكلاسيكية بيدك وحميت تطبيقك من تسريب الذاكرة.",
+        "objective": "اكتب صنف RxDemo الكامل داخل ملف src/app/classic/rx-demo.ts ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب صنف RxDemo الكامل داخل ملف src/app/classic/rx-demo.ts ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/rx-demo.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class RxDemo {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class RxDemo {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "في مكتبة RxJS، يمكن تجميع عدة اشتراكات في كائن اشتراك موحد new Subscription() عبر دالة sub.add(...)، أو استخدام معامِلات ارتكاسية متقدمة مثل takeUntilDestroyed() أو take(1) لإلغاء الاشتراك تلقائياً بعد وصول أول قيمة.",
+        "task": "فكر كيف يمكنك دمج دالة ngOnDestroy(): void { this.stopListening(); } لضمان أن Angular يستدعي التوقف تلقائياً لحظة تدمير المكون.",
+        "benefit": "ربطت مفاهيم RxJS بدورة حياة مكونات Angular (Lifecycle Hooks) لتحقيق أعلى درجات الأمان البرمجي.",
+        "objective": "فكر كيف يمكنك دمج دالة ngOnDestroy(): void { this.stopListening(); } لضمان أن Angular يستدعي التوقف تلقائياً لحظة تدمير المكون.",
+        "instruction": "فكر كيف يمكنك دمج دالة ngOnDestroy(): void { this.stopListening(); } لضمان أن Angular يستدعي التوقف تلقائياً لحظة تدمير المكون.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/rx-demo.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class RxDemo {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class RxDemo {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هو الخطر البرمجي المترتب على نسيان استدعاء unsubscribe() للاشتراكات اليدوية في المكونات الكلاسيكية؟",
+        "options": [
+          "حدوث تسريب في الذاكرة (Memory Leak) واستمرار تنفيذ الأكواد في الخلفية حتى بعد مغادرة الصفحة",
+          "توقف متصفح المستخدم عن تحميل ملفات وتنسيقات CSS نهائياً",
+          "تحول المتغيرات الرقمية تلقائياً إلى قيم سالبة"
+        ],
+        "correct": 0,
+        "benefit": "إجابة احترافية ودقيقة! تسريب الذاكرة الناتج عن الاشتراكات المفتوحة هو السبب الأول لبطء وتجمد تطبيقات Angular القديمة.",
+        "task": "ما هو الخطر البرمجي المترتب على نسيان استدعاء unsubscribe() للاشتراكات اليدوية في المكونات الكلاسيكية؟",
+        "objective": "ما هو الخطر البرمجي المترتب على نسيان استدعاء unsubscribe() للاشتراكات اليدوية في المكونات الكلاسيكية؟",
+        "instruction": "ما هو الخطر البرمجي المترتب على نسيان استدعاء unsubscribe() للاشتراكات اليدوية في المكونات الكلاسيكية؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/classic/rx-demo.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class RxDemo {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class RxDemo {"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-12",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 21,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/observables",
+    "breakdown": [
+      "المرحلة 1: تدفق بيانات Observable",
+      "المرحلة 2: اشتراك صريح بـ .subscribe()",
+      "المرحلة 3: معالجة القيم المنبعثة",
+      "المرحلة 4: إلغاء الاشتراك الحتمي بـ .unsubscribe() لمنع تسريب الذاكرة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class RxDemo {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "ng-classic-13",
+    "module": "phase-2-classic",
+    "phase": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "title": "الاستهلاك الآمن في القالب بأنبوب async pipe التلقائي",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "استهلاك تدفقات RxJS مباشرة داخل قوالب HTML باستخدام أنبوب async السحري الذي يتولى الاشتراك التلقائي وإلغاء الاشتراك ذاتياً وحماية التطبيق من تسريب الذاكرة.",
+    "concept": "بالرغم من قوة الاشتراكات اليدوية، فإن كتابة subscribe و unsubscribe في كل مكون يستهلك وقتاً وجهداً ويفتح الباب للأخطاء البشرية. هنا يقدم Angular الحل الأمثل والأنظف في عالم RxJS: الأنبوب المدمج async. يتيح لك هذا الأنبوب تمرير الـ Observable مباشرة إلى القالب مثل {{ currentMovie$ | async }}؛ فيقوم الأنبوب بالاشتراك تلقائياً في التدفق عند ظهور العنصر في الشاشة، وتحديث الواجهة فور انبعاث أي قيمة جديدة، والأهم من ذلك: يقوم بإلغاء الاشتراك (unsubscribe) ذاتياً وبشكل تلقائي بمجرد تدمير العنصر أو مغادرة الصفحة، مما يضمن كوداً نظيفاً، مختصراً، وخالياً 100% من تسريب الذاكرة دون كتابة سطر واحد في دورة حياة المكون.",
+    "flow": "تدفق currentMovie$ في الصنف ⟶ استهلاكه في القالب بـ {{ currentMovie$ | async }} ⟶ اشتراك تلقائي من Angular ⟶ تحديث حي للواجهة ⟶ إلغاء اشتراك تلقائي عند تدمير القالب",
+    "task": "افتح الملف src/app/app.html واستخدم الأنبوب التلقائي async لعرض عنوان الفيلم الحالي المنبعث من التدفق currentMovie$ داخل حاوية ملخص التذكرة.",
+    "file": "src/app/app.html",
+    "code": "<div class=\"ticket-summary\">العرض المباشر: {{ currentMovie$ | async }}</div>",
+    "expected": "{{ currentMovie$ | async }}",
+    "reference": "https://angular.dev/guide/pipes/async-pipe",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية وعبقرية الأنبوب التلقائي async",
+        "explanation": "تخيل أن لديك مساعداً ذكياً يتكفل بفتح صنبور البيانات عند دخولك الغرفة، وإغلاقه بإحكام في اللحظة التي تخرج فيها! هذا ما يفعله الأنبوب السحري async في قوالب Angular. بدلاً من أن ترهق نفسك بالاشتراك اليدوي في ملف TypeScript ثم القلق الدائم بشأن كتابة unsubscribe في ngOnDestroy، تترك للأنبوب async مهمة إدارة دورة حياة التدفق بالكامل داخل القالب بسطر واحد أنيق.",
+        "flow": "تدفق Observable ⟶ أنبوب async يفتتح الاشتراك تلقائياً ⟶ عرض القيمة فور انبعاثها ⟶ إغلاق الاشتراك فورياً عند اختفاء الوسم",
+        "task": "لاحظ كيف يختصر أنبوب async عشرات أسطر الكود الروتيني ويزيل خطر تسريب الذاكرة نهائياً.",
+        "benefit": "استوعبت القاعدة الذهبية في سوق العمل: تفضيل async pipe على الاشتراكات اليدوية كلما أمكن.",
+        "objective": "لاحظ كيف يختصر أنبوب async عشرات أسطر الكود الروتيني ويزيل خطر تسريب الذاكرة نهائياً.",
+        "instruction": "لاحظ كيف يختصر أنبوب async عشرات أسطر الكود الروتيني ويزيل خطر تسريب الذاكرة نهائياً.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ currentMovie$ | async }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ currentMovie$ | async }}"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح استهلاك التدفقات بأنبوب async",
+        "explanation": "اصطلح مجتمع مطوري Angular على تسمية المتغيرات التي تحتوي تدفقات Observable بوضع علامة الدولار في نهايتها (مثل currentMovie$) لتمييزها بصرياً. داخل القالب، نضع اسم المتغير متبوعاً برمز الأنبوب | ثم الكلمة async: {{ currentMovie$ | async }}. في خلفية المشهد، يستمع الأنبوب للتدفق ويعرض القيمة الحالية، وإذا تغيرت القيمة يطلب من محرك فحص التغيير (Change Detection) تحديث هذا الجزء من الشاشة فوراً.",
+        "flow": "{{ [اسم_التدفق$] | async }} ⟶ رعاية كاملة للاشتراك وتحديث الشاشة ذاتياً",
+        "task": "تفحص تركيبة السطر: علامة $ في اسم المتغير، رمز الأنبوب |، واسم الأنبوب التلقائي async.",
+        "benefit": "أتقنت استخدام الأنبوب الأكثر شهرة واستخداماً في مشاريع Angular الاحترافية.",
+        "objective": "تفحص تركيبة السطر: علامة $ في اسم المتغير، رمز الأنبوب |، واسم الأنبوب التلقائي async.",
+        "instruction": "تفحص تركيبة السطر: علامة $ في اسم المتغير، رمز الأنبوب |، واسم الأنبوب التلقائي async.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ currentMovie$ | async }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ currentMovie$ | async }}"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنعرض الآن اسم الفيلم المعروض حالياً في السينما عبر تمرير التدفق currentMovie$ إلى الأنبوب async داخل حاوية الملخص في ملف src/app/app.html.",
+        "file": "src/app/app.html",
+        "code": "<div class=\"ticket-summary\">العرض المباشر: {{ currentMovie$ | async }}</div>",
+        "expected": "{{ currentMovie$ | async }}",
+        "task": "أضف عنصر div الخاص بملخص التذكرة والمزود بـ async pipe أعلاه في ملف src/app/app.html ثم اضغط على (شغّل وافحص).",
+        "benefit": "أنجزت الاستهلاك التلقائي لتدفقات البيانات بأسلوب احترافي يضمن سلامة الذاكرة.",
+        "objective": "أضف عنصر div الخاص بملخص التذكرة والمزود بـ async pipe أعلاه في ملف src/app/app.html ثم اضغط على (شغّل وافحص).",
+        "instruction": "أضف عنصر div الخاص بملخص التذكرة والمزود بـ async pipe أعلاه في ملف src/app/app.html ثم اضغط على (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ currentMovie$ | async }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ currentMovie$ | async }}"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "نمط احترافي شائع جداً في Angular الكلاسيكي هو الجمع بين *ngIf وأنبوب async مع تخزين النتيجة في متغير محلي باسم مستعار عبر الكلمة as: <div *ngIf=\"currentMovie$ | async as movie\">{{ movie }}</div>.",
+        "task": "فكر كيف يفيدك حفظ النتيجة بـ as movie في استخدام نفس القيمة داخل عدة عناصر فرعية دون تكرار الاشتراك في التدفق أكثر من مرة.",
+        "benefit": "تعلمت أفضل ممارسة معمارية متقدمة (Best Practice) لاستهلاك Observables بـ async as بكفاءة قصوى.",
+        "objective": "فكر كيف يفيدك حفظ النتيجة بـ as movie في استخدام نفس القيمة داخل عدة عناصر فرعية دون تكرار الاشتراك في التدفق أكثر من مرة.",
+        "instruction": "فكر كيف يفيدك حفظ النتيجة بـ as movie في استخدام نفس القيمة داخل عدة عناصر فرعية دون تكرار الاشتراك في التدفق أكثر من مرة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ currentMovie$ | async }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ currentMovie$ | async }}"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هي الميزة الجوهرية لاستخدام async pipe في قوالب Angular مقارنة بالاشتراك اليدوي بـ .subscribe()؟",
+        "options": [
+          "يقوم بالاشتراك التلقائي وإلغاء الاشتراك ذاتياً (Automatic Unsubscribe) عند تدمير المكون لمنع تسريب الذاكرة",
+          "يقوم بتغيير نوع قاعدة البيانات على الخادم إلى MongoDB تلقائياً",
+          "يلغي الحاجة إلى تنزيل مكتبة TypeScript في بيئة التطوير"
+        ],
+        "correct": 0,
+        "benefit": "إجابة مثالية! أنبوب async هو المعيار القياسي لإدارة دورة حياة اشتراكات التدفقات الارتكاسية في Angular بأمان مطلق.",
+        "task": "ما هي الميزة الجوهرية لاستخدام async pipe في قوالب Angular مقارنة بالاشتراك اليدوي بـ .subscribe()؟",
+        "objective": "ما هي الميزة الجوهرية لاستخدام async pipe في قوالب Angular مقارنة بالاشتراك اليدوي بـ .subscribe()؟",
+        "instruction": "ما هي الميزة الجوهرية لاستخدام async pipe في قوالب Angular مقارنة بالاشتراك اليدوي بـ .subscribe()؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.html؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: {{ currentMovie$ | async }}.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: {{ currentMovie$ | async }}"
+        ]
+      }
+    ],
+    "legacyId": "ng-classic-13",
+    "skill": "المرحلة الثانية: أساسيات Angular الكلاسيكية الضرورية لسوق العمل",
+    "order": 22,
+    "whyUse": "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.",
+    "browserMechanics": "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.",
+    "documentationUrl": "https://angular.dev/guide/pipes/async-pipe",
+    "breakdown": [
+      "المرحلة 1: تدفق currentMovie$ في الصنف",
+      "المرحلة 2: استهلاكه في القالب بـ {{ currentMovie$ | async }}",
+      "المرحلة 3: اشتراك تلقائي من Angular",
+      "المرحلة 4: تحديث حي للواجهة",
+      "المرحلة 5: إلغاء اشتراك تلقائي عند تدمير القالب"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "{{ currentMovie$ | async }}",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  }
+]

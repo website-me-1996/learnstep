@@ -1,0 +1,526 @@
+[
+  {
+    "id": "css-39-forms",
+    "legacyId": "css:38",
+    "title": "تنسيق حقول النماذج وأزرار الإدخال في CSS",
+    "skill": "تنسيق النماذج والوحدات",
+    "order": 38,
+    "concept": "تخضع عناصر استمارات الويب (<input>, <textarea>, <select>, <button>) لتنسيقات افتراضية معقدة ومتباينة بحسب نظام التشغيل والمتصفح (User-Agent Stylesheets). ويتطلب توحيد مظهرها تطبيق خصائص ضبط الحدود والمسافات الداخلية padding، وإلغاء المظهر الافتراضي عبر appearance: none عند الحاجة، وتنسيق حالة التركيز :focus بإطار ملون واضح.",
+    "whyUse": "تعد النماذج نقطة التحويل (Conversion) الأهم في أي موقع إلكتروني للتسجيل والشراء؛ وتنسيق الحقول بمسافات مريحة وخطوط واضحة وإضاءة ملونة عند التركيز يقلل أخطاء الإدخال ويرفع معدل إكمال الاستمارات.",
+    "browserMechanics": "تستخدم المتصفحات عناصر تحكم أصلية من نظام التشغيل (Native OS Widgets) لرسم حقول النماذج. عند تعيين border أو background في CSS، يُلغي المتصفح تلقائياً طبقة الرسم الأصلية للنظام ويتحول إلى رسم العنصر كصندوق CSS عادي وفق نموذج الصندوق، مما يستوجب تعيين font-family صراحة لأنها لا ترث خط الصفحة افتراضياً.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Forms/Styling_web_forms",
+    "code": ".card input:focus { outline: 2px solid #78a875; }",
+    "breakdown": [
+      "خاصية padding في الحقول: توفر مساحة كتابة مريحة تمنع التصاق النص بإطار الحقل.",
+      "محدد حالة التركيز :focus: يغير لون الإطار أو التوهج فور بدء المستخدم في الكتابة.",
+      "توحيد الخطوط: تحتاج حقول الإدخال لتحديد font: inherit لترث نفس خط الموقع العام."
+    ],
+    "steps": [
+      {
+        "id": "css-39-forms-step-1",
+        "title": "تحديد المسافة الداخلية لحقل الإدخال",
+        "objective": "تطبيق قيمة padding المناسبة لتوسيع حقل الإدخال",
+        "type": "edit",
+        "instruction": "زِد وضوح حقل الإدخال عند التركيز: بدّل outline من 2px إلى 4px، ثم ركّز على الحقل.",
+        "benefit": "فائدة هذا التعديل: إراحة عين المستخدم وتسهيل النقر والكتابة داخل الحقل.",
+        "expectedLine": "4px",
+        "from": "2px",
+        "to": "4px",
+        "task": "زِد وضوح حقل الإدخال عند التركيز: بدّل outline من 2px إلى 4px، ثم ركّز على الحقل.",
+        "explanation": "هذه الخاصية تغيّر طريقة ظهور النص أو العنصر الذي يقرأه الزائر. غيّر قيمة واحدة حتى تعرف أثرها وحدها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية padding داخل محدد حقول الإدخال input.",
+          "قاعدة: تتطلب الأبعاد وحدات صريحة مثل px لإعطاء الحقل ارتفاعاً متناسقاً. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 4px.",
+          "الحل النموذجي: 4px"
+        ]
+      },
+      {
+        "id": "css-39-forms-step-2",
+        "title": "اختبار مسافة داخلية أوسع للحقول",
+        "objective": "مقارنة سهولة التفاعل مع حقول ذات اتساع أكبر",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 8px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تحسين تجربة اللمس على شاشات الهواتف الذكية والأجهزة اللوحية.",
+        "expectedLine": "8px",
+        "from": "4px",
+        "to": "8px",
+        "task": "غيّر القيمة الحالية إلى 8px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة padding الحالية في كتلة المحدد.",
+          "قاعدة: زيادة المسافة الداخلية تجعل الحقل أسهل في النقر بالإصبع (Touch Target). هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: عدّل القيمة لتصبح: 8px.",
+          "الحل النموذجي: 8px"
+        ]
+      },
+      {
+        "id": "css-39-forms-step-3",
+        "title": "اعتماد التنسيق النهائي لحقل الاستمارة",
+        "objective": "تثبيت المسافات الداخلية النهائية لحقول الإدخال",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 14px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء المظهر الاحترافي الموحد لكافة استمارات الموقع.",
+        "expectedLine": "14px",
+        "from": "8px",
+        "to": "14px",
+        "task": "غيّر القيمة إلى 14px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان الحقل بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 14px.",
+          "الحل النموذجي: 14px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "input[type=\"text\"] {\n  /* نسيان خاصية الخط */\n  padding: 10px;\n}",
+      "fixedCode": "input[type=\"text\"] {\n  font-family: inherit;\n  font-size: inherit;\n  padding: 10px;\n}",
+      "question": "لماذا تظهر النصوص المكتوبة داخل حقل الإدخال بخط مختلف وقبيح عن بقية خطوط الصفحة؟",
+      "explanation": "حقول النماذج في معايير HTML لا ترث عائلة الخط font-family أو الحجم font-size تلقائياً من وسم body؛ ويجب صراحة إعطاؤها font-family: inherit لترث خط الموقع.",
+      "options": [
+        "حقول الإدخال لا تقبل تغيير الخطوط في لغة CSS",
+        "يجب استخدام وسم textarea فقط لعرض الخطوط",
+        "حقول النماذج لا ترث خط الصفحة افتراضياً من body والحل تعيين font-family: inherit",
+        "المتصفح يتطلب تحويل الحقل إلى صورة"
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "css-40-counters",
+    "legacyId": "css:39",
+    "title": "العدادات التلقائية والترقيم المخصص في CSS",
+    "skill": "تنسيق النماذج والوحدات",
+    "order": 39,
+    "concept": "توفر عدادات CSS (CSS Counters) آلية برمجية ذاتية لترقيم الأقسام والفقرات والعناوين والقوائم دون الاعتماد على لغات البرمجة؛ حيث تُهيئ خاصية counter-reset العداد باسم مخصص وقيمة بداية، وتزيد خاصية counter-increment قيمة العداد عند كل تكرار، وتطبع دالة counter() أو counters() الرقم الناتج داخل خاصية content للعناصر الزائفة.",
+    "whyUse": "تتيح ترقيم المراجع، وبنود الاتفاقيات القانونية، ومحاور المقالات (مثل 1.1 و 1.2)، والأسئلة الشائعة تلقائياً وبتنسيقات بصرية مبهرة (كوضع الرقم داخل دائرة ملونة) تتكيف ذاتياً عند إضافة أو حذف أي بند.",
+    "browserMechanics": "يحتفظ محرك المتصفح بجدول متغيرات حسابي داخلي للعدادات أثناء فحص شجرة الـ DOM؛ في كل مرة يصادف فيها عنصراً يطابق قاعدة counter-increment، يزيد المتغير الرقمي بمقدار الخطوة (افتراضياً +1)، ويقوم بتحويل القيمة الرقمية إلى نمط الترقيم المطلوب (عربي، روماني، أبجدي) وحقنها في شجرة التصيير عبر ::before.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_counter_styles/Using_CSS_counters",
+    "code": ".card { counter-reset: section; }\n.card h1::before { counter-increment: section; content: counter(section, upper-roman) \". \"; }",
+    "breakdown": [
+      "خاصية counter-reset: تنشئ أو تصفر العداد المخصص على العنصر الأب الحاوي.",
+      "خاصية counter-increment: تزيد قيمة العداد تلقائياً عند كل عنصر ابن جديد.",
+      "دالة counter() داخل content: تطبع الرقم الحالي مع تنسيقات المحارف الرومانية أو العشرية."
+    ],
+    "steps": [
+      {
+        "id": "css-40-counters-step-1",
+        "title": "تغيير نمط ترقيم العداد التلقائي",
+        "objective": "تطبيق نمط الأرقام الرومانية أو العشرية على العداد",
+        "type": "edit",
+        "instruction": "بدّل طريقة كتابة رقم العداد من upper-roman إلى decimal، ثم شغّل ولاحظ تغيّر شكل الرقم.",
+        "benefit": "فائدة هذا التعديل: تخصيص مظهر الترقيم ليتناسب مع النمط الأكاديمي أو التوثيقي المطلوب.",
+        "expectedLine": "decimal",
+        "from": "upper-roman",
+        "to": "decimal",
+        "task": "بدّل طريقة كتابة رقم العداد من upper-roman إلى decimal، ثم شغّل ولاحظ تغيّر شكل الرقم.",
+        "explanation": "الوحدة أو القيمة المحسوبة تخبر المتصفح بالمقدار. والمتغير يحفظ قيمة باسم لتستخدمها القواعد أكثر من مرة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى دالة counter() داخل خاصية المحتوى content.",
+          "قاعدة: تقبل دالة counter نمطاً اختيارياً مثل decimal أو upper-roman. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: decimal.",
+          "الحل النموذجي: decimal"
+        ]
+      },
+      {
+        "id": "css-40-counters-step-2",
+        "title": "اختبار نمط ترقيم روماني بديل",
+        "objective": "مقارنة شكل الأرقام الرومانية في تسلسل العناصر",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى square لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: إضفاء طابع كلاسيكي أنيق على فهارس الدروس والأبواب.",
+        "expectedLine": "square",
+        "from": "decimal",
+        "to": "square",
+        "task": "غيّر القيمة الحالية إلى square لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى نمط الترقيم الحالي داخل دالة counter.",
+          "قاعدة: القيمة upper-roman تنتج أرقاماً مثل I, II, III, IV. هل راجعت كتابة القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: square.",
+          "الحل النموذجي: square"
+        ]
+      },
+      {
+        "id": "css-40-counters-step-3",
+        "title": "اعتماد نمط الترقيم النهائي للعداد",
+        "objective": "تثبيت النمط الرقمي النهائي لعداد المحتوى",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى circle لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء الترقيم التلقائي الموثوق لكافة أقسام الوثيقة.",
+        "expectedLine": "circle",
+        "from": "square",
+        "to": "circle",
+        "task": "غيّر القيمة إلى circle لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان المحتوى والعداد بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: circle.",
+          "الحل النموذجي: circle"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".item::before {\n  counter-increment: section-counter;\n  content: counter(section-counter) \". \";\n  /* النتيجة: لا يعمل الترقيم بشكل مستقر ويبدأ بأرقام عشوائية */\n}",
+      "fixedCode": ".list-container {\n  counter-reset: section-counter;\n}\n.item::before {\n  counter-increment: section-counter;\n  content: counter(section-counter) \". \";\n}",
+      "question": "لماذا لم يعمل عداد CSS بشكل سليم وظهرت أرقام متداخلة وغير منضبطة؟",
+      "explanation": "لكي يعمل أي عداد CSS يجب تهيئته أولاً وتصفير قيمته عبر counter-reset على العنصر الحاوي الأب؛ وبدون التهيئة يفقد المتصفح نقطة البداية ونطاق العداد.",
+      "options": [
+        "دالة counter لا تقبل نصوصاً مرافقة مثل \". \"",
+        "العناصر الزائفة ::before لا تدعم العدادات",
+        "يجب كتابة اسم العداد بأحرف كبيرة فقط",
+        "غياب تهيئة وتصفير العداد عبر counter-reset على الحاوية الأب قبل استخدام counter-increment"
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "css-41-units",
+    "legacyId": "css:40",
+    "title": "وحدات القياس المطلقة والنسبية في CSS",
+    "skill": "تنسيق النماذج والوحدات",
+    "order": 40,
+    "concept": "تنقسم وحدات القياس في CSS إلى وحدات مطلقة (Absolute) ذات حجم فيزيائي ثابت كالبكسل px والسنتيمتر cm، ووحدات نسبية (Relative) تتكيف مع البيئة المحيطة: فوحدة rem ترتبط بحجم خط الجذر <html>، ووحدة em ترتبط بحجم خط العنصر الأب الحالي، ووحدات منفذ العرض vw و vh ترتبط بنسبة مئوية من عرض وارتفاع الشاشة، ووحدة % ترتبط بالحاوية المباشرة.",
+    "whyUse": "تعد الوحدات النسبية (خاصة rem و vw) حجر الزاوية في بناء مواقع متجاوبة وسهلة الوصول؛ حيث تتيح للنصوص والأبعاد التضخم تلقائياً عندما يقوم المستخدم بتكبير خط المتصفح الافتراضي لضعف البصر، مما يحقق متطلبات إتاحة الوصول الرقمي.",
+    "browserMechanics": "أثناء مرحلة معالجة القيم (Computed Value Resolution)، يحول المتصفح جميع الوحدات النسبية (rem, em, %, vw) إلى قيم بكسل مطلقة حقيقية؛ فوحدة 1.5rem على صفحة بخط جذر 16px تُحسب وتُسجل كـ 24px، ثم تُقرب في مرحلة Actual Value إلى أقرب بكسل عتادي صحيح على شاشة الجهاز.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Values_and_units",
+    "code": ":root { --space: 12px; }\n.card { padding: var(--space); }",
+    "breakdown": [
+      "الوحدة المطلقة px: تمثل بكسلاً مرجعياً واحداً عالي الدقة والثبات.",
+      "الوحدة النسبية rem: ترتبط بخط الجذر وتوفر تجاوباً آمناً مع إعدادات المستخدم.",
+      "وحدات الشاشة vw / vh: تمثل 1% من عرض أو ارتفاع نافذة التصفح الحالية."
+    ],
+    "steps": [
+      {
+        "id": "css-41-units-step-1",
+        "title": "تحديد قيمة الوحدة القياسية",
+        "objective": "تطبيق وحدة القياس المناسبة لضبط أبعاد الصندوق",
+        "type": "edit",
+        "instruction": "غيّر --space من 12px إلى 24px. شغّل ولاحظ أن padding يتغير من القيمة المحفوظة.",
+        "benefit": "فائدة هذا التعديل: ملاءمة مقياس العنصر مع معايير القياس المعتمدة في التصميم.",
+        "expectedLine": "24px",
+        "from": "12px",
+        "to": "24px",
+        "task": "غيّر --space من 12px إلى 24px. شغّل ولاحظ أن padding يتغير من القيمة المحفوظة.",
+        "explanation": "الوحدة أو القيمة المحسوبة تخبر المتصفح بالمقدار. والمتغير يحفظ قيمة باسم لتستخدمها القواعد أكثر من مرة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى الرقم والوحدة القياسية الملحقة به داخل المحدد.",
+          "قاعدة: تتطلب الأبعاد وحدات صريحة مثل px أو rem أو %. هل تأكدت من كتابة القيمة والوحدة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 24px.",
+          "الحل النموذجي: 24px"
+        ]
+      },
+      {
+        "id": "css-41-units-step-2",
+        "title": "اختبار مقياس بوحدة قياس بديلة",
+        "objective": "مقارنة استجابة العنصر لقيمة قياسية مختلفة",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 28px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: استيعاب التناسب المباشر بين مضاعفة القيمة والمساحة المشغولة.",
+        "expectedLine": "28px",
+        "from": "24px",
+        "to": "28px",
+        "task": "غيّر القيمة الحالية إلى 28px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى القيمة القياسية الحالية في كتلة المحدد.",
+          "قاعدة: استخدام rem يضمن تكيف حجم المكون مع خيارات تكبير الخط في إعدادات النظام. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 28px.",
+          "الحل النموذجي: 28px"
+        ]
+      },
+      {
+        "id": "css-41-units-step-3",
+        "title": "اعتماد وحدة القياس النهائية للمكون",
+        "objective": "تثبيت القيمة القياسية النهائية المستقرة للواجهة",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 34px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء الأبعاد الهندسية المتوازنة والمريحة للمستخدم.",
+        "expectedLine": "34px",
+        "from": "28px",
+        "to": "34px",
+        "task": "غيّر القيمة إلى 34px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان وحدة القياس بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 34px.",
+          "الحل النموذجي: 34px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "h1 {\n  font-size: 2;\n  margin-bottom: 16;\n}",
+      "fixedCode": "h1 {\n  font-size: 2rem;\n  margin-bottom: 16px;\n}",
+      "question": "لماذا تجاهل المتصفح حجم الخط والهوامش المعطاة لعنوان h1 في الكود؟",
+      "explanation": "في معايير CSS، الأرقام غير الصفرية تفتقر لأي معنى حسابي بدون وحدة قياس؛ فالرقم 2 يجب أن يلحق بوحدة مثل rem، والرقم 16 يجب أن يلحق بـ px ليتمكن المتصفح من رسمهما.",
+      "options": [
+        "نسيان وحدات القياس الإلزامية مثل rem و px بعد الأرقام غير الصفرية",
+        "المحدد h1 لا يقبل تعديل حجم الخط",
+        "يجب كتابة أسماء الوحدات كاملة مثل pixels",
+        "الخطوط تتطلب استخدام الحروف الكبيرة فقط"
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "css-42-inheritance",
+    "legacyId": "css:41",
+    "title": "الوراثة وتوارث الخصائص في CSS",
+    "skill": "تنسيق النماذج والوحدات",
+    "order": 41,
+    "concept": "الوراثة (Inheritance) هي الآلية التي تمرر بها العناصر الأبناء قيم خصائص معينة من عناصرها الأسلاف في شجرة DOM. ترث العناصر بطبيعتها خصائص النصوص والطباعة (مثل color و font-family و line-height)، بينما لا ترث الخصائص الهندسية والصندوقية (مثل margin و padding و border و background). يمكن إجبار أي خاصية على التوارث باستخدام الكلمة المفتاحية inherit.",
+    "whyUse": "توفر الوراثة كتابة شيفرات CSS فائقة النظافة والاختصار؛ حيث يكفي تعيين لون وخط النصوص مرة واحدة على وسم <body> لترثه جميع فقرات وعناوين وقوائم الموقع دون الحاجة لتكرار القاعدة على كل عنصر.",
+    "browserMechanics": "أثناء حساب الشلال لكل عنصر، إذا لم يكن هناك إعلان صريح لخاصية ما، يتحقق المتصفح من مواصفة W3C: إذا كانت الخاصية وراثية بطبيعتها (Inherited: yes)، ينسخ المحرك القيمة المحسوبة (Computed Value) من العنصر الأب فوراً؛ وإذا لم تكن وراثية، يطبق القيمة الابتدائية الافتراضية (Initial Value).",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts#inheritance",
+    "code": ".card { color: #256b57; }\n.card h1 { color: inherit; }",
+    "breakdown": [
+      "الكلمة المفتاحية inherit: تجبر الخاصية غير الوراثية على أخذ نفس قيمة العنصر الأب.",
+      "الخصائص الوراثية طبيعياً: تشمل عائلات الخطوط والألوان ومحاذاة النصوص.",
+      "الخصائص غير الوراثية: تشمل الهوامش والحدود والأبعاد والخلفيات لحماية استقلال الصناديق."
+    ],
+    "steps": [
+      {
+        "id": "css-42-inheritance-step-1",
+        "title": "إجبار توارث الخاصية التنسيقية",
+        "objective": "تطبيق الكلمة المفتاحية inherit لجلب قيمة العنصر الأب",
+        "type": "edit",
+        "instruction": "بدّل inherit إلى tomato وشغّل. العنوان الآن له لون مستقل بدل أن يأخذ لون البطاقة.",
+        "benefit": "فائدة هذا التعديل: ربط تنسيق العنصر الفرعي بهوية الحاوية الأب ديناميكياً.",
+        "expectedLine": "tomato",
+        "from": "inherit",
+        "to": "tomato",
+        "task": "بدّل inherit إلى tomato وشغّل. العنوان الآن له لون مستقل بدل أن يأخذ لون البطاقة.",
+        "explanation": "بعض قيم CSS تنتقل من العنصر الأب إلى أبنائه، مثل لون النص. الكلمة inherit تطلب من العنوان أخذ لون البطاقة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة الخاصية التنسيقية داخل كتلة المحدد.",
+          "قاعدة: القيمة inherit تأمر المتصفح بنسخ نفس قيمة الأب المحسوبة. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: tomato.",
+          "الحل النموذجي: tomato"
+        ]
+      },
+      {
+        "id": "css-42-inheritance-step-2",
+        "title": "اختبار قيمة لونية صريحة بديلة",
+        "objective": "مقارنة كسر الوراثة بتحديد قيمة لونية مستقلة",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى #35658f لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: إدراك كيفية تجاوز القيمة الموروثة بقاعدة مخصصة.",
+        "expectedLine": "#35658f",
+        "from": "tomato",
+        "to": "#35658f",
+        "task": "غيّر القيمة الحالية إلى #35658f لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع القيمة الحالية داخل محدد العنصر.",
+          "قاعدة: تحديد قيمة صريحة على العنصر يلغي القيمة الموروثة من الأب. هل راجعت كتابة القيمة البديلة؟",
+          "مساعدة محددة: عدّل القيمة لتصبح: #35658f.",
+          "الحل النموذجي: #35658f"
+        ]
+      },
+      {
+        "id": "css-42-inheritance-step-3",
+        "title": "اعتماد التنسيق اللوني النهائي للعنصر",
+        "objective": "تثبيت القيمة التنسيقية النهائية لخاصية اللون",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى #a65d32 لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التناسق الشامل بين الأبناء والأسلاف.",
+        "expectedLine": "#a65d32",
+        "from": "#35658f",
+        "to": "#a65d32",
+        "task": "غيّر القيمة إلى #a65d32 لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان الخاصية بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: #a65d32.",
+          "الحل النموذجي: #a65d32"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".parent {\n  border: 2px solid red;\n}\n.child {\n  /* المطور يتوقع أن يرث الابن الحد تلقائياً */\n}",
+      "fixedCode": ".parent {\n  border: 2px solid red;\n}\n.child {\n  border: inherit;\n}",
+      "question": "لماذا لم يرث العنصر الابن .child حدود الحاوية الأب .parent باللون الأحمر تلقائياً؟",
+      "explanation": "خصائص نموذج الصندوق مثل border و margin و padding ليست وراثية بطبيعتها؛ ولكي يرث الابن نفس حد الأب يجب كتابة border: inherit صراحة على الابن.",
+      "options": [
+        "المتصفح لا يدعم وراثة الألوان في الحدود",
+        "خاصية border غير وراثية افتراضياً في معايير CSS ولإجبارها على التوارث نستخدم border: inherit",
+        "يجب وضع الأبناء في وسم section",
+        "الوراثة تتطلب استخدام معرّف ID دائماً"
+      ],
+      "correctOptionIndex": 1
+    }
+  }
+]

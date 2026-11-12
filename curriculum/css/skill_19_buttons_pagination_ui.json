@@ -1,0 +1,526 @@
+[
+  {
+    "id": "css-70-buttons",
+    "legacyId": "css:69",
+    "title": "تصميم أزرار تفاعلية احترافية في CSS",
+    "skill": "أزرار وتصفح الصفحة",
+    "order": 69,
+    "concept": "يتطلب تصميم الأزرار الاحترافية (<button>, .btn) إعادة ضبط الأنماط الافتراضية القبيحة للمتصفح؛ وتشمل تحديد padding مريح لمساحة النقر، و border-radius لتدوير الحواف، وإلغاء الحدود الافتراضية عبر border: none، وضبط cursor: pointer لإشعار المستخدم بقابلية النقر، وتنسيق الحالات التفاعلية :hover و :active مع انتقالات ناعمة transition.",
+    "whyUse": "تعد الأزرار العنصر التفاعلي الأهم لإجراءات المستخدم (Call to Action - CTA) كالتسجيل والإرسال والدفع؛ وتصميمها بشكل متميز يرفع ثقة المستخدم ويوجه سلوكه في الموقع بسلاسة واضحة.",
+    "browserMechanics": "يمتلك وسم <button> سلوكاً افتراضياً من نظام التشغيل (User-Agent Shadow Tree) يشمل حدوداً بارزة ثلاثية الأبعاد وخلفية رمادية؛ فعند تحديد background أو border في ملف CSS الخاص بك، يُلغي المتصفح مظهر النظام ويتحول لرسم الزر كصندوق CSS عادي وفق نموذج الصندوق.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Forms/Styling_web_forms#buttons",
+    "code": ".card button { background-color: #dfeeda; border-radius: 6px; }",
+    "breakdown": [
+      "خاصية padding: تمنح الزر مساحة نقر رحبة ومريحة للمستخدم.",
+      "خاصية cursor: pointer: تحول سهم الفأرة إلى يد مؤشرة لتأكيد قابلية النقر.",
+      "الانتقال transition: يضمن تحول الألوان والظلال عند التحويم بنعومة فائقة."
+    ],
+    "steps": [
+      {
+        "id": "css-70-buttons-step-1",
+        "title": "تعديل المسافة الداخلية للزر التفاعلي",
+        "objective": "تطبيق قيمة padding المناسبة لتوسيع مساحة نقر الزر",
+        "type": "edit",
+        "instruction": "دوّر زوايا زر الحفظ أكثر بتغيير border-radius من 6px إلى 18px.",
+        "benefit": "فائدة هذا التعديل: توفير مساحة لمس كافية للأصابع والفأرة تلبي معايير الاستخدام.",
+        "expectedLine": "18px",
+        "from": "6px",
+        "to": "18px",
+        "task": "دوّر زوايا زر الحفظ أكثر بتغيير border-radius من 6px إلى 18px.",
+        "explanation": "هذه الخاصية تغيّر طريقة ظهور النص أو العنصر الذي يقرأه الزائر. غيّر قيمة واحدة حتى تعرف أثرها وحدها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية padding داخل محدد الزر button.",
+          "قاعدة: تتطلب أبعاد المسافات الداخلية وحدات صريحة مثل px. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 18px.",
+          "الحل النموذجي: 18px"
+        ]
+      },
+      {
+        "id": "css-70-buttons-step-2",
+        "title": "اختبار مساحة زر مدمجة بديلة",
+        "objective": "مقارنة مقاس الزر المدمج بأبعاد أصغر 6px",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 22px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تقييم مدى ملاءمة الأزرار الصغيرة في الجداول وأشرطة الأدوات.",
+        "expectedLine": "22px",
+        "from": "18px",
+        "to": "22px",
+        "task": "غيّر القيمة الحالية إلى 22px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة padding الحالية في كتلة المحدد.",
+          "قاعدة: الأزرار الرئيسية تفضل مساحات رحبة بينما تفضل الأزرار المساعدة أحجاماً مدمجة. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 22px.",
+          "الحل النموذجي: 22px"
+        ]
+      },
+      {
+        "id": "css-70-buttons-step-3",
+        "title": "اعتماد المسافة الداخلية النهائية للزر",
+        "objective": "تثبيت مساحة النقر النهائية المعتمدة للأزرار التفاعلية",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 28px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التناسق الحجمي لكافة أزرار الإجراءات في الواجهة.",
+        "expectedLine": "28px",
+        "from": "22px",
+        "to": "28px",
+        "task": "غيّر القيمة إلى 28px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان زر الإجراء بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 28px.",
+          "الحل النموذجي: 28px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".btn {\n  background: #256b57;\n  color: white;\n  /* نسيان شكل المؤشر */\n}",
+      "fixedCode": ".btn {\n  background: #256b57;\n  color: white;\n  cursor: pointer;\n}",
+      "question": "لماذا يظل مؤشر الفأرة كالسهم العادي عند تحويمه فوق الزر .btn ولا يتحول لشكل اليد؟",
+      "explanation": "في مواصفات المتصفحات، لا تضع بعض العناصر مؤشر اليد تلقائياً؛ ويجب دائماً إضافة cursor: pointer صراحة للأزرار لمنح المستخدم إشارة بصرية بديهية بقابلية العنصر للنقر.",
+      "options": [
+        "الأزرار تتطلب كتابة كود JavaScript لتفعيل الفأرة",
+        "نسيان إضافة خاصية cursor: pointer المسؤولة عن تحويل سهم الفأرة إلى يد تفاعلية",
+        "يجب تحويل الزر إلى وسم رابط <a>",
+        "خاصية cursor غير مدعومة مع الألوان"
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "css-71-pagination",
+    "legacyId": "css:70",
+    "title": "بناء وتنسيق أرقام ترقيم الصفحات Pagination",
+    "skill": "أزرار وتصفح الصفحة",
+    "order": 70,
+    "concept": "ترقيم الصفحات (Pagination) هو شريط الملاحة الذي يسمح بالتنقل بين صفحات النتائج والمقالات الطويلة؛ ويُبنى كقائمة روابط مرقمة <a> داخل حاوية مرنة display: flex مع إعطاء كل رقم مساحة نقر متساوية (width/height أو padding)، وتنسيق الرقم النشط حالياً بكلاس .active لتمييز الصفحة الحالية بوضوح.",
+    "whyUse": "يضمن ترقيم الصفحات تصفح كميات ضخمة من المقالات والمنتجات دون إثقال الصفحة الأولى بتنزيل آلاف البيانات دفعة واحدة، مما يسرع تحميل الموقع ويمنح الزائر تحكماً مريحاً في وتيرة التصفح.",
+    "browserMechanics": "يقوم المتصفح برسم أزرار الترقيم كصناديق مرنة متجاورة على محور الصف (Row Axis)؛ وتضمن خصائص gap أو margin التباعد المنتظم بين الأرقام، مع استجابة فورية لحالات :hover و :focus دون أي وميض.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Text_styling/Styling_lists",
+    "code": ".card h1 { font-size: 22px; text-align: right; }",
+    "breakdown": [
+      "خاصية display: flex: تجعل أزرار الترقيم تصطف أفقياً في صف منتظم.",
+      "فئة الصفحة النشطة .active: تميز رقم الصفحة الحالية بلون خلفية بارز ومغاير.",
+      "خاصية border-radius: تمنح أزرار الترقيم زوايا دائرية ناعمة وسهلة النقر."
+    ],
+    "steps": [
+      {
+        "id": "css-71-pagination-step-1",
+        "title": "تعديل حجم أزرار ترقيم الصفحات",
+        "objective": "تطبيق البُعد المطلوب لأزرار أرقام الصفحات",
+        "type": "edit",
+        "instruction": "كبّر العنوان بتغيير font-size من 22px إلى 30px. شغّل وتابع الفرق في المعاينة.",
+        "benefit": "فائدة هذا التعديل: ضبط مساحة النقر المريحة لكل رقم في شريط التصفح.",
+        "expectedLine": "30px",
+        "from": "22px",
+        "to": "30px",
+        "task": "كبّر العنوان بتغيير font-size من 22px إلى 30px. شغّل وتابع الفرق في المعاينة.",
+        "explanation": "هذه الخاصية تغيّر طريقة ظهور النص أو العنصر الذي يقرأه الزائر. غيّر قيمة واحدة حتى تعرف أثرها وحدها.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية width أو height داخل محدد أزرار الترقيم pagination a.",
+          "قاعدة: تتطلب الأبعاد وحدات صريحة مثل px. هل تأكدت من كتابة المقاس المطلوب بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 30px.",
+          "الحل النموذجي: 30px"
+        ]
+      },
+      {
+        "id": "css-71-pagination-step-2",
+        "title": "اختبار مقاس زر ترقيم أصغر بديل",
+        "objective": "مقارنة شريط الترقيم بأزرار مدمجة 22px",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 34px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تقييم ملاءمة شريط الترقيم للشاشات الضيقة ذات المساحات المحدودة.",
+        "expectedLine": "34px",
+        "from": "30px",
+        "to": "34px",
+        "task": "غيّر القيمة الحالية إلى 34px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة البُعد الحالية في كتلة المحدد.",
+          "قاعدة: الأزرار ذات الأبعاد المتساوية (عرض يساوي الارتفاع) تشكل دوائر أو مربعات متناسقة. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 34px.",
+          "الحل النموذجي: 34px"
+        ]
+      },
+      {
+        "id": "css-71-pagination-step-3",
+        "title": "اعتماد المقاس النهائي لأزرار الترقيم",
+        "objective": "تثبيت الأبعاد النهائية المستقرة لأزرار التنقل بين الصفحات",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 40px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التناسق البصري الدقيق لشريط ملاحة الصفحات.",
+        "expectedLine": "40px",
+        "from": "34px",
+        "to": "40px",
+        "task": "غيّر القيمة إلى 40px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان أبعاد الترقيم بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 40px.",
+          "الحل النموذجي: 40px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".pagination a {\n  /* روابط سطرية عادية */\n  width: 40px;\n  height: 40px;\n  /* النتيجة: تتجاهل الروابط الأبعاد وتظهر مربكة وصغيرة */\n}",
+      "fixedCode": ".pagination a {\n  display: inline-flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n}",
+      "question": "لماذا لم تقبل روابط الترقيم .pagination a أبعاد العرض والارتفاع المحددة لها؟",
+      "explanation": "وسم الرابط <a> هو عنصر سطري (inline) ويتجاهل أبعاد العرض والارتفاع؛ ولتطبيق الأبعاد المربعة أو الدائرية وتوسيط الرقم بداخله يجب تعيين display: inline-flex أو inline-block.",
+      "options": [
+        "أزرار الترقيم لا تقبل أبعاداً أكبر من 20px",
+        "يجب استخدام أرقام عربية فقط",
+        "الروابط عناصر سطرية تتجاهل الأبعاد ويجب تحويلها إلى display: inline-flex لقبول العرض والارتفاع وتوسيط الأرقام",
+        "المتصفح يتطلب استخدام وسم input بدلاً من a"
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "css-72-multiple-columns",
+    "legacyId": "css:71",
+    "title": "تقسيم النصوص إلى أعمدة متعددة Columns",
+    "skill": "أزرار وتصفح الصفحة",
+    "order": 71,
+    "concept": "توفر مواصفة CSS Multi-column Layout تدفق النصوص في أعمدة صحفية متعددة ومتوازية عبر خصائص رئيسية: column-count لتحديد عدد الأعمدة الثابت، و column-width لتحديد العرض الأمثل لكل عمود (تخطيط متجاوب تلقائي)، و column-gap لضبط الفراغ الفاصل بين الأعمدة، و column-rule لإضافة خط فاصل أنيق بينها.",
+    "whyUse": "تتيح قراءة المقالات الطويلة والأخبار الصحفية بأسلوب المجلات الأنيق؛ حيث تمنع اتساع الأسطر لمدى شاسع يجهد عين القارئ، وتوزع النصوص تلقائياً في أعمدة متساوية الارتفاع.",
+    "browserMechanics": "يقوم المتصفح بتقسيم الصندوق الكتلي إلى صناديق أعمدة افتراضية (Column Boxes) داخل سياق تخطيط الأعمدة المتعددة. يتدفق النص والصور تلقائياً من قاع العمود الأول إلى قمة العمود المجاور له، ويعيد المحرك موازنة أطوال الأعمدة لتكون متساوية رأسياً بالكامل.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_multicol_layout",
+    "code": ".card p { column-count: 2; column-gap: 18px; }\n.card p::after { content: \" هذه خطوة إضافية لنرى كيف يتوزع النص على العمودين مع مساحة مناسبة بينهما.\"; }",
+    "breakdown": [
+      "خاصية column-count: تحدد عدد الأعمدة التي سيتدفق خلالها النص.",
+      "خاصية column-gap: تحدد المسافة الفاصلة بين الأعمدة المجاورة لمنع تداخل الكلمات.",
+      "خاصية column-rule: ترسم خطاً رأسياً فاصلاً بين الأعمدة يشبه الحدود border."
+    ],
+    "steps": [
+      {
+        "id": "css-72-multiple-columns-step-1",
+        "title": "تعديل الفاصل البيني للأعمدة الصحفية",
+        "objective": "تطبيق قيمة column-gap المناسبة للفصل بين أعمدة النص",
+        "type": "edit",
+        "instruction": "وسّع الفاصل بين العمودين من 18px إلى 30px، ثم شغّل لملاحظة توزيع الفقرة.",
+        "benefit": "فائدة هذا التعديل: إبعاد أسطر الأعمدة المتجاورة وتسهيل القراءة العمودية.",
+        "expectedLine": "30px",
+        "from": "18px",
+        "to": "30px",
+        "task": "وسّع الفاصل بين العمودين من 18px إلى 30px، ثم شغّل لملاحظة توزيع الفقرة.",
+        "explanation": "قاعدة CSS تصف للمتصفح كيف يعرض جزءًا من الصفحة. اقرأ اسم المحدد، ثم الخاصية، ثم القيمة؛ كل واحدة لها دور مختلف.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية column-gap داخل محدد المقال الصحفي.",
+          "قاعدة: تتطلب المسافات الفاصلة بين الأعمدة وحدة قياس صريحة مثل px أو rem. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: 30px.",
+          "الحل النموذجي: 30px"
+        ]
+      },
+      {
+        "id": "css-72-multiple-columns-step-2",
+        "title": "اختبار فجوة فاصلة أضيق بديلة",
+        "objective": "مقارنة كثافة النص بفاصل بيني أصغر 18px",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى 34px لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: تقييم استغلال المساحة العرضية على الشاشات المتوسطة.",
+        "expectedLine": "34px",
+        "from": "30px",
+        "to": "34px",
+        "task": "غيّر القيمة الحالية إلى 34px لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة column-gap الحالية في كتلة المحدد.",
+          "قاعدة: تقليل الفجوة يزيد المساحة المخصصة للكلمات مع الحفاظ على الفصل البصري. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 34px.",
+          "الحل النموذجي: 34px"
+        ]
+      },
+      {
+        "id": "css-72-multiple-columns-step-3",
+        "title": "اعتماد الفاصل النهائي للأعمدة",
+        "objective": "تثبيت المسافة الفاصلة النهائية المعتمدة بين أعمدة النص",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى 40px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التنسيق الطباعي الصحفي المتزن والمقروء للمقال.",
+        "expectedLine": "40px",
+        "from": "34px",
+        "to": "40px",
+        "task": "غيّر القيمة إلى 40px لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "(?:^|[;{\\s])(width|height|min-width|max-width|min-height|max-height|margin(?:-(?:top|right|bottom|left))?|padding(?:-(?:top|right|bottom|left))?|font-size|top|right|bottom|left|gap|row-gap|column-gap|border-width|border-radius|letter-spacing|word-spacing)\\s*:[^;}]*?\\b([1-9]\\d*(?:\\.\\d+)?)(?=\\s|;|\\n|\\}|$)",
+            "flags": "i",
+            "type": "regex",
+            "message": "القيمة الرقمية تفتقر إلى وحدة قياس صريحة (مثل px أو rem أو %). في CSS، الأرقام غير الصفرية للأبعاد تتطلب دائماً وحدة قياس."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان فجوة الأعمدة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: 40px.",
+          "الحل النموذجي: 40px"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".article {\n  column-count: 3;\n  column-rule: 2px #ccc;\n  /* المشكلة: لا يظهر أي خط فاصل بين الأعمدة! */\n}",
+      "fixedCode": ".article {\n  column-count: 3;\n  column-rule: 2px solid #ccc;\n}",
+      "question": "لماذا لم يظهر الخط الفاصل column-rule بين أعمدة المقال رغم تحديد السماكة واللون؟",
+      "explanation": "خاصية column-rule تتبع نفس قواعد خاصية border تماماً؛ والقيمة الافتراضية للنمط هي none، لذا فإن نسيان تحديد نمط الخط (مثل solid) يجعل الخط الفاصل مخفياً وغير مرئي إطلاقاً.",
+      "options": [
+        "خاصية column-rule لا تعمل مع 3 أعمدة",
+        "يجب كتابة ألوان الخط بنظام RGB فقط",
+        "المتصفح يتطلب استخدام خاصية border بدلاً منها",
+        "نسيان تحديد نمط الخط الإلزامي مثل solid في خاصية column-rule (2px solid #ccc)"
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "css-73-user-interface",
+    "legacyId": "css:72",
+    "title": "خصائص تجربة المستخدم والمؤشرات في CSS",
+    "skill": "أزرار وتصفح الصفحة",
+    "order": 72,
+    "concept": "تتحكم خصائص واجهة المستخدم الأساسية (Basic User Interface) في كيفية تفاعل الزائر مع عناصر الصفحة: فخاصية cursor تغير شكل سهم الفأرة (pointer, not-allowed, grab, text, crosshair)، وخاصية user-select تضبط إمكانية تحديد ونسخ النصوص (none أو all)، وخاصية resize تسمح للمستخدم بتغيير حجم الصناديق يدوياً بسحب زاويتها السفلية (وتشترط وجود overflow غير visible لتعمل).",
+    "whyUse": "توفر هذه الخصائص إشارات حسية بديهية توجه المستخدم أثناء التصفح؛ كإظهار علامة الحظر (not-allowed) عند محاولة النقر على زر معطل، ومنع تحديد النصوص العرضي على الأزرار والأيقونات لتبدو كتطبيقات أصيلة.",
+    "browserMechanics": "يتواصل محرك المتصفح مباشرة مع نظام التشغيل لتحديث مؤشر الفأرة (OS Hardware Cursor). وعند تطبيق user-select: none، يمنع محرك العرض إنشاء نطاقات التحديد (Selection Ranges) على عُقد النص المستهدفة في شجرة DOM، مما يمنع تمييزها باللون الأزرق أثناء السحب العفوي للفأرة.",
+    "documentationUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS/cursor",
+    "code": ".card input { resize: both; cursor: text; }",
+    "breakdown": [
+      "خاصية cursor: تحدد شكل مؤشر الفأرة الذي يرسله المتصفح لنظام التشغيل.",
+      "خاصية user-select: none: تمنع التحديد النصي العشوائي للأزرار والعناصر التفاعلية.",
+      "خاصية resize: تمكن المستخدم من تكبير أو تصغير الصندوق وتشترط وجود overflow."
+    ],
+    "steps": [
+      {
+        "id": "css-73-user-interface-step-1",
+        "title": "تغيير شكل مؤشر الفأرة التفاعلي",
+        "objective": "تطبيق شكل المؤشر المناسب لطبيعة أداة التفاعل المحددة",
+        "type": "edit",
+        "instruction": "غيّر شكل المؤشر من text إلى crosshair ثم مرّره فوق حقل الإدخال في المعاينة.",
+        "benefit": "فائدة هذا التعديل: تزويد المستخدم بدلالة بصرية فورية عن وظيفة الأداة المختارة.",
+        "expectedLine": "crosshair",
+        "from": "text",
+        "to": "crosshair",
+        "task": "غيّر شكل المؤشر من text إلى crosshair ثم مرّره فوق حقل الإدخال في المعاينة.",
+        "explanation": "قاعدة CSS تصف للمتصفح كيف يعرض جزءًا من الصفحة. اقرأ اسم المحدد، ثم الخاصية، ثم القيمة؛ كل واحدة لها دور مختلف.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية cursor داخل محدد أداة الرسم أو التحديد.",
+          "قاعدة: تقبل cursor قيماً معيارية مثل crosshair أو pointer أو grab. هل تأكدت من كتابة القيمة المطلوبة بدقة؟",
+          "مساعدة محددة: غيّر القيمة لتصبح: crosshair.",
+          "الحل النموذجي: crosshair"
+        ]
+      },
+      {
+        "id": "css-73-user-interface-step-2",
+        "title": "اختبار شكل مؤشر نصوص بديل",
+        "objective": "مقارنة مظهر المؤشر عند تعيينه لمؤشر الكتابة النصية text",
+        "type": "edit",
+        "instruction": "غيّر القيمة الحالية إلى pointer لمشاهدة تأثير بصري بديل.",
+        "benefit": "فائدة هذا التعديل: إشعار المستخدم بأن المنطقة مخصصة لقراءة وإدخال النصوص.",
+        "expectedLine": "pointer",
+        "from": "crosshair",
+        "to": "pointer",
+        "task": "غيّر القيمة الحالية إلى pointer لمشاهدة تأثير بصري بديل.",
+        "explanation": "اختبار قيم مختلفة يوضح للمتعلم كيفية استجابة محرك العرض للخيارات المتنوعة.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى قيمة cursor الحالية في كتلة المحدد.",
+          "قاعدة: القيمة text تحول المؤشر لشكل علامة الإدخال I-beam المألوفة. هل راجعت القيمة البديلة؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: pointer.",
+          "الحل النموذجي: pointer"
+        ]
+      },
+      {
+        "id": "css-73-user-interface-step-3",
+        "title": "اعتماد شكل المؤشر النهائي للأداة",
+        "objective": "تثبيت شكل المؤشر النهائي المعتمد للمكون التفاعلي",
+        "type": "edit",
+        "instruction": "غيّر القيمة إلى grab لتأكيد استيعاب طريقة عمل الخاصية.",
+        "benefit": "فائدة هذا التعديل: إرساء التفاعل البديهي والمتقن لواجهة الاستخدام.",
+        "expectedLine": "grab",
+        "from": "pointer",
+        "to": "grab",
+        "task": "غيّر القيمة إلى grab لتأكيد استيعاب طريقة عمل الخاصية.",
+        "explanation": "المقارنة المتعددة ترسخ فهم حدود الخاصية وتأثيرها على بقية عناصر الصندوق.",
+        "errorRules": [
+          {
+            "pattern": "(?:^|\\{|\\n)\\s*([a-z-]+)\\s*:\\s*([^;{}\\n\\r]+?)\\s*\\n\\s*([a-z-]+)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت وضع الفاصلة المنقوطة ';' في نهاية سطر الخاصية. بدونها يدمج المتصفح السطرين معاً ويتجاهل التنسيق."
+          },
+          {
+            "pattern": "\\b(colour|collor|background-colour|background-collor|backgroud-color|bg-color|algn-items|align-item|alig-items|justfy-content|justify-contents|dispaly|disply|pad-left|pading|paddng|magin|mrgin|positon|posistion|zindex|font-colour|font-collor|widht|heigth)\\s*:",
+            "flags": "i",
+            "type": "regex",
+            "message": "خطأ إملائي في اسم الخاصية: تحقق من كتابة الكلمة الإنجليزية بدقة وفق معيار CSS (مثل color بدلاً من colour أو collor)."
+          }
+        ],
+        "hints": [
+          "انتبه إلى سطر الخاصية في نفس القاعدة التنسيقية.",
+          "قاعدة: الفاصلة المنقوطة تنهي إعلان مؤشر الفأرة بسلام. هل أغلقت السطر بالفاصلة المنقوطة بالشكل الصحيح؟",
+          "مساعدة محددة: اكتب القيمة المطلوبة بدقة: grab.",
+          "الحل النموذجي: grab"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": ".resizable-box {\n  resize: both;\n  /* النتيجة: لا يظهر مقبض تغيير الحجم ولا يعمل السحب إطلاقاً! */\n}",
+      "fixedCode": ".resizable-box {\n  resize: both;\n  overflow: auto;\n}",
+      "question": "لماذا لم تظهر زاوية تغيير الحجم ولم تعمل خاصية resize: both على الصندوق .resizable-box؟",
+      "explanation": "في مواصفات CSS الرسمية، تشترط خاصية resize وجود خاصية overflow بقيمة تختلف عن visible (مثل overflow: auto أو hidden أو scroll)؛ وبدونها يتم تجاهل resize كلياً.",
+      "options": [
+        "خاصية resize تشترط وجود overflow بقيمة غير visible (مثل overflow: auto) لكي يسمح المتصفح بتغيير الحجم",
+        "خاصية resize لا تعمل إلا مع الجداول",
+        "يجب استخدام JavaScript حصراً لتغيير حجم الصناديق",
+        "القيمة both غير مدعومة في المتصفحات"
+      ],
+      "correctOptionIndex": 0
+    }
+  }
+]

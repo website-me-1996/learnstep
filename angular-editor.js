@@ -86,7 +86,7 @@ function loadEditorModules() {
 function createRecord() {
   return {
     version: 1,
-    progress: { lessonIndex: 0, completed: [], mode: "playground" },
+    progress: { lessonIndex: 0, completed: [], mode: "playground", stepAttempts: {} },
     workspaces: { project: null, playground: {}, playgroundBaseline: {} }
   };
 }
@@ -197,6 +197,7 @@ async function loadRecord(id) {
       ? [...new Set(stored.progress.completed.filter((id) => COURSE.lessons.some((lesson) => lesson.id === id)))].slice(0, COURSE.lessons.length)
       : [];
     clean.progress.mode = stored.progress.mode === "project" ? "project" : "playground";
+    clean.progress.stepAttempts = (stored.progress.stepAttempts && typeof stored.progress.stepAttempts === "object" && !Array.isArray(stored.progress.stepAttempts)) ? stored.progress.stepAttempts : {};
   }
   const spaces = stored.workspaces || {};
   clean.workspaces.project = normalizeFiles(spaces.project);
@@ -1976,7 +1977,7 @@ function updateAngularHandCraftScore(isManual = false, boost = 0) {
   const meter = $("angularHandCraftMeter");
   if (!meter) return;
   meter.hidden = false;
-  meter.textContent = "🔨 كتابتك بيدك: " + formatNumber(angularHandCraftScore) + "٪";
+  meter.textContent = "🔨 كتابتك بيدك (بناء يدوي): " + formatNumber(angularHandCraftScore) + "٪";
   let msg = "🌱 بداية واعدة.. مشروعك يبدأ بلمستك الخاصة.";
   if (angularHandCraftScore >= 85) msg = "🏆 مكون Angular مبني بحرفية يدوية وبصمتك الخاصة 100%!";
   else if (angularHandCraftScore >= 60) msg = "🔨 رائع! أنت تبني المكون خطوة بخطوة وتستوعب هندسته.";
@@ -2499,6 +2500,9 @@ async function copyPlaygroundChangesToProject() {
 
 async function markComplete(message) {
   const lesson = activeLesson();
+  if (record.progress && record.progress.stepAttempts && record.progress.stepAttempts[lesson.id]) {
+    delete record.progress.stepAttempts[lesson.id];
+  }
   if (!record.progress.completed.includes(lesson.id)) record.progress.completed.push(lesson.id);
   record.progress.lessonIndex = currentLessonIndex;
   await copyPlaygroundChangesToProject();
@@ -2543,7 +2547,22 @@ async function runLesson() {
       }
       if (!supportedTask(lesson)) {
         const files = lesson.edits && lesson.edits.length ? [...new Set(lesson.edits.map((edit) => edit.file))] : [lesson.file];
-        $("angularLessonFeedback").textContent = "الجزء المطلوب لم يظهر في " + files.join("، ") + ". أضف التعديلات المعروضة ثم شغّل من جديد.";
+        record.progress.stepAttempts = record.progress.stepAttempts || {};
+        const attemptKey = lesson.id;
+        record.progress.stepAttempts[attemptKey] = (record.progress.stepAttempts[attemptKey] || 0) + 1;
+        const attempts = record.progress.stepAttempts[attemptKey];
+        const tier = Math.min(4, attempts);
+        let feedback = "";
+        if (tier === 1) {
+          feedback = "الجزء المطلوب لم يظهر في " + files.join("، ") + ". أضف التعديلات المعروضة ثم شغّل من جديد.";
+        } else if (tier === 2) {
+          feedback = "قاعدة: " + (lesson.task || "المطلوب إضافة التعديل المحدد في مكانه الصحيح.") + " هل راجعت صياغة الكود وخصائص Angular؟";
+        } else if (tier === 3) {
+          feedback = "مساعدة محددة: الجزء المطلوب لم يظهر في " + files.join("، ") + ". تأكد من تضمين: " + (lesson.expected || "التعديلات المطلوبة");
+        } else {
+          feedback = "كشف الحل: الجزء المطلوب في " + (lesson.file || files[0]) + " هو:\n" + (lesson.expected || "");
+        }
+        $("angularLessonFeedback").textContent = feedback;
         await saveRecord();
         return;
       }
@@ -2553,7 +2572,22 @@ async function runLesson() {
     } else {
       if (!supportedTask(lesson)) {
         const files = lesson.edits && lesson.edits.length ? [...new Set(lesson.edits.map((edit) => edit.file))] : [lesson.file];
-        $("angularLessonFeedback").textContent = "الجزء المطلوب لم يظهر في " + files.join("، ") + ". أضف التعديل المطلوب ثم شغّل من جديد.";
+        record.progress.stepAttempts = record.progress.stepAttempts || {};
+        const attemptKey = lesson.id;
+        record.progress.stepAttempts[attemptKey] = (record.progress.stepAttempts[attemptKey] || 0) + 1;
+        const attempts = record.progress.stepAttempts[attemptKey];
+        const tier = Math.min(4, attempts);
+        let feedback = "";
+        if (tier === 1) {
+          feedback = "الجزء المطلوب لم يظهر في " + files.join("، ") + ". أضف التعديل المطلوب ثم شغّل من جديد.";
+        } else if (tier === 2) {
+          feedback = "قاعدة: " + (lesson.task || "المطلوب إضافة التعديل المحدد في مكانه الصحيح.") + " هل راجعت صياغة الكود وخصائص Angular؟";
+        } else if (tier === 3) {
+          feedback = "مساعدة محددة: الجزء المطلوب لم يظهر في " + files.join("، ") + ". تأكد من تضمين: " + (lesson.expected || "التعديل المعروض");
+        } else {
+          feedback = "كشف الحل: الجزء المطلوب في " + (lesson.file || files[0]) + " هو:\n" + (lesson.expected || "");
+        }
+        $("angularLessonFeedback").textContent = feedback;
         await saveRecord();
         return;
       }
@@ -2793,6 +2827,14 @@ function bindInterface() {
 async function initialize() {
   if (!panel) return;
   if (document.readyState !== "complete") await new Promise((resolve) => window.addEventListener("load", resolve, { once: true }));
+  if (typeof window !== "undefined" && window.DataLoader && typeof window.DataLoader.loadTrack === "function") {
+    try {
+      const trackData = await window.DataLoader.loadTrack("angular");
+      if (trackData && trackData.lessons && trackData.lessons.length) {
+        window.ANGULAR_COURSE_DATA = Object.assign({}, window.ANGULAR_COURSE_DATA || {}, trackData);
+      }
+    } catch {}
+  }
   COURSE = window.ANGULAR_COURSE_DATA;
   if (!COURSE || !COURSE.lessons || !COURSE.starterFiles) throw new Error("تعذر تحميل بيانات دروس Angular.");
   try {

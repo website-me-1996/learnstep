@@ -1,0 +1,1635 @@
+[
+  {
+    "id": "ng-di-01",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "حقن التبعيات الوظيفي الحديث عبر دالة inject()",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "استيعاب التحول الجذري في معمارية Angular من حقن التبعيات الكلاسيكي عبر منشئ الفئة (Constructor Injection) إلى الحقن الوظيفي المعاصر باستخدام دالة inject()؛ فهم سياق الحقن (Injection Context)، والتخلص من تكرار الأكواد ومشاكل وراثة المنشئات super()، وحقن الخدمات مباشرة في حقول الفئات والدوال والمصانع والحراس الوظيفيين.",
+    "concept": "منذ الإصدارات الأولى لإطار عمل Angular، كان نمط حقن التبعيات (Dependency Injection - DI) يعتمد بصورة حصرية على المنشئ الكلاسيكي (Constructor Injection)؛ حيث كان المطور ملزماً بكتابة دالة constructor(private cinemaService: CinemaService) في كل مكون أو خدمة. ورغم قوة هذا النمط واستقراره لسنوات، إلا أنه فرض قيوداً معمارية ثقيلة وتسبب في تضخم الكود (Boilerplate)؛ ففي سيناريوهات وراثة الأصناف (Class Inheritance)، كان على الفئة المشتقة إعادة تمرير كافة تبعيات الفئة الأساسية يدوياً عبر استدعاء super(...)، مما يجعل صيانة الكود وتطويره عملية معقدة وعرضة للأخطاء. بالإضافة إلى ذلك، جعل حقن المنشئ من المستحيل استخدام نظام التبعيات خارج سياق الفئات والأصناف، مثل الدوال المساعدة المستقلة والحراس الوظيفيين (Functional Guards) ومصانع الإعداد ومحددات التوجيه.\nجاءت دالة inject() الوظيفية في Angular الحديثة لتحدث ثورة حقيقية في تبسيط المعمارية وتفكيك الارتباط المعقد؛ حيث تتيح الحصول على نسخة أي خدمة أو رمز مميز (Injection Token) باستدعاء وظيفي مباشر وأنيق دون الحاجة لكتابة المنشئ إطلاقاً. تعمل دالة inject(CinemaService) في نطاق ما يُعرف بـ 'سياق الحقن' (Injection Context) — وهو التوقيت الزمني الذي يتم فيه إنشاء الكائن، مثل تهيئة خصائص الفئة (Field Initializers) أو داخل متن المنشئ. من خلال كتابة private cinemaService = inject(CinemaService); كخاصية مباشرة في الكلاس، نحصل على كود فائق الأناقة والوضوح، ونستغني تماماً عن المنشئات الفارغة. علاوة على ذلك، تفتح دالة inject() الباب واسعاً أمام إنشاء دوال حقن مركبة (Composable Injection Functions) تجمع المنطق البرمجي وحقن الخدمات معاً في دوال نقية يعاد استخدامها عبر كافة مكونات منصة سينما خطوة الاحترافية.",
+    "flow": "طلب التبعية في سياق الحقن ⟶ استدعاء inject(CinemaService) ⟶ حل الرمز وتوفير نسخة الخدمة فوراً ⟶ كود أنيق بدون منشئ ولا super()",
+    "task": "افتح الملف src/app/app.ts واحفظ نسخة خدمة السينما كحقل خاص باستخدام دالة inject(CinemaService) بدلاً من حقن المنشئ.",
+    "file": "src/app/app.ts",
+    "code": "// حقن خدمة السينما وظيفياً عبر دالة inject() في سياق الحقن\nprivate cinemaService = inject(CinemaService);",
+    "expected": "private cinemaService = inject(CinemaService);",
+    "reference": "https://angular.dev/guide/di",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: وداعاً لحشو المنشئات مع الحقن الوظيفي inject()",
+        "explanation": "في المعمارية الكلاسيكية لـ Angular، كان حقن أي خدمة يتطلب منشئاً (constructor) ومعاملات طويلة وتكراراً غير مبرر. مع دالة inject() الحديثة، يمكنك حقن التبعيات مباشرة عند تعريف الحقول في سياق الحقن (Injection Context)، مما يجعل المكونات أصغر حجماً وأسهل في القراءة والفحص والاستخدام.",
+        "flow": "تعريف الحقل في الكلاس ⟶ استدعاء inject(CinemaService) ⟶ توفير نسخة الخدمة من شجرة الحواضن ⟶ الاستغناء الكامل عن المنشئ",
+        "task": "تأمل سهولة قراءة الكود ونظافته عند استخدام دالة inject() مقارنة بحقن المنشئ التقليدي.",
+        "benefit": "استوعبت الفارق المعماري بين حقن المنشئ التقليدي والحقن الوظيفي الحديث عبر دالة inject().",
+        "objective": "تأمل سهولة قراءة الكود ونظافته عند استخدام دالة inject() مقارنة بحقن المنشئ التقليدي.",
+        "instruction": "تأمل سهولة قراءة الكود ونظافته عند استخدام دالة inject() مقارنة بحقن المنشئ التقليدي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صياغة inject() وسياق الحقن (Injection Context)",
+        "explanation": "تُستورد دالة inject من حزمة '@angular/core'. تُستدعى الدالة بتمرير اسم صنف الخدمة Token (مثل CinemaService). يجب أن يتم الاستدعاء أثناء مرحلة تهيئة الحقول أو داخل دالة تعمل في سياق حقن نشط، وإلا ستُطلق Angular خطأ NG0203 الشهير لعدم توفر سياق الحقن.",
+        "flow": "import { inject } from '@angular/core' ⟶ private cinemaService = inject(CinemaService) ⟶ حل التبعية بأمان نوعي كامل",
+        "task": "دقق في نوع الوصول private واسم المتغير واستدعاء inject(CinemaService) كخاصية صنف مباشرة.",
+        "benefit": "أدركت الشروط المعمارية لعمل دالة inject() وكيفية كتابتها كخاصية صنف نموذجية.",
+        "objective": "دقق في نوع الوصول private واسم المتغير واستدعاء inject(CinemaService) كخاصية صنف مباشرة.",
+        "instruction": "دقق في نوع الوصول private واسم المتغير واستدعاء inject(CinemaService) كخاصية صنف مباشرة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بحقن خدمة CinemaService في صنف المكون الجذري App داخل ملف src/app/app.ts باستخدام دالة inject() الحديثة دون الحاجة لكتابة منشئ.",
+        "file": "src/app/app.ts",
+        "code": "// حقن خدمة السينما وظيفياً عبر دالة inject() في سياق الحقن\nprivate cinemaService = inject(CinemaService);",
+        "expected": "private cinemaService = inject(CinemaService);",
+        "task": "أضف السطر private cinemaService = inject(CinemaService); داخل صنف App في ملف src/app/app.ts ثم اضغط (شغّل وافحص).",
+        "benefit": "طبقت الحقن الوظيفي الحديث بيدك وتخلصت من التكرار والمنشئات المعقدة في مكونات سينما خطوة.",
+        "objective": "أضف السطر private cinemaService = inject(CinemaService); داخل صنف App في ملف src/app/app.ts ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف السطر private cinemaService = inject(CinemaService); داخل صنف App في ملف src/app/app.ts ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب استدعاء إحدى دوال الخدمة المحقونة مثل this.cinemaService.getMovies() داخل إحدى دوال المكون، وتأكد من أن مترجم TypeScript يتعرف تلقائياً وبدقة بالغة على كافة دوال وخصائص CinemaService دون الحاجة لتحديد نوع إضافي.",
+        "task": "جرّب استدعاء دالة من CinemaService ولاحظ التلميحات الذكية والدعم النوعي التلقائي.",
+        "benefit": "تحققت من اكتمال ربط الخدمة بالمكون وقدرتك على استهلاك خصائصها فورياً.",
+        "objective": "جرّب استدعاء دالة من CinemaService ولاحظ التلميحات الذكية والدعم النوعي التلقائي.",
+        "instruction": "جرّب استدعاء دالة من CinemaService ولاحظ التلميحات الذكية والدعم النوعي التلقائي.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الميزة الهندسية لاستخدام دالة inject() بدلاً من حقن المنشئ التقليدي؟",
+        "options": [
+          "كود أكثر إيجازاً ونظافة وسهولة حقن التبعيات داخل الدوال والحراس الوظيفيين دون الحاجة لتمرير super() في الوراثة",
+          "تشغيل التطبيق دون اتصال بالإنترنت وحذف كافة ملفات الخدمات من المشروع",
+          "زيادة سرعة شاشة المتصفح وتقليل استهلاك طاقة الشاشة تلقائياً"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة! دالة inject() تقضي على حشو المنشئات وتتيح استخدام DI داخل الدوال المساعدة والحراس الوظيفيين بسلاسة تامة.",
+        "task": "ما الميزة الهندسية لاستخدام دالة inject() بدلاً من حقن المنشئ التقليدي؟",
+        "objective": "ما الميزة الهندسية لاستخدام دالة inject() بدلاً من حقن المنشئ التقليدي؟",
+        "instruction": "ما الميزة الهندسية لاستخدام دالة inject() بدلاً من حقن المنشئ التقليدي؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private cinemaService = inject(CinemaService);"
+        ]
+      }
+    ],
+    "legacyId": "ng-di-01",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 38,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/di",
+    "breakdown": [
+      "المرحلة 1: طلب التبعية في سياق الحقن",
+      "المرحلة 2: استدعاء inject(CinemaService)",
+      "المرحلة 3: حل الرمز وتوفير نسخة الخدمة فوراً",
+      "المرحلة 4: كود أنيق بدون منشئ ولا super()"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "private cinemaService = inject(CinemaService);",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-service-01",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "إدارة الحالة المشتركة (Signals State Management) بالخدمات",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "بناء معمارية قوية لإدارة الحالة المشتركة للتطبيق عبر خدمات Angular ومحرك الإشارات الحديث؛ تطبيق مبدأ الكبسلة الصارم (State Encapsulation) بحماية الإشارة الداخلية التفاعلية وجعلها خاصة private _selectedMovie، وكشف إشارة قراءة فقط عامة عبر .asReadonly() لمنع تعديل الحالة من خارج الخدمة.",
+    "concept": "في تطبيقات الويب المعقدة ومشاريع الشركات المؤسسية، يُعد نمط إدارة الحالة المشتركة (Shared State Management) أحد أهم المحاور المعمارية التي تحدد استقرار التطبيق وجودته وسهولة صيانته. قبل ظهور الإشارات (Signals)، كان المطورون يضطرون للاعتماد على مكتبات خارجية ضخمة مثل NgRx، أو بناء حلول مخصصة باستخدام BehaviorSubject من مكتبة RxJS لإشعار المكونات بتغير البيانات. ومع تقديم محرك Signals في إصدارات Angular الحديثة، أصبح بالإمكان بناء مخزن حالة تفاعلي فائق الخفة والسرعة مدمج في قلب خدمات Angular دون الحاجة لأي مكتبات إضافية.\nإلا أن استخدام الإشارات داخل الخدمات المشتركة ينطوي على خطر معماري جسيم إذا لم يُطبَّق نمط الكبسلة (Encapsulation) بصرامة؛ فإذا قمت بتصدير إشارة قابلة للكتابة WritableSignal مباشرة كخاصية عامة للخدمة، فإن أي مكون في التطبيق سيتمكن من استدعاء .set() أو .update() وتعديل بيانات الحالة المشتركة من أي زاوية في الواجهة. هذا النهج الفوضوي يؤدي إلى فقدان السيطرة على تدفق البيانات، وصعوبة تتبع مسببات التغيير، وظهور أخطاء تصعب معالجتها في بيئات الإنتاج.\nلحل هذه المعضلة الهندسية، تقدم Angular دالة التحويل .asReadonly(). النمط الاحترافي الموصى به رسمياً هو:\n1. تعريف الحالة الداخلية كإشارة خاصة مسبوقة بشرطة سفلية: private _selectedMovie = signal<string>('رحلة النجوم');\n2. كشف الحالة للعالم الخارجي كإشارة قراءة فقط: readonly selectedMovie = this._selectedMovie.asReadonly();\n3. توفير دوال عامة محددة بدقة (مثل selectMovie(title: string)) لتعديل الحالة.\nبهذا النمط، يضمن مهندس البرمجيات تدفق بيانات أحادي الاتجاه (Unidirectional Data Flow)؛ حيث تستطيع المكونات قراءة الإشارة والتفاعل معها بحرية، ولكنها مجبرة على التفاعل مع دوال الخدمة الرسمية لإجراء أي تعديل، مما يسهل كتابة اختبارات الوحدة وتسجيل العمليات ومنع التعديلات العشوائية تماماً.",
+    "flow": "إشارة داخلية _selectedMovie ⟶ كشفها بـ asReadonly ⟶ تعديل بدوال نقية",
+    "task": "أنشئ خدمة CinemaService مع إشارة محمية مكشوفة كـ asReadonly().",
+    "file": "src/app/services/cinema.service.ts",
+    "code": "import { Injectable, signal } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class CinemaService {\n  private _selectedMovie = signal<string>('رحلة النجوم');\n  readonly selectedMovie = this._selectedMovie.asReadonly();\n  selectMovie(title: string) { this._selectedMovie.set(title); }\n}",
+    "expected": "readonly selectedMovie = this._selectedMovie.asReadonly();",
+    "reference": "https://angular.dev/guide/signals",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: حماية كبسولة الحالة المشتركة بـ asReadonly",
+        "explanation": "في تطبيقات الإنتاج، تمثل الخدمة المصدر الوحيد للحقيقة (Single Source of Truth). إذا سُمح للمكونات بتعديل الإشارات مباشرة، ستفقد السيطرة على مسار البيانات. كشف الإشارة عبر asReadonly() يمنع أي استدعاء لـ set أو update خارج الخدمة ويضمن بقاء منطق الأعمال محصوراً داخل الخدمة.",
+        "flow": "إشارة داخلية قابلة للكتابة ⟶ تحويل بـ asReadonly() ⟶ إشارة قراءة عامة ⟶ حماية الحالة من التعديل العشوائي",
+        "task": "تأمل أهمية فصل صلاحيات القراءة عن الكتابة في معمارية الخدمات المشتركة لتطبيق سينما خطوة.",
+        "benefit": "استوعبت ضرورة كبسلة الحالة وتطبيق تدفق البيانات أحادي الاتجاه لحماية استقرار التطبيق.",
+        "objective": "تأمل أهمية فصل صلاحيات القراءة عن الكتابة في معمارية الخدمات المشتركة لتطبيق سينما خطوة.",
+        "instruction": "تأمل أهمية فصل صلاحيات القراءة عن الكتابة في معمارية الخدمات المشتركة لتطبيق سينما خطوة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly selectedMovie = this._selectedMovie.asReadonly();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly selectedMovie = this._selectedMovie.asReadonly();"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح صياغة _signal الخاصة وخاصية asReadonly العامة",
+        "explanation": "نعرّف الخاصية الخاصة بـ private _selectedMovie = signal<string>('رحلة النجوم'). ثم نعرّف الخاصية العامة بـ readonly selectedMovie = this._selectedMovie.asReadonly(). نوع الإشارة المكشوفة يتحول تلقائياً من WritableSignal<string> إلى Signal<string> وهو نوع للقراءة فقط لا يحتوي على دالتي set أو update.",
+        "flow": "private _selectedMovie = signal(...) ⟶ readonly selectedMovie = this._selectedMovie.asReadonly() ⟶ نوع Signal غير قابل للتعديل المباشر",
+        "task": "لاحظ استخدام الشرطة السفلية _ للإشارة الخاصة واستخدام كلمة readonly مع الإشارة المكشوفة.",
+        "benefit": "أتقنت النمط القياسي المعتمد في Angular لتصميم مخازن الحالة المبنية على Signals.",
+        "objective": "لاحظ استخدام الشرطة السفلية _ للإشارة الخاصة واستخدام كلمة readonly مع الإشارة المكشوفة.",
+        "instruction": "لاحظ استخدام الشرطة السفلية _ للإشارة الخاصة واستخدام كلمة readonly مع الإشارة المكشوفة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly selectedMovie = this._selectedMovie.asReadonly();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly selectedMovie = this._selectedMovie.asReadonly();"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بتعريف الإشارة المحمية وكشفها كـ asReadonly() مع دالة selectMovie داخل صنف CinemaService في ملف src/app/services/cinema.service.ts.",
+        "file": "src/app/services/cinema.service.ts",
+        "code": "import { Injectable, signal } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class CinemaService {\n  private _selectedMovie = signal<string>('رحلة النجوم');\n  readonly selectedMovie = this._selectedMovie.asReadonly();\n  selectMovie(title: string) { this._selectedMovie.set(title); }\n}",
+        "expected": "readonly selectedMovie = this._selectedMovie.asReadonly();",
+        "task": "أضف الإشارة المحمية وخاصية selectedMovie = this._selectedMovie.asReadonly(); في كلاس CinemaService ثم اضغط (شغّل وافحص).",
+        "benefit": "بنيت مخزن حالة آمن ومكفول هندسياً يمنع التعديلات العشوائية من المكونات الخارجية.",
+        "objective": "أضف الإشارة المحمية وخاصية selectedMovie = this._selectedMovie.asReadonly(); في كلاس CinemaService ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف الإشارة المحمية وخاصية selectedMovie = this._selectedMovie.asReadonly(); في كلاس CinemaService ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly selectedMovie = this._selectedMovie.asReadonly();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly selectedMovie = this._selectedMovie.asReadonly();"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب استدعاء دالة selectMovie('واحة الأمل') من المكون، ثم حاول عمداً كتابة this.cinemaService.selectedMovie.set('فيلم آخر') لتلاحظ كيف يمنعك مترجم TypeScript فوراً من الترجمة معلناً أن الدالة set غير موجودة على نوع Signal للقراءة فقط.",
+        "task": "تأمل رسالة خطأ TypeScript عند محاولة تعديل إشارة للقراءة فقط لتتأكد من الحماية النوعية الصارمة.",
+        "benefit": "اختبرت قوة الحماية النوعية التي يوفرها .asReadonly() ضد الأخطاء البرمجية أثناء التطوير.",
+        "objective": "تأمل رسالة خطأ TypeScript عند محاولة تعديل إشارة للقراءة فقط لتتأكد من الحماية النوعية الصارمة.",
+        "instruction": "تأمل رسالة خطأ TypeScript عند محاولة تعديل إشارة للقراءة فقط لتتأكد من الحماية النوعية الصارمة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly selectedMovie = this._selectedMovie.asReadonly();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly selectedMovie = this._selectedMovie.asReadonly();"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "لماذا نستخدم .asReadonly() عند تصدير الإشارات من الخدمات المشتركة؟",
+        "options": [
+          "لحماية بيانات الحالة من التعديل العشوائي من المكونات وإلزام التعديل عبر دوال الخدمة الرسمية",
+          "لتشفير البيانات المخزنة في الذاكرة لمنع سرقتها أثناء عمل المتصفح",
+          "لتقليل استهلاك بطارية الجهاز وتخفيض حرارة المعالج عند الحجز"
+        ],
+        "correct": 0,
+        "benefit": "إجابة ممتازة! دالة .asReadonly() تضمن تطبيق مبدأ الكبسولة وتمنع أي مكون خارجي من استدعاء set أو update مباشرة.",
+        "task": "لماذا نستخدم .asReadonly() عند تصدير الإشارات من الخدمات المشتركة؟",
+        "objective": "لماذا نستخدم .asReadonly() عند تصدير الإشارات من الخدمات المشتركة؟",
+        "instruction": "لماذا نستخدم .asReadonly() عند تصدير الإشارات من الخدمات المشتركة؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: readonly selectedMovie = this._selectedMovie.asReadonly();.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: readonly selectedMovie = this._selectedMovie.asReadonly();"
+        ]
+      }
+    ],
+    "legacyId": "ng-service-01",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 39,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/signals",
+    "breakdown": [
+      "المرحلة 1: إشارة داخلية _selectedMovie",
+      "المرحلة 2: كشفها بـ asReadonly",
+      "المرحلة 3: تعديل بدوال نقية"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "readonly selectedMovie = this._selectedMovie.asReadonly();",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-http-01",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "تفعيل عميل الويب الحديث: provideHttpClient(withFetch())",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "إعداد وتكوين عميل الويب الحديث (Angular HttpClient) داخل مصفوفة مزودات التطبيق ApplicationConfig.providers في ملف app.config.ts؛ استخدام دالة التكوين provideHttpClient() مقترنة بميزة withFetch() للاعتماد على واجهة المتصفح الأصلية Fetch API بدلاً من XMLHttpRequest، وتحسين الأداء والتوافق الكامل مع العرض من جانب الخادم SSR.",
+    "concept": "يُمثل الاتصال بخوادم الويب واستدعاء واجهات برمجة التطبيقات (RESTful APIs) العصب الرئيسي لأي تطبيق ويب تفاعلي حديث. لسنوات طويلة، كانت مكتبة HttpClient في Angular تعتمد داخلياً على واجهة المتصفح التقليدية XMLHttpRequest (XHR). ورغم نجاح XHR في أداء مهمتها لعقد من الزمن، إلا أنها كانت تعاني من قيود معمارية ملحوظة؛ أهمها ثقل حجم الكود الناتج، وصعوبة التكامل مع بيئات تشغيل الخادم الحديثة (مثل Node.js و Edge Workers) أثناء تطبيق تقنيات العرض من جانب الخادم (Server-Side Rendering - SSR)، بالإضافة إلى اعتمادها على معالجات أحداث قديمة تتطلب تدخل مكتبة Zone.js لمراقبتها.\nمع انتقال Angular إلى المعمارية المستقلة (Standalone Architecture)، تم التخلي تماماً عن استيراد HttpClientModule القديم، واستبداله بدالة التوفير المستقلة provideHttpClient() داخل ملف إعداد التطبيق app.config.ts. الميزة الأقوى والأكثر تطوراً التي أضافها فريق Angular هي ميزة withFetch()، والتي تُمرر كمعامل لدالة التوفير: provideHttpClient(withFetch()).\nيُحدث استخدام withFetch() قفزة نوعية في كفاءة تطبيقات الويب المؤسسية؛ حيث يوجه Angular لاستخدام واجهة fetch() الأصلية القياسية المدمجة في كافة المتصفحات وبيئات تشغيل الخادم الحديثة. يوفر هذا الأسلوب دعماً أصيلاً للتدفقات البيانية (Streaming)، وتخفيضاً ملموساً لحجم الحزمة النهائية بفضل التخلص من الشفرات الميتة (Tree-shaking)، واستقراراً فائقاً وتوافقاً تاماً مع نظام الترطيب الذكي (Hydration) لـ Angular الحديثة. إن تهيئة provideHttpClient(withFetch()) هي المعيار الذهبي المعتمد لانطلاق أي تطبيق Angular إنتاجي متقدم.",
+    "flow": "فتح appConfig ⟶ إضافة provideHttpClient(withFetch()) ⟶ جهوزية الشبكة فائقة الأداء",
+    "task": "وفّر provideHttpClient(withFetch()) في مصفوفة مزودات appConfig.",
+    "file": "src/app/app.config.ts",
+    "code": "import { ApplicationConfig } from '@angular/core';\nimport { provideHttpClient, withFetch } from '@angular/common/http';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideHttpClient(withFetch())\n  ]\n};",
+    "expected": "provideHttpClient(withFetch())",
+    "reference": "https://angular.dev/guide/http",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: الانتقال إلى Fetch API الأصلية عبر withFetch()",
+        "explanation": "في الإصدارات السابقة، كان عميل الويب يعتمد على XMLHttpRequest القديمة. مع provideHttpClient(withFetch())، يستفيد التطبيق من واجهة fetch() الحديثة للمتصفح، مما يحسن سرعة استرجاع البيانات ويوفر توافقاً مثالياً مع تقنيات العرض من جانب الخادم SSR والترطيب المستقر دون أخطاء.",
+        "flow": "تهيئة التطبيق appConfig ⟶ تفعيل provideHttpClient(withFetch()) ⟶ استبدال XHR بـ Fetch API الأصلية ⟶ خفة الحزمة وسرعة قياسية",
+        "task": "تأمل فوائد استخدام Fetch API الأصلية مقارنة بمكتبات الاتصال التقليدية القديمة.",
+        "benefit": "فهمت الأهمية المعمارية لتفعيل withFetch() وتأثيرها الإيجابي على أداء التطبيق وتوافقه مع SSR.",
+        "objective": "تأمل فوائد استخدام Fetch API الأصلية مقارنة بمكتبات الاتصال التقليدية القديمة.",
+        "instruction": "تأمل فوائد استخدام Fetch API الأصلية مقارنة بمكتبات الاتصال التقليدية القديمة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.config.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: provideHttpClient(withFetch()).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: provideHttpClient(withFetch())"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح ملف app.config.ts ومصفوفة المزودات providers",
+        "explanation": "في تطبيقات Standalone، يُعتبر ملف app.config.ts المركز الرئيسي لضبط وتكوين الخدمات العامة. تُستورد دالتا provideHttpClient و withFetch من حزمة '@angular/common/http'. تُستدعى withFetch() داخل provideHttpClient() وتُسجل مباشرة كعنصر داخل مصفوفة providers.",
+        "flow": "import { provideHttpClient, withFetch } from '@angular/common/http' ⟶ providers: [provideHttpClient(withFetch())] ⟶ إتاحة HttpClient لكافة الخدمات",
+        "task": "دقق في صيغة استدعاء withFetch() كدالة تكوين داخل provideHttpClient().",
+        "benefit": "أتقنت هيكل تهيئة مزودات الشبكة وفق المعايير الحديثة للـ Standalone Architecture.",
+        "objective": "دقق في صيغة استدعاء withFetch() كدالة تكوين داخل provideHttpClient().",
+        "instruction": "دقق في صيغة استدعاء withFetch() كدالة تكوين داخل provideHttpClient().",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.config.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: provideHttpClient(withFetch()).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: provideHttpClient(withFetch())"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بتهيئة عميل الويب الحديث مع تفعيل Fetch API داخل ملف src/app/app.config.ts بإضافة provideHttpClient(withFetch()) إلى مصفوفة providers.",
+        "file": "src/app/app.config.ts",
+        "code": "import { ApplicationConfig } from '@angular/core';\nimport { provideHttpClient, withFetch } from '@angular/common/http';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideHttpClient(withFetch())\n  ]\n};",
+        "expected": "provideHttpClient(withFetch())",
+        "task": "وفّر provideHttpClient(withFetch()) في مصفوفة مزودات appConfig ثم اضغط (شغّل وافحص).",
+        "benefit": "قمت بتهيئة عميل الويب الحديث بنجاح وجعلت تطبيق سينما خطوة جاهزاً للاتصال بالخوادم بأعلى كفاءة.",
+        "objective": "وفّر provideHttpClient(withFetch()) في مصفوفة مزودات appConfig ثم اضغط (شغّل وافحص).",
+        "instruction": "وفّر provideHttpClient(withFetch()) في مصفوفة مزودات appConfig ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.config.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: provideHttpClient(withFetch()).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: provideHttpClient(withFetch())"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب استكشاف الميزات الإضافية التي يمكن دمجها مع provideHttpClient مثل withInterceptors() لمعالجة الترويسات والرموز الأمنية، وتأمل كيف تسمح المعمارية الوظيفية بدمج خيارات متعددة بسلاسة تامة داخل مصفوفة الإعداد.",
+        "task": "لاحظ إمكانية دمج عدة دوال تكوين مثل withFetch() و withInterceptors() جنباً إلى جنب داخل provideHttpClient.",
+        "benefit": "أدركت مرونة وقابلية التوسع العالية لنظام تكوين عميل الويب في Angular الحديثة.",
+        "objective": "لاحظ إمكانية دمج عدة دوال تكوين مثل withFetch() و withInterceptors() جنباً إلى جنب داخل provideHttpClient.",
+        "instruction": "لاحظ إمكانية دمج عدة دوال تكوين مثل withFetch() و withInterceptors() جنباً إلى جنب داخل provideHttpClient.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.config.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: provideHttpClient(withFetch()).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: provideHttpClient(withFetch())"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هي الفائدة من تفعيل ميزة withFetch() عند توفير عميل الويب؟",
+        "options": [
+          "استخدام Fetch API الأصلية للمتصفح مما يحسن الأداء والتوافق مع الـ SSR والترطيب وتقليل حجم الكود",
+          "حظر جميع الإعلانات المنبثقة في الصفحة تلقائياً دون إذن المستخدم",
+          "منع إرسال طلبات POST وحصر الاتصال على استعراض البيانات فقط"
+        ],
+        "correct": 0,
+        "benefit": "إجابة صحيحة! تفعيل withFetch() يعتمد على واجهة Fetch الأصلية للمتصفح مما يحسن الأداء والتوافق مع الـ SSR وخفة الحزم.",
+        "task": "ما هي الفائدة من تفعيل ميزة withFetch() عند توفير عميل الويب؟",
+        "objective": "ما هي الفائدة من تفعيل ميزة withFetch() عند توفير عميل الويب؟",
+        "instruction": "ما هي الفائدة من تفعيل ميزة withFetch() عند توفير عميل الويب؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.config.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: provideHttpClient(withFetch()).",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: provideHttpClient(withFetch())"
+        ]
+      }
+    ],
+    "legacyId": "ng-http-01",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 40,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/http",
+    "breakdown": [
+      "المرحلة 1: فتح appConfig",
+      "المرحلة 2: إضافة provideHttpClient(withFetch())",
+      "المرحلة 3: جهوزية الشبكة فائقة الأداء"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "provideHttpClient(withFetch())",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "ng-http-02",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "طلب البيانات بنوع صارم: http.get<Movie[]>()",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "إتقان استدعاء واجهات الـ REST API وجلب مجموعات البيانات عبر دالة http.get<T>()؛ استخدام الأنواع العامة في TypeScript (Generics) لفرض التحديد النوعي الصارم <Movie[]> على الردود القادمة من الخادم، وفهم طبيعة تدفقات RxJS Observable المعادة وكيفية التعامل معها في بيئة Angular الحديثة.",
+    "concept": "عند استرجاع البيانات من خوادم الويب البعيدة عبر الشبكة، تكون الاستجابات الأصلية بصيغة نصوص JSON مجردة لا تحمل أي معلومات نوعية بطبيعتها. في تطبيقات JavaScript التقليدية، كان المطور يتعامل مع هذه البيانات كنوع عام مجهول (any)، مما يجعل التطبيق عرضة لأخطاء قاتلة وغير متوقعة أثناء وقت التشغيل (Runtime Errors)؛ مثل محاولة قراءة خاصية غير موجودة أو وقوع خطأ إملائي بسيط في اسم حقل (مثل كتابة movie.titel بدلاً من movie.title).\nيحل عميل الويب في Angular هذه المشكلة المعمارية بشكل جذري من خلال الدمج العميق مع نظام الأنواع العامة في TypeScript (Generics). عندما تستدعي الدالة وتمرر لها نوع نموذج البيانات: this.http.get<Movie[]>('/api/movies')، فإنك تبرم عقداً نوعياً صارماً مع المترجم. يُعلم هذا العقد محرك TypeScript بأن استجابة هذا الطلب ستكون مصفوفة من كائنات Movie، مما يُنتج تدفقاً ارتكاسياً من نوع Observable<Movie[]>.\nيترتب على هذا التحديد النوعي الصارم ثلاث مزايا جوهرية:\n1. الإكمال التلقائي الذكي (IntelliSense) في محررات الأكواد لكافة حقول الفيلم (العنوان، التقييم، التصنيف، السعر).\n2. الفحص الثابت للأخطاء (Compile-time Type Safety)؛ حيث يرفض المترجم فوراً أي محاولة لاستخدام حقول غير معرّفة في واجهة Movie.\n3. إعادة هيكلة الكود بأمان واطمئنان (Safe Refactoring)؛ فإذا قمت بتغيير اسم أي خاصية في واجهة البيانات لاحقاً، سيرشدك المترجم مباشرة إلى كافة الأماكن المتأثرة في التطبيق.\nعلاوة على ذلك، تُرجع دالة http.get تدفقاً ارتكاسياً بارداً (Cold Observable)؛ أي أن طلب الشبكة الفعلي لن يغادر المتصفح إلا عند وجود اشتراك (Subscription) حقيقي، مما يضمن كفاءة استهلاك موارد الشبكة وعدم إرسال أي طلبات غير مستخدمة.",
+    "flow": "طلب GET عبر HTTP ⟶ استلام رد JSON ⟶ تحويله لكائنات Movie[] مضمونة الخصائص",
+    "task": "اكتب دالة fetchMovies لجلب مصفوفة الأفلام بنوع صارم http.get<Movie[]>. ",
+    "file": "src/app/services/cinema.service.ts",
+    "code": "fetchMovies(): Observable<Movie[]> {\n  return this.http.get<Movie[]>('/api/movies');\n}",
+    "expected": "return this.http.get<Movie[]>('/api/movies');",
+    "reference": "https://angular.dev/guide/http/making-requests",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية: الأمان النوعي للشبكة عبر TypeScript Generics",
+        "explanation": "بدلاً من التعامل مع بيانات الشبكة كنوع مجهول any، نمرر نوع الواجهة <Movie[]> لدالة http.get. يضمن هذا النمط مطابقة البيانات المستلمة لعقد واجهة الفيلم، ويتيح للمحرر كشف أي أخطاء نوعية أو إملائية أثناء كتابة الكود وقبل تشغيل التطبيق.",
+        "flow": "طلب الشبكة http.get ⟶ تغليفه بنوع عام <Movie[]> ⟶ تدفق Observable محكم الأنواع ⟶ حماية واجهة الحجز من الأخطاء",
+        "task": "تأمل كيف تمنع الأنواع العامة الأخطاء البرمجية الناتجة عن محاولة قراءة خصائص غير موجودة في الرد.",
+        "benefit": "استوعبت كيف يحول TypeScript Generics بيانات الشبكة الخام إلى كائنات موثوقة ومفحوصة نوعياً.",
+        "objective": "تأمل كيف تمنع الأنواع العامة الأخطاء البرمجية الناتجة عن محاولة قراءة خصائص غير موجودة في الرد.",
+        "instruction": "تأمل كيف تمنع الأنواع العامة الأخطاء البرمجية الناتجة عن محاولة قراءة خصائص غير موجودة في الرد.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.get<Movie[]>('/api/movies');.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.get<Movie[]>('/api/movies');"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح دالة http.get وتمرير النوع العام <T> والمسار",
+        "explanation": "تتكون الدالة من: this.http (عميل HttpClient المحقون)، يليه .get<Movie[]> لتحديد نوع الاستجابة المتوقعة، ثم تمرير رابط الـ API كنص: '/api/movies'. القيمة المعادة تكون من نوع Observable<Movie[]> من مكتبة RxJS محكومة بنوع مصفوفة الأفلام.",
+        "flow": "this.http ⟶ .get<Movie[]> ⟶ مسار '/api/movies' ⟶ تدفق Observable<Movie[]>",
+        "task": "دقق في موقع أقواس النوع العام <Movie[]> بين كلمة get وأقواس المعاملات ().",
+        "benefit": "أتقنت الصياغة القياسية لطلبات GET المكتوبة بدقة بالغة في خدمات Angular الحديثة.",
+        "objective": "دقق في موقع أقواس النوع العام <Movie[]> بين كلمة get وأقواس المعاملات ().",
+        "instruction": "دقق في موقع أقواس النوع العام <Movie[]> بين كلمة get وأقواس المعاملات ().",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.get<Movie[]>('/api/movies');.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.get<Movie[]>('/api/movies');"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم الآن بكتابة دالة fetchMovies داخل صنف CinemaService في ملف src/app/services/cinema.service.ts لجلب مصفوفة الأفلام بنوع صارم Movie[].",
+        "file": "src/app/services/cinema.service.ts",
+        "code": "fetchMovies(): Observable<Movie[]> {\n  return this.http.get<Movie[]>('/api/movies');\n}",
+        "expected": "return this.http.get<Movie[]>('/api/movies');",
+        "task": "اكتب دالة fetchMovies لجلب مصفوفة الأفلام بنوع صارم http.get<Movie[]> ثم اضغط (شغّل وافحص).",
+        "benefit": "بنيت أول دالة اتصال شبكي مكتوبة بنوع صارم وموثوق في خدمة السينما.",
+        "objective": "اكتب دالة fetchMovies لجلب مصفوفة الأفلام بنوع صارم http.get<Movie[]> ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب دالة fetchMovies لجلب مصفوفة الأفلام بنوع صارم http.get<Movie[]> ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.get<Movie[]>('/api/movies');.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.get<Movie[]>('/api/movies');"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "جرّب تغيير الرابط إلى مسار فيلم مفرد مثل '/api/movies/1' وتعديل نوع الإرجاع إلى Observable<Movie> (فيلم واحد بدلاً من مصفوفة)، ولاحظ كيف يتكيف محرك TypeScript فورياً مع تغيير نوع البيانات المسترجعة.",
+        "task": "جرّب تغيير النوع إلى Movie مفرد وتأمل دقة التوافق النوعي مع مسارات الـ API المختلفة.",
+        "benefit": "فهمت كيفية توظيف Generics مع مختلف أشكال استجابات واجهات برمجة التطبيقات.",
+        "objective": "جرّب تغيير النوع إلى Movie مفرد وتأمل دقة التوافق النوعي مع مسارات الـ API المختلفة.",
+        "instruction": "جرّب تغيير النوع إلى Movie مفرد وتأمل دقة التوافق النوعي مع مسارات الـ API المختلفة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.get<Movie[]>('/api/movies');.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.get<Movie[]>('/api/movies');"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ماذا نستفيد من تمرير النوع العام <Movie[]> لدالة http.get؟",
+        "options": [
+          "تمكين المترجم والمحرر من معرفة خصائص الأفلام وتفعيل الإكمال التلقائي ومنع الأخطاء البرمجية قبل التشغيل",
+          "إجبار الخادم على إرسال الأفلام بسرعة مضاعفة وتقليل استهلاك الإنترنت",
+          "تشغيل مقاطع الفيديو الترويجية للأفلام مباشرة في نافذة منبثقة"
+        ],
+        "correct": 0,
+        "benefit": "إجابة نموذجية! تمرير النوع العام <Movie[]> يوفر الأمان النوعي الكامل (Compile-time Type Safety) والإكمال التلقائي لخصائص الكائن.",
+        "task": "ماذا نستفيد من تمرير النوع العام <Movie[]> لدالة http.get؟",
+        "objective": "ماذا نستفيد من تمرير النوع العام <Movie[]> لدالة http.get؟",
+        "instruction": "ماذا نستفيد من تمرير النوع العام <Movie[]> لدالة http.get؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.get<Movie[]>('/api/movies');.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.get<Movie[]>('/api/movies');"
+        ]
+      }
+    ],
+    "legacyId": "ng-http-02",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 41,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/http/making-requests",
+    "breakdown": [
+      "المرحلة 1: طلب GET عبر HTTP",
+      "المرحلة 2: استلام رد JSON",
+      "المرحلة 3: تحويله لكائنات Movie[] مضمونة الخصائص"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "return this.http.get<Movie[]>('/api/movies');",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "ng-http-03",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "إرسال وتعديل البيانات: http.post<BookingResponse>()",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "إرسال حمولات الحجز المعقدة إلى خادم الويب الخلفي REST API بنوع صارم ومحكم باستخدام دالة http.post مع تأمين العقود البرمجية للردود وتحديث الواجهة تلقائياً.",
+    "concept": "في هندسة تطبيقات الويب الحديثة والمؤسسية، لا يقتصر دور العميل (Frontend) على استعراض البيانات الساكنة فقط، بل يُعد إرسال وتعديل البيانات (State Mutations) الركيزة الجوهرية لأي نظام تفاعلي مثل منصات حجز السينما. عندما يقوم المستخدم بتحديد مقاعده وتأكيد عملية الحجز، يجب نقل هذه الحالة الحساسة عبر الشبكة إلى خادم الـ REST API باستخدام بروتوكول HTTP الآمن وعبر طلب من نوع POST. على خلاف طلبات GET التي تسترجع الموارد دون تغيير حالة الخادم وتخضع لسياسات التخزين المؤقت، يتميز طلب POST بأنه يحمل حمولة بيانات مهيكلة (Request Body Payload) بصيغة JSON تُحدث تغييراً دائماً في قواعد البيانات مثل حجز المقاعد وإنشاء سجل الفاتورة. تقدم خدمة HttpClient في Angular الدالة العامة http.post<ResponseType>(url, body, options) التي تتيح كتابة كود آمن تماماً وقت التصريف؛ حيث يحدد المعامل العام <{ bookingId: string }> النوع الصارم للبيانات العائدة من الخادم، مما يمنع الأخطاء الشائعة مثل محاولة الوصول إلى حقول مفقودة أو غير متوافقة في الواجهة. علاوة على ذلك، تُرجع الدالة تدفقاً ارتكاسياً بارداً (Cold Observable) لا يبدأ استهلاكه أو إرسال طلب الشبكة الفعلي إلا عند وجود اشتراك (Subscription)، مما يمنح المطورين تحكماً كاملاً في خط أنابيب المعالجة وإدارة حدود الأخطاء (Error Boundaries) وتطبيق سياسات إعادة المحاولة عند انقطاع الشبكة.",
+    "flow": "تجهيز حمولة الحجز ⟶ إرسال POST ⟶ استلام معرف التذكرة وتحديث الواجهة",
+    "task": "اكتب دالة confirmBooking لإرسال حمولة الحجز عبر http.post.",
+    "file": "src/app/services/cinema.service.ts",
+    "code": "confirmBooking(payload: { movieId: number; seats: string[] }): Observable<{ bookingId: string }> {\n  return this.http.post<{ bookingId: string }>('/api/bookings', payload);\n}",
+    "expected": "return this.http.post<{ bookingId: string }>('/api/bookings', payload);",
+    "reference": "https://angular.dev/guide/http/making-requests",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية لإرسال البيانات بالنوع الصارم عبر http.post",
+        "explanation": "في تطبيق سينما خطوة، بعد أن يختار العميل فيلمه والمقاعد المناسبة له، لا يمكن الاكتفاء بحفظ البيانات في الذاكرة المحلية فقط، بل يتعين إرسال طلب POST رسمي إلى الخادم لحجز المقاعد نهائياً ومنع حجزها من عميل آخر في نفس اللحظة. يرسل كائن HttpClient البيانات بصيغة JSON مهيكلة إلى مسار '/api/bookings'، ويعود الخادم بمعرف الحجز الفريد bookingId. تحديد النوع العام <{ bookingId: string }> يضمن للواجهة معرفة شكل الاستجابة مسبقاً دون أي تخمين.",
+        "flow": "المستخدم يؤكد المقاعد ⟶ تجهيز حمولة JSON ⟶ إرسال طلب http.post ⟶ استلام معرف الحجز من الخادم",
+        "task": "تأمل أهمية طلبات POST لنقل التغييرات الجوهرية في حالة التطبيق إلى الخادم الخلفي بأمان تام.",
+        "benefit": "استوعبت دور طلبات POST في تعديل البيانات المركزية وأهمية تحديد أنواع الاستجابة بدقة.",
+        "objective": "تأمل أهمية طلبات POST لنقل التغييرات الجوهرية في حالة التطبيق إلى الخادم الخلفي بأمان تام.",
+        "instruction": "تأمل أهمية طلبات POST لنقل التغييرات الجوهرية في حالة التطبيق إلى الخادم الخلفي بأمان تام.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.post<{ bookingId: string }>('/api/bookings', payload);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.post<{ bookingId: string }>('/api/bookings', payload);"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح البنية النحوية لمعاملات دالة http.post",
+        "explanation": "تتكون الدالة من ثلاثة عناصر رئيسية: أولاً النوع العام <{ bookingId: string }> لتحديد شكل كائن الاستجابة، ثانياً المسار المستهدف '/api/bookings'، وثالثاً جسم الطلب (Payload) الذي يحتوي على movieId والمقاعد المختارة seats. يتم تحويل الكائن تلقائياً إلى نص JSON مهيكل مع ترويسة Content-Type: application/json دون أي تدخل يدوي من المطور، ويُرجع التعبير تدفق Observable جاهز للمراقبة.",
+        "flow": "this.http.post<ResponseType> ⟶ الرابط المسار '/api/bookings' ⟶ حمولة البيانات payload ⟶ Observable<{ bookingId: string }>",
+        "task": "حلل عناصر الاستدعاء: النوع الصارم بين القوسين المثلثين، الرابط كنص، والحمولة كمعامل ثانٍ.",
+        "benefit": "أتقنت الصياغة القياسية لإرسال طلبات POST مع التعيين الصارم للأنواع في بيئة TypeScript.",
+        "objective": "حلل عناصر الاستدعاء: النوع الصارم بين القوسين المثلثين، الرابط كنص، والحمولة كمعامل ثانٍ.",
+        "instruction": "حلل عناصر الاستدعاء: النوع الصارم بين القوسين المثلثين، الرابط كنص، والحمولة كمعامل ثانٍ.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.post<{ bookingId: string }>('/api/bookings', payload);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.post<{ bookingId: string }>('/api/bookings', payload);"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بإضافة دالة confirmBooking داخل ملف src/app/services/cinema.service.ts لإرسال حمولة حجز المقاعد واستلام معرف التذكرة عبر http.post.",
+        "file": "src/app/services/cinema.service.ts",
+        "code": "confirmBooking(payload: { movieId: number; seats: string[] }): Observable<{ bookingId: string }> {\n  return this.http.post<{ bookingId: string }>('/api/bookings', payload);\n}",
+        "expected": "return this.http.post<{ bookingId: string }>('/api/bookings', payload);",
+        "task": "اكتب دالة confirmBooking لإرسال حمولة الحجز عبر http.post ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت عملياً دالة اتصال بالشبكة لإجراء عمليات حجز حقيقية وموثوقة بنوع صارم.",
+        "objective": "اكتب دالة confirmBooking لإرسال حمولة الحجز عبر http.post ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب دالة confirmBooking لإرسال حمولة الحجز عبر http.post ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.post<{ bookingId: string }>('/api/bookings', payload);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.post<{ bookingId: string }>('/api/bookings', payload);"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "افتح ملف src/app/services/cinema.service.ts وتأمل كيف يمكنك إضافة معامل اختياري للترويسات مثل { headers: { 'X-Cinema-Source': 'Web' } } كمعامل ثالث لدالة http.post، أو تجربة توسيع واجهة الرد لتشمل خصائص إضافية مثل createdAt: string.",
+        "task": "جرّب تمرير خيارات إضافية لدالة http.post مثل الترويسات المخصصة ولاحظ مرونة المعامل الثالث.",
+        "benefit": "أدركت إمكانيات تخصيص خيارات الشبكة المتقدمة في طلبات POST مثل الترويسات والمهلة الزمنية.",
+        "objective": "جرّب تمرير خيارات إضافية لدالة http.post مثل الترويسات المخصصة ولاحظ مرونة المعامل الثالث.",
+        "instruction": "جرّب تمرير خيارات إضافية لدالة http.post مثل الترويسات المخصصة ولاحظ مرونة المعامل الثالث.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.post<{ bookingId: string }>('/api/bookings', payload);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.post<{ bookingId: string }>('/api/bookings', payload);"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هو المعامل الثاني الذي نمرره عادة لدالة http.post؟",
+        "options": [
+          "جسم الطلب (Body Payload) المحتوي على البيانات المراد حفظها في الخادم",
+          "اسم ملف CSS",
+          "رقم الهاتف الشخصي"
+        ],
+        "correct": 0,
+        "task": "ما هو المعامل الثاني الذي نمرره عادة لدالة http.post؟",
+        "benefit": "إجابة صحيحة! المعامل الثاني لدالة http.post هو جسم الطلب (Body Payload) الذي يُرسل إلى الخادم بصيغة JSON ويحتوي على البيانات المراد معالجتها وتخزينها في قاعدة البيانات.",
+        "objective": "ما هو المعامل الثاني الذي نمرره عادة لدالة http.post؟",
+        "instruction": "ما هو المعامل الثاني الذي نمرره عادة لدالة http.post؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/services/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: return this.http.post<{ bookingId: string }>('/api/bookings', payload);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: return this.http.post<{ bookingId: string }>('/api/bookings', payload);"
+        ]
+      }
+    ],
+    "legacyId": "ng-http-03",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 42,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/http/making-requests",
+    "breakdown": [
+      "المرحلة 1: تجهيز حمولة الحجز",
+      "المرحلة 2: إرسال POST",
+      "المرحلة 3: استلام معرف التذكرة وتحديث الواجهة"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "return this.http.post<{ bookingId: string }>('/api/bookings', payload);",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "ng-http-04",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "المعترضات الوظيفية الحديثة (Functional Interceptors)",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "بناء معترضات الشبكة الوظيفية عبر HttpInterceptorFn لاعتراض جميع الطلبات الصادرة تلقائياً وإرفاق رموز المصادقة JWT مع احترام مبدأ عدم القابلية للتعديل المباشر Immutability.",
+    "concept": "في التطبيقات المؤسسية الكبرى، تصدر مئات الطلبات الشبكية من خدمات متنوعة في آن واحد لجلب الموارد وتأكيد الحجوزات وإجراء المعاملات. إن تكرار كود إضافة ترويسات الأمان والمصادقة (Authorization Headers) أو كود تسجيل السجلات والمراقبة (Logging & Telemetry) داخل كل خدمة بشكل منفرد يُعد خطأ معمارياً فادحاً ينتهك مبدأ عدم التكرار DRY ويجعل صيانة وتحديث مفاتيح الأمان كابوساً برمجياً. قدمت Angular المعترضات الوظيفية الحديثة (Functional Interceptors) عبر الواجهة النمطية HttpInterceptorFn كبديل خفيف وأنيق للنظام الكلاسيكي القديم القائم على الأصناف المزخرفة ومصفوفة HTTP_INTERCEPTORS المعقدة. تمثل الدالة المعترضة طبقة وسيطة (Middleware) تستقبل الطلب الصادر req ودالة الاستكمال next. ومن أهم المبادئ المعمارية الصارمة في عميل HTTP الخاص بـ Angular هو أن كائنات HttpRequest غير قابلة للتعديل إطلاقاً (Immutable)؛ وذلك لضمان عدم حدوث أي تداخلات أو تشويه للبيانات أثناء المعالجة المتزامنة عبر أنابيب التدفق. ولتعديل أي ترويسة أو رابط، يتعين على المطور استنساخ الطلب عبر الدالة req.clone({ setHeaders: { ... } }) ثم تمرير النسخة الجديدة المعدلة إلى دالة next(clonedReq). يتيح هذا النمط الوظيفي دمجاً سلساً مع مزودي التطبيق المستقل في appConfig عبر withInterceptors([authInterceptor])، مما يوفر منصة مركزية فائقة القوة لإدارة الأمان والتوثيق والقياس عن بعد.",
+    "flow": "خروج الطلب ⟶ اعتراضه في authInterceptor ⟶ استنساخه مع Token ⟶ تمريره للخادم",
+    "task": "اكتب المعترض الوظيفي authInterceptor لإضافة ترويسة Authorization لطلبات الشبكة.",
+    "file": "src/app/interceptors/auth.interceptor.ts",
+    "code": "import { HttpInterceptorFn } from '@angular/common/http';\n\nexport const authInterceptor: HttpInterceptorFn = (req, next) => {\n  const authReq = req.clone({ setHeaders: { Authorization: 'Bearer KHOTWA_CINEMA_2026' } });\n  return next(authReq);\n};",
+    "expected": "export const authInterceptor: HttpInterceptorFn = (req, next) => {",
+    "reference": "https://angular.dev/guide/http/interceptors",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية للمعترضات الوظيفية كطبقة وسيطة موحدة",
+        "explanation": "بدلاً من كتابة كود ترويسة التوثيق Authorization يدويًا في كل استدعاء لـ http.get أو http.post في تطبيق سينما خطوة، نقوم بإنشاء معترض وظيفي authInterceptor يتولى اعتراض كل طلب شبكي يغادر المتصفح، وإضافة رمز التحقق Bearer Token إليه تلقائياً قبل انطلاقه إلى الخادم. يضمن ذلك حماية وتوثيق كل طلبات الـ API بشكل مركزي وموحد دون أي تكرار للكود.",
+        "flow": "طلب HTTP صادر من المكون ⟶ اعتراض في authInterceptor ⟶ تزويده برمز JWT ⟶ وصول الطلب موثقاً للخادم",
+        "task": "تأمل كيف توفر المعترضات الوظيفية حلاً مركزياً وأنيقاً لأمان الشبكة وإدارة ترويسات الطلبات.",
+        "benefit": "استوعبت مفهوم الـ Middleware في Angular ودوره في مركزية إجراءات الأمان والمراقبة.",
+        "objective": "تأمل كيف توفر المعترضات الوظيفية حلاً مركزياً وأنيقاً لأمان الشبكة وإدارة ترويسات الطلبات.",
+        "instruction": "تأمل كيف توفر المعترضات الوظيفية حلاً مركزياً وأنيقاً لأمان الشبكة وإدارة ترويسات الطلبات.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/interceptors/auth.interceptor.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const authInterceptor: HttpInterceptorFn = (req, next) => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const authInterceptor: HttpInterceptorFn = (req, next) => {"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح البنية النحوية لـ HttpInterceptorFn واستنساخ req.clone()",
+        "explanation": "المعترض هو دالة من النوع HttpInterceptorFn تستقبل المعاملين (req, next). نظراً لكون req غير قابل للتعديل المباشر (Immutable)، نستخدم req.clone({ setHeaders: { Authorization: ... } }) لإنشاء نسخة جديدة من الطلب تحمل ترويسة التوثيق. أخيراً، نقوم بإعادة استدعاء next(authReq) لتمرير النسخة المعدلة إلى المعترض التالي أو إلى خادم الشبكة.",
+        "flow": "HttpInterceptorFn(req, next) ⟶ استنساخ req.clone({ setHeaders }) ⟶ إرجاع next(authReq) للشبكة",
+        "task": "حلل هيكل الدالة السهمية: معاملات req و next، واستخدام clone بدلاً من التعديل المباشر.",
+        "benefit": "أتقنت صياغة المعترضات الوظيفية الحديثة وفهمت سر فرض عدم التعديل المباشر للطلبات.",
+        "objective": "حلل هيكل الدالة السهمية: معاملات req و next، واستخدام clone بدلاً من التعديل المباشر.",
+        "instruction": "حلل هيكل الدالة السهمية: معاملات req و next، واستخدام clone بدلاً من التعديل المباشر.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/interceptors/auth.interceptor.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const authInterceptor: HttpInterceptorFn = (req, next) => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const authInterceptor: HttpInterceptorFn = (req, next) => {"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم بكتابة المعترض الوظيفي authInterceptor داخل ملف src/app/interceptors/auth.interceptor.ts لإضافة ترويسة التفويض الموحدة لجميع طلبات الشبكة.",
+        "file": "src/app/interceptors/auth.interceptor.ts",
+        "code": "import { HttpInterceptorFn } from '@angular/common/http';\n\nexport const authInterceptor: HttpInterceptorFn = (req, next) => {\n  const authReq = req.clone({ setHeaders: { Authorization: 'Bearer KHOTWA_CINEMA_2026' } });\n  return next(authReq);\n};",
+        "expected": "export const authInterceptor: HttpInterceptorFn = (req, next) => {",
+        "task": "اكتب المعترض الوظيفي authInterceptor لإضافة ترويسة Authorization لطلبات الشبكة ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "بنيت معترضاً وظيفياً حديثاً يؤمّن كافة اتصالات النظام بالخلفية باحترافية تامة.",
+        "objective": "اكتب المعترض الوظيفي authInterceptor لإضافة ترويسة Authorization لطلبات الشبكة ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "اكتب المعترض الوظيفي authInterceptor لإضافة ترويسة Authorization لطلبات الشبكة ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/interceptors/auth.interceptor.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const authInterceptor: HttpInterceptorFn = (req, next) => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const authInterceptor: HttpInterceptorFn = (req, next) => {"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "افتح ملف src/app/interceptors/auth.interceptor.ts وجرّب إضافة أمر console.log('جارٍ إرسال طلب إلى:', req.url) قبل أمر الإرجاع، أو تجربة فحص ما إذا كان الرابط يبدأ بـ '/api' قبل إرفاق الترويسة لضمان عدم إرسال التوكن لروابط خارجية.",
+        "task": "أضف طباعة لعنوان الرابط في الكونسول أو شرط فحص المسار لتقوية المعترض أمنياً.",
+        "benefit": "اكتسبت خبرة في التحكم الدقيق بالطلبات وتطبيق شروط أمنية مخصصة بحسب مسار الـ API.",
+        "objective": "أضف طباعة لعنوان الرابط في الكونسول أو شرط فحص المسار لتقوية المعترض أمنياً.",
+        "instruction": "أضف طباعة لعنوان الرابط في الكونسول أو شرط فحص المسار لتقوية المعترض أمنياً.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/interceptors/auth.interceptor.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const authInterceptor: HttpInterceptorFn = (req, next) => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const authInterceptor: HttpInterceptorFn = (req, next) => {"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "كيف نعدل طلب HTTP داخل الـ Interceptor نظراً لكونه غير قابل للتعديل المباشر (Immutable)؟",
+        "options": [
+          "باستنساخه عبر الدالة req.clone({ ... }) مع الخصائص المراد تحديثها",
+          "بتعديل الرابط مباشرة مثل req.url = '...'",
+          "بإنشاء طلب جافاسكريبت جديد"
+        ],
+        "correct": 0,
+        "task": "كيف نعدل طلب HTTP داخل الـ Interceptor نظراً لكونه غير قابل للتعديل المباشر (Immutable)؟",
+        "benefit": "إجابة ممتازة! كائنات HttpRequest في Angular غير قابلة للتعديل المباشر مطلقاً لحماية خط الأنابيب، ولذلك نستخدم req.clone() لإنشاء نسخة جديدة تحتوي على الترويسات والخصائص المعدلة بأمان.",
+        "objective": "كيف نعدل طلب HTTP داخل الـ Interceptor نظراً لكونه غير قابل للتعديل المباشر (Immutable)؟",
+        "instruction": "كيف نعدل طلب HTTP داخل الـ Interceptor نظراً لكونه غير قابل للتعديل المباشر (Immutable)؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/interceptors/auth.interceptor.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export const authInterceptor: HttpInterceptorFn = (req, next) => {.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export const authInterceptor: HttpInterceptorFn = (req, next) => {"
+        ]
+      }
+    ],
+    "legacyId": "ng-http-04",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 43,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/http/interceptors",
+    "breakdown": [
+      "المرحلة 1: خروج الطلب",
+      "المرحلة 2: اعتراضه في authInterceptor",
+      "المرحلة 3: استنساخه مع Token",
+      "المرحلة 4: تمريره للخادم"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export const authInterceptor: HttpInterceptorFn = (req, next) => {",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-interop-01",
+    "module": "phase-5-di-http",
+    "phase": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "title": "الجسر الاحترافي بين RxJS و Signals عبر toSignal()",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "الربط المتناغم بين تدفقات RxJS غير المتزامنة ومحرك الإشارات الحديث عبر دالة toSignal() لتحقيق تفاعلية متزامنة فورية مع إدارة دورة حياة الاشتراك بدون أي تسريب للذاكرة.",
+    "concept": "مع تطور إطار عمل Angular وظهور محرك الإشارات (Signals) الثوري في الإصدارات الحديثة، واجه المطورون تحدياً معمارياً هاماً: كيف يمكن التوفيق بين المكتبة الارتكاسية العريقة RxJS التي يعتمد عليها عميل الشبكة HttpClient بصورة طبيعية، وبين بساطة وسرعة قراءة الإشارات داخل قوالب المكونات؟ فبينما تتفوق تدفقات RxJS Observables في التعامل مع الأحداث غير المتزامنة المعقدة عبر الزمن، والتراجع التلقائي، وإلغاء الطلبات، وإعادة المحاولة، فإن الإشارات تقدم أفضل نموذج لقراءة الحالة التزامنية اللحظية داخل القوالب وتشغيل كشف التغييرات فائق الدقة بدون أي حاجة لمنظومة Zone.js الثقيلة. هنا يأتي دور الحزمة الرسمية @angular/core/rxjs-interop ودالتها الجوهرية toSignal(). تعمل دالة toSignal() كجسر تحويلي يربط التدفق غير المتزامن بالإشارة المتزامنة؛ حيث تقوم بالاشتراك التلقائي في التدفق Observable عند لحظة التهيئة، وتوفر قيمة أولية متزامنة عبر خيار initialValue لتفادي الأخطاء وقيم undefined في القالب قبل وصول رد الخادم. والأهم معمارياً هو أن toSignal() ترتبط تلقائياً بسياق الحقن (Injection Context) للمكون، مما يعني أنها تقوم بإلغاء الاشتراك (Unsubscribe) تلقائياً ودون أي تدخل يدوي بمجرد تدمير المكون، مما يقضي تماماً على خطر تسريب الذاكرة (Memory Leaks) الذي كان يطارد مطوري Angular لسنوات عند إدارة الاشتراكات يدوياً.",
+    "flow": "تدفق fetchMovies$ ⟶ تحويل بـ toSignal() ⟶ قراءته كإشارة movies() في القالب",
+    "task": "حوّل تدفق الأفلام إلى إشارة moviesList باستخدام toSignal().",
+    "file": "src/app/app.ts",
+    "code": "import { toSignal } from '@angular/core/rxjs-interop';\n\nexport class App {\n  moviesList = toSignal(this.cinemaService.fetchMovies(), { initialValue: [] });\n}",
+    "expected": "moviesList = toSignal(",
+    "reference": "https://angular.dev/guide/signals/rxjs-interop",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة المعمارية لجسر التحويل بين RxJS و Signals",
+        "explanation": "في سينما خطوة، تعود دالة fetchMovies() من الخدمة بتدفق ارتكاسي Observable يحمل قائمة الأفلام من الخادم. في السابق، كان على المطور إما كتابة اشتراك يدوي subscribe مع تتبع ngOnDestroy لإلغائه وتفادي تسريب الذاكرة، أو استخدام أنبوب async pipe في كل مكان بالقالب. عبر دالة toSignal()، نحول التدفق بسطر واحد إلى إشارة Signal نقية moviesList()، مع اشتراك تلقائي وإلغاء ذاتي للأمان التام.",
+        "flow": "خدمة الأفلام fetchMovies$ ⟶ تحويل سحري عبر toSignal() ⟶ إشارة moviesList() نظيفة في المكون",
+        "task": "تأمل سهولة قراءة البيانات كإشارة نقية moviesList() بدلاً من تعقيدات الاشتراك اليدوي في الـ Observable.",
+        "benefit": "استوعبت كيفية الجمع بين قوة RxJS في الشبكات وبساطة Signals في القوالب دون كتابة boilerplate.",
+        "objective": "تأمل سهولة قراءة البيانات كإشارة نقية moviesList() بدلاً من تعقيدات الاشتراك اليدوي في الـ Observable.",
+        "instruction": "تأمل سهولة قراءة البيانات كإشارة نقية moviesList() بدلاً من تعقيدات الاشتراك اليدوي في الـ Observable.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: moviesList = toSignal(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: moviesList = toSignal("
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح البنية النحوية لاستدعاء toSignal() وخيار initialValue",
+        "explanation": "يتم استيراد toSignal من حزمة @angular/core/rxjs-interop. تستقبل الدالة التدفق الارتكاسي كمعامل أول (this.cinemaService.fetchMovies())، وتستقبل كائناً اختيارياً للإعدادات كمعامل ثانٍ مثل { initialValue: [] } لتعيين قيمة ابتدائية تمنع ظهور undefined في القالب أثناء انتظار وصول رد الشبكة. والنتيجة هي إشارة للقراءة فقط Signal<Movie[]> تتحدث ذاتياً عند وصول البيانات.",
+        "flow": "استيراد { toSignal } ⟶ تمرير التدفق Observable ⟶ ضبط { initialValue: [] } ⟶ ناتج Signal جاهز للقالب",
+        "task": "حلل أجزاء الاستدعاء: استيراد rxjs-interop، تمرير التدفق، وتحديد القيمة الابتدائية initialValue.",
+        "benefit": "أتقنت ضبط الإشارات المحولة وتأمين القوالب ضد قيم undefined وقت التحميل.",
+        "objective": "حلل أجزاء الاستدعاء: استيراد rxjs-interop، تمرير التدفق، وتحديد القيمة الابتدائية initialValue.",
+        "instruction": "حلل أجزاء الاستدعاء: استيراد rxjs-interop، تمرير التدفق، وتحديد القيمة الابتدائية initialValue.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: moviesList = toSignal(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: moviesList = toSignal("
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "سنقوم باستيراد toSignal داخل ملف src/app/app.ts وتحويل تدفق أفلام السينما إلى إشارة moviesList مع قيمة أولية مصفوفة فارغة [].",
+        "file": "src/app/app.ts",
+        "code": "import { toSignal } from '@angular/core/rxjs-interop';\n\nexport class App {\n  moviesList = toSignal(this.cinemaService.fetchMovies(), { initialValue: [] });\n}",
+        "expected": "moviesList = toSignal(",
+        "task": "حوّل تدفق الأفلام إلى إشارة moviesList باستخدام toSignal() ثم اضغط على زر (شغّل وافحص).",
+        "benefit": "ربطت بنجاح بين عميل الشبكة ومحرك الإشارات الحديث في مكون التطبيق الرئيسي.",
+        "objective": "حوّل تدفق الأفلام إلى إشارة moviesList باستخدام toSignal() ثم اضغط على زر (شغّل وافحص).",
+        "instruction": "حوّل تدفق الأفلام إلى إشارة moviesList باستخدام toSignal() ثم اضغط على زر (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: moviesList = toSignal(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: moviesList = toSignal("
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "افتح ملف src/app/app.ts وجرّب إضافة خاصية rejectErrors: true إلى كائن الإعدادات في toSignal()، أو جرّب استخدام moviesList() داخل دالة computed() لحساب عدد الأفلام المتاحة، وشاهد كيف تتناغم الإشارة المحولة بسلاسة تامة مع باقي أدوات محرك التفاعلية.",
+        "task": "جرّب قراءة moviesList() داخل computed() ولاحظ التوافق التام مع منظومة Signals.",
+        "benefit": "اكتشفت مرونة دمج التدفقات المحولة داخل شبكة الاعتماديات التفاعلية في Angular.",
+        "objective": "جرّب قراءة moviesList() داخل computed() ولاحظ التوافق التام مع منظومة Signals.",
+        "instruction": "جرّب قراءة moviesList() داخل computed() ولاحظ التوافق التام مع منظومة Signals.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: moviesList = toSignal(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: moviesList = toSignal("
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هي الوظيفة الأساسية لدالة toSignal() في Angular الحديثة؟",
+        "options": [
+          "تحويل الـ Observable إلى Signal تلقائياً مع إدارة الاشتراك وإلغائه بأمان",
+          "إيقاف تشغيل RxJS في التطبيق",
+          "إرسال تنبيه للمستخدم عبر الرسائل القصيرة"
+        ],
+        "correct": 0,
+        "task": "ما هي الوظيفة الأساسية لدالة toSignal() في Angular الحديثة؟",
+        "benefit": "إجابة ممتازة! دالة toSignal() توفر جسراً سلساً لتحويل تدفقات RxJS إلى إشارات متزامنة للقراءة في القالب، مع التكفل التلقائي بالاشتراك وإلغائه لمنع أي تسريب في الذاكرة.",
+        "objective": "ما هي الوظيفة الأساسية لدالة toSignal() في Angular الحديثة؟",
+        "instruction": "ما هي الوظيفة الأساسية لدالة toSignal() في Angular الحديثة؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: moviesList = toSignal(.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: moviesList = toSignal("
+        ]
+      }
+    ],
+    "legacyId": "ng-interop-01",
+    "skill": "المرحلة الخامسة: الخدمات الحديثة والاتصال بالشبكة (Modern DI & HttpClient)",
+    "order": 44,
+    "whyUse": "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.",
+    "browserMechanics": "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.",
+    "documentationUrl": "https://angular.dev/guide/signals/rxjs-interop",
+    "breakdown": [
+      "المرحلة 1: تدفق fetchMovies$",
+      "المرحلة 2: تحويل بـ toSignal()",
+      "المرحلة 3: قراءته كإشارة movies() في القالب"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "moviesList = toSignal(",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  }
+]

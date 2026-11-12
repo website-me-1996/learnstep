@@ -1,0 +1,689 @@
+[
+  {
+    "id": "ng-service-create",
+    "phase": "الخدمات وحقن التبعيات",
+    "title": "إنشاء خدمة الأفلام وحفظ البيانات (`@Injectable`)",
+    "concept": "الخدمة (Service) تفصل منطق جلب وحفظ البيانات عن واجهة المستخدم، وتوفر مصدرًا موحدًا للمعلومات يشاركه التطبيق بأكمله.",
+    "flow": "@Injectable({ providedIn: 'root' }) ⟶ خدمة سينما مركزية يشاركها كل مكون",
+    "task": "أنشئ كلاس خدمة السينما CinemaService داخل src/app/cinema.service.ts.",
+    "file": "src/app/cinema.service.ts",
+    "code": "import { Injectable, signal } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class CinemaService {\n  readonly selectedMovie = signal<string>('رحلة النجوم');\n}",
+    "expected": "export class CinemaService",
+    "reference": "https://angular.dev/guide/di/creating-injectable-service",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "لو وضعنا البيانات داخل مكون واحد، فكيف سيصل إليها مكون آخر في صفحة ثانية؟ الخدمة (Service) هي المخزن المركزي المشترك الذي يمكن لأي مكون في الموقع القراءة منه والتعديل عليه!",
+        "flow": "الخدمة (مخزن مركزي) ⟵(مشاركة البيانات)⟶ المكون A والمكون B والمكون C",
+        "task": "افتح src/app/cinema.service.ts في شجرة الملفات.",
+        "benefit": "فهمت أهمية الخدمات في تنظيم ومشاركة بيانات التطبيق.",
+        "objective": "افتح src/app/cinema.service.ts في شجرة الملفات.",
+        "instruction": "افتح src/app/cinema.service.ts في شجرة الملفات.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaService.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaService"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح زخرف @Injectable",
+        "explanation": "الزخرف @Injectable({ providedIn: 'root' }) يخبر Angular بتسجيل هذه الخدمة كنسخة مفردة (Singleton) متاحة لجميع أجزاء الموقع تلقائيًا دون إعدادات إضافية.",
+        "flow": "providedIn: 'root' ⟶ نسخة وحيدة مشتركة في الذاكرة",
+        "task": "تأمل عبقرية نظام حقن التبعيات في Angular.",
+        "benefit": "أتقنت إنشاء الخدمات المركزية السليمة.",
+        "objective": "تأمل عبقرية نظام حقن التبعيات في Angular.",
+        "instruction": "تأمل عبقرية نظام حقن التبعيات في Angular.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaService.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaService"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "اكتب كود خدمة CinemaService داخل ملف src/app/cinema.service.ts.",
+        "file": "src/app/cinema.service.ts",
+        "code": "import { Injectable, signal } from '@angular/core';\n\n@Injectable({ providedIn: 'root' })\nexport class CinemaService {\n  readonly selectedMovie = signal<string>('رحلة النجوم');\n}",
+        "expected": "export class CinemaService",
+        "task": "اكتب كود الخدمة ثم اضغط (شغّل وافحص).",
+        "benefit": "أنشأت أول خدمة بيانات مركزية في تطبيق السينما.",
+        "objective": "اكتب كود الخدمة ثم اضغط (شغّل وافحص).",
+        "instruction": "اكتب كود الخدمة ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaService.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaService"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "لاحظ أن الخدمة تحتوي على إشارة signal تفاعلية للفيلم المختار، مما يتيح التفاعل الفوري في كل مكان يستمع إليها.",
+        "task": "تأكد من إنشاء خدمة cinema.service.ts بنجاح.",
+        "benefit": "جمعت بين قوة Services ومرونة Signals الحديثة.",
+        "objective": "تأكد من إنشاء خدمة cinema.service.ts بنجاح.",
+        "instruction": "تأكد من إنشاء خدمة cinema.service.ts بنجاح.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaService.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaService"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما وظيفة الزخرف @Injectable في Angular؟",
+        "options": [
+          "يعلن أن الكلاس خدمة يمكن حقنها واستخدامها في المكونات الأخرى",
+          "يقوم بحذف الملفات غير المستخدمة",
+          "يغير خط النصوص"
+        ],
+        "correct": 0,
+        "benefit": "فهم دور الزخرف @Injectable.",
+        "task": "ما وظيفة الزخرف @Injectable في Angular؟",
+        "objective": "ما وظيفة الزخرف @Injectable في Angular؟",
+        "instruction": "ما وظيفة الزخرف @Injectable في Angular؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: export class CinemaService.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: export class CinemaService"
+        ]
+      }
+    ],
+    "legacyId": "ng-service-create",
+    "skill": "الخدمات وحقن التبعيات",
+    "order": 87,
+    "whyUse": "يتيح نظام حقن التبعيات الوظيفي الحديث عبر دالة inject() إلى جانب عميل HttpClient المدعوم بـ withFetch() بناء خدمات موحدة ومنفصلة لجلب البيانات وحمايتها، مع دعم كامل للاعتراض الوظيفي ومعالجة الأخطاء والربط السلس بين RxJS و Signals.",
+    "browserMechanics": "يعتمد حقن التبعيات على سياق الحقن المعتمد في Angular أثناء إنشاء الفئات، بينما يستخدم HttpClient واجهة المتصفح الأصلية Fetch API لإرسال الطلبات عبر شبكة HTTP غير المتزامنة، مع إدارة محكمة للذاكرة وتخفيف حمل معالجة استجابات JSON.",
+    "documentationUrl": "https://angular.dev/guide/di/creating-injectable-service",
+    "breakdown": [
+      "تعريف البنية والمحددات: إعداد المكون أو المتغير أو الواجهة البرمجية في ملفات المشروع.",
+      "معالجة المنطق وتدفق البيانات: تنفيذ الأوامر وحقن التبعيات أو ربط الإشارات التفاعلية.",
+      "تحديث شجرة DOM والعرض: إخراج النتيجة النهائية في قالب Angular وعكس التغييرات في المتصفح."
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "export class CinemaService",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "ng-service-inject",
+    "phase": "الخدمات وحقن التبعيات",
+    "title": "حقن واستخدام الخدمة (`inject()`)",
+    "concept": "نستخدم دالة inject(CinemaService) الحديثة للحصول على نسخة الخدمة تلقائيًا داخل المكون بأسلوب رشيق دون الحاجة لكتابة منشئات constructor معقدة.",
+    "flow": "cinemaService = inject(CinemaService) ⟶ الوصول المباشر لبيانات الخدمة",
+    "task": "احقن خدمة السينما داخل كلاس App في src/app/app.ts.",
+    "file": "src/app/app.ts",
+    "code": "private readonly cinemaService = inject(CinemaService);",
+    "expected": "private readonly cinemaService = inject(CinemaService);",
+    "reference": "https://angular.dev/guide/di/dependency-injection-context",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "بدلًا من إنشاء الخدمة يدويًا بـ new CinemaService()، نطلبها من Angular عبر inject(). يتكفل Angular بإحضار نفس النسخة المشتركة فورًا!",
+        "flow": "المكون يطلب: inject(Service) ⟶ Angular يقدم النسخة المشتركة فورًا",
+        "task": "انتقل إلى ملف src/app/app.ts.",
+        "benefit": "فهمت آلية عمل حقن التبعيات الرشيقة في Angular الحديث.",
+        "objective": "انتقل إلى ملف src/app/app.ts.",
+        "instruction": "انتقل إلى ملف src/app/app.ts.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private readonly cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private readonly cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح دالة inject() الحديثة",
+        "explanation": "دالة inject تأتي من '@angular/core' وتسمح بحقن أي خدمة في سطر واحد فقط كخاصية في الكلاس، دون الحاجة لمنشئ الكلاس التقليدي constructor.",
+        "flow": "service = inject(MyService) ⟶ سطر واحد بدلاً من سطور متعددة",
+        "task": "لاحظ كيف جعلت دالة inject() الكود أنظف وأسهل في القراءة.",
+        "benefit": "أتقنت أحدث وأفضل ممارسات حقن التبعيات في Angular.",
+        "objective": "لاحظ كيف جعلت دالة inject() الكود أنظف وأسهل في القراءة.",
+        "instruction": "لاحظ كيف جعلت دالة inject() الكود أنظف وأسهل في القراءة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private readonly cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private readonly cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "احقن CinemaService داخل كلاس App في src/app/app.ts.",
+        "file": "src/app/app.ts",
+        "code": "private readonly cinemaService = inject(CinemaService);",
+        "expected": "private readonly cinemaService = inject(CinemaService);",
+        "task": "أضف سطر الحقن داخل كلاس App ثم اضغط (شغّل وافحص).",
+        "benefit": "ربطت كلاس المكون الرئيسي بالخدمة المركزية بنجاح.",
+        "objective": "أضف سطر الحقن داخل كلاس App ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف سطر الحقن داخل كلاس App ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private readonly cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private readonly cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "يمكنك الآن استدعاء أي دالة أو قراءة أي إشارة من cinemaService في ثوانٍ.",
+        "task": "تأكد من حقن الخدمة بنجاح داخل كلاس App.",
+        "benefit": "أتقنت ربط المكونات بالخدمات المركزية.",
+        "objective": "تأكد من حقن الخدمة بنجاح داخل كلاس App.",
+        "instruction": "تأكد من حقن الخدمة بنجاح داخل كلاس App.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private readonly cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private readonly cinemaService = inject(CinemaService);"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما هي الدالة الحديثة في Angular المستخدمة لحقن الخدمات في سطر واحد؟",
+        "options": [
+          "دالة inject()",
+          "دالة require()",
+          "دالة import()"
+        ],
+        "correct": 0,
+        "benefit": "تثبيت دالة inject() الحديثة لحقن التبعيات.",
+        "task": "ما هي الدالة الحديثة في Angular المستخدمة لحقن الخدمات في سطر واحد؟",
+        "objective": "ما هي الدالة الحديثة في Angular المستخدمة لحقن الخدمات في سطر واحد؟",
+        "instruction": "ما هي الدالة الحديثة في Angular المستخدمة لحقن الخدمات في سطر واحد؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/app.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: private readonly cinemaService = inject(CinemaService);.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: private readonly cinemaService = inject(CinemaService);"
+        ]
+      }
+    ],
+    "legacyId": "ng-service-inject",
+    "skill": "الخدمات وحقن التبعيات",
+    "order": 88,
+    "whyUse": "يتيح نظام حقن التبعيات الوظيفي الحديث عبر دالة inject() إلى جانب عميل HttpClient المدعوم بـ withFetch() بناء خدمات موحدة ومنفصلة لجلب البيانات وحمايتها، مع دعم كامل للاعتراض الوظيفي ومعالجة الأخطاء والربط السلس بين RxJS و Signals.",
+    "browserMechanics": "يعتمد حقن التبعيات على سياق الحقن المعتمد في Angular أثناء إنشاء الفئات، بينما يستخدم HttpClient واجهة المتصفح الأصلية Fetch API لإرسال الطلبات عبر شبكة HTTP غير المتزامنة، مع إدارة محكمة للذاكرة وتخفيف حمل معالجة استجابات JSON.",
+    "documentationUrl": "https://angular.dev/guide/di/dependency-injection-context",
+    "breakdown": [
+      "تعريف البنية والمحددات: إعداد المكون أو المتغير أو الواجهة البرمجية في ملفات المشروع.",
+      "معالجة المنطق وتدفق البيانات: تنفيذ الأوامر وحقن التبعيات أو ربط الإشارات التفاعلية.",
+      "تحديث شجرة DOM والعرض: إخراج النتيجة النهائية في قالب Angular وعكس التغييرات في المتصفح."
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "private readonly cinemaService = inject(CinemaService);",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "ng-service-method",
+    "phase": "الخدمات وحقن التبعيات",
+    "title": "مشاركة التعديل عبر دوال الخدمة",
+    "concept": "إضافة دالة داخل الخدمة لتغيير الفيلم المختار، فينعكس التغيير فورًا على كل مكان يقرأ من الخدمة في كامل الموقع.",
+    "flow": "دالة chooseMovie('اسم الفيلم') ⟶ تحديث selectedMovie.set(...) ⟶ مزامنة فورية",
+    "task": "أضف دالة اختيار الفيلم داخل src/app/cinema.service.ts.",
+    "file": "src/app/cinema.service.ts",
+    "code": "chooseMovie(name: string): void { this.selectedMovie.set(name); }",
+    "expected": "chooseMovie(name: string): void { this.selectedMovie.set(name); }",
+    "reference": "https://angular.dev/guide/di",
+    "steps": [
+      {
+        "id": "idea",
+        "type": "observe",
+        "title": "الفكرة الأساسية ومخطط التدفق",
+        "explanation": "عندما يختار العميل فيلمًا في صفحة العروض، تستدعي الواجهة دالة في الخدمة لتسجيل الاختيار. هكذا تظل تفاصيل الحجز محفوظة حتى أثناء التنقل بين الصفحات!",
+        "flow": "اختيار فيلم ⟶ الخدمة تحفظ الاختيار ⟶ استخدامه في صفحة التذاكر لاحقًا",
+        "task": "افتح src/app/cinema.service.ts لإضافة دالة الاختيار.",
+        "benefit": "تعلمت إدارة وتعديل الحالة المركزية المشتركة للتطبيق.",
+        "objective": "افتح src/app/cinema.service.ts لإضافة دالة الاختيار.",
+        "instruction": "افتح src/app/cinema.service.ts لإضافة دالة الاختيار.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: chooseMovie(name: string): void { this.selectedMovie.set(name); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: chooseMovie(name: string): void { this.selectedMovie.set(name); }"
+        ]
+      },
+      {
+        "id": "anatomy",
+        "type": "observe",
+        "title": "تشريح دالة set() في الخدمة",
+        "explanation": "نستخدم this.selectedMovie.set(name) لتعيين القيمة الجديدة مباشرة في الإشارة، مما يرسل إشعارًا فوريًا لكل المكونات المعتمدة عليها.",
+        "flow": "this.selectedMovie.set(name) ⟶ تحديث الحالة المركزية",
+        "task": "لاحظ كيف تحافظ الخدمة على نظافة كود المكونات.",
+        "benefit": "أتقنت تحديث بيانات الخدمات بكفاءة.",
+        "objective": "لاحظ كيف تحافظ الخدمة على نظافة كود المكونات.",
+        "instruction": "لاحظ كيف تحافظ الخدمة على نظافة كود المكونات.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: chooseMovie(name: string): void { this.selectedMovie.set(name); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: chooseMovie(name: string): void { this.selectedMovie.set(name); }"
+        ]
+      },
+      {
+        "id": "practice",
+        "type": "build",
+        "title": "اكتب وطبّق في المحرر",
+        "explanation": "أضف دالة chooseMovie داخل كلاس CinemaService في src/app/cinema.service.ts.",
+        "file": "src/app/cinema.service.ts",
+        "code": "chooseMovie(name: string): void { this.selectedMovie.set(name); }",
+        "expected": "chooseMovie(name: string): void { this.selectedMovie.set(name); }",
+        "task": "أضف الدالة داخل كلاس الخدمة ثم اضغط (شغّل وافحص).",
+        "benefit": "زودت الخدمة بدالة تفاعلية لإدارة اختيار الأفلام.",
+        "objective": "أضف الدالة داخل كلاس الخدمة ثم اضغط (شغّل وافحص).",
+        "instruction": "أضف الدالة داخل كلاس الخدمة ثم اضغط (شغّل وافحص).",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: chooseMovie(name: string): void { this.selectedMovie.set(name); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: chooseMovie(name: string): void { this.selectedMovie.set(name); }"
+        ]
+      },
+      {
+        "id": "experiment",
+        "type": "edit",
+        "title": "تعديل موجّه وتجربة تفاعلية",
+        "explanation": "يمكن لأي مكون استدعاء cinemaService.chooseMovie('فيلم الأسبوع') وسيتحدث التطبيق بالكامل.",
+        "task": "تأكد من كتابة الدالة بنجاح في كلاس الخدمة.",
+        "benefit": "أصبحت متحكمًا بالكامل في تدفق البيانات المركزي.",
+        "objective": "تأكد من كتابة الدالة بنجاح في كلاس الخدمة.",
+        "instruction": "تأكد من كتابة الدالة بنجاح في كلاس الخدمة.",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: chooseMovie(name: string): void { this.selectedMovie.set(name); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: chooseMovie(name: string): void { this.selectedMovie.set(name); }"
+        ]
+      },
+      {
+        "id": "quiz",
+        "type": "quiz",
+        "title": "تأكد من الفكرة بسؤال سريع",
+        "question": "ما الفائدة من وضع دوال تعديل البيانات داخل الخدمة وليس في المكون فقط؟",
+        "options": [
+          "لتوفير طريقة موحدة وموثوقة لتعديل البيانات يشاركها أي مكون في الموقع",
+          "لجعل سرعة تحميل الصفحة أقل",
+          "لتغيير لون النصوص"
+        ],
+        "correct": 0,
+        "benefit": "فهم مبدأ فصل الاهتمامات وحفظ المنطق المشترك في الخدمات.",
+        "task": "ما الفائدة من وضع دوال تعديل البيانات داخل الخدمة وليس في المكون فقط؟",
+        "objective": "ما الفائدة من وضع دوال تعديل البيانات داخل الخدمة وليس في المكون فقط؟",
+        "instruction": "ما الفائدة من وضع دوال تعديل البيانات داخل الخدمة وليس في المكون فقط؟",
+        "errorRules": [
+          {
+            "pattern": "\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت كتلة أوامر أو كائن بقوس '{' ولكنك نسيت إغلاقه بقوس المقابلة '}'."
+          },
+          {
+            "pattern": "\\{\\{[^}]*$",
+            "flags": "",
+            "type": "regex",
+            "message": "فتحت ربطاً بيانياً مزدوجاً {{ في قالب Angular ولكنك نسيت إغلاقه بـ }} المقابلة."
+          },
+          {
+            "pattern": "@for\\s*\\((?![^)]*\\btrack\\b)[^)]*\\)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في نظام التحكم الحديث لـ Angular، تتطلب كتلة @for تحديد تعبير تتبع إلزامي مثل track item.id لضمان كفاءة تحديث عناصر DOM."
+          }
+        ],
+        "hints": [
+          "انتبه إلى موضع التعديل المطلوب في ملف src/app/cinema.service.ts؛ راجع المطلوب في بطاقة الخطوة بدقة.",
+          "قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟",
+          "مساعدة محددة: اكتب الكود المطلوب بدقة: chooseMovie(name: string): void { this.selectedMovie.set(name); }.",
+          "كشف الحل: الكود الدقيق المطلوب للخطوة هو: chooseMovie(name: string): void { this.selectedMovie.set(name); }"
+        ]
+      }
+    ],
+    "legacyId": "ng-service-method",
+    "skill": "الخدمات وحقن التبعيات",
+    "order": 89,
+    "whyUse": "يتيح نظام حقن التبعيات الوظيفي الحديث عبر دالة inject() إلى جانب عميل HttpClient المدعوم بـ withFetch() بناء خدمات موحدة ومنفصلة لجلب البيانات وحمايتها، مع دعم كامل للاعتراض الوظيفي ومعالجة الأخطاء والربط السلس بين RxJS و Signals.",
+    "browserMechanics": "يعتمد حقن التبعيات على سياق الحقن المعتمد في Angular أثناء إنشاء الفئات، بينما يستخدم HttpClient واجهة المتصفح الأصلية Fetch API لإرسال الطلبات عبر شبكة HTTP غير المتزامنة، مع إدارة محكمة للذاكرة وتخفيف حمل معالجة استجابات JSON.",
+    "documentationUrl": "https://angular.dev/guide/di",
+    "breakdown": [
+      "المرحلة 1: دالة chooseMovie('اسم الفيلم')",
+      "المرحلة 2: تحديث selectedMovie.set(...)",
+      "المرحلة 3: مزامنة فورية"
+    ],
+    "bugRepair": {
+      "brokenCode": "export const defaultCity = الرياض;",
+      "fixedCode": "chooseMovie(name: string): void { this.selectedMovie.set(name); }",
+      "question": "ما هو الخطأ البرمجي في الكود ولماذا يرفض مترجم Angular و TypeScript تنفيذه؟",
+      "explanation": "في لغة TypeScript و Angular، يجب الالتزام الصارم بقواعد الأنواع وصياغة القوالب وتحديد النصوص بين علامات تنصيص لتفادي أخطاء وقت الترجمة.",
+      "options": [
+        "نسيان استيراد التوجيه أو الوحدة المطلوبة في مصفوفة imports الخاصة بالمكون المستقل.",
+        "عدم إحاطة القيمة النصية بعلامات تنصيص صريحة مما جعل المترجم يعتبرها معرّفاً غير معرّف.",
+        "محاولة تعديل قيمة الإشارة التفاعلية Signal بإسناد مباشر علامة = بدلاً من استدعاء .set().",
+        "عدم تحديد تعبير التتبع الإلزامي track داخل كتلة التحكم التكرارية الحديثة @for."
+      ],
+      "correctOptionIndex": 1
+    }
+  }
+]
