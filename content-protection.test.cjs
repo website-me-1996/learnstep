@@ -325,11 +325,7 @@ test("index.html and server configs include AI scraping prevention meta tags and
 // Test Suite 2: CSS Deterrents, Print Concealment, and Watermark Styles (R1, R2)
 // -----------------------------------------------------------------------------
 test("styles.css disables text selection across learning areas while preserving input usability", () => {
-  // Check text selection is disabled on learning containers
-  assert.match(stylesCss, /user-select:\s*none/i, "user-select: none must be present in stylesheet");
-  assert.match(stylesCss, /-webkit-user-select:\s*none/i, "-webkit-user-select: none must be present");
-
-  // Check inputs, textareas, and code editors preserve text selection
+  // Check text selection is preserved for inputs, textareas, and code editors
   assert.match(
     stylesCss,
     /(?:input|textarea|#code|\.cm-editor|\.cm-content)[^{]*\{[^}]*user-select:\s*text/i,
@@ -346,37 +342,26 @@ test("styles.css conceals content during print mode and provides copyright notic
   );
   assert.match(
     stylesCss,
-    /\.blur-protection-overlay[\s\S]*?display:\s*none\s*!important/i,
-    "print styles must hide blur protection overlay"
-  );
-  assert.match(
-    stylesCss,
-    /\.learning-watermark[\s\S]*?display:\s*none\s*!important/i,
-    "print styles must hide learning watermark"
-  );
-  assert.match(
-    stylesCss,
     /content:\s*["'][^"']*الملكية الفكرية/i,
     "print stylesheet must display intellectual property notice"
   );
 });
 
 test("styles.css defines screen capture blur and watermark styling", () => {
-  assert.match(stylesCss, /filter:\s*blur\(/i, "blur filter must be defined in stylesheet");
   assert.match(
     stylesCss,
     /user-drag:\s*none/i,
     "user-drag: none must be defined for media assets"
   );
-  assert.match(
+  assert.doesNotMatch(
     stylesCss,
-    /\.learning-watermark\s*\{[^}]*pointer-events:\s*none/i,
-    "watermark must not intercept pointer events"
+    /body\.screen-shield-active::after/i,
+    "screen shield blackout overlay must not be defined"
   );
-  assert.match(
+  assert.doesNotMatch(
     stylesCss,
-    /\.blur-protection-overlay\s*\{/i,
-    "blur protection overlay class must be styled"
+    /\.learning-watermark\s*\{[\s\S]*?display:\s*flex/i,
+    "learning watermark flex grid overlay must not be defined"
   );
 });
 
@@ -410,7 +395,7 @@ test("content-protection module intercepts right-click context menu", () => {
 
   const contextEvent = new MockEvent("contextmenu", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(contextEvent);
-  assert.equal(contextEvent.defaultPrevented, true, "contextmenu event must be prevented");
+  assert.equal(contextEvent.defaultPrevented, false, "contextmenu event must NOT be prevented when protection is deactivated");
   Protection.destroy();
 });
 
@@ -418,27 +403,27 @@ test("content-protection module intercepts copy and cut events on protected less
   const { mockDoc, mockWindow, lesson, codeEditor, slotInput } = createMockDOM();
   const Protection = createProtectionInstance(mockWindow, mockDoc);
 
-  // Lesson content: copy and cut should be blocked and clipboard cleared
+  // Lesson content: copy and cut should be permitted and clipboard NOT cleared
   const copyEvent = new MockEvent("copy", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(copyEvent);
-  assert.equal(copyEvent.defaultPrevented, true, "copy event on lesson content must be prevented");
-  assert.equal(copyEvent.clipboardData.cleared, true, "clipboard data should be cleared on protected lesson copy");
+  assert.equal(copyEvent.defaultPrevented, false, "copy event on lesson content must be permitted");
+  assert.equal(copyEvent.clipboardData.cleared, false, "clipboard data should not be cleared on lesson copy");
 
   const cutEvent = new MockEvent("cut", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(cutEvent);
-  assert.equal(cutEvent.defaultPrevented, true, "cut event on lesson content must be prevented");
-  assert.equal(cutEvent.clipboardData.cleared, true, "clipboard data should be cleared on protected lesson cut");
+  assert.equal(cutEvent.defaultPrevented, false, "cut event on lesson content must be permitted");
+  assert.equal(cutEvent.clipboardData.cleared, false, "clipboard data should not be cleared on lesson cut");
 
-  // Adversarial check: activeElement in editor must NOT leak copy permission to lesson content
+  // Adversarial check: activeElement in editor must NOT affect lesson copy permission
   mockDoc.activeElement = codeEditor;
   const leakedCopyEvent = new MockEvent("copy", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(leakedCopyEvent);
-  assert.equal(leakedCopyEvent.defaultPrevented, true, "copy on lesson must be blocked even when activeElement is code editor");
-  assert.equal(leakedCopyEvent.clipboardData.cleared, true, "clipboard must be cleared even when activeElement is code editor");
+  assert.equal(leakedCopyEvent.defaultPrevented, false, "copy on lesson must be permitted when activeElement is code editor");
+  assert.equal(leakedCopyEvent.clipboardData.cleared, false, "clipboard must not be cleared when activeElement is code editor");
 
   const leakedCutEvent = new MockEvent("cut", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(leakedCutEvent);
-  assert.equal(leakedCutEvent.defaultPrevented, true, "cut on lesson must be blocked even when activeElement is code editor");
+  assert.equal(leakedCutEvent.defaultPrevented, false, "cut on lesson must be permitted when activeElement is code editor");
   mockDoc.activeElement = mockDoc.body;
 
   // Code editor and input elements: copy and cut must NOT be blocked (R5 Non-Interference)
@@ -456,19 +441,19 @@ test("content-protection module intercepts copy and cut events on protected less
   mockDoc.dispatchEvent(slotCopyEvent);
   assert.equal(slotCopyEvent.defaultPrevented, false, "copy event inside slot builder input must be permitted");
 
-  // Selection start (selectstart): blocked on lesson content, permitted in editor and inputs
+  // Selection start (selectstart): permitted across lesson content and editor/inputs
   const lessonSelectStart = new MockEvent("selectstart", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(lessonSelectStart);
-  assert.equal(lessonSelectStart.defaultPrevented, true, "selectstart on lesson content must be prevented");
+  assert.equal(lessonSelectStart.defaultPrevented, false, "selectstart on lesson content must be permitted");
 
   const editorSelectStart = new MockEvent("selectstart", { cancelable: true, target: codeEditor });
   mockDoc.dispatchEvent(editorSelectStart);
   assert.equal(editorSelectStart.defaultPrevented, false, "selectstart inside code editor must be permitted");
 
-  // Drag start (dragstart): blocked on lesson content, permitted in editor
+  // Drag start (dragstart): permitted across lesson content and editor
   const lessonDragStart = new MockEvent("dragstart", { cancelable: true, target: lesson });
   mockDoc.dispatchEvent(lessonDragStart);
-  assert.equal(lessonDragStart.defaultPrevented, true, "dragstart on lesson content must be prevented");
+  assert.equal(lessonDragStart.defaultPrevented, false, "dragstart on lesson content must be permitted");
 
   const editorDragStart = new MockEvent("dragstart", { cancelable: true, target: codeEditor });
   mockDoc.dispatchEvent(editorDragStart);
@@ -514,7 +499,7 @@ test("content-protection module blocks DevTools, save, and print keyboard shortc
   for (const tc of testCases) {
     const event = new MockEvent("keydown", { cancelable: true, ...tc.init });
     mockDoc.dispatchEvent(event);
-    assert.equal(event.defaultPrevented, true, `${tc.name} must be intercepted and prevented`);
+    assert.equal(event.defaultPrevented, false, `${tc.name} must NOT be intercepted or prevented when deactivated`);
   }
 
   // Normal character typing in editor/inputs must NOT be prevented
@@ -565,6 +550,7 @@ test("content-protection module applies blur deterrence on focus loss and restor
   const Protection = createProtectionInstance(mockWindow, mockDoc);
 
   assert.equal(Protection.isBlurred(), false, "Initial state should not be blurred");
+  assert.equal(Protection.isShieldActive(), false, "Initial state shield should not be active");
 
   // Interaction with preview iframe should NOT trigger blur (R5 Non-Interference)
   mockDoc.activeElement = previewIframe;
@@ -574,64 +560,57 @@ test("content-protection module applies blur deterrence on focus loss and restor
   // Window loses focus when activeElement is not an internal iframe
   mockDoc.activeElement = body;
   mockWindow.dispatchEvent(new MockEvent("blur"));
-  assert.equal(Protection.isBlurred(), true, "Content must be blurred when window loses focus");
-  assert.equal(body.classList.contains("content-blurred"), true);
+  assert.equal(Protection.isBlurred(), false, "Content must NOT blur when window loses focus when deactivated");
+  assert.equal(body.classList.contains("content-blurred"), false, "body should not have content-blurred class");
 
   // Window regains focus
   mockWindow.dispatchEvent(new MockEvent("focus"));
-  assert.equal(Protection.isBlurred(), false, "Content must unblur when window regains focus");
+  assert.equal(Protection.isBlurred(), false, "Content remains unblurred on focus");
   assert.equal(body.classList.contains("content-blurred"), false);
 
-  // PrintScreen keydown triggers immediate blur, screen shield, and clipboard overwrite
+  // PrintScreen keydown must NOT trigger blur, screen shield, or clipboard overwrite
   mockDoc.dispatchEvent(new MockEvent("keydown", { cancelable: true, key: "PrintScreen", keyCode: 44 }));
-  assert.equal(Protection.isBlurred(), true, "PrintScreen key must trigger immediate blur");
-  assert.equal(Protection.isShieldActive(), true, "PrintScreen keydown must activate blackout shield");
-  assert.ok(clipboardWrites.length > 0, "Clipboard must be overwritten on PrintScreen press");
-  assert.match(clipboardWrites[clipboardWrites.length - 1], /تنفيذ وتصميم المهندس أحمد عاشور/);
-  assert.match(clipboardWrites[clipboardWrites.length - 1], /steplearn/);
-  mockWindow.dispatchEvent(new MockEvent("focus"));
-  assert.equal(Protection.isBlurred(), false, "Content must unblur after focus restore");
+  assert.equal(Protection.isBlurred(), false, "PrintScreen keydown must NOT trigger blur when deactivated");
+  assert.equal(Protection.isShieldActive(), false, "PrintScreen keydown must NOT activate blackout shield when deactivated");
+  assert.equal(clipboardWrites.length, 0, "Clipboard must NOT be overwritten on PrintScreen press");
 
-  // PrintScreen keyup triggers blur, shield, and clipboard overwrite
+  // PrintScreen keyup must NOT trigger blur, shield, or clipboard overwrite
   mockDoc.dispatchEvent(new MockEvent("keyup", { cancelable: true, key: "PrintScreen", keyCode: 44 }));
-  assert.equal(Protection.isBlurred(), true, "PrintScreen keyup must trigger blur");
-  assert.equal(Protection.isShieldActive(), true, "PrintScreen keyup must activate blackout shield");
-  mockWindow.dispatchEvent(new MockEvent("focus"));
-  assert.equal(Protection.isBlurred(), false, "Content must unblur after focus restore");
+  assert.equal(Protection.isBlurred(), false, "PrintScreen keyup must NOT trigger blur when deactivated");
+  assert.equal(Protection.isShieldActive(), false, "PrintScreen keyup must NOT activate blackout shield when deactivated");
+  assert.equal(clipboardWrites.length, 0, "Clipboard must NOT be overwritten on PrintScreen release");
 
-  // Mobile pagehide event triggers blur
+  // Mobile pagehide event must NOT trigger blur
   mockWindow.dispatchEvent(new MockEvent("pagehide"));
-  assert.equal(Protection.isBlurred(), true, "pagehide event must blur content");
+  assert.equal(Protection.isBlurred(), false, "pagehide event must NOT blur content when deactivated");
 
-  // Mobile touchstart restores focus
+  // Mobile touchstart keeps unblurred
   mockWindow.dispatchEvent(new MockEvent("touchstart"));
-  assert.equal(Protection.isBlurred(), false, "touchstart event must unblur content");
+  assert.equal(Protection.isBlurred(), false, "touchstart event maintains unblurred state");
 
-  // Mobile selectionchange clears non-editable selections
+  // Mobile selectionchange does not throw
   mockDoc.dispatchEvent(new MockEvent("selectionchange"));
 
-  // Tab hidden via visibilitychange
+  // Tab hidden via visibilitychange must NOT trigger blur
   mockDoc.hidden = true;
   mockDoc.dispatchEvent(new MockEvent("visibilitychange"));
-  assert.equal(Protection.isBlurred(), true, "Content must blur when tab is hidden");
+  assert.equal(Protection.isBlurred(), false, "Content must NOT blur when tab is hidden when deactivated");
 
   // Tab visible via visibilitychange
   mockDoc.hidden = false;
   mockDoc.dispatchEvent(new MockEvent("visibilitychange"));
-  assert.equal(Protection.isBlurred(), false, "Content must unblur when tab becomes visible");
+  assert.equal(Protection.isBlurred(), false, "Content remains unblurred when tab becomes visible");
 
-  // Afterprint event cleans up blur state
-  mockDoc.body.classList.add("content-blurred");
-  assert.equal(Protection.isBlurred(), true);
+  // Afterprint event cleans up blur state safely
   mockWindow.dispatchEvent(new MockEvent("afterprint"));
-  assert.equal(Protection.isBlurred(), false, "Content must unblur when print dialog completes");
+  assert.equal(Protection.isBlurred(), false, "Content remains unblurred when print dialog completes");
 
-  // matchMedia print change triggers blur and restore
+  // matchMedia print change does NOT trigger blur
   const printQuery = mockWindow.matchMedia("print");
   printQuery.dispatchChange(true);
-  assert.equal(Protection.isBlurred(), true, "Entering print mode via matchMedia must trigger blur");
+  assert.equal(Protection.isBlurred(), false, "Entering print mode via matchMedia must NOT trigger blur when deactivated");
   printQuery.dispatchChange(false);
-  assert.equal(Protection.isBlurred(), false, "Exiting print mode via matchMedia must unblur");
+  assert.equal(Protection.isBlurred(), false, "Exiting print mode via matchMedia maintains unblurred state");
 
   Protection.destroy();
 });
@@ -642,16 +621,10 @@ test("dynamic watermark is rendered with active learner info without impeding in
 
   Protection.renderWatermark();
   const watermarkText = Protection.getWatermarkText();
-  assert.ok(watermarkText.length > 0, "Watermark text must not be empty");
-  assert.match(watermarkText, /steplearn/, "Watermark must include steplearn branding");
-  assert.match(watermarkText, /تنفيذ وتصميم المهندس أحمد عاشور/, "Watermark must include attribution to Engineer Ahmed Ashour");
-  assert.match(watermarkText, /خُطوة/, "Watermark must include Khotwa branding");
-  assert.match(watermarkText, /أحمد المبرمج/, "Watermark must dynamically include active learner name");
-  assert.match(watermarkText, /محتوى تعليمي محمي/, "Watermark must declare protected content");
+  assert.equal(watermarkText, "", "Watermark text must be empty when deactivated");
 
   const watermarkEl = mockDoc.getElementById("learningWatermark");
-  assert.ok(watermarkEl, "Watermark element must exist in the DOM");
-  assert.equal(watermarkEl.getAttribute("aria-hidden"), "true", "Watermark should have aria-hidden for accessibility");
+  assert.equal(watermarkEl, null, "Watermark element must NOT exist in the DOM when deactivated");
 
   Protection.destroy();
 });
@@ -683,4 +656,3 @@ test("app.js escapeHtml securely escapes single quotes and prevents attribute br
     "app.js escapeHtml must escape single quotes"
   );
 });
-

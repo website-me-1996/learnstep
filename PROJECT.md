@@ -1,85 +1,66 @@
-# Project: StepLearn Platform Enhancements & Security Hardening
+# Project: steplearn Platform Modernization
 
 ## Architecture
-- **Web Educational Platform**: `steplearn` interactive micro-learning platform for web technologies and Angular (`d:\learning websit\chat-gpt version`).
-- **Core Files**:
-  - `index.html`: Main application shell, navigation, card layout, branding, and modals.
-  - `styles.css`: Responsive design system, typography, breakpoints, themes, print rules, and security shields.
-  - `app.js`: Core platform interaction, Slot Builder, reward system, navigation, and audio effects.
-  - `content-protection.js`: Client-side protection, DevTools blocking, PrintScreen interception, mobile blur/touch deterrence, and dynamic watermark overlay.
-  - `angular-editor.js` & `angular-course-data.js`: Angular 22 interactive course workbench and simulator.
-  - `SECURITY_AND_IP_REPORT.md`: Comprehensive IP and security technical advisory report.
-
----
+- Single Page Application (`index.html`) using vanilla JavaScript, CSS3, CodeMirror 6, and WebContainer API for Angular 22.
+- Layout: Shell layout with collapsible sidebar, top navigation, main container hosting `#home`, `#lesson`, `#project`, `#courses`, `#courseRoadmap`, `#angularCoursePanel`.
+- Editor & Preview: `.editor-preview-split` containing `.editor` (`<textarea id="code">` or CodeMirror) and `.previewrow` (`<iframe id="preview">`).
+- Protection & Security: `content-protection.js` is deactivated; the module keeps its compatibility API without blocking screenshots or input.
+- Test Runner: Node.js test runner (`node --test`).
 
 ## Feature Inventory
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| 1 | Platform Rebranding to "steplearn" | Rebrand site title, brand logo text, meta tags, and documentation to `steplearn` while preserving legacy storage keys for regression test safety | M1 | Survey (Explorer 1) |
-| 2 | Dynamic Watermark Attribution | Full-viewport watermark overlay displaying: `steplearn · تنفيذ وتصميم المهندس أحمد عاشور · [Learner] · [Date] · محتوى تعليمي محمي (خُطوة)` with responsive density & non-blocking pointer events | M1 | Survey (Explorer 1) |
-| 3 | Modern Vector SVG Logo & Progress Icons | Replace unicode glyphs (`↗`, `⌂`, `▤`, `◇`, `◷`, `✓`) and disparate emojis with clean, modern inline SVGs (Lucide/heroicon style) for brand, navigation, roadmap, and action buttons | M1 | Survey (Explorer 1) |
-| 4 | Unified Mobile & Tablet Breakpoints | Eliminate the 740px breakpoint trap by establishing modern breakpoints: Mobile (`<= 767px`), Tablet (`768px - 1024px`), Desktop (`>= 1025px`) | M2 | Survey (Explorer 2) |
-| 5 | Single-Column Grid Optimization | Eliminate the 36% dead space bug in `.grid` by using single-column `1fr` when only 1 card child is rendered | M2 | Survey (Explorer 2) |
-| 6 | Fixed Bottom Bar & Overlay Fix | Clean up fixed bottom bar collision (`.side` + `.mobile-tools`), hide `.mobile-tools` inside Angular course to prevent jumping to HTML editor, apply safe-area insets | M2 | Survey (Explorer 2) |
-| 7 | Mobile Editor & Preview Tab Switcher | Add in-card segmented toggle (`[ الكود ]` / `[ المعاينة ]`) on mobile phones (<768px) to eliminate 970px vertical stacking, and 50/50 side-by-side view on tablet landscape | M2 | Survey (Explorer 2) |
-| 8 | Touch Target Accessibility (>= 44px) | Upgrade all interactive controls (`.run`, `.complete`, `.angular-tool-button`, `.dialog-close`, etc.) to minimum 44px hit height | M2 | Survey (Explorer 2) |
-| 9 | Mobile Input Zoom & Padding Fix | Set input font size to 16px to prevent iOS Safari auto-zoom and eliminate double padding in Slot Builder container | M2 | Survey (Explorer 2) |
-| 10 | Mobile Dialog Bottom-Sheet Layout | Style modals as bottom-sheets (`border-radius: 20px 20px 0 0; max-height: 85vh`) on small screens to accommodate soft keyboards | M2 | Survey (Explorer 2) |
-| 11 | PrintScreen Key Interception | Intercept `PrintScreen` on both `keydown` and `keyup` (`key`, `code`, `keyCode: 44`), flash blackout shield (`screen-shield-active`), and show warning toast | M3 | Survey (Explorer 3) |
-| 12 | Clipboard Overwrite on PrintScreen | Overwrite clipboard contents with warning text (`navigator.clipboard.writeText`) on PrintScreen press to invalidate captured clipboard frames | M3 | Survey (Explorer 3) |
-| 13 | Mobile Long-Press & Selection Clearing | Apply `-webkit-touch-callout: none` and bind `selectionchange` to collapse native selection pins (`window.getSelection().removeAllRanges()`) | M3 | Survey (Explorer 3) |
-| 14 | Mobile Lifecycle & Multitasking Shield | Obscure content when app is switched or screen locked via `pagehide`, `blur`, and `visibilitychange`, with instant touch recovery (`touchstart`) | M3 | Survey (Explorer 3) |
-| 15 | Expanded CSS User-Select Protection | Extend `user-select: none` across Angular course panels, workbenches, roadmaps, and terminal containers | M3 | Survey (Explorer 3) |
-| 16 | XSS / Attribute Breakout Remediation | Fix `escapeHtml` in `app.js` to escape single quotes (`' -> &#39;`) | M4 | Survey (Explorer 3) |
-| 17 | Safe Signal Expression Sanitization | Sanitize student signal expressions in `angular-editor.js` against dangerous globals (`window`, `document`, `eval`, `localStorage`, `fetch`) | M4 | Survey (Explorer 3) |
-| 18 | WebContainer Iframe Security Sandbox | Restrict dev-server iframe sandboxing to prevent same-origin privilege escalation | M4 | Survey (Explorer 3) |
-| 19 | AudioContext Resource Leak Fix | Cache or close `AudioContext` instances in `app.js:playRewardTone` to prevent hardware quota exhaustion | M4 | Survey (Explorer 3) |
-| 20 | Mobile Scroll Layout Throttling | Throttle scroll listener in `app.js:updateActiveSection` via `requestAnimationFrame` to ensure 60 FPS mobile performance | M4 | Survey (Explorer 3) |
-| 21 | E2E Testing Track & Regressions | Comprehensive automated tests for PrtSc, mobile deterrence, watermark attribution, responsive layouts, and existing 89 baseline tests | M5 | Testing Track |
-| 22 | Forensic Integrity & Craftsmanship Audit | Independent verification by `teamwork_auditor` for genuine implementations with zero cheating or facades | M5 | Forensic Audit |
-
----
+| 1 | R4-F1: Deactivate Screenshot Blocking | Disable PrintScreen detection, screen-shield-active blur, clipboard overwrite, and warning toasts | M1 | ORIGINAL_REQUEST §R4 |
+| 2 | R4-F2: Remove Watermark Overlays | Remove `#learningWatermark`, tile generation, interval timers, and watermark CSS styles | M1 | ORIGINAL_REQUEST §R4 |
+| 3 | R4-F3: Update Content Protection Tests | Update `content-protection.test.cjs` so deactivated/removed protection features pass test suite | M1 | ORIGINAL_REQUEST §R4 |
+| 4 | R1-F1: Editor Layout Orientation Toggle | UI control in editor header to switch between side-by-side and stacked layout modes | M2 | ORIGINAL_REQUEST §R1 |
+| 5 | R1-F2: Side-by-Side & Stacked Layout Styles | CSS rules for `.editor-preview-split` side-by-side (1fr 1fr) and stacked (preview below editor) with persistence | M2 | ORIGINAL_REQUEST §R1 |
+| 6 | R1-F3: Responsive Layout Adaptability | Fully responsive behavior across desktop, tablet, and mobile viewports | M2 | ORIGINAL_REQUEST §R1 |
+| 7 | R2-F1: Modern Dark Color Palette | Refreshed CSS variables for rich dark theme (`--bg`, `--surface`, `--ink`, `--green`, `--lime`) | M3 | ORIGINAL_REQUEST §R2 |
+| 8 | R2-F2: Dark Theme Component Styling | Consistent dark styling for sidebar, cards, dialogs, progress, roadmaps, and buttons | M3 | ORIGINAL_REQUEST §R2 |
+| 9 | R2-F3: Test Selector Preservation | Preserve all mandatory CSS selector strings required by `behavior.test.cjs` and responsive tests | M3 | ORIGINAL_REQUEST §R2 |
+| 10 | R3-F1: Landing Homepage Section | Dedicated landing section welcoming learners, platform intro, feature highlights | M4 | ORIGINAL_REQUEST §R3 |
+| 11 | R3-F2: Curriculum Track Cards & Links | Showcase cards for HTML (54), CSS (94), JS (119), Angular (106) with direct lesson links | M4 | ORIGINAL_REQUEST §R3 |
+| 12 | R3-F3: Bidirectional Traversal | Seamless navigation from homepage into lessons and back to homepage | M4 | ORIGINAL_REQUEST §R3 |
+| 13 | R5-F1: Curriculum Logic Preservation | Preserve all 373 lessons, DataLoader, SmartHintEngine, WebContainer runtime, and step verifications | M5 | ORIGINAL_REQUEST §R5 |
+| 14 | R5-F2: 100% E2E & Regression Pass | Ensure all baseline tests (104 tests) and new E2E tests pass with zero failures | M5 | ORIGINAL_REQUEST §R5 |
+| 15 | R5-F3: Adversarial Coverage Hardening | Tier 5 white-box challenger stress tests verifying edge cases and code paths | M5 | ORIGINAL_REQUEST §R5 |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| M1 | Branding, Watermark & Modern SVG Visual Assets | Features 1, 2, 3: Rebrand to StepLearn, dynamic watermark ("تنفيذ وتصميم المهندس أحمد عاشور"), Lucide/heroicon SVGs for logo, nav, and progress indicators | none | DONE |
-| M2 | Mobile & Tablet Responsiveness & Touch UX | Features 4, 5, 6, 7, 8, 9, 10: Breakpoint unification, single-column grid, bottom bar overhaul, tabbed mobile editor/preview, 44px touch targets, modal bottom sheets | M1 | DONE |
-| M3 | Anti-Screenshot (PrtScn / Mobile / Tablet) & Copy Deterrence | Features 11, 12, 13, 14, 15: Dual keydown/keyup PrtSc interception, clipboard overwrite, mobile touch-callout & selection clearing, pagehide/blur lifecycle, expanded CSS protection | M1 | DONE |
-| M4 | Code Review, Security Hardening & Defect Remediation | Features 16, 17, 18, 19, 20: XSS single quote escape, signal eval sanitization, AudioContext leak fix, scroll rAF throttling | M1, M2, M3 | DONE |
-| M5 | E2E Verification & Forensic Integrity Audit | Features 21, 22: Automated test suite expansion, test runner validation (all 89+ tests passing), reviewer approvals, and forensic audit | M1, M2, M3, M4 | DONE |
-
----
+| 1 | M1: Protection & Watermark Removal | Deactivate screenshot listeners, remove watermarks, update content-protection.test.cjs | none | DONE |
+| 2 | M2: CodePen-Style Flexible Layout | Toggle UI control, side-by-side & stacked CSS, responsive proportions, localStorage persistence | M1 | DONE |
+| 3 | M3: Modern Dark Developer Theme | Dark palette variables, dark surface styles, typography, preserving test selector regexes | M2 | DONE |
+| 4 | M4: Landing Homepage & Track Nav | Welcome section, track discovery, editor-and-preview overview, navigation to lessons | M3 | DONE |
+| 5 | M5: Final E2E Pass & Hardening | Run E2E/regression suites and resolve any remaining failures | M4 | PENDING_VERIFICATION |
 
 ## Interface Contracts
-### 1. Watermark Specification (`content-protection.js` ↔ UI)
-- Overlay element: `#steplearnWatermark` or `.learning-watermark` appended to `document.body` or `#lesson`.
-- Required text string format:
-  `"steplearn · تنفيذ وتصميم المهندس أحمد عاشور · " + learnerName + " · " + dateText + " · محتوى تعليمي محمي (خُطوة)"`
-- Pointer events: strictly `pointer-events: none` to never obstruct typing in CodeMirror or clicking buttons.
-- Styling: `position: fixed; inset: 0; z-index: 50; overflow: hidden; opacity: 0.08;`
+### Protection Removal ↔ Test Suite (M1)
+- `content-protection.js`: All screenshot listeners (PrintScreen, blur, visibilitychange) deactivated; `renderWatermark()` no-oped/removed; `#learningWatermark` not rendered.
+- `content-protection.test.cjs`: Updated to assert that screenshot blocking is deactivated and no watermark is injected. All tests pass.
+- `styles.css` / `index.html`: Obsolete protection overlay elements cleaned up or disabled without breaking any test assertions.
 
-### 2. Responsive Breakpoints Contract (`styles.css` ↔ DOM)
-- Mobile: `@media (max-width: 767px)`
-- Tablet: `@media (min-width: 768px) and (max-width: 1024px)`
-- Desktop: `@media (min-width: 1025px)`
-- Touch target minimum: `min-height: 44px; min-width: 44px;` for primary interactive controls.
+### Layout Toggle ↔ CSS & Storage (M2)
+- Toggle button ID: `#layoutToggleBtn` inside `.editorhead`
+- Container attribute: `.editor-preview-split[data-layout-orientation="side"]` and `[data-layout-orientation="stacked"]`
+- Storage key: `localStorage.getItem('steplearn_editor_orientation')` -> `'side' | 'stacked'`, defaults to `'side'`
+- In stacked mode: `.editor textarea` min-height: 240px, `.previewrow .preview` min-height: 280px, preview positioned beneath editor.
 
-### 3. Screen Capture & PrtSc Interception (`content-protection.js` ↔ DOM Events)
-- Events intercepted: `keydown` AND `keyup` where `e.key === "PrintScreen" || e.code === "PrintScreen" || e.keyCode === 44`.
-- Actions:
-  1. Add `.screen-shield-active` class to `document.body` (renders blackout overlay immediately for 1.2s - 2s).
-  2. Overwrite clipboard: `navigator.clipboard.writeText("محتوى منصة StepLearn محمي بحقوق الملكية الفكرية لتصميم وتنفيذ المهندس أحمد عاشور.")`.
-  3. Show warning toast notification: `"تم حجب المحتوى لحماية الملكية الفكرية."`.
+### Theme Tokens ↔ Components (M3)
+- `:root` variables: `--bg: #0d1410`, `--surface: #14201a`, `--surface-raised: #1a2a22`, `--ink: #e6f2eb`, `--muted: #8ea89a`, `--line: #203328`, `--green: #2bb07f`, `--lime: #bbf268`
+- Dark card backgrounds: `.card`, `.stat`, `.growth-dashboard`, `.modal-content` adopt dark tokens.
+- Preserved regexes: `.editor textarea{direction:ltr;unicode-bidi:embed}`, `.growth-build-row{grid-template-columns:minmax(0,1fr)}`, `.starter-project-list{display:grid}`, `article.card[data-mobile-view="editor"] .previewrow{display:none!important}`.
 
----
+### Homepage ↔ Lesson Navigation (M4)
+- Landing section ID: `#landingSection` inside `index.html`.
+- Primary links lead to `#courses` and `#lesson`; the global home navigation returns to `#home`.
+- Track selectors in `#courses` switch HTML, CSS, or JavaScript lessons; the Angular course button enters `window.AngularCourse`.
 
 ## Code Layout
-- Exclusive File Boundaries:
-  - `content-protection.js`: Owned by Security & Protection specialists.
-  - `styles.css`: Owned by UI/UX & Responsive specialists.
-  - `index.html`: Owned by Branding & Layout specialists.
-  - `app.js`: Owned by Code Quality & Audio/Interactive specialists.
-  - `angular-editor.js`: Owned by Angular Runtime & Evaluation Security specialists.
-  - `content-protection.test.cjs`: Owned by Testing specialist.
-  - `.agents/teamwork/`: Metadata only (no application source code).
+- `index.html`: Main SPA markup, shell, landing section, lesson cards, modal overlays.
+- `styles.css`: Platform styling, dark theme variables, component rules, responsive media queries, orientation layout rules.
+- `app.js`: Core platform logic, track selection, lesson progression, step verification, orientation toggle wiring, navigation handlers.
+- `content-protection.js`: Content protection module (deactivated).
+- `content-protection.test.cjs`: Tests for content protection behavior.
+- `angular-editor.js`: WebContainer and CodeMirror runtime for Angular 22 track.
