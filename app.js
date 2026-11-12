@@ -1,4 +1,4 @@
-(function(){
+(async function(){
   var courseHelpers = window.LESSONS_DATA.courseHelpers,
       cssFamily = courseHelpers.cssFamily,
       cssLessonSpec = courseHelpers.cssLessonSpec,
@@ -96,7 +96,7 @@
         sunset: { accent: "#a65d32", soft: "#fbefe6", ink: "#4c3529" }
       },
       profileCard = loadProfileCard();
-  var course = s.course, roadFilterCourse = "all", ran = false, lastCode = null, ctx = null, source = null, gain = null,
+  var course = s.course, activePreviewCourse = s.course, roadFilterCourse = "all", ran = false, lastCode = null, ctx = null, source = null, gain = null,
       timerDuration = s.focusDuration, clock = s.focusSeconds, timerDeadline = 0, timerId = null, toastId = null;
 
   function save() {
@@ -781,6 +781,12 @@
   var htmlSequence = window.LESSONS_DATA.html,
       cssSequence = window.LESSONS_DATA.css,
       jsSequence = window.LESSONS_DATA.js,
+      legacySequences = {
+        html: window.LESSONS_DATA.html.slice(),
+        css: window.LESSONS_DATA.css.slice(),
+        js: window.LESSONS_DATA.js.slice()
+      },
+      curriculumTracks = {},
       skillCatalog = [];
   Object.keys(window.LESSONS_DATA.skills || {}).forEach(function(key) {
     window.LESSONS_DATA.skills[key].forEach(function(skill) {
@@ -1798,7 +1804,7 @@
       }
       return legacyId;
     },
-    loadTrack: function(trackName) {
+    loadTrack: function(trackName, options) {
       var self = this;
       if (self._cache[trackName]) {
         return Promise.resolve(self._cache[trackName]);
@@ -1818,7 +1824,8 @@
             self._cache[trackName] = data;
             return data;
           })
-          .catch(function() {
+          .catch(function(error) {
+            if (options && options.strict === true) throw error;
             var hydrated = self.hydrateFromLegacy(trackName);
             self._cache[trackName] = hydrated;
             return hydrated;
@@ -1954,6 +1961,36 @@
   if (typeof window !== "undefined") {
     window.SmartHintEngine = SmartHintEngine;
     window.DataLoader = DataLoader;
+  }
+
+  try {
+    var curriculumNames = ["html", "css", "js"],
+        loadedCurricula = await Promise.all(curriculumNames.map(function(name) {
+          return DataLoader.loadTrack(name, { strict: true });
+        }));
+    loadedCurricula.forEach(function(track, index) {
+      var name = curriculumNames[index];
+      if (!track || track.track !== name || !Array.isArray(track.lessons) || !track.lessons.length) {
+        throw new Error("Invalid curriculum data for " + name);
+      }
+      track.lessons.forEach(function(lesson, lessonIndex) {
+        if (!lesson || !lesson.id || lesson.legacyId !== name + ":" + lessonIndex || !lesson.title ||
+            typeof lesson.code !== "string" || !Array.isArray(lesson.steps) || !lesson.steps.length) {
+          throw new Error("Invalid lesson data at " + name + ":" + lessonIndex);
+        }
+      });
+      curriculumTracks[name] = track;
+    });
+    htmlSequence = curriculumTracks.html.lessons.map(function(lesson) { return lesson.title; });
+    cssSequence = curriculumTracks.css.lessons.map(function(lesson) { return lesson.title; });
+    jsSequence = curriculumTracks.js.lessons.map(function(lesson) { return lesson.title; });
+  } catch (error) {
+    curriculumTracks = {};
+    htmlSequence = legacySequences.html;
+    cssSequence = legacySequences.css;
+    jsSequence = legacySequences.js;
+    ["html", "css", "js"].forEach(function(name) { delete DataLoader._cache[name]; });
+    console.error("Could not load the HTML, CSS, and JavaScript curriculum JSON files:", error);
   }
 
   function validateLessonAnswer(code, model, step) {
@@ -2493,7 +2530,9 @@
         before: practice.before,
         after: practice.after,
         from: practice.from,
-        to: practice.to
+        to: practice.to,
+        errorRules: practice.errorRules,
+        hints: practice.hints
       });
     });
     add({
@@ -2510,7 +2549,7 @@
       task: model.bugQuestion,
       question: model.bugQuestion,
       options: model.bugOptions,
-      correct: 0
+      correct: typeof model.bugCorrect === "number" ? model.bugCorrect : 0
     });
     add({
       id: "repair", type: "repair", title: "أصلح السطر وشغّله",
@@ -2597,13 +2636,135 @@
     return /<!doctype\s+html\s*>/i.test(code) && /<html(?:\s|>)/i.test(code) && /<head(?:\s|>)/i.test(code) && /<body(?:\s|>)/i.test(code);
   }
 
+  function curriculumLessonBreakdown(lesson) {
+    return (Array.isArray(lesson.breakdown) ? lesson.breakdown : []).map(function(item, index) {
+      var text = typeof item === "string" ? item : item && (item.meaning || item.text || item.code) || "",
+          title = item && typeof item === "object" && item.title ? item.title : "تفصيل " + (index + 1),
+          code = item && typeof item === "object" && item.code ? item.code : "";
+      return {
+        title: title,
+        code: code,
+        flow: code ? code + "\n" + text : text,
+        note: text,
+        meaning: text,
+        benefit: item && typeof item === "object" && item.benefit ? item.benefit : text
+      };
+    });
+  }
+
+  function curriculumGrowthLessonModel(key, index, lesson) {
+    var id = lesson.legacyId || lessonId(key, index),
+        code = String(lesson.code || ""),
+        completed = growth.completed.indexOf(id) >= 0,
+        existingDraft = growth.drafts[id],
+        savedBase = growth.baseCodes[id],
+        repair = lesson.bugRepair || {},
+        details = curriculumLessonBreakdown(lesson),
+        currentCode = code,
+        practiceSteps = [];
+
+    if (savedBase !== code) {
+      if (typeof existingDraft === "string" && existingDraft !== code) {
+        growth.archivedDrafts = growth.archivedDrafts || {};
+        growth.archivedDrafts[id] = existingDraft.slice(0, 30000);
+      }
+      growth.baseCodes[id] = code;
+      if (!completed) {
+        growth.drafts[id] = code;
+        growth.stages[id] = 0;
+        if (growth.lessonFlow) delete growth.lessonFlow[id];
+        if (growth.readingSteps) delete growth.readingSteps[id];
+        if (growth.experimentCodes) delete growth.experimentCodes[id];
+        if (growth.repairStarted) delete growth.repairStarted[id];
+        if (growth.answers) {
+          delete growth.answers["bug:" + id];
+          delete growth.answers["quiz:" + id];
+        }
+      } else if (typeof existingDraft !== "string") {
+        growth.drafts[id] = code;
+      }
+      saveGrowth();
+    } else if (typeof existingDraft !== "string") {
+      growth.drafts[id] = code;
+      saveGrowth();
+    }
+
+    (Array.isArray(lesson.steps) ? lesson.steps : []).forEach(function(sourceStep, stepIndex) {
+      var from = String(sourceStep.from || ""),
+          to = String(sourceStep.to || ""),
+          before = currentCode,
+          at = from ? before.indexOf(from) : -1,
+          valid = at >= 0 && to.length > 0,
+          after = valid ? before.slice(0, at) + to + before.slice(at + from.length) : before;
+      practiceSteps.push({
+        id: "edit-" + stepIndex,
+        title: sourceStep.title || "تعديل من محتوى الدرس",
+        explanation: sourceStep.explanation || sourceStep.instruction || "غيّر الجزء المحدد ثم شغّل المثال.",
+        task: sourceStep.instruction || sourceStep.task || "غيّر الجزء المحدد فقط ثم شغّل المثال.",
+        benefit: sourceStep.benefit || "لاحظ أثر تعديلك في المثال.",
+        from: from,
+        to: to,
+        before: before,
+        after: after,
+        valid: valid,
+        errorRules: Array.isArray(sourceStep.errorRules) ? sourceStep.errorRules : [],
+        hints: Array.isArray(sourceStep.hints) ? sourceStep.hints : []
+      });
+      if (valid) currentCode = after;
+    });
+
+    var firstPractice = practiceSteps[0] || {},
+        fixedCode = typeof repair.fixedCode === "string" ? repair.fixedCode : "",
+        brokenCode = typeof repair.brokenCode === "string" ? repair.brokenCode : "",
+        repairAsHtml = key === "js" && /^\s*<[a-z][a-z0-9-]*(?:\s|>)/i.test(brokenCode) && /^\s*<[a-z][a-z0-9-]*(?:\s|>)/i.test(fixedCode),
+        objective = lesson.whyUse || lesson.concept || "تعرّف على فكرة هذا الدرس وجرّبها في المثال.";
+
+    return {
+      id: id,
+      key: key,
+      index: index,
+      topic: lesson.title,
+      spec: lesson,
+      lesson: lesson,
+      guide: null,
+      code: code,
+      objective: objective,
+      concept: lesson.concept || objective,
+      trace: lesson.browserMechanics || lesson.concept || code,
+      reference: lesson.documentationUrl || "",
+      details: details,
+      quiz: null,
+      breakdown: details,
+      buildStages: [],
+      practiceSteps: practiceSteps,
+      practiceCode: currentCode,
+      task: firstPractice.task || "جرّب تعديلًا صغيرًا في المثال.",
+      from: firstPractice.from || "",
+      to: firstPractice.to || "",
+      fixedCode: fixedCode,
+      brokenCode: brokenCode,
+      bugQuestion: repair.question || "ما الخطأ في المثال؟",
+      bugOptions: Array.isArray(repair.options) ? repair.options : [],
+      bugCorrect: Number.isInteger(repair.correctOptionIndex) ? repair.correctOptionIndex : 0,
+      bugExplanation: repair.explanation || "قارن المثال المعطوب بالصيغة الصحيحة.",
+      bugExample: brokenCode,
+      repairAsHtml: repairAsHtml,
+      projectPiece: topicPiece(key, index, objective, code)
+    };
+  }
+
   function growthLessonModel() {
     var key = course,
         index = currentTopicIndex(key),
-        topic = courseTopics(key)[index] || course.toUpperCase(),
+        currentId = lessonId(key, index),
+        jsonLesson = DataLoader.getLesson(key, currentId);
+    if (curriculumTracks[key] && jsonLesson && Array.isArray(jsonLesson.steps) && jsonLesson.steps.length) {
+      return curriculumGrowthLessonModel(key, index, jsonLesson);
+    }
+    var topic = courseTopics(key)[index] || course.toUpperCase(),
         authoredGuide = key === "html" && window.LESSONS_DATA.guides && window.LESSONS_DATA.guides.html && window.LESSONS_DATA.guides.html[topic],
         spec = key === "html" ? htmlLessonDetail(index) : courseLessonSpec(),
-        id = lessonId(key, index),
+        id = currentId,
         savedBase = growth.baseCodes[id],
         code = authoredGuide ? authoredGuide.code : key === "html" ? fullHtmlDocument(data.html.code, topic) : courseExampleCode(key, spec),
         from = spec.from || "",
@@ -3246,6 +3407,7 @@
         reference = document.getElementById("lessonReference"),
         dots = document.getElementById("lessonDots"),
         exampleMarkup;
+    var previewCourse = lessonPreviewCourse(model, step);
     document.body.classList.toggle("is-html", model.key === "html");
     document.body.classList.toggle("is-course-guide", model.key === "css" || model.key === "js");
     document.body.classList.add("has-roadmap", "growth-experience");
@@ -3255,7 +3417,7 @@
     document.getElementById("sub").textContent = model.objective;
     document.getElementById("lessonObjective").hidden = true;
     document.getElementById("level").textContent = (model.key === "html" ? "HTML" : model.key === "css" ? "CSS" : "JavaScript") + " · " + ar(model.index + 1) + " من " + ar(courseTopics(model.key).length);
-    document.getElementById("filename").textContent = data[model.key].file;
+    document.getElementById("filename").textContent = data[previewCourse].file;
     document.getElementById("guideTrackLabel").textContent = "فكرة واحدة · تجربة واحدة";
     document.getElementById("prompt").hidden = true;
     document.querySelector(".prompt").hidden = true;
@@ -3292,7 +3454,7 @@
     }
     document.getElementById("code").value = editorValue;
     document.getElementById("code").readOnly = reviewingBuild;
-    growthPreview(editorValue);
+    growthPreview(editorValue, previewCourse);
     clearStepBenefit();
     previous.disabled = completed || current <= 0;
     previous.onclick = function() {
@@ -3318,7 +3480,7 @@
     }
 
     setLessonCopy(title, step.title);
-    setLessonCopy(copy, step.explanation);
+    setLessonCopy(copy, step.type === "repair" && model.bugExplanation ? model.bugExplanation : step.explanation);
     if (step.type === "edit") {
       exampleMarkup = '<div class="basic-structure lesson-target"><span class="comment">غيّر هذا الجزء:</span><br><bdi dir="ltr">' + escapeHtml(step.from) + '</bdi><br><span class="comment">إلى:</span><br><bdi dir="ltr">' + escapeHtml(step.to) + '</bdi></div>';
     } else if (step.type === "diagnose" || step.type === "repair") {
@@ -3374,7 +3536,7 @@
       next.disabled = step.type === "quiz" || step.type === "diagnose" || step.type === "project";
     }
     if (typeof renderSlotBuilder === "function") renderSlotBuilder(step, model);
-    if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(editorValue, model.key);
+    if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(editorValue, previewCourse);
     if (typeof updateHandCraftScore === "function") updateHandCraftScore(model.key, false, 0);
     renderGrowthDashboard();
   }
@@ -3429,13 +3591,21 @@
     next.disabled = false;
   }
 
-  function growthPreview(code) {
+  function lessonPreviewCourse(model, step) {
+    if (model && model.repairAsHtml && step && step.type === "repair") return "html";
+    if (model && model.repairAsHtml && step && step.type === "project" && growth.drafts[model.id] === model.fixedCode) return "html";
+    return model ? model.key : course;
+  }
+
+  function growthPreview(code, courseOverride) {
+    var previewCourse = courseOverride || activePreviewCourse || course;
+    activePreviewCourse = previewCourse;
     clearPreviewStatus();
-    if (course === "js") {
+    if (previewCourse === "js") {
       try { new Function(code); } catch(error) { showPreviewError(error && error.message || error); }
     }
-    document.getElementById("preview").srcdoc = data[course].build(code);
-    if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(code, course);
+    document.getElementById("preview").srcdoc = data[previewCourse].build(code);
+    if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(code, previewCourse);
   }
 
   function runDynamicGrowthLesson() {
@@ -3443,6 +3613,7 @@
         steps = growthLessonSteps(model),
         state = growthLessonFlowState(model, steps),
         step = steps[state.current],
+        previewCourse = lessonPreviewCourse(model, step),
         code = document.getElementById("code").value,
         hint = document.getElementById("hint"),
         isRunnable = true,
@@ -3456,7 +3627,7 @@
       hint.textContent = step.build ? "المحرر فاضي. اكتب الجزء الظاهر في بطاقة الخطوة ثم شغّل." : "المحرر فاضي. ابدأ من المثال الظاهر ثم نفّذ خطوة اليوم.";
       return;
     }
-    if (model.key === "js") {
+    if (previewCourse === "js") {
       try { new Function(code); } catch(error) {
         isRunnable = false;
         if (typeof showPreviewError === "function") showPreviewError(error && error.message || error);
@@ -3467,7 +3638,7 @@
     var staged = !!(model.buildStages && model.buildStages.length),
         reviewing = state.current < state.unlocked;
     if (staged && reviewing && (step.stage || step.id === "idea")) {
-      growthPreview(code);
+      growthPreview(code, previewCourse);
       hint.textContent = "هذه خطوة سبق إنجازها. هكذا ظهرت نتيجتها.";
       showStepBenefit(step.benefit);
       return;
@@ -3476,7 +3647,7 @@
       var validation = validateLessonAnswer(code, model, step);
       if (!validation.valid) {
         clearStepBenefit();
-        growthPreview(code);
+        growthPreview(code, previewCourse);
         hint.textContent = validation.message;
         document.getElementById("code").focus();
         return;
@@ -3487,7 +3658,7 @@
         var missing = typeof missingBuildLine === "function" ? missingBuildLine(code, step.build) : "";
         if (missing) {
           clearStepBenefit();
-          growthPreview(code);
+          growthPreview(code, previewCourse);
           hint.textContent = "لم تكتمل الخطوة بعد. ينقصك هذا السطر: " + missing;
           document.getElementById("code").focus();
           return;
@@ -3509,7 +3680,7 @@
         return;
       }
     }
-    growthPreview(code);
+    growthPreview(code, previewCourse);
     growth.drafts[model.id] = code;
     s[model.key + "Code"] = code;
     s.examples++;
@@ -3905,7 +4076,7 @@
   }
 
   function htmlLessonDetail(lesson) {
-    var topic = htmlSequence[lesson] || "HTML";
+    var topic = legacySequences.html[lesson] || "HTML";
     if (/Introduction/.test(topic)) return { title: "المتصفح يقرأ بنية المستند", flow: "ملف HTML ⟶ عناصر مرتبة ⟶ المتصفح يعرض الصفحة", note: "HTML يحدد معنى الأجزاء وترتيبها؛ CSS سيغيّر شكلها في دروس لاحقة." };
     if (/Editors/.test(topic)) return { title: "التعديل يحتاج حفظًا ثم معاينة", flow: "اكتب في المحرر ⟶ احفظ الملف ⟶ افتحه في المتصفح", note: "المعاينة هنا تختصر دورة الحفظ والفتح، لذلك جرّب تعديلًا واحدًا وشاهد النتيجة." };
     if (/Basic/.test(topic)) return { title: "المستند له أجزاء رئيسية", flow: "doctype ⟶ html ⟶ head للمعلومات ⟶ body للمحتوى الظاهر", note: "العنوان الظاهر داخل الصفحة مكانه body؛ أما title فيظهر على لسان المتصفح." };
@@ -4074,7 +4245,7 @@
   }
 
   function courseLessonSpecFor(key) {
-    var sequence = key === "css" ? cssSequence : jsSequence,
+    var sequence = legacySequences[key] || (key === "css" ? cssSequence : jsSequence),
         index = Math.max(0, Math.min(Math.floor(s[key + "Lesson"] || 0), sequence.length - 1)),
         spec = key === "css" ? cssLessonSpec(sequence[index], index) : jsLessonSpec(sequence[index], index);
     spec.details = courseLessonDetails(spec, key);
@@ -4099,6 +4270,9 @@
   }
 
   function coursePhase(key, index) {
+    var curriculum = curriculumTracks[key],
+        lesson = curriculum && curriculum.lessons[index];
+    if (lesson && lesson.skill) return lesson.skill;
     if (key === "css") {
       if (index >= cssSequence.indexOf("CSS Responsive Intro")) return "التصميم المتجاوب · CSS Responsive";
       if (index >= cssSequence.indexOf("CSS Grid Intro")) return "الشبكة · CSS Grid";
@@ -5097,7 +5271,7 @@
 
   function courseLessonSpec() {
     var lessonKey = course + "Lesson",
-        sequence = course === "css" ? cssSequence : jsSequence,
+        sequence = legacySequences[course] || (course === "css" ? cssSequence : jsSequence),
         index = Math.max(0, Math.min(Math.floor(s[lessonKey] || 0), sequence.length - 1)),
         topic = sequence[index],
         spec = course === "css" ? cssLessonSpec(topic, index) : jsLessonSpec(topic, index),
@@ -5301,6 +5475,7 @@
   function select(k) {
     if (!data[k]) return;
     course = k;
+    activePreviewCourse = k;
     s.course = k;
     save();
     var x = data[k];
@@ -5320,7 +5495,6 @@
     lastCode = null;
     clearPreviewStatus();
     renderGuide();
-    document.getElementById("preview").srcdoc = x.build(document.getElementById("code").value);
   }
 
   function run() {
@@ -5614,6 +5788,110 @@
   }
   initSidebarCollapse();
 
+  /* ==========================================================================
+     Milestone 2: Editor Layout Orientation Toggle & Persistence
+     Storage Key: steplearn_editor_orientation ('side' | 'stacked')
+     ========================================================================== */
+  var LAYOUT_STORAGE_KEY = "steplearn_editor_orientation";
+
+  function getSavedLayoutOrientation() {
+    try {
+      var saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
+      if (saved === "stacked" || saved === "side") {
+        return saved;
+      }
+    } catch (e) {}
+    return "side";
+  }
+
+  function applyLayoutOrientation(orientation) {
+    var validOrientation = (orientation === "stacked") ? "stacked" : "side";
+    var split = document.querySelector(".editor-preview-split");
+    var toggleBtn = document.getElementById("layoutToggleBtn");
+
+    if (split) {
+      split.setAttribute("data-layout-orientation", validOrientation);
+      split.classList.toggle("is-stacked", validOrientation === "stacked");
+    }
+
+    if (toggleBtn) {
+      var isStacked = (validOrientation === "stacked");
+      toggleBtn.setAttribute("data-layout", validOrientation);
+      toggleBtn.setAttribute("aria-pressed", isStacked ? "true" : "false");
+      toggleBtn.classList.toggle("active", isStacked);
+
+      var sideIcon = toggleBtn.querySelector(".layout-icon-side");
+      var stackedIcon = toggleBtn.querySelector(".layout-icon-stacked");
+      var labelSpan = toggleBtn.querySelector(".layout-toggle-text");
+
+      if (isStacked) {
+        toggleBtn.setAttribute("aria-label", "تبديل مظهر المحرر إلى عرض جانبي");
+        toggleBtn.setAttribute("title", "تبديل إلى العرض الجانبي (جنباً إلى جنب)");
+        if (sideIcon) sideIcon.style.display = "inline-block";
+        if (stackedIcon) stackedIcon.style.display = "none";
+        if (labelSpan) labelSpan.textContent = "جانبي";
+      } else {
+        toggleBtn.setAttribute("aria-label", "تبديل مظهر المحرر إلى عرض عمودي");
+        toggleBtn.setAttribute("title", "تبديل إلى العرض العمودي (أسفل المحرر)");
+        if (sideIcon) sideIcon.style.display = "none";
+        if (stackedIcon) stackedIcon.style.display = "inline-block";
+        if (labelSpan) labelSpan.textContent = "عمودي";
+      }
+    }
+
+    try {
+      localStorage.setItem(LAYOUT_STORAGE_KEY, validOrientation);
+    } catch (e) {}
+  }
+
+  function toggleLayoutOrientation() {
+    var split = document.querySelector(".editor-preview-split");
+    var current = (split && split.getAttribute("data-layout-orientation")) || getSavedLayoutOrientation();
+    var next = (current === "stacked") ? "side" : "stacked";
+    applyLayoutOrientation(next);
+    return next;
+  }
+
+  function initLayoutOrientation() {
+    var savedOrientation = getSavedLayoutOrientation();
+    applyLayoutOrientation(savedOrientation);
+
+    var toggleBtn = document.getElementById("layoutToggleBtn");
+    if (toggleBtn) {
+      toggleBtn.onclick = function() {
+        toggleLayoutOrientation();
+      };
+    }
+  }
+
+  // Expose on window for programmatic testing and external drivers
+  window.setLayoutOrientation = applyLayoutOrientation;
+  window.toggleLayoutOrientation = toggleLayoutOrientation;
+  window.getLayoutOrientation = function() {
+    var split = document.querySelector(".editor-preview-split");
+    return (split && split.getAttribute("data-layout-orientation")) || getSavedLayoutOrientation();
+  };
+
+  initLayoutOrientation();
+
+  function setPreviewDevice(size) {
+    var mode = size === "mobile" ? "mobile" : "wide",
+        stage = document.getElementById("previewStage");
+    if (stage) stage.setAttribute("data-preview-size", mode);
+    document.querySelectorAll(".preview-device-btn").forEach(function(button) {
+      var active = button.getAttribute("data-preview-size") === mode;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  document.querySelectorAll(".preview-device-btn").forEach(function(button) {
+    button.onclick = function() { setPreviewDevice(button.getAttribute("data-preview-size")); };
+  });
+  document.getElementById("refreshPreview").onclick = function() {
+    growthPreview(document.getElementById("code").value, activePreviewCourse);
+  };
+
   document.querySelectorAll("[data-mobile-jump]").forEach(function(button) {
     button.onclick = function() {
       var target = document.getElementById(button.dataset.mobileJump);
@@ -5622,6 +5900,16 @@
       if (button.dataset.mobileJump === "code") target.focus();
     };
   });
+  function updateMobileLessonTools() {
+    var lesson = document.getElementById("lesson"),
+        bounds = lesson && lesson.getBoundingClientRect(),
+        visible = !!(bounds && bounds.top < window.innerHeight && bounds.bottom > 0);
+    document.body.classList.toggle("lesson-workspace-visible", visible);
+  }
+  window.addEventListener("scroll", updateMobileLessonTools, { passive: true });
+  window.addEventListener("resize", updateMobileLessonTools);
+  updateMobileLessonTools();
+
   var originalRun = run;
   document.getElementById("run").onclick = function() {
     originalRun();
@@ -5775,8 +6063,9 @@
   function scheduleLivePreview(code) {
     if (livePreviewTimer) clearTimeout(livePreviewTimer);
     livePreviewTimer = setTimeout(function() {
-      growthPreview(code);
-      if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(code, course);
+      var previewCourse = activePreviewCourse || course;
+      growthPreview(code, previewCourse);
+      if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(code, previewCourse);
     }, 180);
   }
 

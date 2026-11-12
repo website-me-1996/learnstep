@@ -2498,13 +2498,4 @@ window.LESSONS_DATA.references = (function() {
   };
 })();
 
-if (typeof window !== "undefined") {
-  window.__TRACK_DATA = window.__TRACK_DATA || {};
-  if (typeof require !== "undefined") {
-    try {
-      window.__TRACK_DATA.html = require("./html-lessons.json");
-    } catch (e) {}
-  }
-}
-
 

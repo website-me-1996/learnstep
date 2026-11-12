@@ -7,6 +7,7 @@
 <meta name="robots" content="max-snippet:0, noarchive">
 <meta name="application-name" content="steplearn">
 <meta name="apple-mobile-web-app-title" content="steplearn">
+<meta name="description" content="تعلّم HTML وCSS وJavaScript وAngular بالتجربة، مع محرر كود ومعاينة مباشرة ودروس بخطوات قصيرة.">
 <title>steplearn — تعلّم البرمجة بالتجربة</title>
 <link rel="stylesheet" href="styles.css">
 <script>
@@ -57,7 +58,7 @@
     </nav>
   </div>
   <div class="side-tip">
-    <b>🌱 خطوة واحدة كفاية</b>
+    <b> خطوة واحدة كفاية</b>
     <p>مش لازم الصورة كلها تبقى واضحة قبل أول تجربة.</p>
     <button id="tip">فكرة صغيرة اليوم ←</button>
   </div>
@@ -75,10 +76,67 @@
       <span class="date" id="date"></span>
     </div>
   </header>
+  <section class="welcome-landing" id="landingSection" aria-labelledby="landingTitle">
+    <div class="landing-hero">
+      <div class="landing-copy">
+        <span class="landing-eyebrow">منصة عملية لتعلّم تطوير الويب</span>
+        <h1 id="landingTitle">اكتب الكود، وشاهد فكرتك تتحول إلى صفحة تعمل.</h1>
+        <p class="landing-description">تعلّم HTML وCSS وJavaScript وAngular بخطوات قصيرة. عدّل الكود في المحرر، وشاهد أثره مباشرة في المعاينة.</p>
+        <div class="landing-actions">
+          <a class="landing-primary" href="#courses">استكشف مسارات التعلّم <span aria-hidden="true">←</span></a>
+          <a class="landing-secondary" href="#lesson">جرّب درسًا الآن</a>
+        </div>
+        <div class="landing-track-list" aria-label="المسارات المتاحة">
+          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Angular</span>
+        </div>
+        <div class="landing-feature-points" aria-label="مميزات التعلّم">
+          <span>خطوات قصيرة</span><span>معاينة مباشرة</span><span>تقدّم محفوظ</span>
+        </div>
+      </div>
+      <div class="landing-demo" aria-label="مثال بصري للمحرر والمعاينة المباشرة">
+        <div class="landing-demo-header">
+          <span class="landing-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="landing-demo-title">تجربة داخل المحرر</span>
+          <span class="landing-live-label"><i aria-hidden="true"></i> معاينة مباشرة</span>
+        </div>
+        <div class="landing-demo-workspace">
+          <div class="landing-code-pane">
+            <span class="landing-pane-label">الكود</span>
+            <pre dir="ltr"><code><span class="landing-code-tag">&lt;h1&gt;</span>فكرتك تبدأ هنا<span class="landing-code-tag">&lt;/h1&gt;</span>
+<span class="landing-code-tag">&lt;p&gt;</span>خطوة واحدة في كل مرة<span class="landing-code-tag">&lt;/p&gt;</span></code></pre>
+          </div>
+          <div class="landing-preview-pane">
+            <div class="landing-browser-bar"><span>صفحة تجريبية</span><span class="landing-browser-mark">HTML</span></div>
+            <article class="landing-preview-paper" dir="rtl">
+              <span>النتيجة</span>
+              <h2>فكرتك تبدأ هنا</h2>
+              <p>خطوة واحدة في كل مرة</p>
+              <div class="landing-preview-button">صفحتك الأولى</div>
+            </article>
+          </div>
+        </div>
+        <div class="landing-demo-footer"><span>تعديل صغير</span><span aria-hidden="true">←</span><span>نتيجة واضحة</span></div>
+      </div>
+    </div>
+    <div class="landing-features" aria-label="مميزات التعلّم">
+      <article class="landing-feature">
+        <span class="landing-feature-index">01</span>
+        <div><h2>مسارات مرتبة</h2><p>ابدأ من أساسيات الويب، ثم انتقل إلى Angular.</p></div>
+      </article>
+      <article class="landing-feature">
+        <span class="landing-feature-index">02</span>
+        <div><h2>تطبيق داخل الدرس</h2><p>اكتب وعدّل في محرر مدمج مع معاينة حقيقية.</p></div>
+      </article>
+      <article class="landing-feature">
+        <span class="landing-feature-index">03</span>
+        <div><h2>تقدّم خطوة بخطوة</h2><p>أنجز تدريبًا قصيرًا، وتابع ما تعلّمته.</p></div>
+      </article>
+    </div>
+  </section>
   <section class="welcome">
     <div>
       <div class="eyebrow">مساحة هادئة للتجربة والنمو</div>
-      <h1>أهلًا بك 👋</h1>
+      <h1>أهلًا بك </h1>
       <p id="greeting">لنر ما الخطوة التالية اليوم.</p>
     </div>
     <button class="quiet" id="newGreeting">رسالة جديدة ↻</button>
@@ -189,7 +247,7 @@
           <button type="button" class="mobile-tab-btn active" role="tab" aria-selected="true" data-tab="editor" data-tab-target="editor">الكود ⌨️</button>
           <button type="button" class="mobile-tab-btn" role="tab" aria-selected="false" data-tab="preview" data-tab-target="preview">المعاينة 👁</button>
         </div>
-        <div class="editor-preview-split">
+        <div class="editor-preview-split" data-layout-orientation="side">
           <div class="editor">
             <div class="editorhead">
               <span>● ● ●</span>
@@ -201,6 +259,17 @@
               <div class="editor-head-meta">
                 <span class="hand-craft-badge" id="handCraftMeter" title="نسبة الكود المكتوب بيدك دون الاعتماد على القوالب الجاهزة">🔨 كتابتك بيدك: ٠٪</span>
                 <span id="filename">script.js</span>
+                <button type="button" class="layout-toggle-btn" id="layoutToggleBtn" aria-label="تبديل مظهر المحرر إلى عرض عمودي" title="تبديل إلى العرض العمودي (أسفل المحرر)" aria-pressed="false" data-layout="side">
+                  <svg class="layout-icon layout-icon-side" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="display:none">
+                    <rect x="1" y="2" width="6" height="12" rx="1.5" opacity="0.6"/>
+                    <rect x="9" y="2" width="6" height="12" rx="1.5"/>
+                  </svg>
+                  <svg class="layout-icon layout-icon-stacked" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <rect x="2" y="1" width="12" height="6" rx="1.5" opacity="0.6"/>
+                    <rect x="2" y="9" width="12" height="6" rx="1.5"/>
+                  </svg>
+                  <span class="layout-toggle-text">عمودي</span>
+                </button>
               </div>
             </div>
             <textarea id="code" dir="ltr" aria-label="محرر الكود" spellcheck="false"></textarea>
@@ -213,12 +282,26 @@
             </div>
           </div>
           <div class="previewrow">
-            <div>
-              <div class="previewlabel">النتيجة بعد التشغيل</div>
+            <section class="preview-panel" aria-label="معاينة الصفحة">
+              <div class="preview-toolbar">
+                <div class="preview-toolbar-copy">
+                  <span class="previewlabel">معاينة مباشرة</span>
+                  <span class="preview-caption">تتحدّث أثناء الكتابة</span>
+                </div>
+                <div class="preview-toolbar-actions">
+                  <div class="preview-device-toggle" role="group" aria-label="حجم نافذة المعاينة">
+                    <button type="button" class="preview-device-btn active" data-preview-size="wide" aria-pressed="true">واسع</button>
+                    <button type="button" class="preview-device-btn" data-preview-size="mobile" aria-pressed="false">هاتف</button>
+                  </div>
+                  <button type="button" class="preview-tool-button" id="refreshPreview" aria-label="تحديث المعاينة" title="تحديث المعاينة">↻</button>
+                </div>
+              </div>
               <p class="step-benefit" id="stepBenefit" role="status" aria-live="polite" hidden></p>
-              <iframe class="preview" id="preview" title="نتيجة تشغيل المثال" sandbox="allow-scripts allow-modals"></iframe>
+              <div class="preview-stage" id="previewStage" data-preview-size="wide">
+                <iframe class="preview" id="preview" title="معاينة مباشرة لنتيجة الكود" sandbox="allow-scripts allow-modals"></iframe>
+              </div>
               <p class="preview-status" id="previewStatus" role="status" aria-live="polite"></p>
-            </div>
+            </section>
             <button class="complete" id="complete">أنهيت الخطوة ✓</button>
           </div>
         </div>
@@ -598,11 +681,6 @@
   <div id="dailyChallengeAnswers" class="daily-challenge-answers"></div>
   <p id="dailyChallengeFeedback" class="daily-challenge-feedback" role="status" aria-live="polite"></p>
 </dialog>
-
-<div class="blur-protection-overlay" aria-hidden="true">
-  <span>🔒 مساحة التعلّم محمية</span>
-  <small>انقر داخل النافذة لاستئناف المتابعة والتدريب</small>
-</div>
 
 <script src="lessons-data.js" defer></script>
 <script src="angular-course-data.js" defer></script>
