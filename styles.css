@@ -136,6 +136,9 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
   flex-shrink:0;
   transition:background-color .2s ease,border-color .2s ease,color .2s ease;
 }
+
+/* Mixed Arabic/English explanations stay RTL; only isolated code tokens stay LTR. */
+.basic-structure > bdi[dir="auto"]{display:block;direction:rtl;unicode-bidi:plaintext;text-align:right}
 .layout-toggle-btn:hover{
   background:var(--surface);
   border-color:var(--green);
@@ -267,6 +270,7 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
 .lesson-breakdown{display:grid;gap:6px;margin:4px 0 9px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface-raised);color:var(--ink);font-size:15px;line-height:1.6;direction:rtl;text-align:right}
 .lesson-breakdown h5{margin:0;color:var(--lime);font-size:15px}
 .lesson-breakdown li{margin:2px 0}
+.lesson-breakdown > div,.lesson-breakdown > p{direction:rtl;unicode-bidi:plaintext;text-align:right}
 .lesson-breakdown bdi{direction:ltr;unicode-bidi:isolate;display:inline-block;margin-left:4px;padding:0 4px;border-radius:4px;background:#20352c;color:#d8eadb;font:0.95em Consolas,monospace}
 .lesson-target{direction:rtl;text-align:right;line-height:1.8}
 .lesson-target bdi{direction:ltr;unicode-bidi:isolate;display:inline-block;font:15px/1.6 Consolas,monospace}

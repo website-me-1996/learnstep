@@ -2915,7 +2915,7 @@
   function courseDetailsMarkup(details) {
     if (!Array.isArray(details)) return "";
     return details.map(function(item) {
-      return '<section class="lesson-breakdown"><h5>' + escapeHtml(item.title || "تفصيلة من المثال") + '</h5><div><bdi dir="auto">' + lessonMixedMarkup(item.flow || "") + '</bdi></div><p>' + lessonMixedMarkup(item.note || "") + '</p></section>';
+      return '<section class="lesson-breakdown"><h5>' + escapeHtml(item.title || "تفصيلة من المثال") + '</h5><div>' + lessonMixedMarkup(item.flow || "") + '</div><p>' + lessonMixedMarkup(item.note || "") + '</p></section>';
     }).join("");
   }
 
@@ -3095,7 +3095,10 @@
   function lessonMixedMarkup(value) {
     if (!value) return "";
     var normalized = String(value).replace(/<br\s*\/?>/gi, "\n");
-    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
+    // Keep HTML attributes together. In an RTL sentence, splitting an
+    // expression such as href="#about" makes the browser reorder its
+    // punctuation and display entities like &quot; in the wrong place.
+    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|\b[A-Za-z_:][A-Za-z0-9:._-]*\s*=\s*["'][^"']*["']|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
     var parts = normalized.split(codePattern);
     var out = parts.map(function(part) {
       if (!part) return "";
@@ -3107,6 +3110,9 @@
       }
       if (/^<!DOCTYPE/i.test(part) || /^<\/?[A-Za-z]/i.test(part)) {
         return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
+      }
+      if (/^[A-Za-z_:][A-Za-z0-9:._-]*\s*=\s*["']/i.test(part)) {
+        return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
       }
       if (/^\/\*[\s\S]*?\*\/$/.test(part) || /\{[^}\n]*\}/.test(part) || /^[a-zA-Z-]+\s*:/.test(part)) {
         return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
