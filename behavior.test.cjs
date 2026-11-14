@@ -90,6 +90,8 @@ test("an HTML topic loads its own full file and cannot skip any of its three edi
   function makeLesson(index) {
     const context = {
       window: {}, activeIndex: index, course: "html",
+      curriculumTracks: {},
+      lessonPreviewCourse(model) { return model.key; },
       s: { htmlCode: "<h1>مسودة من درس سابق</h1>", examples: 0, fixes: 0 },
       growth: { completed: [], stages: {}, lessonFlow: {}, baseCodes: {}, drafts: {}, archivedDrafts: {}, experimentCodes: {}, repairStarted: {}, answers: {} },
       data: { html: { code: "<h1>قديم</h1><p>قديم</p>", file: "index.html" } },
@@ -626,6 +628,7 @@ function lessonContext(course) {
     growth: { stages: {}, readingSteps: {}, lessonFlow: {}, completed: [], drafts: {}, experimentCodes: {}, repairStarted: {}, answers: {}, projectParts: [], unlocks: [] },
     profileCard: { name: "متعلم" }, data: { [course]: { file: course === "html" ? "index.html" : course === "css" ? "style.css" : "script.js" } },
     abilityCatalog: [], courseTopics: () => [topic], growthLessonModel: () => model,
+    lessonPreviewCourse(current) { return current.key; },
     growthLessonDone(lessonId) { return context.growth.completed.includes(lessonId); },
     growthDraftFor(current) {
       if (typeof context.growth.drafts[current.id] !== "string") context.growth.drafts[current.id] = current.code;
@@ -651,7 +654,7 @@ function lessonContext(course) {
   for (const [start, end] of [
     ["  function growthLessonDone(id)", "  function renderGrowthLesson()"],
     ["  function coursePracticeStepFor(model) {", "  function fullHtmlDocument("],
-    ["  function renderGrowthLesson()", "  function growthPreview(code)"],
+    ["  function renderGrowthLesson()", "  function growthPreview(code, courseOverride)"],
     ["  function runDynamicGrowthLesson()", "  function completeGrowthLesson(model)"],
     ["  function completeGrowthLesson(model)", "  function completeDynamicGrowthLesson(model)"],
     ["  function completeDynamicGrowthLesson(model)", "  function reviewPreviousGrowthStep()"],
@@ -1320,6 +1323,32 @@ test("restoring a project part reopens its saved lesson in the editor", () => {
   assert.equal(events.course, "css");
   assert.equal(events.focused, true);
   assert.equal(context.openProjectPart("daily-2026-11-02"), false);
+});
+
+test("successful curriculum loading refreshes the lesson already on screen", async () => {
+  let renderCount = 0;
+  const context = {
+    window: { fetch() {} },
+    DataLoader: {
+      loadTrack(track) {
+        return Promise.resolve({
+          track,
+          lessons: [{ id: `${track}-01`, legacyId: `${track}:0`, title: `Loaded ${track}`, code: "", steps: [{}] }]
+        });
+      }
+    },
+    curriculumTracks: {},
+    htmlSequence: [], cssSequence: [], jsSequence: [],
+    renderGrowthLesson() { renderCount++; }
+  };
+  vm.createContext(context);
+  const initCurriculum = sourceBetween("  (async function initCurriculum() {", "  })();");
+  await vm.runInContext(initCurriculum + "\n  })();", context);
+  assert.equal(context.curriculumTracks.html.lessons[0].title, "Loaded html");
+  assert.equal(context.curriculumTracks.css.lessons[0].title, "Loaded css");
+  assert.equal(context.curriculumTracks.js.lessons[0].title, "Loaded js");
+  assert.equal(context.htmlSequence[0], "Loaded html");
+  assert.equal(renderCount, 1);
 });
 
 test("dashboard counts the main project once and shows the latest saved result", () => {

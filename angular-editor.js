@@ -123,7 +123,10 @@ function cloneFiles(files) {
 }
 
 function activeLesson() {
-  return COURSE.lessons[currentLessonIndex] || COURSE.lessons[0];
+  if (!COURSE && typeof window !== "undefined" && window.ANGULAR_COURSE_DATA) {
+    COURSE = window.ANGULAR_COURSE_DATA;
+  }
+  return COURSE && COURSE.lessons ? (COURSE.lessons[currentLessonIndex] || COURSE.lessons[0]) : null;
 }
 
 function formatNumber(value) {
@@ -1631,6 +1634,7 @@ function createEditor(path) {
             else record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
             scheduleSave();
             schedulePreviewUpdate();
+            updateStepNavigation();
             if (runtime) scheduleRuntimeWrite(activePath, currentFiles[activePath]);
           })
         ]
@@ -1649,6 +1653,7 @@ function createEditor(path) {
       else record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
       scheduleSave();
       schedulePreviewUpdate();
+      updateStepNavigation();
       if (runtime) scheduleRuntimeWrite(activePath, currentFiles[activePath]);
     };
     mount.appendChild(textarea);
@@ -1929,10 +1934,106 @@ function renderRoadmap() {
   $("angularCourseCard").textContent = "Angular · " + formatNumber(doneCount) + "/" + formatNumber(COURSE.lessons.length);
 }
 
+function lessonMixedMarkup(value) {
+  if (typeof window !== "undefined" && typeof window.lessonMixedMarkup === "function") {
+    return window.lessonMixedMarkup(value);
+  }
+  if (!value) return "";
+  var normalized = String(value).replace(/<br\s*\/?>/gi, "\n");
+  var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);|(?:\*|\[|\()[A-Za-z0-9_.-]+(?:\*|\]|\))(?:\s*=\s*(?:["'][^"']*["']|&quot;.*?&quot;))?|\b[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*(?:["'][^"']*["']|&quot;.*?&quot;)|"[A-Za-z0-9_#.:\s\/=><!~&|%^,;?@*()-]+"|'[^'\n]+'|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
+  var parts = normalized.split(codePattern);
+  var out = parts.map(function(part) {
+    if (!part) return "";
+    if (/^`[^`]+`$/.test(part)) {
+      return '<code dir="ltr" class="inline-code">' + escapeHtml(part.slice(1, -1)) + '</code>';
+    }
+    if (/^https?:\/\//i.test(part)) {
+      return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
+    }
+    if (/^<!DOCTYPE/i.test(part) || /^<\/?[A-Za-z]/i.test(part)) {
+      return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
+    }
+    if (/^&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);$/.test(part)) {
+      return '<code dir="ltr" class="inline-code">' + part + '</code>';
+    }
+    if (/^[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*(?:["']|&quot;)/.test(part) || /^[\*\[\(]/.test(part) || /^["'][^"']+["']$/.test(part)) {
+      var cleanPart = part.replace(/&quot;/g, '"');
+      return '<code dir="ltr" class="inline-code">' + escapeHtml(cleanPart) + '</code>';
+    }
+    if (/^\/\*[\s\S]*?\*\/$/.test(part) || /\{[^}\n]*\}/.test(part) || /^[a-zA-Z-]+\s*:/.test(part)) {
+      return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
+    }
+    var escaped = escapeHtml(part);
+    return escaped.replace(/(&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);)|(\b[A-Za-z][A-Za-z0-9]*(?:[-_.+#][A-Za-z0-9]+)*)/g, function(match, entity, word) {
+      if (entity) return entity;
+      return '<bdi dir="ltr">' + word + '</bdi>';
+    });
+  }).join("");
+  return out.replace(/\r?\n/g, "<br>");
+}
+
+function isStepCompleted(step, lesson, files) {
+  if (!step) return true;
+  if (step.type === "observe") return true;
+  if (step.type === "quiz") {
+    return currentQuizSelected !== null && currentQuizSelected === step.correct;
+  }
+  const targetFile = step.file || (lesson && lesson.file);
+  const expected = step.expected || step.code || (lesson && lesson.expected);
+  if (!expected || !targetFile) return true;
+  const content = (files || currentFiles)[targetFile] || "";
+  const list = Array.isArray(expected) ? expected : [expected];
+  return list.every((item) => {
+    if (content.includes(item)) return true;
+    const normContent = normalizeWhitespace(content);
+    const normExpected = normalizeWhitespace(item);
+    return normExpected ? normContent.includes(normExpected) : true;
+  });
+}
+
+function updateStepNavigation() {
+  const lesson = activeLesson();
+  if (!lesson) return;
+  const steps = Array.isArray(lesson.steps) && lesson.steps.length ? lesson.steps : [];
+  const currentStep = steps[currentStepIndex];
+  if (!currentStep) return;
+  const complete = completedSet().has(lesson.id);
+
+  const stepPrev = $("angularStepPrev");
+  if (stepPrev) {
+    stepPrev.disabled = currentStepIndex <= 0;
+  }
+  const stepNext = $("angularStepNext");
+  if (stepNext) {
+    const isCurrentComplete = isStepCompleted(currentStep, lesson, currentFiles);
+    if (currentStepIndex < steps.length - 1) {
+      stepNext.disabled = !isCurrentComplete;
+      stepNext.textContent = currentStep.type === "quiz" && !isCurrentComplete
+        ? "اختر الإجابة الصحيحة أولًا"
+        : !isCurrentComplete
+        ? "أكمل كود الخطوة أولًا ←"
+        : "الخطوة التالية داخل الدرس ←";
+    } else {
+      stepNext.disabled = !complete && currentLessonIndex < COURSE.lessons.length - 1;
+      stepNext.textContent = currentLessonIndex >= COURSE.lessons.length - 1 ? "اكتمل المسار ✓" : "أكملت خطوات الدرس · التالي ←";
+    }
+  }
+}
+
 function advanceStep() {
   const lesson = activeLesson();
   if (!lesson) return;
   const steps = Array.isArray(lesson.steps) && lesson.steps.length ? lesson.steps : [];
+  const currentStep = steps[currentStepIndex];
+  if (currentStep && !isStepCompleted(currentStep, lesson, currentFiles)) {
+    const feedback = $("angularLessonFeedback");
+    if (feedback) {
+      feedback.textContent = currentStep.type === "quiz"
+        ? "اختر الإجابة الصحيحة أولًا قبل الانتقال للخطوة التالية."
+        : "الجزء المطلوب لم يظهر بعد في " + (currentStep.file || lesson.file || "الملف") + ". أضف الكود المطلوب ثم تابع.";
+    }
+    return;
+  }
   if (currentStepIndex < steps.length - 1) {
     currentStepIndex++;
     currentQuizSelected = null;
@@ -2306,9 +2407,9 @@ function renderLesson() {
 
   // Title, Concept & Flow
   $("angularLessonTitle").textContent = lesson.title + " · " + currentStep.title;
-  $("angularLessonConcept").textContent = currentStep.explanation || lesson.concept;
+  $("angularLessonConcept").innerHTML = lessonMixedMarkup(currentStep.explanation || lesson.concept);
   const flowText = currentStep.flow || lesson.flow || "";
-  $("angularLessonFlow").textContent = flowText;
+  $("angularLessonFlow").innerHTML = lessonMixedMarkup(flowText);
   $("angularLessonFlow").style.display = flowText ? "block" : "none";
 
   // Task & Step Actions
@@ -2316,7 +2417,7 @@ function renderLesson() {
   if (actionsHost) actionsHost.textContent = "";
 
   if (currentStep.type === "quiz" && currentStep.options && currentStep.options.length) {
-    $("angularLessonTask").innerHTML = "<b>سؤال الخطوة:</b> " + escapeHtml(currentStep.question || currentStep.task);
+    $("angularLessonTask").innerHTML = "<b>سؤال الخطوة:</b> " + lessonMixedMarkup(currentStep.question || currentStep.task);
     if (actionsHost) {
       currentStep.options.forEach((option, optIdx) => {
         const btn = document.createElement("button");
@@ -2327,8 +2428,8 @@ function renderLesson() {
         btn.addEventListener("click", () => {
           currentQuizSelected = optIdx;
           const isCorrect = optIdx === currentStep.correct;
-          $("angularLessonFeedback").textContent = isCorrect 
-            ? "إجابة صحيحة! " + (currentStep.benefit || "أتقنت الفكرة بنجاح.") 
+          $("angularLessonFeedback").innerHTML = isCorrect 
+            ? "إجابة صحيحة! " + lessonMixedMarkup(currentStep.benefit || "أتقنت الفكرة بنجاح.") 
             : "حاول مرة أخرى! راجع الفكرة الأساسية أو جرب إجابة أخرى.";
           renderLesson();
         });
@@ -2337,7 +2438,7 @@ function renderLesson() {
     }
   } else if (currentStep.type === "edit" || currentStep.type === "experiment") {
     const sample = currentStep.example ? '<bdi dir="ltr"><code>' + escapeHtml(currentStep.example) + '</code></bdi>' : '';
-    $("angularLessonTask").innerHTML = "<b>جرّب الآن:</b> " + escapeHtml(currentStep.task) + (sample ? "<br>" + sample : "");
+    $("angularLessonTask").innerHTML = "<b>جرّب الآن:</b> " + lessonMixedMarkup(currentStep.task) + (sample ? "<br>" + sample : "");
   } else {
     const targetFile = currentStep.file || lesson.file;
     const targetCode = currentStep.code || lesson.code;
@@ -2345,7 +2446,7 @@ function renderLesson() {
     if (targetFile && targetCode) {
       sample = '<bdi dir="ltr"><b><code>' + escapeHtml(targetFile) + '</code></b><br><code>' + escapeHtml(targetCode) + '</code></bdi>';
     }
-    $("angularLessonTask").innerHTML = "<b>المطلوب منك:</b> " + escapeHtml(currentStep.task) + (sample ? "<div style='margin-top:8px;'>" + sample + "</div>" : "");
+    $("angularLessonTask").innerHTML = "<b>المطلوب منك:</b> " + lessonMixedMarkup(currentStep.task) + (sample ? "<div style='margin-top:8px;'>" + sample + "</div>" : "");
   }
 
   $("angularLessonReference").href = lesson.reference;
@@ -2361,20 +2462,7 @@ function renderLesson() {
   $("angularLessonProgress").style.width = Math.round((currentLessonIndex + (complete ? 1 : 0)) * 100 / COURSE.lessons.length) + "%";
 
   // Step Previous & Next Buttons
-  const stepPrev = $("angularStepPrev");
-  if (stepPrev) {
-    stepPrev.disabled = currentStepIndex <= 0;
-  }
-  const stepNext = $("angularStepNext");
-  if (stepNext) {
-    if (currentStepIndex < steps.length - 1) {
-      stepNext.disabled = (currentStep.type === "quiz" && currentQuizSelected === null);
-      stepNext.textContent = "الخطوة التالية داخل الدرس ←";
-    } else {
-      stepNext.disabled = !complete && currentLessonIndex < COURSE.lessons.length - 1;
-      stepNext.textContent = currentLessonIndex >= COURSE.lessons.length - 1 ? "اكتمل المسار ✓" : "أكملت خطوات الدرس · التالي ←";
-    }
-  }
+  updateStepNavigation();
 
   // Footer Lesson Navigation
   $("angularPrevious").disabled = currentLessonIndex <= 0;
@@ -2855,5 +2943,23 @@ async function initialize() {
   initialized = true;
 }
 
-window.AngularCourse = { enter: enterCourse };
+window.AngularCourse = {
+  enter: enterCourse,
+  isStepCompleted,
+  advanceStep,
+  previousStep,
+  selectLesson,
+  updateStepNavigation,
+  activeLesson: () => activeLesson(),
+  getStepIndex: () => currentStepIndex,
+  setStepIndex: (i) => { currentStepIndex = i; },
+  getQuizSelected: () => currentQuizSelected,
+  setQuizSelected: (i) => { currentQuizSelected = i; },
+  getCurrentFiles: () => currentFiles,
+  setCurrentFiles: (f) => { currentFiles = f; },
+  setCourse: (c) => { COURSE = c; }
+};
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { isStepCompleted, lessonMixedMarkup, normalizeWhitespace };
+}
 $("angularCourseCard").closest("button").addEventListener("click", () => void enterCourse());

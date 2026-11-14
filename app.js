@@ -1512,8 +1512,30 @@
           return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
         }
 
-        if (step.to && normLineFn(rawCode).indexOf(normLineFn(step.to)) >= 0) {
-          return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+        if (step.to) {
+          var normTo = normLineFn(step.to);
+          var normFrom = step.from ? normLineFn(step.from) : "";
+          var normCode = normLineFn(rawCode);
+          var normBefore = normLineFn(rawBefore);
+
+          var countOccurrences = function(str, sub) {
+            if (!sub || !str) return 0;
+            var count = 0, pos = 0;
+            while ((pos = str.indexOf(sub, pos)) !== -1) { count++; pos += sub.length; }
+            return count;
+          };
+
+          var toInCode = countOccurrences(normCode, normTo);
+          var toInBefore = countOccurrences(normBefore, normTo);
+          var fromInCode = normFrom ? countOccurrences(normCode, normFrom) : 0;
+          var fromInBefore = normFrom ? countOccurrences(normBefore, normFrom) : 0;
+
+          var toIncreased = toInCode > toInBefore;
+          var fromReduced = !normFrom || fromInBefore === 0 || fromInCode < fromInBefore;
+
+          if (toIncreased && fromReduced) {
+            return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+          }
         }
 
         // Code did not match target: run HTML tag validator
@@ -1711,9 +1733,9 @@
             }
           }
 
-          var hasMatchedP = /<p\b[^>]*>[\s\S]*?<\/p>/i.test(rawCode);
-          var hasMatchedSpan = /<span\b[^>]*>[\s\S]*?<\/span>/i.test(rawCode);
-          if (hasMatchedP || hasMatchedSpan) {
+          var brokenPresent = model.brokenCode ? (normLineFn2(rawCode).indexOf(normLineFn2(model.brokenCode)) >= 0 || normDocFn2(rawCode).indexOf(normDocFn2(model.brokenCode)) >= 0) : false;
+          var fixedPresent = model.fixedCode ? (normLineFn2(rawCode).indexOf(normLineFn2(model.fixedCode)) >= 0 || normDocFn2(rawCode).indexOf(normDocFn2(model.fixedCode)) >= 0) : false;
+          if (fixedPresent && !brokenPresent) {
             return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
           }
         }
@@ -1986,6 +2008,7 @@
       htmlSequence = curriculumTracks.html.lessons.map(function(lesson) { return lesson.title; });
       cssSequence = curriculumTracks.css.lessons.map(function(lesson) { return lesson.title; });
       jsSequence = curriculumTracks.js.lessons.map(function(lesson) { return lesson.title; });
+      renderGrowthLesson();
     } catch (error) {
       curriculumTracks = {};
       if (typeof legacySequences !== "undefined") {
@@ -2645,16 +2668,40 @@
 
   function curriculumLessonBreakdown(lesson) {
     return (Array.isArray(lesson.breakdown) ? lesson.breakdown : []).map(function(item, index) {
-      var text = typeof item === "string" ? item : item && (item.meaning || item.text || item.code) || "",
-          title = item && typeof item === "object" && item.title ? item.title : "تفصيل " + (index + 1),
-          code = item && typeof item === "object" && item.code ? item.code : "";
+      if (item && typeof item === "object") {
+        var c = item.code || "";
+        var m = item.meaning || item.note || item.text || "";
+        return {
+          title: item.title || c || ("تفصيل " + (index + 1)),
+          code: c,
+          flow: c ? c + "\n" + m : m,
+          note: m,
+          meaning: m,
+          benefit: item.benefit || m
+        };
+      }
+      var str = String(item || "").trim();
+      var colonIdx = str.lastIndexOf(": ");
+      if (colonIdx < 0) colonIdx = str.indexOf(":");
+      if (colonIdx > 0) {
+        var codePart = str.slice(0, colonIdx).trim();
+        var meaningPart = str.slice(colonIdx + 1).trim();
+        return {
+          title: codePart,
+          code: codePart,
+          flow: codePart ? codePart + "\n" + meaningPart : meaningPart,
+          note: meaningPart,
+          meaning: meaningPart,
+          benefit: "فائدة " + codePart + ": " + meaningPart
+        };
+      }
       return {
-        title: title,
-        code: code,
-        flow: code ? code + "\n" + text : text,
-        note: text,
-        meaning: text,
-        benefit: item && typeof item === "object" && item.benefit ? item.benefit : text
+        title: "تفصيل " + (index + 1),
+        code: "",
+        flow: str,
+        note: str,
+        meaning: str,
+        benefit: str
       };
     });
   }
@@ -3103,7 +3150,7 @@
     if (!value) return "";
     var normalized = String(value).replace(/<br\s*\/?>/gi, "\n");
     // Match code tokens, HTML tags, attributes, entities, quoted code, and CSS/JS tokens to keep them intact in LTR
-    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);|(?:\*|\[|\()[A-Za-z0-9_.-]+(?:\*|\]|\))(?:\s*=\s*["'][^"']*["'])?|\b[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*["'][^"']*["']|"[A-Za-z0-9_#.:\s\/=><!~&|%^,;?@*()-]+"|'[^'\n]+'|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
+    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);|(?:\*|\[|\()[A-Za-z0-9_.-]+(?:\*|\]|\))(?:\s*=\s*(?:["'][^"']*["']|&quot;.*?&quot;))?|\b[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*(?:["'][^"']*["']|&quot;.*?&quot;)|"[A-Za-z0-9_#.:\s\/=><!~&|%^,;?@*()-]+"|'[^'\n]+'|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
     var parts = normalized.split(codePattern);
     var out = parts.map(function(part) {
       if (!part) return "";
@@ -3117,10 +3164,11 @@
         return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
       }
       if (/^&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);$/.test(part)) {
-        return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
+        return '<code dir="ltr" class="inline-code">' + part + '</code>';
       }
-      if (/^[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*["']/.test(part) || /^[\*\[\(]/.test(part) || /^["'][^"']+["']$/.test(part)) {
-        return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
+      if (/^[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*(?:["']|&quot;)/.test(part) || /^[\*\[\(]/.test(part) || /^["'][^"']+["']$/.test(part)) {
+        var cleanPart = part.replace(/&quot;/g, '"');
+        return '<code dir="ltr" class="inline-code">' + escapeHtml(cleanPart) + '</code>';
       }
       if (/^\/\*[\s\S]*?\*\/$/.test(part) || /\{[^}\n]*\}/.test(part) || /^[a-zA-Z-]+\s*:/.test(part)) {
         return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
@@ -3133,6 +3181,11 @@
       });
     }).join("");
     return out.replace(/\r?\n/g, "<br>");
+  }
+
+  if (typeof window !== "undefined") {
+    window.lessonMixedMarkup = lessonMixedMarkup;
+    window.curriculumLessonBreakdown = curriculumLessonBreakdown;
   }
 
   function setLessonCopy(element, value) {
@@ -3580,7 +3633,8 @@
 
     var step = model.practiceSteps[stage],
         breakdown = model.breakdown.map(function(item) {
-          return "<li><bdi dir=\"ltr\">" + escapeHtml(item.code) + "</bdi> — " + escapeHtml(item.meaning) + "</li>";
+          var codeSpan = item.code ? '<code dir="ltr" class="inline-code">' + escapeHtml(item.code) + '</code> — ' : '';
+          return "<li>" + codeSpan + lessonMixedMarkup(item.meaning) + "</li>";
         }).join("");
     setLessonCopy(title, step.title);
     setLessonCopy(copy, step.explanation);
@@ -4125,7 +4179,7 @@
     var detail = htmlLessonDetail(lesson);
     document.getElementById("guideTitle").textContent = detail.title;
     document.getElementById("guideCopy").textContent = detail.note;
-    document.getElementById("guideVisual").innerHTML = '<div class="basic-structure"><b>' + escapeHtml(detail.flow) + '</b></div><div class="basic-hint">خطوة فهم قصيرة قبل السؤال والتطبيق.</div>';
+    document.getElementById("guideVisual").innerHTML = '<div class="basic-structure"><b>' + lessonMixedMarkup(detail.flow) + '</b></div><div class="basic-hint">خطوة فهم قصيرة قبل السؤال والتطبيق.</div>';
     document.getElementById("guideActions").innerHTML = "";
     document.getElementById("guideNext").textContent = "جرّب سؤالًا سريعًا ←";
     document.getElementById("guideNext").disabled = false;
@@ -5368,20 +5422,20 @@
     if (step === 1) {
       title.textContent = "الفكرة: " + spec.topic.replace(/^CSS |^JS /, "");
       copy.textContent = spec.concept;
-      visual.innerHTML = '<div class="basic-structure">' + escapeHtml(spec.analogy) + '</div><div class="basic-hint">سنتناول معنى واحدًا محددًا، ثم نشاهده في سطر برمجي موجز.</div>';
+      visual.innerHTML = '<div class="basic-structure">' + lessonMixedMarkup(spec.analogy) + '</div><div class="basic-hint">سنتناول معنى واحدًا محددًا، ثم نشاهده في سطر برمجي موجز.</div>';
       next.textContent = "شاهد حركة السطر في النتيجة ←";
       next.disabled = false;
     } else if (step === 2) {
       title.textContent = "تابع السطر حتى النتيجة";
       copy.textContent = course === "css" ? "المتصفح يطابق المحدد أولًا، ثم يقرأ الخاصية والقيمة. غيّر جزءًا واحدًا لترى أثره وحده." : "اقرأ السطر من بدايته: ما القيمة أو الإشارة؟ ما الفعل؟ وأين تظهر النتيجة؟";
-      visual.innerHTML = '<div class="basic-structure">' + escapeHtml(spec.trace) + '</div><div class="basic-hint">مثال جاهز في المحرر؛ لا تحتاج إلى إعادة كتابة الوسوم أو الهيكل.</div>';
+      visual.innerHTML = '<div class="basic-structure">' + lessonMixedMarkup(spec.trace) + '</div><div class="basic-hint">مثال جاهز في المحرر؛ لا تحتاج إلى إعادة كتابة الوسوم أو الهيكل.</div>';
       next.textContent = "شوف تفصيلًا مهمًا ←";
       next.disabled = false;
     } else if (step < quizStep) {
       var detail = spec.details[step - 3];
       title.textContent = detail.title;
       copy.textContent = detail.note;
-      visual.innerHTML = '<div class="basic-structure">' + escapeHtml(detail.flow) + '</div><div class="basic-hint">اربط هذه النقطة بالسطر الموجود في المحرر قبل الانتقال.</div>';
+      visual.innerHTML = '<div class="basic-structure">' + lessonMixedMarkup(detail.flow) + '</div><div class="basic-hint">اربط هذه النقطة بالسطر الموجود في المحرر قبل الانتقال.</div>';
       next.textContent = step + 1 === quizStep ? "جاوب سؤالًا سريعًا ←" : "كمّل نقطة التتبع ←";
       next.disabled = false;
     } else if (step === quizStep) {
@@ -5403,7 +5457,7 @@
     } else if (step === practiceStep) {
       title.textContent = "دورك: " + spec.topic.replace(/^CSS |^JS /, "");
       copy.textContent = spec.task;
-      visual.innerHTML = '<div class="basic-structure"><span class="comment">قبل:</span> ' + escapeHtml(spec.from) + '<br><span class="comment">بعد:</span> ' + escapeHtml(spec.to) + '</div><div class="basic-hint">بدّل الجزء المحدد فقط، شغّل، ثم اقرأ التغيير بعينك.</div>';
+      visual.innerHTML = '<div class="basic-structure"><span class="comment">قبل:</span> <bdi dir="ltr">' + escapeHtml(spec.from) + '</bdi><br><span class="comment">بعد:</span> <bdi dir="ltr">' + escapeHtml(spec.to) + '</bdi></div><div class="basic-hint">بدّل الجزء المحدد فقط، شغّل، ثم اقرأ التغيير بعينك.</div>';
       next.textContent = "افتح المحرر ونفّذ الخطوة ←";
       next.disabled = false;
     } else {

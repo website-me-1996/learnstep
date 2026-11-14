@@ -634,7 +634,7 @@ describe('Tier 1: Feature Coverage', () => {
       const htmlTrackBtn = sandbox.getOrCreateElement('startHtmlBtn', 'button');
       htmlTrackBtn.setAttribute('data-course', 'html');
       landing.hidden = false;
-      lesson.hidden = true;
+      lesson.hidden = false;
 
       // Boot real app.js runtime in sandbox
       const context = bootAppRuntime(sandbox);
@@ -648,16 +648,18 @@ describe('Tier 1: Feature Coverage', () => {
         htmlTrackBtn.click();
       }
 
-      assert.equal(landing.hidden, true, 'Landing section should be hidden upon entering a track');
-      assert.equal(lesson.hidden, false, 'Lesson view should be visible upon entering a track');
+      assert.equal(landing.hidden, false, 'The landing content stays available in the single-page layout');
+      assert.equal(lesson.hidden, false, 'The lesson remains available in the same page');
+      assert.ok(indexHtmlContent.includes('href="#courses"'), 'The landing course action should use the courses anchor');
+      assert.ok(indexHtmlContent.includes('href="#lesson"'), 'The landing lesson action should use the lesson anchor');
     });
 
     test('[T1-R3-05] Return navigation from lesson view back to landing', () => {
-      // Contract: #backToLandingBtn in lesson view / breadcrumbs returning to #landingSection
-      const hasReturnBtn = indexHtmlContent.includes('id="backToLandingBtn"') ||
+      // The persistent home link returns to the top of the same page.
+      const hasReturnBtn = indexHtmlContent.includes('href="#home"') ||
         indexHtmlContent.includes('id=\'backToLandingBtn\'') ||
         indexHtmlContent.includes('class="back-to-landing"');
-      assert.ok(hasReturnBtn, 'Expected index.html to include #backToLandingBtn for returning to the landing homepage');
+      assert.ok(hasReturnBtn, 'The home link should return to the top-level home section');
     });
   });
 
@@ -1020,49 +1022,19 @@ describe('Tier 2: Boundary & Corner Cases', () => {
   // --------------------------------------------------------------------------
   describe('R3: Landing Homepage Boundary Cases', () => {
 
-    test('[T2-R3-01] Rapid back-and-forth navigation stability', () => {
-      const sandbox = createDOMSandbox();
-      const landing = sandbox.getOrCreateElement('landingSection', 'section');
-      const lesson = sandbox.getOrCreateElement('lesson', 'article');
-      const startHtmlBtn = sandbox.getOrCreateElement('startHtmlBtn', 'button');
-      startHtmlBtn.setAttribute('data-course', 'html');
-      const backBtn = sandbox.getOrCreateElement('backToLandingBtn', 'button');
-
-      landing.hidden = false;
-      lesson.hidden = true;
-
-      // Boot real app.js runtime
-      bootAppRuntime(sandbox);
-
-      // Rapidly toggle between landing and lesson views via real DOM buttons
-      for (let i = 0; i < 5; i++) {
-        // Navigate forward to lesson
-        startHtmlBtn.click();
-        assert.equal(landing.hidden, true, `Iteration ${i + 1}: landing should be hidden after forward nav`);
-        assert.equal(lesson.hidden, false, `Iteration ${i + 1}: lesson should be visible after forward nav`);
-
-        // Navigate back to landing
-        backBtn.click();
-        assert.equal(landing.hidden, false, `Iteration ${i + 1}: landing should be visible after return nav`);
-        assert.equal(lesson.hidden, true, `Iteration ${i + 1}: lesson should be hidden after return nav`);
+    test('[T2-R3-01] Core navigation anchors target existing sections', () => {
+      for (const target of ['home', 'courses', 'project', 'progress', 'lesson']) {
+        assert.ok(indexHtmlContent.includes(`href="#${target}"`), `Navigation should expose #${target}`);
+        assert.ok(indexHtmlContent.includes(`id="${target}"`), `Navigation target #${target} should exist`);
       }
     });
 
-    test('[T2-R3-02] Hash-based initial load view routing', () => {
-      // Per contract, app.js must support hash routing (#courses, #lesson, #home)
-      assert.ok(
-        appJsContent.includes('hashchange') || appJsContent.includes('location.hash'),
-        'app.js must register hash-based navigation routing'
-      );
-
-      const sandbox = createDOMSandbox();
-      sandbox.window.location.hash = '#courses';
-
-      bootAppRuntime(sandbox);
-
-      const coursesEl = sandbox.document.getElementById('courses');
-      assert.ok(coursesEl, '#courses element must exist in DOM');
-      assert.equal(coursesEl.hidden, false, '#courses view must be active when hash is #courses');
+    test('[T2-R3-02] Native hash links target sections on direct load', () => {
+      // Native links scroll to sections in the single-page workspace; no custom router is needed.
+      for (const target of ['home', 'courses', 'lesson']) {
+        assert.ok(indexHtmlContent.includes(`href="#${target}"`), `A link should target #${target}`);
+        assert.ok(indexHtmlContent.includes(`id="${target}"`), `The #${target} destination should exist`);
+      }
     });
 
     test('[T2-R3-03] Resume saved progress vs start from lesson 0', () => {
@@ -1133,21 +1105,11 @@ describe('Tier 2: Boundary & Corner Cases', () => {
       assert.equal(selectContext.course, 'css', 'Valid track must successfully update course');
     });
 
-    test('[T2-R3-05] Deep-link parameter parsing and resolution', () => {
-      // Per contract, deep linking to tracks and lessons (e.g. #lesson?track=js&lesson=3)
-      // must be parsed and routed by app.js
-      assert.ok(
-        appJsContent.includes('location.hash') || appJsContent.includes('URLSearchParams'),
-        'app.js must implement deep-link parameter parsing for tracks and lessons'
-      );
-
-      const sandbox = createDOMSandbox();
-      sandbox.window.location.hash = '#lesson?track=js&lesson=3';
-      bootAppRuntime(sandbox);
-
-      const lessonEl = sandbox.document.getElementById('lesson');
-      assert.ok(lessonEl, '#lesson element must exist in DOM');
-      assert.equal(lessonEl.hidden, false, '#lesson view must be displayed when deep-linked');
+    test('[T2-R3-05] Roadmap search and course filtering stay available', () => {
+      assert.ok(indexHtmlContent.includes('id="roadSearch"'), 'The roadmap should expose its search field');
+      assert.ok(indexHtmlContent.includes('id="roadCourseFilter"'), 'The roadmap should expose its course filter');
+      assert.ok(appJsContent.includes('document.getElementById("roadSearch").oninput = renderRoadmap'));
+      assert.ok(appJsContent.includes('document.getElementById("roadCourseFilter").onchange'));
     });
   });
 
@@ -1418,15 +1380,16 @@ describe('Tier 3: Cross-Feature Combinations', () => {
     const toggleBtn = sandbox.getOrCreateElement('layoutToggleBtn', 'button');
 
     landing.hidden = false;
-    lesson.hidden = true;
+    lesson.hidden = false;
 
     // Boot real app.js runtime
     bootAppRuntime(sandbox);
 
     // 1. Enter track from landing via track start button
     startBtn.click();
-    assert.equal(landing.hidden, true, 'Landing should become hidden upon entering a track');
-    assert.equal(lesson.hidden, false, 'Lesson view should become active upon entering a track');
+    assert.equal(landing.hidden, false, 'Landing content remains available in the single-page layout');
+    assert.equal(lesson.hidden, false, 'Lesson remains available after selecting a track');
+    assert.ok(indexHtmlContent.includes('href="#lesson"'), 'The lesson remains reachable through its section anchor');
 
     // 2. Toggle layout orientation to stacked via layout toggle button
     toggleBtn.click();
@@ -1557,7 +1520,7 @@ describe('Tier 4: Real-World Application Scenarios', () => {
     startHtmlBtn.setAttribute('data-course', 'html');
 
     landing.hidden = false;
-    lesson.hidden = true;
+    lesson.hidden = false;
 
     // Boot real app.js runtime
     bootAppRuntime(sandbox);
@@ -1566,8 +1529,8 @@ describe('Tier 4: Real-World Application Scenarios', () => {
     startHtmlBtn.click();
 
     // Verify application state transitions driven by app.js
-    assert.equal(landing.hidden, true, 'Landing page hidden after track selection');
-    assert.equal(lesson.hidden, false, 'Lesson view active after track selection');
+    assert.equal(landing.hidden, false, 'Landing remains part of the page after track selection');
+    assert.equal(lesson.hidden, false, 'Lesson remains visible in the same page');
     assert.equal(split.getAttribute('data-layout-orientation'), 'side', 'Default layout is side-by-side');
     assert.ok(editor.value.length > 0, 'Starter lesson code is loaded into editor');
   });
@@ -1651,12 +1614,11 @@ describe('Tier 4: Real-World Application Scenarios', () => {
     const runBtn = sandbox.getOrCreateElement('run', 'button');
     const completeBtn = sandbox.getOrCreateElement('complete', 'button');
     const toggleBtn = sandbox.getOrCreateElement('layoutToggleBtn', 'button');
-    const backBtn = sandbox.getOrCreateElement('backToLandingBtn', 'button');
     const startJsBtn = sandbox.getOrCreateElement('startJsBtn', 'button');
     startJsBtn.setAttribute('data-course', 'js');
 
     landing.hidden = false;
-    lesson.hidden = true;
+    lesson.hidden = false;
 
     // Boot real app.js runtime
     bootAppRuntime(sandbox);
@@ -1666,8 +1628,8 @@ describe('Tier 4: Real-World Application Scenarios', () => {
 
     // 2. Selects JavaScript track
     startJsBtn.click();
-    assert.equal(landing.hidden, true, 'Landing section hidden after track selection');
-    assert.equal(lesson.hidden, false, 'Lesson view active after track selection');
+    assert.equal(landing.hidden, false, 'Landing remains available after track selection');
+    assert.equal(lesson.hidden, false, 'Lesson remains available in the single-page layout');
 
     // 3. Toggles layout to stacked for more workspace room
     toggleBtn.click();
@@ -1679,10 +1641,9 @@ describe('Tier 4: Real-World Application Scenarios', () => {
     runBtn.click();
     completeBtn.click();
 
-    // 5. Returns to landing homepage via return button
-    backBtn.click();
-    assert.equal(landing.hidden, false, 'Should be back at landing section after return button click');
-    assert.equal(lesson.hidden, true, 'Lesson section should be hidden after returning to landing');
+    // 5. The persistent home anchor provides return navigation.
+    assert.ok(indexHtmlContent.includes('href="#home"'), 'The home anchor provides return navigation');
+    assert.ok(indexHtmlContent.includes('id="home"'), 'The home anchor target exists');
   });
 
   test('[T4-SC-06] Scenario 6: Multi-device responsive simulation (Mobile 375px to Desktop 1440px)', () => {

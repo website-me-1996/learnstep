@@ -13,6 +13,8 @@ function sourceBetween(a, b) {
 function makeLesson(index) {
   const context = {
     window: {}, activeIndex: index, course: "html",
+    curriculumTracks: {},
+    lessonPreviewCourse(model) { return model.key; },
     s: { htmlCode: "", examples: 0, fixes: 0 },
     growth: { completed: [], stages: {}, lessonFlow: {}, baseCodes: {}, drafts: {}, archivedDrafts: {}, experimentCodes: {}, repairStarted: {}, answers: {}, readingSteps: {} },
     data: { html: { code: "<h1>قديم</h1>", file: "index.html" } },
