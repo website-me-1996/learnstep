@@ -1963,35 +1963,42 @@
     window.DataLoader = DataLoader;
   }
 
-  try {
-    var curriculumNames = ["html", "css", "js"],
-        loadedCurricula = await Promise.all(curriculumNames.map(function(name) {
-          return DataLoader.loadTrack(name, { strict: true });
-        }));
-    loadedCurricula.forEach(function(track, index) {
-      var name = curriculumNames[index];
-      if (!track || track.track !== name || !Array.isArray(track.lessons) || !track.lessons.length) {
-        throw new Error("Invalid curriculum data for " + name);
-      }
-      track.lessons.forEach(function(lesson, lessonIndex) {
-        if (!lesson || !lesson.id || lesson.legacyId !== name + ":" + lessonIndex || !lesson.title ||
-            typeof lesson.code !== "string" || !Array.isArray(lesson.steps) || !lesson.steps.length) {
-          throw new Error("Invalid lesson data at " + name + ":" + lessonIndex);
+  (async function initCurriculum() {
+    if (typeof window === "undefined" || typeof window.fetch !== "function") return;
+    try {
+      var curriculumNames = ["html", "css", "js"],
+          loadedCurricula = await Promise.all(curriculumNames.map(function(name) {
+            return DataLoader.loadTrack(name, { strict: true });
+          }));
+      loadedCurricula.forEach(function(track, index) {
+        var name = curriculumNames[index];
+        if (!track || track.track !== name || !Array.isArray(track.lessons) || !track.lessons.length) {
+          throw new Error("Invalid curriculum data for " + name);
         }
+        track.lessons.forEach(function(lesson, lessonIndex) {
+          if (!lesson || !lesson.id || lesson.legacyId !== name + ":" + lessonIndex || !lesson.title ||
+              typeof lesson.code !== "string" || !Array.isArray(lesson.steps) || !lesson.steps.length) {
+            throw new Error("Invalid lesson data at " + name + ":" + lessonIndex);
+          }
+        });
+        curriculumTracks[name] = track;
       });
-      curriculumTracks[name] = track;
-    });
-    htmlSequence = curriculumTracks.html.lessons.map(function(lesson) { return lesson.title; });
-    cssSequence = curriculumTracks.css.lessons.map(function(lesson) { return lesson.title; });
-    jsSequence = curriculumTracks.js.lessons.map(function(lesson) { return lesson.title; });
-  } catch (error) {
-    curriculumTracks = {};
-    htmlSequence = legacySequences.html;
-    cssSequence = legacySequences.css;
-    jsSequence = legacySequences.js;
-    ["html", "css", "js"].forEach(function(name) { delete DataLoader._cache[name]; });
-    console.error("Could not load the HTML, CSS, and JavaScript curriculum JSON files:", error);
-  }
+      htmlSequence = curriculumTracks.html.lessons.map(function(lesson) { return lesson.title; });
+      cssSequence = curriculumTracks.css.lessons.map(function(lesson) { return lesson.title; });
+      jsSequence = curriculumTracks.js.lessons.map(function(lesson) { return lesson.title; });
+    } catch (error) {
+      curriculumTracks = {};
+      if (typeof legacySequences !== "undefined") {
+        htmlSequence = legacySequences.html;
+        cssSequence = legacySequences.css;
+        jsSequence = legacySequences.js;
+      }
+      if (typeof DataLoader !== "undefined" && DataLoader && DataLoader._cache) {
+        ["html", "css", "js"].forEach(function(name) { delete DataLoader._cache[name]; });
+      }
+      console.error("Could not load the HTML, CSS, and JavaScript curriculum JSON files:", error);
+    }
+  })();
 
   function validateLessonAnswer(code, model, step) {
     var rawCode = String(code || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
@@ -3095,10 +3102,8 @@
   function lessonMixedMarkup(value) {
     if (!value) return "";
     var normalized = String(value).replace(/<br\s*\/?>/gi, "\n");
-    // Keep HTML attributes together. In an RTL sentence, splitting an
-    // expression such as href="#about" makes the browser reorder its
-    // punctuation and display entities like &quot; in the wrong place.
-    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|\b[A-Za-z_:][A-Za-z0-9:._-]*\s*=\s*["'][^"']*["']|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
+    // Match code tokens, HTML tags, attributes, entities, quoted code, and CSS/JS tokens to keep them intact in LTR
+    var codePattern = /(`[^`]+`|https?:\/\/[^\s]+|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>|&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);|(?:\*|\[|\()[A-Za-z0-9_.-]+(?:\*|\]|\))(?:\s*=\s*["'][^"']*["'])?|\b[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*["'][^"']*["']|"[A-Za-z0-9_#.:\s\/=><!~&|%^,;?@*()-]+"|'[^'\n]+'|\/\*[\s\S]*?\*\/|(?:\.[a-zA-Z0-9_-]+|[a-zA-Z0-9_-]+)[^{}\n]*\{[^}\n]*\}|[a-zA-Z-]+\s*:\s*[^;\n]+;)/gi;
     var parts = normalized.split(codePattern);
     var out = parts.map(function(part) {
       if (!part) return "";
@@ -3111,14 +3116,21 @@
       if (/^<!DOCTYPE/i.test(part) || /^<\/?[A-Za-z]/i.test(part)) {
         return '<bdi dir="ltr">' + escapeHtml(part) + '</bdi>';
       }
-      if (/^[A-Za-z_:][A-Za-z0-9:._-]*\s*=\s*["']/i.test(part)) {
+      if (/^&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);$/.test(part)) {
+        return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
+      }
+      if (/^[A-Za-z_@:*#-][A-Za-z0-9_@:*#.-]*\s*=\s*["']/.test(part) || /^[\*\[\(]/.test(part) || /^["'][^"']+["']$/.test(part)) {
         return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
       }
       if (/^\/\*[\s\S]*?\*\/$/.test(part) || /\{[^}\n]*\}/.test(part) || /^[a-zA-Z-]+\s*:/.test(part)) {
         return '<code dir="ltr" class="inline-code">' + escapeHtml(part) + '</code>';
       }
       var escaped = escapeHtml(part);
-      return escaped.replace(/\b[A-Za-z][A-Za-z0-9]*(?:[-_.+#][A-Za-z0-9]+)*/g, '<bdi dir="ltr">$&</bdi>');
+      // Protect all HTML entities (including &quot;, &amp;, &lt;, &gt;, &#39;) from having their internal names wrapped in <bdi>
+      return escaped.replace(/(&(?:[a-zA-Z]+|#\d+|#x[a-fA-F0-9]+);)|(\b[A-Za-z][A-Za-z0-9]*(?:[-_.+#][A-Za-z0-9]+)*)/g, function(match, entity, word) {
+        if (entity) return entity;
+        return '<bdi dir="ltr">' + word + '</bdi>';
+      });
     }).join("");
     return out.replace(/\r?\n/g, "<br>");
   }
@@ -4017,7 +4029,7 @@
       ? skills.map(function(skill) { return "<li>✓ " + escapeHtml(skill.title) + " · " + courseLabels[skill.course] + "</li>"; }).join("")
       : "<li>كل مجموعة مكتملة ستظهر هنا.</li>";
     document.getElementById("heroProjectLabel").textContent = "مشروعك الحالي · " + (profileCard.name.trim() ? "بطاقة " + profileCard.name.trim() : "بطاقة تعرّف بيك");
-    document.getElementById("heroNextTitle").textContent = growthLessonDone(current.id) ? "أُضيفت اللبنة بنجاح. لننتقل إلى الخطوة التالية." : "بعد الدرس ستتمكن من " + current.objective;
+    document.getElementById("heroNextTitle").textContent = growthLessonDone(current.id) ? "أُضيفت اللبنة بنجاح. لننتقل إلى الخطوة التالية." : "خطوتك القادمة: " + current.topic;
     document.getElementById("heroNextCopy").textContent = "حتى خمس دقائق تكفي لتجربة خطوة وإضافة أثرها لمشروعك.";
     document.getElementById("heroProjectMeta").textContent = "لبنات أُضيفت للمشروع · " + ar(growth.projectParts.length);
     document.getElementById("heroUnlockMeta").textContent = "القدرة التالية · " + (next ? next.title : "كل القدرات الحالية اتفتحت");

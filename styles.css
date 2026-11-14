@@ -271,7 +271,7 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
 .lesson-breakdown h5{margin:0;color:var(--lime);font-size:15px}
 .lesson-breakdown li{margin:2px 0}
 .lesson-breakdown > div,.lesson-breakdown > p{direction:rtl;unicode-bidi:plaintext;text-align:right}
-.lesson-breakdown bdi{direction:ltr;unicode-bidi:isolate;display:inline-block;margin-left:4px;padding:0 4px;border-radius:4px;background:#20352c;color:#d8eadb;font:0.95em Consolas,monospace}
+.lesson-breakdown bdi,.lesson-breakdown code{direction:ltr;unicode-bidi:isolate;display:inline-block;margin-left:4px;padding:0 4px;border-radius:4px;background:#20352c;color:#d8eadb;font:0.95em Consolas,monospace}
 .lesson-target{direction:rtl;text-align:right;line-height:1.8}
 .lesson-target bdi{direction:ltr;unicode-bidi:isolate;display:inline-block;font:15px/1.6 Consolas,monospace}
 .archived-draft-download{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-raised);color:var(--lime);font:inherit;font-size:14px;font-weight:700}

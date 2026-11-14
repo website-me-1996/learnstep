@@ -170,6 +170,8 @@ test("mixed Arabic lesson copy isolates English words and code tokens", () => {
   vm.runInContext(sourceBetween("  function lessonMixedMarkup(value) {", "  function renderGrowthLesson() {"), context);
   context.setLessonCopy(node, "غيّر كلمة Elements داخل <h1> ثم شغّل.");
   assert.equal(node.attributes.dir, "rtl");
+  const attributeMarkup = context.lessonMixedMarkup('See href="#about" now.');
+  assert.match(attributeMarkup, /<code dir="ltr" class="inline-code">href=&quot;#about&quot;<\/code>/);
   assert.match(node.innerHTML, /<bdi dir="ltr">Elements<\/bdi>/);
   assert.match(node.innerHTML, /<bdi dir="ltr">&lt;h1&gt;<\/bdi>/);
   assert.match(indexHtml, /<textarea id="code" dir="ltr"/);
@@ -1346,7 +1348,7 @@ test("dashboard counts the main project once and shows the latest saved result",
       : { done: 1, total: 2, percent: 50, unlocked: false },
     nextAbilityForCourse: () => context.abilityCatalog.filter((ability) => !context.abilityProgress(ability).unlocked)[0],
     syncUnlockedParts: () => false,
-    growthLessonModel: () => ({ id: "html:1", key: "html", objective: "تبني جزءًا جديدًا" }),
+    growthLessonModel: () => ({ id: "html:1", key: "html", topic: "Topic for test", objective: "Long objective for test" }),
     growthLessonDone: () => false, todayKey: () => "2026-11-02",
     ar: (value) => String(value).replace(/[0-9]/g, (digit) => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]),
     escapeHtml: String,
@@ -1362,6 +1364,8 @@ test("dashboard counts the main project once and shows the latest saved result",
   vm.runInContext(sourceBetween("  function lessonId(key, index)", "  var abilityCatalog = ["), context);
   vm.runInContext(sourceBetween("  function renderGrowthDashboard() {", "  function normalizeHtmlStep()"), context);
   context.renderGrowthDashboard();
+  assert.match(getElement("heroNextTitle").textContent, /Topic for test$/);
+  assert.doesNotMatch(getElement("heroNextTitle").textContent, /Long objective for test/);
   assert.equal(getElement("openProjectCount").textContent, "١");
   assert.equal(getElement("heroProjectMeta").textContent, "لبنات أُضيفت للمشروع · ٣");
   assert.equal(getElement("abilityCount").textContent, "١");
