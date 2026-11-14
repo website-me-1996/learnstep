@@ -450,6 +450,82 @@ test("R1.8 Angular Editor advanceStep guard: halts and provides feedback when st
   assert.equal(AC.isStepCompleted(testLesson.steps[2], testLesson, AC.getCurrentFiles()), true, "Correct quiz option satisfies isStepCompleted");
 });
 
+test("R1.9 Detail Step Validation: strictly rejects code missing required tag like <body> or attribute like id", () => {
+  const ctx = createEngineContext();
+  const model = { key: "html", id: "html-01-introduction" };
+
+  // Case A: Detail step teaching <body>
+  const bodyStep = {
+    id: "detail-3",
+    type: "observe",
+    title: "ابنِ بيدك: <body>",
+    code: "<body>",
+    build: null
+  };
+
+  const codeWithoutBody = [
+    "<!DOCTYPE html>",
+    '<html lang="ar" dir="rtl">',
+    "<head>",
+    '  <meta charset="UTF-8">',
+    "  <title>صفحة التجربة</title>",
+    "</head>",
+    "</html>"
+  ].join("\n");
+
+  const rejectBody = ctx.SmartHintEngine.evaluate(codeWithoutBody, bodyStep, model, 1);
+  assert.equal(rejectBody.valid, false, "Detail step teaching <body> MUST reject code that lacks <body>");
+  assert.match(rejectBody.message, /<body>/, "Validation message must cite missing <body>");
+
+  const codeWithBody = [
+    "<!DOCTYPE html>",
+    '<html lang="ar" dir="rtl">',
+    "<head>",
+    '  <meta charset="UTF-8">',
+    "  <title>صفحة التجربة</title>",
+    "</head>",
+    "<body>",
+    "</body>",
+    "</html>"
+  ].join("\n");
+
+  const passBody = ctx.SmartHintEngine.evaluate(codeWithBody, bodyStep, model, 1);
+  assert.equal(passBody.valid, true, "Detail step teaching <body> MUST pass when <body> is present");
+
+  // Case B: Detail step teaching id="about" attribute
+  const idStep = {
+    id: "detail-1",
+    type: "observe",
+    title: 'ابنِ بيدك: id="about"',
+    code: 'id="about"',
+    build: null
+  };
+
+  const codeWithoutId = '<a href="#about">رابط</a>\n<h1>عنوان</h1>';
+  const rejectId = ctx.SmartHintEngine.evaluate(codeWithoutId, idStep, { key: "html", id: "html-05-attributes" }, 1);
+  assert.equal(rejectId.valid, false, "Detail step teaching id='about' MUST reject code lacking the id attribute");
+  assert.match(rejectId.message, /id="about"/, "Validation message must cite missing id attribute");
+
+  const codeWithId = '<a href="#about">رابط</a>\n<h1 id="about">عنوان</h1>';
+  const passId = ctx.SmartHintEngine.evaluate(codeWithId, idStep, { key: "html", id: "html-05-attributes" }, 1);
+  assert.equal(passId.valid, true, "Detail step teaching id='about' MUST pass when id attribute is present");
+
+  // Case C: Detail step with step.build object
+  const buildStep = {
+    id: "detail-3",
+    type: "observe",
+    title: "ابنِ بيدك: <body>",
+    build: {
+      line: "<body>"
+    }
+  };
+
+  const rejectBuild = ctx.SmartHintEngine.evaluate(codeWithoutBody, buildStep, model, 1);
+  assert.equal(rejectBuild.valid, false, "Step with build object MUST reject code missing the build line");
+  const passBuild = ctx.SmartHintEngine.evaluate(codeWithBody, buildStep, model, 1);
+  assert.equal(passBuild.valid, true, "Step with build object MUST pass when build line is present");
+});
+
 // =============================================================================
 // SUITE 2: REQUIREMENT R2 — TEXT SANITIZATION, ENTITY DECODING & BIDI RENDERING
 // =============================================================================

@@ -1479,6 +1479,43 @@
         return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
       }
 
+      // 1b. Detail step code verification (for steps where step.code is defined, even without step.build)
+      if (step.id && String(step.id).startsWith("detail-") && step.code) {
+        var reqToken = String(step.code).trim();
+        var tagMatch = reqToken.match(/^<([a-zA-Z][a-zA-Z0-9-]*)/);
+        var attrMatch = reqToken.match(/^([a-zA-Z_:][a-zA-Z0-9_.:-]*)\s*=/);
+        var missingDetail = false;
+
+        if (tagMatch) {
+          var tagName = tagMatch[1].toLowerCase();
+          var tagRe = new RegExp("<" + tagName + "(?:\\s|>)", "i");
+          if (!tagRe.test(rawCode)) missingDetail = true;
+        } else if (attrMatch) {
+          var attrName = attrMatch[1].toLowerCase();
+          var attrRe = new RegExp("\\b" + attrName + "\\s*=", "i");
+          if (!attrRe.test(rawCode)) missingDetail = true;
+        } else if (reqToken.length > 1 && !reqToken.includes("...")) {
+          if (rawCode.indexOf(reqToken) < 0 && rawCode.toLowerCase().indexOf(reqToken.toLowerCase()) < 0) {
+            missingDetail = true;
+          }
+        }
+
+        if (missingDetail) {
+          var detailMsg = "لم تكتمل الخطوة بعد. ينقصك إضافة: " + reqToken;
+          if (tier === 2) detailMsg = "تلميح: تأكد من وجود «" + reqToken + "» داخل الكود في المحرر ثم شغّل.";
+          else if (tier >= 3) detailMsg = "مساعدة: المطلوب كتابة أو تضمين «" + reqToken + "» في المحرر قبل الانتقال.";
+          return {
+            valid: false,
+            passed: false,
+            message: detailMsg,
+            hintText: detailMsg,
+            tier: tier,
+            ruleMatched: true,
+            solutionRevealable: solutionRevealable
+          };
+        }
+      }
+
       // 2. Edit step checks
       if (step.type === "edit") {
         var rawAfter = String(step.after || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
@@ -2545,6 +2582,7 @@
         question: isLastQuiz ? model.quiz.question : "",
         options: isLastQuiz ? model.quiz.options : [],
         correct: isLastQuiz ? model.quiz.correct : 0,
+        code: detail.code || (stage ? stage.added : ""),
         build: stage,
         stage: stageAny,
         benefit: detail.benefit || (piece ? piece.benefit : stage || detail.meaning ? "فائدة ما أنشأته للتو: " + explanation : "فائدة هذه التفصيلة: " + explanation)
@@ -2789,7 +2827,7 @@
       details: details,
       quiz: null,
       breakdown: details,
-      buildStages: [],
+      buildStages: key === "html" ? buildGuideStages(code, details) : [],
       practiceSteps: practiceSteps,
       practiceCode: currentCode,
       task: firstPractice.task || "جرّب تعديلًا صغيرًا في المثال.",
@@ -3710,6 +3748,16 @@
     var staged = !!(model.buildStages && model.buildStages.length),
         reviewing = state.current < state.unlocked;
     if (staged && reviewing && (step.stage || step.id === "idea")) {
+      if (typeof validateLessonAnswer === "function") {
+        var revVal = validateLessonAnswer(code, model, step);
+        if (!revVal.valid) {
+          clearStepBenefit();
+          growthPreview(code, previewCourse);
+          hint.textContent = revVal.message;
+          document.getElementById("code").focus();
+          return;
+        }
+      }
       growthPreview(code, previewCourse);
       hint.textContent = "هذه خطوة سبق إنجازها. هكذا ظهرت نتيجتها.";
       showStepBenefit(step.benefit);
