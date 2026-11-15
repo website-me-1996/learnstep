@@ -1,0 +1,714 @@
+[
+  {
+    "id": "database-26-scalar-subqueries",
+    "legacyId": "database:25",
+    "order": 25,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "الاستعلامات الفرعية القياسية (Scalar Subqueries)",
+    "skill": "الاستعلامات المتداخلة الأحادية",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "توظيف الاستعلامات الفرعية القياسية (التي تعيد قيمة واحدة فقط) داخل عبارات SELECT و WHERE لإجراء مقارنات ديناميكية وحساب الفروقات الإحصائية.",
+    "concept": "يعيد الاستعلام الفرعي القياسي (Scalar Subquery) قيمة مفردة تتكون من صف واحد وعمود واحد فقط. ونظراً لطبيعته الأحادية، يمكن وضعه في أي مكان في لغة SQL يقبل قيمة ثابتة (Literal)؛ فيمكن وضعه في قائمة SELECT لحساب مؤشر عام بجانب كل صف، أو في عبارة WHERE لمقارنة رواتب الموظفين بمتوسط رواتب الشركة المحسوب ديناميكياً دون الحاجة لكتابة رقم ثابت.",
+    "whyUse": "تتغير البيانات في بيئات الأعمال باستمرار؛ فلا يمكن للمطور تثبيت رقم متوسط الرواتب في الشفرة البرمجية. واستخدام الاستعلام الفرعي القياسي يضمن مقارنة كل موظف بالمتوسط اللحظي الفعلي لقاعدة البيانات مهما أضيف أو عُدل من موظفين.",
+    "browserMechanics": "عند معالجة استعلام فرعي غير مترابط (Uncorrelated Subquery) داخل WHERE أو SELECT، يقوم المحرك بتنفيذه مرة واحدة فقط في البداية (InitPlan)، ويخزن القيمة الناتجة في الذاكرة السريعة كمعامل ثابت (Constant Parameter)، ثم يقارن بها كافة صفوف الاستعلام الخارجي دون إعادة تشغيل الاستعلام الفرعي لكل صف.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-expressions.html#SQL-SYNTAX-SCALAR-SUBQUERIES",
+    "file": "query.sql",
+    "flow": "حساب متوسط رواتب الشركة في استعلام فرعي أولي ⟶ تمرير القيمة للاستعلام الخارجي ⟶ تصفية الموظفين ذوي الرواتب الأعلى ⟶ حساب فارق كل موظف عن المتوسط",
+    "task": "قم بمقارنة رواتب الموظفين بمتوسط رواتب الشركة، مع عرض متوسط الشركة المحسوب وفارق راتب كل موظف عن المتوسط.",
+    "code": "SELECT emp_name, salary FROM employees WHERE salary > 5000;",
+    "expected": "SELECT emp_name, salary, (SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg, salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);",
+    "reference": "https://www.postgresql.org/docs/current/sql-expressions.html#SQL-SYNTAX-SCALAR-SUBQUERIES",
+    "breakdown": [
+      "(SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg: استعلام فرعي قياسي في SELECT لحساب متوسط الشركة وعرضه كعمود إحصائي.",
+      "salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg: طرح القيمة القياسية المحسوبة من راتب الموظف لحساب الفارق المالي.",
+      "WHERE salary > (SELECT AVG(salary) FROM employees): تصفية الموظفين لاستبقاء أصحاب الرواتب التي تفوق متوسط الشركة فقط."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "استبدال القيمة الثابتة باستعلام المتوسط في WHERE",
+        "objective": "جعل شرط التصفية ديناميكياً بالاعتماد على متوسط الرواتب الفعلي",
+        "type": "edit",
+        "instruction": "استبدل 5000; بـ (SELECT AVG(salary) FROM employees);.",
+        "benefit": "الربط التلقائي بمتوسط الرواتب الحقيقي دون الحاجة لتعديل يدوي للرقم الثابت.",
+        "from": "5000;",
+        "to": "(SELECT AVG(salary) FROM employees);",
+        "expectedLine": "(SELECT AVG(salary) FROM employees);",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للرقم الثابت 5000 في نهاية شرط WHERE.",
+          "القاعدة: نحيط الاستعلام الفرعي بأقواس دائرية (SELECT AVG(salary) FROM employees). هل استبدلت 5000 بالاستعلام الفرعي؟",
+          "اكتب بدقة: (SELECT AVG(salary) FROM employees);",
+          "الحل الدقيق للخطوة هو: (SELECT AVG(salary) FROM employees);"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إدراج متوسط الشركة في قائمة الأعمدة",
+        "objective": "إظهار قيمة المتوسط العام إلى جانب بيانات كل موظف",
+        "type": "edit",
+        "instruction": "أضف , (SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg بعد salary وقبل FROM.",
+        "benefit": "تمكين المستخدم من معاينة القيمة المرجعية التي بُنيت عليها المقارنة.",
+        "from": "emp_name, salary",
+        "to": "emp_name, salary, (SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg",
+        "expectedLine": "emp_name, salary, (SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود salary في قائمة SELECT.",
+          "القاعدة: الاستعلام الفرعي في قائمة الأعمدة يوضع بين قوسين مع اسم مستعار AS company_avg. هل أضفت عمود المتوسط؟",
+          "اكتب التعبير هكذا: emp_name, salary, (SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg",
+          "الحل الدقيق للخطوة هو: emp_name, salary, (SELECT ROUND(AVG(salary), 2) FROM employees) AS company_avg"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "حساب الفارق الشخصي عن المتوسط",
+        "objective": "طرح استعلام المتوسط من راتب الموظف المباشر",
+        "type": "edit",
+        "instruction": "أضف , salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg بعد company_avg.",
+        "benefit": "توفير مؤشر تفاضلي يوضح مقدار زيادة أو نقص راتب الموظف عن معدل المؤسسة.",
+        "from": "AS company_avg",
+        "to": "AS company_avg, salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg",
+        "expectedLine": "AS company_avg, salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار AS company_avg قبل الكلمة المفتاحية FROM.",
+          "القاعدة: يمكن تطبيق العمليات الحسابية كالطرح مباشرة على الاستعلامات الفرعية القياسية. هل أضفت عمود الفارق المالي؟",
+          "اكتب بدقة: AS company_avg, salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg",
+          "الحل الدقيق للخطوة هو: AS company_avg, salary - (SELECT AVG(salary) FROM employees) AS diff_from_avg"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT name FROM products WHERE price > (SELECT price FROM products);",
+      "fixedCode": "SELECT name FROM products WHERE price > (SELECT AVG(price) FROM products);",
+      "question": "لماذا يفشل الاستعلام الفرعي عند مقارنته بمعامل المقارنة المباشر >؟",
+      "explanation": "معامل المقارنة > يتطلب استعلاماً فرعياً قياسياً يُرجع قيمة واحدة فقط، بينما استرجاع عدة صفوف يتطلب دالة تجميعية أو معاملات المجموعات مثل ALL أو IN.",
+      "options": [
+        "اسم الجدول products يجب أن يكون مكتوباً بأحرف كبيرة.",
+        "معامل المقارنة > يتطلب استعلاماً فرعياً قياسياً يُرجع قيمة واحدة فقط، بينما استرجاع عدة صفوف يتطلب دالة تجميعية أو معاملات المجموعات مثل ALL أو IN.",
+        "لا يمكن استخدام الاستعلامات الفرعية في عبارة WHERE.",
+        "يجب وضع فاصلة منقوطة داخل أقواس الاستعلام الفرعي."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-27-multi-row-subqueries-in",
+    "legacyId": "database:26",
+    "order": 26,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "الاستعلامات الفرعية متعددة الصفوف (IN & NOT IN)",
+    "skill": "التصفية بقوائم ديناميكية",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "استخدام الاستعلامات الفرعية متعددة الصفوف لإنتاج قوائم ديناميكية واستهلاكها عبر معاملي IN و NOT IN وفهم فخاخ القيم الخالية.",
+    "concept": "تنتج الاستعلامات الفرعية متعددة الصفوف (Multi-row Subqueries) قائمة من القيم في عمود واحد تمتد عبر عدة صفوف، ويتم استهلاكها بواسطة معاملات المجموعات مثل IN للتحقق من الانتماء أو NOT IN للاستبعاد. وتفرض لغة SQL حذراً استثنائياً مع NOT IN؛ فإذا احتوت القائمة المعادة على قيمة NULL واحدة، فإن نتيجة `val NOT IN (..., NULL)` ستكون UNKNOWN لكافة الصفوف، مما يؤدي لعودة نتيجة فارغة تماماً.",
+    "whyUse": "تتيح هذه الاستعلامات الإجابة عن أسئلة الأعمال الجوهرية؛ كالاستعلام عن العملاء الذين لم يسبق لهم شراء أي منتج يتجاوز 500 ريال، أو المنتجات التي تنتمي لفئات محددة ديناميكياً استناداً لمعدل مبيعاتها.",
+    "browserMechanics": "يقوم محسن الاستعلامات في المحركات الحديثة بتحويل تعبير `WHERE col IN (SELECT ...)` غالباً إلى Semi-Join داخلي أو دمج Hash Join، مما يحول الاستعلام من بحث متكرر مكلف إلى تقاطع فائق السرعة يعتمد على جداول التجزئة في الذاكرة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-subquery.html#FUNCTIONS-SUBQUERY-IN",
+    "file": "query.sql",
+    "flow": "تنفيذ الاستعلام الفرعي لتوليد قائمة معرفات العملاء ⟶ فحص انتماء العميل للقائمة ⟶ تطبيق الاستبعاد بـ NOT IN ⟶ استرجاع أسماء العملاء",
+    "task": "قم باستخراج أسماء العملاء الذين لم يقوموا بأي طلب شراء يتجاوز مبلغه 500 ريال عبر استعلام فرعي متعدد الصفوف بـ NOT IN.",
+    "code": "SELECT customer_name FROM customers;",
+    "expected": "SELECT customer_name FROM customers WHERE id NOT IN (SELECT customer_id FROM orders WHERE total_amount > 500);",
+    "reference": "https://www.postgresql.org/docs/current/functions-subquery.html#FUNCTIONS-SUBQUERY-IN",
+    "breakdown": [
+      "WHERE id NOT IN: تصفية لاستبعاد أي عميل يظهر معرفه في القائمة الديناميكية المعادة.",
+      "SELECT customer_id FROM orders: استعلام فرعي يولد قائمة متعددة الصفوف بمعرفات أصحاب الطلبات.",
+      "WHERE total_amount > 500: شرط داخلي في الاستعلام الفرعي لحصر القائمة في الطلبات الكبرى فقط."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة التصفية بالاستعلام الفرعي الأولي",
+        "objective": "استرجاع العملاء الذين لديهم طلبات شراء مسجلة",
+        "type": "edit",
+        "instruction": "استبدل FROM customers; بـ FROM customers WHERE id IN (SELECT customer_id FROM orders);.",
+        "benefit": "التحقق الديناميكي من وجود طلبات لكل عميل دون الحاجة لربط الجداول صراحة.",
+        "from": "FROM customers;",
+        "to": "FROM customers WHERE id IN (SELECT customer_id FROM orders);",
+        "expectedLine": "FROM customers WHERE id IN (SELECT customer_id FROM orders);",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعبارة FROM customers; في السطر الأول.",
+          "القاعدة: نكتب WHERE id IN متبوعة بأقواس تحوي الاستعلام الفرعي (SELECT customer_id FROM orders). هل كتبت التعبير المتكامل؟",
+          "اكتب السطر بدقة: FROM customers WHERE id IN (SELECT customer_id FROM orders);",
+          "الحل الدقيق للخطوة هو: FROM customers WHERE id IN (SELECT customer_id FROM orders);"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تضييق القائمة على الطلبات الكبرى",
+        "objective": "قصر القائمة الفرعية على الطلبات التي تزيد عن 500 ريال",
+        "type": "edit",
+        "instruction": "استبدل (SELECT customer_id FROM orders); بـ (SELECT customer_id FROM orders WHERE total_amount > 500);.",
+        "benefit": "تصفية القائمة الفرعية لاستهداف شريحة المشتريات المرتفعة حصراً.",
+        "from": "(SELECT customer_id FROM orders);",
+        "to": "(SELECT customer_id FROM orders WHERE total_amount > 500);",
+        "expectedLine": "(SELECT customer_id FROM orders WHERE total_amount > 500);",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للاستعلام الداخلي بين القوسين.",
+          "القاعدة: يمكن وضع شروط تصفية داخل الاستعلام الفرعي مثل WHERE total_amount > 500. هل أضفت شرط المبلغ الداخلي؟",
+          "اكتب التعبير هكذا: (SELECT customer_id FROM orders WHERE total_amount > 500);",
+          "الحل الدقيق للخطوة هو: (SELECT customer_id FROM orders WHERE total_amount > 500);"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "عكس المنطق للاستبعاد باستخدام NOT IN",
+        "objective": "استخراج العملاء الذين ليس لديهم أي طلب كبير",
+        "type": "edit",
+        "instruction": "استبدل الكلمة المفتاحية WHERE id IN بـ WHERE id NOT IN.",
+        "benefit": "استخراج قائمة العملاء غير النشطين أو محدودي الشراء لاستهدافهم بحملات تسويقية.",
+        "from": "WHERE id IN",
+        "to": "WHERE id NOT IN",
+        "expectedLine": "WHERE id NOT IN",
+        "errorRules": [],
+        "hints": [
+          "انتبه للمعامل IN بعد id.",
+          "القاعدة: نكتب NOT IN لاستبعاد كافة الصفوف التي تطابق القائمة الفرعية المعادة. هل استبدلت IN بـ NOT IN؟",
+          "اكتب بدقة: WHERE id NOT IN",
+          "الحل الدقيق للخطوة هو: WHERE id NOT IN"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT name FROM users WHERE id IN SELECT user_id FROM banned; -- أقواس مفقودة",
+      "fixedCode": "SELECT name FROM users WHERE id IN (SELECT user_id FROM banned);",
+      "question": "ما هو العنصر المفقود حول الاستعلام الفرعي؟",
+      "explanation": "في لغة SQL يجب إحاطة أي استعلام فرعي متداخل بأقواس دائرية (...) ليعامله المحرك كتعبير مستقل.",
+      "options": [
+        "يجب وضع علامات تنصيص مفردة حول كلمة banned.",
+        "لا يمكن استخدام المعامل IN مع عمود المعرف id.",
+        "في لغة SQL يجب إحاطة أي استعلام فرعي متداخل بأقواس دائرية (...) ليعامله المحرك كتعبير مستقل.",
+        "يجب كتابة كلمة WHERE مرتين متتاليتين."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-28-exists-not-exists",
+    "legacyId": "database:27",
+    "order": 27,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "التحقق الوجودي للاستعلامات المترابطة (EXISTS & NOT EXISTS)",
+    "skill": "الفحص الوجودي فائق الأداء",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "استخدام المعاملين EXISTS و NOT EXISTS للتحقق من وجود السجلات المترابطة وفهم ميزة التوقف الفوري (Short-Circuit) وأمانها الكامل مع القيم الخالية.",
+    "concept": "يختبر المعاملان EXISTS و NOT EXISTS ما إذا كان الاستعلام الفرعي المترابط يعيد أي صف على الإطلاق؛ فيعيدان القيمة البولينية TRUE أو FALSE. ويتميز EXISTS بميزتين جوهريتين مقارنة بـ IN: أولاً، تقنية التوقف الفوري (Short-circuit Evaluation)؛ حيث يتوقف المحرك عن فحص الجدول فور عثوره على أول صف مطابق دون إكمال مسح بقية السجلات. ثانياً، مناعته التامة ضد فخاخ قيم NULL التي تشل عمل NOT IN.",
+    "whyUse": "يعد NOT EXISTS المعيار الهندسي الأمثل لاستخراج الحسابات التي لم تقم بأي نشاط، أو المنتجات التي لم تُبع قط؛ حيث يقدم أداءً فائقاً ويتعامل بأمان تام حتى لو احتوى جدول الحركات على قيم فارغة في بعض الحقول.",
+    "browserMechanics": "عند معالجة `WHERE EXISTS (SELECT 1 ...) `، يقوم المحرك بتحويل الاستعلام إلى Semi-Join خطة تنفيذية؛ ولا يهتم إطلاقاً بالأعمدة المذكورة في قائمة SELECT الداخلية (لذا يُكتفى عادة بكتابة `SELECT 1` لتوفير دورات المعالجة)، ويكتفي بفحص شرط الربط في كتالوج الفهارس.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-subquery.html#FUNCTIONS-SUBQUERY-EXISTS",
+    "file": "query.sql",
+    "flow": "مسح سجلات العملاء ⟶ البحث الاستكشافي عن طلبات مكتملة للعميل ⟶ التوقف فور إيجاد أول سجل ⟶ استبقاء العملاء بـ NOT EXISTS",
+    "task": "قم باستخراج العملاء الذين ليس لديهم أي طلب مكتمل (status = 'completed') عبر استعلام التحقق الوجودي NOT EXISTS.",
+    "code": "SELECT c.id, c.name FROM clients c;",
+    "expected": "SELECT c.id, c.name FROM clients c WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.client_id = c.id AND o.status = 'completed');",
+    "reference": "https://www.postgresql.org/docs/current/functions-subquery.html#FUNCTIONS-SUBQUERY-EXISTS",
+    "breakdown": [
+      "WHERE NOT EXISTS: اختبار منطقي يتحقق من عدم وجود أي سجل مطابق في الاستعلام الفرعي التابع.",
+      "SELECT 1 FROM orders o: استعلام فرعي اصطلاحي يستخدم الرقم 1 لبيان عدم الحاجة لاسترجاع أي بيانات فعلية سوى التحقق من الوجود.",
+      "WHERE o.client_id = c.id AND o.status = 'completed': شرط الربط المترابط الذي يفحص مطابقة معرف العميل مع اكتمال حالة طلبه."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة فحص التحقق الوجودي الأولي EXISTS",
+        "objective": "التحقق من وجود طلبات مرتبطة بالعميل",
+        "type": "edit",
+        "instruction": "استبدل FROM clients c; بـ FROM clients c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.client_id = c.id);.",
+        "benefit": "التحقق السريع من وجود علاقة استناداً للتوقف الفوري عند أول سجل مطابق.",
+        "from": "FROM clients c;",
+        "to": "FROM clients c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.client_id = c.id);",
+        "expectedLine": "FROM clients c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.client_id = c.id);",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعبارة FROM clients c; في نهاية السطر الأول.",
+          "القاعدة: صياغة EXISTS تتطلب وضع استعلام فرعي مترابط يربط المفتاح o.client_id بمفتاح العميل c.id. هل كتبت عبارة EXISTS؟",
+          "اكتب السطر بدقة: FROM clients c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.client_id = c.id);",
+          "الحل الدقيق للخطوة هو: FROM clients c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.client_id = c.id);"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "اشتراط اكتمال حالة الطلب في الفحص",
+        "objective": "حصر التحقق الوجودي في الطلبات المكتملة فقط",
+        "type": "edit",
+        "instruction": "أضف AND o.status = 'completed' بعد o.client_id = c.id وقبل قوس الإغلاق.",
+        "benefit": "تدقيق شرط الفحص الداخلي للتأكد من الحالة التشغيلية للطلب.",
+        "from": "WHERE o.client_id = c.id);",
+        "to": "WHERE o.client_id = c.id AND o.status = 'completed');",
+        "expectedLine": "WHERE o.client_id = c.id AND o.status = 'completed');",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لشرط الربط o.client_id = c.id قبل قوس إغلاق عبارة EXISTS.",
+          "القاعدة: يمكن إضافة شروط إضافية داخل الاستعلام الفرعي المترابط بربطها بـ AND. هل كتبت AND o.status = 'completed'؟",
+          "اكتب التعبير هكذا: WHERE o.client_id = c.id AND o.status = 'completed');",
+          "الحل الدقيق للخطوة هو: WHERE o.client_id = c.id AND o.status = 'completed');"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "عكس الفحص الوجودي باستخدام NOT EXISTS",
+        "objective": "استخراج العملاء الذين يفتقرون للطلبات المكتملة",
+        "type": "edit",
+        "instruction": "استبدل الكلمة المفتاحية WHERE EXISTS بـ WHERE NOT EXISTS.",
+        "benefit": "الوصول إلى السجلات التي لا تملك ارتباطاً مطابقاً بأعلى أداء وتفادياً لمشاكل NULL.",
+        "from": "WHERE EXISTS",
+        "to": "WHERE NOT EXISTS",
+        "expectedLine": "WHERE NOT EXISTS",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكلمة EXISTS بعد اسم جدول العملاء c.",
+          "القاعدة: المعامل NOT EXISTS ينفي الوجود ويعيد TRUE فقط إذا كان الاستعلام الفرعي خالياً تماماً من الصفوف. هل استبدلت EXISTS بـ NOT EXISTS؟",
+          "اكتب بدقة: WHERE NOT EXISTS",
+          "الحل الدقيق للخطوة هو: WHERE NOT EXISTS"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM authors a WHERE EXISTS a.id = b.author_id; -- صياغة غير سليمة",
+      "fixedCode": "SELECT * FROM authors a WHERE EXISTS (SELECT 1 FROM books b WHERE b.author_id = a.id);",
+      "question": "كيف تصاغ عبارة الفحص الوجودي EXISTS بشكل سليم؟",
+      "explanation": "تتطلب عبارة EXISTS استعلاماً فرعياً متكاملاً محاطاً بأقواس يبدأ بـ SELECT ويحدد الجدول الداخلي وشرط الربط مع الجدول الخارجي.",
+      "options": [
+        "يجب وضع فاصلة منقوطة قبل كلمة EXISTS.",
+        "لا يمكن استخدام الكلمة EXISTS مع جدول المؤلفين authors.",
+        "يجب استبدال EXISTS بعلامة المساواة المزدوجة ==.",
+        "تتطلب عبارة EXISTS استعلاماً فرعياً متكاملاً محاطاً بأقواس يبدأ بـ SELECT ويحدد الجدول الداخلي وشرط الربط مع الجدول الخارجي."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-29-correlated-subqueries",
+    "legacyId": "database:28",
+    "order": 28,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "الاستعلامات الفرعية المترابطة مع الجدول الخارجي (Correlated Subqueries)",
+    "skill": "المقارنات السياقية المتقدمة",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "بناء الاستعلامات الفرعية المترابطة التي تشير إلى أعمدة الجدول الخارجي لتقييم الشروط النسبية وحساب الأحجام الفئوية لكل صف.",
+    "concept": "يعتمد الاستعلام الفرعي المترابط (Correlated Subquery) على قيم مستمدة من صف الجدول الخارجي قيد المعالجة (Outer Query Reference)، مما يجعله غير قابل للتنفيذ بشكل مستقل. يقوم المحرك بتقييم الاستعلام الفرعي بشكل متكرر لكل صف من صفوف الجدول الخارجي؛ مما يجعله وسيلة فائقة المرونة لمقارنة كل موظف بمتوسط رواتب قسمه الخاص وليس بمتوسط الشركة العام.",
+    "whyUse": "تعد المقارنات النسبية جوهر تحليلات الأعمال؛ فموظف المبيعات يجب أن يُقارن بزملاء قسم المبيعات وليس بمهندسي البرمجيات، والاستعلام المترابط يتيح عزل السياق لكل صف تلقائياً وإرجاع نتائج إحصائية دقيقة ومفصلة.",
+    "browserMechanics": "ينفذ المحرك الاستعلام المترابط عادة عبر حلقة تكرار متداخلة (Nested Loop)، أو يحوله عند توفر إمكانية التحسين إلى Decorrelated Join؛ حيث يجمع بيانات الجدول الداخلي أولاً بـ GROUP BY ثم يربطها بالجدول الخارجي لتفادي تشغيل ملايين الاستعلامات الفرعية المتكررة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-expressions.html#SQL-SYNTAX-SCALAR-SUBQUERIES",
+    "file": "query.sql",
+    "flow": "قراءة صف الموظف الخارجي ⟶ حساب متوسط رواتب قسمه المحدد في استعلام فرعي ⟶ تصفية الموظف إذا فاق متوسط قسمه ⟶ حساب حجم القسم والترتيب",
+    "task": "قم بمقارنة رواتب الموظفين بمتوسط رواتب أقسامهم الخاصة، مع عرض حجم كل قسم وفرز النتائج حسب القسم والراتب.",
+    "code": "SELECT e.emp_name, e.department_id, e.salary FROM employees e;",
+    "expected": "SELECT e.emp_name, e.department_id, e.salary, (SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size FROM employees e WHERE e.salary > (SELECT AVG(sub.salary) FROM employees sub WHERE sub.department_id = e.department_id) ORDER BY e.department_id, e.salary DESC;",
+    "reference": "https://www.postgresql.org/docs/current/sql-expressions.html#SQL-SYNTAX-SCALAR-SUBQUERIES",
+    "breakdown": [
+      "WHERE e.salary > (SELECT AVG(sub.salary) ... WHERE sub.department_id = e.department_id): استعلام فرعي مترابط يقارن راتب الموظف بمتوسط قسمه حصراً.",
+      "(SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size: استعلام مترابط في قائمة SELECT لحساب التعداد الإجمالي لزملاء الموظف في نفس القسم.",
+      "ORDER BY e.department_id, e.salary DESC: فرز النتائج تجميعياً حسب القسم ثم تنازلياً بحسب الراتب."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة شرط المقارنة المترابط بالقسم",
+        "objective": "مقارنة راتب الموظف بمتوسط القسم التابع له فقط",
+        "type": "edit",
+        "instruction": "استبدل FROM employees e; بـ FROM employees e WHERE e.salary > (SELECT AVG(sub.salary) FROM employees sub WHERE sub.department_id = e.department_id);.",
+        "benefit": "تطبيق التقييم النسبي العادل لكل موظف وفق معايير قسمه المستقلة.",
+        "from": "FROM employees e;",
+        "to": "FROM employees e WHERE e.salary > (SELECT AVG(sub.salary) FROM employees sub WHERE sub.department_id = e.department_id);",
+        "expectedLine": "FROM employees e WHERE e.salary > (SELECT AVG(sub.salary) FROM employees sub WHERE sub.department_id = e.department_id);",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد اسم الجدول والاسم المستعار employees e.",
+          "القاعدة: الاستعلام المترابط يستخدم الاسم المستعار الخارجي e.department_id لمقارنته بالحقل الداخلي sub.department_id. هل كتبت شرط الربط المترابط؟",
+          "اكتب السطر بدقة: FROM employees e WHERE e.salary > (SELECT AVG(sub.salary) FROM employees sub WHERE sub.department_id = e.department_id);",
+          "الحل الدقيق للخطوة هو: FROM employees e WHERE e.salary > (SELECT AVG(sub.salary) FROM employees sub WHERE sub.department_id = e.department_id);"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة استعلام مترابط لحساب حجم القسم",
+        "objective": "عرض عدد موظفي القسم التابع له الموظف بجانب بياناته",
+        "type": "edit",
+        "instruction": "أضف , (SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size بعد e.salary وقبل FROM.",
+        "benefit": "توفير معلومات السياق الإداري لمعرفة ما إذا كان الموظف يعمل في قسم كبير أم فريق مصغر.",
+        "from": "e.salary",
+        "to": "e.salary, (SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size",
+        "expectedLine": "e.salary, (SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود e.salary في قائمة SELECT.",
+          "القاعدة: نستخدم اسماً مستعاراً جديداً sub2 للاستعلام الداخلي الثاني ونربطه بـ e.department_id. هل أضفت عمود حجم القسم dept_size؟",
+          "اكتب التعبير هكذا: e.salary, (SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size",
+          "الحل الدقيق للخطوة هو: e.salary, (SELECT COUNT(*) FROM employees sub2 WHERE sub2.department_id = e.department_id) AS dept_size"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة الترتيب المزدوج حسب القسم والراتب",
+        "objective": "تنظيم المخرجات حسب الإدارة وتنازلياً حسب الراتب",
+        "type": "edit",
+        "instruction": "أضف ORDER BY e.department_id, e.salary DESC قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "إظهار الموظفين المتميزين في كل قسم على حدة بوضوح وسهولة.",
+        "from": "e.department_id);",
+        "to": "e.department_id) ORDER BY e.department_id, e.salary DESC;",
+        "expectedLine": "e.department_id) ORDER BY e.department_id, e.salary DESC;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد قوس إغلاق الاستعلام الفرعي e.department_id).",
+          "القاعدة: عبارة ORDER BY في الختام تنظم كافة السجلات المعادة. هل كتبت ORDER BY e.department_id, e.salary DESC؟",
+          "اكتب النهاية بدقة: e.department_id) ORDER BY e.department_id, e.salary DESC;",
+          "الحل الدقيق للخطوة هو: e.department_id) ORDER BY e.department_id, e.salary DESC;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM emp WHERE salary > (SELECT AVG(salary) FROM emp WHERE dept = outer_dept);",
+      "fixedCode": "SELECT * FROM emp e WHERE salary > (SELECT AVG(sub.salary) FROM emp sub WHERE sub.dept = e.dept);",
+      "question": "كيف نربط الاستعلام الفرعي بالصف الخارجي بدقة في الاستعلام المترابط؟",
+      "explanation": "يجب استخدام أسماء مستعارة صريحة (Aliases مثل e و sub) لتمييز إشارات الجدول الخارجي عن الداخلي عند الإشارة لنفس الجدول.",
+      "options": [
+        "يجب استخدام أسماء مستعارة صريحة (Aliases مثل e و sub) لتمييز إشارات الجدول الخارجي عن الداخلي عند الإشارة لنفس الجدول.",
+        "الاستعلامات المترابطة ممنوعة في قواعد البيانات العلائقية.",
+        "يجب كتابة كلمة CONNECT بدلاً من WHERE.",
+        "يجب حذف عبارة SELECT الداخلية واستبدالها برقم ثابت."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-30-common-table-expressions",
+    "legacyId": "database:29",
+    "order": 29,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "التعبيرات الجدولية الشائعة وتبسيط الاستعلامات (WITH CTE)",
+    "skill": "هيكلة الاستعلامات المعقدة",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تنظيم وهيكلة استعلامات SQL المعقدة باستخدام التعبيرات الجدولية الشائعة (CTEs) عبر عبارة WITH لتحسين مقروءية الشفرة وقابلية صيانتها.",
+    "concept": "تتيح عبارة WITH تعريف تعبير جدولي شائع (Common Table Expression - CTE) يعمل كجدول مؤقت ومسمى ضمن نطاق تنفيذ الاستعلام الواحد. تقضي تعبيرات CTE على تداخل الاستعلامات الفرعية البشعة (Subquery Spaghettis)، وتسمح بتقسيم المنطق المعقد إلى خطوات خطية واضحة ومقروءة من الأعلى إلى الأسفل، مع إمكانية الإشارة لنفس التعبير الجدولي عدة مرات في نفس الاستعلام دون تكرار كتابته.",
+    "whyUse": "تعد CTEs المعيار الذهبي في هندسة البيانات وبناء تقارير مستودعات البيانات (Data Warehouses)؛ حيث تتيح تلخيص إحصاءات المبيعات أو الأقسام في كتلة علوية معزولة، ثم ربطها واستخدامها بسلاسة في الاستعلام الأساسي كأي جدول عادي.",
+    "browserMechanics": "في محركات SQL الحديثة (مثل PostgreSQL 12+ و SQLite 3.35+)، تكون التعبيرات الجدولية CTE مضمنة تلقائياً (Inlined CTEs) بشكل افتراضي؛ حيث يدمج المحرك استعلام الـ CTE في شجرة الاستعلام الرئيسية ليتمكن المحسن من تطبيق الفهارس ودفع شروط التصفية (Predicate Pushdown) بأعلى كفاءة ممكنة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-with.html",
+    "file": "query.sql",
+    "flow": "تعريف التعبير الجدولي DeptStats ⟶ تجميع الرواتب وحساب المتوسط لكل قسم ⟶ ربط CTE بجدول الموظفين ⟶ تصفية الموظفين ذوي الرواتب الأعلى",
+    "task": "قم بإعادة هيكلة استعلام مقارنة الرواتب عبر بناء تعبير جدولي CTE يسمى DeptStats لحساب متوسطات الأقسام وربطه بجدول الموظفين.",
+    "code": "SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id;",
+    "expected": "WITH DeptStats AS ( SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id ) SELECT e.emp_name, e.salary, ds.avg_sal FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id WHERE e.salary > ds.avg_sal;",
+    "reference": "https://www.postgresql.org/docs/current/queries-with.html",
+    "breakdown": [
+      "WITH DeptStats AS (...): تعريف التعبير الجدولي الشائع DeptStats وتغليف استعلام تجميع متوسط الرواتب.",
+      "FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id: ربط جدول الموظفين بالتعبير الجدولي الناتج كأي جدول حقيقي.",
+      "WHERE e.salary > ds.avg_sal: تصفية نظيفة ومقروءة تستبقي الموظفين الذين تزيد رواتبهم عن متوسط قسمهم المحسوب."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تغليف الاستعلام التجميعي داخل كود WITH CTE",
+        "objective": "إنشاء التعبير الجدولي المسمى DeptStats",
+        "type": "edit",
+        "instruction": "أحط الاستعلام بـ WITH DeptStats AS ( ... ) وضعه في بداية النص قبل الاستعلام الرئيسي.",
+        "benefit": "تسمية الكتلة الحسابية وتحويلها إلى جدول افتراضي مؤقت واضح المعالم.",
+        "from": "SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id;",
+        "to": "WITH DeptStats AS ( SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id ) SELECT * FROM DeptStats;",
+        "expectedLine": "WITH DeptStats AS ( SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id ) SELECT * FROM DeptStats;",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لبداية الاستعلام.",
+          "القاعدة: يبدأ التعبير الجدولي بالكلمة WITH متبوعة باسم التعبير و AS وأقواس تحوي الاستعلام. هل كتبت WITH DeptStats AS ( ... )؟",
+          "اكتب السطر بدقة: WITH DeptStats AS ( SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id ) SELECT * FROM DeptStats;",
+          "الحل الدقيق للخطوة هو: WITH DeptStats AS ( SELECT dept_id, AVG(salary) AS avg_sal FROM employees GROUP BY dept_id ) SELECT * FROM DeptStats;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "ربط التعبير الجدولي بجدول الموظفين الأساسي",
+        "objective": "دمج بيانات الموظف مع متوسط قسمه عبر الربط الداخلي",
+        "type": "edit",
+        "instruction": "استبدل SELECT * FROM DeptStats; بـ SELECT e.emp_name, e.salary, ds.avg_sal FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id;.",
+        "benefit": "إعادة استخدام نتيجة الـ CTE كجدول مدخل في عمليات الربط العلائقي.",
+        "from": "SELECT * FROM DeptStats;",
+        "to": "SELECT e.emp_name, e.salary, ds.avg_sal FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id;",
+        "expectedLine": "SELECT e.emp_name, e.salary, ds.avg_sal FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id;",
+        "errorRules": [
+          {
+            "pattern": "\\b(?:INNER|LEFT|RIGHT|FULL)\\s+JOIN\\s+[a-zA-Z0-9_]+(?![\\s\\S]*?\\bON\\b)[^;]*;",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت تحديد شرط الربط عبر عبارة ON بعد JOIN. الربط العلائقي يتطلب شرطاً مثل: ON table1.id = table2.fk_id."
+          }
+        ],
+        "hints": [
+          "انتبه للاستعلام الخارجي بعد قوس إغلاق الـ CTE.",
+          "القاعدة: نعامل DeptStats كأي جدول حقيقي في عبارة FROM و JOIN مع تعيين الاسم المستعار ds. هل قمت بربط الموظفين بالـ CTE؟",
+          "اكتب التعبير هكذا: SELECT e.emp_name, e.salary, ds.avg_sal FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id;",
+          "الحل الدقيق للخطوة هو: SELECT e.emp_name, e.salary, ds.avg_sal FROM employees e JOIN DeptStats ds ON e.dept_id = ds.dept_id;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة تصفية الرواتب المتفوقة على المتوسط",
+        "objective": "حصر النتائج في أصحاب الرواتب الأعلى من معدل قسمهم",
+        "type": "edit",
+        "instruction": "أضف WHERE e.salary > ds.avg_sal قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "صياغة شرط تصفية فائق الوضوح والمقروءية مستفيداً من الحقول المحسوبة في الـ CTE.",
+        "from": "ds.dept_id;",
+        "to": "ds.dept_id WHERE e.salary > ds.avg_sal;",
+        "expectedLine": "ds.dept_id WHERE e.salary > ds.avg_sal;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط الربط بعد ds.dept_id وقبل الفاصلة المنقوطة.",
+          "القاعدة: عبارة WHERE تقارن عمود الموظف e.salary بعمود الـ CTE المحسوب ds.avg_sal مباشرة. هل أضفت شرط التصفية؟",
+          "اكتب النهاية بدقة: ds.dept_id WHERE e.salary > ds.avg_sal;",
+          "الحل الدقيق للخطوة هو: ds.dept_id WHERE e.salary > ds.avg_sal;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "WITH RegionalSales ( SELECT region, SUM(amount) FROM sales GROUP BY region ) SELECT * FROM RegionalSales;",
+      "fixedCode": "WITH RegionalSales AS ( SELECT region, SUM(amount) FROM sales GROUP BY region ) SELECT * FROM RegionalSales;",
+      "question": "ما الكلمة المفتاحية الإلزامية التي تربط اسم التعبير الجدولي باستعلامه؟",
+      "explanation": "تتطلب صياغة التعبير الجدولي CTE الكلمة المفتاحية AS بين اسم التعبير والأقواس الحاوية للاستعلام: WITH name AS (...).",
+      "options": [
+        "يجب كتابة الكلمة FROM بدلاً من WITH.",
+        "تتطلب صياغة التعبير الجدولي CTE الكلمة المفتاحية AS بين اسم التعبير والأقواس الحاوية للاستعلام: WITH name AS (...).",
+        "لا يمكن استخدام الدوال التجميعية مثل SUM داخل التعبيرات الجدولية.",
+        "يجب وضع فاصلة منقوطة بعد اسم RegionalSales مباشرة."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-31-recursive-ctes",
+    "legacyId": "database:30",
+    "order": 30,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "الاستعلامات الفرعية التكرارية وهياكل البيانات الشجرية (WITH RECURSIVE)",
+    "skill": "معالجة البيانات الهرمية والشبكية",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "إتقان كتابة التعبيرات الجدولية التكرارية (WITH RECURSIVE) لاجتياز الهياكل الهرمية والشجرية كالهيكل الإداري وشجرة التصنيفات والرسوم البيانية.",
+    "concept": "يتيح التعبير الجدولي التكراري (WITH RECURSIVE) معالجة واسترجاع البيانات الهرمية والشبكية التي لا يُعرف عمقها مسبقاً. يتكون الاستعلام التكراري من جزأين يربط بينهما UNION ALL: الجزء الأول هو عضو التثبيت (Anchor Member) الذي يسترجع جذور الشجرة، والجزء الثاني هو العضو التكراري (Recursive Member) الذي يشير إلى اسم الـ CTE ذاته لاجتياز العقد الأبناء خطوة بخطوة حتى تصل المجموعة لحالة التوقف الخالية.",
+    "whyUse": "تعد الاستعلامات التكرارية الأداة الوحيدة في SQL القياسية لاجتياز الهياكل التنظيمية للشركات (من المدير العام إلى أصغر موظف)، وتفكيك فواتير المواد الصناعية (Bill of Materials - BOM)، وتتبع شبكات الصداقة ومسارات النقل دون الحاجة لكتابة استدعاءات برمجية دائرية في لغات الواجهة.",
+    "browserMechanics": "يخصص المحرك مخزنين مؤقتين في الذاكرة: جدول العمل (Working Table) وجدول النتائج الوسيط (Intermediate Table). في كل دورة، ينفذ المحرك الاستعلام التكراري باستخدام صفوف جدول العمل فقط، فإن ولّد صفوفاً جديدة أضافها للنتيجة وجعلها جدول العمل للدورة التالية، مكرراً العملية حتى يصبح جدول العمل فارغاً تماماً.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-with.html#QUERIES-WITH-RECURSIVE",
+    "file": "query.sql",
+    "flow": "استرجاع قمة الهيكل الإداري (المدير العام) كـ Anchor ⟶ تكرار الربط مع المرؤوسين وزيادة العمق ⟶ التوقف عند بلوغ العمق الأقصى ⟶ فرز الشجرة",
+    "task": "قم ببناء استعلام تكراري WITH RECURSIVE لاستخراج الهيكل الإداري للشركة بدءاً من الإدارة العليا مع حساب عمق كل مستوى وفرز النتائج بالعمق.",
+    "code": "SELECT emp_id, manager_id, full_name FROM organization;",
+    "expected": "WITH RECURSIVE OrgChart AS ( SELECT emp_id, manager_id, full_name, 1 AS depth FROM organization WHERE manager_id IS NULL UNION ALL SELECT o.emp_id, o.manager_id, o.full_name, oc.depth + 1 FROM organization o JOIN OrgChart oc ON o.manager_id = oc.emp_id ) SELECT emp_id, full_name, depth FROM OrgChart WHERE depth <= 5 ORDER BY depth, emp_id;",
+    "reference": "https://www.postgresql.org/docs/current/queries-with.html#QUERIES-WITH-RECURSIVE",
+    "breakdown": [
+      "WITH RECURSIVE OrgChart AS: إعلان تفعيل الاستعلام التكراري وبناء تعبير الهيكل التنظيمي.",
+      "SELECT ... 1 AS depth ... WHERE manager_id IS NULL: عضو التثبيت (Anchor) الذي يبدأ بالمدير التنفيذي الذي لا يملك مديراً.",
+      "UNION ALL SELECT ... oc.depth + 1 ... JOIN OrgChart: العضو التكراري الذي يربط الموظفين بمديريهم ويزيد عداد العمق بواحد في كل مستوى هرمي."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "صياغة كتلة التكرار الأولية ومعادلة التثبيت",
+        "objective": "إنشاء هيكل WITH RECURSIVE والربط بين المدير والمرؤوسين",
+        "type": "edit",
+        "instruction": "استبدل كود البداية بالتعبير التكراري الكامل الذي يدمج عضو التثبيت مع العضو التكراري بـ UNION ALL.",
+        "benefit": "تأسيس محرك الاجتياز الشجري للبيانات الهرمية دفعة واحدة.",
+        "from": "SELECT emp_id, manager_id, full_name FROM organization;",
+        "to": "WITH RECURSIVE OrgChart AS ( SELECT emp_id, manager_id, full_name, 1 AS depth FROM organization WHERE manager_id IS NULL UNION ALL SELECT o.emp_id, o.manager_id, o.full_name, oc.depth + 1 FROM organization o JOIN OrgChart oc ON o.manager_id = oc.emp_id ) SELECT * FROM OrgChart;",
+        "expectedLine": "WITH RECURSIVE OrgChart AS ( SELECT emp_id, manager_id, full_name, 1 AS depth FROM organization WHERE manager_id IS NULL UNION ALL SELECT o.emp_id, o.manager_id, o.full_name, oc.depth + 1 FROM organization o JOIN OrgChart oc ON o.manager_id = oc.emp_id ) SELECT * FROM OrgChart;",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لبداية الاستعلام ونهايته.",
+          "القاعدة: التكرار يتطلب WITH RECURSIVE مع استعلام أولي واستعلام تكراري موحدين بـ UNION ALL. هل كتبت الكتلة التكرارية المتكاملة؟",
+          "اكتب السطر بدقة: WITH RECURSIVE OrgChart AS ( SELECT emp_id, manager_id, full_name, 1 AS depth FROM organization WHERE manager_id IS NULL UNION ALL SELECT o.emp_id, o.manager_id, o.full_name, oc.depth + 1 FROM organization o JOIN OrgChart oc ON o.manager_id = oc.emp_id ) SELECT * FROM OrgChart;",
+          "الحل الدقيق للخطوة هو: WITH RECURSIVE OrgChart AS ( SELECT emp_id, manager_id, full_name, 1 AS depth FROM organization WHERE manager_id IS NULL UNION ALL SELECT o.emp_id, o.manager_id, o.full_name, oc.depth + 1 FROM organization o JOIN OrgChart oc ON o.manager_id = oc.emp_id ) SELECT * FROM OrgChart;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تحديد أعمدة العرض وإضافة الترتيب الهرمي",
+        "objective": "إسقاط المعرف والاسم والعمق وفرز الشجرة",
+        "type": "edit",
+        "instruction": "استبدل SELECT * FROM OrgChart; بـ SELECT emp_id, full_name, depth FROM OrgChart ORDER BY depth, emp_id;.",
+        "benefit": "عرض الهيكل التنظيمي مرتباً من المستويات العليا إلى المستويات التشغيلية.",
+        "from": "SELECT * FROM OrgChart;",
+        "to": "SELECT emp_id, full_name, depth FROM OrgChart ORDER BY depth, emp_id;",
+        "expectedLine": "SELECT emp_id, full_name, depth FROM OrgChart ORDER BY depth, emp_id;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه للاستعلام النهائي في ختام كتلة WITH.",
+          "القاعدة: نحدد الأعمدة الصريحة emp_id, full_name, depth ونرتب بـ ORDER BY depth, emp_id. هل قمت بتعديل الاستعلام النهائي؟",
+          "اكتب التعبير هكذا: SELECT emp_id, full_name, depth FROM OrgChart ORDER BY depth, emp_id;",
+          "الحل الدقيق للخطوة هو: SELECT emp_id, full_name, depth FROM OrgChart ORDER BY depth, emp_id;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "وضع صمام أمان لعمق التكرار",
+        "objective": "منع الحلقات اللانهائية بحصر العمق في 5 مستويات كحد أقصى",
+        "type": "edit",
+        "instruction": "أضف WHERE depth <= 5 قبل عبارة ORDER BY في الاستعلام النهائي.",
+        "benefit": "حماية الخادم من الاستهلاك اللانهائي للذاكرة في حال وجود دورات بيانات دائرية (Infinite Loops).",
+        "from": "FROM OrgChart ORDER BY",
+        "to": "FROM OrgChart WHERE depth <= 5 ORDER BY",
+        "expectedLine": "FROM OrgChart WHERE depth <= 5 ORDER BY",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لموضع الكلمات بين FROM OrgChart وبين ORDER BY.",
+          "القاعدة: شرط تصفية العمق يوضع في WHERE قبل عبارة الترتيب. هل أضفت WHERE depth <= 5؟",
+          "اكتب بدقة: FROM OrgChart WHERE depth <= 5 ORDER BY",
+          "الحل الدقيق للخطوة هو: FROM OrgChart WHERE depth <= 5 ORDER BY"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "WITH OrgTree AS ( SELECT id, boss_id FROM team UNION ALL SELECT t.id, t.boss_id FROM team t JOIN OrgTree o ON t.boss_id = o.id ) SELECT * FROM OrgTree;",
+      "fixedCode": "WITH RECURSIVE OrgTree AS ( SELECT id, boss_id FROM team UNION ALL SELECT t.id, t.boss_id FROM team t JOIN OrgTree o ON t.boss_id = o.id ) SELECT * FROM OrgTree;",
+      "question": "لماذا فشل الاستعلام في استدعاء التعبير الجدولي لنفسه داخل كتلته؟",
+      "explanation": "في لغة SQL يتطلب التكرار الذاتي استخدام الكلمة المفتاحية RECURSIVE بعد WITH لتمكين المحرك من استدعاء الجدول لنفسه بصورة تكرارية.",
+      "options": [
+        "يجب استبدال UNION ALL بـ UNION فقط.",
+        "لا يمكن ربط الجدول بنفسه في لغة SQL.",
+        "في لغة SQL يتطلب التكرار الذاتي استخدام الكلمة المفتاحية RECURSIVE بعد WITH لتمكين المحرك من استدعاء الجدول لنفسه بصورة تكرارية.",
+        "يجب وضع علامات تنصيص مفردة حول اسم الجدول team."
+      ],
+      "correctOptionIndex": 2
+    }
+  }
+]

@@ -1,0 +1,474 @@
+[
+  {
+    "id": "database-22-insert-into-data",
+    "legacyId": "database:21",
+    "order": 21,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "إدراج البيانات الفردية والمتعددة (INSERT INTO VALUES)",
+    "skill": "إضافة السجلات إلى الجداول",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "إتقان استخدام أمر INSERT INTO لإضافة السجلات الفردية، وتطبيق الإدراج الجماعي المتعدد (Multi-row Insert) لتسريع تغذية البيانات.",
+    "concept": "يعد أمر INSERT INTO التعليمة الأساسية لإضافة صفوف جديدة في لغة معالجة البيانات (DML). تفرض أفضل الممارسات تحديد أسماء الأعمدة المستهدفة صراحة بين قوسين `INSERT INTO table (col1, col2)` لمنع انهيار الاستعلام عند إضافة أعمدة جديدة للجدول مستقبلاً. كما تتيح SQL الحديثة إدراج صفوف متعددة في تعليمة واحدة بفصل مجموعات القيم بفواصل `VALUES (...), (...), (...)` لتوفير رحلات الشبكة (Network Roundtrips).",
+    "whyUse": "يعد الإدراج المتعدد (Batch/Bulk Insert) أسرع بمقدار 10 إلى 50 ضعفاً مقارنة بتنفيذ مئات أو آلاف أوامر INSERT الفردية المنفصلة؛ مما يجعله المعيار الأساسي في استيراد ملفات CSV وهجرة البيانات الكبرى وعمليات التغذية الدورية للأنظمة.",
+    "browserMechanics": "عند معالجة INSERT متعدد الصفوف، يفتح المحرك معاملة واحدة، ويفحص القيود لكافة الصفوف دفعة واحدة، ثم يكتب كافة السجلات في صفحة تخزين الذاكرة (Memory Buffer Page) ويسجل عملية واحدة في سجل الكتابة المسبقة (Write-Ahead Log - WAL)؛ مما يقلل عمليات المزامنة على القرص fsync بشكل جذري.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-insert.html",
+    "file": "query.sql",
+    "flow": "تحليل قائمة الأعمدة المستهدفة ⟶ تقييم مجموعات القيم وتوافق أنواعها ⟶ فحص القيود ⟶ كتابة السجلات دفعة واحدة في الجدول",
+    "task": "قم بتعديل جملة الإدراج لتشمل عمود التفعيل is_active، وأدخل ثلاث فئات دفعة واحدة في أمر إدراج جماعي موحد.",
+    "code": "INSERT INTO categories (name) VALUES ('Electronics');",
+    "expected": "INSERT INTO categories (name, is_active) VALUES ('Electronics', true), ('Books', true), ('Toys', false);",
+    "reference": "https://www.postgresql.org/docs/current/sql-insert.html",
+    "breakdown": [
+      "INSERT INTO categories (name, is_active): تحديد الجدول المستهدف وقائمة الأعمدة التي ستتلقى البيانات.",
+      "VALUES ('Electronics', true): الصف الأول المضاف مع تحديد الاسم وحالة التفعيل كـ true.",
+      ", ('Books', true), ('Toys', false);: إدراج الصفين الثاني والثالث ضمن نفس التعليمة التنفيذية مفصولين بفواصل عادية."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة عمود حالة التفعيل لقائمة الحقول",
+        "objective": "تجهيز الاستعلام لاستقبال قيمة حقل is_active",
+        "type": "edit",
+        "instruction": "استبدل (name) بـ (name, is_active).",
+        "benefit": "تحديد دقيق للحقول لضمان توجيه القيم إلى خاناتها المخصصة.",
+        "from": "(name)",
+        "to": "(name, is_active)",
+        "expectedLine": "(name, is_active)",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لقائمة الأعمدة بين القوسين بعد اسم الجدول categories.",
+          "القاعدة: الأعمدة المتعددة في INSERT تفصل بينها فواصل داخل القوسين. هل أضفت is_active؟",
+          "اكتب بدقة: (name, is_active)",
+          "الحل الدقيق للخطوة هو: (name, is_active)"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "مواءمة قيم الصف الأول",
+        "objective": "تمرير القيمة المنطقية true لحقل التفعيل",
+        "type": "edit",
+        "instruction": "استبدل ('Electronics'); بـ ('Electronics', true);.",
+        "benefit": "مطابقة عدد القيم مع عدد الأعمدة المحددة لمنع خطأ عدم التناظر.",
+        "from": "('Electronics');",
+        "to": "('Electronics', true);",
+        "expectedLine": "('Electronics', true);",
+        "errorRules": [],
+        "hints": [
+          "انتبه للقيم بين القوسين بعد الكلمة المفتاحية VALUES.",
+          "القاعدة: القيمة المنطقية true تكتب بدون علامات تنصيص بعد فاصلة من الاسم. هل كتبت ('Electronics', true);؟",
+          "اكتب التعبير هكذا: ('Electronics', true);",
+          "الحل الدقيق للخطوة هو: ('Electronics', true);"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "التوسيع للإدراج الجماعي المتعدد",
+        "objective": "إضافة فئتي الكتب والألعاب في نفس الأمر",
+        "type": "edit",
+        "instruction": "استبدل ('Electronics', true); بالقيم المتعددة: ('Electronics', true), ('Books', true), ('Toys', false);.",
+        "benefit": "تنفيذ إدراج سريع يقلل وقت المعالجة ويوفر استهلاك موارد الخادم.",
+        "from": "('Electronics', true);",
+        "to": "('Electronics', true), ('Books', true), ('Toys', false);",
+        "expectedLine": "('Electronics', true), ('Books', true), ('Toys', false);",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية عبارة VALUES.",
+          "القاعدة: للإدراج المتعدد نفصل بين أقواس كل صف بفاصلة عادية ونضع الفاصلة المنقوطة بعد القوس الأخير. هل أضفت المجموعات الثلاث؟",
+          "اكتب بدقة: ('Electronics', true), ('Books', true), ('Toys', false);",
+          "الحل الدقيق للخطوة هو: ('Electronics', true), ('Books', true), ('Toys', false);"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "INSERT INTO users (name, age) VALUES ('Ali');",
+      "fixedCode": "INSERT INTO users (name, age) VALUES ('Ali', 28);",
+      "question": "لماذا رفض المحرك تنفيذ جملة الإدراج هذه؟",
+      "explanation": "يجب أن يتطابق عدد القيم داخل عبارة VALUES تماماً مع عدد الأعمدة المحددة بين القوسين بعد اسم الجدول.",
+      "options": [
+        "اسم الجدول users محجوز في النظام.",
+        "يجب أن يتطابق عدد القيم داخل عبارة VALUES تماماً مع عدد الأعمدة المحددة بين القوسين بعد اسم الجدول.",
+        "لا يمكن إدراج نصوص عربية مثل 'Ali'.",
+        "يجب وضع فاصلة منقوطة بعد كلمة VALUES مباشرة."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-23-update-safe-where",
+    "legacyId": "database:22",
+    "order": 22,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "تعديل السجلات وتأمين التحديث بشرط صارم (UPDATE & SET)",
+    "skill": "تعديل البيانات القائمة",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "استخدام أمر UPDATE لتعديل قيم الأعمدة في السجلات القائمة، وتأمين عمليات التعديل بشرط WHERE صارم لتجنب الكوارث البيانية.",
+    "concept": "يقوم أمر UPDATE بتعديل قيم أعمدة معينة في السجلات المخزنة بالفعل في الجدول عبر عبارة SET. وتمثل كتابة UPDATE بدون عبارة WHERE كارثة مدمرة في بيئات الإنتاج لأنها تقوم بتعديل كافة صفوف الجدول دون استثناء. لذلك تفرض البروتوكولات الهندسية دائماً إقران UPDATE بشرط WHERE دقيق يحدد المفتاح الأساسي أو الحالة المطلوبة حصراً، مع إمكانية تحديث حقول متعددة كطابع وقت التحديث.",
+    "whyUse": "تعديل أسعار المنتجات عند تطبيق خصم محدد، أو ترقية حالة المستخدم إلى VIP، أو تحديث كلمة المرور تتطلب جميعها استخدام UPDATE مشروط لحصر التغيير على السجل المعني فقط دون المساس ببيانات باقي العملاء.",
+    "browserMechanics": "في محركات قواعد البيانات الحديثة مثل PostgreSQL التي تطبق نموذج التحكم بالتزامن متعدد الإصدارات (MVCC)، لا يقوم المحرك بالكتابة فوق الصف القديم مباشرة، بل يضع علامة انتهاء صلاحية على الصف القديم (xmax) وينشئ نسخة جديدة محدثة كلياً من الصف في مساحة الذاكرة، مما يتطلب الحذر من التحديثات العشوائية لتجنب انتفاخ الجدول (Table Bloat).",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-update.html",
+    "file": "query.sql",
+    "flow": "تحديد السجلات المطابقة لشرط WHERE ⟶ فحص قيود الحقول المعدلة ⟶ إنشاء النسخ المحدثة وتحديث طابع الوقت ⟶ اعتماد التعديل",
+    "task": "قم بتعديل سعر المنتج رقم 101 ليصبح 45.00، مع تحديث طابع وقت التعديل واشتراط ألا يكون المنتج متوقفاً عن الإنتاج.",
+    "code": "UPDATE products SET unit_price = 45.00;",
+    "expected": "UPDATE products SET unit_price = 45.00, updated_at = CURRENT_TIMESTAMP WHERE id = 101 AND is_discontinued = false;",
+    "reference": "https://www.postgresql.org/docs/current/sql-update.html",
+    "breakdown": [
+      "UPDATE products SET unit_price = 45.00: تحديد الجدول وحقل السعر المراد تحديث قيمته الجديدة.",
+      "updated_at = CURRENT_TIMESTAMP: تحديث حقل المراقبة الزمنية ليعكس لحظة وقوع التعديل بدقة.",
+      "WHERE id = 101 AND is_discontinued = false: شرط أمان مزدوج يحصر التعديل في المنتج المحدد وفقط إذا كان ما زال قيد التداول."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تأمين التعديل بشرط المعرف",
+        "objective": "منع تعديل كافة منتجات الجدول وحصر العملية في المعرف 101",
+        "type": "edit",
+        "instruction": "أضف WHERE id = 101; بعد unit_price = 45.00.",
+        "benefit": "تأمين الاستعلام وحماية كافة السجلات الأخرى من التعديل غير المقصود.",
+        "from": "45.00;",
+        "to": "45.00 WHERE id = 101;",
+        "expectedLine": "45.00 WHERE id = 101;",
+        "errorRules": [
+          {
+            "pattern": "^\\s*(?![\\s\\S]*\\bWHERE\\b)UPDATE\\s+[a-zA-Z0-9_]+\\s+SET\\s+[^;]+;?$",
+            "flags": "i",
+            "type": "regex",
+            "message": "تنبيه أمان حرج: كتبت أمر UPDATE بدون عبارة WHERE! هذا سيؤدي لتعديل كافة الصفوف في الجدول وتدمير البيانات القائمة."
+          },
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد القيمة 45.00 وقبل الفاصلة المنقوطة.",
+          "القاعدة: أمر UPDATE يجب أن يقترن بعبارة WHERE لحماية البيانات. هل أضفت WHERE id = 101؟",
+          "اكتب التعبير هكذا: 45.00 WHERE id = 101;",
+          "الحل الدقيق للخطوة هو: 45.00 WHERE id = 101;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تحديث طابع وقت التعديل اللحظي",
+        "objective": "تسجيل وقت التعديل آلياً لأغراض التدقيق والمتابعة",
+        "type": "edit",
+        "instruction": "أضف , updated_at = CURRENT_TIMESTAMP بعد unit_price = 45.00 وقبل WHERE.",
+        "benefit": "توثيق التغييرات زمنياً لتسهيل المراجعة وتتبع دورة حياة السجلات.",
+        "from": "unit_price = 45.00",
+        "to": "unit_price = 45.00, updated_at = CURRENT_TIMESTAMP",
+        "expectedLine": "unit_price = 45.00, updated_at = CURRENT_TIMESTAMP",
+        "errorRules": [
+          {
+            "pattern": "^\\s*(?![\\s\\S]*\\bWHERE\\b)UPDATE\\s+[a-zA-Z0-9_]+\\s+SET\\s+[^;]+;?$",
+            "flags": "i",
+            "type": "regex",
+            "message": "تنبيه أمان حرج: كتبت أمر UPDATE بدون عبارة WHERE! هذا سيؤدي لتعديل كافة الصفوف في الجدول وتدمير البيانات القائمة."
+          }
+        ],
+        "hints": [
+          "انتبه لموضع السعر 45.00 قبل كلمة WHERE.",
+          "القاعدة: لتحديث حقول متعددة نضع فاصلة بعد الحقل الأول ثم اسم الحقل الثاني ومساواته بالقيمة. هل كتبت updated_at = CURRENT_TIMESTAMP؟",
+          "اكتب بدقة: unit_price = 45.00, updated_at = CURRENT_TIMESTAMP",
+          "الحل الدقيق للخطوة هو: unit_price = 45.00, updated_at = CURRENT_TIMESTAMP"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة شرط التحقق من حالة تداول المنتج",
+        "objective": "منع تعديل أسعار المنتجات الملغاة أو المتوقفة",
+        "type": "edit",
+        "instruction": "أضف AND is_discontinued = false قبل الفاصلة المنقوطة.",
+        "benefit": "تعزيز شروط الأمان المنطقية لضمان عدم تنشيط أسعار منتجات مهجورة.",
+        "from": "WHERE id = 101;",
+        "to": "WHERE id = 101 AND is_discontinued = false;",
+        "expectedLine": "WHERE id = 101 AND is_discontinued = false;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط WHERE بعد id = 101 وقبل الفاصلة المنقوطة.",
+          "القاعدة: نربط الشروط المنطقية في WHERE باستخدام AND متبوعة بالشرط البوليني. هل أضفت AND is_discontinued = false؟",
+          "اكتب النهاية بدقة: WHERE id = 101 AND is_discontinued = false;",
+          "الحل الدقيق للخطوة هو: WHERE id = 101 AND is_discontinued = false;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "UPDATE employees SET salary = salary * 1.1; -- زيادة رواتب الجميع",
+      "fixedCode": "UPDATE employees SET salary = salary * 1.1 WHERE department_id = 4;",
+      "question": "ما هو الخطر الكامن في تنفيذ أمر UPDATE بدون عبارة WHERE؟",
+      "explanation": "تنفيذ أمر UPDATE دون عبارة WHERE يؤدي لتحديث كافة صفوف الجدول بلا استثناء، مما يغير بيانات جميع الموظفين بدلاً من القسم المطلوب.",
+      "options": [
+        "سيتوقف خادم قاعدة البيانات عن الاستجابة نهائياً.",
+        "سيتم حذف جدول الموظفين بالكامل من المخطط.",
+        "تنفيذ أمر UPDATE دون عبارة WHERE يؤدي لتحديث كافة صفوف الجدول بلا استثناء، مما يغير بيانات جميع الموظفين بدلاً من القسم المطلوب.",
+        "لغة SQL لا تسمح بالعمليات الحسابية مثل الضرب في الرواتب."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-24-delete-vs-truncate",
+    "legacyId": "database:23",
+    "order": 23,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "حذف البيانات والمقارنة بين الإزالة والتفريغ (DELETE vs TRUNCATE)",
+    "skill": "حذف البيانات الآمن",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "المقارنة الفنية بين أمر DELETE القابل للتصفية وأمر TRUNCATE فائق السرعة، واستخدام عبارة RETURNING لمتابعة السجلات المحذوفة.",
+    "concept": "يحذف أمر DELETE صفوفاً معينة ومحددة استناداً إلى شرط WHERE كعملية DML؛ حيث يمر على كل صف ويسجله في سجل المعاملات (Transaction Log) مما يتيح التراجع (Rollback) وتفعيل مشغلات الحذف (Triggers). في المقابل، يعد TRUNCATE عملية DDL تقوم بإلغاء تخصيص صفحات التخزين كاملة وتفريغ الجدول وإعادة ضبط عدادات الهوية فورياً، مما يجعله أسرع بآلاف المرات ولكنه لا يقبل عبارة WHERE إطلاقاً.",
+    "whyUse": "استخدام DELETE بشرط زمني محدد هو الأسلوب الصحيح لأرشفة أو تنظيف السجلات القديمة تدريجياً دون مساس بالبيانات الحديثة، مع استخدام عبارة RETURNING لمعرفة المعرفات التي حُذفت فعلياً وتأكيد اكتمال العملية بنجاح في سجلات النظام.",
+    "browserMechanics": "عند تنفيذ DELETE، يضع المحرك علامة الحذف (Dead Tuple) على كل صف مطابق ويحدث فهارس الجدول، ثم تتولى عملية الكنس الخلفية (VACUUM) استعادة المساحة لاحقاً. بينما يقوم TRUNCATE بإنشاء ملف بيانات فارغ جديد للجدول وحذف المؤشر القديم في خطوة واحدة فائقة السرعة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-delete.html",
+    "file": "query.sql",
+    "flow": "مسح سجلات السجل ⟶ فحص تاريخ الإنشاء ومستوى الخطورة ⟶ حذف الصفوف المطابقة ⟶ إعادة بيانات السجلات المحذوفة بـ RETURNING",
+    "task": "قم بحذف سجلات التنبيهات المنشأة قبل 2025 وذات درجة الخطورة 'INFO' فقط، مع استرجاع المعرفات وتواريخ الإنشاء المحذوفة عبر RETURNING.",
+    "code": "DELETE FROM logs;",
+    "expected": "DELETE FROM logs WHERE created_at < '2025-01-01' AND severity = 'INFO' RETURNING id, created_at;",
+    "reference": "https://www.postgresql.org/docs/current/sql-delete.html",
+    "breakdown": [
+      "DELETE FROM logs: الأمر المخصص لحذف صفوف من جدول السجلات.",
+      "WHERE created_at < '2025-01-01' AND severity = 'INFO': شرط الحذف الذي يستهدف سجلات المعلومات القديمة فقط ويحمي السجلات الحرجة.",
+      "RETURNING id, created_at: عبارة قياسية متقدمة تعيد قيم الأعمدة للصفوف التي حُذفت للتو لمعاينتها أو أرشفة أرقامها."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تقييد الحذف بالتاريخ القديم",
+        "objective": "منع التفريغ الكامل واستهداف السجلات القديمة فقط",
+        "type": "edit",
+        "instruction": "استبدل DELETE FROM logs; بـ DELETE FROM logs WHERE created_at < '2025-01-01';",
+        "benefit": "حماية السجلات الحديثة وقصر الحذف على البيانات المتقادمة.",
+        "from": "DELETE FROM logs;",
+        "to": "DELETE FROM logs WHERE created_at < '2025-01-01';",
+        "expectedLine": "DELETE FROM logs WHERE created_at < '2025-01-01';",
+        "errorRules": [
+          {
+            "pattern": "^\\s*(?![\\s\\S]*\\bWHERE\\b)DELETE\\s+FROM\\s+[a-zA-Z0-9_]+[^;]*;?$",
+            "flags": "i",
+            "type": "regex",
+            "message": "تنبيه أمان حرج: كتبت أمر DELETE بدون عبارة WHERE! هذا سيحذف جميع السجلات من الجدول بالكامل."
+          },
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لأمر الحذف المجرد DELETE FROM logs;.",
+          "القاعدة: أمر DELETE يتطلب دائماً عبارة WHERE لحماية البيانات من الزوال الكامل. هل أضفت شرط التاريخ؟",
+          "اكتب السطر بدقة: DELETE FROM logs WHERE created_at < '2025-01-01';",
+          "الحل الدقيق للخطوة هو: DELETE FROM logs WHERE created_at < '2025-01-01';"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "حصر الحذف في السجلات العادية INFO",
+        "objective": "استثناء سجلات الأخطاء والتحذيرات الهامة من الحذف",
+        "type": "edit",
+        "instruction": "أضف AND severity = 'INFO' قبل الفاصلة المنقوطة.",
+        "benefit": "الاحتفاظ بسجلات الأخطاء والتحذيرات الهامة للتدقيق وحذف السجلات الروتينية فقط.",
+        "from": "'2025-01-01';",
+        "to": "'2025-01-01' AND severity = 'INFO';",
+        "expectedLine": "'2025-01-01' AND severity = 'INFO';",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط التاريخ بعد '2025-01-01'.",
+          "القاعدة: نربط الشروط بالمعامل AND مع كتابة القيمة النصية بين علامات تنصيص مفردة. هل أضفت شرط مستوى الخطورة؟",
+          "عدّل النهاية لتصبح: '2025-01-01' AND severity = 'INFO';",
+          "الحل الدقيق للخطوة هو: '2025-01-01' AND severity = 'INFO';"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "استرجاع بيانات الصفوف المحذوفة بـ RETURNING",
+        "objective": "إرجاع المعرف وتاريخ الإنشاء للسجلات التي تم حذفها",
+        "type": "edit",
+        "instruction": "أضف RETURNING id, created_at قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "تأكيد وإثبات السجلات المحذوفة للعميل دون الحاجة لتشغيل استعلام SELECT مسبق.",
+        "from": "'INFO';",
+        "to": "'INFO' RETURNING id, created_at;",
+        "expectedLine": "'INFO' RETURNING id, created_at;",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد كلمة 'INFO'.",
+          "القاعدة: عبارة RETURNING تلحق بأمر DELETE لإرجاع الأعمدة المحذوفة إلى واجهة العميل مباشرة. هل أضفت RETURNING id, created_at؟",
+          "اكتب النهاية بدقة: 'INFO' RETURNING id, created_at;",
+          "الحل الدقيق للخطوة هو: 'INFO' RETURNING id, created_at;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "DELETE * FROM sessions WHERE expired = true;",
+      "fixedCode": "DELETE FROM sessions WHERE expired = true;",
+      "question": "لماذا يعد وجود الرمز * خطأ في صياغة أمر DELETE؟",
+      "explanation": "في لغة SQL يحذف أمر DELETE صفوفاً كاملة ولا يتعامل مع أعمدة محددة، لذا لا يُكتب الرمز * بين DELETE و FROM.",
+      "options": [
+        "يجب كتابة اسم الجدول بأحرف كبيرة SESSIONS.",
+        "لا يمكن استخدام القيم البولينية true في شروط الحذف.",
+        "يجب كتابة كلمة REMOVE بدلاً من DELETE.",
+        "في لغة SQL يحذف أمر DELETE صفوفاً كاملة ولا يتعامل مع أعمدة محددة، لذا لا يُكتب الرمز * بين DELETE و FROM."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-25-alter-table-schema",
+    "legacyId": "database:24",
+    "order": 24,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "تعديل هيكل الجداول القائمة (ALTER TABLE)",
+    "skill": "تطوير وصيانة المخططات",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "تطوير وصيانة مخططات قواعد البيانات عبر ALTER TABLE لإضافة وحذف الأعمدة وتعديل القيود والأنواع دون فقدان البيانات المخزنة.",
+    "concept": "تتيح عبارة ALTER TABLE في لغة DDL تعديل هيكل وبنية جدول قائم بالفعل دون التأثير على السجلات المحفوظة داخله؛ كإضافة أعمدة جديدة (ADD COLUMN)، أو إسقاط أعمدة متقادمة (DROP COLUMN)، أو تغيير أنواع البيانات وتسمية الحقول (ALTER COLUMN TYPE / RENAME COLUMN). وتعد هذه الأداة الركيزة الأساسية لملفات هجرة المخططات (Database Migrations) في بيئات التطوير المستمر.",
+    "whyUse": "تتطور متطلبات تطبيقات الويب باستمرار؛ فإضافة ميزة التحقق من الهاتف أو إضافة حقل ملاحظات العميل تتطلب ترقية الجدول القائم في الإنتاج دون إيقاف الخدمة ودون الحاجة لإعادة إنشاء الجدول من الصفر ومسح بيانات العملاء الحالية.",
+    "browserMechanics": "في قواعد البيانات المعاصرة، إضافة عمود جديد بقيمة افتراضية ثابتة أو يقبل NULL (ADD COLUMN ... DEFAULT 'val') لا يتطلب إعادة كتابة ملف الجدول بالكامل على القرص، بل يقوم المحرك بتحديث تعريف الجدول فقط في كتالوج النظام فورياً (Instant DDL) مما يمنع قفل الجدول وتوقف المعاملات.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-altertable.html",
+    "file": "schema.sql",
+    "flow": "قفل المخطط بلطف ⟶ إضافة تعريف عمود الهاتف وقيمته الافتراضية ⟶ إضافة عمود الملاحظات ⟶ تحرير القفل وتحديث القاموس",
+    "task": "قم بتعديل جدول العملاء clients لإضافة عمود الهاتف phone بقيمة افتراضية 'unverified'، وعمود الملاحظات notes في أمر واحد.",
+    "code": "ALTER TABLE clients;",
+    "expected": "ALTER TABLE clients ADD COLUMN phone VARCHAR(20) DEFAULT 'unverified', ADD COLUMN notes TEXT;",
+    "reference": "https://www.postgresql.org/docs/current/sql-altertable.html",
+    "breakdown": [
+      "ALTER TABLE clients: الأمر الأساسي المخصص لتعديل بنية جدول العملاء القائم.",
+      "ADD COLUMN phone VARCHAR(20) DEFAULT 'unverified': إضافة عمود نصي لرقم الهاتف مع قيمة افتراضية للعملاء السابقين.",
+      ", ADD COLUMN notes TEXT;: إضافة عمود ثانٍ للملاحظات النصية المفتوحة ضمن نفس تعليمة التعديل."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة عمود الهاتف الجديد",
+        "objective": "توسيع جدول العملاء لاستيعاب أرقام الهواتف",
+        "type": "edit",
+        "instruction": "استبدل ALTER TABLE clients; بـ ALTER TABLE clients ADD COLUMN phone VARCHAR(20);.",
+        "benefit": "إضافة حقل جديد دون مساس بالبيانات القديمة المخزنة في باقي الأعمدة.",
+        "from": "ALTER TABLE clients;",
+        "to": "ALTER TABLE clients ADD COLUMN phone VARCHAR(20);",
+        "expectedLine": "ALTER TABLE clients ADD COLUMN phone VARCHAR(20);",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية السطر بعد ALTER TABLE clients.",
+          "القاعدة: إضافة عمود تتطلب كتابة ADD COLUMN متبوعة باسم الحقل ونوعه. هل كتبت ADD COLUMN phone VARCHAR(20)؟",
+          "اكتب السطر بدقة: ALTER TABLE clients ADD COLUMN phone VARCHAR(20);",
+          "الحل الدقيق للخطوة هو: ALTER TABLE clients ADD COLUMN phone VARCHAR(20);"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تعيين القيمة الافتراضية للعمود الجديد",
+        "objective": "ملء السجلات السابقة بقيمة 'unverified' تلقائياً",
+        "type": "edit",
+        "instruction": "استبدل VARCHAR(20); بـ VARCHAR(20) DEFAULT 'unverified';.",
+        "benefit": "ضمان امتلاك كافة العملاء القدامى حالة هاتف واضحة فور إضافة العمود.",
+        "from": "VARCHAR(20);",
+        "to": "VARCHAR(20) DEFAULT 'unverified';",
+        "expectedLine": "VARCHAR(20) DEFAULT 'unverified';",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية تعريف العمود بعد VARCHAR(20).",
+          "القاعدة: القيمة الافتراضية تلحق بتعريف العمود في ALTER TABLE عبر DEFAULT 'unverified'. هل أضفت القيمة الافتراضية؟",
+          "عدّل النهاية لتصبح: VARCHAR(20) DEFAULT 'unverified';",
+          "الحل الدقيق للخطوة هو: VARCHAR(20) DEFAULT 'unverified';"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة عمود الملاحظات في نفس التعليمة",
+        "objective": "تطبيق التعديل المتعدد للأعمدة في أمر واحد",
+        "type": "edit",
+        "instruction": "استبدل الفاصلة المنقوطة بـ , ADD COLUMN notes TEXT;.",
+        "benefit": "دمج تعديلات الهيكل في عملية واحدة لتقليل فترات قفل المخطط وتحسين الأداء.",
+        "from": "'unverified';",
+        "to": "'unverified', ADD COLUMN notes TEXT;",
+        "expectedLine": "'unverified', ADD COLUMN notes TEXT;",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للفاصلة المنقوطة بعد 'unverified'.",
+          "القاعدة: يمكن تنفيذ عدة عمليات في ALTER TABLE بفصلها بفاصلة عادية يليها ADD COLUMN notes TEXT. هل أضفت العمود الثاني؟",
+          "اكتب النهاية بدقة: 'unverified', ADD COLUMN notes TEXT;",
+          "الحل الدقيق للخطوة هو: 'unverified', ADD COLUMN notes TEXT;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "ALTER TABLE users ADD email VARCHAR(100);",
+      "fixedCode": "ALTER TABLE users ADD COLUMN email VARCHAR(100);",
+      "question": "ما هي الصياغة القياسية المفضلة لإضافة عمود جديد في معيار SQL؟",
+      "explanation": "المعيار القياسي ANSI SQL يحدد كتابة ADD COLUMN متبوعة باسم العمود ونوعه لضمان وضوح الأمر وتوافقه عبر كافة الأنظمة.",
+      "options": [
+        "المعيار القياسي ANSI SQL يحدد كتابة ADD COLUMN متبوعة باسم العمود ونوعه لضمان وضوح الأمر وتوافقه عبر كافة الأنظمة.",
+        "يجب كتابة كلمة INSERT بدلاً من ADD.",
+        "لا يمكن تعديل جدول المستخدمين بعد إنشائه نهائياً.",
+        "يجب حذف الجدول وإعادة بنائه لإضافة أي عمود جديد."
+      ],
+      "correctOptionIndex": 0
+    }
+  }
+]

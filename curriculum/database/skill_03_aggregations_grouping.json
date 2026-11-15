@@ -1,0 +1,482 @@
+[
+  {
+    "id": "database-08-aggregates-count-sum-avg",
+    "legacyId": "database:7",
+    "order": 7,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "الدوال التجميعية الإحصائية (COUNT, SUM, AVG)",
+    "skill": "تجميع واختصار البيانات",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "استخدام الدوال التجميعية لحساب إجمالي عدد الصفوف، ومجموع القيم العددية، والمتوسط الحسابي عبر جداول البيانات الضخمة.",
+    "concept": "تلخص الدوال التجميعية (Aggregate Functions) مجموعات متعددة من السجلات في قيمة إحصائية قياسية واحدة (Scalar Value). تحسب دالة COUNT(*) إجمالي عدد الصفوف بما فيها القيم الخالية، بينما تتجاهل COUNT(column) و SUM(column) و AVG(column) قيم NULL تلقائياً أثناء الحساب؛ مما يضمن دقة المؤشرات المالية والإحصائية المستخرجة.",
+    "whyUse": "تعد المؤشرات التجميعية أساس لوحات التحكم ومؤشرات الأداء الرئيسية (KPIs) لمديري الأعمال؛ فمعرفة إجمالي الرواتب أو متوسط تكلفة الطلبات أو عدد العملاء النشطين لا يمكن حسابها عملياً على واجهة المستخدم بل يجب حسابها بكفاءة مباشرة في محرك قاعدة البيانات.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بمسح الجدول وتمرير القيم إلى مجمع حسابي في الذاكرة (Aggregate Accumulator)؛ حيث يحتفظ بعداد وسجل تجميعي للمجموع، ثم يقسم المجموع على العداد عند حساب المتوسط، دون الحاجة للاحتفاظ بكامل السجلات في الذاكرة مما يتيح معالجة مليارات الصفوف بسلاسة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+    "file": "query.sql",
+    "flow": "مسح سجلات الموظفين ⟶ استبعاد قيم الرواتب الخالية ⟶ تجميع العدد والمجموع وحساب المتوسط ⟶ إرجاع صف إحصائي وحيد",
+    "task": "قم بحساب إجمالي عدد الموظفين، ومجموع الرواتب الشهري، ومتوسط الرواتب مقرباً لمنزلتين عشريتين.",
+    "code": "SELECT salary FROM employees;",
+    "expected": "SELECT COUNT(*) AS total_employees, SUM(salary) AS total_payroll, ROUND(AVG(salary), 2) AS average_salary FROM employees;",
+    "reference": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+    "breakdown": [
+      "COUNT(*) AS total_employees: دالة لحساب كافة الصفوف وتعيين اسم مستعار معبر.",
+      "SUM(salary) AS total_payroll: دالة لجمع كافة قيم الرواتب لحساب فاتورة الأجور الإجمالية.",
+      "ROUND(AVG(salary), 2) AS average_salary: حساب المتوسط الحسابي مع تقريب النتيجة لمنزلتين عشريتين لسهولة القراءة."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "حساب إجمالي عدد الموظفين",
+        "objective": "استبدال عمود الراتب الفردي بدالة العد الإجمالية",
+        "type": "edit",
+        "instruction": "استبدل salary بـ COUNT(*) AS total_employees.",
+        "benefit": "الحصول على التعداد الإجمالي للموظفين في أمر استعلام سريع.",
+        "from": "salary",
+        "to": "COUNT(*) AS total_employees",
+        "expectedLine": "COUNT(*) AS total_employees",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لكلمة salary بعد عبارة SELECT مباشرة.",
+          "القاعدة: دالة العد الشاملة تكتب COUNT(*) مع النجمة لتشمل كافة الصفوف. هل كتبت COUNT(*) AS total_employees؟",
+          "اكتب بدقة: COUNT(*) AS total_employees",
+          "الحل الدقيق للخطوة هو: COUNT(*) AS total_employees"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة مجموع كتلة الرواتب",
+        "objective": "حساب إجمالي الأجور المصروفة شهرياً",
+        "type": "edit",
+        "instruction": "أضف الدالة , SUM(salary) AS total_payroll بعد total_employees.",
+        "benefit": "توفير الرقم المالي الإجمالي لميزانية الشركة بنقرة واحدة.",
+        "from": "total_employees",
+        "to": "total_employees, SUM(salary) AS total_payroll",
+        "expectedLine": "total_employees, SUM(salary) AS total_payroll",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار total_employees، أضف فاصلة يتبعها استدعاء دالة الجمع SUM.",
+          "القاعدة: نمرر اسم العمود العددي داخل أقواس دالة SUM(salary). هل أضفت الدالة واسمها المستعار؟",
+          "اكتب التعبير هكذا: total_employees, SUM(salary) AS total_payroll",
+          "الحل الدقيق للخطوة هو: total_employees, SUM(salary) AS total_payroll"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "حساب المتوسط وتقريب الكسور",
+        "objective": "استخراج متوسط الراتب مع تقريبه لمنزلتين عشريتين",
+        "type": "edit",
+        "instruction": "أضف الدالة , ROUND(AVG(salary), 2) AS average_salary بعد total_payroll.",
+        "benefit": "توليد مؤشر متوسط الأجور بصيغة مالية نظيفة خالية من الكسور اللانهائية.",
+        "from": "total_payroll",
+        "to": "total_payroll, ROUND(AVG(salary), 2) AS average_salary",
+        "expectedLine": "total_payroll, ROUND(AVG(salary), 2) AS average_salary",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية قائمة الأعمدة قبل الكلمة المفتاحية FROM.",
+          "القاعدة: دالة ROUND تقبل ناتج AVG(salary) مع رقم 2 لتحديد عدد الخانات العشرية. هل كتبت دالة التقريب والمتوسط؟",
+          "اكتب بدقة: total_payroll, ROUND(AVG(salary), 2) AS average_salary",
+          "الحل الدقيق للخطوة هو: total_payroll, ROUND(AVG(salary), 2) AS average_salary"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT department, salary FROM employees WHERE AVG(salary) > 5000;",
+      "fixedCode": "SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 5000;",
+      "question": "لماذا يمنع محرك قاعدة البيانات وضع دالة التجميع AVG داخل عبارة WHERE؟",
+      "explanation": "تنفذ عبارة WHERE قبل تجميع الصفوف فلا تدرك نتائج الدوال التجميعية؛ وتصفية نتائج الدوال التجميعية تتطلب استخدام عبارة HAVING بعد GROUP BY.",
+      "options": [
+        "اسم العمود salary لا يقبل العمليات الرياضية.",
+        "دالة AVG تتطلب أعمدة نصية وليست رقمية.",
+        "يجب كتابة اسم الدالة بأحرف صغيرة حصراً.",
+        "تنفذ عبارة WHERE لتصفية الصفوف الفردية قبل حساب التجميعات؛ ولتصفية قيم الدوال التجميعية يجب استخدام HAVING بعد GROUP BY."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-09-aggregates-min-max",
+    "legacyId": "database:8",
+    "order": 8,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "استخراج القيم القصوى والدنيا (MIN, MAX)",
+    "skill": "التحليل الإحصائي للقيم",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "استخدام دالتي MIN و MAX لاستخراج القيم الطرفية (الأعلى والأدنى) للأرقام والتواريخ والنصوص وحساب المدى الإحصائي.",
+    "concept": "تستخرج دالتا MIN و MAX القيمة الصغرى والكبرى ضمن مجموعة قيم العمود المحدد. وتتميز هاتان الدالتان بمرونة عالية؛ حيث تعملان بكفاءة على الحقول العددية (لتحديد أرخص وأغلى منتج)، وحقول التواريخ (لتحديد أول وآخر عملية شراء)، والحقول النصية (للترتيب الأبجدي الأولي والنهائي)، مستفيدة من الترتيب الفهرسي للوصول فائق السرعة.",
+    "whyUse": "تعتمد تسعيرات المتاجر ومراقبة الجودة في المصانع على استخراج الحدود الدنيا والقصوى لمراقبة تقلبات الأسعار والحدود المسموح بها، وحساب المدى السعري (Price Spread = MAX - MIN) لتقييم تباين المنتجات.",
+    "browserMechanics": "إذا كان العمود مفهرساً بفهرس B-Tree، فإن محرك الاستعلام لا يمسح الجدول بل يقفز فوراً إلى أول ورقة في شجرة الفهرس (Leaf Node) للحصول على MIN، وإلى آخر ورقة للحصول على MAX بتعقيد زمني مذهل O(log N).",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+    "file": "query.sql",
+    "flow": "قراءة أسعار المنتجات ⟶ استخراج القيمة الأدنى والأعلى ⟶ حساب الفارق السعري ⟶ إرجاع السجل الإحصائي",
+    "task": "قم باستخراج أقل سعر وأعلى سعر للمنتجات، ثم احسب الفارق السعري بينهما في نفس الاستعلام.",
+    "code": "SELECT price FROM products;",
+    "expected": "SELECT MIN(price) AS lowest_price, MAX(price) AS highest_price, MAX(price) - MIN(price) AS price_range FROM products;",
+    "reference": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+    "breakdown": [
+      "MIN(price) AS lowest_price: استخراج أدنى سعر مسجل لمنتج في المتجر.",
+      "MAX(price) AS highest_price: استخراج أعلى سعر مسجل بين كافة المنتجات.",
+      "MAX(price) - MIN(price) AS price_range: عملية طرح مباشرة بين الدالتين التجميعيتين لحساب المدى السعري الإجمالي."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "استخراج السعر الأدنى",
+        "objective": "استبدال السعر الفردي بدالة القيمة الصغرى",
+        "type": "edit",
+        "instruction": "استبدل price بـ MIN(price) AS lowest_price.",
+        "benefit": "تحديد أرخص منتج متاح للبيع في المتجر.",
+        "from": "price",
+        "to": "MIN(price) AS lowest_price",
+        "expectedLine": "MIN(price) AS lowest_price",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لاسم العمود price بعد SELECT مباشرة.",
+          "القاعدة: دالة القيمة الصغرى تكتب MIN متبوعة باسم العمود بين قوسين. هل كتبت MIN(price) AS lowest_price؟",
+          "اكتب بدقة: MIN(price) AS lowest_price",
+          "الحل الدقيق للخطوة هو: MIN(price) AS lowest_price"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة السعر الأقصى",
+        "objective": "استخراج أعلى سعر مسجل في النظام",
+        "type": "edit",
+        "instruction": "أضف الدالة , MAX(price) AS highest_price بعد lowest_price.",
+        "benefit": "معرفة سقف الأسعار لتحديد شرائح العملاء المستهدفة.",
+        "from": "lowest_price",
+        "to": "lowest_price, MAX(price) AS highest_price",
+        "expectedLine": "lowest_price, MAX(price) AS highest_price",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار lowest_price، أضف فاصلة ثم استدعِ دالة MAX.",
+          "القاعدة: دالة القيمة العظمى القياسية هي MAX وليست MAXIMUM. هل أضفت الدالة MAX(price)؟",
+          "اكتب التعبير هكذا: lowest_price, MAX(price) AS highest_price",
+          "الحل الدقيق للخطوة هو: lowest_price, MAX(price) AS highest_price"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "حساب المدى السعري الإحصائي",
+        "objective": "طرح الحد الأدنى من الحد الأقصى في عمود مشتق",
+        "type": "edit",
+        "instruction": "أضف التعبير الحسابي , MAX(price) - MIN(price) AS price_range قبل الكلمة المفتاحية FROM.",
+        "benefit": "إظهار الفارق السعري الفعلي بين المنتجات لدعم قرارات التسعير.",
+        "from": "highest_price",
+        "to": "highest_price, MAX(price) - MIN(price) AS price_range",
+        "expectedLine": "highest_price, MAX(price) - MIN(price) AS price_range",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية قائمة الحقول المسترجعة قبل FROM products.",
+          "القاعدة: يمكن دمج الدوال التجميعية في عمليات حسابية مباشرة كعمليات الطرح. هل كتبت التعبير الحسابي والاسم المستعار؟",
+          "اكتب بدقة: highest_price, MAX(price) - MIN(price) AS price_range",
+          "الحل الدقيق للخطوة هو: highest_price, MAX(price) - MIN(price) AS price_range"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT MAXIMUM(price) FROM products;",
+      "fixedCode": "SELECT MAX(price) FROM products;",
+      "question": "ما هو الاسم القياسي لدالة استخراج الحد الأقصى في SQL؟",
+      "explanation": "الاسم القياسي وفق مواصفات ANSI SQL هو MAX وليس MAXIMUM.",
+      "options": [
+        "الاسم القياسي وفق مواصفات ANSI SQL هو MAX وليس MAXIMUM.",
+        "يجب تحديد اسم الجدول مرتين في استعلامات القيم القصوى.",
+        "دالة استخراج الحد الأقصى تتطلب وجود عبارة WHERE إلزامياً.",
+        "لا يمكن استخدام الدوال التجميعية على عمود الأسعار price."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-10-group-by-grouping",
+    "legacyId": "database:9",
+    "order": 9,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "تجميع الصفوف وحساب الإحصاءات الفئوية (GROUP BY)",
+    "skill": "تقسيم وتجميع البيانات",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "إتقان تجميع السجلات إلى فئات مستقلة وحساب المؤشرات التجميعية لكل فئة وفهم قاعدة مطابقة الأعمدة الصارمة.",
+    "concept": "تقسم عبارة GROUP BY صفوف الجدول إلى مجموعات فرعية متجانسة بناءً على تطابق قيم الأعمدة المحددة، ثم تطبق الدوال التجميعية على كل مجموعة على حدة. وتفرض لغة SQL قاعدة قياسية حاسمة: أي عمود غير مجمع يظهر في قائمة SELECT يجب أن يظهر صراحة وبشكل مطابق في عبارة GROUP BY؛ لمنع التناقض وضمان أن كل صف مخرج يمثل مجموعة واحدة محددة.",
+    "whyUse": "تعتمد كافة تقارير الأعمال وتطبيقات ذكاء الأعمال (BI) على GROUP BY؛ كمعرفة إجمالي مبيعات كل فرع، أو عدد الطلاب في كل تخصص، أو متوسط أجور الموظفين في كل قسم إداري بشكل منظم ومنفصل.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بتنفيذ التجميع إما عبر Hash Aggregate (بناء جدول تجزئة في الذاكرة لتجميع الصفوف ذات المفاتيح المتطابقة)، أو عبر Group Aggregate (فرز الصفوف أولاً ثم اجتيازها بالترتيب وتجميعها)، وهو ما يحدد سرعة وكفاءة التنفيذ.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP",
+    "file": "query.sql",
+    "flow": "مسح الموظفين ⟶ تجميع السجلات حسب عمود القسم ⟶ حساب عدد الموظفين ومتوسط الرواتب لكل قسم ⟶ إرجاع صف لكل قسم",
+    "task": "قم بتجميع الموظفين بحسب القسم وحساب عدد الموظفين ومتوسط الرواتب في كل قسم.",
+    "code": "SELECT department, salary FROM employees;",
+    "expected": "SELECT department, COUNT(*) AS employee_count, AVG(salary) AS avg_salary FROM employees GROUP BY department;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUP",
+    "breakdown": [
+      "SELECT department: اختيار عمود القسم كمعيار التجميع الأساسي.",
+      "COUNT(*) AS employee_count, AVG(salary) AS avg_salary: تطبيق دوال العد والمتوسط على كل قسم بشكل مستقل.",
+      "GROUP BY department: العبارة المسؤولة عن تقسيم البيانات إلى مجموعات استناداً لاسم القسم."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "استبدال الراتب بدالة العد الفئوي",
+        "objective": "حساب عدد الموظفين بدلاً من عرض الراتب الفردي",
+        "type": "edit",
+        "instruction": "استبدل salary بـ COUNT(*) AS employee_count.",
+        "benefit": "التحضير للتجميع الفئوي بحساب التعداد التراكمي للمجموعة.",
+        "from": "salary",
+        "to": "COUNT(*) AS employee_count",
+        "expectedLine": "COUNT(*) AS employee_count",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لكلمة salary بعد department.",
+          "القاعدة: نستخدم دالة العد لحساب عدد الصفوف المنتمية لكل فئة. هل كتبت COUNT(*) AS employee_count؟",
+          "اكتب بدقة: COUNT(*) AS employee_count",
+          "الحل الدقيق للخطوة هو: COUNT(*) AS employee_count"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة عبارة التجميع الصريحة",
+        "objective": "تطبيق التجميع على مستوى الأقسام",
+        "type": "edit",
+        "instruction": "أضف GROUP BY department; في نهاية الاستعلام بعد اسم الجدول.",
+        "benefit": "توجيه المحرك لإنشاء مجموعات منفصلة لكل قسم وحل خطأ التجميع النحوي.",
+        "from": "FROM employees;",
+        "to": "FROM employees GROUP BY department;",
+        "expectedLine": "FROM employees GROUP BY department;",
+        "errorRules": [
+          {
+            "pattern": "\\bGROUP\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد GROUP BY. الترتيب القياسي الصارم لـ SQL يتطلب أن تسبق WHERE عبارة GROUP BY لتصفية الصفوف قبل تجميعها."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد اسم الجدول employees.",
+          "القاعدة: عبارة GROUP BY تأتي بعد اسم الجدول وتحدد العمود الذي تتطابق قيمه لتشكيل المجموعة. هل كتبت GROUP BY department؟",
+          "عدّل السطر ليصبح: FROM employees GROUP BY department;",
+          "الحل الدقيق للخطوة هو: FROM employees GROUP BY department;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة متوسط الرواتب لكل قسم",
+        "objective": "حساب متوسط الدخل المالي في كل إدارة",
+        "type": "edit",
+        "instruction": "أضف , AVG(salary) AS avg_salary بعد employee_count مباشرة.",
+        "benefit": "مقارنة الرواتب ومعدلات الأجور بين الأقسام المختلفة في تقرير موحد.",
+        "from": "employee_count",
+        "to": "employee_count, AVG(salary) AS avg_salary",
+        "expectedLine": "employee_count, AVG(salary) AS avg_salary",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار employee_count قبل الكلمة المفتاحية FROM.",
+          "القاعدة: الدوال التجميعية المتعددة تفصل بينها فواصل في قائمة SELECT. هل أضفت دالة المتوسط واسمها المستعار؟",
+          "اكتب بدقة: employee_count, AVG(salary) AS avg_salary",
+          "الحل الدقيق للخطوة هو: employee_count, AVG(salary) AS avg_salary"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT department, job_title, AVG(salary) FROM employees GROUP BY department;",
+      "fixedCode": "SELECT department, job_title, AVG(salary) FROM employees GROUP BY department, job_title;",
+      "question": "لماذا يرفض المحرك الاستعلام عندما يظهر job_title في SELECT دون إدراجه في GROUP BY؟",
+      "explanation": "يفرض معيار SQL أن أي عمود غير مجمع في SELECT يجب أن يكون موجوداً صراحة في عبارة GROUP BY لضمان نتيجة أحادية محددة لكل صف تجميع.",
+      "options": [
+        "لا يمكن استخدام دالة AVG مع عمود الراتب salary.",
+        "يفرض معيار SQL إدراج أي عمود غير مجمع في SELECT ضمن عبارة GROUP BY لضمان نتيجة محددة لكل صف تجميع.",
+        "يجب حذف عمود department من الاستعلام بالكامل.",
+        "يجب وضع كلمة DISTINCT بعد عبارة SELECT."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-11-having-filter",
+    "legacyId": "database:10",
+    "order": 10,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "تصفية المجموعات والشروط اللاحقة للتجميع (HAVING Clause)",
+    "skill": "تصفية نتائج التجميع",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "فهم الفارق الجوهري بين تصفية الصفوف عبر WHERE وتصفية المجموعات التجميعية عبر HAVING وتطبيقهما معاً في استعلام متكامل.",
+    "concept": "تعمل عبارة WHERE كمرشح أولي للصفوف الفردية قبل تشكيل المجموعات وحساب الدوال التجميعية؛ وبالتالي لا يمكنها فحص نتائج الدوال التجميعية. تأتي عبارة HAVING لتعمل كمرشح لاحق يُطبق على المجموعات الناتجة بعد اكتمال التجميع بـ GROUP BY، مما يسمح بفحص شروط مثل `HAVING COUNT(*) > 5` أو `HAVING AVG(salary) >= 6000`.",
+    "whyUse": "تتيح عبارة HAVING استخراج الأقسام الكبرى فقط، أو الفروع التي تجاوزت مبيعاتها حداً معيناً، أو العملاء الذين قاموا بأكثر من 10 عمليات شراء، متجاهلة المجموعات الصغيرة غير المؤثرة في التحليل الاستراتيجي.",
+    "browserMechanics": "في دورة معالجة الاستعلام، يطبق المحرك WHERE أولاً لتقليص عدد الصفوف المدخلة لعملية التجميع (مما يوفر الذاكرة)، ثم يجري التجميع ويطبق شروط HAVING على جدول التجزئة المؤقت لاستبعاد المجموعات غير المستوفية للشروط قبل إرسال النتائج.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-HAVING",
+    "file": "query.sql",
+    "flow": "مسح الجدول ⟶ تطبيق تصفية WHERE (إن وجدت) ⟶ تجميع الصفوف بـ GROUP BY ⟶ تصفية المجموعات بـ HAVING ⟶ إخراج النتائج النهائية",
+    "task": "قم بتصفية الأقسام لاسترجاع الأقسام التي تضم أكثر من 5 موظفين ويتجاوز متوسط رواتبها 6000 ريال مع تقريب المتوسط.",
+    "code": "SELECT department, COUNT(*) AS emp_count FROM employees GROUP BY department;",
+    "expected": "SELECT department, COUNT(*) AS emp_count, ROUND(AVG(salary), 2) AS avg_salary FROM employees GROUP BY department HAVING COUNT(*) > 5 AND AVG(salary) >= 6000;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-HAVING",
+    "breakdown": [
+      "GROUP BY department: تجميع سجلات الموظفين بحسب أسمائها الإدارية.",
+      "HAVING COUNT(*) > 5: تصفية المجموعات لاستبقاء الأقسام التي تضم أكثر من 5 أفراد فقط.",
+      "AND AVG(salary) >= 6000: شرط تجميعي ثانٍ يشترط أن يكون متوسط الأجور في القسم 6000 أو أكثر."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة قيد تصفية حجم القسم",
+        "objective": "استبقاء الأقسام التي يزيد عدد موظفيها عن 5",
+        "type": "edit",
+        "instruction": "أضف عبارة HAVING COUNT(*) > 5; بعد GROUP BY department.",
+        "benefit": "استبعاد الأقسام المصغرة والتركيز على الوحدات الإدارية الكبرى.",
+        "from": "GROUP BY department;",
+        "to": "GROUP BY department HAVING COUNT(*) > 5;",
+        "expectedLine": "GROUP BY department HAVING COUNT(*) > 5;",
+        "errorRules": [
+          {
+            "pattern": "^(?!.*\\bGROUP\\s+BY\\b).*\\bHAVING\\b",
+            "flags": "is",
+            "type": "regex",
+            "message": "استخدمت عبارة HAVING دون وجود تجميع GROUP BY. تُستخدم HAVING خصيصاً لتصفية المجموعات بعد التجميع، لتصفية الصفوف العادية استخدم WHERE."
+          },
+          {
+            "pattern": "\\bGROUP\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد GROUP BY. الترتيب القياسي الصارم لـ SQL يتطلب أن تسبق WHERE عبارة GROUP BY لتصفية الصفوف قبل تجميعها."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد GROUP BY department.",
+          "القاعدة: عبارة تصفية المجاميع HAVING تأتي مباشرة بعد عبارة GROUP BY. هل كتبت HAVING COUNT(*) > 5؟",
+          "اكتب السطر هكذا: GROUP BY department HAVING COUNT(*) > 5;",
+          "الحل الدقيق للخطوة هو: GROUP BY department HAVING COUNT(*) > 5;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة قيد متوسط الرواتب التجميعي",
+        "objective": "اشتراط أن يكون متوسط أجور القسم 6000 على الأقل",
+        "type": "edit",
+        "instruction": "أضف الشرط AND AVG(salary) >= 6000 قبل الفاصلة المنقوطة.",
+        "benefit": "الدمج بين شروط متعددة على مستوى المجموعات لحصر الإدارات ذات الإنفاق العالي.",
+        "from": "COUNT(*) > 5;",
+        "to": "COUNT(*) > 5 AND AVG(salary) >= 6000;",
+        "expectedLine": "COUNT(*) > 5 AND AVG(salary) >= 6000;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط HAVING بعد الرقم 5.",
+          "القاعدة: الشروط التجميعية المتعددة في HAVING يتم ربطها بالمعامل المنطقي AND. هل كتبت الشرط الثاني؟",
+          "عدّل النهاية لتصبح: COUNT(*) > 5 AND AVG(salary) >= 6000;",
+          "الحل الدقيق للخطوة هو: COUNT(*) > 5 AND AVG(salary) >= 6000;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إظهار متوسط الراتب المقرب في المخرجات",
+        "objective": "إضافة عمود المتوسط إلى قائمة العرض",
+        "type": "edit",
+        "instruction": "أضف , ROUND(AVG(salary), 2) AS avg_salary بعد emp_count.",
+        "benefit": "تمكين المستخدم من معاينة قيمة المتوسط المحسوبة التي بُني عليها شرط HAVING.",
+        "from": "emp_count",
+        "to": "emp_count, ROUND(AVG(salary), 2) AS avg_salary",
+        "expectedLine": "emp_count, ROUND(AVG(salary), 2) AS avg_salary",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار emp_count قبل الكلمة المفتاحية FROM.",
+          "القاعدة: عرض الحسابات التجميعية في SELECT يساعد في التحقق البصري من مطابقة شروط HAVING. هل أضفت عمود المتوسط المقرب؟",
+          "اكتب بدقة: emp_count, ROUND(AVG(salary), 2) AS avg_salary",
+          "الحل الدقيق للخطوة هو: emp_count, ROUND(AVG(salary), 2) AS avg_salary"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT department, COUNT(*) FROM employees WHERE COUNT(*) > 5 GROUP BY department;",
+      "fixedCode": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5;",
+      "question": "لماذا لا يسمح المحرك بوضع COUNT(*) > 5 داخل عبارة WHERE؟",
+      "explanation": "تنفذ عبارة WHERE قبل حساب التجميعات فلا تدرك قيم الدوال التجميعية؛ لتصفية المجاميع يجب استخدام عبارة HAVING بعد GROUP BY.",
+      "options": [
+        "يجب استبدال علامة > بعلامة المساواة =.",
+        "دالة COUNT(*) غير صالحة للاستخدام في لغة SQL.",
+        "تنفذ عبارة WHERE قبل حساب التجميعات فلا تدرك قيم الدوال التجميعية؛ لتصفية المجاميع يجب استخدام عبارة HAVING بعد GROUP BY.",
+        "يجب كتابة اسم القسم داخل علامات تنصيص مفردة."
+      ],
+      "correctOptionIndex": 2
+    }
+  }
+]

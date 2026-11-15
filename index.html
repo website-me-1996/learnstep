@@ -87,7 +87,7 @@
           <a class="landing-secondary" href="#lesson">جرّب درسًا الآن</a>
         </div>
         <div class="landing-track-list" aria-label="المسارات المتاحة">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Angular</span>
+          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Angular</span><span class="track-badge" data-course="database">قواعد البيانات (SQL)</span>
         </div>
         <div class="landing-feature-points" aria-label="مميزات التعلّم">
           <span>خطوات قصيرة</span><span>معاينة مباشرة</span><span>تقدّم محفوظ</span>
@@ -255,6 +255,7 @@
                 <button class="tab active" data-course="html">HTML</button>
                 <button class="tab" data-course="css">CSS</button>
                 <button class="tab" data-course="js">JavaScript</button>
+                <button class="tab" data-course="database">Databases</button>
               </div>
               <div class="editor-head-meta">
                 <span class="hand-craft-badge" id="handCraftMeter" title="نسبة الكود المكتوب بيدك دون الاعتماد على القوالب الجاهزة">🔨 كتابتك بيدك: ٠٪</span>
@@ -572,6 +573,7 @@
       <button class="course active" data-course="html"><i></i><span id="htmlCourseCount">HTML</span></button>
       <button class="course" data-course="css"><i></i><span id="cssCourseCount">CSS</span></button>
       <button class="course" data-course="js"><i></i><span id="jsCourseCount">JavaScript</span></button>
+      <button class="course" data-course="database"><i></i><span id="databaseCourseCount">قواعد البيانات (SQL)</span></button>
       <button class="course angular-course-button" data-angular-open type="button"><i></i><span id="angularCourseCard">Angular · من الصفر</span></button>
     </div>
   </section>
@@ -591,6 +593,7 @@
         <option value="html">HTML</option>
         <option value="css">CSS</option>
         <option value="js">JavaScript</option>
+        <option value="database">قواعد البيانات (SQL)</option>
       </select>
     </div>
     <p class="road-search-status" id="roadSearchStatus" role="status" aria-live="polite"></p>

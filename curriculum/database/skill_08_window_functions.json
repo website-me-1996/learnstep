@@ -1,0 +1,401 @@
+[
+  {
+    "id": "database-32-window-functions-over",
+    "legacyId": "database:31",
+    "order": 31,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "دوال النوافذ والتحليل الإحصائي المقسم (OVER & PARTITION BY)",
+    "skill": "الحسابات التحليلية غير المقلصة",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "استخدام دوال النوافذ (Window Functions) عبر عبارة OVER وتقسيم الحسابات بـ PARTITION BY لإجراء حسابات تجميعية دون تقليص أو دمج صفوف الجدول.",
+    "concept": "تجري دوال النوافذ (Window Functions) حسابات إحصائية متقدمة عبر مجموعة من الصفوف المرتبطة بالصف الحالي، ولكنها على عكس GROUP BY لا تقوم بتقليص أو دمج الصفوف في صف واحد؛ بل يحتفظ كل صف بخصائصه الفردية وهويته الكاملة مع إلحاق نتيجة الحساب التجميعي إلى جانبه في عمود إضافي. وتحدد عبارة OVER (PARTITION BY col) حدود النافذة الحسابية لكل فئة مستقلة.",
+    "whyUse": "تتيح دوال النوافذ إنجاز تقارير معقدة في استعلام واحد فائق السرعة؛ كعرض راتب الموظف بجانب متوسط رواتب قسمه، وحساب الفارق المالي المباشر لكل موظف دون الحاجة لكتابة استعلامات ربط فرعية أو عمليات تجميع معقدة.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بمسح الصفوف ثم يمررها إلى مشغل النافذة (WindowAgg Node)؛ حيث يقوم بفرز الصفوف داخلياً وفق أعمدة PARTITION BY، ويحتفظ بإطار نافذة متحرك في الذاكرة لحساب المجاميع أو المتوسطات وبثها لحظياً بجانب كل صف دون المساس ببنية السجلات الأصلية.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/tutorial-window.html",
+    "file": "query.sql",
+    "flow": "مسح سجلات الموظفين ⟶ إنشاء نوافذ الحساب المقسمة حسب القسم ⟶ حساب متوسط القسم لكل موظف ⟶ حساب فارق الراتب الفردي",
+    "task": "قم بحساب متوسط رواتب كل قسم باستخدام دالة النافذة OVER (PARTITION BY department)، ثم احسب فارق راتب كل موظف عن متوسط قسمه.",
+    "code": "SELECT emp_name, department, salary FROM employees;",
+    "expected": "SELECT emp_name, department, salary, AVG(salary) OVER (PARTITION BY department) AS dept_avg, salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept FROM employees;",
+    "reference": "https://www.postgresql.org/docs/current/tutorial-window.html",
+    "breakdown": [
+      "AVG(salary) OVER (): دالة نافذة عامة تحسب متوسط كافة رواتب الجدول دون تقليص الصفوف.",
+      "OVER (PARTITION BY department) AS dept_avg: تقسيم نافذة الحساب لتشمل موظفي نفس القسم فقط وحساب متوسط القسم بدقة.",
+      "salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept: عملية طرح مباشرة بين راتب الموظف الفردي وناتج دالة النافذة للقسم."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة دالة النافذة الشاملة OVER ()",
+        "objective": "حساب المتوسط العام وإلحاقه بكافة السجلات",
+        "type": "edit",
+        "instruction": "استبدل salary بـ salary, AVG(salary) OVER () AS overall_avg.",
+        "benefit": "التعرف على بناء دالة النافذة الأساسي دون تقسيم مسبق.",
+        "from": "salary",
+        "to": "salary, AVG(salary) OVER () AS overall_avg",
+        "expectedLine": "salary, AVG(salary) OVER () AS overall_avg",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود salary بعد department.",
+          "القاعدة: دالة النافذة تستخدم الدالة التجميعية متبوعة بالكلمة المفتاحية OVER(). هل كتبت AVG(salary) OVER () AS overall_avg؟",
+          "اكتب بدقة: salary, AVG(salary) OVER () AS overall_avg",
+          "الحل الدقيق للخطوة هو: salary, AVG(salary) OVER () AS overall_avg"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تقسيم الحساب حسب القسم بـ PARTITION BY",
+        "objective": "حصر نافذة المتوسط في موظفي كل قسم على حدة",
+        "type": "edit",
+        "instruction": "استبدل OVER () بـ OVER (PARTITION BY department).",
+        "benefit": "تخصيص الحساب التجميعي لكل فئة إدارية دون الحاجة لتقليص الصفوف.",
+        "from": "OVER ()",
+        "to": "OVER (PARTITION BY department)",
+        "expectedLine": "OVER (PARTITION BY department)",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للأقواس الفارغة بعد كلمة OVER.",
+          "القاعدة: نكتب PARTITION BY متبوعة باسم عمود التقسيم department داخل أقواس OVER. هل أضفت PARTITION BY department؟",
+          "عدّل الأقواس لتصبح: OVER (PARTITION BY department)",
+          "الحل الدقيق للخطوة هو: OVER (PARTITION BY department)"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إعادة التسمية وحساب فارق الراتب",
+        "objective": "إظهار متوسط القسم وحساب الفارق المالي لكل موظف",
+        "type": "edit",
+        "instruction": "استبدل AS overall_avg بـ AS dept_avg, salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept.",
+        "benefit": "استخراج مؤشر مالي تفاضلي يوضح موقع راتب كل موظف مقارنة بزملائه في نفس الإدارة.",
+        "from": "AS overall_avg",
+        "to": "AS dept_avg, salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept",
+        "expectedLine": "AS dept_avg, salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار AS overall_avg قبل الكلمة المفتاحية FROM.",
+          "القاعدة: يمكن استخدام تعبير دالة النافذة مباشرة في المعادلات الحسابية كعمليات الطرح. هل كتبت عمود الفارق المالي؟",
+          "اكتب بدقة: AS dept_avg, salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept",
+          "الحل الدقيق للخطوة هو: AS dept_avg, salary - AVG(salary) OVER (PARTITION BY department) AS diff_from_dept"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT name, salary, AVG(salary) PARTITION BY dept FROM employees; -- OVER مفقودة",
+      "fixedCode": "SELECT name, salary, AVG(salary) OVER (PARTITION BY dept) FROM employees;",
+      "question": "ما الكلمة المفتاحية الأساسية التي تسبق تعريف نافذة التقسيم؟",
+      "explanation": "تتطلب كافة دوال النوافذ في SQL استخدام الكلمة المفتاحية OVER لإحاطة مواصفات النافذة والتقسيم: OVER (PARTITION BY ...).",
+      "options": [
+        "يجب كتابة الكلمة GROUP بدلاً من PARTITION.",
+        "لا يمكن استخدام دالة AVG مع الأعمدة النصية.",
+        "يجب وضع فاصلة منقوطة قبل كلمة PARTITION.",
+        "تتطلب كافة دوال النوافذ في SQL استخدام الكلمة المفتاحية OVER لإحاطة مواصفات النافذة والتقسيم: OVER (PARTITION BY ...)."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-33-ranking-window-functions",
+    "legacyId": "database:32",
+    "order": 32,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "دوال الترتيب والتصنيف التحليلي (ROW_NUMBER, RANK, DENSE_RANK)",
+    "skill": "ترتيب المنافسات والمراكز",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "المقارنة العملية والتطبيقية بين دوال الترتيب الثلاث: ROW_NUMBER للتسلسل الفريد، و RANK للترتيب مع الفجوات، و DENSE_RANK للترتيب المتصل.",
+    "concept": "تمنح دوال الترتيب رتبة رقمية لكل صف ضمن نافذة التقسيم المحددة استناداً إلى ترتيب ORDER BY داخلي. يولد ROW_NUMBER() أرقاماً متتالية فريدة دائماً (1, 2, 3...) حتى لو تساوت القيم؛ بينما يمنح RANK() نفس الرتبة للقيم المتساوية ثم يقفز بعدد التكرارات صانعاً فجوة رقمية (1, 2, 2, 4...)؛ في حين يمنح DENSE_RANK() نفس الرتبة للقيم المتساوية دون أي فجوات متتالية (1, 2, 2, 3...).",
+    "whyUse": "تعد هذه الدوال حاسمة في بناء قوائم المتصدرين (Leaderboards) وتحديد الفائزين بالمراكز الأولى في المسابقات الرياضية والأكاديمية، واختيار أفضل N عناصر لكل فئة (Top-N per Category) كاستخراج أفضل 3 طلاب في كل فصل دراسي.",
+    "browserMechanics": "يقوم مشغل النافذة بفرز البيانات في مصفوفة الذاكرة وفق معيار الترتيب الداخلي ORDER BY، ثم يجتاز الصفوف ويقارن كل قيمة بالصف السابق؛ فإذا تطابقت القيمة في RANK احتفظ بنفس الرتبة وزاد عداد الفجوة، بينما يواصل ROW_NUMBER زيادة العداد في كل خطوة بشكل خطي مستمر.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-window.html",
+    "file": "query.sql",
+    "flow": "مسح درجات الطلاب ⟶ تقسيم النتائج حسب الفصل class_id ⟶ فرز الدرجات تنازلياً ⟶ تطبيق دوال الترتيب الثلاث بالتوازي",
+    "task": "قم بتصنيف نتائج الطلاب في كل فصل عبر تطبيق ROW_NUMBER و RANK و DENSE_RANK معاً لملاحظة الفروق بين سلوكيات الترتيب.",
+    "code": "SELECT student_name, class_id, score FROM exam_results;",
+    "expected": "SELECT student_name, class_id, score, ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num, RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS class_rank, DENSE_RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS dense_class_rank FROM exam_results;",
+    "reference": "https://www.postgresql.org/docs/current/functions-window.html",
+    "breakdown": [
+      "ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num: ترقيم تسلسلي صارم ومميز لكل طالب داخل فصله.",
+      "RANK() OVER (...): ترتيب المنافسة القياسي الذي يعطي نفس الرتبة للمتعادلين ويتخطى المراكز التالية بمقدار التكرار.",
+      "DENSE_RANK() OVER (...): ترتيب متصل متراص يمنح المتعادلين نفس الرتبة ولا يترك أي فجوة في الترقيم التالي."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تطبيق الترقيم التسلسلي الصارم ROW_NUMBER",
+        "objective": "منح كل طالب رقماً تسلسلياً فريداً داخل فصله",
+        "type": "edit",
+        "instruction": "استبدل score بـ score, ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num.",
+        "benefit": "توليد ترقيم فريد لكسر التعادل وفهرسة أسطر كل مجموعة.",
+        "from": "score",
+        "to": "score, ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num",
+        "expectedLine": "score, ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود الدرجة score بعد class_id.",
+          "القاعدة: دالة الترقيم تكتب ROW_NUMBER() متبوعة بـ OVER مع التقسيم والترتيب التنازلي. هل كتبت ROW_NUMBER()؟",
+          "اكتب بدقة: score, ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num",
+          "الحل الدقيق للخطوة هو: score, ROW_NUMBER() OVER (PARTITION BY class_id ORDER BY score DESC) AS row_num"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة دالة الرتبة القياسية RANK",
+        "objective": "منح المتعادلين نفس المركز مع ترك فجوات رقمية لاحقة",
+        "type": "edit",
+        "instruction": "أضف , RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS class_rank بعد row_num.",
+        "benefit": "تطبيق الترتيب الرياضي والأولمبي القياسي للمنافسات والبطولات.",
+        "from": "AS row_num",
+        "to": "AS row_num, RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS class_rank",
+        "expectedLine": "AS row_num, RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS class_rank",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار AS row_num.",
+          "القاعدة: دالة RANK() تأخذ نفس مواصفات نافذة التقسيم والترتيب. هل أضفت عمود class_rank؟",
+          "اكتب التعبير هكذا: AS row_num, RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS class_rank",
+          "الحل الدقيق للخطوة هو: AS row_num, RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS class_rank"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة دالة الرتبة المتصلة DENSE_RANK",
+        "objective": "منح المتعادلين نفس المركز دون ترك أي فجوات رقمية",
+        "type": "edit",
+        "instruction": "أضف , DENSE_RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS dense_class_rank بعد class_rank وقبل FROM.",
+        "benefit": "توفير ترتيب ناعم ومتصل يضمن عدم قفز الأرقام للمراكز اللاحقة.",
+        "from": "AS class_rank",
+        "to": "AS class_rank, DENSE_RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS dense_class_rank",
+        "expectedLine": "AS class_rank, DENSE_RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS dense_class_rank",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية قائمة SELECT قبل FROM exam_results.",
+          "القاعدة: دالة DENSE_RANK() تكتب بأحرف متصلة وتتبعها نفس مواصفات النافذة. هل أضفت دالة الترتيب المتراص؟",
+          "اكتب بدقة: AS class_rank, DENSE_RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS dense_class_rank",
+          "الحل الدقيق للخطوة هو: AS class_rank, DENSE_RANK() OVER (PARTITION BY class_id ORDER BY score DESC) AS dense_class_rank"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT name, score, ROW_NUMBER() OVER (ORDER score DESC) FROM games; -- BY مفقودة",
+      "fixedCode": "SELECT name, score, ROW_NUMBER() OVER (ORDER BY score DESC) FROM games;",
+      "question": "ما هو الخطأ في صياغة عبارة الترتيب داخل نافذة الترتيب التحليلي؟",
+      "explanation": "داخل أقواس نافذة OVER، يتطلب الترتيب استخدام الكلمتين الصريحتين ORDER BY وليس كلمة ORDER بمفردها.",
+      "options": [
+        "داخل أقواس نافذة OVER، يتطلب الترتيب استخدام الكلمتين الصريحتين ORDER BY وليس كلمة ORDER بمفردها.",
+        "يجب كتابة اسم الدالة ROW_COUNT بدلاً من ROW_NUMBER.",
+        "لا يمكن استخدام الترتيب التنازلي DESC داخل النوافذ.",
+        "يجب حذف عبارة FROM games بالكامل."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-34-value-window-functions-lag-lead",
+    "legacyId": "database:33",
+    "order": 33,
+    "module": "phase-4-subqueries",
+    "phase": "المرحلة الرابعة: الاستعلامات الفرعية والتعبيرات الجدولية ودوال النوافذ التحليلية (Phase 4: Advanced Subqueries & Windows)",
+    "title": "مقارنة الصفوف المتتابعة والزمنية (LAG & LEAD)",
+    "skill": "التحليل الزمني والتفاضلي",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "استخدام دوال الإزاحة القيمية LAG و LEAD للوصول إلى بيانات الصفوف السابقة واللاحقة زمنياً وحساب معدلات النمو وفروقات الفترات المالية.",
+    "concept": "تتيح دالتا الإزاحة القيمية LAG و LEAD قراءة قيم أعمدة من صفوف تسبق الصف الحالي أو تليه بإزاحة فيزيائية محددة (Offset) دون الحاجة لإجراء عمليات ربط ذاتي (Self-Join) معقدة ومكلفة. تقرأ دالة LAG(col, 1, default) قيمة الصف السابق مباشرة، بينما تقرأ LEAD(col, 1, default) قيمة الصف اللاحق استناداً إلى ترتيب ORDER BY الزمني الصارم المحدد داخل نافذة OVER.",
+    "whyUse": "تعد هاتان الدالتان عصب التحليل المالي وسلاسل البيانات الزمنية (Time Series Analysis)؛ لحساب نسب نمو المبيعات شهراً بعد شهر (Month-over-Month Growth)، ومقارنة استهلاك الطاقة الحالي بالاستهلاك السابق، واكتشاف الانخفاضات المفاجئة في الأداء.",
+    "browserMechanics": "يقوم مشغل النافذة بالاحتفاظ بمؤشرات إزاحة دائرية في مخزن الذاكرة المؤقت أثناء مسح الصفوف المرتبة زمنياً؛ مما يمكنه من جلب قيمة السجل السابق أو التالي في دورة معالجة واحدة بتعقيد زمني فائق السرعة O(1) لكل صف.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-window.html",
+    "file": "query.sql",
+    "flow": "مسح سجلات المبيعات الشهرية ⟶ ترتيب السجلات زمنياً بـ ORDER BY ⟶ قراءة إيراد الشهر السابق بـ LAG والشهر التالي بـ LEAD ⟶ حساب نمو الإيراد",
+    "task": "قم بجلب إيرادات الشهر السابق والشهر التالي لكل سجل مبيعات، ثم احسب الفارق المالي المباشر لنمو الإيراد مقارنة بالشهر السابق.",
+    "code": "SELECT sale_month, monthly_revenue FROM sales_history;",
+    "expected": "SELECT sale_month, monthly_revenue, LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev, LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev, monthly_revenue - LAG(monthly_revenue, 1, 0) OVER (ORDER BY sale_month) AS revenue_growth FROM sales_history;",
+    "reference": "https://www.postgresql.org/docs/current/functions-window.html",
+    "breakdown": [
+      "LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev: قراءة إيرادات الشهر السابق المباشر وفق الترتيب الزمني للأشهر.",
+      "LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev: استشراف إيرادات الشهر التالي المستقبلي.",
+      "monthly_revenue - LAG(..., 0) ... AS revenue_growth: طرح إيراد الشهر السابق من إيراد الشهر الحالي لحساب مقدار النمو الفعلي مع تعيين 0 كقيمة افتراضية للشهر الأول."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "جلب إيراد الشهر السابق باستخدام LAG",
+        "objective": "الوصول لقيمة مبيعات السجل الزمني السابق",
+        "type": "edit",
+        "instruction": "استبدل monthly_revenue بـ monthly_revenue, LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev.",
+        "benefit": "الاطلاع على أداء الفترة السابقة دون الحاجة لربط الجدول بنفسه.",
+        "from": "monthly_revenue",
+        "to": "monthly_revenue, LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev",
+        "expectedLine": "monthly_revenue, LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود monthly_revenue بعد sale_month.",
+          "القاعدة: دالة LAG تأخذ اسم العمود والإزاحة 1 متبوعة بنافذة الترتيب الزمني OVER (ORDER BY sale_month). هل كتبت دالة LAG؟",
+          "اكتب بدقة: monthly_revenue, LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev",
+          "الحل الدقيق للخطوة هو: monthly_revenue, LAG(monthly_revenue, 1) OVER (ORDER BY sale_month) AS prev_month_rev"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة إيراد الشهر التالي باستخدام LEAD",
+        "objective": "قراءة قيمة مبيعات السجل الزمني اللاحق",
+        "type": "edit",
+        "instruction": "أضف , LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev بعد prev_month_rev.",
+        "benefit": "مقارنة الحاضر بالمستقبل القريب لتحليل الاتجاهات العامة في سلسلة المبيعات.",
+        "from": "AS prev_month_rev",
+        "to": "AS prev_month_rev, LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev",
+        "expectedLine": "AS prev_month_rev, LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم المستعار prev_month_rev.",
+          "القاعدة: دالة LEAD تشبه LAG تماماً ولكنها تقرأ الصف اللاحق للأمام. هل أضفت عمود next_month_rev؟",
+          "اكتب التعبير هكذا: AS prev_month_rev, LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev",
+          "الحل الدقيق للخطوة هو: AS prev_month_rev, LEAD(monthly_revenue, 1) OVER (ORDER BY sale_month) AS next_month_rev"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "حساب مقدار النمو المالي الفعلي",
+        "objective": "طرح إيراد الشهر السابق من إيراد الشهر الحالي",
+        "type": "edit",
+        "instruction": "أضف , monthly_revenue - LAG(monthly_revenue, 1, 0) OVER (ORDER BY sale_month) AS revenue_growth بعد next_month_rev وقبل FROM.",
+        "benefit": "توفير مؤشر نمو شهري جاهز ودقيق يعبر عن الزيادة أو النقص المالي المباشر.",
+        "from": "AS next_month_rev",
+        "to": "AS next_month_rev, monthly_revenue - LAG(monthly_revenue, 1, 0) OVER (ORDER BY sale_month) AS revenue_growth",
+        "expectedLine": "AS next_month_rev, monthly_revenue - LAG(monthly_revenue, 1, 0) OVER (ORDER BY sale_month) AS revenue_growth",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية قائمة SELECT قبل FROM sales_history.",
+          "القاعدة: نستخدم المعامل الحسابي - ونمرر 0 كقيمة افتراضية ثالثة لدالة LAG لتفادي الطرح من NULL في الشهر الأول. هل أضفت معادلة النمو؟",
+          "اكتب بدقة: AS next_month_rev, monthly_revenue - LAG(monthly_revenue, 1, 0) OVER (ORDER BY sale_month) AS revenue_growth",
+          "الحل الدقيق للخطوة هو: AS next_month_rev, monthly_revenue - LAG(monthly_revenue, 1, 0) OVER (ORDER BY sale_month) AS revenue_growth"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT day, revenue, LAG(revenue) FROM daily_sales; -- ORDER BY مفقودة",
+      "fixedCode": "SELECT day, revenue, LAG(revenue) OVER (ORDER BY day) FROM daily_sales;",
+      "question": "لماذا تتطلب دالة LAG تحديد عبارة OVER (ORDER BY ...) دائماً؟",
+      "explanation": "لا تمتلك قاعدة البيانات مفهوماً للصف 'السابق' بدون تحديد ترتيب زمني أو رقمي صريح ومستقر للبيانات عبر عبارة ORDER BY داخل النافذة.",
+      "options": [
+        "اسم العمود day محجوز ولا يمكن استخدامه.",
+        "لا تمتلك قاعدة البيانات مفهوماً للصف 'السابق' بدون تحديد ترتيب زمني أو رقمي صريح ومستقر للبيانات عبر عبارة ORDER BY داخل النافذة.",
+        "يجب استبدال الكلمة LAG بالكلمة PREVIOUS.",
+        "دالة LAG تتطلب تحديد اسم الجدول مرتين."
+      ],
+      "correctOptionIndex": 1
+    }
+  }
+]

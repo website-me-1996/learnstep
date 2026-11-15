@@ -1,0 +1,511 @@
+[
+  {
+    "id": "database-39-btree-indexes",
+    "legacyId": "database:38",
+    "order": 38,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "فهارس الأشجار المتوازنة وتسريع البحث (B-Tree Indexes)",
+    "skill": "تسريع زمن الوصول للبيانات",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تصميم وبناء فهارس الأشجار المتوازنة (B-Tree Indexes) والفهارس الفريدة والمركبة لتسريع الاستعلامات وتفادي المسح الشامل للجداول.",
+    "concept": "تعد فهارس B-Tree هيكل البيانات الافتراضي والأكثر انتشاراً لتسريع استرجاع السجلات في قواعد البيانات؛ حيث تنظم القيم في شجرة بحث ذاتية التوازن تتيح الوصول لأي سجل بزمن لوغاريتمي O(log N) بدلاً من المسح التسلسلي الشامل (Sequential Scan O(N)). كما تدعم الفهارس المركبة (Composite Indexes) البحث متعدد الأعمدة استناداً إلى مبدأ البادئة اليسرى (Leftmost Prefix Rule)، مع ضرورة الموازنة الدقيقة نظراً لأن كل فهرس يفرض عبئاً زمنياً إضافياً على عمليات INSERT و UPDATE.",
+    "whyUse": "مع نمو الجداول إلى ملايين الصفوف، يتحول استعلام البحث عن مستخدم ببريده الإلكتروني أو استرجاع طلبات عميل معين بدون فهرس من استجابة فورية (أقل من 1 ميلي ثانية) إلى تجربة بطيئة جداً تستغرق ثوانٍ معدودة وتستنزف المعالج؛ وبناء الفهارس يعيد السرعة الفائقة للنظام.",
+    "browserMechanics": "تحتفظ شجرة B-Tree بعقد داخلية (Internal Nodes) تتفرع إلى عقد أوراق (Leaf Nodes) مرتبة فيزيائياً ومربوطة بمؤشرات ثنائية الاتجاه؛ مما يسمح للمحرك بالقفز السريع للورقة المستهدفة واستخراج معرف موقع الصف الفيزيائي على القرص (Tuple ID - ctid) دون الحاجة لقراءة صفحات الجدول غير المعنية.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-BTREE",
+    "file": "query.sql",
+    "flow": "استعلام يبحث بالبريد ⟶ إنشاء فهرس فريد على البريد ⟶ تشييد فهرس مركب على العميل والتاريخ ⟶ تسريع مسار البحث بالفهرس",
+    "task": "قم بإنشاء فهرس فريد على بريد المستخدمين وفهرس مركب على جدول الطلبات يجمع بين معرف العميل وتاريخ الطلب تنازلياً.",
+    "code": "SELECT * FROM users WHERE email = 'test@example.com';",
+    "expected": "CREATE UNIQUE INDEX idx_users_email ON users(email); CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC); SELECT * FROM users WHERE email = 'test@example.com';",
+    "reference": "https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-BTREE",
+    "breakdown": [
+      "CREATE UNIQUE INDEX idx_users_email ON users(email);: إنشاء فهرس B-Tree فريد يضمن عدم التكرار ويسرع البحث اللحظي بالبريد.",
+      "CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);: فهرس مركب يدعم تصفية طلبات العميل مع استخراج أحدث الطلبات بالترتيب التنازلي المباشر.",
+      "SELECT * FROM users WHERE email = '...': استعلام التحقق الذي سيتحول تنفيذه تلقائياً إلى Index Scan سريع."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إنشاء الفهرس العادي على البريد الإلكتروني",
+        "objective": "بناء أول فهرس B-Tree لتسريع استعلام البحث",
+        "type": "edit",
+        "instruction": "أضف أمر إنشاء الفهرس: CREATE INDEX idx_users_email ON users(email); في بداية الكود قبل جملة SELECT.",
+        "benefit": "تأسيس بنية الفهرس الشجري لتسريع البحث بالبريد.",
+        "from": "SELECT * FROM users WHERE email = 'test@example.com';",
+        "to": "CREATE INDEX idx_users_email ON users(email); SELECT * FROM users WHERE email = 'test@example.com';",
+        "expectedLine": "CREATE INDEX idx_users_email ON users(email); SELECT * FROM users WHERE email = 'test@example.com';",
+        "errorRules": [],
+        "hints": [
+          "انتبه لبداية الشفرة قبل أمر SELECT.",
+          "القاعدة: أمر إنشاء الفهرس يكتب CREATE INDEX متبوعاً باسم الفهرس ثم ON واسم الجدول والعمود. هل كتبت أمر إنشاء الفهرس؟",
+          "اكتب السطر بدقة: CREATE INDEX idx_users_email ON users(email); SELECT * FROM users WHERE email = 'test@example.com';",
+          "الحل الدقيق للخطوة هو: CREATE INDEX idx_users_email ON users(email); SELECT * FROM users WHERE email = 'test@example.com';"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "ترقية الفهرس إلى فهرس فريد UNIQUE",
+        "objective": "دمج تسريع البحث مع ضمان منع تكرار العناوين البريدية",
+        "type": "edit",
+        "instruction": "استبدل CREATE INDEX بـ CREATE UNIQUE INDEX في الفهرس الأول.",
+        "benefit": "حماية سلامة البيانات ومنع إنشاء حسابات متطابقة مع الاستفادة من سرعة البحث القصوى.",
+        "from": "CREATE INDEX idx_users_email",
+        "to": "CREATE UNIQUE INDEX idx_users_email",
+        "expectedLine": "CREATE UNIQUE INDEX idx_users_email",
+        "errorRules": [],
+        "hints": [
+          "انتبه للكلمة الأولى من أمر إنشاء الفهرس.",
+          "القاعدة: إضافة الكلمة المفتاحية UNIQUE تجعل الفهرس يرفض إدخال أي بريد مكرر. هل أضفت UNIQUE؟",
+          "عدّل النص ليصبح: CREATE UNIQUE INDEX idx_users_email",
+          "الحل الدقيق للخطوة هو: CREATE UNIQUE INDEX idx_users_email"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "بناء الفهرس المركب لجدول الطلبات",
+        "objective": "دعم التصفية بالعميل والترتيب الزمني المعكوس في فهرس واحد",
+        "type": "edit",
+        "instruction": "أضف أمر الفهرس المركب: CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC); بعد الفهرس الأول.",
+        "benefit": "تمكين المحرك من جلب أحدث طلبات العميل دون الحاجة لخطوة فرز فرعية إضافية (Sort Elimination).",
+        "from": "users(email);",
+        "to": "users(email); CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);",
+        "expectedLine": "users(email); CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);",
+        "errorRules": [],
+        "hints": [
+          "انتبه لموضع الفاصلة المنقوطة بعد users(email);.",
+          "القاعدة: الفهرس المركب يضم عدة أعمدة مفصولة بفواصل مع إمكانية تحديد اتجاه الترتيب DESC. هل أضفت الفهرس المركب؟",
+          "اكتب بدقة: users(email); CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);",
+          "الحل الدقيق للخطوة هو: users(email); CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE INDEX ON customers (email); -- اسم الفهرس مفقود",
+      "fixedCode": "CREATE INDEX idx_customers_email ON customers (email);",
+      "question": "ما هو العنصر المفقود في جملة إنشاء الفهرس؟",
+      "explanation": "تتطلب أوامر إنشاء الفهرس تسمية الفهرس باسم صريح ومميز مثل idx_customers_email قبل تحديد اسم الجدول والأعمدة.",
+      "options": [
+        "يجب وضع كلمة TABLE بعد كلمة CREATE.",
+        "الفهارس لا تعمل مع الأعمدة النصية مثل email.",
+        "تتطلب أوامر إنشاء الفهرس تسمية الفهرس باسم صريح ومميز مثل idx_customers_email قبل تحديد اسم الجدول والأعمدة.",
+        "يجب وضع علامات تنصيص مفردة حول اسم العمود."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-40-explain-query-plan",
+    "legacyId": "database:39",
+    "order": 39,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "تحليل وتطوير خطط تنفيذ الاستعلامات (EXPLAIN ANALYZE)",
+    "skill": "تشخيص وتحسين أداء الاستعلامات",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "استخدام أداة EXPLAIN ANALYZE لتشريح خطط التنفيذ الشجرية التي يولدها محسن الاستعلامات والتمييز بين المسح الشامل والمسح الفهرسي وقياس زمن التنفيذ الفعلي.",
+    "concept": "يقوم مُحسِّن الاستعلامات القائم على التكلفة (Cost-Based Optimizer - CBO) بتحويل نص استعلام SQL إلى شجرة من العمليات التنفيذية الفيزيائية. تتيح عبارة EXPLAIN قراءة هذه الخطة التقديرية (التكلفة المقدرة Cost، وعدد الصفوف Rows، وحجم البيانات Width). بينما تقوم EXPLAIN ANALYZE بتشغيل الاستعلام فعلياً وقياس أزمنة التنفيذ الحقيقية بالملي ثانية، كاشفة ما إذا كان الاستعلام ينفذ مسحاً تسلسلياً بطيئاً (Seq Scan) أو مسحاً فهرسياً خاطفاً (Index Scan).",
+    "whyUse": "تعد EXPLAIN ANALYZE الأداة التشخيصية الأولى لمهندسي قواعد البيانات لاكتشاف أسباب بطء الاستعلامات في بيئات الإنتاج، وتحديد ما إذا كان المحرك يتجاهل الفهارس بسبب دوال التغليف أو عدم دقة إحصاءات الجداول (ANALYZE).",
+    "browserMechanics": "عند استدعاء EXPLAIN ANALYZE، يلف المحرك مشغلات التنفيذ بمؤقتات زمنية عالية الدقة (Hardware Performance Counters)، ويقيس زمن بدء أول صف (Startup Time) والزمن الكلي (Total Time)، ويراقب مساحة الذاكرة المستهلكة في عمليات الفرز والتجميع (Memory Usage).",
+    "documentationUrl": "https://www.postgresql.org/docs/current/using-explain.html",
+    "file": "query.sql",
+    "flow": "كتابة الاستعلام ⟶ تشغيل خطة EXPLAIN التقديرية ⟶ تفعيل القياس الفعلي بـ EXPLAIN ANALYZE ⟶ إضافة شرط النطاق الزمني",
+    "task": "قم بفحص خطة تنفيذ استعلام المعاملات البنكية باستخدام EXPLAIN ANALYZE لقياس الأداء الفعلي، مع إضافة شرط تاريخي للنطاق الزمني.",
+    "code": "SELECT * FROM transactions WHERE account_id = 90210;",
+    "expected": "EXPLAIN ANALYZE SELECT * FROM transactions WHERE account_id = 90210 AND txn_date >= '2025-01-01';",
+    "reference": "https://www.postgresql.org/docs/current/using-explain.html",
+    "breakdown": [
+      "EXPLAIN: الكلمة المسؤولة عن عرض شجرة خطة التنفيذ المحسوبة من قبل المحسن.",
+      "ANALYZE: تشغيل الاستعلام فعلياً لقياس أزمنة المعالجة الحقيقية بدقة الملي ثانية ومقارنتها بالتقديرات.",
+      "WHERE account_id = 90210 AND txn_date >= '2025-01-01': شرط التصفية المستهدف بالتحليل لمعاينة كيفية استغلال الفهارس."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "استعراض الخطة التقديرية بـ EXPLAIN",
+        "objective": "الاطلاع على شجرة العمليات وتكلفة المسح المحسوبة مسبقاً",
+        "type": "edit",
+        "instruction": "أضف الكلمة EXPLAIN في بداية الاستعلام قبل SELECT.",
+        "benefit": "معاينة خطة المحرك دون تشغيل الاستعلام فعلياً، وهو آمن للاستعلامات الثقيلة.",
+        "from": "SELECT * FROM",
+        "to": "EXPLAIN SELECT * FROM",
+        "expectedLine": "EXPLAIN SELECT * FROM",
+        "errorRules": [],
+        "hints": [
+          "انتبه لبداية السطر الأول قبل كلمة SELECT.",
+          "القاعدة: نكتب EXPLAIN مباشرة قبل أمر SELECT لاستخراج خطة التنفيذ. هل أضفت EXPLAIN؟",
+          "اكتب بدقة: EXPLAIN SELECT * FROM",
+          "الحل الدقيق للخطوة هو: EXPLAIN SELECT * FROM"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "التشغيل الحقيقي والقياس الدقيق بـ ANALYZE",
+        "objective": "قياس زمن التنفيذ الفعلي بالملي ثانية ومساحة الذاكرة",
+        "type": "edit",
+        "instruction": "استبدل EXPLAIN بـ EXPLAIN ANALYZE.",
+        "benefit": "الحصول على التقرير الكامل للأداء الحقيقي ومقارنة التقديرات بالأرقام الواقعية.",
+        "from": "EXPLAIN",
+        "to": "EXPLAIN ANALYZE",
+        "expectedLine": "EXPLAIN ANALYZE",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكلمة EXPLAIN الأولى في السطر.",
+          "القاعدة: إضافة الكلمة ANALYZE تنفذ الاستعلام فعلياً مع تفعيل مؤقتات القياس. هل كتبت EXPLAIN ANALYZE؟",
+          "عدّل البداية لتصبح: EXPLAIN ANALYZE",
+          "الحل الدقيق للخطوة هو: EXPLAIN ANALYZE"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة قيد النطاق الزمني للتحليل المركب",
+        "objective": "اختبار سلوك المحرك مع شروط التصفية المتعددة",
+        "type": "edit",
+        "instruction": "أضف AND txn_date >= '2025-01-01' قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "معاينة كيفية تطبيق المحرك لشروط التصفية المركبة على الفهارس المتاحة.",
+        "from": "account_id = 90210;",
+        "to": "account_id = 90210 AND txn_date >= '2025-01-01';",
+        "expectedLine": "account_id = 90210 AND txn_date >= '2025-01-01';",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد account_id = 90210.",
+          "القاعدة: نربط الشروط بالمعامل AND مع كتابة التاريخ بين علامات تنصيص مفردة. هل أضفت شرط التاريخ؟",
+          "اكتب النهاية بدقة: account_id = 90210 AND txn_date >= '2025-01-01';",
+          "الحل الدقيق للخطوة هو: account_id = 90210 AND txn_date >= '2025-01-01';"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "EXPLAIN SELECT * FROM orders ORDER BY total; -- خطة تظهر Seq Scan بطيء",
+      "fixedCode": "CREATE INDEX idx_orders_total ON orders(total); EXPLAIN SELECT * FROM orders ORDER BY total;",
+      "question": "كيف تعالج خطة استعلام تظهر مسحاً شاملاً بطيئاً (Seq Scan) أثناء الترتيب؟",
+      "explanation": "بناء فهرس مخصص على العمود المستخدم في ORDER BY يحول الخطة من مسح تسلسلي مكلف إلى مسح فهرسي سريع ومباشر (Index Scan).",
+      "options": [
+        "يجب حذف عبارة ORDER BY دائماً من كافة الاستعلامات.",
+        "يجب إعادة تشغيل خادم قاعدة البيانات لمسح الذاكرة.",
+        "الترتيب لا يمكن تسريعه في قواعد البيانات العلائقية.",
+        "بناء فهرس مخصص على العمود المستخدم في ORDER BY يحول الخطة من مسح تسلسلي مكلف إلى مسح فهرسي سريع ومباشر (Index Scan)."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-41-transactions-acid",
+    "legacyId": "database:40",
+    "order": 40,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "المعاملات وخصائص الأمان الأربع (ACID & Transactions)",
+    "skill": "سلامة العمليات التبادلية",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "إدارة المعاملات (Transactions) باستخدام BEGIN و COMMIT و ROLLBACK ونقاط الحفظ SAVEPOINT لضمان تحقيق خصائص ACID الأربع في العمليات المصرفية والحرجة.",
+    "concept": "تضمن المعاملات (Transactions) تنفيذ مجموعة من أوامر SQL كوحدة ذرية واحدة لا تتجزأ (Atomic Unit)، محققة خصائص ACID الأربع: الذرية (Atomicity - إما نجاح كافة الأوامر معاً أو فشلها كأن لم تكن)، الاتساق (Consistency - الانتقال من حالة صالحة إلى حالة صالحة أخرى دون كسر القيود)، العزل (Isolation - عدم تداخل المعاملات المتزامنة)، والدوام (Durability - حفظ التعديلات على القرص حتى عند انقطاع الكهرباء الفجائي).",
+    "whyUse": "في التحويلات المصرفية، خصم 100 ريال من حساب وإضافتها لحساب آخر هما عمليتان منفصلتان؛ وإذا انقطعت الشبكة بعد الخصم وقبل الإضافة ضاعت أموال العميل! واستخدام المعاملة يضمن أنه إذا فشلت الإضافة يتراجع النظام تلقائياً عن الخصم ويعيد الأموال بسلام.",
+    "browserMechanics": "عند تنفيذ BEGIN، يفتح المحرك سياق معاملة جديد ويسند له معرف معاملة فريد (Transaction ID - xid). تُكتب كافة التعديلات في سجل الكتابة المسبقة (WAL). عند تنفيذ COMMIT، يقوم المحرك بإجراء كتابة فيزيائية لسجل التأكيد على القرص (WAL Flush) معلناً دوام المعاملة؛ وعند تنفيذ ROLLBACK، يتجاهل التعديلات ويعود لنقطة البداية فوراً.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/tutorial-transactions.html",
+    "file": "query.sql",
+    "flow": "فتح المعاملة بـ BEGIN ⟶ خصم المبلغ من الحساب الأول ⟶ إضافة المبلغ للحساب الثاني ⟶ تثبيت نقطة حفظ SAVEPOINT ⟶ اعتماد المعاملة نهائياً بـ COMMIT",
+    "task": "قم بتغليف عمليتي التحويل البنكي داخل معاملة آمنة تبدأ بـ BEGIN وتنتهي بـ COMMIT مع وضع نقطة حفظ SAVEPOINT transfer_ok.",
+    "code": "UPDATE accounts SET balance = balance - 100 WHERE id = 1; UPDATE accounts SET balance = balance + 100 WHERE id = 2;",
+    "expected": "BEGIN; UPDATE accounts SET balance = balance - 100 WHERE id = 1; UPDATE accounts SET balance = balance + 100 WHERE id = 2; SAVEPOINT transfer_ok; COMMIT;",
+    "reference": "https://www.postgresql.org/docs/current/tutorial-transactions.html",
+    "breakdown": [
+      "BEGIN;: إعلان بدء المعاملة وحجز سياق ذري معزول للعمليات التالية.",
+      "UPDATE ... balance - 100 ... balance + 100: عمليتا التحويل المتلازمتان التي لا يجوز انفصالهما.",
+      "SAVEPOINT transfer_ok;: نقطة تفتيش داخلية تتيح التراجع الجزئي إليها في حال حدوث خطأ لاحق دون إلغاء التحويل.",
+      "COMMIT;: اعتماد كافة العمليات نهائياً وكتابتها في سجلات الدوام الفيزيائية."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "فتح المعاملة بكلمة BEGIN",
+        "objective": "بدء السياق الذري لحماية العمليات المالية",
+        "type": "edit",
+        "instruction": "أضف BEGIN; في بداية النص قبل أول أمر UPDATE.",
+        "benefit": "تجميع الأوامر المنفصلة تحت مظلة معاملة واحدة مترابطة.",
+        "from": "UPDATE accounts SET balance = balance - 100",
+        "to": "BEGIN; UPDATE accounts SET balance = balance - 100",
+        "expectedLine": "BEGIN; UPDATE accounts SET balance = balance - 100",
+        "errorRules": [],
+        "hints": [
+          "انتبه لبداية النص قبل أول أمر UPDATE.",
+          "القاعدة: أمر فتح المعاملة هو الكلمة المفتاحية BEGIN متبوعة بفاصلة منقوطة. هل كتبت BEGIN;؟",
+          "اكتب بدقة: BEGIN; UPDATE accounts SET balance = balance - 100",
+          "الحل الدقيق للخطوة هو: BEGIN; UPDATE accounts SET balance = balance - 100"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إغلاق واعتماد المعاملة بـ COMMIT",
+        "objective": "تأكيد نجاح العمليات وحفظها نهائياً على القرص",
+        "type": "edit",
+        "instruction": "أضف COMMIT; في نهاية النص بعد ثاني أمر UPDATE.",
+        "benefit": "تحقيق خاصية الدوام Durability وتثبيت التعديل في قاعدة البيانات.",
+        "from": "WHERE id = 2;",
+        "to": "WHERE id = 2; COMMIT;",
+        "expectedLine": "WHERE id = 2; COMMIT;",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية النص بعد أمر التحديث الثاني WHERE id = 2;.",
+          "القاعدة: أمر اعتماد المعاملة هو COMMIT متبوعاً بفاصلة منقوطة. هل كتبت COMMIT;؟",
+          "اكتب التعبير هكذا: WHERE id = 2; COMMIT;",
+          "الحل الدقيق للخطوة هو: WHERE id = 2; COMMIT;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تحديد نقطة الحفظ SAVEPOINT",
+        "objective": "إنشاء نقطة تفتيش وسيطة قبل الاعتماد النهائي",
+        "type": "edit",
+        "instruction": "أضف SAVEPOINT transfer_ok; مباشرة قبل كلمة COMMIT;.",
+        "benefit": "إتاحة التراجع الجزئي المرن عند حدوث أخطاء ثانوية لاحقة دون هدم المعاملة بأكملها.",
+        "from": "COMMIT;",
+        "to": "SAVEPOINT transfer_ok; COMMIT;",
+        "expectedLine": "SAVEPOINT transfer_ok; COMMIT;",
+        "errorRules": [],
+        "hints": [
+          "انتبه لموضع الكلمات قبل أمر COMMIT; مباشرة.",
+          "القاعدة: نقطة الحفظ تنشأ بالأمر SAVEPOINT متبوعاً باسم النقطة وفاصلة منقوطة. هل كتبت SAVEPOINT transfer_ok;؟",
+          "اكتب بدقة: SAVEPOINT transfer_ok; COMMIT;",
+          "الحل الدقيق للخطوة هو: SAVEPOINT transfer_ok; COMMIT;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "START TRANSACTION; UPDATE wallet SET money = money - 50; -- حدوث خطأ دون معالجة",
+      "fixedCode": "BEGIN; UPDATE wallet SET money = money - 50 WHERE id = 5; ROLLBACK;",
+      "question": "ماذا يجب أن نفعل عند حدوث خطأ برمجي أثناء تنفيذ معاملة مالية مفتوحة؟",
+      "explanation": "يجب استدعاء أمر ROLLBACK فوراً للتراجع عن كافة التغييرات الجزئية وإعادة قاعدة البيانات إلى حالتها الآمنة السابقة.",
+      "options": [
+        "يجب استدعاء أمر ROLLBACK فوراً للتراجع عن كافة التغييرات الجزئية وإعادة قاعدة البيانات إلى حالتها الآمنة السابقة.",
+        "يجب استدعاء أمر COMMIT بالقوة لتثبيت أي بيانات تمت كتابتها.",
+        "يجب حذف جدول المحفظة wallet وإعادة إنشائه من الصفر.",
+        "يجب فصل خادم قاعدة البيانات عن الكهرباء فوراً."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-42-isolation-levels-concurrency",
+    "legacyId": "database:41",
+    "order": 41,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "مستويات عزل المعاملات وشذوذ التزامن (Isolation Levels & Anomalies)",
+    "skill": "ضبط التزامن ومكافحة التضارب",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "التعرف على مستويات عزل المعاملات الأربعة، ومكافحة شذوذ التزامن (القراءة القذرة، القراءة غير القابلة للتكرار، القراءة الشبحية) واستخدام القفل الصريح FOR UPDATE.",
+    "concept": "تحدد مستويات عزل المعاملات الأربعة (Read Uncommitted, Read Committed, Repeatable Read, Serializable) كيفية حماية المعاملات المتزامنة من التضارب. يكافح كل مستوى نوعاً من شذوذ التزامن: يمنع Read Committed القراءة القذرة (Dirty Read - قراءة بيانات غير معتمدة قد تتراجع)، ويمنع Repeatable Read القراءة غير القابلة للتكرار (Non-repeatable Read - تغير قيم صف أثناء المعاملة)، ويمنع Serializable القراءة الشبحية وشذوذ الترتيب (Phantom Read & Serialization Anomaly).",
+    "whyUse": "تتطلب أنظمة حجز تذاكر الطيران أو شراء الأسهم أعلى درجات الأمان؛ فاستخدام مستوى عزل ضعيف قد يسمح لعميلين بحجز نفس المقعد في نفس الثانية (Double Booking)؛ واستخدام مستوى العزل المناسب مع أقفال الصفوف الصريحة `FOR UPDATE` يضمن التناسق المطلق.",
+    "browserMechanics": "يعتمد المحرك على نموذج التحكم بالتزامن متعدد الإصدارات (MVCC)؛ حيث تنشئ المعاملة لقطة بيانات افتراضية (Snapshot) عند بدايتها تعتمد على أرقام المعاملات النشطة؛ وفي مستوى Serializable، يفحص المحرك أقفال القراءة الافتراضية (Predicate Locks - SIREAD) لاكتشاف أي تبعيات دورية ويرمي خطأ `serialization failure` لإجبار المعاملة المتضاربة على إعادة المحاولة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/transaction-iso.html",
+    "file": "query.sql",
+    "flow": "بدء المعاملة ⟶ تحديد مستوى العزل SERIALIZABLE الصارم ⟶ قفل سجل الحساب عبر FOR UPDATE لمنع التعديل المتزامن ⟶ اعتماد المعاملة",
+    "task": "قم بتهيئة المعاملة لتعمل بأعلى مستويات العزل SERIALIZABLE، واستخدم عبارة FOR UPDATE لقفل سجل الحساب رقم 5 أثناء القراءة.",
+    "code": "BEGIN; SELECT balance FROM accounts WHERE id = 5; COMMIT;",
+    "expected": "BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE; SELECT balance FROM accounts WHERE id = 5 FOR UPDATE; COMMIT;",
+    "reference": "https://www.postgresql.org/docs/current/transaction-iso.html",
+    "breakdown": [
+      "BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;: فتح المعاملة بأعلى مستويات العزل لمنع كافة أنواع الشذوذ التزامني.",
+      "SELECT balance FROM accounts WHERE id = 5: استرجاع رصيد الحساب المالي محل العملية.",
+      "FOR UPDATE: عبارة قفل صريح على مستوى الصف (Row-level Exclusive Lock) تمنع أي معاملة متزامنة أخرى من تعديل هذا الحساب حتى انتهاء المعاملة."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تحديد مستوى العزل التكراري REPEATABLE READ",
+        "objective": "رفع مستوى عزل المعاملة لحماية القراءات من التغير",
+        "type": "edit",
+        "instruction": "استبدل BEGIN; بـ BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;.",
+        "benefit": "ضمان ثبات نتائج الاستعلام طوال فترة بقاء المعاملة مفتوحة.",
+        "from": "BEGIN;",
+        "to": "BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;",
+        "expectedLine": "BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكلمة BEGIN الأولى في السطر.",
+          "القاعدة: نحدد مستوى العزل بإلحاق TRANSACTION ISOLATION LEVEL REPEATABLE READ بكلمة BEGIN. هل كتبت العبارة كاملة؟",
+          "اكتب بدقة: BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;",
+          "الحل الدقيق للخطوة هو: BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "الترقية إلى أعلى مستويات العزل SERIALIZABLE",
+        "objective": "تطبيق العزل التسلسلي التام لمنع القراءات الشبحية والشذوذ",
+        "type": "edit",
+        "instruction": "استبدل REPEATABLE READ بـ SERIALIZABLE.",
+        "benefit": "محاكاة التنفيذ التسلسلي التام للمعاملات لضمان أقصى معايير السلامة المصرفية.",
+        "from": "REPEATABLE READ;",
+        "to": "SERIALIZABLE;",
+        "expectedLine": "SERIALIZABLE;",
+        "errorRules": [],
+        "hints": [
+          "انتبه لاسم مستوى العزل الحالي REPEATABLE READ;.",
+          "القاعدة: نكتب الكلمة المفتاحية SERIALIZABLE متبوعة بفاصلة منقوطة. هل قمت بتعديل المستوى؟",
+          "عدّل الكلمة لتصبح: SERIALIZABLE;",
+          "الحل الدقيق للخطوة هو: SERIALIZABLE;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تطبيق القفل الحصري للصفوف FOR UPDATE",
+        "objective": "قفل سجل الحساب ومنع تعديله من قبل الجلسات الأخرى",
+        "type": "edit",
+        "instruction": "استبدل WHERE id = 5; بـ WHERE id = 5 FOR UPDATE;.",
+        "benefit": "حجز السجل قيد المعالجة بصورة حصرية فورية لتفادي مشكلات التحديث المتزامن الضائع.",
+        "from": "WHERE id = 5;",
+        "to": "WHERE id = 5 FOR UPDATE;",
+        "expectedLine": "WHERE id = 5 FOR UPDATE;",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية استعلام SELECT بعد شرط WHERE id = 5 وقبل كلمة COMMIT.",
+          "القاعدة: عبارة FOR UPDATE تلحق بشرط WHERE لحجز أقفال الصفوف حصرياً. هل أضفت FOR UPDATE؟",
+          "اكتب النهاية بدقة: WHERE id = 5 FOR UPDATE;",
+          "الحل الدقيق للخطوة هو: WHERE id = 5 FOR UPDATE;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; -- قراءة بيانات غير معتمدة",
+      "fixedCode": "SET TRANSACTION ISOLATION LEVEL READ COMMITTED;",
+      "question": "ما هو الشذوذ الخطير الذي يسببه مستوى العزل READ UNCOMMITTED في الأنظمة المالية؟",
+      "explanation": "يسمح READ UNCOMMITTED بحدوث القراءة القذرة (Dirty Read) حيث يقرأ الاستعلام تعديلات لمعاملة أخرى لم تُعتمد بعد وقد يتم التراجع عنها (Rollback).",
+      "options": [
+        "يؤدي لتوقف فوري في اتصالات الشبكة بالكامل.",
+        "يسمح READ UNCOMMITTED بحدوث القراءة القذرة (Dirty Read) حيث يقرأ الاستعلام تعديلات لمعاملة أخرى لم تُعتمد بعد وقد يتم التراجع عنها (Rollback).",
+        "يجعل لغة SQL ترفض الأرقام العشرية.",
+        "يحذف كافة الفهارس الموجودة في قاعدة البيانات."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-43-sql-injection-security",
+    "legacyId": "database:42",
+    "order": 42,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "أمان قواعد البيانات ومكافحة حقن SQL (SQL Injection & Security)",
+    "skill": "الحماية والتحصين السيبراني لقواعد البيانات",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تحصين قواعد البيانات ضد هجمات حقن SQL (SQL Injection) باستخدام الاستعلامات المجهزة والمعلمة (Prepared Statements) ومبدأ الامتيازات الدنيا (Principle of Least Privilege).",
+    "concept": "يمثل هجوم حقن SQL (SQL Injection) أحد أخطر الثغرات الأمنية في تاريخ الويب؛ حيث يستغل المهاجم دمج مدخلات المستخدم النصية مباشرة في صلب استعلام SQL لتغيير منطقه التنفيذي (مثل حقن `' OR '1'='1`). يتم القضاء على هذا التهديد جذرياً عبر الاستعلامات المجهزة والمعلمة (Parameterized Queries / Prepared Statements)؛ حيث تُفصل شجرة الأوامر البرمجية تماماً عن البيانات وتُعامل مدخلات المستخدم كقيم ثابتة مجردة يستحيل تفسيرها كأوامر تنفيذية.",
+    "whyUse": "حماية بيانات العملاء الحساسة وتفادي تسريب قواعد البيانات بالكامل أو مسح الجداول عبر أوامر خبيثة محقونة؛ وهو المتطلب الأمني الإلزامي الأول لشهادات الامتثال العالمية مثل PCI-DSS و ISO 27001.",
+    "browserMechanics": "عند استخدام PREPARE، يقوم المحرك بتحليل الاستعلام نحوياً وبناء خطة التنفيذ وتثبيتها في الذاكرة مع وضع خانات معلمات ($1, $2). وعند إرسال EXECUTE مع قيم المستخدم، يمرر المحرك هذه القيم مباشرة إلى عقد التنفيذ الفيزيائي متجاوزاً المحلل اللغوي (Parser) تماماً، مما يجعل تنفيذ أي كود محقون مستحيلاً فيزيائياً ورياضياً.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-prepare.html",
+    "file": "query.sql",
+    "flow": "رصد خطر الدمج النصي المباشر ⟶ إنشاء خطة الاستعلام المجهزة PREPARE بالمعلمات ⟶ تنفيذ الخطة بـ EXECUTE ⟶ إلغاء تخصيص الخطة بـ DEALLOCATE",
+    "task": "قم بتحويل استعلام تسجيل الدخول المعرض للاختراق إلى استعلام مجهز ومعلم PREPARE باسم user_login_plan وتنفيذه بـ EXECUTE ثم تفريغه.",
+    "code": "SELECT * FROM users WHERE username = 'admin' AND password = 'secret';",
+    "expected": "PREPARE user_login_plan (text, text) AS SELECT id, username, role FROM users WHERE username = $1 AND password_hash = $2; EXECUTE user_login_plan('admin', 'hashed_val'); DEALLOCATE user_login_plan;",
+    "reference": "https://www.postgresql.org/docs/current/sql-prepare.html",
+    "breakdown": [
+      "PREPARE user_login_plan (text, text) AS: بناء خطة استعلام مجهزة ومؤمنة تتلقى معلمتين نصيتين منفصلتين عن هيكل الأمر.",
+      "WHERE username = $1 AND password_hash = $2: استخدام المتغيرات المعلمة ($1, $2) لفصل البيانات عن كود الاستعلام ومنع الحقن.",
+      "EXECUTE user_login_plan('admin', 'hashed_val');: تنفيذ الاستعلام المحصن بتمرير القيم بأمان تام.",
+      "DEALLOCATE user_login_plan;: تحرير ذاكرة الخطة المجهزة بعد اكتمال الاستخدام لحماية الموارد."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "بناء الاستعلام المجهز PREPARE وتحديد المعلمات",
+        "objective": "فصل منطق الاستعلام عن البيانات بمتغيرات المعلمات $1 و $2",
+        "type": "edit",
+        "instruction": "استبدل الاستعلام المعرض للحقن بـ PREPARE user_login_plan (text, text) AS SELECT id, username, role FROM users WHERE username = $1 AND password_hash = $2;.",
+        "benefit": "التحصين التام ضد ثغرات حقن SQL بفصل البيانات عن كود الاستعلام.",
+        "from": "SELECT * FROM users WHERE username = 'admin' AND password = 'secret';",
+        "to": "PREPARE user_login_plan (text, text) AS SELECT id, username, role FROM users WHERE username = $1 AND password_hash = $2;",
+        "expectedLine": "PREPARE user_login_plan (text, text) AS SELECT id, username, role FROM users WHERE username = $1 AND password_hash = $2;",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للاستعلام النصي المباشر بالكامل.",
+          "القاعدة: نبدأ بـ PREPARE مع تحديد الأنواع (text, text) ثم AS وكتابة الاستعلام بمعلمات $1 و $2. هل كتبت أمر PREPARE؟",
+          "اكتب السطر بدقة: PREPARE user_login_plan (text, text) AS SELECT id, username, role FROM users WHERE username = $1 AND password_hash = $2;",
+          "الحل الدقيق للخطوة هو: PREPARE user_login_plan (text, text) AS SELECT id, username, role FROM users WHERE username = $1 AND password_hash = $2;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تنفيذ الخطة الآمنة عبر أمر EXECUTE",
+        "objective": "تمرير قيم المستخدم الفعلية كمعلمات منفصلة ومأمونة",
+        "type": "edit",
+        "instruction": "أضف أمر التنفيذ: EXECUTE user_login_plan('admin', 'hashed_val'); في نهاية الاستعلام بعد الفاصلة المنقوطة.",
+        "benefit": "تنفيذ الاستعلام بسرعة وأمان دون إعادة بناء خطة الاستعلام في كل مرة.",
+        "from": "password_hash = $2;",
+        "to": "password_hash = $2; EXECUTE user_login_plan('admin', 'hashed_val');",
+        "expectedLine": "password_hash = $2; EXECUTE user_login_plan('admin', 'hashed_val');",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          },
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية أمر PREPARE بعد $2;.",
+          "القاعدة: أمر التنفيذ يكتب EXECUTE متبوعاً باسم الخطة والقيم بين قوسين. هل كتبت EXECUTE user_login_plan('admin', 'hashed_val')؟",
+          "اكتب التعبير هكذا: password_hash = $2; EXECUTE user_login_plan('admin', 'hashed_val');",
+          "الحل الدقيق للخطوة هو: password_hash = $2; EXECUTE user_login_plan('admin', 'hashed_val');"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تحرير ذاكرة الخطة بـ DEALLOCATE",
+        "objective": "إلغاء تخصيص الخطة بعد الانتهاء وإعادة تنظيف الذاكرة",
+        "type": "edit",
+        "instruction": "أضف أمر التحرير: DEALLOCATE user_login_plan; في ختام الاستعلام.",
+        "benefit": "حماية موارد الذاكرة ومنع تراكم الخطط المجهزة في جلسة العمل.",
+        "from": "('admin', 'hashed_val');",
+        "to": "('admin', 'hashed_val'); DEALLOCATE user_login_plan;",
+        "expectedLine": "('admin', 'hashed_val'); DEALLOCATE user_login_plan;",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية أمر EXECUTE.",
+          "القاعدة: أمر تحرير الخطة يكتب DEALLOCATE متبوعاً باسم الخطة وفاصلة منقوطة. هل أضفت DEALLOCATE user_login_plan;؟",
+          "اكتب النهاية بدقة: ('admin', 'hashed_val'); DEALLOCATE user_login_plan;",
+          "الحل الدقيق للخطوة هو: ('admin', 'hashed_val'); DEALLOCATE user_login_plan;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM users WHERE user_name = '' OR '1'='1' --' AND pass = '123';",
+      "fixedCode": "SELECT * FROM users WHERE user_name = ? AND pass = ?;",
+      "question": "كيف تحمي استعلامات تطبيقك من هجوم حقن SQL الموضح في الكود المعطوب؟",
+      "explanation": "استخدام الاستعلامات المجهزة والمعلمة (Parameterized Queries) يفصل منطق الاستعلام عن البيانات تماماً ويمنع محرك قاعدة البيانات من تفسير مدخلات المستخدم كتعليمات تنفيذية.",
+      "options": [
+        "يجب حظر كافة المستخدمين الذين يبدأ اسمهم بحرف U.",
+        "استبدال علامات التنصيص المفردة بعلامات تنصيص ثلاثية.",
+        "استخدام الاستعلامات المجهزة والمعلمة (Parameterized Queries) يفصل منطق الاستعلام عن البيانات تماماً ويمنع محرك قاعدة البيانات من تفسير مدخلات المستخدم كتعليمات تنفيذية.",
+        "إيقاف قاعدة البيانات وتشغيلها عند كل طلب تسجيل دخول."
+      ],
+      "correctOptionIndex": 2
+    }
+  }
+]

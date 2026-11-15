@@ -503,6 +503,7 @@ function main() {
       "html-lessons.json",
       "css-lessons.json",
       "js-lessons.json",
+      "database-lessons.json",
       "angular-lessons.json"
     ];
 
@@ -527,7 +528,7 @@ function main() {
 
   if (filesToValidate.length === 0) {
     console.log("ℹ No track JSON files found yet in current directory.");
-    console.log("  Target files: html-lessons.json, css-lessons.json, js-lessons.json, angular-lessons.json");
+    console.log("  Target files: html-lessons.json, css-lessons.json, js-lessons.json, database-lessons.json, angular-lessons.json");
     console.log("  The validator is active and ready for curriculum authoring milestones (M2-M5).");
     console.log("================================================================================");
     process.exit(0);

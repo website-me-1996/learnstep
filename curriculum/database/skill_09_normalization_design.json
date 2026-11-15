@@ -1,0 +1,423 @@
+[
+  {
+    "id": "database-35-schema-design-er-modeling",
+    "legacyId": "database:34",
+    "order": 34,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "تصميم المخططات العلائقية ونمذجة الكيانات والعلاقات (ER Modeling)",
+    "skill": "المعمارية الهيكلية لقواعد البيانات",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تحويل متطلبات الأنظمة الواقعية إلى مخططات كيانات وعلاقات هندسية (ER Modeling) وبناء جداول الربط الوسيطة لعلاقات متعدد لمتعدد (M:N).",
+    "concept": "تعد نمذجة الكيانات والعلاقات (Entity-Relationship Modeling) الخطوة المعمارية الأولى في هندسة قواعد البيانات؛ حيث تُحدد الكيانات المستقلة (Entities) وحقولها وعلاقاتها التبادلية: واحد لواحد (1:1)، وواحد لمتعدد (1:N)، ومتعدد لمتعدد (M:N). ونظراً لأن النماذج العلائقية لا تدعم علاقات M:N المباشرة، فإن أفضل الممارسات الهندسية تفرض تفكيكها إلى علاقتي (1:N) باستخدام جدول ربط وسيط (Junction / Bridge Table) يمتلك مفتاحاً أساسياً مركباً يربط بين معرّفي الكيانين.",
+    "whyUse": "تضمن المعمارية الهندسية الصحيحة منع تكرار البيانات وشذوذ التعديل (Update Anomalies)؛ ففي منصة نشر الكتب، يمكن للكاتب أن يؤلف عدة كتب، ويمكن للكتاب الواحد أن يشارك في تأليفه عدة مؤلفين؛ وبناء جدول الوساطة book_authors يتيح تسجيل أدوار المشاركة بدقة وتوسع غير محدود.",
+    "browserMechanics": "عند إنشاء جدول الربط الوسيط مع مفتاح أساسي مركب `PRIMARY KEY (book_id, author_id)`، يقوم المحرك بإنشاء فهرس B-Tree فريد ومزدوج يحمي من تسجيل نفس الكاتب لنفس الكتاب مرتين، ويسرّع عمليات البحث والربط ثنائية الاتجاه بين الكيانين.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+    "file": "schema.sql",
+    "flow": "تعريف كيان المؤلفين ⟶ تعريف كيان الكتب ⟶ تشييد جدول الربط الوسيط book_authors ⟶ فرض المفتاح المركب وسلوكيات الحذف",
+    "task": "قم بتشييد معمارية علاقة متعدد لمتعدد بين المؤلفين والكتب عبر بناء جدول وسيط يحمل مفتاحاً أساسياً مركباً وعمود دور المساهمة.",
+    "code": "CREATE TABLE authors ( id INT PRIMARY KEY, name VARCHAR(100) );",
+    "expected": "CREATE TABLE authors ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL ); CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL ); CREATE TABLE book_authors ( book_id INT REFERENCES books(id) ON DELETE CASCADE, author_id INT REFERENCES authors(id) ON DELETE CASCADE, PRIMARY KEY (book_id, author_id), contribution_role VARCHAR(50) DEFAULT 'Primary' );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+    "breakdown": [
+      "CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL );: إنشاء الكيان الثاني (الكتب) بمفتاح أساسي وحقل عنوان إلزامي.",
+      "CREATE TABLE book_authors: تشييد جدول الربط الوسيط (Junction Table) لتفكيك علاقة M:N.",
+      "PRIMARY KEY (book_id, author_id): تعريف المفتاح الأساسي المركب الذي يضمن عدم تكرار نفس الربط ويسرع الاستعلامات.",
+      "contribution_role VARCHAR(50) DEFAULT 'Primary': حقل بيانات إضافي يصف طبيعة العلاقة الرابطة بين الكاتب والكتاب."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إلزامية اسم المؤلف وبناء جدول الكتب",
+        "objective": "إضافة قيد NOT NULL وتشييد كيان الكتب الأساسي",
+        "type": "edit",
+        "instruction": "استبدل name VARCHAR(100) بـ name VARCHAR(100) NOT NULL ); CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL.",
+        "benefit": "تأسيس الكيانين المستقلين اللذين ستربط بينهما العلاقة التشاركية.",
+        "from": "name VARCHAR(100)",
+        "to": "name VARCHAR(100) NOT NULL ); CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL",
+        "expectedLine": "name VARCHAR(100) NOT NULL ); CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية تعريف جدول المؤلفين authors.",
+          "القاعدة: نغلق الجدول الأول بـ NOT NULL ); ثم نفتح CREATE TABLE books. هل قمت بتعريف جدول الكتب؟",
+          "اكتب التعبير هكذا: name VARCHAR(100) NOT NULL ); CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL",
+          "الحل الدقيق للخطوة هو: name VARCHAR(100) NOT NULL ); CREATE TABLE books ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تشييد جدول الربط الوسيط مع المفتاح المركب",
+        "objective": "بناء جدول book_authors لفك علاقة متعدد لمتعدد",
+        "type": "edit",
+        "instruction": "أضف جدول الربط الوسيط: ); CREATE TABLE book_authors ( book_id INT REFERENCES books(id) ON DELETE CASCADE, author_id INT REFERENCES authors(id) ON DELETE CASCADE, PRIMARY KEY (book_id, author_id) بعد NOT NULL.",
+        "benefit": "تفكيك العلاقة المعقدة إلى علاقتين آمنتين مع تفعيل الحذف التعاقبي والمفتاح المركب.",
+        "from": "title VARCHAR(200) NOT NULL );",
+        "to": "title VARCHAR(200) NOT NULL ); CREATE TABLE book_authors ( book_id INT REFERENCES books(id) ON DELETE CASCADE, author_id INT REFERENCES authors(id) ON DELETE CASCADE, PRIMARY KEY (book_id, author_id) );",
+        "expectedLine": "title VARCHAR(200) NOT NULL ); CREATE TABLE book_authors ( book_id INT REFERENCES books(id) ON DELETE CASCADE, author_id INT REFERENCES authors(id) ON DELETE CASCADE, PRIMARY KEY (book_id, author_id) );",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية تعريف جدول الكتب books.",
+          "القاعدة: جدول الربط يعرف مفتاحين أجنبيين ومفتاحاً أساسياً مركباً يضمهما معاً PRIMARY KEY (book_id, author_id). هل أضفت جدول الربط؟",
+          "اكتب بدقة: title VARCHAR(200) NOT NULL ); CREATE TABLE book_authors ( book_id INT REFERENCES books(id) ON DELETE CASCADE, author_id INT REFERENCES authors(id) ON DELETE CASCADE, PRIMARY KEY (book_id, author_id) );",
+          "الحل الدقيق للخطوة هو: title VARCHAR(200) NOT NULL ); CREATE TABLE book_authors ( book_id INT REFERENCES books(id) ON DELETE CASCADE, author_id INT REFERENCES authors(id) ON DELETE CASCADE, PRIMARY KEY (book_id, author_id) );"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة عمود دور المساهمة للجدول الوسيط",
+        "objective": "تضمين تفاصيل صفة المشاركة في العلاقة التبادلية",
+        "type": "edit",
+        "instruction": "استبدل PRIMARY KEY (book_id, author_id) ); بـ PRIMARY KEY (book_id, author_id), contribution_role VARCHAR(50) DEFAULT 'Primary' );.",
+        "benefit": "تخزين خصائص العلاقة ذاتها كبيان مستقل ومفيد في جدول الربط.",
+        "from": "PRIMARY KEY (book_id, author_id) );",
+        "to": "PRIMARY KEY (book_id, author_id), contribution_role VARCHAR(50) DEFAULT 'Primary' );",
+        "expectedLine": "PRIMARY KEY (book_id, author_id), contribution_role VARCHAR(50) DEFAULT 'Primary' );",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية تعريف جدول book_authors.",
+          "القاعدة: نضع فاصلة بعد المفتاح المركب ثم اسم الحقل contribution_role VARCHAR(50) DEFAULT 'Primary'. هل أضفت عمود دور المساهمة؟",
+          "اكتب النهاية بدقة: PRIMARY KEY (book_id, author_id), contribution_role VARCHAR(50) DEFAULT 'Primary' );",
+          "الحل الدقيق للخطوة هو: PRIMARY KEY (book_id, author_id), contribution_role VARCHAR(50) DEFAULT 'Primary' );"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE junction ( a_id INT, b_id INT, PRIMARY KEY a_id, b_id ); -- أقواس مفقودة",
+      "fixedCode": "CREATE TABLE junction ( a_id INT, b_id INT, PRIMARY KEY (a_id, b_id) );",
+      "question": "كيف يُعرف المفتاح الأساسي المركب (Composite Primary Key) بشكل صحيح؟",
+      "explanation": "عند تعريف مفتاح أساسي مركب من عدة أعمدة، يجب وضع أسماء الأعمدة بين قوسين معاً: PRIMARY KEY (col1, col2).",
+      "options": [
+        "لا يمكن استخدام أكثر من عمود كمفتاح أساسي في قواعد البيانات العلائقية.",
+        "يجب كتابة كلمة DUAL_KEY بدلاً من PRIMARY KEY.",
+        "عند تعريف مفتاح أساسي مركب من عدة أعمدة، يجب وضع أسماء الأعمدة بين قوسين معاً: PRIMARY KEY (col1, col2).",
+        "يجب وضع فاصلة منقوطة بين اسمي العمودين."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-36-first-normal-form-1nf",
+    "legacyId": "database:35",
+    "order": 35,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "الشكل الطبيعي الأول والقيم الذرية (1NF - First Normal Form)",
+    "skill": "التطبيع المعماري وإلغاء المجموعات",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تطبيق قواعد الشكل الطبيعي الأول (1NF) بفرض ذرية البيانات ومنع تخزين القوائم المتعددة المفصولة بفواصل وتفكيك المجموعات المتكررة.",
+    "concept": "ينص الشكل الطبيعي الأول (1NF) على قاعدتين أساسيتين: أولاً، أن تكون كافة قيم الأعمدة قيماً ذرية (Atomic Values) لا تقبل التجزئة؛ مما يحظر بشكل قاطع تخزين نصوص مركبة مثل أرقام هواتف مفصولة بفواصل `050111, 050222` في خلية واحدة. ثانياً، غياب المجموعات المتكررة (Repeating Groups) كإنشاء أعمدة مثل `phone1, phone2, phone3`، مع إلزامية وجود مفتاح أساسي فريد يميز كل صف.",
+    "whyUse": "تخزين عدة قيم في خلية واحدة يجعل من المستحيل على محرك قاعدة البيانات فرز البيانات أو البحث فيها باستخدام الفهارس أو فرض قيود النزاهة؛ كما يعقد استعلامات التحديث والحذف ويجعل التطبيق عرضة لتلف البيانات وصعوبة استخراج التقارير.",
+    "browserMechanics": "عند نقل البيانات إلى 1NF، تصبح الحقول قابلة للفهرسة المباشرة عبر أشجار B-Tree القياسية؛ حيث يمكن للمحرك البحث عن رقم الهاتف في زمن O(log N)، بدلاً من الاضطرار لمسح نص الخلية بالكامل بمطابقة نصية بطيئة (Pattern Matching O(N)) وغير دقيقة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-basics.html",
+    "file": "schema.sql",
+    "flow": "تحليل الجدول المعيب ⟶ استخراج حقل الهواتف المتعددة ⟶ تشييد جدول learner_phones المنفصل ⟶ ربطه بالمتعلم عبر المفتاح الأجنبي",
+    "task": "قم بإعادة هيكلة الجدول المعيب لتطبيق معايير 1NF عبر فصل أرقام الهواتف في جدول مستقل learner_phones مع تحديد نوع الهاتف.",
+    "code": "CREATE TABLE learners_bad ( id INT PRIMARY KEY, name VARCHAR(100), phone_numbers VARCHAR(255) );",
+    "expected": "CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL ); CREATE TABLE learner_phones ( id SERIAL PRIMARY KEY, learner_id INT REFERENCES learners(id) ON DELETE CASCADE, phone_number VARCHAR(20) NOT NULL, phone_type VARCHAR(20) DEFAULT 'mobile' );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-basics.html",
+    "breakdown": [
+      "CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL );: جدول المتعلمين بعد تنقيته ليمثل كياناً ذرياً نظيفاً.",
+      "CREATE TABLE learner_phones: جدول مستقل يطبق 1NF لتخزين رقم هاتف واحد ذري في كل صف.",
+      "learner_id INT REFERENCES learners(id) ON DELETE CASCADE: ربط كل هاتف بصاحبه مع أتمتة الحذف عند مسح المتعلم.",
+      "phone_type VARCHAR(20) DEFAULT 'mobile': حقل يحدد تصنيف الهاتف (جوال، عمل، منزل) كقيمة ذرية منفصلة."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تنقية جدول المتعلمين وإزالة العمود المركب",
+        "objective": "إنشاء جدول المتعلمين بحقول ذرية خالصة",
+        "type": "edit",
+        "instruction": "استبدل كود الجدول المعيب بـ CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL );.",
+        "benefit": "تأسيس كيان المتعلم مع الالتزام الصارم بذرية الاسم واستبعاد حقل الهواتف المدمج.",
+        "from": "CREATE TABLE learners_bad ( id INT PRIMARY KEY, name VARCHAR(100), phone_numbers VARCHAR(255) );",
+        "to": "CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL );",
+        "expectedLine": "CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL );",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكود إنشاء الجدول الأول بأكمله.",
+          "القاعدة: نعيد تسمية الجدول إلى learners ونحذف phone_numbers ونحدد full_name NOT NULL. هل أنشأت الجدول المنقى؟",
+          "اكتب السطر بدقة: CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL );",
+          "الحل الدقيق للخطوة هو: CREATE TABLE learners ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL );"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "بناء جدول الهواتف المستقل والمترابط",
+        "objective": "استيعاب أرقام الهواتف المتعددة كصفوف ذرية مستقلة",
+        "type": "edit",
+        "instruction": "أضف جدول الهواتف: CREATE TABLE learner_phones ( id SERIAL PRIMARY KEY, learner_id INT REFERENCES learners(id) ON DELETE CASCADE, phone_number VARCHAR(20) NOT NULL ); بعد جدول learners.",
+        "benefit": "تحويل القائمة النصية المشوهة إلى سجلات مستقلة ذات بنية قوية قابلة للفهرسة والبحث.",
+        "from": "full_name VARCHAR(100) NOT NULL );",
+        "to": "full_name VARCHAR(100) NOT NULL ); CREATE TABLE learner_phones ( id SERIAL PRIMARY KEY, learner_id INT REFERENCES learners(id) ON DELETE CASCADE, phone_number VARCHAR(20) NOT NULL );",
+        "expectedLine": "full_name VARCHAR(100) NOT NULL ); CREATE TABLE learner_phones ( id SERIAL PRIMARY KEY, learner_id INT REFERENCES learners(id) ON DELETE CASCADE, phone_number VARCHAR(20) NOT NULL );",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية جدول learners.",
+          "القاعدة: ننشئ جدول learner_phones مع مفتاح أجنبي يشير إلى learners(id) وعمود phone_number ذري. هل أضفت الجدول الجديد؟",
+          "اكتب التعبير هكذا: full_name VARCHAR(100) NOT NULL ); CREATE TABLE learner_phones ( id SERIAL PRIMARY KEY, learner_id INT REFERENCES learners(id) ON DELETE CASCADE, phone_number VARCHAR(20) NOT NULL );",
+          "الحل الدقيق للخطوة هو: full_name VARCHAR(100) NOT NULL ); CREATE TABLE learner_phones ( id SERIAL PRIMARY KEY, learner_id INT REFERENCES learners(id) ON DELETE CASCADE, phone_number VARCHAR(20) NOT NULL );"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة عمود تصنيف نوع الهاتف",
+        "objective": "تمييز نوع الهاتف بقيمة ذرية افتراضية",
+        "type": "edit",
+        "instruction": "استبدل phone_number VARCHAR(20) NOT NULL ); بـ phone_number VARCHAR(20) NOT NULL, phone_type VARCHAR(20) DEFAULT 'mobile' );.",
+        "benefit": "إكمال متطلبات المعيار المعماري ببيانات وصفية دقيقة تمنع الخلط بين الهواتف.",
+        "from": "phone_number VARCHAR(20) NOT NULL );",
+        "to": "phone_number VARCHAR(20) NOT NULL, phone_type VARCHAR(20) DEFAULT 'mobile' );",
+        "expectedLine": "phone_number VARCHAR(20) NOT NULL, phone_type VARCHAR(20) DEFAULT 'mobile' );",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية تعريف جدول learner_phones.",
+          "القاعدة: نضيف فاصلة بعد phone_number ثم phone_type VARCHAR(20) DEFAULT 'mobile' );. هل أضفت عمود نوع الهاتف؟",
+          "اكتب النهاية بدقة: phone_number VARCHAR(20) NOT NULL, phone_type VARCHAR(20) DEFAULT 'mobile' );",
+          "الحل الدقيق للخطوة هو: phone_number VARCHAR(20) NOT NULL, phone_type VARCHAR(20) DEFAULT 'mobile' );"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "INSERT INTO contacts (id, name, tags) VALUES (1, 'Sami', 'vip, manager, tech'); -- مخالف لـ 1NF",
+      "fixedCode": "INSERT INTO contact_tags (contact_id, tag) VALUES (1, 'vip'), (1, 'manager'), (1, 'tech');",
+      "question": "لماذا يخالف تخزين 'vip, manager, tech' في خانة واحدة مبادئ 1NF؟",
+      "explanation": "يخالف تخزين عدة قيم في خلية واحدة شرط الذرية (Atomicity) في 1NF، مما يعقد عمليات الفرز والتصفية والفهرسة ويتطلب فصلها في جدول مستقل.",
+      "options": [
+        "علامات التنصيص المفردة غير مسموحة في عبارة VALUES.",
+        "اسم الجدول contacts طويل للغاية.",
+        "يجب كتابة الكلمات الإنجليزية بأحرف كبيرة.",
+        "يخالف تخزين عدة قيم في خلية واحدة شرط الذرية (Atomicity) في 1NF، مما يعقد عمليات الفرز والتصفية والفهرسة ويتطلب فصلها في جدول مستقل."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-37-second-normal-form-2nf",
+    "legacyId": "database:36",
+    "order": 36,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "الشكل الطبيعي الثاني والاعتماد الوظيفي الكامل (2NF - Second Normal Form)",
+    "skill": "إزالة الاعتماديات الجزئية",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تحقيق الشكل الطبيعي الثاني (2NF) بالقضاء على الاعتماديات الجزئية (Partial Dependencies) وفرض اعتماد كافة الحقول على المفتاح الأساسي كاملاً.",
+    "concept": "يشترط الشكل الطبيعي الثاني (2NF) شرطين متكاملين: أولاً، أن يكون الجدول في الشكل الطبيعي الأول (1NF). ثانياً، أن تعتمد كافة الأعمدة غير المفتاحية اعتماداً وظيفياً كاملاً (Full Functional Dependency) على المفتاح الأساسي بأكمله. تنشأ مشكلة الاعتمادية الجزئية (Partial Dependency) عند وجود مفتاح أساسي مركب من عدة أعمدة؛ فإذا كان حقل معين يعتمد على جزء واحد فقط من المفتاح المركب (كاعتماد اسم الطالب على student_id فقط في جدول تسجيل الدورات)، وجب فصله في جدول مستقل.",
+    "whyUse": "تؤدي الاعتماديات الجزئية إلى تكرار البيانات المفرط وشذوذ التعديل؛ فإذا تغير اسم الطالب في سجل واحد وظل قديماً في سجلات أخرى تفكك اتساق النظام، وفصل الكيانات يضمن تعديل اسم الطالب في مكان واحد وحيد.",
+    "browserMechanics": "بفصل الجداول وفق 2NF، تصغر أحجام الصفوف في الجداول المتكررة (Row Width Reduction)؛ مما يرفع عدد الصفوف التي تستوعبها صفحة الذاكرة الواحدة (Buffer Page Density)، ويقلل عمليات الإدخال والإخراج (I/O Operations) أثناء القراءة والربط.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-basics.html",
+    "file": "schema.sql",
+    "flow": "رصد الاعتمادية الجزئية في جدول التسجيل المعيب ⟶ عزل كيان الطلاب ⟶ عزل كيان المقررات ⟶ قصر جدول التسجيل على العلاقة والدرجة",
+    "task": "قم بإعادة هيكلة جدول التسجيل المعيب لتحقيق 2NF عبر إنشاء جداول مستقلة للطلاب والمقررات والتسجيل.",
+    "code": "CREATE TABLE enrollment_bad ( student_id INT, course_id INT, student_name VARCHAR(100), grade CHAR(2), PRIMARY KEY (student_id, course_id) );",
+    "expected": "CREATE TABLE students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL ); CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL ); CREATE TABLE enrollments ( student_id INT REFERENCES students(id), course_id INT REFERENCES courses(id), grade CHAR(2), PRIMARY KEY (student_id, course_id) );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-basics.html",
+    "breakdown": [
+      "CREATE TABLE students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL );: عزل بيانات الطالب في جدول مستقل يعتمد اسمه على معرّفه فقط.",
+      "CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL );: جدول مستقل للمقررات الدراسية.",
+      "CREATE TABLE enrollments (... grade CHAR(2) ...): جدول التسجيل الذي يحتوي فقط على الحقول المعتمدة على المفتاح المركب كاملاً (الدرجة grade تعتمد على الطالب والمقرر معاً)."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "فصل كيان الطلاب في جدول مستقل",
+        "objective": "إزالة اعتماد اسم الطالب على المفتاح المركب",
+        "type": "edit",
+        "instruction": "استبدل الجدول المعيب بإنشاء جدول students المستقل.",
+        "benefit": "القضاء على الاعتمادية الجزئية لاسم الطالب وتخزينه مرة واحدة فقط.",
+        "from": "CREATE TABLE enrollment_bad ( student_id INT, course_id INT, student_name VARCHAR(100), grade CHAR(2), PRIMARY KEY (student_id, course_id) );",
+        "to": "CREATE TABLE students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL );",
+        "expectedLine": "CREATE TABLE students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL );",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكود الجدول المعيب بالكامل.",
+          "القاعدة: نعزل الطالب في جدول students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL );. هل أنشأت جدول الطلاب؟",
+          "اكتب السطر بدقة: CREATE TABLE students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL );",
+          "الحل الدقيق للخطوة هو: CREATE TABLE students ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL );"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "بناء جدول المقررات الدراسية",
+        "objective": "عزل كيان المقررات لمنع تكرار عناوين الدورات",
+        "type": "edit",
+        "instruction": "أضف CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL ); بعد جدول students.",
+        "benefit": "توفير مرجع موحد ومستقل للمقررات الدراسية المتاحة في المؤسسة.",
+        "from": "name VARCHAR(100) NOT NULL );",
+        "to": "name VARCHAR(100) NOT NULL ); CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL );",
+        "expectedLine": "name VARCHAR(100) NOT NULL ); CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL );",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية تعريف جدول students.",
+          "القاعدة: ننشئ جدول courses يحمل id كمفتاح أساسي وعنوان الدورة title. هل أضفت جدول المقررات؟",
+          "اكتب التعبير هكذا: name VARCHAR(100) NOT NULL ); CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL );",
+          "الحل الدقيق للخطوة هو: name VARCHAR(100) NOT NULL ); CREATE TABLE courses ( id INT PRIMARY KEY, title VARCHAR(100) NOT NULL );"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تشييد جدول التسجيل المحقق لـ 2NF",
+        "objective": "حصر جدول enrollments في الحقول المعتمدة كلياً على المفتاحين معاً",
+        "type": "edit",
+        "instruction": "أضف جدول enrollments: CREATE TABLE enrollments ( student_id INT REFERENCES students(id), course_id INT REFERENCES courses(id), grade CHAR(2), PRIMARY KEY (student_id, course_id) );.",
+        "benefit": "تحقيق معيار 2NF الكامل؛ حيث تعتمد الدرجة grade على كلا المعرفين مجتمعين.",
+        "from": "title VARCHAR(100) NOT NULL );",
+        "to": "title VARCHAR(100) NOT NULL ); CREATE TABLE enrollments ( student_id INT REFERENCES students(id), course_id INT REFERENCES courses(id), grade CHAR(2), PRIMARY KEY (student_id, course_id) );",
+        "expectedLine": "title VARCHAR(100) NOT NULL ); CREATE TABLE enrollments ( student_id INT REFERENCES students(id), course_id INT REFERENCES courses(id), grade CHAR(2), PRIMARY KEY (student_id, course_id) );",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية جدول courses.",
+          "القاعدة: يربط enrollments بين المفتاحين الأجنبيين ويحتفظ بحقل الدرجة CHAR(2) ومفتاح مركب. هل أضفت جدول التسجيل النهائي؟",
+          "اكتب بدقة: title VARCHAR(100) NOT NULL ); CREATE TABLE enrollments ( student_id INT REFERENCES students(id), course_id INT REFERENCES courses(id), grade CHAR(2), PRIMARY KEY (student_id, course_id) );",
+          "الحل الدقيق للخطوة هو: title VARCHAR(100) NOT NULL ); CREATE TABLE enrollments ( student_id INT REFERENCES students(id), course_id INT REFERENCES courses(id), grade CHAR(2), PRIMARY KEY (student_id, course_id) );"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE order_lines ( order_id INT, item_id INT, customer_address TEXT, PRIMARY KEY (order_id, item_id) );",
+      "fixedCode": "CREATE TABLE orders ( order_id INT PRIMARY KEY, customer_address TEXT );",
+      "question": "ما هو الخلل المعماري في وجود customer_address داخل جدول سطور الطلبات order_lines؟",
+      "explanation": "يعتمد عنوان العميل على order_id فقط وليس على المفتاح المركب بالكامل (order_id + item_id)، مما يشكل اعتمادية جزئية تخرق معيار 2NF.",
+      "options": [
+        "يعتمد عنوان العميل على order_id فقط وليس على المفتاح المركب بالكامل (order_id + item_id)، مما يشكل اعتمادية جزئية تخرق معيار 2NF.",
+        "النوع TEXT غير مدعوم في جداول سطور الطلبات.",
+        "يجب أن يكون اسم العمود باللغة الفرنسية حصراً.",
+        "المفتاح الأساسي لا يمكن أن يتكون من عمودين."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-38-third-normal-form-3nf",
+    "legacyId": "database:37",
+    "order": 37,
+    "module": "phase-5-mastery",
+    "phase": "المرحلة الخامسة: هندسة المخططات والتطبيع والأداء والمعاملات والأمان (Phase 5: Advanced Mastery, Normalization & ACID Transactions)",
+    "title": "الشكل الطبيعي الثالث وإزالة الاعتماديات المتعدية (3NF - Third Normal Form)",
+    "skill": "القضاء على الشذوذ الانتقالي",
+    "duration": "15 دقيقة",
+    "level": "متقدم",
+    "summary": "تحقيق الشكل الطبيعي الثالث (3NF) بالقضاء التام على الاعتماديات المتعدية (Transitive Dependencies) وضمان اعتماد الحقول غير المفتاحية على المفتاح الأساسي حصراً.",
+    "concept": "ينص الشكل الطبيعي الثالث (3NF) على أن يكون الجدول في 2NF أولاً، وألا يحتوي على أي اعتمادية متعدية (Transitive Dependency)؛ أي لا يجوز لحقل غير مفتاحي أن يعتمد على حقل آخر غير مفتاحي. تتجلى الاعتمادية المتعدية عندما يعتمد الحقل C على الحقل B، بينما يعتمد B على المفتاح الأساسي A (`A -> B -> C`). في مثل هذه الحالة، يجب فصل الحقلين B و C في جدول مستقل يرتبط بجدول A عبر مفتاح أجنبي.",
+    "whyUse": "تخزين اسم القسم ورئيس القسم في جدول الموظفين يخلق شذوذ الحذف (Deletion Anomaly)؛ فحذف آخر موظف في قسم معين سيؤدي إلى مسح وجود القسم ورئيسه من النظام تماماً! وفصل الأقسام في جدول مستقل يحفظ كيان القسم حتى في غياب أي موظفين حاليين.",
+    "browserMechanics": "تحقيق 3NF يقلل من حجم تكرار النصوص الطويلة على صفحات القرص؛ حيث يُستبدل تخزين نصوص أسماء الأقسام ورؤسائها بأرقام معرفات صحيحة ومضغوطة (Foreign Key Integers 4-bytes)، مما يوفر مساحات تخزين القرص ويزيد من كفاءة الذاكرة المؤقتة (Buffer Cache Hit Ratio).",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-basics.html",
+    "file": "schema.sql",
+    "flow": "رصد الاعتمادية المتعدية (الموظف -> القسم -> رئيس القسم) ⟶ إنشاء جدول الأقسام المستقل ⟶ ربط جدول الموظفين بالمفتاح الأجنبي ⟶ فرض تاريخ التعيين",
+    "task": "قم بإعادة هيكلة جدول الموظفين المعيب لتحقيق 3NF عبر استخراج جدول الأقسام departments وربطه بجدول staff بالمفتاح الأجنبي.",
+    "code": "CREATE TABLE staff_bad ( id INT PRIMARY KEY, full_name VARCHAR(100), dept_id INT, dept_name VARCHAR(100), dept_head VARCHAR(100) );",
+    "expected": "CREATE TABLE departments ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL, head VARCHAR(100) ); CREATE TABLE staff ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL, dept_id INT NOT NULL REFERENCES departments(id), hire_date DATE DEFAULT CURRENT_DATE );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-basics.html",
+    "breakdown": [
+      "CREATE TABLE departments ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL, head VARCHAR(100) );: عزل كيان القسم ورئيسه في جدول مستقل لحل الاعتمادية المتعدية.",
+      "CREATE TABLE staff (... dept_id INT NOT NULL REFERENCES departments(id) ...): جدول الموظفين بعد تنقيته من بيانات القسم والاعتماد المباشر على المفتاح الأجنبي.",
+      "hire_date DATE DEFAULT CURRENT_DATE: تاريخ التعيين كحقل ذاتي خاص بالموظف يعتمد مباشرة على مفتاح الموظف الأساسي id."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "عزل بيانات الأقسام في جدول مستقل",
+        "objective": "القضاء على الاعتمادية المتعدية لاسم القسم ورئيسه",
+        "type": "edit",
+        "instruction": "استبدل الجدول المعيب بإنشاء جدول departments المستقل.",
+        "benefit": "تخزين بيانات الإدارة في مكان واحد ومنع شذوذ الحذف والتعديل.",
+        "from": "CREATE TABLE staff_bad ( id INT PRIMARY KEY, full_name VARCHAR(100), dept_id INT, dept_name VARCHAR(100), dept_head VARCHAR(100) );",
+        "to": "CREATE TABLE departments ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL, head VARCHAR(100) );",
+        "expectedLine": "CREATE TABLE departments ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL, head VARCHAR(100) );",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكود الجدول المعيب بالكامل.",
+          "القاعدة: ننشئ جدول الأقسام departments مع id و name و head. هل أنشأت جدول الأقسام؟",
+          "اكتب السطر بدقة: CREATE TABLE departments ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL, head VARCHAR(100) );",
+          "الحل الدقيق للخطوة هو: CREATE TABLE departments ( id INT PRIMARY KEY, name VARCHAR(100) NOT NULL, head VARCHAR(100) );"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تشييد جدول الموظفين وربطه بالقسم",
+        "objective": "بناء جدول staff بمفتاح أجنبي يشير إلى الأقسام",
+        "type": "edit",
+        "instruction": "أضف CREATE TABLE staff ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL, dept_id INT REFERENCES departments(id) ); بعد جدول departments.",
+        "benefit": "ربط الموظف بقسمه عبر معرف رقمي موجز يمتثل لمعايير 3NF.",
+        "from": "head VARCHAR(100) );",
+        "to": "head VARCHAR(100) ); CREATE TABLE staff ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL, dept_id INT REFERENCES departments(id) );",
+        "expectedLine": "head VARCHAR(100) ); CREATE TABLE staff ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL, dept_id INT REFERENCES departments(id) );",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية تعريف جدول departments.",
+          "القاعدة: ننشئ جدول staff ونربطه بـ departments(id) عبر REFERENCES. هل أضفت جدول الموظفين المترابط؟",
+          "اكتب التعبير هكذا: head VARCHAR(100) ); CREATE TABLE staff ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL, dept_id INT REFERENCES departments(id) );",
+          "الحل الدقيق للخطوة هو: head VARCHAR(100) ); CREATE TABLE staff ( id INT PRIMARY KEY, full_name VARCHAR(100) NOT NULL, dept_id INT REFERENCES departments(id) );"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "فرض إلزامية القسم وإضافة تاريخ التعيين",
+        "objective": "منع الموظفين بدون قسم وتسجيل تاريخ العمل الافتراضي",
+        "type": "edit",
+        "instruction": "استبدل dept_id INT REFERENCES departments(id) ); بـ dept_id INT NOT NULL REFERENCES departments(id), hire_date DATE DEFAULT CURRENT_DATE );.",
+        "benefit": "استكمال قواعد النزاهة الهندسية وتعيين التاريخ اللحظي آلياً عند الإدراج.",
+        "from": "dept_id INT REFERENCES departments(id) );",
+        "to": "dept_id INT NOT NULL REFERENCES departments(id), hire_date DATE DEFAULT CURRENT_DATE );",
+        "expectedLine": "dept_id INT NOT NULL REFERENCES departments(id), hire_date DATE DEFAULT CURRENT_DATE );",
+        "errorRules": [],
+        "hints": [
+          "انتبه لنهاية تعريف جدول staff.",
+          "القاعدة: نضيف NOT NULL قبل REFERENCES ثم فاصلة وعمود hire_date DATE DEFAULT CURRENT_DATE. هل أضفت حقل تاريخ التعيين؟",
+          "اكتب النهاية بدقة: dept_id INT NOT NULL REFERENCES departments(id), hire_date DATE DEFAULT CURRENT_DATE );",
+          "الحل الدقيق للخطوة هو: dept_id INT NOT NULL REFERENCES departments(id), hire_date DATE DEFAULT CURRENT_DATE );"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE stores ( id INT PRIMARY KEY, zip_code VARCHAR(10), city VARCHAR(50), state VARCHAR(50) );",
+      "fixedCode": "CREATE TABLE zip_locations ( zip_code VARCHAR(10) PRIMARY KEY, city VARCHAR(50), state VARCHAR(50) );",
+      "question": "لماذا يعتبر وجود city و state بجانب zip_code في جدول المتاجر انتهاكاً لـ 3NF؟",
+      "explanation": "المدينة والولاية تعتمدان على الرمز البريدي zip_code وليس مباشرة على معرف المتجر id، مما ينشئ اعتمادية متعدية (Transitive Dependency) تخرق 3NF.",
+      "options": [
+        "اسم الجدول stores محجوز لنظام التشغيل.",
+        "المدينة والولاية تعتمدان على الرمز البريدي zip_code وليس مباشرة على معرف المتجر id، مما ينشئ اعتمادية متعدية (Transitive Dependency) تخرق 3NF.",
+        "الرمز البريدي لا يمكن تخزينه كنص VARCHAR.",
+        "يجب وضع فاصلة منقوطة بعد كل اسم عمود داخل الأقواس."
+      ],
+      "correctOptionIndex": 1
+    }
+  }
+]

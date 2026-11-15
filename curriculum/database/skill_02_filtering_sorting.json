@@ -1,0 +1,371 @@
+[
+  {
+    "id": "database-05-in-between-like",
+    "legacyId": "database:4",
+    "order": 4,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "مطابقة الأنماط والمجالات وقوائم القيم (IN, BETWEEN, LIKE)",
+    "skill": "تصفية النصوص والمجالات",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "استخدام معاملات التصفية المتقدمة IN لمطابقة القيم المتعددة، و BETWEEN لتحديد المجالات الرقمية والزمنية، و LIKE لمطابقة النصوص الجزئية.",
+    "concept": "توفر معاملات IN و BETWEEN و LIKE أدوات قوية وسريعة لتصفية السجلات دون الحاجة لكتابة سلاسل طويلة من معاملات OR المعقدة؛ حيث يطابق IN أي قيمة واردة في قائمة ثابتة، ويختبر BETWEEN وقوع القيمة ضمن نطاق مغلق [من..إلى] شاملاً طرفي النطاق، بينما يتيح LIKE البحث عن الأنماط النصية عبر الرموز البديلة (% لأي عدد من المحارف، و _ لمحرف واحد).",
+    "whyUse": "تعتمد محركات البحث الداخلي ولوحات تصفية المنتجات في المتاجر الإلكترونية على هذه المعاملات الثلاثة؛ فالبحث عن عملاء في مدن محددة، أو حصر المبيعات بين تاريخين، أو البحث عن أسماء تبدأ بحرف معين يتم بأعلى كفاءة ووضوح برمجي.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بتحويل عبارة `col IN (a, b)` داخلياً إلى فحص مباشر في جدول تجزئة (Hash Look-up)، بينما يحول `col BETWEEN a AND b` إلى زوج من شروط المقارنة `col >= a AND col <= b` ليتمكن من استغلال فهارس B-Tree للبحث السريع في النطاقات.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-matching.html",
+    "file": "query.sql",
+    "flow": "قراءة الحقل النصي أو العددي ⟶ مطابقة القائمة بـ IN ⟶ اختبار النطاق بـ BETWEEN ⟶ مطابقة النمط النصي بـ LIKE",
+    "task": "قم بتصفية العملاء لاسترجاع المقيمين في دول محددة، ولديهم حد ائتماني محدد، وتبدأ أسماؤهم بحرف A.",
+    "code": "SELECT customer_name, country FROM customers;",
+    "expected": "SELECT customer_name, country FROM customers WHERE country IN ('Saudi Arabia', 'Egypt', 'UAE') AND credit_limit BETWEEN 1000 AND 5000 AND customer_name LIKE 'A%';",
+    "reference": "https://www.postgresql.org/docs/current/functions-matching.html",
+    "breakdown": [
+      "country IN ('Saudi Arabia', 'Egypt', 'UAE'): تصفية العملاء المقيمين في أي من الدول الثلاث المحددة داخل القائمة.",
+      "credit_limit BETWEEN 1000 AND 5000: اشتراط وقوع الحد الائتماني بين 1000 و 5000 ضمناً.",
+      "customer_name LIKE 'A%': مطابقة أسماء العملاء التي تبدأ بالحرف اللاتيني A الكبير يليه أي عدد من الحروف."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "التصفية بقائمة الدول عبر IN",
+        "objective": "استهداف العملاء المقيمين في السعودية ومصر والإمارات",
+        "type": "edit",
+        "instruction": "أضف WHERE country IN ('Saudi Arabia', 'Egypt', 'UAE'); بعد اسم الجدول.",
+        "benefit": "اختصار شروط OR المتعددة في تعبير قائمة أنيق وعالي الكفاءة.",
+        "from": "FROM customers;",
+        "to": "FROM customers WHERE country IN ('Saudi Arabia', 'Egypt', 'UAE');",
+        "expectedLine": "FROM customers WHERE country IN ('Saudi Arabia', 'Egypt', 'UAE');",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          },
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد اسم الجدول customers، أضف عبارة WHERE مع معامل القائمة IN.",
+          "القاعدة: القيم النصية داخل قائمة IN تفصل بينها فواصل وتحاط كل قيمة بتنصيص مفرد. هل أغلقت القوس بعد UAE'؟",
+          "اكتب السطر بدقة: FROM customers WHERE country IN ('Saudi Arabia', 'Egypt', 'UAE');",
+          "الحل الدقيق للخطوة هو: FROM customers WHERE country IN ('Saudi Arabia', 'Egypt', 'UAE');"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تحديد نطاق الحد الائتماني بـ BETWEEN",
+        "objective": "حصر النتائج في العملاء ذوي الائتمان المتوسط",
+        "type": "edit",
+        "instruction": "أضف الشرط AND credit_limit BETWEEN 1000 AND 5000 قبل الفاصلة المنقوطة.",
+        "benefit": "تحديد المجالات الرقمية بسهولة وشمولية لطرفي النطاق.",
+        "from": "'UAE');",
+        "to": "'UAE') AND credit_limit BETWEEN 1000 AND 5000;",
+        "expectedLine": "'UAE') AND credit_limit BETWEEN 1000 AND 5000;",
+        "errorRules": [
+          {
+            "pattern": "\\bBETWEEN\\b\\s+[a-zA-Z0-9_']+\\s+(?!AND\\b)[a-zA-Z0-9_']+",
+            "flags": "i",
+            "type": "regex",
+            "message": "تتطلب عبارة BETWEEN استخدام الكلمة المفتاحية AND لتحديد المجال، مثل: BETWEEN 10 AND 50."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط الدول بعد القوس المغلق 'UAE').",
+          "القاعدة: معامل BETWEEN يتطلب دائماً الكلمة المفتاحية AND للفصل بين الحد الأدنى والحد الأعلى. هل كتبت BETWEEN 1000 AND 5000؟",
+          "عدّل النهاية لتصبح: 'UAE') AND credit_limit BETWEEN 1000 AND 5000;",
+          "الحل الدقيق للخطوة هو: 'UAE') AND credit_limit BETWEEN 1000 AND 5000;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "مطابقة بادئة الاسم بواسطة LIKE",
+        "objective": "استخراج العملاء الذين تبدأ أسماؤهم بحرف A",
+        "type": "edit",
+        "instruction": "أضف الشرط AND customer_name LIKE 'A%' قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "مطابقة الأنماط النصية تتيح بناء ميزات البحث الذكي والإكمال التلقائي.",
+        "from": "5000;",
+        "to": "5000 AND customer_name LIKE 'A%';",
+        "expectedLine": "5000 AND customer_name LIKE 'A%';",
+        "errorRules": [
+          {
+            "pattern": "\\bLIKE\\s+'[^']*\\*[^']*'",
+            "flags": "i",
+            "type": "regex",
+            "message": "استخدمت الرمز '*' مع عبارة LIKE. في لغة SQL، رمز التطابق الشامل البديل هو '%' للعديد من الحروف، أو '_' لحرف واحد فقط."
+          },
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد الرقم 5000.",
+          "القاعدة: في لغة SQL رمز النسبة المئوية % يمثل أي عدد من المحارف العشوائية بعد الحرف الأول. هل كتبت LIKE 'A%'؟",
+          "اكتب بدقة: 5000 AND customer_name LIKE 'A%';",
+          "الحل الدقيق للخطوة هو: 5000 AND customer_name LIKE 'A%';"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM items WHERE code LIKE 'item*';",
+      "fixedCode": "SELECT * FROM items WHERE code LIKE 'item%';",
+      "question": "ما هو الرمز الصحيح للمطابقة الشاملة في معامل LIKE؟",
+      "explanation": "في لغة SQL نستخدم علامة النسبة المئوية '%' كمحرف بديل لأي تسلسل من الحروف وليس النجمة '*'.",
+      "options": [
+        "في معيار SQL نستخدم علامة النسبة المئوية '%' كمحرف بديل لأي تسلسل من الحروف وليس النجمة '*'.",
+        "يجب استخدام علامة مساواة '=' بدلاً من الكلمة LIKE.",
+        "النصوص في SQL يجب إحاطتها بعلامات تنصيص مزدوجة حصراً.",
+        "يجب كتابة اسم الحقل بأحرف كبيرة CODE."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-06-order-by-sorting",
+    "legacyId": "database:5",
+    "order": 5,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "ترتيب النتائج والتصنيف المتعدد (ORDER BY ASC / DESC)",
+    "skill": "ترتيب واستعراض البيانات",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "التحكم في ترتيب السجلات المسترجعة تصاعدياً وتنازلياً، وتنظيم الترتيب المتعدد عبر عدة أعمدة لتثبيت استقرار المخرجات.",
+    "concept": "في النظرية العلائقية، تُعرَّف الجداول على أنها مجموعات غير مرتبة من السجلات (Unordered Sets)؛ وبالتالي فإن ترتيب الصفوف المعادة من أي استعلام غير مضمون قط وهو عشوائي ما لم يُحدد صراحة عبر عبارة ORDER BY. تتيح ORDER BY الترتيب التصاعدي (ASC - الافتراضي) أو التنازلي (DESC) بناءً على عمود واحد أو تسلسل هرمي من الأعمدة المتعددة.",
+    "whyUse": "يعد الترتيب المتوقع والمستقر ركيزة أساسية لواجهات المستخدم؛ كعرض المنتجات الأكثر مبيعاً في المقدمة، أو فرز قوائم الطلاب حسب المعدل التراكمي ثم سنة التسجيل لكسر حالات التعادل، وضمان عمل ترقيم الصفحات (Pagination) دون فقدان أو تكرار أي سجل.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بفحص خطة التنفيذ؛ فإذا كان العمود مفهرساً بـ B-Tree قرأ الصفوف بالترتيب الطبيعي للفهرس، أما إذا لم يتوفر فهرس، فإنه ينشئ مخزن فرز سريع في الذاكرة (Top-N Sort أو External Merge Sort على القرص إذا تجاوز الحجم ذاكرة work_mem).",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-order.html",
+    "file": "query.sql",
+    "flow": "استرجاع السجلات ⟶ تطبيق التصفية ⟶ فرز البيانات في مصفوفة الذاكرة وفق الأعمدة المحددة ⟶ إرجاع الجدول بالترتيب النهائي",
+    "task": "قم بفرز قائمة الطلاب تنازلياً حسب المعدل التراكمي، ثم تصاعدياً حسب سنة التسجيل لكسر التعادل.",
+    "code": "SELECT full_name, gpa, registration_year FROM students;",
+    "expected": "SELECT full_name, gpa, registration_year FROM students ORDER BY gpa DESC, registration_year ASC;",
+    "reference": "https://www.postgresql.org/docs/current/queries-order.html",
+    "breakdown": [
+      "ORDER BY: العبارة المسؤولة عن فرز السجلات المسترجعة وفق معايير محددة.",
+      "gpa DESC: ترتيب الطلاب حسب عمود المعدل التراكمي من الأعلى إلى الأدنى تنازلياً.",
+      "registration_year ASC: في حال تساوي المعدل، يتم الفرز تصاعدياً حسب سنة التسجيل من الأقدم للأحدث."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة عبارة الترتيب الأساسية",
+        "objective": "فرز الطلاب تصاعدياً حسب المعدل التراكمي",
+        "type": "edit",
+        "instruction": "أضف عبارة ORDER BY gpa; في نهاية الاستعلام.",
+        "benefit": "تنظيم السجلات برمجياً بدلاً من الاعتماد على الترتيب الفيزيائي العشوائي للقرص.",
+        "from": "FROM students;",
+        "to": "FROM students ORDER BY gpa;",
+        "expectedLine": "FROM students ORDER BY gpa;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد اسم الجدول students وقبل الفاصلة المنقوطة.",
+          "القاعدة: عبارة الترتيب تتكون من كلمتين ORDER BY متبوعة باسم العمود المستهدف. هل كتبت ORDER BY gpa؟",
+          "اكتب التعبير هكذا: FROM students ORDER BY gpa;",
+          "الحل الدقيق للخطوة هو: FROM students ORDER BY gpa;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "التحويل إلى الفرز التنازلي",
+        "objective": "إبراز الطلاب المتفوقين في أعلى القائمة",
+        "type": "edit",
+        "instruction": "أضف الكلمة المفتاحية DESC بعد gpa.",
+        "benefit": "عكس اتجاه الفرز لعرض القيم الأكبر أولاً في التقارير الإدارية.",
+        "from": "ORDER BY gpa;",
+        "to": "ORDER BY gpa DESC;",
+        "expectedLine": "ORDER BY gpa DESC;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لكلمة gpa في نهاية السطر.",
+          "القاعدة: للترتيب التنازلي نكتب الكلمة المفتاحية DESC اختصاراً لـ Descending. هل أضفت DESC؟",
+          "عدّل السطر ليصبح: ORDER BY gpa DESC;",
+          "الحل الدقيق للخطوة هو: ORDER BY gpa DESC;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة عمود فرز ثانوي لكسر التعادل",
+        "objective": "ترتيب الطلاب متساوي المعدل تصاعدياً بحسب سنة التسجيل",
+        "type": "edit",
+        "instruction": "أضف المعيار الثانوي: , registration_year ASC قبل الفاصلة المنقوطة.",
+        "benefit": "الفرز المتعدد يضمن استقرار النتائج وعدم تغير مواقع الصفوف العشوائي عند إعادة الاستعلام.",
+        "from": "gpa DESC;",
+        "to": "gpa DESC, registration_year ASC;",
+        "expectedLine": "gpa DESC, registration_year ASC;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية عبارة الترتيب بعد DESC.",
+          "القاعدة: للفصل بين أعمدة الترتيب نضع فاصلة عادية يليها اسم العمود الثاني واتجاهه (ASC للفرز التصاعدي). هل أضفت الفاصلة والعمود الثانوي؟",
+          "اكتب بدقة: gpa DESC, registration_year ASC;",
+          "الحل الدقيق للخطوة هو: gpa DESC, registration_year ASC;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT title, price FROM books WHERE price > 20 ORDERBY price DESC;",
+      "fixedCode": "SELECT title, price FROM books WHERE price > 20 ORDER BY price DESC;",
+      "question": "ما هو الخطأ النحوي في صياغة عبارة الترتيب؟",
+      "explanation": "عبارة الترتيب في SQL تتكون من كلمتين منفصلتين بمسافة: ORDER BY وليست كلمة واحدة متصلة.",
+      "options": [
+        "لا يمكن استخدام عبارة الترتيب مع الشروط WHERE.",
+        "عبارة الترتيب في معيار SQL تتكون من كلمتين منفصلتين بمسافة: ORDER BY وليست كلمة واحدة متصلة.",
+        "يجب استخدام الكلمة SORT بدلاً من ORDER BY.",
+        "الترتيب التنازلي يتطلب كتابة الكلمة DOWN بدلاً من DESC."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-07-limit-offset-null",
+    "legacyId": "database:6",
+    "order": 6,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "ترقيم الصفحات والتعامل مع القيم المجهولة (LIMIT, OFFSET, IS NULL)",
+    "skill": "التحكم بالنتائج والقيم المنطقية الثلاثية",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "تطبيق الترقيم الفعال للسجلات عبر LIMIT و OFFSET وفهم المنطق ثلاثي القيم (3VL) والتعامل الاحترافي مع القيم الخالية بواسطة IS NULL و IS NOT NULL.",
+    "concept": "تتعامل لغة SQL مع البيانات غير المكتملة عبر مفهوم القيمة المجهولة NULL؛ ولا تمثل NULL الصفر أو النص الفارغ، بل تعني 'غياب القيمة'. في منطق SQL ثلاثي القيم (Three-Valued Logic: True, False, Unknown)، ينتج عن أي مقارنة مباشرة مع NULL مثل `phone = NULL` قيمة UNKNOWN، لذلك فإن الطريقة الصحيحة الوحيدة لفحصها هي عبر معاملي IS NULL و IS NOT NULL. كما يتيح الجمع بين LIMIT و OFFSET إنشاء صفحات تصفح متتابعة للبيانات.",
+    "whyUse": "تعتمد واجهات التطبيقات التي تعرض آلاف السجلات على الترقيم (Pagination) عبر LIMIT و OFFSET لتقليل استهلاك الذاكرة وتسريع تحميل الصفحات للمستخدم، كما يحمي فحص IS NOT NULL شفرة التطبيق الخلفي من أخطاء الإشارة الصفرية (NullPointerExceptions).",
+    "browserMechanics": "عند تنفيذ OFFSET N، يقوم محرك قاعدة البيانات بقراءة وتجاوز أول N صفاً من النتيجة المرتبة دون إرسالها إلى العميل، ثم يجمع صفوف LIMIT المحددة ويرسلها، مما يعني ضرورة وجود فهارس تغطي عمود الترتيب لتجنب بطء الترقيم في الصفحات العميقة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-limit.html",
+    "file": "query.sql",
+    "flow": "تصفية الصفوف بـ IS NOT NULL ⟶ فرز النتائج حسب المفتاح الأساسي ⟶ تجاوز صفوف OFFSET ⟶ اقتطاع صفوف LIMIT",
+    "task": "قم بتعديل الاستعلام لاستبعاد السجلات التي لا تملك رقم هاتف، وفرز المستخدمين وعرض الصفحة الثالثة بمعدل 10 مستخدمين لكل صفحة.",
+    "code": "SELECT id, name, phone FROM users WHERE phone = NULL;",
+    "expected": "SELECT id, name, phone FROM users WHERE phone IS NOT NULL ORDER BY id LIMIT 10 OFFSET 20;",
+    "reference": "https://www.postgresql.org/docs/current/queries-limit.html",
+    "breakdown": [
+      "phone IS NOT NULL: فحص قياسي للتأكد من وجود قيمة مسجلة في عمود الهاتف واستبعاد القيم الخالية.",
+      "ORDER BY id: شرط ترتيب إلزامي لضمان ثبات ترتيب الصفحات عند استخدام الترقيم.",
+      "LIMIT 10 OFFSET 20: إرجاع 10 سجلات فقط بعد تخطي أول 20 سجلاً (وهو ما يمثل الصفحة الثالثة من النتائج)."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تصحيح فحص القيمة الخالية",
+        "objective": "استبدال المقارنة الخاطئة بالمعامل القياسي IS NULL",
+        "type": "edit",
+        "instruction": "استبدل phone = NULL; بـ phone IS NULL;.",
+        "benefit": "الالتزام بالمنطق ثلاثي القيم لضمان استرجاع السجلات ذات الحقول الفارغة.",
+        "from": "phone = NULL;",
+        "to": "phone IS NULL;",
+        "expectedLine": "phone IS NULL;",
+        "errorRules": [
+          {
+            "pattern": "(?:=\\s*NULL|!=\\s*NULL|<>\\s*NULL)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في لغة SQL، لا يمكن مقارنة القيمة المجهولة NULL باستخدام علامة المساواة '=' أو '<>'. استخدم دائماً 'IS NULL' أو 'IS NOT NULL'."
+          }
+        ],
+        "hints": [
+          "انتبه لمعامل المقارنة = بجانب كلمة NULL.",
+          "القاعدة: لا يمكن استخدام علامة المساواة = مع NULL بل نستخدم المعامل IS. هل كتبت phone IS NULL؟",
+          "عدّل الشرط ليصبح: phone IS NULL;",
+          "الحل الدقيق للخطوة هو: phone IS NULL;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "استهداف الهواتف المسجلة وتحديد الحجم والترتيب",
+        "objective": "استرجاع المستخدمين ذوي الهواتف الصالحة وفرزهم وتحديد أول 10",
+        "type": "edit",
+        "instruction": "استبدل الشرط بـ phone IS NOT NULL ORDER BY id LIMIT 10;.",
+        "benefit": "دمج الفحص الإيجابي مع الترتيب والتقييد العددي الأولي.",
+        "from": "phone IS NULL;",
+        "to": "phone IS NOT NULL ORDER BY id LIMIT 10;",
+        "expectedLine": "phone IS NOT NULL ORDER BY id LIMIT 10;",
+        "errorRules": [
+          {
+            "pattern": "(?:=\\s*NULL|!=\\s*NULL|<>\\s*NULL)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في لغة SQL، لا يمكن مقارنة القيمة المجهولة NULL باستخدام علامة المساواة '=' أو '<>'. استخدم دائماً 'IS NULL' أو 'IS NOT NULL'."
+          },
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه للعبارة phone IS NULL; بأكملها.",
+          "القاعدة: نفي القيمة الخالية يتم بـ IS NOT NULL متبوعاً بترتيب المعرف وسقف LIMIT. هل كتبت العبارة المتكاملة؟",
+          "اكتب بدقة: phone IS NOT NULL ORDER BY id LIMIT 10;",
+          "الحل الدقيق للخطوة هو: phone IS NOT NULL ORDER BY id LIMIT 10;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تطبيق إزاحة الترقيم OFFSET",
+        "objective": "تجاوز أول 20 سجلاً للوصول إلى الصفحة الثالثة",
+        "type": "edit",
+        "instruction": "أضف OFFSET 20 قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "تخطي السجلات المحسوبة مسبقاً لعرض صفحات التصفح التالية بسلاسة.",
+        "from": "LIMIT 10;",
+        "to": "LIMIT 10 OFFSET 20;",
+        "expectedLine": "LIMIT 10 OFFSET 20;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد الرقم 10.",
+          "القاعدة: عبارة الإزاحة OFFSET تأتي بعد LIMIT لتحديد عدد الصفوف المراد تجاهلها. هل كتبت OFFSET 20؟",
+          "اكتب النهاية بدقة: LIMIT 10 OFFSET 20;",
+          "الحل الدقيق للخطوة هو: LIMIT 10 OFFSET 20;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM contacts WHERE email = NULL;",
+      "fixedCode": "SELECT * FROM contacts WHERE email IS NULL;",
+      "question": "لماذا لا يُرجع الاستعلام أي نتائج عند فحص القيمة الفارغة بـ = NULL؟",
+      "explanation": "القيمة NULL تمثل غياب القيمة في المنطق الثلاثي لـ SQL، لذا فإن المقارنة = NULL تعطي دائماً UNKNOWN، وتتطلب المقارنة الصحيحة معامل IS NULL.",
+      "options": [
+        "اسم الجدول contacts غير معرّف في قواعد البيانات.",
+        "علامة المساواة = مع الكلمات النصية تتطلب أقواساً دائرية.",
+        "القيمة NULL تمثل غياب القيمة في المنطق الثلاثي، والمقارنة بـ = NULL تعطي دائماً UNKNOWN، وتتطلب المقارنة الصحيحة معامل IS NULL.",
+        "يجب كتابة كلمة NULL بأحرف صغيرة حصراً 'null'."
+      ],
+      "correctOptionIndex": 2
+    }
+  }
+]

@@ -214,6 +214,7 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
 .course i{display:inline-block;width:7px;height:7px;margin-left:5px;border-radius:50%;background:#e8a45f}
 .course[data-course="css"] i{background:#779ed0}
 .course[data-course="js"] i{background:#e1c953}
+.course[data-course="database"] i{background:#336791}
 .note{margin-top:12px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--surface-raised);color:var(--muted);font-size:13px}
 .note b{color:var(--lime)}
 .rail{display:none!important}

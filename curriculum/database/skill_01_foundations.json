@@ -1,0 +1,500 @@
+[
+  {
+    "id": "database-01-relational-concepts",
+    "legacyId": "database:0",
+    "order": 0,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "مقدمة في قواعد البيانات العلائقية وهيكل الجداول",
+    "skill": "أساسيات النماذج العلائقية",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "التعرف على مفهوم نظام إدارة قواعد البيانات العلائقية (RDBMS)، وبنية الجداول المكونة من صفوف وأعمدة، وكتابة أول استعلام استرجاع شامل.",
+    "concept": "تعتمد قواعد البيانات العلائقية على تنظيم البيانات في جداول ثنائية الأبعاد تتكون من أعمدة تمثل الخصائص أو الحقول ذات الأنواع المحددة، وصفوف تمثل السجلات الفردية للكيانات. وتضمن هذه البنية، المستندة إلى الجبر العلائقي لإدغار كود، منع تضارب البيانات وسهولة استرجاعها وربطها عبر المفاتيح بكفاءة عالية وموثوقية مطلقة.",
+    "whyUse": "تعد قواعد البيانات العلائقية العمود الفقري لكافة الأنظمة المالية والتطبيقات المؤسسية وتطبيقات الويب الحديثة؛ حيث تضمن سلامة العمليات وتوفر لغة قياسية موحدة (SQL) للتفاعل مع البيانات واسترجاعها وتحديثها دون القلق من تلف الملفات أو تضارب الوصول المتزامن.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بتحليل جملة SQL نحوياً (Parser) ثم يحولها إلى شجرة بناء لغوي (Parse Tree)، ويتحقق من مطابقة أسماء الجداول والأعمدة في قاموس النظام (Catalog)، ثم ينشئ خطة استعلام افتراضية ويمسح صفحات الذاكرة والقرص لاستخراج السجلات المطلوبة ويعيدها كجدول نتائج مسطح إلى واجهة العميل.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/tutorial-sql.html",
+    "file": "query.sql",
+    "flow": "كتابة استعلام الاسترجاع ⟶ التحقق من وجود جدول الطلاب في النظام ⟶ مسح سجلات الجدول ⟶ عرض النتيجة في نافذة المخرجات",
+    "task": "قم بتعديل الاستعلام لاسترجاع أعمدة محددة من جدول الطلاب وتحديد عدد السجلات المعروضة.",
+    "code": "SELECT * FROM students;",
+    "expected": "SELECT id, full_name, email FROM students LIMIT 10;",
+    "reference": "https://www.postgresql.org/docs/current/tutorial-sql.html",
+    "breakdown": [
+      "SELECT *: الكلمة المفتاحية المخصصة لاختيار الحقول، والرمز * يشير إلى استرجاع كافة الأعمدة الموجودة في الجدول.",
+      "FROM students: تحدد مصدر البيانات المستهدف وهو جدول الطلاب في قاعدة البيانات الحالية.",
+      "الفاصلة المنقوطة (;): المحدد القياسي لإنهاء الأمر التنفيذي في لغة SQL."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تحديد أعمدة مخصصة",
+        "objective": "استبدال الرمز * بأسماء الأعمدة المحددة لتقليل حجم البيانات المنقولة",
+        "type": "edit",
+        "instruction": "استبدل الرمز * بالأعمدة التالية: id, full_name, email.",
+        "benefit": "تحديد الأعمدة يقلل استهلاك الذاكرة وحمل الشبكة مقارنة باستدعاء كافة الحقول.",
+        "from": "*",
+        "to": "id, full_name, email",
+        "expectedLine": "id, full_name, email",
+        "errorRules": [
+          {
+            "pattern": "(?:=\\s*NULL|!=\\s*NULL|<>\\s*NULL)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في لغة SQL، لا يمكن مقارنة القيمة المجهولة NULL باستخدام علامة المساواة '=' أو '<>'. استخدم دائماً 'IS NULL' أو 'IS NOT NULL'."
+          },
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه إلى رمز النجمة * بعد كلمة SELECT، المطلوب هو استبداله بأسماء الأعمدة الصريحة.",
+          "القاعدة: تحديد الأعمدة الصريحة يتطلب الفصل بين كل عمود وآخر بفاصلة عادية. هل كتبت أسماء الأعمدة مفصولة بفواصل دون فاصلة أخيرة؟",
+          "اكتب بدقة: id, full_name, email بدلاً من النجمة.",
+          "الحل الدقيق للخطوة هو: id, full_name, email"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة قيد عدد النتائج",
+        "objective": "تقييد عدد السجلات المسترجعة لتسريع وقت الاستجابة",
+        "type": "edit",
+        "instruction": "أضف عبارة LIMIT 5 بعد اسم الجدول students.",
+        "benefit": "تحديد عدد الصفوف يحمي النظام من محاولة تحميل ملايين السجلات دفعة واحدة.",
+        "from": "students;",
+        "to": "students LIMIT 5;",
+        "expectedLine": "students LIMIT 5;",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه إلى نهاية جملة الاستعلام بعد اسم الجدول students وقبل الفاصلة المنقوطة.",
+          "القاعدة: عبارة LIMIT تأتي في نهاية استعلام SELECT لتحديد سقف أعلى لعدد الصفوف. هل أضفت LIMIT مع رقم السجلات؟",
+          "عدّل السطر ليصبح: students LIMIT 5;",
+          "الحل الدقيق للخطوة هو: students LIMIT 5;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "توسيع سقف السجلات المعروضة",
+        "objective": "رفع حد السجلات المسترجعة إلى 10 طلاب",
+        "type": "edit",
+        "instruction": "غيّر الرقم 5 في عبارة LIMIT إلى 10.",
+        "benefit": "تعديل معلمات الاستعلام يتيح التحكم في حجم الصفحة المعروضة للمستخدم.",
+        "from": "LIMIT 5;",
+        "to": "LIMIT 10;",
+        "expectedLine": "LIMIT 10;",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للرقم 5 الموجود بجانب الكلمة المفتاحية LIMIT في نهاية السطر.",
+          "القاعدة: الأرقام في SQL تكتب مباشرة كقيم عددية دون علامات تنصيص. هل عدلت العدد إلى 10؟",
+          "اكتب القيمة الدقيقة: LIMIT 10;",
+          "الحل الدقيق للخطوة هو: LIMIT 10;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT id, name FROM students WHERE email = NULL;",
+      "fixedCode": "SELECT id, name FROM students WHERE email IS NULL;",
+      "question": "لماذا لا يُرجع الاستعلام أي نتائج عند فحص القيمة الفارغة بـ = NULL؟",
+      "explanation": "القيمة NULL تمثل غياب القيمة في المنطق الثلاثي لـ SQL، لذا فإن المقارنة بـ = NULL تعطي دائماً UNKNOWN، وتتطلب المقارنة الصحيحة معامل IS NULL.",
+      "options": [
+        "القيمة NULL تمثل غياب القيمة في المنطق الثلاثي، والمقارنة بـ = NULL تعطي دائماً UNKNOWN، وتتطلب المقارنة الصحيحة معامل IS NULL.",
+        "اسم الجدول students غير معرّف في قواعد البيانات.",
+        "علامة المساواة = مع الكلمات النصية تتطلب أقواساً دائرية.",
+        "يجب كتابة كلمة NULL بأحرف صغيرة حصراً 'null'."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-02-select-projection",
+    "legacyId": "database:1",
+    "order": 1,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "اختيار الأعمدة وإسقاط الحقول المحددة (Column Projection)",
+    "skill": "استعلام الإسقاط وتحديد الأعمدة",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "تعلم آلية إسقاط الأعمدة (Projection) وإعادة تسمية الحقول في المخرجات باستخدام الكلمة المفتاحية AS لبناء نتائج واضحة ومقروءة.",
+    "concept": "يمثل الإسقاط (Projection) في الجبر العلائقي عملية تصفية عمودية للبيانات لاختيار حقول معينة واستبعاد الباقي. تجنب استخدام SELECT * واستبداله بالأعمدة المطلوبة فعلياً يقلل من حجم البيانات المنقولة عبر الشبكة، ويحسّن استهلاك الذاكرة، ويتيح لمحرك الاستعلام استغلال الفهارس المغطاة (Covering Indexes) لقراءة البيانات مباشرة من الذاكرة الفهرسية دون لمس صفحات الجدول.",
+    "whyUse": "يضمن تحديد الأعمدة الصريحة استقرار التطبيقات البرمجية؛ فحين يضاف عمود جديد إلى الجدول لا تتأثر البرمجيات التي تستهلك النتائج، كما يمنع تسريب البيانات الحساسة ككلمات المرور المشفرة أو أرقام الهوية إلى واجهة المستخدم دون قصد.",
+    "browserMechanics": "عند معالجة عبارة الإسقاط، يقوم محرك التنفيذ بحساب إزاحات الحقول (Field Offsets) في صف السجل المخزن، وينسخ فقط البايتات العائدة للأعمدة المطلوبة إلى مخزن النتائج المؤقت (Tuple Buffer)، متجاهلاً باقي الأعمدة مما يوفر دورات معالجة معتبرة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-select-lists.html",
+    "file": "query.sql",
+    "flow": "قراءة تعريف الجدول ⟶ تحديد الأعمدة المطلوبة ⟶ تعيين الأسماء المستعارة (Aliases) ⟶ إخراج جدول مبسط ومرتب",
+    "task": "قم بتحديد أسماء المنتجات وأسعارها وكمياتها وإعادة تسمية عمود الكمية باسم معبر.",
+    "code": "SELECT * FROM products;",
+    "expected": "SELECT product_name, unit_price, stock_quantity AS in_stock FROM products;",
+    "reference": "https://www.postgresql.org/docs/current/queries-select-lists.html",
+    "breakdown": [
+      "product_name, unit_price: تحديد عمودي اسم المنتج وسعر الوحدة مفصولين بفاصلة.",
+      "AS in_stock: استخدام الكلمة المفتاحية AS لمنح العمود اسماً مستعاراً يظهر في مخرجات الاستعلام.",
+      "FROM products: تحديد جدول المنتجات كمصدر لاسترجاع البيانات."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إسقاط اسم المنتج وسعر الوحدة",
+        "objective": "استبدال النجمة بعمودي اسم المنتج وسعره",
+        "type": "edit",
+        "instruction": "استبدل النجمة * بالحقلين: product_name, unit_price.",
+        "benefit": "حصر الاستعلام في حقول العرض الأساسية لتقليل استهلاك الذاكرة.",
+        "from": "*",
+        "to": "product_name, unit_price",
+        "expectedLine": "product_name, unit_price",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه إلى رمز النجمة * بعد كلمة SELECT، قم بحذفه وكتابة الحقلين المطلوبين.",
+          "القاعدة: الفصل بين أسماء الأعمدة في جملة الإسقاط يتم دائماً بفاصلة إنجليزية عادية. هل وضعت الفاصلة بين الحقلين؟",
+          "اكتب الحقلين بدقة: product_name, unit_price.",
+          "الحل الدقيق للخطوة هو: product_name, unit_price"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة حقل كمية المخزون",
+        "objective": "توسيع قائمة الأعمدة لتشمل رصيد المستودع",
+        "type": "edit",
+        "instruction": "أضف عمود stock_quantity بعد unit_price مسبوقاً بفاصلة.",
+        "benefit": "توفير معلومات المخزون لاتخاذ قرارات التوريد المباشرة.",
+        "from": "unit_price",
+        "to": "unit_price, stock_quantity",
+        "expectedLine": "unit_price, stock_quantity",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للحقل unit_price، أضف بعده فاصلة ثم اسم الحقل الجديد.",
+          "القاعدة: إضافة عمود ثالث يتطلب وضع فاصلة قبله لتمييزه عن العمود السابق. هل أضفت الفاصلة والاسم الجديد؟",
+          "عدّل النص ليصبح: unit_price, stock_quantity.",
+          "الحل الدقيق للخطوة هو: unit_price, stock_quantity"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تطبيق الاسم المستعار للعمود",
+        "objective": "إعادة تسمية حقل الكمية في رأس الجدول الناتج",
+        "type": "edit",
+        "instruction": "أضف الكلمة المفتاحية AS in_stock بعد stock_quantity مباشرة.",
+        "benefit": "الأسماء المستعارة تجعل واجهات برمجية التطبيقات (APIs) وتقارير الأعمال واضحة وسهلة الفهم.",
+        "from": "stock_quantity",
+        "to": "stock_quantity AS in_stock",
+        "expectedLine": "stock_quantity AS in_stock",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للعمود الأخير stock_quantity قبل الكلمة المفتاحية FROM.",
+          "القاعدة: نستخدم AS متبوعة بالاسم المستعار الجديد دون علامات تنصيص إذا كان اسماً قياسياً. هل كتبت AS in_stock؟",
+          "اكتب التعبير هكذا: stock_quantity AS in_stock.",
+          "الحل الدقيق للخطوة هو: stock_quantity AS in_stock"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT product_name unit_price FROM products;",
+      "fixedCode": "SELECT product_name, unit_price FROM products;",
+      "question": "لماذا فشل الاستعلام في استرجاع كلا العمودين؟",
+      "explanation": "الفصل بين أسماء الأعمدة في عبارة SELECT يتطلب فاصلة عادية ','؛ وبدونها يعتبر المحرك الكلمة الثانية اسماً مستعاراً (Alias) للأولى.",
+      "options": [
+        "اسم الجدول products يجب أن يسبق عبارة SELECT.",
+        "الفصل بين أسماء الأعمدة يتطلب فاصلة ',' وإلا اعتبر المحرك الكلمة الثانية اسماً مستعاراً للأولى.",
+        "لا يمكن استرجاع أعمدة متعددة بدون استخدام الرمز *.",
+        "يجب إحاطة كل اسم عمود بأقواس دائرية منفصلة."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-03-where-comparison",
+    "legacyId": "database:2",
+    "order": 2,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "تصفية السجلات ومعاملات المقارنة (WHERE Clause)",
+    "skill": "تصفية البيانات والعمليات الشرطية",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "استخدام عبارة WHERE لتصفية صفوف الجدول وتطبيق معاملات المقارنة الحسابية والمنطقية لاستهداف سجلات محددة بدقة.",
+    "concept": "تمثل عبارة WHERE عملية الانتقاء الأفقي (Selection) في الجبر العلائقي، حيث يطبق المحرك تعبيراً شرطياً بولينياً (Boolean Expression) على كل صف في الجدول؛ فإذا كانت النتيجة TRUE يتم تضمين الصف في المخرجات، وإذا كانت FALSE أو UNKNOWN يتم استبعاده فوراً، مستعيناً بمعاملات المقارنة (=, <>, <, >, <=, >=).",
+    "whyUse": "بدون تصفية البيانات بـ WHERE، ستضطر التطبيقات إلى جلب ملايين السجلات غير الضرورية إلى ذاكرة البرنامج، مما يتسبب في بطء شديد واستهلاك غير مبرر لقدرات المعالجة وتدمير أداء قاعدة البيانات في بيئات الإنتاج الحية.",
+    "browserMechanics": "يقوم محرك الاستعلام بفحص شروط WHERE أثناء مرحلة مسح الجدول (Scan Phase)؛ فإذا وجد فهرساً مناسباً على العمود المشروط استخدمه للقفز المباشر للصفوف المطابقة عبر شجرة B-Tree، متفادياً قراءة كامل بيانات الجدول من وسيط التخزين.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-WHERE",
+    "file": "query.sql",
+    "flow": "مسح السجلات ⟶ تطبيق التعبير الشرطي في WHERE ⟶ استبقاء الصفوف المطابقة فقط ⟶ إسقاط الأعمدة المطلوبة",
+    "task": "قم بتصفية المنتجات لاسترجاع المنتجات التي يزيد سعرها عن 100 وتنتمي إلى الفئة رقم 2.",
+    "code": "SELECT product_name, unit_price FROM products;",
+    "expected": "SELECT product_name, unit_price FROM products WHERE unit_price >= 100 AND category_id = 2;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-WHERE",
+    "breakdown": [
+      "WHERE: الكلمة المفتاحية المسؤولة عن تصفية الصفوف وفق شروط منطقية محددة.",
+      "unit_price >= 100: شرط مقارنة يفحص ما إذا كان سعر الوحدة أكبر من أو يساوي القيمة 100.",
+      "AND category_id = 2: شرط إضافي يفرض أن يكون معرف الفئة مساوياً تماماً للرقم 2."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة شرط التصفية الأولي",
+        "objective": "استخراج المنتجات التي يزيد سعرها عن 50",
+        "type": "edit",
+        "instruction": "أضف عبارة WHERE unit_price > 50; في نهاية الاستعلام.",
+        "benefit": "استبعاد المنتجات رخيصة الثمن وتركيز التحليل على المنتجات ذات القيمة الأعلى.",
+        "from": "FROM products;",
+        "to": "FROM products WHERE unit_price > 50;",
+        "expectedLine": "FROM products WHERE unit_price > 50;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          },
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه إلى نهاية السطر بعد اسم الجدول products وقبل الفاصلة المنقوطة.",
+          "القاعدة: عبارة WHERE تأتي مباشرة بعد اسم الجدول المحدد في FROM. هل كتبت WHERE مع شرط المقارنة؟",
+          "اكتب السطر هكذا: FROM products WHERE unit_price > 50;",
+          "الحل الدقيق للخطوة هو: FROM products WHERE unit_price > 50;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تعديل الحد الأدنى وشمولية المقارنة",
+        "objective": "رفع الحد الأدنى للسعر إلى 100 مع تضمين القيمة الحدية",
+        "type": "edit",
+        "instruction": "عدّل الشرط ليصبح: unit_price >= 100;.",
+        "benefit": "استخدام المعامل >= يضمن شمول المنتجات التي تساوي 100 تماماً ضمن نتائج الاستعلام.",
+        "from": "unit_price > 50;",
+        "to": "unit_price >= 100;",
+        "expectedLine": "unit_price >= 100;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه إلى معامل المقارنة > والقيمة العددية 50 في نهاية الشرط.",
+          "القاعدة: معامل أكبر من أو يساوي يكتب كرمزين متتاليين >= دون مسافة بينهما. هل كتبت >= 100؟",
+          "عدّل الشرط ليصبح: unit_price >= 100;",
+          "الحل الدقيق للخطوة هو: unit_price >= 100;"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "دمج شرط رقم الفئة",
+        "objective": "حصر البحث في منتجات الفئة رقم 2 حصراً",
+        "type": "edit",
+        "instruction": "أضف المعامل AND category_id = 2; في نهاية الشرط.",
+        "benefit": "الدمج المنطقي يتيح تضييق نطاق البحث واستهداف فئة معينة بدقة متناهية.",
+        "from": "unit_price >= 100;",
+        "to": "unit_price >= 100 AND category_id = 2;",
+        "expectedLine": "unit_price >= 100 AND category_id = 2;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الشرط الأول بعد 100 وقبل الفاصلة المنقوطة.",
+          "القاعدة: لربط شرطين إلزاميين نستخدم الكلمة المفتاحية AND يليها الشرط الثاني. هل كتبت AND category_id = 2؟",
+          "اكتب التعبير الدقيق: unit_price >= 100 AND category_id = 2;",
+          "الحل الدقيق للخطوة هو: unit_price >= 100 AND category_id = 2;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT title FROM books WHERE price == 25;",
+      "fixedCode": "SELECT title FROM books WHERE price = 25;",
+      "question": "ما هو الخطأ في معامل المقارنة داخل جملة الشرط؟",
+      "explanation": "في لغة SQL القياسية تُستخدم علامة مساواة مفردة '=' للمقارنة داخل عبارة WHERE، وليس '==' كما في بعض لغات البرمجة.",
+      "options": [
+        "يجب كتابة اسم الحقل بين علامات تنصيص مفردة 'price'.",
+        "لا يمكن استخدام عبارة WHERE مع جدول الكتب books.",
+        "معامل المساواة في معيار SQL هو علامة مفردة '=' وليس علامة مزدوجة '=='.",
+        "يجب استخدام الكلمة المفتاحية LIKE بدلاً من علامة المساواة."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-04-logical-operators",
+    "legacyId": "database:3",
+    "order": 3,
+    "module": "phase-1-foundational",
+    "phase": "المرحلة الأولى: أساسيات قواعد البيانات العلائقية والاستعلام الأساسي (Phase 1: Foundational Relational Theory & Basic SELECT)",
+    "title": "المعاملات المنطقية والدمج الشرطي (AND, OR, NOT)",
+    "skill": "التصفية المنطقية المتقدمة",
+    "duration": "15 دقيقة",
+    "level": "مبتدئ",
+    "summary": "إتقان صياغة الشروط المركبة باستخدام AND و OR و NOT وفهم قواعد أسبقية المعاملات واستخدام الأقواس لتوجيه منطق التصفية.",
+    "concept": "تتيح المعاملات المنطقية AND و OR و NOT بناء شروط مركبة ودقيقة لتصفية البيانات. يمتلك المعامل NOT الأسبقية الأعلى، يليه المعامل AND، ثم المعامل OR في المرتبة الأخيرة؛ مما يعني أن تعبيراً مثل `A OR B AND C` يُفسر تلقائياً كـ `A OR (B AND C)`، لذا فإن استخدام الأقواس الصريحة إلزامي لتفادي الأخطاء المنطقية الخفية.",
+    "whyUse": "تتطلب استفسارات الأعمال المعقدة شروطاً دقيقة؛ كالبحث عن عملاء مفعلين في مدن معينة، أو منتجات مخفضة السعر دون أن تكون في قسم التصفية، والتحكم بالأقواس المنطقية يضمن دقة التقارير وسلامة قرارات الإدارة.",
+    "browserMechanics": "يقوم محرك قاعدة البيانات بتحويل التعبيرات البولينية إلى نموذج الشجرة المنطقية (Boolean Expression Tree)، ويطبق تقنية التقصير التقييمي (Short-circuit Evaluation)؛ حيث يتوقف عن تقييم باقي شروط AND إذا ثبت أن أحدها FALSE، مما يرفع سرعة معالجة ملايين السجلات.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/functions-logical.html",
+    "file": "query.sql",
+    "flow": "تحليل شروط التصفية ⟶ فحص أسبقية المعاملات والأقواس ⟶ تقييم الشروط البولينية للصفوف ⟶ استرجاع البيانات المطابقة",
+    "task": "قم بتركيب استعلام متقدم يستبعد الكتب المؤرشفة ويشترط أن يكون السعر أقل من 50 والكتاب إما متوفراً بالمخزون أو مميزاً.",
+    "code": "SELECT title, price, in_stock FROM books WHERE price < 50;",
+    "expected": "SELECT title, price, in_stock FROM books WHERE price < 50 AND NOT (category = 'archived') AND (in_stock = true OR is_featured = true);",
+    "reference": "https://www.postgresql.org/docs/current/functions-logical.html",
+    "breakdown": [
+      "price < 50: شرط أولي يقيد سعر الكتاب بأقل من 50 ريالاً.",
+      "NOT (category = 'archived'): استخدام معامل النفي NOT لاستبعاد الكتب التي تنتمي لفئة الأرشيف.",
+      "(in_stock = true OR is_featured = true): استخدام الأقواس لجمع شرطي التوفر أو التمييز المنطقيين تحت مظلة OR."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة شرط التوفر في المخزون",
+        "objective": "اشتراط أن يكون المنتج متاحاً للشراء الفوري",
+        "type": "edit",
+        "instruction": "أضف الشرط AND in_stock = true; بعد price < 50.",
+        "benefit": "حماية تجربة العميل بمنع ظهور منتجات غير متوفرة للتسليم.",
+        "from": "WHERE price < 50;",
+        "to": "WHERE price < 50 AND in_stock = true;",
+        "expectedLine": "WHERE price < 50 AND in_stock = true;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية عبارة WHERE الحالية، أضف الكلمة المفتاحية AND متبوعة بالشرط البوليني.",
+          "القاعدة: القيم المنطقية في SQL تكتب true أو false مباشرة دون علامات تنصيص. هل أضفت AND in_stock = true؟",
+          "اكتب بدقة: WHERE price < 50 AND in_stock = true;",
+          "الحل الدقيق للخطوة هو: WHERE price < 50 AND in_stock = true;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "التوسيع بالمعامل OR والأقواس",
+        "objective": "قبول المنتجات المميزة حتى وإن نفدت من المخزون مؤقتاً",
+        "type": "edit",
+        "instruction": "استبدل in_stock = true; بالتعبير المحاط بأقواس: (in_stock = true OR is_featured = true);.",
+        "benefit": "استخدام الأقواس يضمن دمج شروط OR معاً قبل تقييم معامل AND الخارجي.",
+        "from": "in_stock = true;",
+        "to": "(in_stock = true OR is_featured = true);",
+        "expectedLine": "(in_stock = true OR is_featured = true);",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه إلى الجزء in_stock = true; وأحطه بأقواس مع إضافة شرط OR الداخلي.",
+          "القاعدة: الأقواس ترفع أسبقية التنفيذ للتعبير الداخلي أولاً. هل فتحت القوس وأغلقته بعد شرط is_featured؟",
+          "عدّل الجزء ليصبح: (in_stock = true OR is_featured = true);",
+          "الحل الدقيق للخطوة هو: (in_stock = true OR is_featured = true);"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة قيد الاستبعاد بواسطة NOT",
+        "objective": "استبعاد كافة الكتب الواقعة في التصنيف المؤرشف",
+        "type": "edit",
+        "instruction": "أضف الشرط AND NOT (category = 'archived') مباشرة قبل قوس شروط التوفر.",
+        "benefit": "معامل النفي NOT يمنح مرونة عالية في استبعاد الحالات الاستثنائية والبيانات المتقادمة.",
+        "from": "price < 50 AND (in_stock",
+        "to": "price < 50 AND NOT (category = 'archived') AND (in_stock",
+        "expectedLine": "price < 50 AND NOT (category = 'archived') AND (in_stock",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          },
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لموضع الفراغ بين price < 50 وبين قوس (in_stock.",
+          "القاعدة: الكلمة NOT تنفي نتيجة التعبير الشرطي الذي يليها بين القوسين. هل كتبت AND NOT (category = 'archived')؟",
+          "اكتب التعبير الدقيق: price < 50 AND NOT (category = 'archived') AND (in_stock",
+          "الحل الدقيق للخطوة هو: price < 50 AND NOT (category = 'archived') AND (in_stock"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM employees WHERE dept = 'Sales' && salary > 4000;",
+      "fixedCode": "SELECT * FROM employees WHERE dept = 'Sales' AND salary > 4000;",
+      "question": "لماذا اعترض المحلل اللغوي على الرمز &&؟",
+      "explanation": "لغة SQL القياسية تستخدم الكلمة المفتاحية AND لربط الشروط المنطقية ولا تعتمد الرمز && المستعار من لغات مثل C و JavaScript.",
+      "options": [
+        "يجب حذف عبارة WHERE بالكامل لأنها غير مدعومة مع الأرقام.",
+        "علامات التنصيص حول 'Sales' يجب أن تكون ثلاثية.",
+        "لا يمكن استخدام المعامل > مع عمود الرواتب salary.",
+        "في معيار SQL القياسي نستخدم الكلمة المفتاحية AND للربط المنطقي وليس الرمز &&."
+      ],
+      "correctOptionIndex": 3
+    }
+  }
+]

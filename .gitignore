@@ -17,6 +17,7 @@ jspm_packages/
 dist/
 dist-ssr/
 build/
+backups/
 *.local
 
 # 5. Test Execution Dumps, Coverage & Empirical Scratchpads

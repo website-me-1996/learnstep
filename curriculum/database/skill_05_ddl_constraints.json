@@ -1,0 +1,545 @@
+[
+  {
+    "id": "database-17-create-table-types",
+    "legacyId": "database:16",
+    "order": 16,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "إنشاء الجداول وتحديد الأنواع والمفتاح الأساسي (CREATE TABLE & PRIMARY KEY)",
+    "skill": "تعريف الهياكل الأساسية",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "بناء جداول جديدة في قاعدة البيانات واختيار أنواع البيانات المثلى وفرض قيد المفتاح الأساسي PRIMARY KEY لضمان فرادة السجلات.",
+    "concept": "تعد عبارة CREATE TABLE حجر الزاوية في لغة تعريف البيانات (DDL)، حيث تنشئ هيكل الجدول وتحدد أسماء الأعمدة وأنواع بياناتها (كالأنواع الرقمية INT و BIGINT، والنصوص VARCHAR و TEXT، والتاريخ والوقت TIMESTAMP). ويفرض قيد المفتاح الأساسي (PRIMARY KEY) شرطين صارمين تلقائياً: عدم قبول القيم الخالية (NOT NULL)، ومنع التكرار نهائياً (UNIQUE)، مع بناء فهرس شجري تلقائي لتسريع البحث بالمعرف.",
+    "whyUse": "التحديد الدقيق لأنواع البيانات يمنع إهدار المساحة التخزينية ويحمي النظام من الأخطاء الإملائية والمنطقية؛ كما أن فرض المفتاح الأساسي هو الشرط الأول لتحقيق سلامة الكيان (Entity Integrity) وضمان إمكانية تمييز كل سجل وتعديله وحذفه بأمان تام.",
+    "browserMechanics": "عند استلام أمر CREATE TABLE، يقوم محرك قاعدة البيانات بحجز مدخل جديد في جداول كتالوج النظام (System Catalog مثل pg_class و pg_attribute)، وينشئ ملف تخزين فيزيائي على القرص الصلب مخصصاً لصفحات هذا الجدول، ويؤسس فهرس B-Tree الفريد للمفتاح الأساسي.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/sql-createtable.html",
+    "file": "schema.sql",
+    "flow": "تحليل صياغة الأمر ⟶ التحقق من عدم وجود الجدول مسبقاً ⟶ إنشاء تعريف الأعمدة في القاموس ⟶ تشييد فهرس المفتاح الأساسي",
+    "task": "قم بإنشاء جدول المقالات articles مع تعيين المفتاح الأساسي وحقل العنوان الإلزامي والمحتوى وتاريخ الإنشاء التلقائي.",
+    "code": "CREATE TABLE articles ( id INT, title VARCHAR(200) );",
+    "expected": "CREATE TABLE articles ( id INT PRIMARY KEY, title VARCHAR(200) NOT NULL, content TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );",
+    "reference": "https://www.postgresql.org/docs/current/sql-createtable.html",
+    "breakdown": [
+      "id INT PRIMARY KEY: تعريف معرف المقال كعدد صحيح يمثل المفتاح الأساسي الفريد وغير القابل للتكرار.",
+      "title VARCHAR(200) NOT NULL: عنوان المقال كنص متغير الطول بحد أقصى 200 محرف مع اشتراط عدم كونه فارغاً.",
+      "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP: طابع زمني يسجل وقت إنشاء المقال تلقائياً من توقيت السيرفر."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تعيين المفتاح الأساسي",
+        "objective": "تحويل حقل id إلى المعرف الفريد للجدول",
+        "type": "edit",
+        "instruction": "أضف الكلمة المفتاحية PRIMARY KEY بعد id INT.",
+        "benefit": "منع تكرار المعرفات وبناء فهرس بحث فائق السرعة تلقائياً.",
+        "from": "id INT",
+        "to": "id INT PRIMARY KEY",
+        "expectedLine": "id INT PRIMARY KEY",
+        "errorRules": [],
+        "hints": [
+          "انتبه لتعريف العمود الأول id INT داخل الأقواس.",
+          "القاعدة: قيد المفتاح الأساسي يكتب ككلمتين منفصلتين PRIMARY KEY بعد نوع البيانات. هل أضفت القيد للعمود الأول؟",
+          "اكتب بدقة: id INT PRIMARY KEY",
+          "الحل الدقيق للخطوة هو: id INT PRIMARY KEY"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "فرض إلزامية العنوان وإضافة عمود المحتوى",
+        "objective": "منع إنشاء مقالات بدون عنوان وإضافة مساحة للنص الكامل",
+        "type": "edit",
+        "instruction": "استبدل title VARCHAR(200) بـ title VARCHAR(200) NOT NULL, content TEXT.",
+        "benefit": "حماية المحتوى بفرض وجود عنوان وإتاحة كتابة نصوص طويلة بدون حدود مسبقة.",
+        "from": "title VARCHAR(200)",
+        "to": "title VARCHAR(200) NOT NULL, content TEXT",
+        "expectedLine": "title VARCHAR(200) NOT NULL, content TEXT",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود العنوان title VARCHAR(200).",
+          "القاعدة: قيد NOT NULL يمنع القيم الخالية، والنوع TEXT يتيح تخزين نصوص غير محدودة الطول. هل أضفت القيد والعمود الجديد؟",
+          "اكتب التعبير هكذا: title VARCHAR(200) NOT NULL, content TEXT",
+          "الحل الدقيق للخطوة هو: title VARCHAR(200) NOT NULL, content TEXT"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة طابع وقت الإنشاء التلقائي",
+        "objective": "تسجيل وقت نشر المقال آلياً دون تدخل من المستخدم",
+        "type": "edit",
+        "instruction": "أضف , created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP بعد content TEXT.",
+        "benefit": "أتمتة حفظ التواريخ بدقة السيرفر الموحدة لتسهيل الترتيب الزمني والتدقيق.",
+        "from": "content TEXT",
+        "to": "content TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+        "expectedLine": "content TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود المحتوى content TEXT قبل قوس إغلاق الجدول.",
+          "القاعدة: القيمة الافتراضية CURRENT_TIMESTAMP تولد التوقيت اللحظي بدقة أوتوماتيكياً. هل أضفت عمود التاريخ وقيمته الافتراضية؟",
+          "اكتب بدقة: content TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+          "الحل الدقيق للخطوة هو: content TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE users ( id PRIMARY KEY INT, name TEXT );",
+      "fixedCode": "CREATE TABLE users ( id INT PRIMARY KEY, name TEXT );",
+      "question": "ما هو الترتيب الصحيح لتعريف نوع العمود والقيود في SQL؟",
+      "explanation": "في لغة SQL يكتب اسم العمود أولاً، يليه نوع البيانات (مثل INT)، ثم القيد المحدد (مثل PRIMARY KEY).",
+      "options": [
+        "في لغة SQL يكتب اسم العمود أولاً، يليه نوع البيانات (مثل INT)، ثم القيد المحدد (مثل PRIMARY KEY).",
+        "يجب وضع كلمة TABLE بأحرف صغيرة حصراً.",
+        "لا يمكن استخدام النوع TEXT في جدول المستخدمين.",
+        "يجب إنهاء كل سطر داخل الجدول بفاصلة منقوطة بدلاً من الفاصلة العادية."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-18-not-null-default",
+    "legacyId": "database:17",
+    "order": 17,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "إلزامية البيانات والقيم الافتراضية (NOT NULL & DEFAULT)",
+    "skill": "قيود الحقول والنزاهة",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "حماية اتساق البيانات بفرض قيد NOT NULL وتحديد القيم الافتراضية DEFAULT لتسهيل عمليات الإدراج ومنع السجلات المشوهة.",
+    "concept": "يمنع قيد NOT NULL إدراج أو تعديل أي سجل تكون قيمة الحقل فيه مجهولة (NULL)؛ مما يلزم العميل أو التطبيق بتمرير قيمة صريحة ويحمي منطق النظام البرمجي. وبالمقابل، يحدد قيد DEFAULT قيمة احتياطية تلقائية (كالأرقام، أو النصوص، أو الدالات اللحظية) يعتمدها المحرك إذا لم يمرر أمر الإدراج قيمة لهذا العمود، مما يوفر مرونة وسهولة في كتابة استعلامات INSERT.",
+    "whyUse": "تعتمد التطبيقات المصرفية على قيد NOT NULL لمنع إنشاء حسابات بدون أسماء أصحابها أو بدون رصيد محدد؛ بينما تعتمد على DEFAULT لتفعيل الحسابات الجديدة تلقائياً بحالة 'active' ورصيد افتراضي '0.00' دون الحاجة لكتابتها يدوياً عند كل تسجيل جديد.",
+    "browserMechanics": "أثناء تنفيذ استعلام الإدراج، يفحص المحرك قائمة القيم؛ فإذا كان هناك عمود غائب يمتلك تعبير DEFAULT، قام المحرك بتقييم التعبير وحقنه في السجل، ثم يفحص كافة قيود NOT NULL قبل كتابة السجل في وسيط الذاكرة (Shared Buffers)؛ فإن وجد قيمة NULL أصدر استثناء فوري وأوقف العملية.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-NOT-NULL",
+    "file": "schema.sql",
+    "flow": "فحص مدخلات الجدول ⟶ تعيين القيم الافتراضية للحقول الغائبة ⟶ التحقق من عدم وجود قيم NULL في حقول NOT NULL ⟶ اعتماد السجل",
+    "task": "قم بتعديل جدول الحسابات accounts لفرض إدخال اسم المستخدم، وتعيين الحالة الافتراضية 'active' والرصيد المالي الافتراضي 0.00 بدقة NUMERIC.",
+    "code": "CREATE TABLE accounts ( id SERIAL PRIMARY KEY, username VARCHAR(50), status VARCHAR(20) );",
+    "expected": "CREATE TABLE accounts ( id SERIAL PRIMARY KEY, username VARCHAR(50) NOT NULL, status VARCHAR(20) NOT NULL DEFAULT 'active', balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00 );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-NOT-NULL",
+    "breakdown": [
+      "username VARCHAR(50) NOT NULL: قيد يمنع إنشاء أي حساب دون تحديد اسم المستخدم.",
+      "status VARCHAR(20) NOT NULL DEFAULT 'active': تعيين حالة الحساب تلقائياً كـ active ومنع تركها فارغة.",
+      "balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00: رصيد مالي بدقة 12 رقماً منها منزلتان عشريتان مع قيمة ابتدائية صفرية."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إلزامية اسم المستخدم",
+        "objective": "منع إدخال حسابات بدون اسم مستخدم صريح",
+        "type": "edit",
+        "instruction": "أضف NOT NULL بعد username VARCHAR(50).",
+        "benefit": "حماية قاعدة البيانات من السجلات المجهولة والمبتورة.",
+        "from": "username VARCHAR(50)",
+        "to": "username VARCHAR(50) NOT NULL",
+        "expectedLine": "username VARCHAR(50) NOT NULL",
+        "errorRules": [],
+        "hints": [
+          "انتبه لعمود username VARCHAR(50).",
+          "القاعدة: قيد الإلزامية يكتب NOT NULL بعد نوع البيانات مباشرة. هل أضفت NOT NULL؟",
+          "اكتب بدقة: username VARCHAR(50) NOT NULL",
+          "الحل الدقيق للخطوة هو: username VARCHAR(50) NOT NULL"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تحديد الحالة الافتراضية وإلزاميتها",
+        "objective": "جعل حالة الحساب نشطة تلقائياً ومنع خلوها من القيمة",
+        "type": "edit",
+        "instruction": "استبدل status VARCHAR(20) بـ status VARCHAR(20) NOT NULL DEFAULT 'active'.",
+        "benefit": "ضمان امتلاك كل حساب جديد حالة تشغيلية معتمدة دون الحاجة لتمريرها في كود العميل.",
+        "from": "status VARCHAR(20)",
+        "to": "status VARCHAR(20) NOT NULL DEFAULT 'active'",
+        "expectedLine": "status VARCHAR(20) NOT NULL DEFAULT 'active'",
+        "errorRules": [
+          {
+            "pattern": "^[^'\\r\\n]*(?:'[^'\\r\\n]*'[^'\\r\\n]*)*'[^'\\r\\n]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت علامة تنصيص نصية مفردة ' ولكنك نسيت إغلاقها بالعلامة المقابلة '."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود status VARCHAR(20) قبل قوس الإغلاق.",
+          "القاعدة: القيمة الافتراضية النصية تكتب بين علامات تنصيص مفردة مسبوقة بـ DEFAULT. هل كتبت DEFAULT 'active'؟",
+          "اكتب التعبير هكذا: status VARCHAR(20) NOT NULL DEFAULT 'active'",
+          "الحل الدقيق للخطوة هو: status VARCHAR(20) NOT NULL DEFAULT 'active'"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة عمود الرصيد المالي المقيد",
+        "objective": "إنشاء حقل الرصيد بدقة عشرية ورصيد افتراضي 0.00",
+        "type": "edit",
+        "instruction": "أضف , balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00 قبل قوس إغلاق الجدول.",
+        "benefit": "توفير دقة مالية عالية وتعيين رصيد صفري افتراضي آمن لكافة الحسابات الجديدة.",
+        "from": "'active'",
+        "to": "'active', balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00",
+        "expectedLine": "'active', balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لكلمة 'active' في نهاية السطر الثاني.",
+          "القاعدة: النوع NUMERIC(12, 2) يضمن دقة الفواصل المالية، يليه القيدان NOT NULL و DEFAULT 0.00. هل أضفت العمود المالي؟",
+          "اكتب بدقة: 'active', balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00",
+          "الحل الدقيق للخطوة هو: 'active', balance NUMERIC(12, 2) NOT NULL DEFAULT 0.00"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE tasks ( id INT, is_done BOOLEAN DEFAULT );",
+      "fixedCode": "CREATE TABLE tasks ( id INT, is_done BOOLEAN DEFAULT false );",
+      "question": "ما هو الخطأ في استخدام الكلمة المفتاحية DEFAULT؟",
+      "explanation": "تتطلب الكلمة المفتاحية DEFAULT تحديد القيمة الافتراضية المراد تعيينها (مثل false أو 0 أو نص محدد).",
+      "options": [
+        "لا يمكن استخدام القيم المنطقية BOOLEAN في الجداول.",
+        "تتطلب الكلمة المفتاحية DEFAULT تحديد القيمة الافتراضية المراد تعيينها (مثل false أو 0 أو نص محدد).",
+        "يجب وضع كلمة DEFAULT قبل اسم العمود.",
+        "القيم الافتراضية تتطلب استخدام أقواس معقوفة."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-19-unique-check-constraints",
+    "legacyId": "database:18",
+    "order": 18,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "منع التكرار والتحقق من صحة النطاق (UNIQUE & CHECK Constraints)",
+    "skill": "القيود المنطقية المتقدمة",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "تطبيق قيد UNIQUE لمنع تكرار قيم الحقول الحساسة كالبريد الإلكتروني، واستخدام قيود التحقق CHECK لفرض القواعد الرياضية والمنطقية على البيانات.",
+    "concept": "يضمن قيد UNIQUE عدم تكرار أي قيمة في عمود معين عبر كافة صفوف الجدول (مع السماح بقيم NULL المتعددة في معيار SQL)، ويقوم المحرك ببناء فهرس فريد تلقائياً للتحقق اللحظي من الفرادة. أما قيد CHECK، فيتيح تعريف تعبير شرطي منطقي (Boolean Predicate) يُقيم عند كل عملية إدراج أو تعديل؛ وإذا أسفر التعبير عن FALSE ترفض العملية وتتراجع فوراً.",
+    "whyUse": "حماية الأنظمة من الحسابات المكررة بنفس البريد الإلكتروني، ومنع الكوارث الحسابية مثل تسجيل رواتب سالبة أو أعمار مستحيلة منطقياً (كعمر أقل من 18 عاماً للموظف أو أكبر من 120 عاماً) على مستوى قاعدة البيانات مباشرة بغض النظر عن لغة البرمجة المستخدمة في الواجهة.",
+    "browserMechanics": "عند محاولة إدراج صف جديد، يقوم المحرك بالبحث في فهرس شجرة B-Tree الفريد الخاص بقيد UNIQUE للتحقق من عدم وجود القيمة مسبقاً، ثم يمرر قيم الصف إلى دالة تقييم القيود لتشغيل معادلة CHECK؛ وفي حال أي مخالفة، يرمي المحرك خطأ انتهاك قيد النزاهة (Integrity Constraint Violation) ويلغي المعاملة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-CHECK-CONSTRAINTS",
+    "file": "schema.sql",
+    "flow": "استلام بيانات العضو الجديد ⟶ التحقق من عدم تكرار البريد في فهرس UNIQUE ⟶ تقييم شرط العمر في CHECK ⟶ حفظ السجل في الجدول",
+    "task": "قم بحماية جدول الأعضاء members بجعل البريد الإلكتروني فريداً وإلزامياً، وإضافة قيد CHECK للتأكد من أن العمر بين 18 و 120 سنة.",
+    "code": "CREATE TABLE members ( id INT PRIMARY KEY, email VARCHAR(100), age INT );",
+    "expected": "CREATE TABLE members ( id INT PRIMARY KEY, email VARCHAR(100) NOT NULL UNIQUE, age INT CHECK (age >= 18 AND age <= 120) );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-CHECK-CONSTRAINTS",
+    "breakdown": [
+      "email VARCHAR(100) NOT NULL UNIQUE: ضمان إدخال البريد الإلكتروني ومنع تسجيل أي عضوين بنفس البريد مطلقاً.",
+      "age INT CHECK (age >= 18): التحقق من أن عمر العضو 18 سنة فما فوق للامتثال للشروط النظامية.",
+      "AND age <= 120: قيد متمم يمنع إدخال أرقام غير منطقية تتجاوز 120 عاماً."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "فرض فرادة وإلزامية البريد الإلكتروني",
+        "objective": "منع الحسابات المكررة وغير المكتملة",
+        "type": "edit",
+        "instruction": "أضف NOT NULL UNIQUE بعد email VARCHAR(100).",
+        "benefit": "حظر التكرار على مستوى قاعدة البيانات وتشييد فهرس فريد تلقائي.",
+        "from": "email VARCHAR(100)",
+        "to": "email VARCHAR(100) NOT NULL UNIQUE",
+        "expectedLine": "email VARCHAR(100) NOT NULL UNIQUE",
+        "errorRules": [],
+        "hints": [
+          "انتبه لعمود email VARCHAR(100).",
+          "القاعدة: يمكن دمج قيدي NOT NULL و UNIQUE متتاليين لنفس الحقل. هل كتبت NOT NULL UNIQUE؟",
+          "اكتب بدقة: email VARCHAR(100) NOT NULL UNIQUE",
+          "الحل الدقيق للخطوة هو: email VARCHAR(100) NOT NULL UNIQUE"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة قيد التحقق للحد الأدنى للعمر",
+        "objective": "اشتراط بلوغ السن القانوني 18 عاماً فأكثر",
+        "type": "edit",
+        "instruction": "استبدل age INT بـ age INT CHECK (age >= 18).",
+        "benefit": "رفض إدخال القاصرين بصورة آلية قطعية.",
+        "from": "age INT",
+        "to": "age INT CHECK (age >= 18)",
+        "expectedLine": "age INT CHECK (age >= 18)",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود age INT قبل قوس إغلاق الجدول.",
+          "القاعدة: قيد الفحص يكتب CHECK متبوعاً بالتعبير الشرطي بين أقواس دائرية (age >= 18). هل أضفت قيد التحقق؟",
+          "اكتب التعبير هكذا: age INT CHECK (age >= 18)",
+          "الحل الدقيق للخطوة هو: age INT CHECK (age >= 18)"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تحديد سقف أعلى للعمر في قيد التحقق",
+        "objective": "منع إدخال أعمار وهمية تتجاوز 120 عاماً",
+        "type": "edit",
+        "instruction": "عدّل شرط CHECK ليصبح: CHECK (age >= 18 AND age <= 120).",
+        "benefit": "ضمان سلامة ونزاهة البيانات وإحكام النطاق المقبول للأعمار.",
+        "from": "CHECK (age >= 18)",
+        "to": "CHECK (age >= 18 AND age <= 120)",
+        "expectedLine": "CHECK (age >= 18 AND age <= 120)",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للتعبير داخل أقواس قيد CHECK.",
+          "القاعدة: نربط الشروط المتعددة داخل أقواس قيد التحقق بالمعامل AND. هل أضفت AND age <= 120؟",
+          "اكتب بدقة: CHECK (age >= 18 AND age <= 120)",
+          "الحل الدقيق للخطوة هو: CHECK (age >= 18 AND age <= 120)"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE items ( id INT, price NUMERIC CHECK price > 0 );",
+      "fixedCode": "CREATE TABLE items ( id INT, price NUMERIC CHECK (price > 0) );",
+      "question": "ما هو الخطأ النحوي في صياغة قيد التحقق CHECK؟",
+      "explanation": "يتطلب قيد التحقق CHECK إحاطة التعبير الشرطي المنطقي بأقواس دائرية مثل CHECK (price > 0).",
+      "options": [
+        "يجب استخدام الكلمة VERIFY بدلاً من CHECK.",
+        "النوع NUMERIC لا يقبل المقارنات الشرطية.",
+        "يتطلب قيد التحقق CHECK إحاطة التعبير الشرطي المنطقي بأقواس دائرية مثل CHECK (price > 0).",
+        "يجب كتابة اسم الحقل مرتين داخل القيد."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-20-foreign-key-integrity",
+    "legacyId": "database:19",
+    "order": 19,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "العلاقات العلائقية والتكامل المرجعي (FOREIGN KEY & REFERENCES)",
+    "skill": "الربط الهيكلي بين الجداول",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "إنشاء الروابط العلائقية بين الجداول عبر المفاتيح الأجنبية FOREIGN KEY وفرض قواعد التكامل المرجعي لمنع السجلات اليتيمة.",
+    "concept": "يمثل المفتاح الأجنبي (FOREIGN KEY) عموداً أو مجموعة أعمدة في جدول الابن تشير إلى المفتاح الأساسي أو الفريد في جدول الأب. يفرض هذا القيد مبدأ التكامل المرجعي (Referential Integrity)؛ وهو ما يعني استحالة إدراج قيمة في المفتاح الأجنبي ما لم تكن موجودة بالفعل في الجدول المرجعي، ويمنع حذف سجل الأب إذا كانت هناك سجلات أبناء تشير إليه، قاضياً تماماً على مشكلة السجلات اليتيمة (Orphan Records).",
+    "whyUse": "تضمن المفاتيح الأجنبية ترابط المعاملات في المتاجر الإلكترونية؛ فلا يمكن إنشاء فاتورة لعميل غير موجود، ولا يمكن تسجيل سطر طلب لمنتج محذوف، مما يحفظ الهيكل المنطقي لقاعدة البيانات من التمزق وفقدان الترابط.",
+    "browserMechanics": "عند محاولة إدراج سجل في جدول الابن، يجري المحرك بحثاً استكشافياً سريعاً في فهرس المفتاح الأساسي لجدول الأب للتأكد من وجود المعرف المرجعي؛ وإن لم يجده يرفض العملية ويرمي خطأ `foreign key violation` متراجعاً عن التعديل.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK",
+    "file": "schema.sql",
+    "flow": "تعريف جدول العملاء ⟶ تعريف جدول الفواتير بمفتاح أجنبي ⟶ فحص وجود العميل أثناء الإدراج ⟶ تأكيد التكامل المرجعي",
+    "task": "قم بربط جدول الفواتير invoices بجدول العملاء clients عبر المفتاح الأجنبي مع إلزامية معرف العميل وفرض قيد موجب لمبلغ الفاتورة.",
+    "code": "CREATE TABLE invoices ( id INT PRIMARY KEY, client_id INT, amount DECIMAL(10,2) );",
+    "expected": "CREATE TABLE invoices ( id INT PRIMARY KEY, client_id INT NOT NULL REFERENCES clients(id), amount DECIMAL(10,2) CHECK (amount > 0) );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK",
+    "breakdown": [
+      "client_id INT NOT NULL: اشتراط ربط كل فاتورة بعميل محدد ومنع الفواتير مجهولة المشتري.",
+      "REFERENCES clients(id): قيد المفتاح الأجنبي الذي يربط الفاتورة بمفتاح العميل الأساسي في جدول clients.",
+      "amount DECIMAL(10,2) CHECK (amount > 0): مبلغ الفاتورة بدقة عشرية مع قيد فحص يمنع الفواتير الصفرية أو السالبة."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "فرض إلزامية معرف العميل",
+        "objective": "منع إنشاء فواتير بدون عميل مرجعي",
+        "type": "edit",
+        "instruction": "أضف NOT NULL بعد client_id INT.",
+        "benefit": "إلزام كل فاتورة بالارتباط بهوية عميل صريحة.",
+        "from": "client_id INT",
+        "to": "client_id INT NOT NULL",
+        "expectedLine": "client_id INT NOT NULL",
+        "errorRules": [],
+        "hints": [
+          "انتبه لعمود client_id INT في السطر الثاني.",
+          "القاعدة: نكتب NOT NULL لضمان وجود قيمة في حقل المعرف. هل أضفت NOT NULL؟",
+          "اكتب بدقة: client_id INT NOT NULL",
+          "الحل الدقيق للخطوة هو: client_id INT NOT NULL"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "تحديد المرجعية العلائقية REFERENCES",
+        "objective": "ربط الفاتورة بجدول العملاء clients",
+        "type": "edit",
+        "instruction": "أضف REFERENCES clients(id) بعد NOT NULL.",
+        "benefit": "تفعيل التكامل المرجعي ومنع الفواتير الوهمية غير المرتبطة بعميل حقيقي.",
+        "from": "client_id INT NOT NULL",
+        "to": "client_id INT NOT NULL REFERENCES clients(id)",
+        "expectedLine": "client_id INT NOT NULL REFERENCES clients(id)",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لموضع الكلمات بعد NOT NULL وقبل الفاصلة.",
+          "القاعدة: المفتاح الأجنبي المباشر يكتب REFERENCES متبوعاً باسم جدول الأب واسم المفتاح الأساسي بين قوسين. هل كتبت REFERENCES clients(id)؟",
+          "اكتب التعبير هكذا: client_id INT NOT NULL REFERENCES clients(id)",
+          "الحل الدقيق للخطوة هو: client_id INT NOT NULL REFERENCES clients(id)"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة قيد الفحص لمبلغ الفاتورة",
+        "objective": "منع الفواتير ذات القيم الصفرية أو السالبة",
+        "type": "edit",
+        "instruction": "أضف CHECK (amount > 0) بعد amount DECIMAL(10,2).",
+        "benefit": "حماية التعاملات المحاسبية بفرض قيم موجبة صالحة لكافة الفواتير الصادرة.",
+        "from": "amount DECIMAL(10,2)",
+        "to": "amount DECIMAL(10,2) CHECK (amount > 0)",
+        "expectedLine": "amount DECIMAL(10,2) CHECK (amount > 0)",
+        "errorRules": [
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود المبلغ amount DECIMAL(10,2) قبل قوس إغلاق الجدول.",
+          "القاعدة: قيد التحقق يكتب CHECK (amount > 0) للتأكد من إيجابية المبلغ. هل أضفت قيد الفحص؟",
+          "اكتب بدقة: amount DECIMAL(10,2) CHECK (amount > 0)",
+          "الحل الدقيق للخطوة هو: amount DECIMAL(10,2) CHECK (amount > 0)"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE posts ( id INT, author_id INT FOREIGN KEY (author_id) );",
+      "fixedCode": "CREATE TABLE posts ( id INT, author_id INT REFERENCES authors(id) );",
+      "question": "لماذا فشل تعريف المفتاح الأجنبي في عمود author_id؟",
+      "explanation": "تعريف المفتاح الأجنبي يتطلب تحديد الجدول والعمود المرجعي باستخدام الكلمة REFERENCES authors(id).",
+      "options": [
+        "يجب أن يكون المفتاح الأجنبي دائماً من النوع النصي VARCHAR.",
+        "لا يمكن إنشاء مفاتيح أجنبية في جدول المنشورات posts.",
+        "يجب وضع كلمة LINK بدلاً من REFERENCES.",
+        "تعريف المفتاح الأجنبي يتطلب تحديد الجدول والعمود المرجعي باستخدام الكلمة REFERENCES authors(id)."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-21-cascade-actions",
+    "legacyId": "database:20",
+    "order": 20,
+    "module": "phase-3-ddl-dml",
+    "phase": "المرحلة الثالثة: تعريف هياكل البيانات ومعالجة السجلات والتكامل المرجعي (Phase 3: DDL & DML Schema Operations)",
+    "title": "إدارة التبعيات عند الحذف والتعديل (ON DELETE CASCADE)",
+    "skill": "سلوك التكامل المرجعي التلقائي",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "ضبط سلوكيات الحذف والتحديث التعاقبي عبر ON DELETE CASCADE و ON UPDATE CASCADE لأتمتة تنظيف البيانات التابعة وحمايتها.",
+    "concept": "تحدد إجراءات التكامل المرجعي السلوك التلقائي الذي يتبناه محرك قاعدة البيانات عندما يقوم المستخدم بحذف أو تعديل سجل الأب المرجعي. يتيح إجراء `ON DELETE CASCADE` حذف كافة السجلات التابعة في جدول الابن تلقائياً عند حذف سجل الأب، بينما يقوم `ON UPDATE CASCADE` بتحديث قيمة المفتاح الأجنبي في سجلات الابن تلقائياً عند تعديل المفتاح الأساسي للأب، متفادياً رمي استثناءات التكامل المرجعي.",
+    "whyUse": "تعد هذه السلوكيات حاسمة في إدارة علاقات التبعية التامة؛ فحذف طلب شراء يجب أن يؤدي تلقائياً لحذف سطور هذا الطلب (Order Items)، وحذف منشور في شبكة اجتماعية يجب أن يحذف كافة التعليقات التابعة له لتفادي بقاء بيانات يتيمة تستهلك مساحات تخزين دون فائدة.",
+    "browserMechanics": "عند حذف سجل في جدول الأب، يطلق المحرك مشغلات تكامل داخلي (Internal Referential Triggers) تقوم بمسح جدول الابن وحذف كافة الصفوف التي تحمل نفس المفتاح الأجنبي ضمن نفس المعاملة (Transaction)؛ فإن فشل حذف أي سجل تابع تراجع المحرك عن حذف الأب أيضاً لضمان الاتساق الذري.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK",
+    "file": "schema.sql",
+    "flow": "حذف سجل في جدول الطلبات ⟶ تفعيل مسار ON DELETE CASCADE ⟶ حذف كافة سطور الطلب المرتبطة تلقائياً ⟶ اكتمال المعاملة",
+    "task": "قم بتهيئة جدول سطور الطلبات order_items لتفعيل الحذف والتحديث التعاقبي CASCADE عند حذف أو تعديل الطلب الرئيسي.",
+    "code": "CREATE TABLE order_items ( id INT PRIMARY KEY, order_id INT REFERENCES orders(id), item_name VARCHAR(100) );",
+    "expected": "CREATE TABLE order_items ( id INT PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE, item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1 );",
+    "reference": "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK",
+    "breakdown": [
+      "REFERENCES orders(id) ON DELETE CASCADE: حذف سطور الطلب التابعة تلقائياً بمجرد حذف الطلب الأصلي من جدول orders.",
+      "ON UPDATE CASCADE: تحديث معرف الطلب تلقائياً إذا تغير المفتاح الأساسي للأب.",
+      "item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1: اسم السلعة إلزامي مع تحديد كمية افتراضية تساوي 1."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تفعيل الحذف التعاقبي ON DELETE CASCADE",
+        "objective": "أتمتة حذف سطور الطلب عند حذف الطلب الرئيسي",
+        "type": "edit",
+        "instruction": "أضف ON DELETE CASCADE بعد REFERENCES orders(id).",
+        "benefit": "تنظيف السجلات التابعة تلقائياً ومنع تراكم البيانات اليتيمة في النظام.",
+        "from": "REFERENCES orders(id)",
+        "to": "REFERENCES orders(id) ON DELETE CASCADE",
+        "expectedLine": "REFERENCES orders(id) ON DELETE CASCADE",
+        "errorRules": [],
+        "hints": [
+          "انتبه لعبارة المفتاح الأجنبي REFERENCES orders(id).",
+          "القاعدة: سلوك الحذف يكتب صراحة ON DELETE CASCADE بعد تحديد المرجع. هل أضفت ON DELETE CASCADE؟",
+          "اكتب بدقة: REFERENCES orders(id) ON DELETE CASCADE",
+          "الحل الدقيق للخطوة هو: REFERENCES orders(id) ON DELETE CASCADE"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة التحديث التعاقبي ON UPDATE CASCADE",
+        "objective": "مزامنة أي تعديل على معرف الطلب تلقائياً",
+        "type": "edit",
+        "instruction": "أضف ON UPDATE CASCADE بعد ON DELETE CASCADE.",
+        "benefit": "الحفاظ على اتصال البيانات في حال تعديل المفتاح الأساسي للأب دون الحاجة لإعادة الإدخال.",
+        "from": "ON DELETE CASCADE",
+        "to": "ON DELETE CASCADE ON UPDATE CASCADE",
+        "expectedLine": "ON DELETE CASCADE ON UPDATE CASCADE",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكلمة CASCADE الأولى بعد ON DELETE.",
+          "القاعدة: سلوك التحديث يكتب ON UPDATE CASCADE متتالياً مع سلوك الحذف. هل أضفت قيد التحديث؟",
+          "اكتب التعبير هكذا: ON DELETE CASCADE ON UPDATE CASCADE",
+          "الحل الدقيق للخطوة هو: ON DELETE CASCADE ON UPDATE CASCADE"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إلزامية اسم السلعة وتعيين الكمية الافتراضية",
+        "objective": "ضبط قيود أعمدة تفاصيل السلعة",
+        "type": "edit",
+        "instruction": "استبدل item_name VARCHAR(100) بـ item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1.",
+        "benefit": "إكمال متطلبات جدول السلع وضمان وجود اسم لكل سلعة مع افتراض كمية قطعة واحدة.",
+        "from": "item_name VARCHAR(100)",
+        "to": "item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1",
+        "expectedLine": "item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لعمود اسم السلعة item_name VARCHAR(100) قبل قوس الإغلاق.",
+          "القاعدة: نضيف NOT NULL لإلزامية الاسم، ثم فاصلة وعمود الكمية quantity INT DEFAULT 1. هل أضفت الحقلين وقيودهما؟",
+          "اكتب بدقة: item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1",
+          "الحل الدقيق للخطوة هو: item_name VARCHAR(100) NOT NULL, quantity INT DEFAULT 1"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "CREATE TABLE comments ( id INT, post_id INT REFERENCES posts(id) CASCADE ON DELETE );",
+      "fixedCode": "CREATE TABLE comments ( id INT, post_id INT REFERENCES posts(id) ON DELETE CASCADE );",
+      "question": "ما هو الترتيب الصحيح للكلمات المفتاحية في سلوك الحذف التعاقبي؟",
+      "explanation": "الصياغة القياسية الصحيحة هي ON DELETE CASCADE وليس العكس.",
+      "options": [
+        "الصياغة القياسية الصحيحة هي ON DELETE CASCADE وليس العكس.",
+        "يجب استخدام الكلمة PURGE بدلاً من CASCADE.",
+        "لا يمكن استخدام الحذف التعاقبي مع جدول التعليقات comments.",
+        "يجب وضع فاصلة منقوطة قبل كلمة CASCADE."
+      ],
+      "correctOptionIndex": 0
+    }
+  }
+]

@@ -1,0 +1,586 @@
+[
+  {
+    "id": "database-12-inner-join",
+    "legacyId": "database:11",
+    "order": 11,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "الربط الداخلي للبيانات العلائقية (INNER JOIN)",
+    "skill": "الربط العلائقي المتطابق",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "دمج السجلات من جدولين مرتبطين استناداً إلى تطابق المفاتيح الأساسية والأجنبية عبر عبارة INNER JOIN وشرط الربط ON.",
+    "concept": "يمثل الربط الداخلي INNER JOIN جوهر قواعد البيانات العلائقية؛ حيث يدمج السجلات من جدولين بناءً على شرط تطابق محدد في عبارة ON (عادة بين المفتاح الأساسي للجدول الأول والمفتاح الأجنبي للجدول الثاني). يستبعد INNER JOIN تلقائياً أي صف من أي من الجدولين إذا لم يجد له سجيلاً مطابقاً في الجدول الآخر، محققاً التقاطع الرياضي الدقيق بين المجموعتين.",
+    "whyUse": "تُخزَّن البيانات في جداول معيارية منفصلة لمنع التكرار (مثل جدول العملاء وجدول الطلبات)؛ واستخدام INNER JOIN هو السبيل الوحيد لإعادة تجميع هذه البيانات وعرض اسم العميل وتفاصيل طلبه في شاشة واحدة متكاملة.",
+    "browserMechanics": "يختار مخطط الاستعلام (Query Planner) خوارزمية الربط المثلى بناءً على حجم البيانات والفهارس المتاحة: إما Nested Loop Join (للجداول الصغيرة والمفهرسة)، أو Hash Join (بناء جدول تجزئة بالذاكرة للجدول الأصغر ثم مسح الجدول الأكبر)، أو Merge Join (إذا كان الجدولان مرتبين مسبقاً بالفهرس).",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "file": "query.sql",
+    "flow": "مسح جدول الطلبات ⟶ مطابقة معرف العميل مع جدول العملاء ⟶ استبقاء الصفوف المتطابقة فقط ⟶ تصفية المبالغ وإسقاط الأعمدة",
+    "task": "قم بربط جدول الطلبات بجدول العملاء واسترجاع اسم العميل وتاريخ الطلب ومبلغه للطلبات التي تزيد عن 200 ريال.",
+    "code": "SELECT orders.id, customers.name FROM orders;",
+    "expected": "SELECT orders.id, customers.name, orders.order_date, orders.total_amount FROM orders INNER JOIN customers ON orders.customer_id = customers.id WHERE orders.total_amount > 200;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "breakdown": [
+      "FROM orders INNER JOIN customers: تحديد الجدول الأيسر والربط الداخلي مع الجدول الأيمن.",
+      "ON orders.customer_id = customers.id: شرط الربط العلائقي الذي يطابق المفتاح الأجنبي في الطلبات مع المفتاح الأساسي للعميل.",
+      "WHERE orders.total_amount > 200: تصفية إضافية بعد الربط لاستبقاء الطلبات الكبيرة فقط."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة عبارة الربط الداخلي وشرط المطابقة",
+        "objective": "ربط الطلبات بسجلات العملاء المتطابقة",
+        "type": "edit",
+        "instruction": "استبدل FROM orders; بـ FROM orders INNER JOIN customers ON orders.customer_id = customers.id;.",
+        "benefit": "الدمج العلائقي للسجلات استناداً إلى تطابق المفاتيح وتفادي الضرب الديكارتي العشوائي.",
+        "from": "FROM orders;",
+        "to": "FROM orders INNER JOIN customers ON orders.customer_id = customers.id;",
+        "expectedLine": "FROM orders INNER JOIN customers ON orders.customer_id = customers.id;",
+        "errorRules": [
+          {
+            "pattern": "\\b(?:INNER|LEFT|RIGHT|FULL)\\s+JOIN\\s+[a-zA-Z0-9_]+(?![\\s\\S]*?\\bON\\b)[^;]*;",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت تحديد شرط الربط عبر عبارة ON بعد JOIN. الربط العلائقي يتطلب شرطاً مثل: ON table1.id = table2.fk_id."
+          }
+        ],
+        "hints": [
+          "انتبه لعبارة FROM orders; في السطر الثاني.",
+          "القاعدة: الربط الداخلي يتطلب اسم الجدول الثاني متبوعاً بـ ON وشرط المساواة بين المفاتيح. هل كتبت INNER JOIN customers ON orders.customer_id = customers.id؟",
+          "اكتب السطر بدقة: FROM orders INNER JOIN customers ON orders.customer_id = customers.id;",
+          "الحل الدقيق للخطوة هو: FROM orders INNER JOIN customers ON orders.customer_id = customers.id;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "توسيع الأعمدة لتشمل تفاصيل الطلب",
+        "objective": "إضافة تاريخ الطلب والمبلغ الإجمالي إلى شاشة المخرجات",
+        "type": "edit",
+        "instruction": "أضف , orders.order_date, orders.total_amount بعد customers.name.",
+        "benefit": "عرض بيانات متكاملة تجمع هوية العميل وتفاصيل معاملته المالية.",
+        "from": "customers.name",
+        "to": "customers.name, orders.order_date, orders.total_amount",
+        "expectedLine": "customers.name, orders.order_date, orders.total_amount",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم customers.name في قائمة الأعمدة.",
+          "القاعدة: عند استرجاع أعمدة من جداول متعددة يفضل كتابة اسم الجدول متبوعاً بنقطة واسم العمود لمنع الغموض. هل أضفت الحقلين الجديدين؟",
+          "اكتب بدقة: customers.name, orders.order_date, orders.total_amount",
+          "الحل الدقيق للخطوة هو: customers.name, orders.order_date, orders.total_amount"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تصفية الطلبات ذات المبالغ العالية",
+        "objective": "حصر النتائج في الطلبات التي تتجاوز 200 ريال",
+        "type": "edit",
+        "instruction": "أضف WHERE orders.total_amount > 200 قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "تركيز التحليل على المعاملات الكبرى وتصفية البيانات المدمجة بدقة.",
+        "from": "customers.id;",
+        "to": "customers.id WHERE orders.total_amount > 200;",
+        "expectedLine": "customers.id WHERE orders.total_amount > 200;",
+        "errorRules": [
+          {
+            "pattern": "==",
+            "flags": "",
+            "type": "regex",
+            "message": "استخدمت علامة مساواة مزدوجة '==' للمقارنة؛ في SQL القياسية نستخدم علامة مساواة مفردة '=' للمقارنة في عبارة WHERE."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط الربط بعد customers.id وقبل الفاصلة المنقوطة.",
+          "القاعدة: تأتي عبارة WHERE بعد اكتمال صياغة عبارات JOIN لتصفية النتائج المدمجة. هل كتبت شرط المبلغ الأكبر من 200؟",
+          "اكتب النهاية بدقة: customers.id WHERE orders.total_amount > 200;",
+          "الحل الدقيق للخطوة هو: customers.id WHERE orders.total_amount > 200;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM orders INNER JOIN customers;",
+      "fixedCode": "SELECT * FROM orders INNER JOIN customers ON orders.customer_id = customers.id;",
+      "question": "ما هو العنصر المفقود في جملة الربط INNER JOIN؟",
+      "explanation": "يتطلب الربط الداخلي تحديد شرط الربط صراحة عبر عبارة ON لمقارنة المفاتيح وتفادي حدوث ضرب ديكارتي عشوائي (Cartesian Product).",
+      "options": [
+        "يجب استخدام علامة الجمع + بين أسماء الجداول.",
+        "لا يمكن استخدام الكلمة المفتاحية INNER في معيار SQL.",
+        "يجب إحاطة أسماء الجداول بأقواس مربعة.",
+        "يتطلب الربط الداخلي تحديد شرط الربط صراحة عبر عبارة ON لمقارنة المفاتيح وتفادي حدوث ضرب ديكارتي عشوائي."
+      ],
+      "correctOptionIndex": 3
+    }
+  },
+  {
+    "id": "database-13-left-outer-join",
+    "legacyId": "database:12",
+    "order": 12,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "الربط الخارجي الأيسر والاحتفاظ بالصفوف غير المتطابقة (LEFT JOIN)",
+    "skill": "الربط الخارجي الشامل",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "استخدام LEFT OUTER JOIN للاحتفاظ بكافة السجلات من الجدول الأيسر والتعامل مع السجلات غير المرتبطة عبر ملء الحقول بقيم NULL ومعالجتها بـ COALESCE.",
+    "concept": "يعيد الربط الخارجي الأيسر (LEFT OUTER JOIN) كافة السجلات من الجدول الأيسر (المحدد في FROM) دون استثناء؛ فإذا وجد سجلاً مطابقاً في الجدول الأيمن دمجه، وإن لم يجد سجلاً مطابقاً يملأ كافة حقول الجدول الأيمن بقيم NULL. وتعد هذه التقنية الأداة المثالية للعثور على الكيانات غير المرتبطة (مثل عملاء لم يقوموا بأي عملية شراء قط).",
+    "whyUse": "في تطبيقات الأعمال، لا نريد استبعاد العملاء الجدد الذين لم يطلبوا بعد عند إنشاء تقرير قائمة العملاء؛ لذا فإن LEFT JOIN يضمن ظهور كل عميل مع إظهار طلبه إن وجد، أو عرض صفر بدلاً من القيمة الفارغة باستخدام دالة COALESCE.",
+    "browserMechanics": "يبدأ المحرك بمسح الجدول الأيسر صفاً بصف، ويبحث في فهرس الجدول الأيمن عن مطابقة؛ فإذا عثر عليها ولّد الصفوف المدمجة، وإذا انتهى البحث دون العثور على أي مطابقة ولّد صفاً واحداً يحمل بيانات الجدول الأيسر متبوعة بـ NULL لكافة أعمدة الجدول الأيمن.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "file": "query.sql",
+    "flow": "مسح كافة العملاء ⟶ البحث عن طلبات مطابقة في جدول الطلبات ⟶ إبقاء العميل وملء الطلبات الفارغة بـ NULL ⟶ معالجة الأصفار بـ COALESCE والفرز",
+    "task": "قم بتعديل الربط إلى LEFT JOIN لعرض كافة العملاء، واستخدم دالة COALESCE لعرض 0 للعملاء بدون طلبات مع فرز النتائج أبجدياً.",
+    "code": "SELECT customers.name, orders.id FROM customers INNER JOIN orders ON customers.id = orders.customer_id;",
+    "expected": "SELECT customers.name, orders.id, COALESCE(orders.total_amount, 0) AS safe_total FROM customers LEFT JOIN orders ON customers.id = orders.customer_id ORDER BY customers.name ASC;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "breakdown": [
+      "FROM customers LEFT JOIN orders: الاحتفاظ بكافة العملاء من الجدول الأيسر بغض النظر عن وجود طلبات.",
+      "COALESCE(orders.total_amount, 0) AS safe_total: استبدال القيمة المجهولة NULL بالقيمة 0 للعملاء الذين لا يملكون طلبات.",
+      "ORDER BY customers.name ASC: فرز قائمة العملاء تصاعدياً وفق الترتيب الأبجدي."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "التحويل إلى الربط الخارجي الأيسر",
+        "objective": "ضمان بقاء كافة العملاء حتى من لا يملك طلبات",
+        "type": "edit",
+        "instruction": "استبدل INNER JOIN بـ LEFT JOIN.",
+        "benefit": "عدم فقدان أي عميل من مخرجات التقرير في حال غياب الطلبات.",
+        "from": "INNER JOIN",
+        "to": "LEFT JOIN",
+        "expectedLine": "LEFT JOIN",
+        "errorRules": [
+          {
+            "pattern": "\\b(?:INNER|LEFT|RIGHT|FULL)\\s+JOIN\\s+[a-zA-Z0-9_]+(?![\\s\\S]*?\\bON\\b)[^;]*;",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت تحديد شرط الربط عبر عبارة ON بعد JOIN. الربط العلائقي يتطلب شرطاً مثل: ON table1.id = table2.fk_id."
+          }
+        ],
+        "hints": [
+          "انتبه لنوع الربط المكتوب بين اسمي الجدولين.",
+          "القاعدة: الربط الأيسر يكتب ككلمتين LEFT JOIN. هل استبدلت INNER بـ LEFT؟",
+          "اكتب بدقة: LEFT JOIN",
+          "الحل الدقيق للخطوة هو: LEFT JOIN"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "معالجة القيم الخالية عبر COALESCE",
+        "objective": "عرض القيمة 0 للمبالغ غير الموجودة لحماية التقرير",
+        "type": "edit",
+        "instruction": "أضف , COALESCE(orders.total_amount, 0) AS safe_total بعد orders.id.",
+        "benefit": "حماية التطبيق من أخطاء القيم الخالية وضمان إظهار أرقام واضحة بدلاً من NULL.",
+        "from": "orders.id",
+        "to": "orders.id, COALESCE(orders.total_amount, 0) AS safe_total",
+        "expectedLine": "orders.id, COALESCE(orders.total_amount, 0) AS safe_total",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          },
+          {
+            "pattern": "\\([^)]*$",
+            "flags": "m",
+            "type": "regex",
+            "message": "فتحت قوساً '(' في استعلامك ولكنك نسيت إغلاقه بقوس المقابلة ')'."
+          }
+        ],
+        "hints": [
+          "انتبه للحقل orders.id في قائمة الأعمدة.",
+          "القاعدة: دالة COALESCE تعيد أول قيمة غير فارغة من المعاملات الممررة لها. هل كتبت COALESCE(orders.total_amount, 0)؟",
+          "اكتب التعبير هكذا: orders.id, COALESCE(orders.total_amount, 0) AS safe_total",
+          "الحل الدقيق للخطوة هو: orders.id, COALESCE(orders.total_amount, 0) AS safe_total"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة الترتيب الأبجدي للعملاء",
+        "objective": "فرز التقرير تصاعدياً حسب اسم العميل",
+        "type": "edit",
+        "instruction": "أضف ORDER BY customers.name ASC; في نهاية الاستعلام.",
+        "benefit": "تنظيم مخرجات التقرير وتسهيل قراءة أسماء العملاء أبجدياً.",
+        "from": "orders.customer_id;",
+        "to": "orders.customer_id ORDER BY customers.name ASC;",
+        "expectedLine": "orders.customer_id ORDER BY customers.name ASC;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد شرط الربط orders.customer_id.",
+          "القاعدة: عبارة الترتيب تأتي في ختام الاستعلام لتنظيم الصفوف الناتجة عن الربط. هل أضفت ORDER BY customers.name ASC؟",
+          "اكتب النهاية بدقة: orders.customer_id ORDER BY customers.name ASC;",
+          "الحل الدقيق للخطوة هو: orders.customer_id ORDER BY customers.name ASC;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT c.name FROM customers c LEFT JOIN orders o; -- شرط الربط مفقود",
+      "fixedCode": "SELECT c.name FROM customers c LEFT JOIN orders o ON c.id = o.customer_id;",
+      "question": "لماذا يفشل استعلام LEFT JOIN في العمل بالشكل المتوقع؟",
+      "explanation": "الربط الخارجي الأيسر يحتاج إلى عبارة ON تحدد بدقة الأعمدة المشتركة بين الجدولين لتحديد متى تتطابق الصفوف ومتى تملأ بـ NULL.",
+      "options": [
+        "الربط الخارجي الأيسر يحتاج إلى عبارة ON تحدد بدقة الأعمدة المشتركة بين الجدولين لتحديد متى تتطابق الصفوف ومتى تملأ بـ NULL.",
+        "لا يمكن استخدام أسماء مستعارة مثل c و o مع عبارة LEFT JOIN.",
+        "يجب استخدام الكلمة FULL JOIN دائماً بدلاً من LEFT JOIN.",
+        "يجب وضع فاصلة منقوطة قبل كلمة LEFT JOIN."
+      ],
+      "correctOptionIndex": 0
+    }
+  },
+  {
+    "id": "database-14-right-outer-join",
+    "legacyId": "database:13",
+    "order": 13,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "الربط الخارجي الأيمن وسياقات استخدامه (RIGHT JOIN)",
+    "skill": "الربط الخارجي المعكوس",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "فهم المعكوس المنطقي للربط الخارجي عبر RIGHT JOIN للاحتفاظ بكافة صفوف الجدول الأيمن وتطبيقه في التدقيق وحصر الكيانات الشاغرة.",
+    "concept": "يعيد الربط الخارجي الأيمن (RIGHT OUTER JOIN) كافة السجلات من الجدول الأيمن (المحدد بعد كلمة JOIN) دون استثناء؛ فإذا وجد سجلاً مطابقاً في الجدول الأيسر دمجه، وإن لم يجد يملأ أعمدة الجدول الأيسر بقيم NULL. وهو المعكوس المنطقي التام لـ LEFT JOIN، وتفضيل أحدهما يعتمد على زاوية التحليل والجدول المستهدف في الاستعلام.",
+    "whyUse": "يفيد RIGHT JOIN في اكتشاف الكيانات الأم الشاغرة التي لم يُسجل تحتها أي عناصر تابعة؛ كالبحث عن الأقسام التي لا تضم أي موظفين حالياً، أو الفئات التي لا تحتوي على أي منتجات للبيع.",
+    "browserMechanics": "يعامل محرك قاعدة البيانات استعلام `A RIGHT JOIN B` داخلياً كأنه `B LEFT JOIN A`؛ حيث يعيد ترتيب شجرة مشغلات الربط (Join Relational Algebra Tree) ليجعل الجدول الأيمن هو الجدول القائد في عملية المسح لتسهيل استخدام الفهارس المتوفرة.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "file": "query.sql",
+    "flow": "مسح جدول الأقسام الأيمن ⟶ البحث عن موظفين في الجدول الأيسر ⟶ الاحتفاظ بكافة الأقسام حتى الشاغرة ⟶ فرز أسماء الأقسام",
+    "task": "قم بربط الموظفين بالأقسام عبر RIGHT JOIN للاحتفاظ بكافة الأقسام مع عرض موقع القسم وفرز النتائج حسب اسم القسم.",
+    "code": "SELECT departments.dept_name, employees.emp_name FROM employees;",
+    "expected": "SELECT departments.dept_name, employees.emp_name, departments.location FROM employees RIGHT JOIN departments ON employees.dept_id = departments.id ORDER BY departments.dept_name;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "breakdown": [
+      "FROM employees RIGHT JOIN departments: الاحتفاظ بكافة سجلات جدول الأقسام (الجدول الأيمن) حتى وإن لم يكن فيها موظفون.",
+      "ON employees.dept_id = departments.id: شرط الربط الذي يطابق معرف القسم لدى الموظف مع معرف القسم الأساسي.",
+      "ORDER BY departments.dept_name: فرز الأقسام هجائياً لعرض تقرير تدقيق الأقسام المنظم."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "إضافة الربط الأيمن وشرط التطابق",
+        "objective": "الاحتفاظ بكافة الأقسام المستهدفة في التحليل",
+        "type": "edit",
+        "instruction": "استبدل FROM employees; بـ FROM employees RIGHT JOIN departments ON employees.dept_id = departments.id;.",
+        "benefit": "ضمان ظهور الأقسام الخالية والشاغرة في مخرجات التقرير الإداري.",
+        "from": "FROM employees;",
+        "to": "FROM employees RIGHT JOIN departments ON employees.dept_id = departments.id;",
+        "expectedLine": "FROM employees RIGHT JOIN departments ON employees.dept_id = departments.id;",
+        "errorRules": [
+          {
+            "pattern": "\\b(?:INNER|LEFT|RIGHT|FULL)\\s+JOIN\\s+[a-zA-Z0-9_]+(?![\\s\\S]*?\\bON\\b)[^;]*;",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت تحديد شرط الربط عبر عبارة ON بعد JOIN. الربط العلائقي يتطلب شرطاً مثل: ON table1.id = table2.fk_id."
+          }
+        ],
+        "hints": [
+          "انتبه لعبارة FROM employees; في السطر الثاني.",
+          "القاعدة: الربط الأيمن يكتب RIGHT JOIN departments متبوعاً بـ ON وشرط المساواة. هل كتبت عبارة الربط الأيمن كاملة؟",
+          "اكتب السطر بدقة: FROM employees RIGHT JOIN departments ON employees.dept_id = departments.id;",
+          "الحل الدقيق للخطوة هو: FROM employees RIGHT JOIN departments ON employees.dept_id = departments.id;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة موقع القسم إلى الأعمدة",
+        "objective": "عرض المقر الجغرافي لكل قسم في النتائج",
+        "type": "edit",
+        "instruction": "أضف , departments.location بعد employees.emp_name.",
+        "benefit": "تزويد متخذ القرار بمعلومات المقر الجغرافي للقسم مع بيان شواغره.",
+        "from": "employees.emp_name",
+        "to": "employees.emp_name, departments.location",
+        "expectedLine": "employees.emp_name, departments.location",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم employees.emp_name في قائمة الأعمدة.",
+          "القاعدة: إضافة عمود من الجدول الأيمن يتطلب فاصلة ثم اسم الجدول فالعمود. هل أضفت departments.location؟",
+          "اكتب التعبير هكذا: employees.emp_name, departments.location",
+          "الحل الدقيق للخطوة هو: employees.emp_name, departments.location"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "إضافة الترتيب حسب اسم القسم",
+        "objective": "فرز التقرير هجائياً وفق مسميات الأقسام",
+        "type": "edit",
+        "instruction": "أضف ORDER BY departments.dept_name قبل الفاصلة المنقوطة.",
+        "benefit": "تنظيم التقرير لتسهيل المراجعة الدورية من قبل مسؤولي الموارد البشرية.",
+        "from": "departments.id;",
+        "to": "departments.id ORDER BY departments.dept_name;",
+        "expectedLine": "departments.id ORDER BY departments.dept_name;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط الربط بعد departments.id.",
+          "القاعدة: نكتب ORDER BY متبوعة باسم عمود الترتيب departments.dept_name. هل أضفت عبارة الترتيب؟",
+          "اكتب النهاية بدقة: departments.id ORDER BY departments.dept_name;",
+          "الحل الدقيق للخطوة هو: departments.id ORDER BY departments.dept_name;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM emp RIGHT OUTER JOIN dept WHERE emp.dept_id = dept.id;",
+      "fixedCode": "SELECT * FROM emp RIGHT OUTER JOIN dept ON emp.dept_id = dept.id;",
+      "question": "ما هو الخطأ في صياغة شرط الربط الأيمن؟",
+      "explanation": "شرط ربط الجداول الخارجية يجب أن يحدد بعد الكلمة المفتاحية ON وليس في عبارة WHERE العامة.",
+      "options": [
+        "لا يمكن استخدام الكلمة OUTER مع الربط الأيمن.",
+        "شرط ربط الجداول الخارجية يجب أن يحدد بعد الكلمة المفتاحية ON وليس في عبارة WHERE العامة.",
+        "يجب كتابة اسم الجدول الأول بأحرف كبيرة EMP.",
+        "يجب استخدام المعامل == للمقارنة بين المفاتيح."
+      ],
+      "correctOptionIndex": 1
+    }
+  },
+  {
+    "id": "database-15-full-outer-join",
+    "legacyId": "database:14",
+    "order": 14,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "الربط الخارجي الكامل والاحتفاظ بكافة الأطراف (FULL OUTER JOIN)",
+    "skill": "الربط الشامل ثنائي الاتجاه",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "دمج الجداول بالربط الكامل FULL OUTER JOIN للحصول على تقاطع السجلات مع الاحتفاظ بكافة الصفوف غير المتطابقة من كلا الطرفين لكشف التناقضات.",
+    "concept": "يجمع الربط الخارجي الكامل (FULL OUTER JOIN) بين سلوك الربط الأيسر والربط الأيمن معاً؛ حيث يعيد كافة السجلات من الجدول الأيسر وكافة السجلات من الجدول الأيمن. عند وجود تطابق تدمج السجلات في صف واحد، وعند غياب التطابق من أي طرف يملأ المحرك أعمدة الطرف الآخر بقيم NULL، مما يقدم صورة شاملة غير منقوصة للبيانات.",
+    "whyUse": "يعد FULL JOIN الأداة الأساسية لعمليات مطابقة وتدقيق الحسابات (Reconciliation)؛ مثل مقارنة الحركات البنكية المسجلة في النظام الداخلي مع كشف الحساب الوارد من البنك لاكتشاف الحركات المفقودة من أي من الطرفين فوراً.",
+    "browserMechanics": "ينفذ المحرك الربط الكامل عادة عبر Full Outer Hash Join؛ حيث يبني جدول تجزئة لكلا الجدولين، ويتتبع المفاتيح التي تمت مطابقتها (Matched Bit Flag)، ثم يمر في النهاية لينبعث بكافة الصفوف التي لم تُمس من كلا الجدولين مكملة بقيم NULL.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "file": "query.sql",
+    "flow": "مسح المشاريع ⟶ مسح المستشارين ⟶ دمج المتطابقين والاحتفاظ بكافة الأطراف غير المقترنة ⟶ تصفية السجلات المنفصلة",
+    "task": "قم بتنفيذ ربط كامل بين المشاريع والمستشارين، واستخرج المشاريع التي لا تملك مستشاراً أو المستشارين الذين ليس لديهم مشروع.",
+    "code": "SELECT projects.title, consultants.name FROM projects;",
+    "expected": "SELECT projects.title, consultants.name, projects.budget FROM projects FULL OUTER JOIN consultants ON projects.lead_id = consultants.id WHERE projects.id IS NULL OR consultants.id IS NULL;",
+    "reference": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-FROM",
+    "breakdown": [
+      "FROM projects FULL OUTER JOIN consultants: الاحتفاظ بجميع المشاريع وجميع المستشارين دون استبعاد أي طرف.",
+      "ON projects.lead_id = consultants.id: شرط المطابقة بين قائد المشروع والمستشار.",
+      "WHERE projects.id IS NULL OR consultants.id IS NULL: تصفية ذكية لاستبقاء الصفوف المتنافرة فقط لاكتشاف حالات عدم الارتباط."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "تطبيق الربط الخارجي الكامل",
+        "objective": "دمج كافة صفوف الطرفين بغض النظر عن التطابق",
+        "type": "edit",
+        "instruction": "استبدل FROM projects; بـ FROM projects FULL OUTER JOIN consultants ON projects.lead_id = consultants.id;.",
+        "benefit": "الحصول على الرؤية البانورامية الشاملة لكلا الجدولين.",
+        "from": "FROM projects;",
+        "to": "FROM projects FULL OUTER JOIN consultants ON projects.lead_id = consultants.id;",
+        "expectedLine": "FROM projects FULL OUTER JOIN consultants ON projects.lead_id = consultants.id;",
+        "errorRules": [
+          {
+            "pattern": "\\b(?:INNER|LEFT|RIGHT|FULL)\\s+JOIN\\s+[a-zA-Z0-9_]+(?![\\s\\S]*?\\bON\\b)[^;]*;",
+            "flags": "i",
+            "type": "regex",
+            "message": "نسيت تحديد شرط الربط عبر عبارة ON بعد JOIN. الربط العلائقي يتطلب شرطاً مثل: ON table1.id = table2.fk_id."
+          }
+        ],
+        "hints": [
+          "انتبه لعبارة FROM projects; في السطر الثاني.",
+          "القاعدة: الربط الكامل يكتب FULL OUTER JOIN متبوعاً باسم الجدول وشرط ON. هل كتبت عبارة الربط الكامل المتطابق؟",
+          "اكتب السطر بدقة: FROM projects FULL OUTER JOIN consultants ON projects.lead_id = consultants.id;",
+          "الحل الدقيق للخطوة هو: FROM projects FULL OUTER JOIN consultants ON projects.lead_id = consultants.id;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "إضافة ميزانية المشروع لقائمة الأعمدة",
+        "objective": "إظهار المبالغ المخصصة للمشاريع في جدول النتائج",
+        "type": "edit",
+        "instruction": "أضف , projects.budget بعد consultants.name.",
+        "benefit": "معرفة ميزانيات المشاريع المعلقة التي لم يعين لها مستشار بعد.",
+        "from": "consultants.name",
+        "to": "consultants.name, projects.budget",
+        "expectedLine": "consultants.name, projects.budget",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه للاسم consultants.name في قائمة SELECT.",
+          "القاعدة: تفصل الأعمدة بفاصلة إنجليزية عادية. هل أضفت projects.budget؟",
+          "اكتب التعبير هكذا: consultants.name, projects.budget",
+          "الحل الدقيق للخطوة هو: consultants.name, projects.budget"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تصفية الصفوف المنفصلة لاكتشاف التنافر",
+        "objective": "حصر النتائج في الكيانات غير المرتبطة من كلا الجانبين",
+        "type": "edit",
+        "instruction": "أضف WHERE projects.id IS NULL OR consultants.id IS NULL قبل الفاصلة المنقوطة.",
+        "benefit": "اكتشاف التناقضات وحالات عدم الارتباط المزدوجة بدقة تدقيقية كاملة.",
+        "from": "consultants.id;",
+        "to": "consultants.id WHERE projects.id IS NULL OR consultants.id IS NULL;",
+        "expectedLine": "consultants.id WHERE projects.id IS NULL OR consultants.id IS NULL;",
+        "errorRules": [
+          {
+            "pattern": "(?:=\\s*NULL|!=\\s*NULL|<>\\s*NULL)",
+            "flags": "i",
+            "type": "regex",
+            "message": "في لغة SQL، لا يمكن مقارنة القيمة المجهولة NULL باستخدام علامة المساواة '=' أو '<>'. استخدم دائماً 'IS NULL' أو 'IS NOT NULL'."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية شرط الربط بعد consultants.id وقبل الفاصلة المنقوطة.",
+          "القاعدة: للتحقق من عدم التطابق نفحص غياب القيمة باستخدام IS NULL مع الرابط المنطقي OR. هل كتبت شرط التنافر المزدوج؟",
+          "اكتب النهاية بدقة: consultants.id WHERE projects.id IS NULL OR consultants.id IS NULL;",
+          "الحل الدقيق للخطوة هو: consultants.id WHERE projects.id IS NULL OR consultants.id IS NULL;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT * FROM a FULL JOIN b ON a.id = b.id WHERE a.id = NULL;",
+      "fixedCode": "SELECT * FROM a FULL JOIN b ON a.id = b.id WHERE a.id IS NULL;",
+      "question": "ما هو الخطأ في فحص الصفوف المنفصلة بعد الربط الكامل؟",
+      "explanation": "للتحقق من أن صفاً معيناً لم يعثر على مطابق في الجدول الآخر، يجب فحص القيمة الفارغة بـ IS NULL وليس = NULL.",
+      "options": [
+        "يجب كتابة اسم العمودين داخل أقواس دائرية.",
+        "الربط الكامل لا يسمح باستخدام عبارة WHERE نهائياً.",
+        "للتحقق من أن صفاً لم يعثر على مطابق في الجدول الآخر، يجب فحص القيمة الفارغة بـ IS NULL وليس = NULL.",
+        "يجب استخدام الكلمة CROSS بدلاً من FULL."
+      ],
+      "correctOptionIndex": 2
+    }
+  },
+  {
+    "id": "database-16-set-operations-union",
+    "legacyId": "database:15",
+    "order": 15,
+    "module": "phase-2-joins",
+    "phase": "المرحلة الثانية: الدوال التجميعية وتجميع البيانات والربط العلائقي (Phase 2: Joins & Aggregations)",
+    "title": "عمليات المجموعات ودمج النتائج (UNION vs UNION ALL)",
+    "skill": "دمج الاستعلامات الرياضية",
+    "duration": "15 دقيقة",
+    "level": "متوسط",
+    "summary": "دمج نتائج الاستعلامات عمودياً باستخدام UNION و UNION ALL وفهم شروط توافق المخطط والفوارق الأدائية بين إزالة التكرار والاحتفاظ به.",
+    "concept": "تدمج عمليات المجموعات نتائج استعلامين أو أكثر في مصفوفة نتائج عمودية موحدة. تفرض هذه العمليات شرطين صارمين: تطابق عدد الأعمدة في كافة الاستعلامات المدمجة، وتوافق أنواع البيانات الترتيبية بالتناظر. تقوم UNION بإجراء فحص لإزالة التكرارات (Deduplication) مما يتطلب فرزاً داخلياً مكلفاً، بينما تقوم UNION ALL بدمج كافة الصفوف فوراً وسريعاً محتفظة بالتكرارات.",
+    "whyUse": "تعد UNION ALL الخيار الأمثل عند دمج سجلات الأرشيف مع السجلات الحالية، أو توحيد بيانات الاتصال من مصادر مختلفة كالموردين والعملاء في قائمة بريدية واحدة، مع تفضيل UNION ALL دائماً في غياب الحاجة لإزالة التكرار لتحقيق أقصى سرعة استجابة.",
+    "browserMechanics": "عند تنفيذ UNION ALL، يرسل المحرك صفوف الاستعلام الأول مباشرة إلى العميل ثم يلحق بها صفوف الاستعلام الثاني دون استهلاك ذاكرة وسيطة. أما في حالة UNION، فإنه يضطر لضخ كافة السجلات في جدول تجزئة أو إجراء Sort Unique مكلف في الذاكرة أو على القرص لإلغاء التكرار.",
+    "documentationUrl": "https://www.postgresql.org/docs/current/queries-union.html",
+    "file": "query.sql",
+    "flow": "تنفيذ استعلام الموردين ⟶ تنفيذ استعلام العملاء ⟶ دمج النتائج عمودياً بـ UNION ALL ⟶ فرز النتيجة النهائية بالمدينة",
+    "task": "قم بدمج المدن والدول من جدولي الموردين والعملاء باستخدام UNION ALL مع فرز النتائج النهائية تصاعدياً حسب اسم المدينة.",
+    "code": "SELECT city, country FROM suppliers;",
+    "expected": "SELECT city, country FROM suppliers UNION ALL SELECT city, country FROM customers ORDER BY city ASC;",
+    "reference": "https://www.postgresql.org/docs/current/queries-union.html",
+    "breakdown": [
+      "SELECT city, country FROM suppliers: الاستعلام الأول المستخرج لمدن ودول الموردين.",
+      "UNION ALL: مشغل دمج المجموعات السريع الذي يحتفظ بكافة السجلات بما فيها المدن المشتركة.",
+      "ORDER BY city ASC: عبارة ترتيب عامة تُطبق على الناتج النهائي المدمج ككل."
+    ],
+    "steps": [
+      {
+        "id": "step-1",
+        "title": "دمج استعلام العملاء بواسطة UNION",
+        "objective": "توحيد مصدري البيانات في قائمة مخرجات واحدة",
+        "type": "edit",
+        "instruction": "استبدل suppliers; بـ suppliers UNION SELECT city, country FROM customers;.",
+        "benefit": "جمع البيانات من جدولين منفصلين يحملان نفس الأعمدة التناظرية.",
+        "from": "suppliers;",
+        "to": "suppliers UNION SELECT city, country FROM customers;",
+        "expectedLine": "suppliers UNION SELECT city, country FROM customers;",
+        "errorRules": [
+          {
+            "pattern": ",\\s*FROM\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت فاصلة زائدة ',' بعد آخر عمود قبل الكلمة المفتاحية FROM مباشرة. احذف الفاصلة الأخيرة لتفادي خطأ في التحليل النحوي."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية السطر بعد اسم جدول الموردين suppliers وقبل الفاصلة المنقوطة.",
+          "القاعدة: مشغل UNION يربط بين استعلامي SELECT كاملين ومتطابقي عدد الأعمدة. هل كتبت UNION مع استعلام جدول العملاء؟",
+          "اكتب التعبير هكذا: suppliers UNION SELECT city, country FROM customers;",
+          "الحل الدقيق للخطوة هو: suppliers UNION SELECT city, country FROM customers;"
+        ]
+      },
+      {
+        "id": "step-2",
+        "title": "الترقية إلى UNION ALL فائقة السرعة",
+        "objective": "إلغاء خطوة الفرز الداخلي لتسريع الأداء",
+        "type": "edit",
+        "instruction": "استبدل الكلمة UNION بـ UNION ALL.",
+        "benefit": "تحسين سرعة الاستعلام وتقليل استهلاك الذاكرة عبر تجاوز مرحلة إلغاء التكرار.",
+        "from": "UNION",
+        "to": "UNION ALL",
+        "expectedLine": "UNION ALL",
+        "errorRules": [],
+        "hints": [
+          "انتبه لكلمة UNION الواقعة في منتصف الاستعلام بين جملتي SELECT.",
+          "القاعدة: إضافة ALL بعد UNION تعطل عملية إزالة التكرار المكلفة وتدمج البيانات فورياً. هل كتبت UNION ALL؟",
+          "عدّل الكلمة لتصبح: UNION ALL",
+          "الحل الدقيق للخطوة هو: UNION ALL"
+        ]
+      },
+      {
+        "id": "step-3",
+        "title": "تطبيق الترتيب النهائي على المخرجات المدمجة",
+        "objective": "فرز القائمة الكاملة تصاعدياً حسب اسم المدينة",
+        "type": "edit",
+        "instruction": "أضف ORDER BY city ASC قبل الفاصلة المنقوطة في نهاية الاستعلام.",
+        "benefit": "إعادة تنظيم القائمة المدمجة لتبدو كتقرير متسق ومرتب هجائياً.",
+        "from": "FROM customers;",
+        "to": "FROM customers ORDER BY city ASC;",
+        "expectedLine": "FROM customers ORDER BY city ASC;",
+        "errorRules": [
+          {
+            "pattern": "\\bORDER\\s+BY\\b[\\s\\S]*?\\bWHERE\\b",
+            "flags": "i",
+            "type": "regex",
+            "message": "وضعت عبارة WHERE بعد ORDER BY. عبارة ORDER BY تأتي دائماً في نهاية الاستعلام بعد WHERE و GROUP BY و HAVING."
+          }
+        ],
+        "hints": [
+          "انتبه لنهاية الاستعلام بعد FROM customers وقبل الفاصلة المنقوطة.",
+          "القاعدة: عبارة ORDER BY في عمليات المجموعات تكتب مرة واحدة في نهاية الاستعلام بأكمله لفرز النتيجة الإجمالية. هل كتبت ORDER BY city ASC؟",
+          "اكتب النهاية بدقة: FROM customers ORDER BY city ASC;",
+          "الحل الدقيق للخطوة هو: FROM customers ORDER BY city ASC;"
+        ]
+      }
+    ],
+    "bugRepair": {
+      "brokenCode": "SELECT id, name FROM users UNION SELECT name FROM contacts;",
+      "fixedCode": "SELECT id, name FROM users UNION SELECT id, name FROM contacts;",
+      "question": "لماذا ترفض عملية UNION دمج هذين الاستعلامين؟",
+      "explanation": "تشترط عمليات المجموعات (UNION) تطابق عدد الأعمدة المسترجعة وتوافق أنواع بياناتها الترتيبية بين كافة الاستعلامات المدمجة.",
+      "options": [
+        "يجب استخدام الكلمة JOIN بدلاً من UNION لدمج الأعمدة.",
+        "لا يمكن استخدام UNION إلا مع الجداول التي تبدأ بحرف U.",
+        "يجب وضع فاصلة منقوطة بعد الاستعلام الأول وقبل كلمة UNION.",
+        "تشترط عمليات المجموعات (UNION) تطابق عدد الأعمدة المسترجعة وتوافق أنواع بياناتها الترتيبية بين كافة الاستعلامات المدمجة."
+      ],
+      "correctOptionIndex": 3
+    }
+  }
+]
