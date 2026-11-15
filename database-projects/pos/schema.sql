@@ -1,0 +1,13 @@
+BEGIN;
+CREATE SCHEMA IF NOT EXISTS pos;
+SET search_path = pos;
+CREATE TABLE users (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, username text UNIQUE NOT NULL, role text NOT NULL CHECK (role IN ('cashier','supervisor','admin')));
+CREATE TABLE products (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, barcode text UNIQUE NOT NULL, name text NOT NULL, price numeric(12,2) NOT NULL CHECK (price >= 0), stock_quantity integer NOT NULL CHECK (stock_quantity >= 0), active boolean NOT NULL DEFAULT true);
+CREATE TABLE register_sessions (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, cashier_id bigint NOT NULL REFERENCES users(id), opened_at timestamptz NOT NULL DEFAULT now(), opening_cash numeric(12,2) NOT NULL CHECK (opening_cash >= 0), closed_at timestamptz, closing_cash numeric(12,2) CHECK (closing_cash >= 0));
+CREATE TABLE invoices (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, session_id bigint NOT NULL REFERENCES register_sessions(id), status text NOT NULL DEFAULT 'posted' CHECK (status IN ('posted','voided','returned')), subtotal numeric(12,2) NOT NULL CHECK (subtotal >= 0), discount numeric(12,2) NOT NULL DEFAULT 0 CHECK (discount >= 0), tax numeric(12,2) NOT NULL DEFAULT 0 CHECK (tax >= 0), created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE invoice_items (invoice_id bigint NOT NULL REFERENCES invoices(id) ON DELETE CASCADE, product_id bigint NOT NULL REFERENCES products(id), quantity integer NOT NULL CHECK (quantity > 0), unit_price numeric(12,2) NOT NULL CHECK (unit_price >= 0), PRIMARY KEY (invoice_id, product_id));
+CREATE TABLE payments (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, invoice_id bigint NOT NULL REFERENCES invoices(id) ON DELETE CASCADE, method text NOT NULL CHECK (method IN ('cash','card','wallet')), amount numeric(12,2) NOT NULL CHECK (amount > 0));
+CREATE TABLE cash_movements (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, session_id bigint NOT NULL REFERENCES register_sessions(id), reason text NOT NULL, amount numeric(12,2) NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE audit_log (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, actor_id bigint REFERENCES users(id), action text NOT NULL, entity_name text NOT NULL, entity_id bigint NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+CREATE INDEX invoice_items_product_idx ON invoice_items(product_id);
+COMMIT;

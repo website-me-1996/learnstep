@@ -1,0 +1,11 @@
+erDiagram
+  USERS ||--o{ REGISTER_SESSIONS : opens
+  REGISTER_SESSIONS ||--o{ INVOICES : contains
+  INVOICES ||--|{ INVOICE_ITEMS : has
+  PRODUCTS ||--o{ INVOICE_ITEMS : appears_in
+  INVOICES ||--o{ PAYMENTS : settled_by
+  REGISTER_SESSIONS ||--o{ CASH_MOVEMENTS : records
+  USERS { bigint id PK; text username UK; text role }
+  PRODUCTS { bigint id PK; text barcode UK; text name; numeric price; integer stock_quantity }
+  INVOICES { bigint id PK; bigint session_id FK; text status; numeric subtotal; numeric tax }
+  INVOICE_ITEMS { bigint invoice_id PK,FK; bigint product_id PK,FK; integer quantity; numeric unit_price }

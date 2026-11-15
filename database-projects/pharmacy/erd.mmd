@@ -1,0 +1,14 @@
+erDiagram
+  CATEGORIES ||--o{ PRODUCTS : classifies
+  PRODUCTS ||--o{ BATCHES : arrives_as
+  SUPPLIERS ||--o{ BATCHES : supplies
+  CUSTOMERS ||--o{ SALES : makes
+  SALES ||--|{ SALE_ITEMS : contains
+  BATCHES ||--o{ SALE_ITEMS : sold_from
+  SALES ||--o{ PAYMENTS : paid_by
+  BATCHES ||--o{ STOCK_MOVEMENTS : records
+  CATEGORIES { bigint id PK; text name UK }
+  PRODUCTS { bigint id PK; text trade_name; text active_ingredient; bigint category_id FK; text barcode UK }
+  BATCHES { bigint id PK; bigint product_id FK; bigint supplier_id FK; text batch_code; date expires_on; integer quantity }
+  SALES { bigint id PK; bigint customer_id FK; timestamptz sold_at; text status }
+  SALE_ITEMS { bigint sale_id PK,FK; bigint batch_id PK,FK; integer quantity; numeric unit_price }

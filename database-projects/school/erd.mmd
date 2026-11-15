@@ -1,0 +1,15 @@
+erDiagram
+  STUDENTS ||--o{ ENROLLMENTS : joins
+  ACADEMIC_YEARS ||--o{ ENROLLMENTS : contains
+  CLASSES ||--o{ ENROLLMENTS : receives
+  STUDENTS }o--o{ GUARDIANS : has
+  TEACHERS ||--o{ TEACHING_ASSIGNMENTS : teaches
+  SUBJECTS ||--o{ TEACHING_ASSIGNMENTS : covers
+  CLASSES ||--o{ TEACHING_ASSIGNMENTS : receives
+  ENROLLMENTS ||--o{ ATTENDANCE : records
+  ASSESSMENTS ||--o{ GRADES : produces
+  ENROLLMENTS ||--o{ GRADES : earns
+  STUDENTS { bigint id PK; text student_no UK; text full_name }
+  ENROLLMENTS { bigint id PK; bigint student_id FK; bigint class_id FK; bigint academic_year_id FK }
+  TEACHING_ASSIGNMENTS { bigint id PK; bigint teacher_id FK; bigint subject_id FK; bigint class_id FK; bigint academic_year_id FK }
+  GRADES { bigint assessment_id PK,FK; bigint enrollment_id PK,FK; numeric score }

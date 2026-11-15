@@ -1,0 +1,17 @@
+BEGIN;
+CREATE SCHEMA IF NOT EXISTS school;
+SET search_path = school;
+CREATE TABLE academic_years (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, name text UNIQUE NOT NULL, starts_on date NOT NULL, ends_on date NOT NULL, CHECK (ends_on > starts_on));
+CREATE TABLE students (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, student_no text UNIQUE NOT NULL, full_name text NOT NULL, birth_date date);
+CREATE TABLE guardians (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, full_name text NOT NULL, phone text NOT NULL);
+CREATE TABLE student_guardians (student_id bigint REFERENCES students(id) ON DELETE CASCADE, guardian_id bigint REFERENCES guardians(id) ON DELETE CASCADE, relation text NOT NULL, PRIMARY KEY (student_id, guardian_id));
+CREATE TABLE teachers (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, full_name text NOT NULL, employee_no text UNIQUE NOT NULL);
+CREATE TABLE subjects (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, name text UNIQUE NOT NULL);
+CREATE TABLE classes (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, name text NOT NULL, grade_level integer NOT NULL CHECK (grade_level > 0));
+CREATE TABLE enrollments (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, student_id bigint NOT NULL REFERENCES students(id), class_id bigint NOT NULL REFERENCES classes(id), academic_year_id bigint NOT NULL REFERENCES academic_years(id), status text NOT NULL DEFAULT 'active' CHECK (status IN ('active','withdrawn','completed')), UNIQUE (student_id, academic_year_id));
+CREATE TABLE teaching_assignments (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, teacher_id bigint NOT NULL REFERENCES teachers(id), subject_id bigint NOT NULL REFERENCES subjects(id), class_id bigint NOT NULL REFERENCES classes(id), academic_year_id bigint NOT NULL REFERENCES academic_years(id), UNIQUE (teacher_id, subject_id, class_id, academic_year_id));
+CREATE TABLE attendance (enrollment_id bigint NOT NULL REFERENCES enrollments(id) ON DELETE CASCADE, attended_on date NOT NULL, status text NOT NULL CHECK (status IN ('present','absent','late')), PRIMARY KEY (enrollment_id, attended_on));
+CREATE TABLE assessments (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, subject_id bigint NOT NULL REFERENCES subjects(id), class_id bigint NOT NULL REFERENCES classes(id), academic_year_id bigint NOT NULL REFERENCES academic_years(id), title text NOT NULL, max_score numeric(6,2) NOT NULL CHECK (max_score > 0));
+CREATE TABLE grades (assessment_id bigint NOT NULL REFERENCES assessments(id) ON DELETE CASCADE, enrollment_id bigint NOT NULL REFERENCES enrollments(id) ON DELETE CASCADE, score numeric(6,2) NOT NULL CHECK (score >= 0), PRIMARY KEY (assessment_id, enrollment_id));
+CREATE INDEX attendance_date_idx ON attendance(attended_on);
+COMMIT;

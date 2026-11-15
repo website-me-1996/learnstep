@@ -29,6 +29,7 @@
         htmlLinkQuiz: false, htmlLinkQuizCorrect: false, htmlLinkDraft: "",
         cssLesson: 0, cssStep: 1, cssStepVersion: 1, cssCode: "",
         jsLesson: 0, jsStep: 1, jsStepVersion: 1, jsCode: "",
+        databaseLesson: 0, databaseStep: 1, databaseStepVersion: 1, databaseCode: "",
         htmlScaffold: "", htmlDraft: "", htmlCode: ""
       },
       s;
@@ -74,13 +75,13 @@
   s = normalizeFocusSettings(s, saved);
   if (!Array.isArray(s.cheers)) s.cheers = [];
   else s.cheers = s.cheers.filter(function(value) { return typeof value === "string"; }).slice(-10);
-  ["lessons", "examples", "fixes", "minutes", "progress", "project", "step", "htmlStep", "htmlLesson", "cssLesson", "cssStep", "jsLesson", "jsStep", "volume"].forEach(function(name) {
+  ["lessons", "examples", "fixes", "minutes", "progress", "project", "step", "htmlStep", "htmlLesson", "cssLesson", "cssStep", "jsLesson", "jsStep", "databaseLesson", "databaseStep", "volume"].forEach(function(name) {
     if (typeof s[name] !== "number" || !isFinite(s[name])) s[name] = d[name];
     if (name === "progress" || name === "project") s[name] = Math.max(0, Math.min(100, s[name]));
     else if (name === "volume") s[name] = Math.max(0, Math.min(100, s[name]));
     else s[name] = Math.max(0, Math.floor(s[name]));
   });
-  if (["html", "css", "js"].indexOf(s.course) < 0) s.course = d.course;
+  if (["html", "css", "js", "database"].indexOf(s.course) < 0) s.course = d.course;
   if (["white", "brown", "rain", "forest", "cafe"].indexOf(s.sound) < 0) s.sound = d.sound;
   s = migrateSeededCounters(s);
   save();
@@ -348,7 +349,7 @@
 
   function openProjectPart(partId) {
     var part = growth.projectParts.find(function(item) { return item.id === partId; }),
-        match = part && /^lesson-(html|css|js):(\d+)$/.exec(part.id);
+        match = part && /^lesson-(html|css|js|database):(\d+)$/.exec(part.id);
     if (!part || !match || part.course !== match[1] || !part.code) return false;
     var key = match[1], index = +match[2];
     if (index < 0 || index >= courseTopics(key).length) return false;
@@ -736,6 +737,54 @@
     return page;
   }
 
+  function buildDatabasePreview(query) {
+    if (!query || typeof query !== "string" || !query.trim()) {
+      return "<!doctype html><html lang='ar' dir='rtl'><head><meta charset='utf-8'><style>body{font:14px Arial,sans-serif;padding:12px;margin:0;color:#234b3e;direction:rtl}.table-preview.empty{padding:24px;text-align:center;color:#666;border:1px dashed #c9dac6;border-radius:8px}</style></head><body><div class='table-preview empty'><p>أدخل استعلام SQL صالح لعرض النتائج هنا.</p></div></body></html>";
+    }
+    var q = query.trim().toUpperCase(),
+        entity = "result",
+        cols = ["id", "result_col", "status"],
+        rows = [["1", "بيانات توضيحية", "ناجح"]];
+
+    if (q.indexOf("PRODUCTS") >= 0) {
+      entity = "products";
+      cols = ["id", "name", "price"];
+      rows = [
+        ["1", "كمبيوتر محمول", "3500"],
+        ["2", "شاشة عرض 4K", "1450"],
+        ["3", "لوحة مفاتيح ميكانيكية", "280"]
+      ];
+    } else if (q.indexOf("CUSTOMERS") >= 0 || q.indexOf("ORDERS") >= 0) {
+      entity = "orders";
+      cols = ["customer_name", "total_orders"];
+      rows = [
+        ["أحمد محمود", "5"],
+        ["فاطمة الزهراء", "3"]
+      ];
+    } else if (q.indexOf("EMPLOYEES") >= 0) {
+      entity = "employees";
+      cols = ["id", "name", "salary"];
+      rows = [
+        ["101", "سارة إبراهيم", "8500"],
+        ["102", "خالد عبدالله", "9200"]
+      ];
+    } else if (q.indexOf("ACCOUNTS") >= 0) {
+      entity = "accounts";
+      cols = ["id", "account_holder", "balance"];
+      rows = [
+        ["101", "حساب التحويل", "4500"],
+        ["202", "حساب الاستقبال", "5500"]
+      ];
+    }
+
+    var ths = cols.map(function(c) { return "<th>" + c + "</th>"; }).join(""),
+        trs = rows.map(function(r) {
+          return "<tr>" + r.map(function(cell) { return "<td>" + cell + "</td>"; }).join("") + "</tr>";
+        }).join("");
+
+    return "<!doctype html><html lang='ar' dir='rtl'><head><meta charset='utf-8'><style>body{font:14px Arial,sans-serif;padding:12px;margin:0;color:#234b3e;direction:rtl}.table-preview{overflow-x:auto}.table-preview table{border-collapse:collapse;width:100%;margin-top:8px;font-size:13px}.table-preview th,.table-preview td{border:1px solid #c9dac6;padding:8px 12px;text-align:right}.table-preview th{background:#eef5e9;color:#256b57;font-weight:bold}.table-preview tr:nth-child(even){background:#f9fbf9}.table-preview.empty{padding:24px;text-align:center;color:#666}</style></head><body><div class='table-preview' data-entity='" + entity + "'><table data-table='" + entity + "'><thead><tr>" + ths + "</tr></thead><tbody>" + trs + "</tbody></table></div></body></html>";
+  }
+
   var data = {
     html: {
       title: "أول صفحة HTML لي",
@@ -769,22 +818,29 @@
       build: function(c) {
         return buildJavascriptPreview(c);
       }
+    },
+    database: {
+      title: "قواعد البيانات (SQL)",
+      sub: "استعلامات SQL وتصميم قواعد البيانات العلائقية",
+      level: "استعلام",
+      prompt: "اكتب استعلام SQL وانقر تشغيل لعرض النتائج في الجدول أدناه.",
+      file: "query.sql",
+      code: "SELECT * FROM products;",
+      build: function(code) {
+        return buildDatabasePreview(code);
+      }
     }
   };
-
-
-
-
-
-
 
   var htmlSequence = window.LESSONS_DATA.html,
       cssSequence = window.LESSONS_DATA.css,
       jsSequence = window.LESSONS_DATA.js,
+      databaseSequence = (window.LESSONS_DATA && window.LESSONS_DATA.database) || [],
       legacySequences = {
         html: window.LESSONS_DATA.html.slice(),
         css: window.LESSONS_DATA.css.slice(),
-        js: window.LESSONS_DATA.js.slice()
+        js: window.LESSONS_DATA.js.slice(),
+        database: (window.LESSONS_DATA && window.LESSONS_DATA.database) ? window.LESSONS_DATA.database.slice() : []
       },
       curriculumTracks = {},
       skillCatalog = [];
@@ -800,7 +856,7 @@
     if (!stored || typeof stored !== "object" || Array.isArray(stored)) stored = {};
     function lessonMap(value, kind) {
       var clean = {},
-          keyRule = kind === "answers" ? /^(?:bug|quiz):(html|css|js):\d{1,3}$/ : /^(html|css|js):\d{1,3}$/;
+          keyRule = kind === "answers" ? /^(?:bug|quiz):(html|css|js|database):\d{1,3}$/ : /^(html|css|js|database):\d{1,3}$/;
       if (!value || typeof value !== "object" || Array.isArray(value)) return clean;
       Object.keys(value).slice(-300).forEach(function(id) {
         var item = value[id];
@@ -820,7 +876,7 @@
       if (!value || typeof value !== "object" || Array.isArray(value)) return clean;
       Object.keys(value).slice(-300).forEach(function(id) {
         var item = value[id];
-        if (!/^(html|css|js):\d{1,3}$/.test(id) || !item || typeof item !== "object" || Array.isArray(item)) return;
+        if (!/^(html|css|js|database):\d{1,3}$/.test(id) || !item || typeof item !== "object" || Array.isArray(item)) return;
         var current = item.current,
             unlocked = item.unlocked;
         if (typeof current !== "number" || !isFinite(current) || Math.floor(current) !== current || current < 0 || current > 40) return;
@@ -830,14 +886,15 @@
       return clean;
     }
     var completed = Array.isArray(stored.completed) ? stored.completed.map(function(id) {
-      if (typeof id === "string" && /^(html|css|js)-\d+/i.test(id)) {
-        var m = id.match(/^(html|css|js)-(\d+)/i);
-        return m[1].toLowerCase() + ":" + (parseInt(m[2], 10) - 1);
+      if (typeof id === "string" && /^(html|css|js|database|db)-\d+/i.test(id)) {
+        var m = id.match(/^(html|css|js|database|db)-(\d+)/i);
+        var trackKey = m[1].toLowerCase() === "db" ? "database" : m[1].toLowerCase();
+        return trackKey + ":" + (parseInt(m[2], 10) - 1);
       }
       return id;
     }).filter(function(id, index, all) {
-      return typeof id === "string" && /^(html|css|js):\d{1,3}$/.test(id) && all.indexOf(id) === index;
-    }).slice(-267) : [];
+      return typeof id === "string" && /^(html|css|js|database):\d{1,3}$/.test(id) && all.indexOf(id) === index;
+    }).slice(-450) : [];
     return {
       completed: completed,
       stages: lessonMap(stored.stages, "stages"),
@@ -855,7 +912,7 @@
         return {
           id: part.id.slice(0, 120),
           label: part.label.slice(0, 100),
-          course: ["html", "css", "js"].indexOf(part.course) >= 0 ? part.course : "",
+          course: ["html", "css", "js", "database"].indexOf(part.course) >= 0 ? part.course : "",
           objective: typeof part.objective === "string" ? part.objective.slice(0, 240) : "",
           code: typeof part.code === "string" ? part.code.slice(0, 1200) : "",
           note: typeof part.note === "string" ? part.note.slice(0, 180) : ""
@@ -976,7 +1033,11 @@
   function lessonId(key, index) { return key + ":" + index; }
 
   function courseTopics(key) {
-    return key === "html" ? htmlSequence : key === "css" ? cssSequence : jsSequence;
+    return key === "html" ? htmlSequence : key === "css" ? cssSequence : key === "database" ? databaseSequence : jsSequence;
+  }
+
+  function courseLabel(key) {
+    return key === "html" ? "HTML" : key === "css" ? "CSS" : key === "database" ? "قواعد البيانات (SQL)" : "JavaScript";
   }
 
   function completedTopic(key, topic) {
@@ -1038,7 +1099,7 @@
         shortName = name.replace(/^(HTML|CSS|JS)\s*/, "");
     return {
       id: "lesson-" + lessonId(key, index),
-      label: key === "html" ? "عنصر: " + shortName : key === "css" ? "تنسيق: " + shortName : "تفاعل: " + shortName,
+      label: key === "html" ? "عنصر: " + shortName : key === "css" ? "تنسيق: " + shortName : key === "database" ? "أثر SQL: " + shortName : "تفاعل: " + shortName,
       course: key,
       objective: objective || lessonObjective(key, name),
       code: typeof code === "string" ? code.slice(0, 1200) : ""
@@ -1052,7 +1113,7 @@
     return '<li class="project-artifact"><b>' + escapeHtml(part.label) + '</b><p>' + escapeHtml(objective) + '</p>' +
       (note ? '<blockquote class="project-artifact-note">' + escapeHtml(note) + '</blockquote>' : "") +
       (code ? '<details><summary>شوف الكود الذي جرّبته</summary><pre><code>' + escapeHtml(code) + '</code></pre></details>' : "") +
-      (interactive && code && /^lesson-(html|css|js):\d+$/.test(part.id) ? '<button class="project-part-return" type="button" data-open-project-part="' + escapeHtml(part.id) + '">ارجع لهذا المثال في المحرر</button>' : "") + '</li>';
+      (interactive && code && /^lesson-(html|css|js|database):\d+$/.test(part.id) ? '<button class="project-part-return" type="button" data-open-project-part="' + escapeHtml(part.id) + '">ارجع لهذا المثال في المحرر</button>' : "") + '</li>';
   }
 
   function projectPartListMarkup(interactive) {
@@ -1072,7 +1133,7 @@
     var part = growth.projectParts[growth.projectParts.length - 1],
         preview = "";
     if (!part) return "";
-    if (["html", "css", "js"].indexOf(part.course) >= 0 && part.code && typeof data !== "undefined" && data[part.course]) {
+    if (["html", "css", "js", "database"].indexOf(part.course) >= 0 && part.code && typeof data !== "undefined" && data[part.course]) {
       preview = '<iframe class="latest-build-preview" title="معاينة ' + escapeHtml(part.label) + '" sandbox="allow-scripts allow-modals" srcdoc="' + escapeHtml(data[part.course].build(part.code)) + '"></iframe>';
     }
     return '<section class="latest-build"><small>آخر ما أضفت لمشروعي</small><b>' + escapeHtml(part.label) + '</b><p>' + escapeHtml(latestProjectPartText(part)) + '</p>' + preview + '</section>';
@@ -1081,7 +1142,7 @@
   function renderLatestProjectPart() {
     var part = growth.projectParts[growth.projectParts.length - 1],
         frame = document.getElementById("profileLatestPreview"),
-        hasCodePreview = part && ["html", "css", "js"].indexOf(part.course) >= 0 && part.code && typeof data !== "undefined" && data[part.course];
+        hasCodePreview = part && ["html", "css", "js", "database"].indexOf(part.course) >= 0 && part.code && typeof data !== "undefined" && data[part.course];
     document.getElementById("profileLatestBuild").hidden = !part;
     document.getElementById("profileLatestTitle").textContent = part ? part.label : "";
     document.getElementById("profileLatestCopy").textContent = part ? latestProjectPartText(part) : "";
@@ -1846,20 +1907,28 @@
     _cache: {},
     mapToLegacyId: function(canonicalId) {
       if (!canonicalId) return "";
-      if (/^(html|css|js):\d+$/.test(canonicalId) || /^ng-ts-\d+$/.test(canonicalId)) return canonicalId;
-      var m = String(canonicalId).match(/^(html|css|js)-(\d+)/i);
+      if (/^(html|css|js|database):\d+$/.test(canonicalId) || /^ng-ts-\d+$/.test(canonicalId)) return canonicalId;
+      var legacyDb = String(canonicalId).match(/^db:(\d+)$/i);
+      if (legacyDb) return "database:" + legacyDb[1];
+      var m = String(canonicalId).match(/^(html|css|js|database|db)-(\d+)/i);
       if (m) {
         var idx = parseInt(m[2], 10) - 1;
-        if (idx >= 0) return m[1].toLowerCase() + ":" + idx;
+        var trackKey = m[1].toLowerCase() === "db" ? "database" : m[1].toLowerCase();
+        if (idx >= 0) return trackKey + ":" + idx;
       }
       return canonicalId;
     },
     mapToCanonicalId: function(track, legacyId) {
       if (!legacyId) return "";
-      var m = String(legacyId).match(/^(html|css|js):(\d+)$/i);
+      var m = String(legacyId).match(/^(html|css|js|database|db):(\d+)$/i);
       if (m) {
+        var prefix = m[1].toLowerCase() === "db" ? "database" : m[1].toLowerCase();
         var num = parseInt(m[2], 10) + 1;
-        return m[1].toLowerCase() + "-" + String(num).padStart(2, "0");
+        return prefix + "-" + String(num).padStart(2, "0");
+      }
+      if (track === "database" && /^\d+$/.test(String(legacyId))) {
+        var num2 = parseInt(legacyId, 10) + 1;
+        return "database-" + String(num2).padStart(2, "0");
       }
       return legacyId;
     },
@@ -1908,6 +1977,14 @@
       return null;
     },
     hydrateFromLegacy: function(trackName) {
+      if (trackName === "database") {
+        return {
+          schemaVersion: "1.0.0",
+          track: "database",
+          title: "قواعد البيانات (SQL)",
+          lessons: []
+        };
+      }
       var lessons = [];
       if (trackName === "angular") {
         var ngData = typeof window !== "undefined" && window.ANGULAR_COURSE_DATA;
@@ -2025,7 +2102,7 @@
   (async function initCurriculum() {
     if (typeof window === "undefined" || typeof window.fetch !== "function") return;
     try {
-      var curriculumNames = ["html", "css", "js"],
+      var curriculumNames = ["html", "css", "js", "database"],
           loadedCurricula = await Promise.all(curriculumNames.map(function(name) {
             return DataLoader.loadTrack(name, { strict: true });
           }));
@@ -2045,6 +2122,15 @@
       htmlSequence = curriculumTracks.html.lessons.map(function(lesson) { return lesson.title; });
       cssSequence = curriculumTracks.css.lessons.map(function(lesson) { return lesson.title; });
       jsSequence = curriculumTracks.js.lessons.map(function(lesson) { return lesson.title; });
+      if (curriculumTracks.database) {
+        if (typeof databaseSequence !== "undefined") {
+          databaseSequence = curriculumTracks.database.lessons.map(function(lesson) { return lesson.title; });
+        }
+        var dbBadge = typeof document !== "undefined" && document.getElementById("databaseCourseCount");
+        if (dbBadge) {
+          dbBadge.textContent = "قواعد البيانات (SQL) · " + ar(curriculumTracks.database.lessons.length) + " موضوع";
+        }
+      }
       renderGrowthLesson();
     } catch (error) {
       curriculumTracks = {};
@@ -2052,11 +2138,14 @@
         htmlSequence = legacySequences.html;
         cssSequence = legacySequences.css;
         jsSequence = legacySequences.js;
+        if (typeof databaseSequence !== "undefined" && legacySequences.database) {
+          databaseSequence = legacySequences.database;
+        }
       }
       if (typeof DataLoader !== "undefined" && DataLoader && DataLoader._cache) {
-        ["html", "css", "js"].forEach(function(name) { delete DataLoader._cache[name]; });
+        ["html", "css", "js", "database"].forEach(function(name) { delete DataLoader._cache[name]; });
       }
-      console.error("Could not load the HTML, CSS, and JavaScript curriculum JSON files:", error);
+      console.error("Could not load the HTML, CSS, JavaScript, and Database curriculum JSON files:", error);
     }
   })();
 
@@ -2825,7 +2914,11 @@
       trace: lesson.browserMechanics || lesson.concept || code,
       reference: lesson.documentationUrl || "",
       details: details,
-      quiz: null,
+      quiz: lesson.quiz && Array.isArray(lesson.quiz.options) ? {
+        question: lesson.quiz.question || "ما القرار الصحيح؟",
+        options: lesson.quiz.options,
+        correct: Number.isInteger(lesson.quiz.correct) ? lesson.quiz.correct : 0
+      } : null,
       breakdown: details,
       buildStages: key === "html" ? buildGuideStages(code, details) : [],
       practiceSteps: practiceSteps,
@@ -2841,7 +2934,10 @@
       bugExplanation: repair.explanation || "قارن المثال المعطوب بالصيغة الصحيحة.",
       bugExample: brokenCode,
       repairAsHtml: repairAsHtml,
-      projectPiece: topicPiece(key, index, objective, code)
+      projectPiece: Object.assign(topicPiece(key, index, objective, code), {
+        project: lesson.projectContext || "الصيدلية والكاشير والمدرسة",
+        acceptanceCriteria: Array.isArray(lesson.acceptanceCriteria) ? lesson.acceptanceCriteria.slice(0, 5) : []
+      })
     };
   }
 
@@ -3044,7 +3140,7 @@
     document.getElementById("title").textContent = model.topic;
     document.getElementById("sub").textContent = model.objective;
     document.getElementById("lessonObjective").hidden = true;
-    document.getElementById("level").textContent = (model.key === "html" ? "HTML" : model.key === "css" ? "CSS" : "JavaScript") + " · " + ar(model.index + 1) + " من " + ar(courseTopics(model.key).length);
+    document.getElementById("level").textContent = (model.key === "html" ? "HTML" : model.key === "css" ? "CSS" : model.key === "database" ? "قواعد البيانات (SQL)" : "JavaScript") + " · " + ar(model.index + 1) + " من " + ar(courseTopics(model.key).length);
     document.getElementById("filename").textContent = data[model.key].file;
     document.getElementById("guideTrackLabel").textContent = "هدف واحد · تجربة قصيرة";
     count.textContent = completed ? "اللبنة اتضافت لمشروعك ✓" : "خطوة " + ar(stage + 1) + " من ٧ · " + names[stage];
@@ -3525,7 +3621,7 @@
     document.getElementById("title").textContent = model.topic;
     document.getElementById("sub").textContent = model.objective;
     document.getElementById("lessonObjective").hidden = true;
-    document.getElementById("level").textContent = (model.key === "html" ? "HTML" : model.key === "css" ? "CSS" : "JavaScript") + " · " + ar(model.index + 1) + " من " + ar(courseTopics(model.key).length);
+    document.getElementById("level").textContent = (model.key === "html" ? "HTML" : model.key === "css" ? "CSS" : model.key === "database" ? "قواعد البيانات (SQL)" : "JavaScript") + " · " + ar(model.index + 1) + " من " + ar(courseTopics(model.key).length);
     document.getElementById("filename").textContent = data[previewCourse].file;
     document.getElementById("guideTrackLabel").textContent = "فكرة واحدة · تجربة واحدة";
     document.getElementById("prompt").hidden = true;
@@ -4119,14 +4215,16 @@
         next = nextAbilityForCourse(current.key),
         skills = completedSkills(),
         nextSkill = nextSkillForCourse(current.key),
-        courseLabels = { html: "HTML", css: "CSS", js: "JavaScript" };
+        courseLabels = { html: "HTML", css: "CSS", js: "JavaScript", database: "قواعد البيانات (SQL)" };
     if (changed) { saveGrowth(); renderProfileCard(); }
     document.getElementById("abilityCount").textContent = ar(unlocked.length);
     document.getElementById("openProjectCount").textContent = ar(1);
     document.getElementById("skillCount").textContent = ar(skills.length);
     document.getElementById("skillProgressLabel").textContent = nextSkill
       ? "التالية في " + courseLabels[current.key] + " · " + nextSkill.title + " · " + ar(skillProgress(nextSkill).done) + "/" + ar(skillProgress(nextSkill).total)
-      : "اكتملت مهارات مسار " + courseLabels[current.key];
+      : current.key === "database"
+        ? "تعلّم SQL يتقدّم درسًا صغيرًا في كل مرة."
+        : "اكتملت مهارات مسار " + courseLabels[current.key];
     document.getElementById("skillMilestonesList").innerHTML = skills.length
       ? skills.map(function(skill) { return "<li>✓ " + escapeHtml(skill.title) + " · " + courseLabels[skill.course] + "</li>"; }).join("")
       : "<li>كل مجموعة مكتملة ستظهر هنا.</li>";
@@ -4272,18 +4370,18 @@
   function renderRoadmap() {
     if (course === "html") normalizeHtmlStep();
     if (course === "css" || course === "js") courseLessonSpec();
-    var sequence = course === "html" ? htmlSequence : course === "css" ? cssSequence : jsSequence,
-        tracked = course === "html" || course === "css" || course === "js",
-        index = course === "html" ? (s.htmlLesson || 0) : course === "css" ? (s.cssLesson || 0) : (s.jsLesson || 0),
-        step = course === "html" ? (s.htmlStep || 1) : course === "css" ? (s.cssStep || 1) : (s.jsStep || 1),
-        doneLesson = course === "html" ? step === 6 : step === courseDoneStep(courseLessonSpec()),
-        courseName = course === "html" ? "HTML" : course === "css" ? "CSS" : "JavaScript",
+    var sequence = course === "html" ? htmlSequence : course === "css" ? cssSequence : course === "database" ? databaseSequence : jsSequence,
+        tracked = course === "html" || course === "css" || course === "js" || course === "database",
+        index = course === "html" ? (s.htmlLesson || 0) : course === "css" ? (s.cssLesson || 0) : course === "database" ? (s.databaseLesson || 0) : (s.jsLesson || 0),
+        step = course === "html" ? (s.htmlStep || 1) : course === "css" ? (s.cssStep || 1) : course === "database" ? (s.databaseStep || 1) : (s.jsStep || 1),
+        doneLesson = course === "html" ? step === 6 : course === "database" ? growthLessonDone(lessonId(course, index)) : step === courseDoneStep(courseLessonSpec()),
+        courseName = course === "html" ? "HTML" : course === "css" ? "CSS" : course === "database" ? "قواعد البيانات (SQL)" : "JavaScript",
         searchInput = document.getElementById("roadSearch"),
         query = searchInput ? normalizeRoadSearch(searchInput.value) : "",
         matches = [], progressByCourse = {},
-        sequences = { html: htmlSequence, css: cssSequence, js: jsSequence };
+        sequences = { html: htmlSequence, css: cssSequence, js: jsSequence, database: databaseSequence };
     document.getElementById("roadTitle").textContent = "خريطة " + courseName;
-    document.getElementById("roadSubtitle").textContent = course === "html" ? "ترتيب دروس HTML" : "ترتيب الدروس حسب W3Schools · " + coursePhase(course, index);
+    document.getElementById("roadSubtitle").textContent = course === "html" ? "ترتيب دروس HTML" : course === "database" ? "ترتيب الدروس حسب المنهج القياسي · " + coursePhase(course, index) : "ترتيب الدروس حسب W3Schools · " + coursePhase(course, index);
     var completedInCourse = growth.completed.filter(function(id) { return id.indexOf(course + ":") === 0; }).length;
     document.getElementById("roadProgress").textContent = tracked
       ? ar(completedInCourse) + " / " + ar(sequence.length) + " مهارة عملية"
@@ -4293,7 +4391,7 @@
       if (!progressByCourse[key]) {
         var lessonIndex = key === "html" ? (s.htmlLesson || 0) : (s[key + "Lesson"] || 0),
             lessonStep = key === "html" ? (s.htmlStep || 1) : (s[key + "Step"] || 1),
-            isDone = growthLessonDone(lessonId(key, lessonIndex)) || (key === "html" ? lessonStep === 6 : lessonStep === courseDoneStep(courseLessonSpecFor(key)));
+            isDone = growthLessonDone(lessonId(key, lessonIndex)) || (key === "html" ? lessonStep === 6 : key === "database" ? growthLessonDone(lessonId(key, lessonIndex)) : lessonStep === courseDoneStep(courseLessonSpecFor(key)));
         progressByCourse[key] = { index: lessonIndex, done: isDone };
       }
       return progressByCourse[key];
@@ -4329,7 +4427,7 @@
     }
     if (query) {
       document.getElementById("roadTitle").textContent = "بحث في كل المسارات";
-      document.getElementById("roadSubtitle").textContent = "HTML · CSS · JavaScript · " + ar(htmlSequence.length + cssSequence.length + jsSequence.length) + " موضوع";
+      document.getElementById("roadSubtitle").textContent = "HTML · CSS · JavaScript · قواعد البيانات (SQL) · " + ar(htmlSequence.length + cssSequence.length + jsSequence.length + databaseSequence.length) + " موضوع";
       Object.keys(sequences).forEach(function(key) {
         if (roadFilterCourse !== "all" && roadFilterCourse !== key) return;
         sequences[key].forEach(function(topic, i) {
@@ -4338,8 +4436,8 @@
       });
       roadmapDetails.hidden = true;
       roadList.innerHTML = matches.length ? listMatches(matches) : '<div class="road-empty">لم نجد موضوعًا بهذا الاسم. جرب كلمة أقصر.</div>';
-      var filterName = roadFilterCourse === "all" ? "كل المسارات" : roadFilterCourse === "js" ? "JavaScript" : roadFilterCourse.toUpperCase();
-      roadSearchStatus.textContent = "" + ar(matches.length) + " نتيجة في " + filterName + " · من " + ar(htmlSequence.length + cssSequence.length + jsSequence.length) + " موضوع";
+      var filterName = roadFilterCourse === "all" ? "كل المسارات" : roadFilterCourse === "js" ? "JavaScript" : roadFilterCourse === "database" ? "قواعد البيانات (SQL)" : roadFilterCourse.toUpperCase();
+      roadSearchStatus.textContent = "" + ar(matches.length) + " نتيجة في " + filterName + " · من " + ar(htmlSequence.length + cssSequence.length + jsSequence.length + databaseSequence.length) + " موضوع";
     } else {
       document.getElementById("roadTitle").textContent = "خريطة " + courseName;
       document.getElementById("roadSubtitle").textContent = course === "html" ? "ترتيب دروس HTML" : "ترتيب الدروس حسب W3Schools · " + coursePhase(course, index);
@@ -4351,11 +4449,15 @@
     document.getElementById("htmlCourseCount").textContent = "HTML · " + ar(htmlSequence.length) + " موضوع";
     document.getElementById("cssCourseCount").textContent = "CSS · " + ar(cssSequence.length) + " موضوع";
     document.getElementById("jsCourseCount").textContent = "JavaScript · " + ar(jsSequence.length) + " موضوع";
+    var dbCourseCountEl = document.getElementById("databaseCourseCount");
+    if (dbCourseCountEl) {
+      dbCourseCountEl.textContent = "قواعد البيانات (SQL) · " + ar(databaseSequence.length) + " موضوع";
+    }
 
     function listMatches(items) {
       var html = "", previous = "";
       items.forEach(function(match) {
-        var group = (match.course === "html" ? "HTML" : match.course === "css" ? "CSS" : "JavaScript") + " · " + coursePhase(match.course, match.index);
+        var group = courseLabel(match.course) + " · " + coursePhase(match.course, match.index);
         if (group !== previous) html += '<div class="roadgroup">' + escapeHtml(group) + '</div>';
         html += item(match.course, match.index);
         previous = group;
@@ -5440,7 +5542,7 @@
 
   function renderCourseGuide(step) {
     var index = s[course + "Lesson"] || 0,
-        sequence = course === "css" ? cssSequence : jsSequence,
+        sequence = courseTopics(course),
         spec = courseLessonSpec(),
         quizStep = 3 + spec.details.length,
         practiceStep = quizStep + 1,
@@ -5455,11 +5557,11 @@
         actions = document.getElementById("guideActions"),
         next = document.getElementById("guideNext"),
         codeKey = course + "Code",
-        courseName = course === "css" ? "CSS" : "JavaScript";
+        courseName = courseLabel(course);
     document.getElementById("title").textContent = spec.topic + ": فكرة تتضح بالتدريج";
     document.getElementById("sub").textContent = spec.analogy;
     document.getElementById("level").textContent = courseName + " · درس " + ar(index + 1) + " من " + ar(sequence.length);
-    document.getElementById("filename").textContent = course === "css" ? "style.css" : "script.js";
+    document.getElementById("filename").textContent = data[course].file;
     document.getElementById("guideTrackLabel").textContent = "درس قصير · " + courseName;
     count.textContent = step === doneStep ? "اكتمل الموضوع · " + ar(lessonSteps) + " من " + ar(lessonSteps) : courseName + " · خطوة " + ar(step) + " من " + ar(lessonSteps);
     meter.style.width = (step === doneStep ? 100 : (step - 1) * 100 / lessonSteps) + "%";
@@ -6038,7 +6140,7 @@
     }
   };
   document.getElementById("downloadLessonFile").onclick = function() {
-    var mime = course === "html" ? "text/html;charset=utf-8" : course === "css" ? "text/css;charset=utf-8" : "text/javascript;charset=utf-8",
+    var mime = course === "html" ? "text/html;charset=utf-8" : course === "css" ? "text/css;charset=utf-8" : course === "database" ? "application/sql;charset=utf-8" : "text/javascript;charset=utf-8",
         blob = new Blob([document.getElementById("code").value], { type: mime }),
         url = URL.createObjectURL(blob),
         link = document.createElement("a");
@@ -6192,7 +6294,7 @@
   document.getElementById("code").oninput = function() {
     ran = false;
     if (course === "html") s.htmlCode = this.value;
-    else if (course === "css" || course === "js") s[course + "Code"] = this.value;
+    else if (course === "css" || course === "js" || course === "database") s[course + "Code"] = this.value;
     growth.drafts[currentGrowthKey()] = this.value;
     clearPreviewStatus();
     if (typeof updateHandCraftScore === "function") updateHandCraftScore(course, true);
