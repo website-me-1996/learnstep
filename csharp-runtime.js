@@ -845,7 +845,7 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   if (challenge.operation) {
     const matchesOperation = statements.some(statement => {
       if (challenge.operationIn && statement.name !== challenge.operationIn) return false;
-      return containsOperator(statement.expression || statement.condition, challenge.operation);
+      return statement.update === challenge.operation || containsOperator(statement.expression || statement.condition, challenge.operation);
     });
     if (!matchesOperation) return fail('استخدم المعامل ' + challenge.operation + (challenge.operationIn ? ' لحساب «' + challenge.operationIn + '».' : ' لحساب النتيجة المطلوبة.'));
   }

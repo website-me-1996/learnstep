@@ -3,38 +3,38 @@
   "updatedAt": "2026-11-18",
   "branch": "feat/csharp-foundations",
   "baseCommit": "3f1d7dad3974e733cf82d5315d3760807411cf14",
-  "currentPhase": "P4",
+  "currentPhase": "P5",
   "phases": {
     "P0": "complete",
     "P1": "complete",
     "P2": "in_progress",
     "P3": "complete",
-    "P4": "in_progress",
-    "P5": "pending",
+    "P4": "complete",
+    "P5": "in_progress",
     "P6": "pending",
     "P7": "pending",
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Author P4B after lesson 48. Cover the for header, update, break, continue, nested loops, foreach over a preset array, and a short application. Preserve lessons 1–48.",
+  "nextAction": "Begin P5A at lesson 57 with one local function call and return. Add parameters, scope and reuse, then P5B array indexing, Length, text indexing and rectangular arrays. Keep lessons 1–56 stable.",
   "checks": {
     "npmTest": {
-      "passed": 546,
+      "passed": 594,
       "failed": 0
     },
-    "csharpTests": 376,
-    "canonicalLessonsValidated": 545,
+    "csharpTests": 424,
+    "canonicalLessonsValidated": 553,
     "productionBuild": "passed",
-    "browserQA": "Chrome desktop displayed 48 lessons with prior completion retained. Verified the pre-code scene, while condition, counter update, jump to the condition, rewind, and zero-iteration output.",
+    "browserQA": "Desktop Chrome displayed 56 lessons and retained previous completion. While condition/update/jump/rewind and zero iterations passed. For continue jumped to the update; foreach bound item 4 from [4,9,12].",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 911,
+      "passed": 1076,
       "failed": 0,
-      "alternateInputCases": 647,
+      "alternateInputCases": 772,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 240
+      "curriculumSolutionsCompared": 280
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
@@ -59,13 +59,15 @@
     "P3C": "complete",
     "P3D": "complete",
     "P4A": "complete",
-    "P4B": "pending"
+    "P4B": "complete",
+    "P5A": "pending",
+    "P5B": "pending"
   },
   "curriculum": {
-    "lessons": 48,
-    "steps": 384,
-    "units": 6,
-    "latestUnit": "loop-foundations",
-    "nextUnit": "loop-control"
+    "lessons": 56,
+    "steps": 448,
+    "units": 7,
+    "latestUnit": "loop-control",
+    "nextUnit": "functions"
   }
 }

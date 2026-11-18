@@ -52,7 +52,7 @@ These are implemented controls; their end-to-end browser behavior remains an acc
 
 Versions are recorded in the project and generated asset manifest. Upstream licensing and notices are described in `THIRD_PARTY_NOTICES.md` and copied alongside the assets.
 
-## Teaching interpreter through unit 6
+## Teaching interpreter through unit 7
 
 The interpreter now covers initialized `int`, `string`, and `bool` variables, arithmetic, comparisons, `!`, `&&`, `||`, and conditional branches. It checks both operand types before execution. The trace records which operands actually ran and distinguishes a skipped operand from a result of `false`. An `else if` chain records each condition it reaches and stops at the first match.
 
@@ -63,5 +63,7 @@ Unit 4 adds `double` and `decimal`, explicit integer conversions, `string.Length
 Unit 5 adds pre-supplied console input, nullable text, `??`, and `int.TryParse` with an inline `out int` declaration in a separate `bool` statement. Reversible snapshots show the consumed line, EOF, and the two results of parsing. Each step keeps its own input draft. Grading runs the program with alternate inputs such as a blank line, zero, invalid text, and the boundaries of `int`.
 
 Unit 6 traces every condition check, counter update and return to the `while` header. The interpreter stops after 1,000 snapshots and reports the line to check. Loop grading checks behavior inside the loop as well as the final output.
+
+Unit 7 adds `for` initialization and update snapshots, innermost-loop jumps, nested depth, and `foreach` bindings over short one-dimensional arrays. The interpreter accepts scalar update statements and a single initializer and update in each `for` header. Its array initializer cap is 64 elements.
 
 `npm run curriculum:csharp` writes the unit files and both copies of the combined curriculum. Existing learner saving uses the same lesson IDs, revisions, and draft keys.
