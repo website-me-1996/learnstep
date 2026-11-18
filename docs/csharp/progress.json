@@ -3,7 +3,7 @@
   "updatedAt": "2026-11-18",
   "branch": "feat/csharp-foundations",
   "baseCommit": "3f1d7dad3974e733cf82d5315d3760807411cf14",
-  "currentPhase": "P8",
+  "currentPhase": "P9",
   "phases": {
     "P0": "complete",
     "P1": "complete",
@@ -13,28 +13,28 @@
     "P5": "complete",
     "P6": "complete",
     "P7": "complete",
-    "P8": "in_progress",
-    "P9": "pending"
+    "P8": "complete",
+    "P9": "in_progress"
   },
-  "nextAction": "Begin P8B at lesson 103 with bubble, selection and insertion sort. Merge sorted runs, add merge sort and compare operation growth. Keep lessons 1–102 stable.",
+  "nextAction": "Start P9 at lesson 109 with a binary tree, BST and heap, then graph adjacency, BFS and DFS, and a capstone with boundary cases. Keep lessons 1–108 stable.",
   "checks": {
     "npmTest": {
-      "passed": 880,
+      "passed": 916,
       "failed": 0
     },
-    "csharpTests": 710,
-    "canonicalLessonsValidated": 599,
+    "csharpTests": 746,
+    "canonicalLessonsValidated": 605,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 102 lessons with earlier completion. Lesson 102 showed the official algorithm reference, reached n=0 in the fourth recursive call and printed 6.",
+    "browserQA": "Desktop Chrome displayed 108 lessons with earlier completion. Lesson 103 highlighted indexed writes, preserved the saved item, and restored the prior swap snapshot on rewind.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 1999,
+      "passed": 2144,
       "failed": 0,
-      "alternateInputCases": 1462,
+      "alternateInputCases": 1577,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 510
+      "curriculumSolutionsCompared": 540
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
@@ -65,13 +65,13 @@
     "P7A": "complete",
     "P7B": "complete",
     "P8A": "complete",
-    "P8B": "pending"
+    "P8B": "complete"
   },
   "curriculum": {
-    "lessons": 102,
-    "steps": 816,
-    "units": 13,
-    "latestUnit": "search-and-recursion",
-    "nextUnit": "sorting-and-cost"
+    "lessons": 108,
+    "steps": 864,
+    "units": 14,
+    "latestUnit": "sorting-and-cost",
+    "nextUnit": "trees-and-graphs"
   }
 }

@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
   "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 1999,
+  "passed": 2144,
   "failed": 0,
   "results": [
     {
@@ -9861,6 +9861,731 @@
     },
     {
       "name": "csharp-102-algorithm-recursion-base-return/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-103-algorithm-bubble-sort/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-104-algorithm-selection-sort/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-105-algorithm-insertion-sort/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-106-algorithm-merge-sorted-runs/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-107-algorithm-merge-sort/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-108-algorithm-sort-comparison-growth/transfer/alternate/3",
       "passed": true,
       "message": null
     },

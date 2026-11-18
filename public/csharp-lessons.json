@@ -2,8 +2,8 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والكائنات وهياكل البيانات والبحث.",
-  "totalLessons": 102,
+  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والكائنات وهياكل البيانات والبحث والترتيب.",
+  "totalLessons": 108,
   "runtime": "csharp-foundations-subset-v11",
   "units": [
     {
@@ -197,6 +197,19 @@
         "csharp-100-algorithm-binary-search",
         "csharp-101-algorithm-linear-logarithmic-growth",
         "csharp-102-algorithm-recursion-base-return"
+      ]
+    },
+    {
+      "id": "sorting-and-cost",
+      "title": "رتّب القيم وقارن عدد العمليات",
+      "order": 13,
+      "lessonIds": [
+        "csharp-103-algorithm-bubble-sort",
+        "csharp-104-algorithm-selection-sort",
+        "csharp-105-algorithm-insertion-sort",
+        "csharp-106-algorithm-merge-sorted-runs",
+        "csharp-107-algorithm-merge-sort",
+        "csharp-108-algorithm-sort-comparison-growth"
       ]
     }
   ],
@@ -43563,6 +43576,3168 @@
         }
       ],
       "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/recursion.html"
+    },
+    {
+      "id": "csharp-103-algorithm-bubble-sort",
+      "legacyId": "csharp:102",
+      "title": "بدّل كل جارَين بترتيب معكوس",
+      "skill": "خوارزميات الترتيب والتعقيد",
+      "order": 102,
+      "unitId": "sorting-and-cost",
+      "revision": 1,
+      "concept": "Bubble Sort تقارن الجيران وتبدّل المقلوبين. كل مرور يوصل أكبر عنصر في الجزء الحالي إلى آخره، فتقصر المسافة في المرور التالي.",
+      "whyUse": "تشوف أثر ترتيب القيم من تبديل بسيط متكرر.",
+      "browserMechanics": "تابع i ثم i + 1، وراقب saved لحفظ القيمة قبل الكتابة، ثم عدّ المقارنات والتبديلات.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+      "breakdown": [
+        "قارن كل i بجارتها i + 1 حتى end.",
+        "احفظ القيمة اليسرى وبدّل الجارين إذا لزم.",
+        "قصّر end، واطبع الترتيب والعدادين بعد انتهاء المرور."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في رف فيه 5 و2 و4، فحص كل كارت مع جاره على اليمين. لو الأكبر على الشمال، بدّلهما. بعد مرور واحد، 5 وصلت لآخر الرف.",
+          "instruction": "يا كمبيوتر، في رف فيه 5 و2 و4، فحص كل كارت مع جاره على اليمين. لو الأكبر على الشمال، بدّلهما. بعد مرور واحد، 5 وصلت لآخر الرف.",
+          "benefit": "تشوف أثر ترتيب القيم من تبديل بسيط متكرر.",
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Bubble Sort تقارن الجيران وتبدّل المقلوبين. كل مرور يوصل أكبر عنصر في الجزء الحالي إلى آخره، فتقصر المسافة في المرور التالي.",
+          "code": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "benefit": "تابع i ثم i + 1، وراقب saved لحفظ القيمة قبل الكتابة، ثم عدّ المقارنات والتبديلات.",
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل كتابة القيمة المحفوظة في مكان الجار. اطبع 2 و4 و5 ثم ثلاث مقارنات وتبديلين.",
+          "instruction": "يا كمبيوتر، أكمل كتابة القيمة المحفوظة في مكان الجار. اطبع 2 و4 و5 ثم ثلاث مقارنات وتبديلين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            // اكتب الأمر هنا\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "solution": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "2\n4\n5\n3\n2\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4
+                  ]
+                },
+                "output": "4\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n6\n6\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    8,
+                    2,
+                    2
+                  ]
+                },
+                "output": "2\n2\n8\n3\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ابدأ بترتيب 2 و4 و5. هل احتجت تبديلًا؟ افحص عدد المقارنات.",
+          "instruction": "يا كمبيوتر، ابدأ بترتيب 2 و4 و5. هل احتجت تبديلًا؟ افحص عدد المقارنات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 2, 4, 5 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "2\n4\n5\n3\n0\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4
+                  ]
+                },
+                "output": "4\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n6\n6\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    8,
+                    2,
+                    2
+                  ]
+                },
+                "output": "2\n2\n8\n3\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 2, 4, 5 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اعكس البداية إلى 5 و4 و2. راقب التبديل في كل مقارنة.",
+          "instruction": "يا كمبيوتر، اعكس البداية إلى 5 و4 و2. راقب التبديل في كل مقارنة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 5, 4, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "2\n4\n5\n3\n3\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4
+                  ]
+                },
+                "output": "4\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n6\n6\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    8,
+                    2,
+                    2
+                  ]
+                },
+                "output": "2\n2\n8\n3\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 5, 4, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "القيم تكررت واختفت 5. بعد الكتابة الأولى، أين توجد قيمة الخانة القديمة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "القيم تكررت واختفت 5. بعد الكتابة الأولى، أين توجد قيمة الخانة القديمة؟",
+          "options": [
+            "saved",
+            "items[i]",
+            "items[i + 1]"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = items[i];\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اقرأ القيمة من saved عند ملء الجار.",
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ القيمة من saved عند ملء الجار.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ القيمة من saved عند ملء الجار.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = items[i];\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "solution": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "2\n4\n5\n3\n2\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4
+                  ]
+                },
+                "output": "4\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n6\n6\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    8,
+                    2,
+                    2
+                  ]
+                },
+                "output": "2\n2\n8\n3\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، رتب 7 و1 و6 و2. اكتب الجزء الخاص بالتبديل، ثم اعرض الترتيب والمقارنات والتبديلات.",
+          "instruction": "يا كمبيوتر، رتب 7 و1 و6 و2. اكتب الجزء الخاص بالتبديل، ثم اعرض الترتيب والمقارنات والتبديلات.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "int[] items = { 7, 1, 6, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            // اكتب الأمر هنا\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "solution": "int[] items = { 7, 1, 6, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n2\n6\n7\n6\n4\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4
+                  ]
+                },
+                "output": "4\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n6\n6\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    8,
+                    2,
+                    2
+                  ]
+                },
+                "output": "2\n2\n8\n3\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "كشف الحل:\nint[] items = { 7, 1, 6, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = items[i];\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+        "fixedCode": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+        "question": "القيم تكررت واختفت 5. بعد الكتابة الأولى، أين توجد قيمة الخانة القديمة؟",
+        "explanation": "اقرأ القيمة من saved عند ملء الجار.",
+        "options": [
+          "saved",
+          "items[i]",
+          "items[i + 1]"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-102-algorithm-recursion-base-return"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل كتابة القيمة المحفوظة في مكان الجار. اطبع 2 و4 و5 ثم ثلاث مقارنات وتبديلين.",
+        "يا كمبيوتر، رتب 7 و1 و6 و2. اكتب الجزء الخاص بالتبديل، ثم اعرض الترتيب والمقارنات والتبديلات."
+      ],
+      "commonMisconceptions": [
+        "اقرأ القيمة من saved عند ملء الجار."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "ترتيب بطاقات الاستقبال وعدّ العمليات",
+      "sceneVisual": [
+        {
+          "label": "البداية",
+          "value": "5 · 2 · 4"
+        },
+        {
+          "label": "البديل الأول",
+          "value": "2 · 5 · 4"
+        },
+        {
+          "label": "نهاية المرور",
+          "value": "2 · 4 · 5"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/bubblesort.html"
+    },
+    {
+      "id": "csharp-104-algorithm-selection-sort",
+      "legacyId": "csharp:103",
+      "title": "اختَر أصغر خانة من الجزء المتبقّي",
+      "skill": "خوارزميات الترتيب والتعقيد",
+      "order": 103,
+      "unitId": "sorting-and-cost",
+      "revision": 1,
+      "concept": "Selection Sort تبحث عن فهرس أصغر عنصر متبقٍ أولًا. بعد انتهاء البحث تثبّت هذا العنصر في مكان i بتبديل واحد عند الحاجة.",
+      "whyUse": "تميز قراءة مكان الأصغر عن نقل العنصر لمكانه.",
+      "browserMechanics": "راقب best تتحرك أثناء الفحص. تحصل الكتابة في الخانتين بعد انتهاء الحلقة الداخلية.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+      "breakdown": [
+        "ابدأ best عند i.",
+        "افحص الجزء التالي وحدّث فهرس الأصغر.",
+        "بدّل مرة إذا تغير best، ثم تقدم للمكان التالي."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قدامك 5 و3 و8 و1. ابحث عن أصغر بطاقة في الجزء الباقي. بعد ما تخلص الفحص، ضعها في أول مكان في هذا الجزء.",
+          "instruction": "يا كمبيوتر، قدامك 5 و3 و8 و1. ابحث عن أصغر بطاقة في الجزء الباقي. بعد ما تخلص الفحص، ضعها في أول مكان في هذا الجزء.",
+          "benefit": "تميز قراءة مكان الأصغر عن نقل العنصر لمكانه.",
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Selection Sort تبحث عن فهرس أصغر عنصر متبقٍ أولًا. بعد انتهاء البحث تثبّت هذا العنصر في مكان i بتبديل واحد عند الحاجة.",
+          "code": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "benefit": "راقب best تتحرك أثناء الفحص. تحصل الكتابة في الخانتين بعد انتهاء الحلقة الداخلية.",
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، كمّل تحديث فهرس الأصغر. اطبع 1 و3 و5 و8، ثم ست مقارنات وتبديلين.",
+          "instruction": "يا كمبيوتر، كمّل تحديث فهرس الأصغر. اطبع 1 و3 و5 و8، ثم ست مقارنات وتبديلين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { /* اكتب التحديث هنا */ }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "solution": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n3\n5\n8\n6\n2\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    9
+                  ]
+                },
+                "output": "9\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n4\n3\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    3,
+                    3,
+                    3
+                  ]
+                },
+                "output": "3\n3\n3\n3\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "items"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، جرّب القيم مرتبة. راقب بقاء best عند i في كل مرة.",
+          "instruction": "يا كمبيوتر، جرّب القيم مرتبة. راقب بقاء best عند i في كل مرة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 1, 3, 5, 8 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n3\n5\n8\n6\n0\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    9
+                  ]
+                },
+                "output": "9\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n4\n3\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    3,
+                    3,
+                    3
+                  ]
+                },
+                "output": "3\n3\n3\n3\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "items"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 1, 3, 5, 8 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب رقمين متساويين مع أصغر رقم في الآخر. تابع عدد التبديلات.",
+          "instruction": "يا كمبيوتر، جرّب رقمين متساويين مع أصغر رقم في الآخر. تابع عدد التبديلات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 3, 3, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n3\n3\n3\n1\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    9
+                  ]
+                },
+                "output": "9\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n4\n3\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    3,
+                    3,
+                    3
+                  ]
+                },
+                "output": "3\n3\n3\n3\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "items"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 3, 3, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "تابع الفحص الرقم 1 ولم يحرّك best. أي أمر يحفظ مكان الرقم الجديد؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "تابع الفحص الرقم 1 ولم يحرّك best. أي أمر يحفظ مكان الرقم الجديد؟",
+          "options": [
+            "best = i;",
+            "best = j;",
+            "best = items[j];"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = i; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "احفظ الفهرس j عشان تستخدمه وقت التبديل.",
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ الفهرس j عشان تستخدمه وقت التبديل.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ الفهرس j عشان تستخدمه وقت التبديل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = i; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "solution": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n3\n5\n8\n6\n2\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    9
+                  ]
+                },
+                "output": "9\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n4\n3\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    3,
+                    3,
+                    3
+                  ]
+                },
+                "output": "3\n3\n3\n3\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "items"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، رتب 9 و2 و5 و1 بالاختيار. راقب المواضع التي تحتاج تبديلًا واحسب الإجمالي.",
+          "instruction": "يا كمبيوتر، رتب 9 و2 و5 و1 بالاختيار. راقب المواضع التي تحتاج تبديلًا واحسب الإجمالي.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] items = { 9, 2, 5, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n2\n5\n9\n6\n1\n",
+            "declared": [
+              "items",
+              "comparisons",
+              "swaps"
+            ],
+            "printed": [
+              "comparisons",
+              "swaps"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    9
+                  ]
+                },
+                "output": "9\n0\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n4\n3\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    3,
+                    3,
+                    3
+                  ]
+                },
+                "output": "3\n3\n3\n3\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "items"
+              ],
+              "effect": "comparisons"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "comparisons": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع best = j; داخل if (items[j] < items[best]).",
+            "كشف الحل:\nint[] items = { 9, 2, 5, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = i; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+        "fixedCode": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
+        "question": "تابع الفحص الرقم 1 ولم يحرّك best. أي أمر يحفظ مكان الرقم الجديد؟",
+        "explanation": "احفظ الفهرس j عشان تستخدمه وقت التبديل.",
+        "options": [
+          "best = i;",
+          "best = j;",
+          "best = items[j];"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-103-algorithm-bubble-sort"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، كمّل تحديث فهرس الأصغر. اطبع 1 و3 و5 و8، ثم ست مقارنات وتبديلين.",
+        "يا كمبيوتر، رتب 9 و2 و5 و1 بالاختيار. راقب المواضع التي تحتاج تبديلًا واحسب الإجمالي."
+      ],
+      "commonMisconceptions": [
+        "احفظ الفهرس j عشان تستخدمه وقت التبديل."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "ترتيب بطاقات الاستقبال وعدّ العمليات",
+      "sceneVisual": [
+        {
+          "label": "من المكان الأول",
+          "value": "i = 0"
+        },
+        {
+          "label": "أصغر قيمة بعد الفحص",
+          "value": "best = 3 · القيمة 1"
+        },
+        {
+          "label": "ثبّت المكان",
+          "value": "1 · 3 · 8 · 5"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/selectionSort.html"
+    },
+    {
+      "id": "csharp-105-algorithm-insertion-sort",
+      "legacyId": "csharp:104",
+      "title": "افتح مكانًا للبطاقة في الجزء المرتّب",
+      "skill": "خوارزميات الترتيب والتعقيد",
+      "order": 104,
+      "unitId": "sorting-and-cost",
+      "revision": 1,
+      "concept": "Insertion Sort تمسك العنصر الجديد في picked. تزحزح للقادم أكبر من picked لليمين، ثم تضع picked في الفراغ عند j + 1.",
+      "whyUse": "تقدر تكمّل ترتيب جزء جاهز بإضافة بطاقة واحدة كل مرة.",
+      "browserMechanics": "تابع قيمة j خطوة خطوة وراقب الأرقام الأكبر تتحرك حتى يثبت مكان picked.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+      "breakdown": [
+        "احفظ items[i] قبل تحريك الخانات.",
+        "انقل الأكبر يمينًا طالما j داخل الحدود.",
+        "ضع picked في j + 1 واطبع عدد النقلات."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "أمامك ترتيب 2 ثم 5. تدخل بطاقة 3. حرّك 5 خانة لليمين، ثم ضع 3 في الفراغ قبلها.",
+          "instruction": "يا كمبيوتر، أمامك ترتيب 2 ثم 5. تدخل بطاقة 3. حرّك 5 خانة لليمين، ثم ضع 3 في الفراغ قبلها.",
+          "benefit": "تقدر تكمّل ترتيب جزء جاهز بإضافة بطاقة واحدة كل مرة.",
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Insertion Sort تمسك العنصر الجديد في picked. تزحزح للقادم أكبر من picked لليمين، ثم تضع picked في الفراغ عند j + 1.",
+          "code": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "benefit": "تابع قيمة j خطوة خطوة وراقب الأرقام الأكبر تتحرك حتى يثبت مكان picked.",
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل سطر وضع picked بعد انتهاء النقل. اطبع 2 و3 و5 و7 ثم عدد النقلات 1.",
+          "instruction": "يا كمبيوتر، أكمل سطر وضع picked بعد انتهاء النقل. اطبع 2 و3 و5 و7 ثم عدد النقلات 1.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    // اكتب الأمر هنا\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "solution": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "challenge": {
+            "output": "2\n3\n5\n7\n1\n",
+            "declared": [
+              "items",
+              "shifts"
+            ],
+            "printed": [
+              "shifts"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    7,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n7\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    0,
+                    -1
+                  ]
+                },
+                "output": "-1\n0\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "depth": 2,
+              "reads": [
+                "items",
+                "picked"
+              ],
+              "effect": "shifts"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "shifts": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، جرّب ترتيبًا تنازليًا. تابع اكتمال حركة picked حتى بداية المصفوفة.",
+          "instruction": "يا كمبيوتر، جرّب ترتيبًا تنازليًا. تابع اكتمال حركة picked حتى بداية المصفوفة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 5, 4, 3, 2 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "challenge": {
+            "output": "2\n3\n4\n5\n6\n",
+            "declared": [
+              "items",
+              "shifts"
+            ],
+            "printed": [
+              "shifts"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    7,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n7\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    0,
+                    -1
+                  ]
+                },
+                "output": "-1\n0\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "depth": 2,
+              "reads": [
+                "items",
+                "picked"
+              ],
+              "effect": "shifts"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "shifts": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 5, 4, 3, 2 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ بترتيب جاهز مع تكرار 3. ما عدد النقلات؟",
+          "instruction": "يا كمبيوتر، ابدأ بترتيب جاهز مع تكرار 3. ما عدد النقلات؟",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 1, 3, 3, 6 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "challenge": {
+            "output": "1\n3\n3\n6\n0\n",
+            "declared": [
+              "items",
+              "shifts"
+            ],
+            "printed": [
+              "shifts"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    7,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n7\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    0,
+                    -1
+                  ]
+                },
+                "output": "-1\n0\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "depth": 2,
+              "reads": [
+                "items",
+                "picked"
+              ],
+              "effect": "shifts"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "shifts": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 1, 3, 3, 6 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "كتب البرنامج في الجار الذي سبَق الفراغ. أي فهرس يستخدمه سطر إدراج picked؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "كتب البرنامج في الجار الذي سبَق الفراغ. أي فهرس يستخدمه سطر إدراج picked؟",
+          "options": [
+            "i",
+            "j",
+            "j + 1"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اكتب عند j + 1 بعد انتهاء الفحص.",
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب عند j + 1 بعد انتهاء الفحص.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب عند j + 1 بعد انتهاء الفحص.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "solution": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "challenge": {
+            "output": "2\n3\n5\n7\n1\n",
+            "declared": [
+              "items",
+              "shifts"
+            ],
+            "printed": [
+              "shifts"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    7,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n7\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    0,
+                    -1
+                  ]
+                },
+                "output": "-1\n0\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "depth": 2,
+              "reads": [
+                "items",
+                "picked"
+              ],
+              "effect": "shifts"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "shifts": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، رتب 9 و2 و2 و3 بالإدراج. اطبع الترتيب ثم عدد نقلات العناصر الأكبر.",
+          "instruction": "يا كمبيوتر، رتب 9 و2 و2 و3 بالإدراج. اطبع الترتيب ثم عدد نقلات العناصر الأكبر.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] items = { 9, 2, 2, 3 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+          "challenge": {
+            "output": "2\n2\n3\n9\n3\n",
+            "declared": [
+              "items",
+              "shifts"
+            ],
+            "printed": [
+              "shifts"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    7,
+                    1,
+                    2
+                  ]
+                },
+                "output": "1\n2\n7\n2\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    0,
+                    -1
+                  ]
+                },
+                "output": "-1\n0\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "depth": 2,
+              "reads": [
+                "items",
+                "picked"
+              ],
+              "effect": "shifts"
+            },
+            "indexAccess": {
+              "name": "items",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "shifts": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب items[j + 1] = picked; بعد while.",
+            "كشف الحل:\nint[] items = { 9, 2, 2, 3 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+        "fixedCode": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
+        "question": "كتب البرنامج في الجار الذي سبَق الفراغ. أي فهرس يستخدمه سطر إدراج picked؟",
+        "explanation": "اكتب عند j + 1 بعد انتهاء الفحص.",
+        "options": [
+          "i",
+          "j",
+          "j + 1"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-104-algorithm-selection-sort"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل سطر وضع picked بعد انتهاء النقل. اطبع 2 و3 و5 و7 ثم عدد النقلات 1.",
+        "يا كمبيوتر، رتب 9 و2 و2 و3 بالإدراج. اطبع الترتيب ثم عدد نقلات العناصر الأكبر."
+      ],
+      "commonMisconceptions": [
+        "اكتب عند j + 1 بعد انتهاء الفحص."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "ترتيب بطاقات الاستقبال وعدّ العمليات",
+      "sceneVisual": [
+        {
+          "label": "الجزء المرتب",
+          "value": "2 · 5"
+        },
+        {
+          "label": "امسك البطاقة",
+          "value": "picked = 3"
+        },
+        {
+          "label": "بعد الإدراج",
+          "value": "2 · 3 · 5"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/insertionSort.html"
+    },
+    {
+      "id": "csharp-106-algorithm-merge-sorted-runs",
+      "legacyId": "csharp:105",
+      "title": "ادمج صفّين مرتّبين من المقدمة",
+      "skill": "خوارزميات الترتيب والتعقيد",
+      "order": 105,
+      "unitId": "sorting-and-cost",
+      "revision": 1,
+      "concept": "الدمج يأخذ أصغر المتاح من المقدمتين. يتحرك مؤشر المصدر الذي أخذنا منه فقط، وإذا انتهى صف نكمّل بالقيم الباقية في الصف الآخر.",
+      "whyUse": "تجمع جزأين مرتبين مع الحفاظ على الترتيب دون إعادة فحص العناصر التي كتبتها.",
+      "browserMechanics": "راقب l وr مع كل كتابة في merged. يتغير مؤشر واحد، ثم يتقدم فهرس الناتج.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+      "breakdown": [
+        "خصّص merged بعدد خانات الصفّين.",
+        "اختر من اليسار لو انتهى اليمين أو مقدمته أصغر أو مساوية.",
+        "حرّك مؤشر المصدر وواصل حتى تمتلئ merged."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "على اليسار 2 و6 بالترتيب، وعلى اليمين 1 و7. قارن أول كارت في الصفّين، ضعه في الناتج، وحرّك مقدمة صفه.",
+          "instruction": "يا كمبيوتر، على اليسار 2 و6 بالترتيب، وعلى اليمين 1 و7. قارن أول كارت في الصفّين، ضعه في الناتج، وحرّك مقدمة صفه.",
+          "benefit": "تجمع جزأين مرتبين مع الحفاظ على الترتيب دون إعادة فحص العناصر التي كتبتها.",
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "الدمج يأخذ أصغر المتاح من المقدمتين. يتحرك مؤشر المصدر الذي أخذنا منه فقط، وإذا انتهى صف نكمّل بالقيم الباقية في الصف الآخر.",
+          "code": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "benefit": "راقب l وr مع كل كتابة في merged. يتغير مؤشر واحد، ثم يتقدم فهرس الناتج.",
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل اختيار قيمة اليمين في حالة else. اطبع الترتيب المدمج 1 و2 و6 و7 ثم أربع كتابات.",
+          "instruction": "يا كمبيوتر، أكمل اختيار قيمة اليمين في حالة else. اطبع الترتيب المدمج 1 و2 و6 و7 ثم أربع كتابات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        // اكتب الأمر هنا\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "solution": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "challenge": {
+            "output": "1\n2\n6\n7\n4\n",
+            "declared": [
+              "left",
+              "right",
+              "merged",
+              "l",
+              "r",
+              "writes"
+            ],
+            "printed": [
+              "writes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "left": [],
+                  "right": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    -2
+                  ],
+                  "right": []
+                },
+                "output": "-2\n1\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    1,
+                    4
+                  ],
+                  "right": [
+                    1,
+                    3
+                  ]
+                },
+                "output": "1\n1\n3\n4\n4\n"
+              }
+            ],
+            "conditionReads": [
+              "left",
+              "right"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "merged"
+              ],
+              "effect": "writes"
+            },
+            "indexAccess": {
+              "name": "merged",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "left": "int[]",
+              "right": "int[]",
+              "merged": "int[]",
+              "l": "int",
+              "r": "int",
+              "writes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر مقدمة اليمين إلى 2. عند التعادل اختر اليسار ثم تابع باقي القيم.",
+          "instruction": "يا كمبيوتر، غيّر مقدمة اليمين إلى 2. عند التعادل اختر اليسار ثم تابع باقي القيم.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] left = { 2, 6 };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "challenge": {
+            "output": "2\n2\n6\n7\n4\n",
+            "declared": [
+              "left",
+              "right",
+              "merged",
+              "l",
+              "r",
+              "writes"
+            ],
+            "printed": [
+              "writes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "left": [],
+                  "right": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    -2
+                  ],
+                  "right": []
+                },
+                "output": "-2\n1\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    1,
+                    4
+                  ],
+                  "right": [
+                    1,
+                    3
+                  ]
+                },
+                "output": "1\n1\n3\n4\n4\n"
+              }
+            ],
+            "conditionReads": [
+              "left",
+              "right"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "merged"
+              ],
+              "effect": "writes"
+            },
+            "indexAccess": {
+              "name": "merged",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "left": "int[]",
+              "right": "int[]",
+              "merged": "int[]",
+              "l": "int",
+              "r": "int",
+              "writes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب صفًا يساريًا فارغًا. راقب كيف يحمي الشرط قراءة l بعد نهاية الصف.",
+          "instruction": "يا كمبيوتر، جرّب صفًا يساريًا فارغًا. راقب كيف يحمي الشرط قراءة l بعد نهاية الصف.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] left = {  };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "challenge": {
+            "output": "2\n7\n2\n",
+            "declared": [
+              "left",
+              "right",
+              "merged",
+              "l",
+              "r",
+              "writes"
+            ],
+            "printed": [
+              "writes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "left": [],
+                  "right": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    -2
+                  ],
+                  "right": []
+                },
+                "output": "-2\n1\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    1,
+                    4
+                  ],
+                  "right": [
+                    1,
+                    3
+                  ]
+                },
+                "output": "1\n1\n3\n4\n4\n"
+              }
+            ],
+            "conditionReads": [
+              "left",
+              "right"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "merged"
+              ],
+              "effect": "writes"
+            },
+            "indexAccess": {
+              "name": "merged",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "left": "int[]",
+              "right": "int[]",
+              "merged": "int[]",
+              "l": "int",
+              "r": "int",
+              "writes": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = {  };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "بدأ الناتج بالبطاقة 2 قبل 1. كيف نختار اليسار عند توفر الصفّين؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "بدأ الناتج بالبطاقة 2 قبل 1. كيف نختار اليسار عند توفر الصفّين؟",
+          "options": [
+            "left[l] <= right[r]",
+            "left[l] >= right[r]",
+            "l == r"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] >= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اختر اليسار لما تكون قيمته أصغر أو مساوية.",
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختر اليسار لما تكون قيمته أصغر أو مساوية.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختر اليسار لما تكون قيمته أصغر أو مساوية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] >= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "solution": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "challenge": {
+            "output": "1\n2\n6\n7\n4\n",
+            "declared": [
+              "left",
+              "right",
+              "merged",
+              "l",
+              "r",
+              "writes"
+            ],
+            "printed": [
+              "writes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "left": [],
+                  "right": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    -2
+                  ],
+                  "right": []
+                },
+                "output": "-2\n1\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    1,
+                    4
+                  ],
+                  "right": [
+                    1,
+                    3
+                  ]
+                },
+                "output": "1\n1\n3\n4\n4\n"
+              }
+            ],
+            "conditionReads": [
+              "left",
+              "right"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "merged"
+              ],
+              "effect": "writes"
+            },
+            "indexAccess": {
+              "name": "merged",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "left": "int[]",
+              "right": "int[]",
+              "merged": "int[]",
+              "l": "int",
+              "r": "int",
+              "writes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، ادمج 1 و5 و7 مع 2 و2 و9. اعرض الترتيب ست عمليات كتابة.",
+          "instruction": "يا كمبيوتر، ادمج 1 و5 و7 مع 2 و2 و9. اعرض الترتيب ست عمليات كتابة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] left = { 1, 5, 7 };\nint[] right = { 2, 2, 9 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+          "challenge": {
+            "output": "1\n2\n2\n5\n7\n9\n6\n",
+            "declared": [
+              "left",
+              "right",
+              "merged",
+              "l",
+              "r",
+              "writes"
+            ],
+            "printed": [
+              "writes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "left": [],
+                  "right": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    -2
+                  ],
+                  "right": []
+                },
+                "output": "-2\n1\n"
+              },
+              {
+                "inputs": {
+                  "left": [
+                    1,
+                    4
+                  ],
+                  "right": [
+                    1,
+                    3
+                  ]
+                },
+                "output": "1\n1\n3\n4\n4\n"
+              }
+            ],
+            "conditionReads": [
+              "left",
+              "right"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "merged"
+              ],
+              "effect": "writes"
+            },
+            "indexAccess": {
+              "name": "merged",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "left": "int[]",
+              "right": "int[]",
+              "merged": "int[]",
+              "l": "int",
+              "r": "int",
+              "writes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "كشف الحل:\nint[] left = { 1, 5, 7 };\nint[] right = { 2, 2, 9 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] >= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+        "fixedCode": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
+        "question": "بدأ الناتج بالبطاقة 2 قبل 1. كيف نختار اليسار عند توفر الصفّين؟",
+        "explanation": "اختر اليسار لما تكون قيمته أصغر أو مساوية.",
+        "options": [
+          "left[l] <= right[r]",
+          "left[l] >= right[r]",
+          "l == r"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-105-algorithm-insertion-sort"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل اختيار قيمة اليمين في حالة else. اطبع الترتيب المدمج 1 و2 و6 و7 ثم أربع كتابات.",
+        "يا كمبيوتر، ادمج 1 و5 و7 مع 2 و2 و9. اعرض الترتيب ست عمليات كتابة."
+      ],
+      "commonMisconceptions": [
+        "اختر اليسار لما تكون قيمته أصغر أو مساوية."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "ترتيب بطاقات الاستقبال وعدّ العمليات",
+      "sceneVisual": [
+        {
+          "label": "اليسار",
+          "value": "2 · 6"
+        },
+        {
+          "label": "اليمين",
+          "value": "1 · 7"
+        },
+        {
+          "label": "أول بطاقة تخرج",
+          "value": "1 من اليمين"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/merge.html"
+    },
+    {
+      "id": "csharp-107-algorithm-merge-sort",
+      "legacyId": "csharp:106",
+      "title": "رتّب النصفين ثم ادمجهما",
+      "skill": "خوارزميات الترتيب والتعقيد",
+      "order": 106,
+      "unitId": "sorting-and-cost",
+      "revision": 1,
+      "concept": "Merge Sort تستدعي نفس الدالة على جزأين أصغر، حتى يبقى في الجزء عنصر واحد أو أقل. بعد رجوع النصفين تطبق Merge على الجزأين المرتبين.",
+      "whyUse": "تعيد استخدام قاعدة الدمج لمشكلة ترتيب مصفوفة كاملة.",
+      "browserMechanics": "كل استدعاء يعرض start وend. شوف Merge بعد اكتمال النصفين، ثم النسخ من workspace.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+      "breakdown": [
+        "إذا كان طول الجزء صفرًا أو واحدًا ارجع.",
+        "رتّب [start, middle) ثم [middle, end).",
+        "ادمجهما وأعد مجموع المقارنات."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قسّم 7 و2 و4 و1 إلى مجموعتين صغيرتين. كل مجموعة تترتب لوحدها أولًا. بعدها ادمجهما في صف واحد.",
+          "instruction": "يا كمبيوتر، قسّم 7 و2 و4 و1 إلى مجموعتين صغيرتين. كل مجموعة تترتب لوحدها أولًا. بعدها ادمجهما في صف واحد.",
+          "benefit": "تعيد استخدام قاعدة الدمج لمشكلة ترتيب مصفوفة كاملة.",
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Merge Sort تستدعي نفس الدالة على جزأين أصغر، حتى يبقى في الجزء عنصر واحد أو أقل. بعد رجوع النصفين تطبق Merge على الجزأين المرتبين.",
+          "code": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "benefit": "كل استدعاء يعرض start وend. شوف Merge بعد اكتمال النصفين، ثم النسخ من workspace.",
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، كمّل استدعاء ترتيب النصف الأول داخل Sort. اطبع 1 و2 و4 و7 ثم المقارنات 5.",
+          "instruction": "يا كمبيوتر، كمّل استدعاء ترتيب النصف الأول داخل Sort. اطبع 1 و2 و4 و7 ثم المقارنات 5.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    // اكتب الأمر هنا\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "solution": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "challenge": {
+            "output": "1\n2\n4\n7\n5\n",
+            "declared": [
+              "items",
+              "buffer",
+              "comparisons"
+            ],
+            "printed": [
+              "comparisons"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    2
+                  ]
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    5,
+                    5,
+                    1
+                  ]
+                },
+                "output": "1\n5\n5\n3\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n4\n"
+              }
+            ],
+            "calls": {
+              "Sort": 3,
+              "Merge": 1
+            },
+            "indexAccess": {
+              "name": "workspace",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "buffer": "int[]",
+              "comparisons": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، جرّب ترتيبًا جاهزًا. قارن عدد المقارنات بحالة البداية.",
+          "instruction": "يا كمبيوتر، جرّب ترتيبًا جاهزًا. قارن عدد المقارنات بحالة البداية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 1, 2, 3, 4 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "challenge": {
+            "output": "1\n2\n3\n4\n4\n",
+            "declared": [
+              "items",
+              "buffer",
+              "comparisons"
+            ],
+            "printed": [
+              "comparisons"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    2
+                  ]
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    5,
+                    5,
+                    1
+                  ]
+                },
+                "output": "1\n5\n5\n3\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n4\n"
+              }
+            ],
+            "calls": {
+              "Sort": 3,
+              "Merge": 1
+            },
+            "indexAccess": {
+              "name": "workspace",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "buffer": "int[]",
+              "comparisons": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 1, 2, 3, 4 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب أصغر مدخل يحتاج دمجًا. شاهد دورتين تستوفيان حالة التوقف ثم دمجًا واحدًا.",
+          "instruction": "يا كمبيوتر، جرّب أصغر مدخل يحتاج دمجًا. شاهد دورتين تستوفيان حالة التوقف ثم دمجًا واحدًا.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] items = { 2, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "challenge": {
+            "output": "1\n2\n1\n",
+            "declared": [
+              "items",
+              "buffer",
+              "comparisons"
+            ],
+            "printed": [
+              "comparisons"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    2
+                  ]
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    5,
+                    5,
+                    1
+                  ]
+                },
+                "output": "1\n5\n5\n3\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n4\n"
+              }
+            ],
+            "calls": {
+              "Sort": 3,
+              "Merge": 1
+            },
+            "indexAccess": {
+              "name": "workspace",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "buffer": "int[]",
+              "comparisons": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 2, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "دخل النصف الأول إلى Merge وهو 7 ثم 2. ما الاستدعاء الذي يرتبه قبل الدمج؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "دخل النصف الأول إلى Merge وهو 7 ثم 2. ما الاستدعاء الذي يرتبه قبل الدمج؟",
+          "options": [
+            "Sort(values, workspace, middle, end)",
+            "Sort(values, workspace, start, middle)",
+            "Sort(values, workspace, start, end)"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = 0;\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = 0;\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "solution": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "challenge": {
+            "output": "1\n2\n4\n7\n5\n",
+            "declared": [
+              "items",
+              "buffer",
+              "comparisons"
+            ],
+            "printed": [
+              "comparisons"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    2
+                  ]
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    5,
+                    5,
+                    1
+                  ]
+                },
+                "output": "1\n5\n5\n3\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n4\n"
+              }
+            ],
+            "calls": {
+              "Sort": 3,
+              "Merge": 1
+            },
+            "indexAccess": {
+              "name": "workspace",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "buffer": "int[]",
+              "comparisons": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، طبّق التقسيم والدمج على 3 و0 و3 و2 واطبع الناتج وعدد المقارنات.",
+          "instruction": "يا كمبيوتر، طبّق التقسيم والدمج على 3 و0 و3 و2 واطبع الناتج وعدد المقارنات.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "int[] items = { 3, 0, 3, 2 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    // اكتب الأمر هنا\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "solution": "int[] items = { 3, 0, 3, 2 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+          "challenge": {
+            "output": "0\n2\n3\n3\n5\n",
+            "declared": [
+              "items",
+              "buffer",
+              "comparisons"
+            ],
+            "printed": [
+              "comparisons"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "items": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    2
+                  ]
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    5,
+                    5,
+                    1
+                  ]
+                },
+                "output": "1\n5\n5\n3\n"
+              },
+              {
+                "inputs": {
+                  "items": [
+                    4,
+                    3,
+                    2,
+                    1
+                  ]
+                },
+                "output": "1\n2\n3\n4\n4\n"
+              }
+            ],
+            "calls": {
+              "Sort": 3,
+              "Merge": 1
+            },
+            "indexAccess": {
+              "name": "workspace",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "items": "int[]",
+              "buffer": "int[]",
+              "comparisons": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "كشف الحل:\nint[] items = { 3, 0, 3, 2 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = 0;\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+        "fixedCode": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
+        "question": "دخل النصف الأول إلى Merge وهو 7 ثم 2. ما الاستدعاء الذي يرتبه قبل الدمج؟",
+        "explanation": "استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
+        "options": [
+          "Sort(values, workspace, middle, end)",
+          "Sort(values, workspace, start, middle)",
+          "Sort(values, workspace, start, end)"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-106-algorithm-merge-sorted-runs"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، كمّل استدعاء ترتيب النصف الأول داخل Sort. اطبع 1 و2 و4 و7 ثم المقارنات 5.",
+        "يا كمبيوتر، طبّق التقسيم والدمج على 3 و0 و3 و2 واطبع الناتج وعدد المقارنات."
+      ],
+      "commonMisconceptions": [
+        "استدعِ Sort على الجزء الأول فقط من start حتى قبل middle."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "ترتيب بطاقات الاستقبال وعدّ العمليات",
+      "sceneVisual": [
+        {
+          "label": "اقسم",
+          "value": "7 · 2 | 4 · 1"
+        },
+        {
+          "label": "بعد ترتيب النصفين",
+          "value": "2 · 7 | 1 · 4"
+        },
+        {
+          "label": "ادمج",
+          "value": "1 · 2 · 4 · 7"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/mergesort.html"
+    },
+    {
+      "id": "csharp-108-algorithm-sort-comparison-growth",
+      "legacyId": "csharp:107",
+      "title": "قارن زيادات المقارنات مع كبر المصفوفة",
+      "skill": "خوارزميات الترتيب والتعقيد",
+      "order": 107,
+      "unitId": "sorting-and-cost",
+      "revision": 1,
+      "concept": "عدد مقارنات الفقاعات في النسخة التي تمرّ دائمًا ينمو كـ O(n²). المرور على n عنصرًا عبر عدد طبقات ينمو لوغاريتميًا يعطي للدمج O(n log n). نقارن عدّاد الفقاعات بسقف زيارات الدمج.",
+      "whyUse": "تقدر تتوقع شكل النمو من بنية الخوارزمية وتختبر توقعك بالأرقام.",
+      "browserMechanics": "راقب زيادة comparisons داخل الحلقتين، ثم ضرب عدد العناصر في عدد طبقات الدمج.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+      "breakdown": [
+        "احسب أطوال المرور المتناقصة للفقاعات.",
+        "ضاعف عرض الجزء حتى يغطي المصفوفة وعدّ الطبقات.",
+        "اضرب الحجم في الطبقات للحصول على سقف زيارات الدمج."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "المصفوفة كبرت من 4 إلى 8. في الفقاعات عندك مرور بأطوال تتناقص واحدًا واحدًا. في الدمج يزيد عدد الطبقات واحدة ويزيد شغل كل طبقة.",
+          "instruction": "يا كمبيوتر، المصفوفة كبرت من 4 إلى 8. في الفقاعات عندك مرور بأطوال تتناقص واحدًا واحدًا. في الدمج يزيد عدد الطبقات واحدة ويزيد شغل كل طبقة.",
+          "benefit": "تقدر تتوقع شكل النمو من بنية الخوارزمية وتختبر توقعك بالأرقام.",
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "عدد مقارنات الفقاعات في النسخة التي تمرّ دائمًا ينمو كـ O(n²). المرور على n عنصرًا عبر عدد طبقات ينمو لوغاريتميًا يعطي للدمج O(n log n). نقارن عدّاد الفقاعات بسقف زيارات الدمج.",
+          "code": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "benefit": "راقب زيادة comparisons داخل الحلقتين، ثم ضرب عدد العناصر في عدد طبقات الدمج.",
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل mergeBudget بضرب الحجم في عدد الطبقات. مع أربعة عناصر اطبع 6 و8.",
+          "instruction": "يا كمبيوتر، أكمل mergeBudget بضرب الحجم في عدد الطبقات. مع أربعة عناصر اطبع 6 و8.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\n// اكتب الأمر هنا\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "solution": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "challenge": {
+            "output": "6\n8\n",
+            "declared": [
+              "size",
+              "comparisons",
+              "layers",
+              "mergeBudget"
+            ],
+            "printed": [
+              "comparisons",
+              "mergeBudget"
+            ],
+            "operation": "*",
+            "operationIn": "mergeBudget",
+            "cases": [
+              {
+                "inputs": {
+                  "size": 0
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 1
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 3
+                },
+                "output": "3\n6\n"
+              },
+              {
+                "inputs": {
+                  "size": 12
+                },
+                "output": "66\n48\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "types": {
+              "size": "int",
+              "comparisons": "int",
+              "layers": "int",
+              "mergeBudget": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ضاعف الحجم إلى 8. قارن تغير العددين.",
+          "instruction": "يا كمبيوتر، ضاعف الحجم إلى 8. قارن تغير العددين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "challenge": {
+            "output": "28\n24\n",
+            "declared": [
+              "size",
+              "comparisons",
+              "layers",
+              "mergeBudget"
+            ],
+            "printed": [
+              "comparisons",
+              "mergeBudget"
+            ],
+            "operation": "*",
+            "operationIn": "mergeBudget",
+            "cases": [
+              {
+                "inputs": {
+                  "size": 0
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 1
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 3
+                },
+                "output": "3\n6\n"
+              },
+              {
+                "inputs": {
+                  "size": 12
+                },
+                "output": "66\n48\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "types": {
+              "size": "int",
+              "comparisons": "int",
+              "layers": "int",
+              "mergeBudget": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب عنصرًا واحدًا. توقع عدد طبقات الدمج.",
+          "instruction": "يا كمبيوتر، جرّب عنصرًا واحدًا. توقع عدد طبقات الدمج.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int size = 1;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "challenge": {
+            "output": "0\n0\n",
+            "declared": [
+              "size",
+              "comparisons",
+              "layers",
+              "mergeBudget"
+            ],
+            "printed": [
+              "comparisons",
+              "mergeBudget"
+            ],
+            "operation": "*",
+            "operationIn": "mergeBudget",
+            "cases": [
+              {
+                "inputs": {
+                  "size": 0
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 1
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 3
+                },
+                "output": "3\n6\n"
+              },
+              {
+                "inputs": {
+                  "size": 12
+                },
+                "output": "66\n48\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "types": {
+              "size": "int",
+              "comparisons": "int",
+              "layers": "int",
+              "mergeBudget": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 1;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 3 للدمج. أي تعبير يحسب سقف الزيارات لكل الطبقات؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 3 للدمج. أي تعبير يحسب سقف الزيارات لكل الطبقات؟",
+          "options": [
+            "layers",
+            "size + layers",
+            "size * layers"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اضرب الحجم الكلي في عدد الطبقات.",
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اضرب الحجم الكلي في عدد الطبقات.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اضرب الحجم الكلي في عدد الطبقات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "solution": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "challenge": {
+            "output": "28\n24\n",
+            "declared": [
+              "size",
+              "comparisons",
+              "layers",
+              "mergeBudget"
+            ],
+            "printed": [
+              "comparisons",
+              "mergeBudget"
+            ],
+            "operation": "*",
+            "operationIn": "mergeBudget",
+            "cases": [
+              {
+                "inputs": {
+                  "size": 0
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 1
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 3
+                },
+                "output": "3\n6\n"
+              },
+              {
+                "inputs": {
+                  "size": 12
+                },
+                "output": "66\n48\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "types": {
+              "size": "int",
+              "comparisons": "int",
+              "layers": "int",
+              "mergeBudget": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، توقع عمل الفقاعات والدمج عند 16 عنصرًا. اطبع 120 مقارنة وسقف 64 زيارة لطبقات الدمج.",
+          "instruction": "يا كمبيوتر، توقع عمل الفقاعات والدمج عند 16 عنصرًا. اطبع 120 مقارنة وسقف 64 زيارة لطبقات الدمج.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int size = 16;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+          "challenge": {
+            "output": "120\n64\n",
+            "declared": [
+              "size",
+              "comparisons",
+              "layers",
+              "mergeBudget"
+            ],
+            "printed": [
+              "comparisons",
+              "mergeBudget"
+            ],
+            "operation": "*",
+            "operationIn": "mergeBudget",
+            "cases": [
+              {
+                "inputs": {
+                  "size": 0
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 1
+                },
+                "output": "0\n0\n"
+              },
+              {
+                "inputs": {
+                  "size": 3
+                },
+                "output": "3\n6\n"
+              },
+              {
+                "inputs": {
+                  "size": 12
+                },
+                "output": "66\n48\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "end"
+              ],
+              "effect": "comparisons"
+            },
+            "types": {
+              "size": "int",
+              "comparisons": "int",
+              "layers": "int",
+              "mergeBudget": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int mergeBudget = size * layers;.",
+            "كشف الحل:\nint size = 16;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+        "fixedCode": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
+        "question": "ظهر 3 للدمج. أي تعبير يحسب سقف الزيارات لكل الطبقات؟",
+        "explanation": "اضرب الحجم الكلي في عدد الطبقات.",
+        "options": [
+          "layers",
+          "size + layers",
+          "size * layers"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-107-algorithm-merge-sort"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل mergeBudget بضرب الحجم في عدد الطبقات. مع أربعة عناصر اطبع 6 و8.",
+        "يا كمبيوتر، توقع عمل الفقاعات والدمج عند 16 عنصرًا. اطبع 120 مقارنة وسقف 64 زيارة لطبقات الدمج."
+      ],
+      "commonMisconceptions": [
+        "اضرب الحجم الكلي في عدد الطبقات."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "ترتيب بطاقات الاستقبال وعدّ العمليات",
+      "sceneVisual": [
+        {
+          "label": "عند 4 عناصر",
+          "value": "6 مقارنات · سقف 8 زيارات"
+        },
+        {
+          "label": "عند 8 عناصر",
+          "value": "28 مقارنة · سقف 24 زيارة"
+        },
+        {
+          "label": "عند 16 عنصرًا",
+          "value": "120 مقارنة · سقف 64 زيارة"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/bigOnotation.html"
     }
   ]
 }
