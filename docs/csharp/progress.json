@@ -14,27 +14,27 @@
     "P6": "complete",
     "P7": "complete",
     "P8": "complete",
-    "P9": "in_progress"
+    "P9": "complete"
   },
-  "nextAction": "Start P9B at lesson 113 with graph adjacency, BFS and DFS, and an unweighted shortest-route capstone with boundary cases. Keep lessons 1–112 stable.",
+  "nextAction": "Verify the review branch and PR match the tested final curriculum. Keep P2 browser acceptance separate until a supported browser can run the WebAssembly harness.",
   "checks": {
     "npmTest": {
-      "passed": 940,
+      "passed": 970,
       "failed": 0
     },
-    "csharpTests": 770,
-    "canonicalLessonsValidated": 609,
+    "csharpTests": 800,
+    "canonicalLessonsValidated": 614,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 112 lessons with earlier completion. Lesson 109 traced Left to object #2 and Right to #3, then restored the earlier null Right on rewind.",
+    "browserQA": "Desktop Chrome displayed 117 lessons and kept earlier completions. Lesson 116 showed the scene before code, traced 0 to 1 to 3 (2 edges), rejected the incomplete solution, accepted the fix, and restored the draft on reload.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 2244,
+      "passed": 2379,
       "failed": 0,
-      "alternateInputCases": 1657,
+      "alternateInputCases": 1767,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 560
+      "curriculumSolutionsCompared": 585
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
@@ -67,13 +67,13 @@
     "P8A": "complete",
     "P8B": "complete",
     "P9A": "complete",
-    "P9B": "pending"
+    "P9B": "complete"
   },
   "curriculum": {
-    "lessons": 112,
-    "steps": 896,
-    "units": 15,
-    "latestUnit": "trees-and-heap",
-    "nextUnit": "graph-traversals"
+    "lessons": 117,
+    "steps": 936,
+    "units": 16,
+    "latestUnit": "graph-traversals",
+    "nextUnit": null
   }
 }

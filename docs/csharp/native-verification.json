@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
   "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 2244,
+  "passed": 2379,
   "failed": 0,
   "results": [
     {
@@ -11086,6 +11086,681 @@
     },
     {
       "name": "csharp-112-heap-insert-sift-up/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-113-graph-read-adjacency/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-114-graph-bfs-queue/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-115-graph-dfs-recursive/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/build/alternate/5",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/edit/alternate/5",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/experiment/alternate/5",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/repair/alternate/5",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-116-graph-project-shortest-route/transfer/alternate/5",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-117-graph-project-boundary-tests/transfer/alternate/3",
       "passed": true,
       "message": null
     },
