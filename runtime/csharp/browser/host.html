@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>StepLearn isolated C# host</title></head><body>
+<script>
+// Opaque origin: no access to the learner page, cookies, or origin storage.
+// All trusted runtime bytes arrive once from the parent. The worker has no network.
+const csp = document.createElement('meta');
+csp.httpEquiv = 'Content-Security-Policy';
+csp.content = "default-src 'none'; script-src blob: 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'none'; worker-src blob:; child-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'";
+document.head.append(csp);
+const nonce = location.hash.slice(1);
+const blob = new Blob([`
+  self.onmessage = async ({data}) => {
+    if(data.type !== 'initialize') return;
+    self.onmessage = null;
+    try {
+      const entry = data.files.find(file => file.file === 'worker.js');
+      const url = URL.createObjectURL(new Blob([entry.bytes], {type:'text/javascript'}));
+      const module = await import(url);
+      await module.start(data.files, data.references);
+    } catch(error) { self.postMessage({type:'error',message:'تعذّر بدء مشغّل .NET: '+String(error?.message || error)}); }
+  };
+`], {type:'text/javascript'});
+const workerURL = URL.createObjectURL(blob);
+// Classic workers start reliably in Chromium opaque-origin frames; dynamic
+// imports inside them still load the runtime as standard ES modules.
+const worker = new Worker(workerURL);
+worker.onmessage = event => parent.postMessage({channel:'steplearn-dotnet', nonce, payload:event.data}, '*');
+worker.onerror = event => parent.postMessage({channel:'steplearn-dotnet', nonce, payload:{type:'error', message:'تعذّر بدء مشغّل .NET: ' + (event.message || 'المتصفح لا يدعم مساحة التشغيل المعزولة.')}}, '*');
+let initialized = false;
+addEventListener('message', event => {
+  if(event.source !== parent || event.data?.nonce !== nonce || event.data?.channel !== 'steplearn-dotnet') return;
+  const payload = event.data.payload;
+  if(payload?.type === 'initialize') {
+    if(initialized) return;
+    initialized = true;
+    worker.postMessage(payload, payload.files.map(file => file.bytes));
+  } else if(initialized) worker.postMessage(payload);
+});
+parent.postMessage({channel:'steplearn-dotnet',nonce,payload:{type:'host-ready'}}, '*');
+</script>
+</body></html>

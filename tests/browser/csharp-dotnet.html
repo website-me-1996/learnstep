@@ -1,0 +1,45 @@
+<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>اختبار مشغّل C# الفعلي</title>
+<style>body{font:16px/1.8 system-ui;background:#102018;color:#e2f4e9;margin:30px}button{padding:12px 24px;font:inherit}li{margin:8px 0}.fail{color:#ffab9d}pre{white-space:pre-wrap}</style>
+<h1>اختبار مشغّل C# الفعلي</h1><button id="start">ابدأ فحص .NET</button><h2 id="summary">لم يبدأ الفحص</h2><ol id="results"></ol><pre id="report"></pre>
+<script type="module">
+import {DotnetRunner} from '/csharp-dotnet-client.js';
+import {runProgram} from '/csharp-runtime.js';
+const $=id=>document.getElementById(id);
+$('start').onclick=async()=>{
+ $('start').disabled=true;const started=performance.now(),results=[];
+ const runner=new DotnetRunner({onStatus:m=>$('summary').textContent=m});
+ const assert=(condition,message)=>{if(!condition)throw Error(message)};
+ async function check(name,fn){try{await fn();results.push({name,passed:true})}catch(e){results.push({name,passed:false,message:e.message})}const li=document.createElement('li');li.textContent=(results.at(-1).passed?'✓ ':'✗ ')+name+(results.at(-1).message?' — '+results.at(-1).message:'');li.className=results.at(-1).passed?'':'fail';$('results').append(li);$('summary').textContent=results.filter(r=>r.passed).length+'/'+results.length;}
+ try{
+  await runner.load();const coldStartMs=Math.round(performance.now()-started);
+  const data=await(await fetch('/csharp-lessons.json')).json();
+  for(const lesson of data.lessons){
+   for(const step of lesson.steps.filter(s=>s.challenge)) await check(lesson.title+' / '+step.id,async()=>{const actual=await runner.run(step.solution);assert(actual.ok,JSON.stringify(actual));assert(actual.output===runProgram(step.solution).output,'output mismatch: '+JSON.stringify(actual));});
+   for(const step of lesson.steps.filter(s=>s.challenge?.cases))for(const [index,c] of step.challenge.cases.entries())await check(lesson.title+' / '+step.id+' مدخل بديل '+index,async()=>{let source=step.solution;for(const [name,value]of Object.entries(c.inputs))source=source.replace(new RegExp('\\b(int|string|bool)\\s+'+name+'\\s*=\\s*[^;]+;'),(_,type)=>type+' '+name+' = '+JSON.stringify(value)+';');const actual=await runner.run(source);assert(actual.ok&&actual.output===c.output,JSON.stringify(actual));});
+  }
+  const samples=[
+   ['حلقة for', 'int total=0; for(int i=1;i<=3;i++){total+=i;} Console.WriteLine(total);','6\n'],
+   ['دالة ومصفوفة','int Double(int n)=>n*2; int[] values={1,2,3}; Console.WriteLine(Double(values[2]));','6\n'],
+   ['صنف ومراجع','var first=new Node{Value=7}; var second=first; second.Value=9; Console.WriteLine(first.Value); class Node{public int Value;}','9\n'],
+   ['قائمة عامة','var values=new List<int>{2,4}; values.Add(6); Console.WriteLine(values.Sum());','12\n'],
+   ['مدخلات ReadLine','string? name=Console.ReadLine(); int n=int.Parse(Console.ReadLine()!); Console.WriteLine(name); Console.WriteLine(n*2);','أحمد\n42\n','أحمد\n21'],
+   ['انتهاء المدخلات','Console.WriteLine(Console.ReadLine() ?? "EOF");','EOF\n',''],
+   ['اسم Console مخصص','Console.WriteLine(Console.ReadLine()); class Console {public static string ReadLine()=>"custom";public static void WriteLine(string x)=>System.Console.WriteLine(x);}','custom\n'],
+   ['await فعلي','await Task.Delay(5); Console.WriteLine("async");','async\n'],
+   ['انعكاس .NET','Console.WriteLine(typeof(int).FullName);','System.Int32\n'],
+   ['أصل مساحة التنفيذ المعزولة','Console.WriteLine(System.Runtime.InteropServices.JavaScript.JSHost.GlobalThis.GetPropertyAsJSObject("location").GetPropertyAsString("origin"));','null\n']
+  ];
+  for(const[name,source,expected,input]of samples)await check(name,async()=>{const r=await runner.run(source,input||'');assert(r.ok&&r.output===expected,JSON.stringify(r));});
+  await check('رقم سطر خطأ المترجم',async()=>{const r=await runner.run('// first line\nint value="text";');assert(!r.ok&&r.kind==='compile'&&r.diagnostics.some(d=>d.id==='CS0029'&&d.line===2),JSON.stringify(r));});
+  await check('خطأ قسمة على صفر',async()=>{const r=await runner.run('int zero=0; Console.WriteLine(1/zero);');assert(!r.ok&&r.exceptionType==='DivideByZeroException',JSON.stringify(r));});
+  await check('حد المخرجات',async()=>{const r=await runner.run('for(int i=0;i<20000;i++) Console.Write("x");');assert(!r.ok&&r.kind==='limit'&&r.output.length<=16000,JSON.stringify(r).slice(0,200));});
+  await check('إيقاف حلقة لانهائية بالمهلة',async()=>{await runner.load();runner.runTimeout=1500;try{await runner.run('while(true){}');throw Error('not stopped')}catch(e){assert(e.message.includes('مهلة'),e.message)}finally{runner.runTimeout=6000;}});
+  await check('تشغيل جديد بعد المهلة',async()=>{const r=await runner.run('Console.WriteLine("recovered");');assert(r.ok&&r.output==='recovered\n',JSON.stringify(r));});
+  await check('الإيقاف اليدوي',async()=>{await runner.load();const pending=runner.run('while(true){}');setTimeout(()=>runner.stop(),400);try{await pending;throw Error('not stopped')}catch(e){assert(e.message.includes('أُوقف'),e.message)}});
+  await check('تشغيل جديد بعد الإيقاف اليدوي',async()=>{const r=await runner.run('Console.WriteLine("again");');assert(r.ok&&r.output==='again\n',JSON.stringify(r));});
+  $('report').textContent=JSON.stringify({passed:results.filter(r=>r.passed).length,failed:results.filter(r=>!r.passed).length,coldStartMs,durationMs:Math.round(performance.now()-started),results},null,2);
+  $('summary').textContent='انتهى الفحص: '+results.filter(r=>r.passed).length+' نجاح، '+results.filter(r=>!r.passed).length+' فشل';
+ }catch(e){$('summary').textContent='تعذّر بدء الفحص: '+e.message;$('report').textContent=String(e.stack||e);}
+ finally{runner.dispose();$('start').disabled=false;}
+};
+</script></html>

@@ -5695,6 +5695,7 @@
   }
 
   function select(k) {
+    if (typeof window.dispatchEvent === "function" && typeof CustomEvent === "function") window.dispatchEvent(new CustomEvent("steplearn:coursechange", { detail: { course: k } }));
     if (!data[k]) return;
     course = k;
     activePreviewCourse = k;

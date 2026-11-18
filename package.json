@@ -6,10 +6,14 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
+    "build:csharp-runtime": "node scripts/build-csharp-runtime.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "deploy": "npm run build && wrangler deploy",
     "test:json": "node validate-curriculum-json.cjs",
-    "test": "node validate-curriculum-json.cjs && node --test behavior.test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs tests/m1_engine_test.cjs tests/m2_html_curriculum_test.cjs tests/m3_css_curriculum_test.cjs tests/m4_js_curriculum_test.cjs tests/m5_angular_curriculum_test.cjs tests/e2e_database_track.test.cjs tests/regression_r1_r2.test.cjs"
+    "curriculum:csharp": "node curriculum/csharp/author-curriculum.cjs",
+    "test:csharp": "node validate-curriculum-json.cjs csharp-lessons.json && node --test tests/csharp_foundations.test.cjs tests/csharp_dotnet.test.cjs tests/csharp_decisions.test.cjs tests/csharp_compound_decisions.test.cjs",
+    "test": "node validate-curriculum-json.cjs && node --test behavior.test.cjs guided_build_test.cjs angular-course.test.cjs content-protection.test.cjs tests/m1_engine_test.cjs tests/m2_html_curriculum_test.cjs tests/m3_css_curriculum_test.cjs tests/m4_js_curriculum_test.cjs tests/m5_angular_curriculum_test.cjs tests/e2e_database_track.test.cjs tests/regression_r1_r2.test.cjs tests/csharp_foundations.test.cjs tests/csharp_dotnet.test.cjs tests/csharp_decisions.test.cjs tests/csharp_compound_decisions.test.cjs",
+    "test:csharp:dotnet": "node scripts/verify-csharp-compiler.mjs"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

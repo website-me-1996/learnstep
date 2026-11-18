@@ -87,7 +87,7 @@
           <a class="landing-secondary" href="#lesson">جرّب درسًا الآن</a>
         </div>
         <div class="landing-track-list" aria-label="المسارات المتاحة">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Angular</span><span class="track-badge" data-course="database">قواعد البيانات (SQL)</span>
+          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Angular</span><span>C#</span><span class="track-badge" data-course="database">قواعد البيانات (SQL)</span>
         </div>
         <div class="landing-feature-points" aria-label="مميزات التعلّم">
           <span>خطوات قصيرة</span><span>معاينة مباشرة</span><span>تقدّم محفوظ</span>
@@ -309,6 +309,72 @@
       </article>
 
     </div>
+
+    <section class="cs-course" id="csharpCoursePanel" hidden aria-label="مسار تأسيس C#" dir="rtl">
+      <header class="cs-heading">
+        <div><span class="eyebrow">C# · أساسيات البرمجة</span><h2>من الأمر إلى أثره</h2><p>شاهد خطوة واحدة، اكتبها، ثم جرّبها بنفسك.</p></div>
+        <span class="cs-count" id="csharpCourseCount">ثلاث وحدات · ٢٤ درسًا</span>
+      </header>
+      <p id="csharpLoading" role="status">نحمّل دروس مسار C#…</p>
+      <div id="csharpLoadError" class="cs-notice" hidden role="alert"><p>تعذّر تحميل الدروس. تقدمك المحفوظ لم يتغير.</p><button id="csharpRetry" type="button">حاول تحميل الدروس مرة أخرى</button></div>
+      <div id="csharpCourseContent" class="cs-shell" hidden>
+        <aside class="cs-roadmap card" aria-label="دروس مسار C#">
+          <h3>خريطة المسار</h3>
+          <nav id="csharpLessonList" class="cs-lesson-list" aria-label="اختيار درس C#"></nav>
+          <p class="cs-road-note">خطوتك وكودك محفوظان لكل درس. تقدر ترجع من المكان الذي وصلت له.</p>
+          <details><summary>بعد هذه الدروس</summary><p>الأنواع والتحويل والمدخلات، ثم الحلقات والدوال والمصفوفات، وبعدها هياكل البيانات والخوارزميات.</p></details>
+        </aside>
+        <div class="cs-main">
+          <article class="card cs-guide">
+            <div class="cs-guide-meta"><span id="csharpUnitLabel">فكرة واحدة · تجربة واحدة</span><span id="csharpStepCount"></span></div>
+            <h3 id="csharpLessonTitle"></h3><h4 id="csharpStepTitle"></h4>
+            <div id="csharpScene" class="cs-scene" aria-label="مشهد الفكرة قبل الكود" hidden></div>
+            <p id="csharpExplanation"></p><p id="csharpInstruction" class="cs-instruction"></p>
+            <details id="csharpDetails" hidden><summary>تفكيك أجزاء المثال عند الحاجة</summary><ul id="csharpBreakdown"></ul></details>
+            <div id="csharpExpectedWrap" class="cs-expected" hidden><b>الناتج المطلوب</b><pre id="csharpExpected" dir="auto"></pre></div>
+            <div id="csharpQuiz" class="cs-quiz" hidden></div>
+            <p id="csharpFeedback" class="cs-feedback" role="status" aria-live="polite"></p>
+            <a id="csharpReference" class="cs-reference" href="https://learn.microsoft.com/en-us/training/modules/csharp-write-first/" target="_blank" rel="noopener noreferrer">مرجع الفكرة من Microsoft Learn ↗</a>
+          </article>
+          <div id="csharpWorkbench" class="card cs-workbench" hidden>
+            <div class="cs-runtime"><b id="csharpRuntimeLabel"></b><p id="csharpRuntimeNote">التتبّع التعليمي يشرح القيم والحساب والمقارنات والشروط خطوة خطوة.</p>
+              <div id="csharpEngineControls" class="cs-engine-controls"><label for="csharpEngine">طريقة التشغيل</label><select id="csharpEngine"><option value="trace">التتبّع التعليمي</option><option value="dotnet">C# / .NET — تجريبي، تحميل اختياري</option></select><span id="csharpDownloadSize"></span></div>
+            </div>
+            <div class="cs-workspace">
+              <section id="csharpEditorWrap" class="cs-editor" aria-label="كتابة كود C#">
+                <label for="csharpCode"><b dir="ltr">Program.cs</b><span>اكتب بيدك ثم شغّل</span></label>
+                <textarea id="csharpCode" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="محرر كود C#" maxlength="16000"></textarea>
+                <div class="cs-tools"><button id="csharpRun" class="cs-primary" type="button">شغّل وافحص</button><button id="csharpHintButton" type="button">اطلب تلميحًا</button><button id="csharpReset" type="button">استرجع بداية الخطوة</button></div>
+                <pre id="csharpHint" class="cs-hint" dir="auto" hidden></pre>
+              </section>
+              <section id="csharpTracePane" class="cs-trace" aria-label="فيلم التنفيذ">
+                <div class="cs-trace-heading"><h4>فيلم التنفيذ</h4><span id="csharpTraceCount"></span></div>
+                <ol id="csharpTraceLines" class="cs-trace-lines" dir="ltr" aria-label="أسطر البرنامج والسطر الحالي"></ol>
+                <div id="csharpComparison" class="cs-comparison" aria-label="القيم المقارنة في الخطوة الحالية" hidden><div><small>الطرف الأيسر</small><b id="csharpCompareLeft" dir="auto"></b></div><div><small>المعامل</small><b id="csharpCompareOperator" dir="ltr"></b></div><div><small>الطرف الأيمن</small><b id="csharpCompareRight" dir="auto"></b></div><div><small>النتيجة</small><b id="csharpCompareResult" dir="ltr"></b></div></div>
+                <div id="csharpLogic" class="cs-logic" aria-label="تقييم الشرط المنطقي" hidden></div>
+                <p id="csharpTraceAction" class="cs-trace-action" role="status" aria-live="polite"></p>
+                <div class="cs-tools"><button id="csharpStepRun" class="cs-primary" type="button">نفّذ أمرًا واحدًا ←</button><button id="csharpTraceBack" type="button">ارجع أمرًا</button><button id="csharpTraceRestart" type="button">من البداية</button></div>
+                <h4>القيم الآن</h4><p id="csharpNoVariables" class="cs-muted">لم يُنشأ متغير حتى هذه اللحظة.</p>
+                <div class="cs-table-wrap"><table class="cs-values"><thead><tr><th>الاسم</th><th>النوع</th><th>القيمة</th></tr></thead><tbody id="csharpVariables"></tbody></table></div>
+                <h4>شاشة المخرجات</h4><pre id="csharpOutput" class="cs-output" dir="auto" aria-label="مخرجات البرنامج"></pre>
+              </section>
+              <section id="csharpDotnetPane" class="cs-trace" aria-label="تشغيل .NET الحقيقي" hidden>
+                <h4>C# / .NET — نتيجة تشغيل كودك</h4>
+                <p class="cs-muted">يُحمّل المشغّل عند أول تشغيل فقط. الكود والمدخلات يظلان داخل متصفحك. بعض واجهات نظام التشغيل والحزم الخارجية غير متاحة في بيئة المتصفح.</p>
+                <details><summary>مدخلات Console.ReadLine عند الحاجة</summary><label class="sr" for="csharpStdin">مدخلات البرنامج، كل قيمة في سطر</label><textarea id="csharpStdin" class="cs-stdin" dir="auto" maxlength="16000" placeholder="كل قيمة في سطر مستقل"></textarea></details>
+                <p id="csharpDotnetStatus" class="cs-feedback" role="status" aria-live="polite">جاهز لتحميل المشغّل عند الطلب.</p>
+                <button id="csharpDotnetStop" type="button" hidden>أوقف التحميل أو التنفيذ</button>
+                <pre id="csharpDotnetOutput" class="cs-output" dir="auto" aria-label="مخرجات .NET الفعلية"></pre>
+                <ul id="csharpDotnetDiagnostics" class="cs-diagnostics" aria-label="رسائل مترجم C#"></ul>
+                <small class="cs-muted">مهلة التنفيذ ٦ ثوانٍ بعد جاهزية المترجم. حد المخرجات ١٦ ألف حرف.</small>
+              </section>
+            </div>
+            <footer class="cs-workbench-footer"><span id="csharpSaveStatus" role="status"></span><button id="csharpDownload" type="button">نزّل Program.cs</button></footer>
+          </div>
+          <div class="cs-guide-actions cs-navigation"><button id="csharpPrevious" type="button">← الخطوة السابقة</button><button id="csharpNext" class="cs-primary" type="button">الخطوة التالية ←</button></div>
+        </div>
+      </div>
+    </section>
 
     <section class="angular-course-panel" id="angularCoursePanel" hidden aria-label="مسار Angular">
       <header class="angular-course-heading">
@@ -575,6 +641,7 @@
       <button class="course" data-course="js"><i></i><span id="jsCourseCount">JavaScript</span></button>
       <button class="course" data-course="database"><i></i><span id="databaseCourseCount">قواعد البيانات (SQL)</span></button>
       <button class="course angular-course-button" data-angular-open type="button"><i></i><span id="angularCourseCard">Angular · من الصفر</span></button>
+      <button class="course" data-csharp-open type="button"><i></i><span id="csharpCourseCard">C# · الأساسيات · ٢٤ درسًا</span></button>
     </div>
   </section>
 
@@ -691,5 +758,6 @@
 <script src="content-protection.js" defer></script>
 <script src="app.js" defer></script>
 <script type="module" src="/angular-editor.js"></script>
+<script type="module" src="/csharp-course.js"></script>
 </body>
 </html>

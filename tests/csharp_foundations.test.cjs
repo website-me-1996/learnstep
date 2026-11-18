@@ -1,0 +1,158 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const { pathToFileURL } = require("node:url");
+const { validateCurriculumData } = require("../validate-curriculum-json.cjs");
+const root = path.resolve(__dirname, "..");
+const data = JSON.parse(fs.readFileSync(path.join(root, "csharp-lessons.json"), "utf8"));
+const runtime = import(pathToFileURL(path.join(root, "csharp-runtime.js")));
+const progress = import(pathToFileURL(path.join(root, "csharp-progress.js")));
+const memoryStorage = () => { const entries = new Map(); return { getItem: k => entries.get(k) || null, setItem: (k, v) => entries.set(k, v) }; };
+
+test("C# unit uses the canonical schema, stable prerequisites, and synchronized production content", () => {
+  const result = validateCurriculumData(data);
+  assert.equal(result.valid, true, result.errors.join("\n"));
+  assert.equal(data.lessons.length, 24);
+  assert.equal(data.units.length, 3);
+  assert.equal(new Set(data.lessons.map(l => l.id)).size, 24);
+  for (const [index, lesson] of data.lessons.entries()) {
+    assert.equal(lesson.order, index);
+    assert.deepEqual(lesson.prerequisites, index ? [data.lessons[index - 1].id] : []);
+    assert.ok(lesson.documentationUrl.startsWith("https://learn.microsoft.com/"));
+    assert.equal(lesson.steps[0].code, undefined, "no code before the scene");
+    assert.equal(lesson.steps.length, 8);
+    for (const step of lesson.steps) { assert.ok(step.instruction.startsWith("يا كمبيوتر،")); assert.equal(step.hints.length, 4); }
+  }
+  const raw = fs.readFileSync(path.join(root, "csharp-lessons.json"));
+  assert.deepEqual(fs.readFileSync(path.join(root, "public/csharp-lessons.json")), raw);
+  for (const [file, start] of [["unit_01_first_programs.json",0],["unit_02_booleans_decisions.json",8],["unit_03_compound_decisions.json",16]]) {
+    const unit=JSON.parse(fs.readFileSync(path.join(root,"curriculum/csharp",file),"utf8"));
+    assert.deepEqual(unit.lessons,data.lessons.slice(start,start+8));
+    assert.equal(validateCurriculumData(unit).valid,true);
+  }
+});
+
+for (const lesson of data.lessons) {
+  test("Complete curriculum solutions: " + lesson.title, async t => {
+    const { runProgram, checkChallenge } = await runtime;
+    assert.ok(runProgram(lesson.code).trace.length);
+    const baseline = lesson.steps.find(s => s.id === "edit").challenge.output;
+    for (const step of lesson.steps.filter(s => s.challenge)) {
+      await t.test(step.id + " accepts its solution and formatting alternatives", () => {
+        const good = checkChallenge(step.solution, step.challenge, baseline);
+        assert.equal(good.passed, true, good.message);
+        const alternate = "using System;\n// حل بنفس السلوك\n" + step.solution.replaceAll(";", "; \n");
+        assert.equal(checkChallenge(alternate, step.challenge, baseline).passed, true);
+        const wrong = step.id === "experiment" ? lesson.steps.find(s => s.id === "edit").solution : 'Console.WriteLine("إجابة غير صحيحة");';
+        assert.equal(checkChallenge(wrong, step.challenge, baseline).passed, false);
+      });
+    }
+    assert.equal(checkChallenge(lesson.bugRepair.brokenCode, lesson.steps.find(s => s.id === "repair").challenge).passed, false);
+  });
+}
+
+test("Trace snapshots preserve time: assignments do not rewrite previous output or variable values", async () => {
+  const { runProgram } = await runtime;
+  const result = runProgram('int tickets = 2;\nConsole.WriteLine(tickets);\ntickets = 5;\nConsole.WriteLine(tickets);');
+  assert.equal(result.output, "2\n5\n");
+  assert.equal(result.trace[0].variables.tickets.value, 2);
+  assert.equal(result.trace[1].output, "2\n");
+  assert.equal(result.trace[2].previous, 2);
+  assert.equal(result.trace[2].variables.tickets.value, 5);
+  assert.equal(result.trace[3].line, 4);
+});
+test("Write preserves the cursor, WriteLine appends a newline, and comments do not execute", async () => {
+  const { runProgram } = await runtime;
+  assert.equal(runProgram('/* ignored */ Console.Write("A"); // ignored\nConsole.WriteLine(2); Console.WriteLine();').output, "A2\n\n");
+  assert.equal(runProgram('Console.WriteLine("//text; /* still text */");').output, "//text; /* still text */\n");
+});
+test("Arithmetic uses precedence, parentheses, integer division toward zero, and C# boolean text", async () => {
+  const { runProgram } = await runtime;
+  assert.equal(runProgram('int n = (2 + 3) * 4; Console.WriteLine(n); Console.WriteLine(-13 / 5); Console.WriteLine(-5 % 4); bool ready = true; Console.WriteLine(ready);').output, "20\n-2\n-1\nTrue\n");
+  assert.equal(runProgram('int n = -2147483648; Console.WriteLine(n);').output, "-2147483648\n");
+  assert.equal(runProgram('Console.WriteLine("x=" + true); Console.WriteLine("a\\n\\\"b\\\"");').output, 'x=True\na\n"b"\n');
+});
+test("Reading a value produces a snapshot rather than a reactive formula", async () => {
+  const { runProgram } = await runtime;
+  assert.equal(runProgram('int n = 2; int total = n * 10; n = 3; Console.WriteLine(total);').output, "20\n");
+});
+test("Hardcoded correct totals fail alternate input tests", async () => {
+  const { checkChallenge } = await runtime;
+  const challenge = data.lessons[6].steps[2].challenge;
+  const attempt = 'int price = 10; int tickets = 2; int total = 20; int unused = price * tickets; Console.WriteLine(total);';
+  assert.equal(checkChallenge(attempt, challenge).passed, false);
+  const real = 'int price = 10; int tickets = 2; int total = tickets * price; Console.WriteLine(total);';
+  assert.equal(checkChallenge(real, challenge).passed, true);
+});
+test("A constant print cannot substitute for reading the named variable", async () => {
+  const { checkChallenge } = await runtime;
+  assert.equal(checkChallenge('int tickets = 2; Console.WriteLine(2);', data.lessons[4].steps[2].challenge).passed, false);
+});
+test("A numeric-looking string does not satisfy an integer variable task", async () => {
+  const { checkChallenge } = await runtime;
+  assert.equal(checkChallenge('string tickets = "2"; Console.WriteLine(tickets);', data.lessons[4].steps[2].challenge).passed, false);
+});
+test("An experiment must change behavior, not only whitespace/comments", async () => {
+  const { checkChallenge } = await runtime;
+  const step = data.lessons[0].steps[4];
+  assert.equal(checkChallenge('// comment\nConsole.WriteLine("أنا أجرب");', step.challenge, "أنا أجرب\n").passed, false);
+});
+for (const [label, source, expectedCode] of [
+  ["unknown/case-sensitive name", 'int tickets = 2; Console.WriteLine(Tickets);', "name"],
+  ["reserved keyword as a name", 'int switch = 2;', "name"],
+  ["type mismatch", 'int n = "2";', "type"],
+  ["duplicate declaration", 'int n = 2; int n = 3;', "name"],
+  ["uninitialized variable", 'int n; Console.WriteLine(n);', "syntax"],
+  ["missing quote", 'Console.WriteLine("hello);', "syntax"],
+  ["missing semicolon", 'Console.WriteLine("hello")', "syntax"],
+  ["operator requires numeric operands", 'Console.WriteLine(true * 2);', "type"],
+  ["division by zero", 'int n = 0; Console.WriteLine(3 / n);', "runtime"],
+  ["unsupported loops", 'while (true) {}', "unsupported"],
+  ["unsupported increment", 'int n = ++1;', "unsupported"],
+  ["out of range", 'int n = 2147483647; n = n + 1;', "unsupported"],
+  ["server/network calls", 'fetch("https://example.com");', "syntax"],
+  ["JavaScript injection", 'globalThis.alert(1);', "syntax"]
+]) test("Bounded interpreter rejects " + label, async () => {
+  const { runProgram, CSharpError } = await runtime;
+  assert.throws(() => runProgram(source), e => e instanceof CSharpError && e.code === expectedCode);
+});
+test("Parser limits stop large or deeply nested input without executing code", async () => {
+  const { runProgram } = await runtime;
+  assert.throws(() => runProgram(" ".repeat(16001)), /أطول/);
+  assert.throws(() => runProgram('Console.WriteLine(' + "(".repeat(50) + "1" + ")".repeat(50) + ");"), /أقواس/);
+  assert.throws(() => runProgram('Console.WriteLine("x");'.repeat(161)), /أوامر/);
+});
+
+test("Save/resume preserves drafts, stage, completion artifacts, and stable lesson IDs", async () => {
+  const { freshProgress, lessonRecord, saveProgress, loadProgress } = await progress;
+  const storage = memoryStorage(), state = freshProgress(data.lessons), lesson = data.lessons[5];
+  state.activeLessonId = lesson.id;
+  const r = lessonRecord(state, lesson); r.step = 7; r.furthest = 7; r.drafts.transfer = lesson.steps[7].solution; r.completed = true; r.artifact = { code: r.drafts.transfer, output: "4\n6\n" };
+  assert.equal(saveProgress(storage, "default", state), true);
+  const resumed = loadProgress(storage, "default", data.lessons);
+  assert.deepEqual(resumed, state);
+});
+test("Different learner profiles have independent C# progress", async () => {
+  const { freshProgress, saveProgress, loadProgress } = await progress;
+  const storage = memoryStorage(), state = freshProgress(data.lessons); state.activeLessonId = data.lessons[4].id;
+  saveProgress(storage, "learner-example-1", state);
+  assert.equal(loadProgress(storage, "learner-example-1", data.lessons).activeLessonId, data.lessons[4].id);
+  assert.equal(loadProgress(storage, "learner-example-2", data.lessons).activeLessonId, data.lessons[0].id);
+});
+test("Corrupt storage, old revisions, unknown IDs and invalid indices recover without losing a valid draft", async () => {
+  const { storageKey, loadProgress } = await progress;
+  const storage = memoryStorage(); storage.setItem(storageKey(), "{broken");
+  assert.equal(loadProgress(storage, "default", data.lessons).activeLessonId, data.lessons[0].id);
+  const first = data.lessons[0];
+  storage.setItem(storageKey(), JSON.stringify({ version: 1, activeLessonId: "unknown", lessons: { [first.id]: { revision: 0, step: 999, furthest: 999, completed: true, drafts: { build: 'Console.WriteLine("مسودتي");' } } } }));
+  const loaded = loadProgress(storage, "default", data.lessons);
+  assert.equal(loaded.lessons[first.id].step, 0); assert.equal(loaded.lessons[first.id].completed, false);
+  assert.equal(loaded.lessons[first.id].drafts.build, 'Console.WriteLine("مسودتي");');
+});
+test("Storage unavailability is recoverable and reports save failure", async () => {
+  const { freshProgress, loadProgress, saveProgress } = await progress;
+  const broken = { getItem() { throw Error("blocked"); }, setItem() { throw Error("full"); } };
+  assert.deepEqual(loadProgress(broken, "default", data.lessons), freshProgress(data.lessons));
+  assert.equal(saveProgress(broken, "default", freshProgress(data.lessons)), false);
+});
