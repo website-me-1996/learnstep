@@ -14,19 +14,24 @@ $('start').onclick=async()=>{
   await runner.load();const coldStartMs=Math.round(performance.now()-started);
   const data=await(await fetch('/csharp-lessons.json')).json();
   for(const lesson of data.lessons){
-   for(const step of lesson.steps.filter(s=>s.challenge)) await check(lesson.title+' / '+step.id,async()=>{const actual=await runner.run(step.solution);assert(actual.ok,JSON.stringify(actual));assert(actual.output===runProgram(step.solution).output,'output mismatch: '+JSON.stringify(actual));});
+   for (const step of lesson.steps.filter(s => s.challenge)) await check(lesson.title + ' / ' + step.id, async () => {
+    const stdin = step.challenge.stdin ?? '';
+    const actual = await runner.run(step.solution, stdin);
+    assert(actual.ok, JSON.stringify(actual));
+    assert(actual.output === runProgram(step.solution, {}, stdin).output, 'output mismatch: ' + JSON.stringify(actual));
+   });
    for (const step of lesson.steps.filter(s => s.challenge?.cases)) {
     for (const [index, example] of step.challenge.cases.entries()) {
      await check(lesson.title + ' / ' + step.id + ' مدخل بديل ' + index, async () => {
       let source = step.solution;
-      for (const [name, value] of Object.entries(example.inputs)) {
-       const declaration = new RegExp('\\b(int|double|decimal|string|bool)\\s+' + name + '\\s*=\\s*[^;]+;');
+      for (const [name, value] of Object.entries(example.inputs ?? {})) {
+       const declaration = new RegExp('\\b(int|double|decimal|string\\??|bool)\\s+' + name + '\\s*=\\s*[^;]+;');
        source = source.replace(declaration, (_, type) => {
         const literal = type === 'decimal' ? value + 'm' : type === 'double' ? value + 'd' : JSON.stringify(value);
         return type + ' ' + name + ' = ' + literal + ';';
        });
       }
-      const actual = await runner.run(source);
+      const actual = await runner.run(source, example.stdin ?? step.challenge.stdin ?? '');
       assert(actual.ok && actual.output === example.output, JSON.stringify(actual));
      });
     }

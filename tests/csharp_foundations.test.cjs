@@ -43,16 +43,19 @@ test("C# unit uses the canonical schema, stable prerequisites, and synchronized 
 for (const lesson of data.lessons) {
   test("Complete curriculum solutions: " + lesson.title, async t => {
     const { runProgram, checkChallenge } = await runtime;
-    assert.ok(runProgram(lesson.code).trace.length);
-    const baseline = lesson.steps.find(s => s.id === "edit").challenge.output;
+    const traceStep = lesson.steps.find(s => s.id === "trace");
+    assert.ok(runProgram(lesson.code, {}, traceStep.stdin ?? '').trace.length);
+    const edit = lesson.steps.find(s => s.id === "edit");
+    const baseline = edit.challenge.output;
     for (const step of lesson.steps.filter(s => s.challenge)) {
       await t.test(step.id + " accepts its solution and formatting alternatives", () => {
         const good = checkChallenge(step.solution, step.challenge, baseline);
         assert.equal(good.passed, true, good.message);
         const alternate = "using System;\n// حل بنفس السلوك\n" + step.solution.replaceAll(";", "; \n");
         assert.equal(checkChallenge(alternate, step.challenge, baseline).passed, true);
-        const wrong = step.id === "experiment" ? lesson.steps.find(s => s.id === "edit").solution : 'Console.WriteLine("إجابة غير صحيحة");';
-        assert.equal(checkChallenge(wrong, step.challenge, baseline).passed, false);
+        const wrong = step.id === "experiment" ? edit.solution : 'Console.WriteLine("إجابة غير صحيحة");';
+        const unchangedInput = step.id === "experiment" ? edit.challenge.stdin : undefined;
+        assert.equal(checkChallenge(wrong, step.challenge, baseline, unchangedInput).passed, false);
       });
     }
     assert.equal(checkChallenge(lesson.bugRepair.brokenCode, lesson.steps.find(s => s.id === "repair").challenge).passed, false);
@@ -113,6 +116,49 @@ test("String.Length follows UTF-16, and a grouped sum is evaluated before concat
   assert.equal(result.output, "الطول: 3\nالمقاعد: 5\n");
   assert.deepEqual(result.trace[1].calculation, { left: '"🧮أ"', operator: ".Length", result: "3", type: "int" });
   assert.throws(() => runProgram("int seats = 3; Console.WriteLine(seats.Length);"), { code: "type" });
+});
+test("Console input consumes lines once and distinguishes an empty line from EOF", async () => {
+  const { runProgram } = await runtime;
+  const source = 'string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city == null);';
+  const emptyLine = runProgram(source, {}, "منى\r\n\r\n");
+  assert.equal(emptyLine.output, "منى\nFalse\n");
+  assert.deepEqual(emptyLine.trace[0].inputReads, [{ number: 1, value: "منى" }]);
+  assert.deepEqual(emptyLine.trace[1].inputReads, [{ number: 2, value: "" }]);
+  const ended = runProgram(source, {}, "منى\r\n");
+  assert.equal(ended.output, "منى\nTrue\n");
+  assert.deepEqual(ended.trace[1].inputReads, [{ number: null, value: null }]);
+});
+test("Null coalescing skips its right-hand input read when a value is present", async () => {
+  const { runProgram } = await runtime;
+  const source = 'string displayName = Console.ReadLine() ?? Console.ReadLine() ?? "زائر";\nstring city = Console.ReadLine() ?? "غير محددة";\nConsole.WriteLine(displayName);\nConsole.WriteLine(city);';
+  const provided = runProgram(source, {}, "عمر\nالقاهرة");
+  assert.equal(provided.output, "عمر\nالقاهرة\n");
+  assert.equal(provided.trace[0].calculation.right, "لم يُحسب");
+  assert.equal(provided.trace[0].inputReads.length, 1);
+  assert.equal(runProgram(source, {}, "").output, "زائر\nغير محددة\n");
+});
+test("TryParse exposes a bool and out value, including zero and the range boundary", async () => {
+  const { runProgram } = await runtime;
+  const source = 'string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int count);\nConsole.WriteLine(valid);\nConsole.WriteLine(count);';
+  for (const [input, expected] of [["0", "True\n0\n"], ["2147483647", "True\n2147483647\n"], ["2147483648", "False\n0\n"], ["-2147483648", "True\n-2147483648\n"], ["  +04  ", "True\n4\n"], ["1.5", "False\n0\n"]]) {
+    assert.equal(runProgram(source, {}, input).output, expected);
+  }
+  const parsed = runProgram(source, {}, "7");
+  assert.deepEqual(parsed.trace[1].binding, { name: "count", value: 7 });
+  assert.deepEqual(parsed.trace[1].variables.count, { type: "int", value: 7 });
+  assert.throws(() => runProgram('int count = 1; bool valid = int.TryParse("3", out int count);'), { code: "name" });
+});
+test("Console-input drafts are kept per step and scoped to their learner", async () => {
+  const { freshProgress, lessonRecord, loadProgress, saveProgress } = await progress;
+  const lesson = data.lessons.find(item => item.unitId === "console-input-validation");
+  const state = freshProgress(data.lessons);
+  const record = lessonRecord(state, lesson);
+  record.stdinDrafts = { build: "عمر", edit: "", experiment: "هدى" };
+  const storage = memoryStorage();
+  saveProgress(storage, "learner-a", state);
+  const resumed = loadProgress(storage, "learner-a", data.lessons);
+  assert.deepEqual(resumed.lessons[lesson.id].stdinDrafts, record.stdinDrafts);
+  assert.equal(loadProgress(storage, "learner-b", data.lessons).lessons[lesson.id], undefined);
 });
 test("Reading a value produces a snapshot rather than a reactive formula", async () => {
   const { runProgram } = await runtime;

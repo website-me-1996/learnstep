@@ -8,7 +8,9 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const temp=await fs.mkdtemp(path.join(os.tmpdir(),'steplearn-compiler-check-'));
 try {
   const data=JSON.parse(await fs.readFile(path.join(root,'csharp-lessons.json'),'utf8'));
-  const expected=Object.fromEntries(data.lessons.flatMap(lesson=>lesson.steps.filter(step=>step.challenge).map(step=>[lesson.id+'/'+step.id,runProgram(step.solution).output])));
+  const expected = Object.fromEntries(data.lessons.flatMap(lesson =>
+    lesson.steps.filter(step => step.challenge).map(step =>
+      [lesson.id + '/' + step.id, runProgram(step.solution, {}, step.challenge.stdin ?? '').output])));
   const fixture=path.join(temp,'expected.json');await fs.writeFile(fixture,JSON.stringify(expected));
   const report=path.join(temp,'report.json');
   const run=spawnSync(process.env.STEPLEARN_DOTNET||'dotnet',['run','--project',path.join(root,'runtime/csharp/verification/StepLearn.CSharp.Verification.csproj'),'--',root,report,fixture],{cwd:path.join(root,'runtime/csharp'),encoding:'utf8',env:{...process.env,DOTNET_CLI_TELEMETRY_OPTOUT:'1'},timeout:120000});

@@ -3,43 +3,43 @@
   "updatedAt": "2026-11-18",
   "branch": "feat/csharp-foundations",
   "baseCommit": "3f1d7dad3974e733cf82d5315d3760807411cf14",
-  "currentPhase": "P3D",
+  "currentPhase": "P4",
   "phases": {
     "P0": "complete",
     "P1": "complete",
     "P2": "in_progress",
-    "P3": "in_progress",
-    "P4": "pending",
+    "P3": "complete",
+    "P4": "in_progress",
     "P5": "pending",
     "P6": "pending",
     "P7": "pending",
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Add pre-supplied console lines and trace consumption, then EOF, int.TryParse and validation. Preserve lessons 1–32 and compare empty, invalid, boundary and successful inputs against native .NET. Start P4 loops after P3D.",
+  "nextAction": "Start while loops after lesson 40 with condition, body, update and jump snapshots. Test zero iterations, limits and infinite loops before adding for, break, continue, nested loops and foreach. Preserve lessons 1–40.",
   "checks": {
     "npmTest": {
-      "passed": 441,
+      "passed": 493,
       "failed": 0
     },
-    "csharpTests": 271,
-    "canonicalLessonsValidated": 529,
+    "csharpTests": 323,
+    "canonicalLessonsValidated": 537,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome: 32 lessons, existing completion preserved, scene before code, double division snapshot 5 / 2 = 2.5, rewind, fixed-output solution rejected, correct solution and verification restored after reload.",
+    "browserQA": "Desktop Chrome: 40 lessons, previous progress retained, scene before numeric code, typed division and rewind, source and output during console input, both TryParse results, rejection of fractional input, and accepted input draft restored after reload.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 521,
+      "passed": 756,
       "failed": 0,
-      "alternateInputCases": 337,
+      "alternateInputCases": 532,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 160
+      "curriculumSolutionsCompared": 200
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
   "runtime": {
-    "default": "bounded teaching interpreter for units 1–4: int/string/bool/double/decimal, arithmetic, explicit numeric conversion, Length, comparison, short-circuit logic, lexical blocks, and reversible snapshots",
+    "default": "bounded teaching interpreter for units 1–5 with numeric and text expressions, reversible decision and calculation snapshots, bounded pre-supplied console input, nullable text, null coalescing, int.TryParse, and scoped bindings",
     "experimental": ".NET 10.0.15 + Roslyn 5.0.0, SDK 10.0.204, browser WebAssembly worker",
     "assetRawMiB": 45.5,
     "assetGzipMiB": 16.9,
@@ -57,13 +57,13 @@
     "P3A": "complete",
     "P3B": "complete",
     "P3C": "complete",
-    "P3D": "pending"
+    "P3D": "complete"
   },
   "curriculum": {
-    "lessons": 32,
-    "steps": 256,
-    "units": 4,
-    "latestUnit": "numeric-types-and-text",
-    "nextUnit": "console-input-validation"
+    "lessons": 40,
+    "steps": 320,
+    "units": 5,
+    "latestUnit": "console-input-validation",
+    "nextUnit": "loop-foundations"
   }
 }

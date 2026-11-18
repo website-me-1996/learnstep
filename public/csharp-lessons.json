@@ -2,9 +2,9 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى الشروط والقسمة والتحويل وتكوين الرسائل.",
-  "totalLessons": 32,
-  "runtime": "csharp-foundations-subset-v4",
+  "description": "من أول برنامج وقيمه إلى الحساب والشروط وقراءة المدخلات والتحقق منها.",
+  "totalLessons": 40,
+  "runtime": "csharp-foundations-subset-v5",
   "units": [
     {
       "id": "first-programs",
@@ -64,6 +64,21 @@
         "csharp-30-text-length",
         "csharp-31-compose-message",
         "csharp-32-portion-card"
+      ]
+    },
+    {
+      "id": "console-input-validation",
+      "title": "الوحدة الخامسة: اقرأ مدخلات واختَر الرد",
+      "order": 4,
+      "lessonIds": [
+        "csharp-33-read-first-line",
+        "csharp-34-read-two-lines",
+        "csharp-35-end-of-input",
+        "csharp-36-fallback-text",
+        "csharp-37-try-parse-integer",
+        "csharp-38-invalid-input-reply",
+        "csharp-39-validate-positive-input",
+        "csharp-40-input-booking"
       ]
     }
   ],
@@ -11583,6 +11598,3359 @@
         {
           "label": "البطاقة",
           "text": "نصيب الزجاجة: ٣٫٥"
+        }
+      ]
+    },
+    {
+      "id": "csharp-33-read-first-line",
+      "legacyId": "csharp:32",
+      "title": "اقرأ أول سطر من المدخلات",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 32,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "ضع المدخلات في المربع قبل التشغيل. Console.ReadLine() تقرأ سطرًا، وترجع قيمته من غير علامة نهاية السطر. string? يسمح أن تعود القراءة بـ null لو خلصت السطور.",
+      "whyUse": "تقدر تجرب نفس الكود بأسماء مختلفة من مربع المدخلات.",
+      "browserMechanics": "التتبّع يبين رقم السطر المستهلك وقيمته، ثم يعرض الاسم في جدول المتغيرات.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.console.readline?view=net-10.0",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+      "breakdown": [
+        "اكتب الاسم في مربع المدخلات.",
+        "اقرأ السطر إلى name.",
+        "اطبع القيمة المخزنة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "أمام الكمبيوتر ورقة فيها الاسم «منى». يقرأ السطر الأول، ويحفظ الاسم، وبعدها يعرضه.",
+          "instruction": "يا كمبيوتر، أمام الكمبيوتر ورقة فيها الاسم «منى». يقرأ السطر الأول، ويحفظ الاسم، وبعدها يعرضه.",
+          "benefit": "تقدر تجرب نفس الكود بأسماء مختلفة من مربع المدخلات.",
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "ضع المدخلات في المربع قبل التشغيل. Console.ReadLine() تقرأ سطرًا، وترجع قيمته من غير علامة نهاية السطر. string? يسمح أن تعود القراءة بـ null لو خلصت السطور.",
+          "code": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+          "benefit": "التتبّع يبين رقم السطر المستهلك وقيمته، ثم يعرض الاسم في جدول المتغيرات.",
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ],
+          "stdin": "منى"
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب منى في المدخلات. خزّن أول سطر في string? اسمه name ثم اطبع name.",
+          "instruction": "يا كمبيوتر، اكتب منى في المدخلات. خزّن أول سطر في string? اسمه name ثم اطبع name.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+          "challenge": {
+            "output": "منى\n",
+            "declared": [
+              "name"
+            ],
+            "printed": [
+              "name"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "name",
+            "cases": [
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "أحمد\nمنى",
+                "output": "أحمد\n"
+              },
+              {
+                "stdin": "",
+                "output": "\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              }
+            ],
+            "stdin": "منى",
+            "types": {
+              "name": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ],
+          "stdin": "منى"
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، بدّل المدخل إلى أحمد واترك سطر القراءة والطباعة.",
+          "instruction": "يا كمبيوتر، بدّل المدخل إلى أحمد واترك سطر القراءة والطباعة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+          "challenge": {
+            "output": "أحمد\n",
+            "declared": [
+              "name"
+            ],
+            "printed": [
+              "name"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "name",
+            "cases": [
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "أحمد\nمنى",
+                "output": "أحمد\n"
+              },
+              {
+                "stdin": "",
+                "output": "\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              }
+            ],
+            "stdin": "أحمد",
+            "types": {
+              "name": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ],
+          "stdin": "منى"
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب نور في مربع المدخلات. اطبع الاسم باستخدام نفس الكود.",
+          "instruction": "يا كمبيوتر، جرّب نور في مربع المدخلات. اطبع الاسم باستخدام نفس الكود.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+          "challenge": {
+            "output": "نور\n",
+            "declared": [
+              "name"
+            ],
+            "printed": [
+              "name"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "name",
+            "cases": [
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "أحمد\nمنى",
+                "output": "أحمد\n"
+              },
+              {
+                "stdin": "",
+                "output": "\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              }
+            ],
+            "stdin": "نور",
+            "types": {
+              "name": "string?"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ],
+          "stdin": "أحمد"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المدخل هدى لكن البرنامج بيعرض منى. ليه؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المدخل هدى لكن البرنامج بيعرض منى. ليه؟",
+          "options": [
+            "المتغير يأخذ اسمًا ثابتًا مكتوبًا في الكود",
+            "مربع المدخلات فيه سطران",
+            "أمر الطباعة لا يعمل مع النص"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string? name = \"منى\";\nConsole.WriteLine(name);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "خلي name يقرأ Console.ReadLine() عشان يظهر السطر الموجود في المدخلات.",
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ],
+          "stdin": "هدى"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. خلي name يقرأ Console.ReadLine() عشان يظهر السطر الموجود في المدخلات.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. خلي name يقرأ Console.ReadLine() عشان يظهر السطر الموجود في المدخلات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? name = \"منى\";\nConsole.WriteLine(name);",
+          "solution": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+          "challenge": {
+            "output": "هدى\n",
+            "declared": [
+              "name"
+            ],
+            "printed": [
+              "name"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "name",
+            "cases": [
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "أحمد\nمنى",
+                "output": "أحمد\n"
+              },
+              {
+                "stdin": "",
+                "output": "\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              }
+            ],
+            "stdin": "هدى",
+            "types": {
+              "name": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nConsole.WriteLine(name);"
+          ],
+          "stdin": "هدى"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اكتب القاهرة في المدخلات. استخدم string? city لقراءة السطر ثم اطبع city.",
+          "instruction": "يا كمبيوتر، اكتب القاهرة في المدخلات. استخدم string? city لقراءة السطر ثم اطبع city.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? city = Console.ReadLine();\nConsole.WriteLine(city);",
+          "challenge": {
+            "output": "القاهرة\n",
+            "declared": [
+              "city"
+            ],
+            "printed": [
+              "city"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "city",
+            "cases": [
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "أحمد\nمنى",
+                "output": "أحمد\n"
+              },
+              {
+                "stdin": "",
+                "output": "\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              }
+            ],
+            "stdin": "القاهرة",
+            "types": {
+              "city": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الاسم موجود في مدخلات التشغيل.",
+            "القاعدة: Console.ReadLine تقرأ قيمة السطر الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string? name = Console.ReadLine(); ثم اطبع name.",
+            "كشف الحل:\nstring? city = Console.ReadLine();\nConsole.WriteLine(city);"
+          ],
+          "stdin": "القاهرة"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? name = \"منى\";\nConsole.WriteLine(name);",
+        "fixedCode": "string? name = Console.ReadLine();\nConsole.WriteLine(name);",
+        "question": "المدخل هدى لكن البرنامج بيعرض منى. ليه؟",
+        "explanation": "خلي name يقرأ Console.ReadLine() عشان يظهر السطر الموجود في المدخلات.",
+        "options": [
+          "المتغير يأخذ اسمًا ثابتًا مكتوبًا في الكود",
+          "مربع المدخلات فيه سطران",
+          "أمر الطباعة لا يعمل مع النص"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-32-portion-card"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب منى في المدخلات. خزّن أول سطر في string? اسمه name ثم اطبع name.",
+        "يا كمبيوتر، اكتب القاهرة في المدخلات. استخدم string? city لقراءة السطر ثم اطبع city."
+      ],
+      "commonMisconceptions": [
+        "خلي name يقرأ Console.ReadLine() عشان يظهر السطر الموجود في المدخلات."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "المدخلات",
+          "text": "منى"
+        },
+        {
+          "label": "الحركة",
+          "text": "اقرأ سطرًا واحدًا"
+        },
+        {
+          "label": "المخرج",
+          "text": "منى"
+        }
+      ]
+    },
+    {
+      "id": "csharp-34-read-two-lines",
+      "legacyId": "csharp:33",
+      "title": "اقرأ سطرين بالترتيب",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 33,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "كل استدعاء لـ Console.ReadLine() يستهلك سطرًا واحدًا. الاستدعاء التالي يبدأ من السطر المتاح بعده.",
+      "whyUse": "تستقبل أكثر من قيمة بشكل مرتب من نفس مربع المدخلات.",
+      "browserMechanics": "راقب علامة سطر ١ مع name، وبعدها سطر ٢ مع city. كل قيمة محفوظة لوحدها.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.console.readline?view=net-10.0",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+      "breakdown": [
+        "قسّم المدخلات إلى سطرين.",
+        "اقرأ name ثم city.",
+        "اطبع المتغيرين بالترتيب."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "على ورقة الحجز الاسم في أول سطر والمدينة في السطر الثاني. مرّر للسطر التاني بعد ما تحفظ الأول.",
+          "instruction": "يا كمبيوتر، على ورقة الحجز الاسم في أول سطر والمدينة في السطر الثاني. مرّر للسطر التاني بعد ما تحفظ الأول.",
+          "benefit": "تستقبل أكثر من قيمة بشكل مرتب من نفس مربع المدخلات.",
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "كل استدعاء لـ Console.ReadLine() يستهلك سطرًا واحدًا. الاستدعاء التالي يبدأ من السطر المتاح بعده.",
+          "code": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "benefit": "راقب علامة سطر ١ مع name، وبعدها سطر ٢ مع city. كل قيمة محفوظة لوحدها.",
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ],
+          "stdin": "عمر\nالجيزة"
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب عمر والجيزة في سطرين. اقرأ name ثم city واطبع كل قيمة في سطر.",
+          "instruction": "يا كمبيوتر، اكتب عمر والجيزة في سطرين. اقرأ name ثم city واطبع كل قيمة في سطر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "challenge": {
+            "output": "عمر\nالجيزة\n",
+            "declared": [
+              "name",
+              "city"
+            ],
+            "printed": [
+              "name",
+              "city"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "city",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "هدى\nالقاهرة",
+                "output": "هدى\nالقاهرة\n"
+              },
+              {
+                "stdin": "نور\nالمنصورة\nتجاهل",
+                "output": "نور\nالمنصورة\n"
+              },
+              {
+                "stdin": "عمر",
+                "output": "عمر\n\n"
+              }
+            ],
+            "stdin": "عمر\nالجيزة",
+            "types": {
+              "name": "string?",
+              "city": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ],
+          "stdin": "عمر\nالجيزة"
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، اترك عمر في السطر الأول واستبدل الجيزة بالإسكندرية.",
+          "instruction": "يا كمبيوتر، اترك عمر في السطر الأول واستبدل الجيزة بالإسكندرية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "challenge": {
+            "output": "عمر\nالإسكندرية\n",
+            "declared": [
+              "name",
+              "city"
+            ],
+            "printed": [
+              "name",
+              "city"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "city",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "هدى\nالقاهرة",
+                "output": "هدى\nالقاهرة\n"
+              },
+              {
+                "stdin": "نور\nالمنصورة\nتجاهل",
+                "output": "نور\nالمنصورة\n"
+              },
+              {
+                "stdin": "عمر",
+                "output": "عمر\n\n"
+              }
+            ],
+            "stdin": "عمر\nالإسكندرية",
+            "types": {
+              "name": "string?",
+              "city": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ],
+          "stdin": "عمر\nالجيزة"
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ضع نور في السطر الأول والإسكندرية في السطر الثاني. اطبع الاثنين.",
+          "instruction": "يا كمبيوتر، ضع نور في السطر الأول والإسكندرية في السطر الثاني. اطبع الاثنين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "challenge": {
+            "output": "نور\nالإسكندرية\n",
+            "declared": [
+              "name",
+              "city"
+            ],
+            "printed": [
+              "name",
+              "city"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "city",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "هدى\nالقاهرة",
+                "output": "هدى\nالقاهرة\n"
+              },
+              {
+                "stdin": "نور\nالمنصورة\nتجاهل",
+                "output": "نور\nالمنصورة\n"
+              },
+              {
+                "stdin": "عمر",
+                "output": "عمر\n\n"
+              }
+            ],
+            "stdin": "نور\nالإسكندرية",
+            "types": {
+              "name": "string?",
+              "city": "string?"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ],
+          "stdin": "عمر\nالإسكندرية"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "البرنامج طبع هدى مرتين. إيه السبب؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "البرنامج طبع هدى مرتين. إيه السبب؟",
+          "options": [
+            "city أخذت نسخة من name",
+            "السطر الأول اتقرأ مرتين من المدخلات",
+            "السطر الثاني لازم يكون رقمًا"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string? name = Console.ReadLine();\nstring? city = name;\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اقرأ سطرًا جديدًا داخل city باستخدام الاستدعاء الثاني.",
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ],
+          "stdin": "هدى\nالقاهرة"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ سطرًا جديدًا داخل city باستخدام الاستدعاء الثاني.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ سطرًا جديدًا داخل city باستخدام الاستدعاء الثاني.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? name = Console.ReadLine();\nstring? city = name;\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "solution": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+          "challenge": {
+            "output": "هدى\nالقاهرة\n",
+            "declared": [
+              "name",
+              "city"
+            ],
+            "printed": [
+              "name",
+              "city"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "city",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "هدى\nالقاهرة",
+                "output": "هدى\nالقاهرة\n"
+              },
+              {
+                "stdin": "نور\nالمنصورة\nتجاهل",
+                "output": "نور\nالمنصورة\n"
+              },
+              {
+                "stdin": "عمر",
+                "output": "عمر\n\n"
+              }
+            ],
+            "stdin": "هدى\nالقاهرة",
+            "types": {
+              "name": "string?",
+              "city": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);"
+          ],
+          "stdin": "هدى\nالقاهرة"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اقرأ item ثم color من سطرين «كتاب» ثم «أحمر». اطبع كل قيمة في سطر.",
+          "instruction": "يا كمبيوتر، اقرأ item ثم color من سطرين «كتاب» ثم «أحمر». اطبع كل قيمة في سطر.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? item = Console.ReadLine();\nstring? color = Console.ReadLine();\nConsole.WriteLine(item);\nConsole.WriteLine(color);",
+          "challenge": {
+            "output": "كتاب\nأحمر\n",
+            "declared": [
+              "item",
+              "color"
+            ],
+            "printed": [
+              "item",
+              "color"
+            ],
+            "operation": "ReadLine",
+            "operationIn": "color",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "هدى\nالقاهرة",
+                "output": "هدى\nالقاهرة\n"
+              },
+              {
+                "stdin": "نور\nالمنصورة\nتجاهل",
+                "output": "نور\nالمنصورة\n"
+              },
+              {
+                "stdin": "عمر",
+                "output": "عمر\n\n"
+              }
+            ],
+            "stdin": "كتاب\nأحمر",
+            "types": {
+              "item": "string?",
+              "color": "string?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع ترتيب القراءة.",
+            "القاعدة: كل ReadLine تتقدم إلى السطر التالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "كرر Console.ReadLine() مرة لتصريح name ومرة لتصريح city.",
+            "كشف الحل:\nstring? item = Console.ReadLine();\nstring? color = Console.ReadLine();\nConsole.WriteLine(item);\nConsole.WriteLine(color);"
+          ],
+          "stdin": "كتاب\nأحمر"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? name = Console.ReadLine();\nstring? city = name;\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+        "fixedCode": "string? name = Console.ReadLine();\nstring? city = Console.ReadLine();\nConsole.WriteLine(name);\nConsole.WriteLine(city);",
+        "question": "البرنامج طبع هدى مرتين. إيه السبب؟",
+        "explanation": "اقرأ سطرًا جديدًا داخل city باستخدام الاستدعاء الثاني.",
+        "options": [
+          "city أخذت نسخة من name",
+          "السطر الأول اتقرأ مرتين من المدخلات",
+          "السطر الثاني لازم يكون رقمًا"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-33-read-first-line"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب عمر والجيزة في سطرين. اقرأ name ثم city واطبع كل قيمة في سطر.",
+        "يا كمبيوتر، اقرأ item ثم color من سطرين «كتاب» ثم «أحمر». اطبع كل قيمة في سطر."
+      ],
+      "commonMisconceptions": [
+        "اقرأ سطرًا جديدًا داخل city باستخدام الاستدعاء الثاني."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "السطر ١",
+          "text": "عمر"
+        },
+        {
+          "label": "السطر ٢",
+          "text": "الجيزة"
+        },
+        {
+          "label": "القراءة",
+          "text": "الاسم ثم المدينة"
+        }
+      ]
+    },
+    {
+      "id": "csharp-35-end-of-input",
+      "legacyId": "csharp:34",
+      "title": "فرّق بين سطر فارغ وانتهاء السطور",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 34,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "ReadLine ترجع null عند انتهاء كل السطور. لو قرأت سطرًا موجودًا من غير حروف، القيمة نص فارغ. الاختبار line == null يفرق بين الحالتين.",
+      "whyUse": "تحدد هل تكمّل قراءة البيانات أم انتهت.",
+      "browserMechanics": "لو المدخلات خلصت تظهر رسالة انتهاء السطور. لو فيه Enter فقط تظهر قيمة السطر \"\" في التتبّع.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.console.readline?view=net-10.0",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+      "breakdown": [
+        "اقرأ line.",
+        "افحص line == null.",
+        "اطبع نتيجة ended."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في تجربة أولى الورقة مافيهاش أي سطور. في تجربة تانية فيه سطر فاضي مكتوب فيه نهاية سطر بس.",
+          "instruction": "يا كمبيوتر، في تجربة أولى الورقة مافيهاش أي سطور. في تجربة تانية فيه سطر فاضي مكتوب فيه نهاية سطر بس.",
+          "benefit": "تحدد هل تكمّل قراءة البيانات أم انتهت.",
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "ReadLine ترجع null عند انتهاء كل السطور. لو قرأت سطرًا موجودًا من غير حروف، القيمة نص فارغ. الاختبار line == null يفرق بين الحالتين.",
+          "code": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+          "benefit": "لو المدخلات خلصت تظهر رسالة انتهاء السطور. لو فيه Enter فقط تظهر قيمة السطر \"\" في التتبّع.",
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اترك المدخلات فارغة. اقرأ line واحسب ended من line == null ثم اطبع ended.",
+          "instruction": "يا كمبيوتر، اترك المدخلات فارغة. اقرأ line واحسب ended من line == null ثم اطبع ended.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "line",
+              "ended"
+            ],
+            "printed": [
+              "ended"
+            ],
+            "operation": "==",
+            "operationIn": "ended",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "True\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "False\n"
+              },
+              {
+                "stdin": "0",
+                "output": "False\n"
+              },
+              {
+                "stdin": "نور\n",
+                "output": "False\n"
+              }
+            ],
+            "read": [
+              "line"
+            ],
+            "stdin": "",
+            "types": {
+              "line": "string?",
+              "ended": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، اضغط Enter مرة واحدة داخل مربع المدخلات حتى يوجد سطر فارغ، ثم افحص ended.",
+          "instruction": "يا كمبيوتر، اضغط Enter مرة واحدة داخل مربع المدخلات حتى يوجد سطر فارغ، ثم افحص ended.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "line",
+              "ended"
+            ],
+            "printed": [
+              "ended"
+            ],
+            "operation": "==",
+            "operationIn": "ended",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "True\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "False\n"
+              },
+              {
+                "stdin": "0",
+                "output": "False\n"
+              },
+              {
+                "stdin": "نور\n",
+                "output": "False\n"
+              }
+            ],
+            "read": [
+              "line"
+            ],
+            "stdin": "\n",
+            "types": {
+              "line": "string?",
+              "ended": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، امسح المدخلات تمامًا وأعد التشغيل. اطبع هل انتهت السطور.",
+          "instruction": "يا كمبيوتر، امسح المدخلات تمامًا وأعد التشغيل. اطبع هل انتهت السطور.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "line",
+              "ended"
+            ],
+            "printed": [
+              "ended"
+            ],
+            "operation": "==",
+            "operationIn": "ended",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "True\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "False\n"
+              },
+              {
+                "stdin": "0",
+                "output": "False\n"
+              },
+              {
+                "stdin": "نور\n",
+                "output": "False\n"
+              }
+            ],
+            "read": [
+              "line"
+            ],
+            "stdin": "",
+            "types": {
+              "line": "string?",
+              "ended": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ],
+          "stdin": "\n"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "عند غياب المدخلات تمامًا ظهر False. أي مقارنة تختبر انتهاء السطور؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "عند غياب المدخلات تمامًا ظهر False. أي مقارنة تختبر انتهاء السطور؟",
+          "options": [
+            "line == \"\"",
+            "line == null",
+            "line != null"
+          ],
+          "correctOptionIndex": 1,
+          "code": "string? line = Console.ReadLine();\nbool ended = line == \"\";\nConsole.WriteLine(ended);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اختبر null لمعرفة أن السطر غير موجود.",
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختبر null لمعرفة أن السطر غير موجود.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختبر null لمعرفة أن السطر غير موجود.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? line = Console.ReadLine();\nbool ended = line == \"\";\nConsole.WriteLine(ended);",
+          "solution": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "line",
+              "ended"
+            ],
+            "printed": [
+              "ended"
+            ],
+            "operation": "==",
+            "operationIn": "ended",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "True\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "False\n"
+              },
+              {
+                "stdin": "0",
+                "output": "False\n"
+              },
+              {
+                "stdin": "نور\n",
+                "output": "False\n"
+              }
+            ],
+            "read": [
+              "line"
+            ],
+            "stdin": "",
+            "types": {
+              "line": "string?",
+              "ended": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اكتب سطرًا واحدًا «عمر». اقرأ first ثم second. اطبع missing من second == null.",
+          "instruction": "يا كمبيوتر، اكتب سطرًا واحدًا «عمر». اقرأ first ثم second. اطبع missing من second == null.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? first = Console.ReadLine();\nstring? second = Console.ReadLine();\nbool missing = second == null;\nConsole.WriteLine(missing);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "first",
+              "second",
+              "missing"
+            ],
+            "printed": [
+              "missing"
+            ],
+            "operation": "==",
+            "operationIn": "missing",
+            "cases": [
+              {
+                "stdin": "نور\n",
+                "output": "True\n"
+              },
+              {
+                "stdin": "نور\n\n",
+                "output": "False\n"
+              },
+              {
+                "stdin": "نور\nالقاهرة",
+                "output": "False\n"
+              }
+            ],
+            "read": [
+              "second"
+            ],
+            "stdin": "عمر",
+            "types": {
+              "first": "string?",
+              "second": "string?",
+              "missing": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف هل ظهر رقم سطر في التتبّع.",
+            "القاعدة: انتهاء المدخلات يرجع null. السطر الفارغ الموجود يرجع نصًا فارغًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool ended = line == null;.",
+            "كشف الحل:\nstring? first = Console.ReadLine();\nstring? second = Console.ReadLine();\nbool missing = second == null;\nConsole.WriteLine(missing);"
+          ],
+          "stdin": "عمر"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? line = Console.ReadLine();\nbool ended = line == \"\";\nConsole.WriteLine(ended);",
+        "fixedCode": "string? line = Console.ReadLine();\nbool ended = line == null;\nConsole.WriteLine(ended);",
+        "question": "عند غياب المدخلات تمامًا ظهر False. أي مقارنة تختبر انتهاء السطور؟",
+        "explanation": "اختبر null لمعرفة أن السطر غير موجود.",
+        "options": [
+          "line == \"\"",
+          "line == null",
+          "line != null"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-34-read-two-lines"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اترك المدخلات فارغة. اقرأ line واحسب ended من line == null ثم اطبع ended.",
+        "يا كمبيوتر، اكتب سطرًا واحدًا «عمر». اقرأ first ثم second. اطبع missing من second == null."
+      ],
+      "commonMisconceptions": [
+        "اختبر null لمعرفة أن السطر غير موجود."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "لا يوجد سطر",
+          "text": "null"
+        },
+        {
+          "label": "سطر موجود وفارغ",
+          "text": "\"\""
+        },
+        {
+          "label": "السؤال",
+          "text": "هل ended تساوي True؟"
+        }
+      ]
+    },
+    {
+      "id": "csharp-36-fallback-text",
+      "legacyId": "csharp:35",
+      "title": "اختَر نصًا بديلًا عند null",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 35,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "المعامل ?? يقرأ الطرف الأيسر. لو رجع null يحسب الطرف الأيمن ويستخدمه. النص الفارغ قيمة موجودة، فيظل كما هو.",
+      "whyUse": "تعطي واجهة الحجز قيمة مفهومة عند غياب المدخل.",
+      "browserMechanics": "في لقطة ?? يظهر هل استخدمت القيمة البديلة ولا تم تجاوزها.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+      "breakdown": [
+        "اقرأ raw.",
+        "احسب raw ?? \"زائر\".",
+        "احفظ القيمة المختارة في label واطبعها."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "اعرض اسم الشخص إذا قرأت اسمًا. إذا خلصت السطور قبل ما تقرأ اسمًا، اعرض «زائر».",
+          "instruction": "يا كمبيوتر، اعرض اسم الشخص إذا قرأت اسمًا. إذا خلصت السطور قبل ما تقرأ اسمًا، اعرض «زائر».",
+          "benefit": "تعطي واجهة الحجز قيمة مفهومة عند غياب المدخل.",
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "المعامل ?? يقرأ الطرف الأيسر. لو رجع null يحسب الطرف الأيمن ويستخدمه. النص الفارغ قيمة موجودة، فيظل كما هو.",
+          "code": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+          "benefit": "في لقطة ?? يظهر هل استخدمت القيمة البديلة ولا تم تجاوزها.",
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اترك المدخل فارغًا تمامًا. اقرأ raw ثم احفظ raw ?? \"زائر\" في string اسمه label واطبع label.",
+          "instruction": "يا كمبيوتر، اترك المدخل فارغًا تمامًا. اقرأ raw ثم احفظ raw ?? \"زائر\" في string اسمه label واطبع label.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "زائر\n",
+            "declared": [
+              "raw",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "??",
+            "operationIn": "label",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "زائر\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              },
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "  ",
+                "output": "  \n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "",
+            "types": {
+              "raw": "string?",
+              "label": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، اكتب هدى في المدخلات، واترك نفس القيمة البديلة داخل الكود.",
+          "instruction": "يا كمبيوتر، اكتب هدى في المدخلات، واترك نفس القيمة البديلة داخل الكود.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "هدى\n",
+            "declared": [
+              "raw",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "??",
+            "operationIn": "label",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "زائر\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              },
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "  ",
+                "output": "  \n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "هدى",
+            "types": {
+              "raw": "string?",
+              "label": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ],
+          "stdin": ""
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، امسح المدخلات وشغّل نفس الكود. راقب اسم الزائر.",
+          "instruction": "يا كمبيوتر، امسح المدخلات وشغّل نفس الكود. راقب اسم الزائر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "زائر\n",
+            "declared": [
+              "raw",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "??",
+            "operationIn": "label",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "زائر\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              },
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "  ",
+                "output": "  \n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "",
+            "types": {
+              "raw": "string?",
+              "label": "string"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ],
+          "stdin": "هدى"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "القيمة موجودة في raw، لكن البرنامج يختار زائر كل مرة. إيه التعديل؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "القيمة موجودة في raw، لكن البرنامج يختار زائر كل مرة. إيه التعديل؟",
+          "options": [
+            "استخدم raw ?? \"زائر\"",
+            "احذف القراءة",
+            "اكتب الاسم يدويًا في label"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string? raw = Console.ReadLine();\nstring label = \"زائر\";\nConsole.WriteLine(label);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم ?? بحيث يتوقف اختيار البديل على غياب المدخل.",
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ],
+          "stdin": "هدى"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم ?? بحيث يتوقف اختيار البديل على غياب المدخل.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم ?? بحيث يتوقف اختيار البديل على غياب المدخل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? raw = Console.ReadLine();\nstring label = \"زائر\";\nConsole.WriteLine(label);",
+          "solution": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "هدى\n",
+            "declared": [
+              "raw",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "??",
+            "operationIn": "label",
+            "cases": [
+              {
+                "stdin": "",
+                "output": "زائر\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              },
+              {
+                "stdin": "هدى",
+                "output": "هدى\n"
+              },
+              {
+                "stdin": "  ",
+                "output": "  \n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "هدى",
+            "types": {
+              "raw": "string?",
+              "label": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);"
+          ],
+          "stdin": "هدى"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جهّز مدينة افتراضية «غير محددة». اقرأ raw واستعمل ?? لاختيار city، ثم اطبع city بدون مدخلات.",
+          "instruction": "يا كمبيوتر، جهّز مدينة افتراضية «غير محددة». اقرأ raw واستعمل ?? لاختيار city، ثم اطبع city بدون مدخلات.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nstring city = raw ?? \"غير محددة\";\nConsole.WriteLine(city);",
+          "challenge": {
+            "output": "غير محددة\n",
+            "declared": [
+              "raw",
+              "city"
+            ],
+            "printed": [
+              "city"
+            ],
+            "operation": "??",
+            "operationIn": "city",
+            "cases": [
+              {
+                "stdin": "أسوان",
+                "output": "أسوان\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "\n"
+              },
+              {
+                "stdin": "",
+                "output": "غير محددة\n"
+              }
+            ],
+            "stdin": "",
+            "types": {
+              "raw": "string?",
+              "city": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القيمة البديلة تُستخدم لما raw تكون null.",
+            "القاعدة: المعامل ?? يختار اليمين فقط عندما يكون اليسار null. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string label = raw ?? \"زائر\";.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nstring city = raw ?? \"غير محددة\";\nConsole.WriteLine(city);"
+          ],
+          "stdin": ""
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? raw = Console.ReadLine();\nstring label = \"زائر\";\nConsole.WriteLine(label);",
+        "fixedCode": "string? raw = Console.ReadLine();\nstring label = raw ?? \"زائر\";\nConsole.WriteLine(label);",
+        "question": "القيمة موجودة في raw، لكن البرنامج يختار زائر كل مرة. إيه التعديل؟",
+        "explanation": "استخدم ?? بحيث يتوقف اختيار البديل على غياب المدخل.",
+        "options": [
+          "استخدم raw ?? \"زائر\"",
+          "احذف القراءة",
+          "اكتب الاسم يدويًا في label"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-35-end-of-input"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اترك المدخل فارغًا تمامًا. اقرأ raw ثم احفظ raw ?? \"زائر\" في string اسمه label واطبع label.",
+        "يا كمبيوتر، جهّز مدينة افتراضية «غير محددة». اقرأ raw واستعمل ?? لاختيار city، ثم اطبع city بدون مدخلات."
+      ],
+      "commonMisconceptions": [
+        "استخدم ?? بحيث يتوقف اختيار البديل على غياب المدخل."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "اقرأ",
+          "text": "القيمة الحالية"
+        },
+        {
+          "label": "لو القيمة null",
+          "text": "اختَر زائر"
+        },
+        {
+          "label": "اعرض",
+          "text": "الاسم الذي اخترته"
+        }
+      ]
+    },
+    {
+      "id": "csharp-37-try-parse-integer",
+      "legacyId": "csharp:36",
+      "title": "جرّب تحويل النص إلى عدد",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 36,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "int.TryParse تعطي نتيجتين. تعيد bool للنجاح، وتضع العدد في out عند النجاح أو 0 عند الفشل. النص \"0\" ينجح ويعطي العدد صفر.",
+      "whyUse": "تختبر المدخل قبل إجراء الحساب حتى لو كتب المستخدم كلمة.",
+      "browserMechanics": "تتغير خانتا valid وseats في نفس خطوة TryParse. راقب قيمتهما بعد كل حالة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+      "breakdown": [
+        "اقرأ raw.",
+        "جرّب TryParse وضع العدد في out int seats.",
+        "اطبع valid ثم seats."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "جاء السطر «٣» مكتوبًا بصيغة 3. حاول استخراج عدد يصلح للحساب، وسجّل هل المحاولة نجحت.",
+          "instruction": "يا كمبيوتر، جاء السطر «٣» مكتوبًا بصيغة 3. حاول استخراج عدد يصلح للحساب، وسجّل هل المحاولة نجحت.",
+          "benefit": "تختبر المدخل قبل إجراء الحساب حتى لو كتب المستخدم كلمة.",
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "int.TryParse تعطي نتيجتين. تعيد bool للنجاح، وتضع العدد في out عند النجاح أو 0 عند الفشل. النص \"0\" ينجح ويعطي العدد صفر.",
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "benefit": "تتغير خانتا valid وseats في نفس خطوة TryParse. راقب قيمتهما بعد كل حالة.",
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ],
+          "stdin": "3"
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب 3 في المدخلات. اقرأ raw وجرّب int.TryParse. خزّن النجاح في valid والعدد في out int seats، ثم اطبعهما بالترتيب.",
+          "instruction": "يا كمبيوتر، اكتب 3 في المدخلات. اقرأ raw وجرّب int.TryParse. خزّن النجاح في valid والعدد في out int seats، ثم اطبعهما بالترتيب.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "challenge": {
+            "output": "True\n3\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "printed": [
+              "valid",
+              "seats"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "0",
+                "output": "True\n0\n"
+              },
+              {
+                "stdin": "  +7  ",
+                "output": "True\n7\n"
+              },
+              {
+                "stdin": "-4",
+                "output": "True\n-4\n"
+              },
+              {
+                "stdin": "2.5",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "2147483647",
+                "output": "True\n2147483647\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "-2147483648",
+                "output": "True\n-2147483648\n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "3",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ],
+          "stdin": "3"
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، بدّل المدخل إلى كلمة ثلاثة. تابع valid وseats.",
+          "instruction": "يا كمبيوتر، بدّل المدخل إلى كلمة ثلاثة. تابع valid وseats.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "challenge": {
+            "output": "False\n0\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "printed": [
+              "valid",
+              "seats"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "0",
+                "output": "True\n0\n"
+              },
+              {
+                "stdin": "  +7  ",
+                "output": "True\n7\n"
+              },
+              {
+                "stdin": "-4",
+                "output": "True\n-4\n"
+              },
+              {
+                "stdin": "2.5",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "2147483647",
+                "output": "True\n2147483647\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "-2147483648",
+                "output": "True\n-2147483648\n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "ثلاثة",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ],
+          "stdin": "3"
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اكتب النص 0. اطبع نتيجة المحاولة والعدد المخزّن.",
+          "instruction": "يا كمبيوتر، اكتب النص 0. اطبع نتيجة المحاولة والعدد المخزّن.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "challenge": {
+            "output": "True\n0\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "printed": [
+              "valid",
+              "seats"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "0",
+                "output": "True\n0\n"
+              },
+              {
+                "stdin": "  +7  ",
+                "output": "True\n7\n"
+              },
+              {
+                "stdin": "-4",
+                "output": "True\n-4\n"
+              },
+              {
+                "stdin": "2.5",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "2147483647",
+                "output": "True\n2147483647\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "-2147483648",
+                "output": "True\n-2147483648\n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "0",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ],
+          "stdin": "ثلاثة"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المدخل \"0\" عدد صحيح، لكن valid ظهرت False. إزاي تحدد النجاح؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المدخل \"0\" عدد صحيح، لكن valid ظهرت False. إزاي تحدد النجاح؟",
+          "options": [
+            "استخدم القيمة العائدة من TryParse",
+            "افترض أن أي صفر فشل",
+            "افحص هل seats أكبر من صفر"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string? raw = Console.ReadLine();\nbool converted = int.TryParse(raw, out int seats);\nbool valid = seats != 0;\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "خزّن bool التي تعيدها TryParse مباشرة، واحتفظ بـ seats من out.",
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. خزّن bool التي تعيدها TryParse مباشرة، واحتفظ بـ seats من out.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. خزّن bool التي تعيدها TryParse مباشرة، واحتفظ بـ seats من out.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? raw = Console.ReadLine();\nbool converted = int.TryParse(raw, out int seats);\nbool valid = seats != 0;\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+          "challenge": {
+            "output": "True\n0\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "printed": [
+              "valid",
+              "seats"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "0",
+                "output": "True\n0\n"
+              },
+              {
+                "stdin": "  +7  ",
+                "output": "True\n7\n"
+              },
+              {
+                "stdin": "-4",
+                "output": "True\n-4\n"
+              },
+              {
+                "stdin": "2.5",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "2147483647",
+                "output": "True\n2147483647\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "-2147483648",
+                "output": "True\n-2147483648\n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "0",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اقرأ النص -4 واحفظ رقم القياس في out int offset. اطبع valid ثم offset.",
+          "instruction": "يا كمبيوتر، اقرأ النص -4 واحفظ رقم القياس في out int offset. اطبع valid ثم offset.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int offset);\nConsole.WriteLine(valid);\nConsole.WriteLine(offset);",
+          "challenge": {
+            "output": "True\n-4\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "printed": [
+              "valid",
+              "offset"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "minPrints": 2,
+            "cases": [
+              {
+                "stdin": "0",
+                "output": "True\n0\n"
+              },
+              {
+                "stdin": "  +7  ",
+                "output": "True\n7\n"
+              },
+              {
+                "stdin": "-4",
+                "output": "True\n-4\n"
+              },
+              {
+                "stdin": "2.5",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "2147483647",
+                "output": "True\n2147483647\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "False\n0\n"
+              },
+              {
+                "stdin": "-2147483648",
+                "output": "True\n-2147483648\n"
+              }
+            ],
+            "read": [
+              "raw"
+            ],
+            "stdin": "-4",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع valid والعدد كل واحد لوحده.",
+            "القاعدة: TryParse ترجع النجاح وتسجل العدد في out. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب bool valid = int.TryParse(raw, out int seats);.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int offset);\nConsole.WriteLine(valid);\nConsole.WriteLine(offset);"
+          ],
+          "stdin": "-4"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? raw = Console.ReadLine();\nbool converted = int.TryParse(raw, out int seats);\nbool valid = seats != 0;\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+        "fixedCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nConsole.WriteLine(valid);\nConsole.WriteLine(seats);",
+        "question": "المدخل \"0\" عدد صحيح، لكن valid ظهرت False. إزاي تحدد النجاح؟",
+        "explanation": "خزّن bool التي تعيدها TryParse مباشرة، واحتفظ بـ seats من out.",
+        "options": [
+          "استخدم القيمة العائدة من TryParse",
+          "افترض أن أي صفر فشل",
+          "افحص هل seats أكبر من صفر"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-36-fallback-text"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب 3 في المدخلات. اقرأ raw وجرّب int.TryParse. خزّن النجاح في valid والعدد في out int seats، ثم اطبعهما بالترتيب.",
+        "يا كمبيوتر، اقرأ النص -4 واحفظ رقم القياس في out int offset. اطبع valid ثم offset."
+      ],
+      "commonMisconceptions": [
+        "خزّن bool التي تعيدها TryParse مباشرة، واحتفظ بـ seats من out."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "النص",
+          "text": "\"3\""
+        },
+        {
+          "label": "نجحت؟",
+          "text": "True"
+        },
+        {
+          "label": "العدد في out",
+          "text": "3"
+        }
+      ]
+    },
+    {
+      "id": "csharp-38-invalid-input-reply",
+      "legacyId": "csharp:37",
+      "title": "اعرض ردًا واضحًا عند الإدخال الخاطئ",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 37,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "استخدم valid في if بعد TryParse. في مسار النجاح اعرض seats. في مسار الفشل اطلب إصلاح المدخل.",
+      "whyUse": "رسالة المخرجات تخبر المستخدم بالسبب عندما لا يمكن تحويل النص.",
+      "browserMechanics": "يحدد valid السطر الذي سينفّذه الكمبيوتر. out = 0 في حالة الفشل لا تحدد صحة الإدخال وحدها.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+      "breakdown": [
+        "اقرأ النص وحاول تحويله.",
+        "اختبر valid داخل if.",
+        "اعرض العدد أو رسالة التصحيح."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "لو قدرنا نقرأ عددًا، اعرضه في رسالة. لو وصلت كلمة، اطلب من المستخدم عددًا صحيحًا.",
+          "instruction": "يا كمبيوتر، لو قدرنا نقرأ عددًا، اعرضه في رسالة. لو وصلت كلمة، اطلب من المستخدم عددًا صحيحًا.",
+          "benefit": "رسالة المخرجات تخبر المستخدم بالسبب عندما لا يمكن تحويل النص.",
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "استخدم valid في if بعد TryParse. في مسار النجاح اعرض seats. في مسار الفشل اطلب إصلاح المدخل.",
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "benefit": "يحدد valid السطر الذي سينفّذه الكمبيوتر. out = 0 في حالة الفشل لا تحدد صحة الإدخال وحدها.",
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "4"
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب 4 في المدخلات. استخدم TryParse ثم if (valid) لعرض \"عدد: \" مع seats. استخدم else لعرض \"أدخل عددًا صحيحًا\".",
+          "instruction": "يا كمبيوتر، اكتب 4 في المدخلات. استخدم TryParse ثم if (valid) لعرض \"عدد: \" مع seats. استخدم else لعرض \"أدخل عددًا صحيحًا\".",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "challenge": {
+            "output": "عدد: 4\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "1",
+                "output": "عدد: 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "عدد: 0\n"
+              },
+              {
+                "stdin": "-2",
+                "output": "عدد: -2\n"
+              },
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "valid"
+            ],
+            "stdin": "4",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "4"
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، اكتب أربعة بدل 4 وشغّل نفس القرار. تابع رسالة الفشل.",
+          "instruction": "يا كمبيوتر، اكتب أربعة بدل 4 وشغّل نفس القرار. تابع رسالة الفشل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "challenge": {
+            "output": "أدخل عددًا صحيحًا\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "1",
+                "output": "عدد: 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "عدد: 0\n"
+              },
+              {
+                "stdin": "-2",
+                "output": "عدد: -2\n"
+              },
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "valid"
+            ],
+            "stdin": "أربعة",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "4"
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب -2. تابع مسار النجاح في التحويل.",
+          "instruction": "يا كمبيوتر، جرّب -2. تابع مسار النجاح في التحويل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "challenge": {
+            "output": "عدد: -2\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "1",
+                "output": "عدد: 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "عدد: 0\n"
+              },
+              {
+                "stdin": "-2",
+                "output": "عدد: -2\n"
+              },
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "valid"
+            ],
+            "stdin": "-2",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "أربعة"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "عند إدخال 0 ظهر طلب تصحيح. عدّل الشرط إلى أي قيمة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "عند إدخال 0 ظهر طلب تصحيح. عدّل الشرط إلى أي قيمة؟",
+          "options": [
+            "valid",
+            "seats > 0",
+            "seats == 1"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (seats != 0)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اختبر valid عشان تفرق بين فشل التحويل والعدد الصحيح صفر.",
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختبر valid عشان تفرق بين فشل التحويل والعدد الصحيح صفر.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختبر valid عشان تفرق بين فشل التحويل والعدد الصحيح صفر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (seats != 0)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "challenge": {
+            "output": "عدد: 0\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "1",
+                "output": "عدد: 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "عدد: 0\n"
+              },
+              {
+                "stdin": "-2",
+                "output": "عدد: -2\n"
+              },
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "valid"
+            ],
+            "stdin": "0",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جرّب المدخل 7 بنفس بنية التحقق. تأكد أن الرسالة تستخدم العدد الذي قُرئ.",
+          "instruction": "يا كمبيوتر، جرّب المدخل 7 بنفس بنية التحقق. تأكد أن الرسالة تستخدم العدد الذي قُرئ.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+          "challenge": {
+            "output": "عدد: 7\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "1",
+                "output": "عدد: 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "عدد: 0\n"
+              },
+              {
+                "stdin": "-2",
+                "output": "عدد: -2\n"
+              },
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "valid"
+            ],
+            "stdin": "7",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "القرار يقرأ نتيجة التحويل.",
+            "القاعدة: if (valid) تتبع نجاح TryParse، حتى عند قراءة الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع Console.WriteLine(\"عدد: \" + seats); في جسم النجاح.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}"
+          ],
+          "stdin": "7"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (seats != 0)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+        "fixedCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nif (valid)\n{\n    Console.WriteLine(\"عدد: \" + seats);\n}\nelse\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}",
+        "question": "عند إدخال 0 ظهر طلب تصحيح. عدّل الشرط إلى أي قيمة؟",
+        "explanation": "اختبر valid عشان تفرق بين فشل التحويل والعدد الصحيح صفر.",
+        "options": [
+          "valid",
+          "seats > 0",
+          "seats == 1"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-37-try-parse-integer"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب 4 في المدخلات. استخدم TryParse ثم if (valid) لعرض \"عدد: \" مع seats. استخدم else لعرض \"أدخل عددًا صحيحًا\".",
+        "يا كمبيوتر، جرّب المدخل 7 بنفس بنية التحقق. تأكد أن الرسالة تستخدم العدد الذي قُرئ."
+      ],
+      "commonMisconceptions": [
+        "اختبر valid عشان تفرق بين فشل التحويل والعدد الصحيح صفر."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "المدخل",
+          "text": "3 أو كتاب"
+        },
+        {
+          "label": "اختبر",
+          "text": "هل التحويل نجح؟"
+        },
+        {
+          "label": "الرد",
+          "text": "اعرض العدد أو اطلب تصحيحًا"
+        }
+      ]
+    },
+    {
+      "id": "csharp-39-validate-positive-input",
+      "legacyId": "csharp:38",
+      "title": "تحقّق من الحد بعد التحويل",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 38,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "بعد التأكد من صحة التحويل، افحص نطاق العدد. افصل رسالة المدخل غير القابل للتحويل عن رسالة العدد خارج النطاق.",
+      "whyUse": "المستخدم يعرف هل يغيّر صيغة المدخل أو يغيّر العدد نفسه.",
+      "browserMechanics": "لو نجح التحويل، التتبّع ينتقل إلى شرط quantity <= 0 لتحديد الرسالة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+      "breakdown": [
+        "لو !valid اعرض رسالة التصحيح.",
+        "لو quantity <= 0 اعرض الحد الأدنى.",
+        "وإلا اعرض العدد المقبول."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عند حجز مقعد، كتابة صفر ممكن تتحول لعدد بنجاح. قاعدة الحجز تقول إن الطلب يبدأ من مقعد واحد.",
+          "instruction": "يا كمبيوتر، عند حجز مقعد، كتابة صفر ممكن تتحول لعدد بنجاح. قاعدة الحجز تقول إن الطلب يبدأ من مقعد واحد.",
+          "benefit": "المستخدم يعرف هل يغيّر صيغة المدخل أو يغيّر العدد نفسه.",
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "بعد التأكد من صحة التحويل، افحص نطاق العدد. افصل رسالة المدخل غير القابل للتحويل عن رسالة العدد خارج النطاق.",
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "benefit": "لو نجح التحويل، التتبّع ينتقل إلى شرط quantity <= 0 لتحديد الرسالة.",
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب 0. اقرأ quantity باستخدام TryParse. عند الفشل اكتب \"أدخل عددًا صحيحًا\"، وإلا إذا كان quantity <= 0 اكتب \"العدد يبدأ من 1\"، وإلا اطبع \"عدد مقبول: \" مع quantity.",
+          "instruction": "يا كمبيوتر، اكتب 0. اقرأ quantity باستخدام TryParse. عند الفشل اكتب \"أدخل عددًا صحيحًا\"، وإلا إذا كان quantity <= 0 اكتب \"العدد يبدأ من 1\"، وإلا اطبع \"عدد مقبول: \" مع quantity.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "challenge": {
+            "output": "العدد يبدأ من 1\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "عدد مقبول: 1\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "quantity"
+            ],
+            "stdin": "0",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، بدّل المدخل إلى 1 وشغّل نفس الكود.",
+          "instruction": "يا كمبيوتر، بدّل المدخل إلى 1 وشغّل نفس الكود.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "challenge": {
+            "output": "عدد مقبول: 1\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "عدد مقبول: 1\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "quantity"
+            ],
+            "stdin": "1",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اكتب كلمة مقعد وشاهد الرسالة التي تخص فشل التحويل.",
+          "instruction": "يا كمبيوتر، اكتب كلمة مقعد وشاهد الرسالة التي تخص فشل التحويل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "challenge": {
+            "output": "أدخل عددًا صحيحًا\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "عدد مقبول: 1\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "quantity"
+            ],
+            "stdin": "مقعد",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "1"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "البرنامج قبل الصفر، مع أن العدد يبدأ من 1. أي مقارنة تستبعد الصفر؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "البرنامج قبل الصفر، مع أن العدد يبدأ من 1. أي مقارنة تستبعد الصفر؟",
+          "options": [
+            "quantity < 0",
+            "quantity <= 0",
+            "quantity > 0 في شرط الرفض"
+          ],
+          "correctOptionIndex": 1,
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity < 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم <= في شرط الرفض عشان تشمل الصفر في العدد غير المقبول.",
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم <= في شرط الرفض عشان تشمل الصفر في العدد غير المقبول.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم <= في شرط الرفض عشان تشمل الصفر في العدد غير المقبول.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity < 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "challenge": {
+            "output": "العدد يبدأ من 1\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "عدد مقبول: 1\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "quantity"
+            ],
+            "stdin": "0",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "0"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جرّب العدد -2. اطبع الرد المناسب بعد اكتمال التحويل بنجاح.",
+          "instruction": "يا كمبيوتر، جرّب العدد -2. اطبع الرد المناسب بعد اكتمال التحويل بنجاح.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+          "challenge": {
+            "output": "العدد يبدأ من 1\n",
+            "declared": [
+              "raw",
+              "valid"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "عدد مقبول: 1\n"
+              },
+              {
+                "stdin": "2147483648",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "\n",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "quantity"
+            ],
+            "stdin": "-2",
+            "types": {
+              "raw": "string?",
+              "valid": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص نجاح التحويل قبل المجال.",
+            "القاعدة: قواعد المجال تطبق على العدد بعد التحويل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "بعد if (!valid) استخدم else if (quantity <= 0).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}"
+          ],
+          "stdin": "-2"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity < 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+        "fixedCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int quantity);\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (quantity <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse\n{\n    Console.WriteLine(\"عدد مقبول: \" + quantity);\n}",
+        "question": "البرنامج قبل الصفر، مع أن العدد يبدأ من 1. أي مقارنة تستبعد الصفر؟",
+        "explanation": "استخدم <= في شرط الرفض عشان تشمل الصفر في العدد غير المقبول.",
+        "options": [
+          "quantity < 0",
+          "quantity <= 0",
+          "quantity > 0 في شرط الرفض"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-38-invalid-input-reply"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب 0. اقرأ quantity باستخدام TryParse. عند الفشل اكتب \"أدخل عددًا صحيحًا\"، وإلا إذا كان quantity <= 0 اكتب \"العدد يبدأ من 1\"، وإلا اطبع \"عدد مقبول: \" مع quantity.",
+        "يا كمبيوتر، جرّب العدد -2. اطبع الرد المناسب بعد اكتمال التحويل بنجاح."
+      ],
+      "commonMisconceptions": [
+        "استخدم <= في شرط الرفض عشان تشمل الصفر في العدد غير المقبول."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "النص",
+          "text": "0"
+        },
+        {
+          "label": "التحويل",
+          "text": "نجح"
+        },
+        {
+          "label": "قاعدة الحجز",
+          "text": "العدد يبدأ من ١"
+        }
+      ]
+    },
+    {
+      "id": "csharp-40-input-booking",
+      "legacyId": "csharp:39",
+      "title": "تطبيق حجز من مدخل المستخدم",
+      "skill": "قراءة المدخلات والتحقق منها",
+      "order": 39,
+      "unitId": "console-input-validation",
+      "revision": 1,
+      "concept": "اختبر التحويل أولًا، ثم الحد الأدنى، ثم السعة. إذا مر العدد من الفحوص الثلاثة، اطبع رسالة الحجز.",
+      "whyUse": "تجمع قراءة المدخل والتحويل والتأكد من القواعد في تطبيق واحد.",
+      "browserMechanics": "شاهد نتيجة TryParse، ثم الشروط التي وصل إليها التنفيذ حتى تظهر رسالة واحدة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+      "breakdown": [
+        "تأكد أن النص يمثل عددًا صحيحًا.",
+        "اختبر الحد الأدنى والسعة على الترتيب.",
+        "اعرض الرسالة المناسبة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "القاعة فيها ٦ مقاعد متاحة. وصل طلب من مربع المدخلات، والمطلوب رد واحد يناسب العدد.",
+          "instruction": "يا كمبيوتر، القاعة فيها ٦ مقاعد متاحة. وصل طلب من مربع المدخلات، والمطلوب رد واحد يناسب العدد.",
+          "benefit": "تجمع قراءة المدخل والتحويل والتأكد من القواعد في تطبيق واحد.",
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "اختبر التحويل أولًا، ثم الحد الأدنى، ثم السعة. إذا مر العدد من الفحوص الثلاثة، اطبع رسالة الحجز.",
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "benefit": "شاهد نتيجة TryParse، ثم الشروط التي وصل إليها التنفيذ حتى تظهر رسالة واحدة.",
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "3"
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب 3 واحفظ السعة في available = 6. اقرأ seats باستخدام TryParse. اطبع \"أدخل عددًا صحيحًا\" إذا فشل، و\"العدد يبدأ من 1\" إذا كان seats <= 0، و\"المقاعد غير كافية\" إذا زاد على available، وإلا اطبع \"تم الحجز: \" مع seats.",
+          "instruction": "يا كمبيوتر، اكتب 3 واحفظ السعة في available = 6. اقرأ seats باستخدام TryParse. اطبع \"أدخل عددًا صحيحًا\" إذا فشل، و\"العدد يبدأ من 1\" إذا كان seats <= 0، و\"المقاعد غير كافية\" إذا زاد على available، وإلا اطبع \"تم الحجز: \" مع seats.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "challenge": {
+            "output": "تم الحجز: 3\n",
+            "declared": [
+              "raw",
+              "valid",
+              "available"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "تم الحجز: 1\n"
+              },
+              {
+                "stdin": "6",
+                "output": "تم الحجز: 6\n"
+              },
+              {
+                "stdin": "7",
+                "output": "المقاعد غير كافية\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "seats",
+              "available"
+            ],
+            "stdin": "3",
+            "types": {
+              "raw": "string?",
+              "valid": "bool",
+              "available": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "3"
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر المدخل إلى 6. اختبر الطلب عند السعة بالضبط.",
+          "instruction": "يا كمبيوتر، غيّر المدخل إلى 6. اختبر الطلب عند السعة بالضبط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "challenge": {
+            "output": "تم الحجز: 6\n",
+            "declared": [
+              "raw",
+              "valid",
+              "available"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "تم الحجز: 1\n"
+              },
+              {
+                "stdin": "6",
+                "output": "تم الحجز: 6\n"
+              },
+              {
+                "stdin": "7",
+                "output": "المقاعد غير كافية\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "seats",
+              "available"
+            ],
+            "stdin": "6",
+            "types": {
+              "raw": "string?",
+              "valid": "bool",
+              "available": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "3"
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اطلب 7 مقاعد وشاهد رفض الطلب الذي يتعدى السعة.",
+          "instruction": "يا كمبيوتر، اطلب 7 مقاعد وشاهد رفض الطلب الذي يتعدى السعة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "challenge": {
+            "output": "المقاعد غير كافية\n",
+            "declared": [
+              "raw",
+              "valid",
+              "available"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "تم الحجز: 1\n"
+              },
+              {
+                "stdin": "6",
+                "output": "تم الحجز: 6\n"
+              },
+              {
+                "stdin": "7",
+                "output": "المقاعد غير كافية\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "seats",
+              "available"
+            ],
+            "stdin": "7",
+            "types": {
+              "raw": "string?",
+              "valid": "bool",
+              "available": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "6"
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "القاعة فيها ٦ والطلب ٦. أي شرط يرفض العدد الأكبر ويسمح بالمساوي؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "القاعة فيها ٦ والطلب ٦. أي شرط يرفض العدد الأكبر ويسمح بالمساوي؟",
+          "options": [
+            "seats > available",
+            "seats >= available",
+            "seats < available"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats >= available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استبعد التساوي من شرط الرفض، لأن طلب عدد المقاعد المتاحة بالضبط ممكن.",
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "6"
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استبعد التساوي من شرط الرفض، لأن طلب عدد المقاعد المتاحة بالضبط ممكن.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استبعد التساوي من شرط الرفض، لأن طلب عدد المقاعد المتاحة بالضبط ممكن.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats >= available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "challenge": {
+            "output": "تم الحجز: 6\n",
+            "declared": [
+              "raw",
+              "valid",
+              "available"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "",
+                "output": "أدخل عددًا صحيحًا\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "-1",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "1",
+                "output": "تم الحجز: 1\n"
+              },
+              {
+                "stdin": "6",
+                "output": "تم الحجز: 6\n"
+              },
+              {
+                "stdin": "7",
+                "output": "المقاعد غير كافية\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "seats",
+              "available"
+            ],
+            "stdin": "6",
+            "types": {
+              "raw": "string?",
+              "valid": "bool",
+              "available": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "6"
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جهّز قاعة تانية فيها ٤ مقاعد. استخدم نفس المسارات، وجرّب طلب 4 مقاعد.",
+          "instruction": "يا كمبيوتر، جهّز قاعة تانية فيها ٤ مقاعد. استخدم نفس المسارات، وجرّب طلب 4 مقاعد.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 4;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+          "challenge": {
+            "output": "تم الحجز: 4\n",
+            "declared": [
+              "raw",
+              "valid",
+              "available"
+            ],
+            "operation": "TryParse",
+            "operationIn": "valid",
+            "cases": [
+              {
+                "stdin": "4",
+                "output": "تم الحجز: 4\n"
+              },
+              {
+                "stdin": "5",
+                "output": "المقاعد غير كافية\n"
+              },
+              {
+                "stdin": "0",
+                "output": "العدد يبدأ من 1\n"
+              },
+              {
+                "stdin": "abc",
+                "output": "أدخل عددًا صحيحًا\n"
+              }
+            ],
+            "branching": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "valid",
+              "seats",
+              "available"
+            ],
+            "stdin": "4",
+            "types": {
+              "raw": "string?",
+              "valid": "bool",
+              "available": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتحرك من الصيغة إلى الحد الأدنى ثم السعة.",
+            "القاعدة: أول شرط متحقق يحدد رسالة الحجز. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (!valid) ثم else if (seats <= 0) ثم else if (seats > available).",
+            "كشف الحل:\nstring? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 4;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}"
+          ],
+          "stdin": "4"
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats >= available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+        "fixedCode": "string? raw = Console.ReadLine();\nbool valid = int.TryParse(raw, out int seats);\nint available = 6;\nif (!valid)\n{\n    Console.WriteLine(\"أدخل عددًا صحيحًا\");\n}\nelse if (seats <= 0)\n{\n    Console.WriteLine(\"العدد يبدأ من 1\");\n}\nelse if (seats > available)\n{\n    Console.WriteLine(\"المقاعد غير كافية\");\n}\nelse\n{\n    Console.WriteLine(\"تم الحجز: \" + seats);\n}",
+        "question": "القاعة فيها ٦ والطلب ٦. أي شرط يرفض العدد الأكبر ويسمح بالمساوي؟",
+        "explanation": "استبعد التساوي من شرط الرفض، لأن طلب عدد المقاعد المتاحة بالضبط ممكن.",
+        "options": [
+          "seats > available",
+          "seats >= available",
+          "seats < available"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-39-validate-positive-input"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب 3 واحفظ السعة في available = 6. اقرأ seats باستخدام TryParse. اطبع \"أدخل عددًا صحيحًا\" إذا فشل، و\"العدد يبدأ من 1\" إذا كان seats <= 0، و\"المقاعد غير كافية\" إذا زاد على available، وإلا اطبع \"تم الحجز: \" مع seats.",
+        "يا كمبيوتر، جهّز قاعة تانية فيها ٤ مقاعد. استخدم نفس المسارات، وجرّب طلب 4 مقاعد."
+      ],
+      "commonMisconceptions": [
+        "استبعد التساوي من شرط الرفض، لأن طلب عدد المقاعد المتاحة بالضبط ممكن."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "نموذج طلب مقاعد",
+      "sceneVisual": [
+        {
+          "label": "اقرأ",
+          "text": "عدد المقاعد"
+        },
+        {
+          "label": "افحص",
+          "text": "صيغة العدد والسعة"
+        },
+        {
+          "label": "اعرض",
+          "text": "رسالة واحدة"
         }
       ]
     }

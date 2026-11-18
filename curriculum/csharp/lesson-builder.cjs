@@ -1,8 +1,8 @@
 // Shared eight-step lesson structure. All visible content is original Arabic.
 function challenge(config, solution) {
   const result = {};
-  for (const key of ["output", "declared", "printed", "updated", "values", "operation", "operationIn", "methods", "minPrints", "cases", "read", "branching", "elseRequired", "elseIfRequired", "conditionReads"]) if (config[key] !== undefined) result[key] = config[key];
-  if (config.declared) result.types = Object.fromEntries([...solution.matchAll(/\b(int|double|decimal|string|bool)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=/g)].filter(m => config.declared.includes(m[2])).map(m => [m[2], m[1]]));
+  for (const key of ["output", "declared", "printed", "updated", "values", "operation", "operationIn", "methods", "minPrints", "cases", "read", "branching", "elseRequired", "elseIfRequired", "conditionReads", "stdin"]) if (config[key] !== undefined) result[key] = config[key];
+  if (config.declared) result.types = Object.fromEntries([...solution.matchAll(/\b(int|double|decimal|string\??|bool)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=/g)].filter(m => config.declared.includes(m[2])).map(m => [m[2], m[1]]));
   return result;
 }
 function makeLesson(c, index, previousId, unitId) {
@@ -12,7 +12,8 @@ function makeLesson(c, index, previousId, unitId) {
     id: stepId, type, title, objective: config.task, instruction: config.task,
     benefit: stepId === "transfer" ? "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك." : "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
     starterCode, solution, challenge: challenge(config, solution), errorRules: [],
-    hints: hints(config.attention || c.build.attention, c.build.rule, config.help || c.build.help, solution)
+    hints: hints(config.attention || c.build.attention, c.build.rule, config.help || c.build.help, solution),
+    ...(config.stdin !== undefined && { stdin: config.starterStdin ?? config.stdin })
   });
   const steps = [
     { id: "idea", type: "observe", title: "المشهد قبل الكود", objective: c.scene, instruction: "يا كمبيوتر، " + c.scene, benefit: c.why, errorRules: [], hints: hints(c.build.attention, c.build.rule, c.build.help, c.code) },
@@ -25,6 +26,8 @@ function makeLesson(c, index, previousId, unitId) {
     practical("transfer", "build", "طبّق واحفظ لبنتك", c.transfer, c.transfer.solution, "")
   ];
   steps[4].challenge.differentOutput = true;
+  if (c.build.stdin !== undefined) steps[1].stdin = c.build.stdin;
+  if (c.bug.stdin !== undefined) steps[5].stdin = c.bug.starterStdin ?? c.bug.stdin;
   return {
     id, legacyId: "csharp:" + index, title: c.title, skill: c.skill || "أول برنامج وقيمه", order: index, unitId,
     revision: 1, concept: c.concept, whyUse: c.why, browserMechanics: c.mechanics, documentationUrl: c.reference,

@@ -22,6 +22,11 @@ export function loadProgress(storage, learnerId, lessons) {
         const draft = saved.drafts?.[step.id];
         if (typeof draft === "string" && draft.length <= 16000) record.drafts[step.id] = draft;
         if (revisionMatches && saved.verified?.[step.id] === true) record.verified[step.id] = true;
+        const input = saved.stdinDrafts?.[step.id];
+        if (step.stdin !== undefined && typeof input === "string" && input.length <= 16000) {
+          record.stdinDrafts ||= {};
+          record.stdinDrafts[step.id] = input;
+        }
       }
       if (record.completed && typeof saved.artifact?.code === "string" && saved.artifact.code.length <= 16000) record.artifact = { code: saved.artifact.code, output: String(saved.artifact.output || "").slice(0, 16000) };
       state.lessons[lesson.id] = record;

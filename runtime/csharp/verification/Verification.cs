@@ -40,12 +40,15 @@ public static class Verification
                 var challenge=step.GetProperty("challenge");
                 var source=step.GetProperty("solution").GetString()!;
                 var name=lesson.GetProperty("id").GetString()+"/"+step.GetProperty("id").GetString();
-                await Check(name,source,expectedOutputs[name]);
+                var stdin = challenge.TryGetProperty("stdin", out var input) ? input.GetString()! : "";
+                await Check(name,source,expectedOutputs[name], stdin);
                 if(challenge.TryGetProperty("cases",out var cases)) {var index=0; foreach(var alternative in cases.EnumerateArray())
                 {
                     var modified=source;
-                    foreach(var value in alternative.GetProperty("inputs").EnumerateObject()) modified=Regex.Replace(modified,@"\b(int|double|decimal|string|bool)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
-                    await Check(name+"/alternate/"+index++,modified,alternative.GetProperty("output").GetString()!);
+                    if (alternative.TryGetProperty("inputs", out var replacements))
+                        foreach(var value in replacements.EnumerateObject()) modified=Regex.Replace(modified,@"\b(int|double|decimal|string\??|bool)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
+                    var alternateStdin = alternative.TryGetProperty("stdin", out var alternateInput) ? alternateInput.GetString()! : stdin;
+                    await Check(name+"/alternate/"+index++,modified,alternative.GetProperty("output").GetString()!, alternateStdin);
                 }}
             }
         }

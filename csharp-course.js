@@ -6,6 +6,7 @@ import { DotnetRunner } from "./csharp-dotnet-client.js";
 const $ = id => document.getElementById(id);
 const panel = $("csharpCoursePanel");
 const code = $("csharpCode");
+const stdin = $("csharpStdin");
 const storage = { getItem: key => window.localStorage.getItem(key), setItem: (key, value) => window.localStorage.setItem(key, value) };
 const learnerId = () => window.LearnerProfiles?.active().id || "default";
 const number = n => new Intl.NumberFormat("ar-EG").format(n);
@@ -86,6 +87,11 @@ function renderTrace() {
   $("csharpOutput").textContent = snapshot ? snapshot.output : "";
   $("csharpTraceAction").textContent = snapshot ? snapshot.action : "يا كمبيوتر، انتظر عند البداية. لم يُنفّذ أي أمر بعد.";
   $("csharpTraceCount").textContent = trace ? number(cursor + 1) + " / " + number(trace.trace.length) : "";
+  const reads = snapshot?.inputReads || [];
+  $("csharpInputRead").hidden = !reads.length;
+  $("csharpInputRead").textContent = reads.map(line => line.number === null
+    ? "انتهت المدخلات، فعاد null"
+    : "اقرأ السطر " + number(line.number) + " · " + JSON.stringify(line.value)).join(" · ");
   $("csharpTraceLines").replaceChildren();
   (code.value || "").split("\n").forEach((text, index) => {
     const line = document.createElement("li");
@@ -108,9 +114,10 @@ function renderTrace() {
   }
   for (const [name, data] of Object.entries(snapshot?.variables || {})) {
     const row = document.createElement("tr");
-    if (snapshot.name === name) row.classList.add("cs-changed-value");
-    for (const [index, value] of [name, data.type, data.type === "string" ? JSON.stringify(data.value) : String(data.value)].entries()) {
-      const cell = document.createElement("td"); cell.textContent = value; cell.dir = index === 2 && data.type === "string" ? "auto" : "ltr"; row.append(cell);
+    if (snapshot.name === name || snapshot.binding?.name === name) row.classList.add("cs-changed-value");
+    const text = data.type === "string" || data.type === "string?";
+    for (const [index, value] of [name, data.type, text ? JSON.stringify(data.value) : String(data.value)].entries()) {
+      const cell = document.createElement("td"); cell.textContent = value; cell.dir = index === 2 && text ? "auto" : "ltr"; row.append(cell);
     }
     $("csharpVariables").append(row);
   }
@@ -173,7 +180,10 @@ function render() {
   $("csharpReset").hidden = !practical();
   $("csharpHintButton").hidden = !practical();
   code.value = initialCode(r.step);
-  $("csharpStdin").value = r.stdin || "";
+  const hasLessonInput = step.stdin !== undefined;
+  stdin.value = hasLessonInput ? r.stdinDrafts?.[step.id] ?? step.stdin : r.stdin;
+  stdin.readOnly = !practical();
+  $("csharpInput").open = hasLessonInput;
   $("csharpDotnetOutput").textContent = "";
   $("csharpDotnetDiagnostics").replaceChildren();
   $("csharpDotnetStatus").textContent = "جاهز لتحميل المشغّل عند الطلب.";
@@ -206,8 +216,9 @@ function applyEngine() {
   const real = $("csharpEngine").value === "dotnet";
   $("csharpDotnetPane").hidden = !real;
   $("csharpTracePane").hidden = real;
+  $("csharpInput").hidden = !real && activeStep().stdin === undefined;
   $("csharpRuntimeLabel").textContent = real ? "C# / .NET 10 · تشغيل تجريبي داخل متصفحك" : RUNTIME_LABEL;
-  $("csharpRuntimeNote").textContent = real ? "تشغيل تجريبي في مساحة منفصلة داخل متصفحك. التتبّع البصري للقيم والمقارنات والشروط متاح من الخيار الأول." : "تتبّع الطباعة والحساب والشروط. راقب القيمة عند كل سطر والطرف الذي يتخطّاه الكمبيوتر في الشرط المركب.";
+  $("csharpRuntimeNote").textContent = real ? "تشغيل تجريبي في مساحة منفصلة داخل متصفحك." : "تتبّع القيم والحساب والمدخلات والقرارات خطوة بخطوة.";
   $("csharpRun").textContent = real ? "شغّل عبر .NET وافحص" : "شغّل وافحص";
   if(real && !$("csharpDownloadSize").textContent) {
     fetch('/csharp-dotnet/manifest.json').then(r => { if(!r.ok) throw Error(); return r.json(); }).then(m => {
@@ -224,7 +235,7 @@ function stopReal(show = true) {
 }
 async function runReal() {
   if(realBusy) return;
-  const source = code.value, input = $("csharpStdin").value, step = activeStep(), r = record();
+  const source = code.value, input = stdin.value, step = activeStep(), r = record();
   const version = ++runVersion;
   realBusy = true; $("csharpRun").disabled = true; $("csharpDotnetStop").hidden = false;
   $("csharpDotnetOutput").textContent = ""; $("csharpDotnetDiagnostics").replaceChildren();
@@ -243,7 +254,7 @@ async function runReal() {
     $("csharpDotnetStatus").textContent = result.ok ? "اكتمل التشغيل الفعلي عبر .NET." : result.kind === 'compile' ? "المترجم وجد خطأ قبل التنفيذ. راجع السطر المحدد أدناه." : result.message || "توقف البرنامج بخطأ أثناء التنفيذ.";
     if(result.ok && step.challenge) {
       const baseline = activeLesson().steps.find(s=>s.id==='edit').challenge.output;
-      const check = checkChallenge(source, step.challenge, baseline);
+      const check = checkChallenge(source, step.challenge, baseline, input);
       const matches = check.passed && check.result.output === result.output;
       r.verified[step.id] = matches; $("csharpNext").disabled = !matches; save();
       feedback(matches ? "صحيح. نُفّذ الكود بواسطة .NET وحقق المطلوب." : check.passed ? "اختلفت نتيجة .NET عن التتبّع التعليمي. راجع الناتج قبل إكمال الخطوة." : "شُغّل كودك بواسطة .NET. لإكمال خطوة الدرس: " + check.message, !matches);
@@ -258,7 +269,7 @@ async function runReal() {
 function run(all = true) {
   const step = activeStep(), r = record();
   try {
-    if (!trace) trace = runProgram(code.value);
+    if (!trace) trace = runProgram(code.value, {}, stdin.value);
     cursor = all ? trace.trace.length - 1 : Math.min(cursor + 1, trace.trace.length - 1);
     renderTrace();
     if (step.id === "trace") {
@@ -268,7 +279,7 @@ function run(all = true) {
       }
     } else if (practical() && cursor === trace.trace.length - 1) {
       const baseline = activeLesson().steps.find(s => s.id === "edit").challenge.output;
-      const checked = checkChallenge(code.value, step.challenge, baseline);
+      const checked = checkChallenge(code.value, step.challenge, baseline, stdin.value);
       r.verified[step.id] = checked.passed; save(); $("csharpNext").disabled = !checked.passed;
       feedback(checked.message + (checked.passed ? " " + step.benefit : ""), !checked.passed);
     }
@@ -335,7 +346,17 @@ code.addEventListener("input", () => {
 $("csharpRun").addEventListener("click", () => $("csharpEngine").value === "dotnet" ? void runReal() : run(true));
 $("csharpEngine").addEventListener("change", () => { stopReal(false); applyEngine(); });
 $("csharpDotnetStop").addEventListener("click", () => stopReal());
-$("csharpStdin").addEventListener("input", () => { stopReal(false); record().stdin = $("csharpStdin").value; record().verified[activeStep().id] = false; $("csharpNext").disabled = true; save(); });
+stdin.addEventListener("input", () => {
+  stopReal(false); clearTrace();
+  const step = activeStep(), r = record();
+  if (step.stdin === undefined) r.stdin = stdin.value;
+  else {
+    r.stdinDrafts ||= {};
+    r.stdinDrafts[step.id] = stdin.value;
+  }
+  r.verified[step.id] = false; $("csharpNext").disabled = true;
+  feedback(""); save();
+});
 $("csharpStepRun").addEventListener("click", () => run(false));
 $("csharpTraceBack").addEventListener("click", () => { cursor--; renderTrace(); });
 $("csharpTraceRestart").addEventListener("click", () => { cursor = -1; renderTrace(); });
@@ -346,20 +367,23 @@ $("csharpHintButton").addEventListener("click", () => {
   $("csharpHintButton").disabled = hintLevel === 4;
 });
 $("csharpReset").addEventListener("click", () => {
-  const step = activeStep(), r = record(); delete r.drafts[step.id]; r.verified[step.id] = false; save(); render();
+  const step = activeStep(), r = record();
+  delete r.drafts[step.id];
+  if (r.stdinDrafts) delete r.stdinDrafts[step.id];
+  r.verified[step.id] = false; save(); render();
 });
 $("csharpPrevious").addEventListener("click", () => { const r = record(); r.step = Math.max(0, r.step - 1); save(); render(); });
 $("csharpNext").addEventListener("click", () => {
   const lesson = activeLesson(), r = record(), step = activeStep();
   if (step.id !== "idea" && !r.verified[step.id]) return;
   if (step.id === "transfer") {
-    const result = checkChallenge(code.value, step.challenge);
+    const result = checkChallenge(code.value, step.challenge, null, stdin.value);
     if (!result.passed) { feedback(result.message, true); return; }
     r.completed = true; r.artifact = { code: code.value, output: result.result.output };
     save();
     const next = course.lessons[lesson.order + 1];
     if (next) { progress.activeLessonId = next.id; save(); render(); }
-    else { renderRoadmap(); feedback("أكملت الدروس المتاحة وحفظت تطبيقك. الخطوة التالية في المسار هي الأنواع العددية والنصوص والتحويل."); $("csharpNext").disabled = true; }
+    else { renderRoadmap(); feedback("أكملت الدروس المتاحة وحفظت تطبيقك."); $("csharpNext").disabled = true; }
     return;
   }
   r.step = Math.min(r.step + 1, lesson.steps.length - 1); r.furthest = Math.max(r.furthest, r.step);
