@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-18",
+  "branch": "feat/csharp-foundations",
+  "baseCommit": "3f1d7dad3974e733cf82d5315d3760807411cf14",
+  "currentPhase": "P9",
+  "phases": {
+    "P0": "complete",
+    "P1": "complete",
+    "P2": "complete",
+    "P3": "complete",
+    "P4": "complete",
+    "P5": "complete",
+    "P6": "complete",
+    "P7": "complete",
+    "P8": "complete",
+    "P9": "complete"
+  },
+  "nextAction": "Authorize GitHub repository write access, fast-forward feat/csharp-foundations, and verify the published SHA and PR #1.",
+  "checks": {
+    "npmTest": {
+      "passed": 970,
+      "failed": 0
+    },
+    "csharpTests": 800,
+    "canonicalLessonsValidated": 614,
+    "productionBuild": "passed",
+    "browserQA": "Desktop Chrome displayed 117 lessons and kept earlier completions. Lesson 116 showed the scene before code, traced 0 to 1 to 3 (2 edges), rejected the incomplete solution, accepted the fix, and restored the draft on reload.",
+    "realMobileDevice": "not_tested",
+    "dotnetCompiler": {
+      "runtime": "native-dotnet",
+      "passed": 2380,
+      "failed": 0,
+      "alternateInputCases": 1767,
+      "report": "docs/csharp/native-verification.json",
+      "browserWasm": "passed_in_chrome",
+      "curriculumSolutionsCompared": 585
+    },
+    "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed",
+    "browserWasm": {
+      "browser": "Chrome",
+      "harness": "tests/browser/csharp-dotnet.html",
+      "smoke": {
+        "passed": 53,
+        "failed": 0
+      },
+      "narrowViewport": "390px frame; lesson 116 printed 2, 0, 1, 3 via .NET and kept its draft after reload",
+      "fullCurriculum": {
+        "passed": 2372,
+        "failed": 0,
+        "curriculumSolutionsCompared": 585,
+        "alternateInputCases": 1767,
+        "runtimeChecks": 20
+      }
+    }
+  },
+  "runtime": {
+    "default": "bounded teaching interpreter for input, arrays, control flow, local calls, objects and selected collection operations with a 1000-snapshot limit",
+    "experimental": ".NET 10.0.15 + Roslyn 5.0.0, SDK 10.0.204, browser WebAssembly worker",
+    "assetRawMiB": 45.5,
+    "assetGzipMiB": 16.9,
+    "noStudentCodeSentToExternalService": true,
+    "browserAcceptance": "passed_in_chrome",
+    "hardMemoryQuota": false
+  },
+  "blockers": [
+    {
+      "area": "github_write",
+      "reason": "GitHub rejected the connector write with HTTP 403 and this checkout has no authenticated push. The tested release is waiting for authorized repository write access."
+    }
+  ],
+  "subphases": {
+    "P3A": "complete",
+    "P3B": "complete",
+    "P3C": "complete",
+    "P3D": "complete",
+    "P4A": "complete",
+    "P4B": "complete",
+    "P5A": "complete",
+    "P5B": "complete",
+    "P7A": "complete",
+    "P7B": "complete",
+    "P8A": "complete",
+    "P8B": "complete",
+    "P9A": "complete",
+    "P9B": "complete"
+  },
+  "curriculum": {
+    "lessons": 117,
+    "steps": 936,
+    "units": 16,
+    "latestUnit": "graph-traversals",
+    "nextUnit": null
+  }
+}

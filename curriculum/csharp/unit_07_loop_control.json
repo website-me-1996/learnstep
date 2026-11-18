@@ -1,0 +1,3633 @@
+{
+  "schemaVersion": "1.0.0",
+  "track": "csharp",
+  "title": "الوحدة السابعة: تحكّم في مسار التكرار",
+  "description": "رأس for والقفز والحلقات المتداخلة والمرور على القيم باستخدام foreach.",
+  "totalLessons": 8,
+  "runtime": "csharp-foundations-subset-v7",
+  "lessons": [
+    {
+      "id": "csharp-49-for-header",
+      "legacyId": "csharp:48",
+      "title": "رتّب أجزاء رأس for",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 48,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "في رأس for ثلاث خانات. التهيئة تحصل مرة واحدة. بعد كل جسم يحصل التحديث، ثم يعود الكمبيوتر للشرط.",
+      "whyUse": "تجمع أوامر العد في رأس واحد ويسهل تشوف البداية والحد والحركة.",
+      "browserMechanics": "راقب لقطة التهيئة ثم الشرط والجسم. ارجع لقطة بعد التحديث لتشوف قيمة i قبل الزيادة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+      "breakdown": [
+        "هيئ i من start مرة واحدة.",
+        "افحص i < limit كل مرة.",
+        "بعد الطباعة نفّذ i = i + 1."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "جهّز البطاقة الأولى مرة واحدة. بعدها كرر الفحص ثم النداء ثم الحركة للبطاقة التالية.",
+          "instruction": "يا كمبيوتر، جهّز البطاقة الأولى مرة واحدة. بعدها كرر الفحص ثم النداء ثم الحركة للبطاقة التالية.",
+          "benefit": "تجمع أوامر العد في رأس واحد ويسهل تشوف البداية والحد والحركة.",
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في رأس for ثلاث خانات. التهيئة تحصل مرة واحدة. بعد كل جسم يحصل التحديث، ثم يعود الكمبيوتر للشرط.",
+          "code": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "benefit": "راقب لقطة التهيئة ثم الشرط والجسم. ارجع لقطة بعد التحديث لتشوف قيمة i قبل الزيادة.",
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن start = 0 وlimit = 3. اكتب for تهيئ i من start وتقارن i < limit وتنفّذ i = i + 1 بعد طباعة i.",
+          "instruction": "يا كمبيوتر، خزّن start = 0 وlimit = 3. اكتب for تهيئ i من start وتقارن i < limit وتنفّذ i = i + 1 بعد طباعة i.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "0\n1\n2\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، قلّل limit إلى 2 وتتبّع آخر فحص.",
+          "instruction": "يا كمبيوتر، قلّل limit إلى 2 وتتبّع آخر فحص.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 0;\nint limit = 2;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "0\n1\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 0;\nint limit = 2;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ من 2 والحد 5. تابع وقت تهيئة i.",
+          "instruction": "يا كمبيوتر، ابدأ من 2 والحد 5. تابع وقت تهيئة i.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 2;\nint limit = 5;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "2\n3\n4\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 2;\nint limit = 5;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر الرقم 3 رغم إن المطلوب التوقف قبله. أي جزء من الرأس يحتاج تغيير؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر الرقم 3 رغم إن المطلوب التوقف قبله. أي جزء من الرأس يحتاج تغيير؟",
+          "options": [
+            "الشرط إلى i < limit",
+            "التهيئة إلى i = 3",
+            "التحديث إلى i = i + 2"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i <= limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "صحّح الشرط إلى i < limit.",
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. صحّح الشرط إلى i < limit.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. صحّح الشرط إلى i < limit.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i <= limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "solution": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "0\n1\n2\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، نادِ أرقامًا من 4 حتى قبل 8 في حلقة for.",
+          "instruction": "يا كمبيوتر، نادِ أرقامًا من 4 حتى قبل 8 في حلقة for.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 4;\nint limit = 8;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "4\n5\n6\n7\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع أي جزء في الرأس يعمل مرة واحدة.",
+            "القاعدة: الترتيب تهيئة ثم فحص ثم جسم ثم تحديث ثم عودة للفحص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i = i + 1).",
+            "كشف الحل:\nint start = 4;\nint limit = 8;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i <= limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+        "fixedCode": "int start = 0;\nint limit = 3;\nfor (int i = start;\n     i < limit;\n     i = i + 1)\n{\n    Console.WriteLine(i);\n}",
+        "question": "ظهر الرقم 3 رغم إن المطلوب التوقف قبله. أي جزء من الرأس يحتاج تغيير؟",
+        "explanation": "صحّح الشرط إلى i < limit.",
+        "options": [
+          "الشرط إلى i < limit",
+          "التهيئة إلى i = 3",
+          "التحديث إلى i = i + 2"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-48-while-inventory"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن start = 0 وlimit = 3. اكتب for تهيئ i من start وتقارن i < limit وتنفّذ i = i + 1 بعد طباعة i.",
+        "يا كمبيوتر، نادِ أرقامًا من 4 حتى قبل 8 في حلقة for."
+      ],
+      "commonMisconceptions": [
+        "صحّح الشرط إلى i < limit."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "مرة واحدة",
+          "text": "ابدأ من 0"
+        },
+        {
+          "label": "في كل دورة",
+          "text": "افحص ثم اطبع"
+        },
+        {
+          "label": "بعد الجسم",
+          "text": "زِد العداد ثم ارجع"
+        }
+      ]
+    },
+    {
+      "id": "csharp-50-for-increment",
+      "legacyId": "csharp:49",
+      "title": "اقرأ i++ كتحديث بعد الجسم",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 49,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "في خانة التحديث وحدها، i++ تزيد i بمقدار 1. لقطة التحديث تفضل في نفس ترتيب التنفيذ بعد الجسم.",
+      "whyUse": "تقدر تقرأ الصيغة القصيرة الشائعة من غير ما تفقد مكان التحديث.",
+      "browserMechanics": "التتبّع يضيء خانة i++ بعد سطر الطباعة ويعرض تغير العداد.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#increment-operator-",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+      "breakdown": [
+        "ابدأ i من start.",
+        "اطبع i طالما أقل من limit.",
+        "استخدم i++ في خانة التحديث."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "بعد كل بطاقة هتتحرك خانة واحدة. المكان المخصص للحركة في نهاية رأس for.",
+          "instruction": "يا كمبيوتر، بعد كل بطاقة هتتحرك خانة واحدة. المكان المخصص للحركة في نهاية رأس for.",
+          "benefit": "تقدر تقرأ الصيغة القصيرة الشائعة من غير ما تفقد مكان التحديث.",
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في خانة التحديث وحدها، i++ تزيد i بمقدار 1. لقطة التحديث تفضل في نفس ترتيب التنفيذ بعد الجسم.",
+          "code": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+          "benefit": "التتبّع يضيء خانة i++ بعد سطر الطباعة ويعرض تغير العداد.",
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اطبع i من start = 1 إلى ما قبل limit = 4. استخدم i++ داخل رأس for.",
+          "instruction": "يا كمبيوتر، اطبع i من start = 1 إلى ما قبل limit = 4. استخدم i++ داخل رأس for.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "1\n2\n3\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "++",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، حرّك start إلى 2 وشاهد عدد الدورات.",
+          "instruction": "يا كمبيوتر، حرّك start إلى 2 وشاهد عدد الدورات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 2;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "2\n3\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "++",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 2;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ عند 0. تأكد إن أول رقم مطبوع هو 0.",
+          "instruction": "يا كمبيوتر، ابدأ عند 0. تأكد إن أول رقم مطبوع هو 0.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 0;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "0\n1\n2\n3\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "++",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 0;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "تظهر 1 ثم 3. أي تحديث يطبع كل بطاقة بالتتابع؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "تظهر 1 ثم 3. أي تحديث يطبع كل بطاقة بالتتابع؟",
+          "options": [
+            "i = i + 2",
+            "i++",
+            "i--"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i = i + 2)\n{\n    Console.WriteLine(i);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم i++ حتى تتحرك خانة واحدة بعد كل دورة.",
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم i++ حتى تتحرك خانة واحدة بعد كل دورة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم i++ حتى تتحرك خانة واحدة بعد كل دورة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i = i + 2)\n{\n    Console.WriteLine(i);\n}",
+          "solution": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "1\n2\n3\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "++",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، استخدم i++ لنداء البطاقات من 3 قبل 7.",
+          "instruction": "يا كمبيوتر، استخدم i++ لنداء البطاقات من 3 قبل 7.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 3;\nint limit = 7;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "3\n4\n5\n6\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "++",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 6
+                },
+                "output": "3\n4\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i++ في اللقطة بعد الطباعة.",
+            "القاعدة: i++ في هذا الموضع تعني زِد العداد 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i < limit; i++).",
+            "كشف الحل:\nint start = 3;\nint limit = 7;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i = i + 2)\n{\n    Console.WriteLine(i);\n}",
+        "fixedCode": "int start = 1;\nint limit = 4;\nfor (int i = start;\n     i < limit;\n     i++)\n{\n    Console.WriteLine(i);\n}",
+        "question": "تظهر 1 ثم 3. أي تحديث يطبع كل بطاقة بالتتابع؟",
+        "explanation": "استخدم i++ حتى تتحرك خانة واحدة بعد كل دورة.",
+        "options": [
+          "i = i + 2",
+          "i++",
+          "i--"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-49-for-header"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اطبع i من start = 1 إلى ما قبل limit = 4. استخدم i++ داخل رأس for.",
+        "يا كمبيوتر، استخدم i++ لنداء البطاقات من 3 قبل 7."
+      ],
+      "commonMisconceptions": [
+        "استخدم i++ حتى تتحرك خانة واحدة بعد كل دورة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "الحركة الكاملة",
+          "text": "i = i + 1"
+        },
+        {
+          "label": "نفس الحركة في الرأس",
+          "text": "i++"
+        },
+        {
+          "label": "لحظة التنفيذ",
+          "text": "بعد طباعة البطاقة"
+        }
+      ]
+    },
+    {
+      "id": "csharp-51-for-countdown",
+      "legacyId": "csharp:50",
+      "title": "عدّ لأسفل باستخدام i--",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 50,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "في العد التنازلي، i-- تنقص 1 بعد الجسم. المقارنة i >= limit تسمح بطباعة limit نفسه.",
+      "whyUse": "تختار حركة وشرط يوصلوا لنفس نهاية المسار.",
+      "browserMechanics": "في كل تحديث، i تقل وتقترب من الحد. عند نزولها تحت الحد تظهر لقطة الخروج.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#decrement-operator---",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+      "breakdown": [
+        "ابدأ من الرقم الأكبر.",
+        "اطبع أثناء i >= limit.",
+        "انقص i باستخدام i--."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "لوحة البدء تعرض ٤ ثم ٣ ثم ٢. بعد كل رقم انزل خانة، ولما العدد يبقى أصغر من ٢ اخرج.",
+          "instruction": "يا كمبيوتر، لوحة البدء تعرض ٤ ثم ٣ ثم ٢. بعد كل رقم انزل خانة، ولما العدد يبقى أصغر من ٢ اخرج.",
+          "benefit": "تختار حركة وشرط يوصلوا لنفس نهاية المسار.",
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في العد التنازلي، i-- تنقص 1 بعد الجسم. المقارنة i >= limit تسمح بطباعة limit نفسه.",
+          "code": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "benefit": "في كل تحديث، i تقل وتقترب من الحد. عند نزولها تحت الحد تظهر لقطة الخروج.",
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن start = 4 وlimit = 2. اطبع تنازليًا حتى 2 بداخل for واستخدم i--.",
+          "instruction": "يا كمبيوتر، خزّن start = 4 وlimit = 2. اطبع تنازليًا حتى 2 بداخل for واستخدم i--.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "4\n3\n2\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "--",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": -1
+                },
+                "output": "1\n0\n-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ابدأ من 3 بدل 4.",
+          "instruction": "يا كمبيوتر، ابدأ من 3 بدل 4.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 3;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "3\n2\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "--",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": -1
+                },
+                "output": "1\n0\n-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 3;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ عند الحد نفسه. تابع دورة واحدة.",
+          "instruction": "يا كمبيوتر، ابدأ عند الحد نفسه. تابع دورة واحدة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 2;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "2\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "--",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": -1
+                },
+                "output": "1\n0\n-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 2;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 4 ثم 3، والمطلوب يشمل 2. أي شرط مناسب؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 4 ثم 3، والمطلوب يشمل 2. أي شرط مناسب؟",
+          "options": [
+            "i > limit",
+            "i <= limit",
+            "i >= limit"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i > limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اسمح بالتساوي مع i >= limit حتى يتم تنفيذ الدورة الأخيرة.",
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اسمح بالتساوي مع i >= limit حتى يتم تنفيذ الدورة الأخيرة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اسمح بالتساوي مع i >= limit حتى يتم تنفيذ الدورة الأخيرة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i > limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "solution": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "4\n3\n2\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "--",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": -1
+                },
+                "output": "1\n0\n-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع تنازليًا من 2 حتى -1 شاملًا الرقمين.",
+          "instruction": "يا كمبيوتر، اطبع تنازليًا من 2 حتى -1 شاملًا الرقمين.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 2;\nint limit = -1;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+          "challenge": {
+            "output": "2\n1\n0\n-1\n",
+            "declared": [
+              "start",
+              "limit"
+            ],
+            "updated": [
+              "i"
+            ],
+            "operation": "--",
+            "operationIn": "i",
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": -1
+                },
+                "output": "1\n0\n-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تأكد من اتجاه الحركة بعد طباعة الرقم.",
+            "القاعدة: i-- تنقص العداد بعد الجسم في هذا المثال. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = start; i >= limit; i--).",
+            "كشف الحل:\nint start = 2;\nint limit = -1;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i > limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+        "fixedCode": "int start = 4;\nint limit = 2;\nfor (int i = start;\n     i >= limit;\n     i--)\n{\n    Console.WriteLine(i);\n}",
+        "question": "ظهر 4 ثم 3، والمطلوب يشمل 2. أي شرط مناسب؟",
+        "explanation": "اسمح بالتساوي مع i >= limit حتى يتم تنفيذ الدورة الأخيرة.",
+        "options": [
+          "i > limit",
+          "i <= limit",
+          "i >= limit"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-50-for-increment"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن start = 4 وlimit = 2. اطبع تنازليًا حتى 2 بداخل for واستخدم i--.",
+        "يا كمبيوتر، اطبع تنازليًا من 2 حتى -1 شاملًا الرقمين."
+      ],
+      "commonMisconceptions": [
+        "اسمح بالتساوي مع i >= limit حتى يتم تنفيذ الدورة الأخيرة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "البداية",
+          "text": "4"
+        },
+        {
+          "label": "الحركة",
+          "text": "i--"
+        },
+        {
+          "label": "الحد المسموح",
+          "text": "2"
+        }
+      ]
+    },
+    {
+      "id": "csharp-52-for-break",
+      "legacyId": "csharp:51",
+      "title": "اخرج فورًا باستخدام break",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 51,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "break تخرج من أقرب حلقة. لما يتحقق i == marker يقف النداء ويقف تحديث عداد الحلقة دي.",
+      "whyUse": "توقف عملية البحث أو المرور عند العثور على إشارة نهاية.",
+      "browserMechanics": "يظهر السطر بعد الحلقة كوجهة الانتقال عند break.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements#the-break-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+      "breakdown": [
+        "افحص i == marker قبل الطباعة.",
+        "إذا تحقق، نفّذ break.",
+        "عند الخروج اطبع «تم»."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "بتنادي بطاقات في طابور، وعند بطاقة رقم ٣ وصل أمر إيقاف النداء. بعدها اكتب «تم».",
+          "instruction": "يا كمبيوتر، بتنادي بطاقات في طابور، وعند بطاقة رقم ٣ وصل أمر إيقاف النداء. بعدها اكتب «تم».",
+          "benefit": "توقف عملية البحث أو المرور عند العثور على إشارة نهاية.",
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "break تخرج من أقرب حلقة. لما يتحقق i == marker يقف النداء ويقف تحديث عداد الحلقة دي.",
+          "code": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "benefit": "يظهر السطر بعد الحلقة كوجهة الانتقال عند break.",
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن limit = 5 وmarker = 3. اطبع الأرقام قبل marker بحلقة for واستخدم break عند المساواة. اطبع «تم» بعد الحلقة.",
+          "instruction": "يا كمبيوتر، خزّن limit = 5 وmarker = 3. اطبع الأرقام قبل marker بحلقة for واستخدم break عند المساواة. اطبع «تم» بعد الحلقة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n2\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 7
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "break"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، حرّك علامة الإيقاف إلى 1 واختبر الخروج المبكر.",
+          "instruction": "يا كمبيوتر، حرّك علامة الإيقاف إلى 1 واختبر الخروج المبكر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 5;\nint marker = 1;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 7
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "break"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 5;\nint marker = 1;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ضع العلامة عند 8 وشاهد نهاية العد الطبيعية عند الحد.",
+          "instruction": "يا كمبيوتر، ضع العلامة عند 8 وشاهد نهاية العد الطبيعية عند الحد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 5;\nint marker = 8;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n2\n3\n4\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 7
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "break"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 5;\nint marker = 8;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "البرنامج تخطّى 3 وكمّل نداء 4. أي أمر يوقف الحلقة كلها عند 3؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "البرنامج تخطّى 3 وكمّل نداء 4. أي أمر يوقف الحلقة كلها عند 3؟",
+          "options": [
+            "continue;",
+            "i++;",
+            "break;"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استبدل continue بـ break داخل الشرط.",
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استبدل continue بـ break داخل الشرط.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استبدل continue بـ break داخل الشرط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "solution": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n2\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 7
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "break"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، توقّف عند بطاقة 2 ثم أكد انتهاء النداء بسطر «تم».",
+          "instruction": "يا كمبيوتر، توقّف عند بطاقة 2 ثم أكد انتهاء النداء بسطر «تم».",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int limit = 6;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 7
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "break"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الموضع التالي لما توصل للعلامة.",
+            "القاعدة: break تنهي الحلقة الحالية فورًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { break; } قبل Console.WriteLine(i).",
+            "كشف الحل:\nint limit = 6;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+        "fixedCode": "int limit = 5;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+        "question": "البرنامج تخطّى 3 وكمّل نداء 4. أي أمر يوقف الحلقة كلها عند 3؟",
+        "explanation": "استبدل continue بـ break داخل الشرط.",
+        "options": [
+          "continue;",
+          "i++;",
+          "break;"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-51-for-countdown"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن limit = 5 وmarker = 3. اطبع الأرقام قبل marker بحلقة for واستخدم break عند المساواة. اطبع «تم» بعد الحلقة.",
+        "يا كمبيوتر، توقّف عند بطاقة 2 ثم أكد انتهاء النداء بسطر «تم»."
+      ],
+      "commonMisconceptions": [
+        "استبدل continue بـ break داخل الشرط."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "قبل الإيقاف",
+          "text": "0 · 1 · 2"
+        },
+        {
+          "label": "علامة الإيقاف",
+          "text": "3"
+        },
+        {
+          "label": "الانتقال",
+          "text": "أول أمر بعد الحلقة"
+        }
+      ]
+    },
+    {
+      "id": "csharp-53-for-continue",
+      "legacyId": "csharp:52",
+      "title": "تجاوز دورة واحدة باستخدام continue",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 52,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "continue تتجاوز بقية جسم الدورة الحالية. داخل for يتنفّذ التحديث، ثم يُفحص الشرط للدورة التالية.",
+      "whyUse": "تستبعد قيمة واحدة من المرور وتكمل مع بقية القيم.",
+      "browserMechanics": "من continue ينتقل المؤشر لجزء التحديث داخل الرأس قبل الفحص من جديد.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements#the-continue-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+      "breakdown": [
+        "قارن i بالعلامة.",
+        "استخدم continue عند المساواة.",
+        "تابع i++ ثم الشرط لتكمل."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "بطاقة ٢ عليها علامة «تخطَّها». اطبع كل الأرقام الباقية في الطابور.",
+          "instruction": "يا كمبيوتر، بطاقة ٢ عليها علامة «تخطَّها». اطبع كل الأرقام الباقية في الطابور.",
+          "benefit": "تستبعد قيمة واحدة من المرور وتكمل مع بقية القيم.",
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "continue تتجاوز بقية جسم الدورة الحالية. داخل for يتنفّذ التحديث، ثم يُفحص الشرط للدورة التالية.",
+          "code": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "benefit": "من continue ينتقل المؤشر لجزء التحديث داخل الرأس قبل الفحص من جديد.",
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن limit = 5 وmarker = 2. اطبع الأرقام من 0 قبل limit، وتجاوز marker باستخدام continue. اطبع «تم» بعد الحلقة.",
+          "instruction": "يا كمبيوتر، خزّن limit = 5 وmarker = 2. اطبع الأرقام من 0 قبل limit، وتجاوز marker باستخدام continue. اطبع «تم» بعد الحلقة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n3\n4\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 1,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\n3\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 8
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، تجاوز البطاقة الأولى بتغيير marker إلى 0.",
+          "instruction": "يا كمبيوتر، تجاوز البطاقة الأولى بتغيير marker إلى 0.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 5;\nint marker = 0;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "1\n2\n3\n4\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 1,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\n3\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 8
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 5;\nint marker = 0;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب تجاوز البطاقة الأخيرة. راقب التحديث ثم فشل الشرط.",
+          "instruction": "يا كمبيوتر، جرّب تجاوز البطاقة الأخيرة. راقب التحديث ثم فشل الشرط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 5;\nint marker = 4;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n2\n3\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 1,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\n3\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 8
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 5;\nint marker = 4;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الناتج اختفى بعد 1. عايز تتخطى 2 وتكمل لحد 4. إيه الأمر المناسب؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الناتج اختفى بعد 1. عايز تتخطى 2 وتكمل لحد 4. إيه الأمر المناسب؟",
+          "options": [
+            "break;",
+            "continue;",
+            "i = marker;"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم continue عشان تنقل التنفيذ للدورة التالية بعد التحديث.",
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم continue عشان تنقل التنفيذ للدورة التالية بعد التحديث.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم continue عشان تنقل التنفيذ للدورة التالية بعد التحديث.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "solution": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n3\n4\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 1,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\n3\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 8
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع قبل 6 مع تخطي 3، ثم اطبع «تم».",
+          "instruction": "يا كمبيوتر، اطبع قبل 6 مع تخطي 3، ثم اطبع «تم».",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int limit = 6;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\n2\n4\n5\nتم\n",
+            "declared": [
+              "limit",
+              "marker"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 1,
+                  "marker": 0
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 4,
+                  "marker": 2
+                },
+                "output": "0\n1\n3\nتم\n"
+              },
+              {
+                "inputs": {
+                  "limit": 3,
+                  "marker": 8
+                },
+                "output": "0\n1\n2\nتم\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "marker"
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "limit": "int",
+              "marker": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "لاحظ هل العداد يتحرك بعد continue.",
+            "القاعدة: continue تتجاوز بقية الجسم ثم يحدث عداد for. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (i == marker) { continue; } قبل الطباعة.",
+            "كشف الحل:\nint limit = 6;\nint marker = 3;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        break;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+        "fixedCode": "int limit = 5;\nint marker = 2;\nfor (int i = 0; i < limit; i++)\n{\n    if (i == marker)\n    {\n        continue;\n    }\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"تم\");",
+        "question": "الناتج اختفى بعد 1. عايز تتخطى 2 وتكمل لحد 4. إيه الأمر المناسب؟",
+        "explanation": "استخدم continue عشان تنقل التنفيذ للدورة التالية بعد التحديث.",
+        "options": [
+          "break;",
+          "continue;",
+          "i = marker;"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-52-for-break"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن limit = 5 وmarker = 2. اطبع الأرقام من 0 قبل limit، وتجاوز marker باستخدام continue. اطبع «تم» بعد الحلقة.",
+        "يا كمبيوتر، اطبع قبل 6 مع تخطي 3، ثم اطبع «تم»."
+      ],
+      "commonMisconceptions": [
+        "استخدم continue عشان تنقل التنفيذ للدورة التالية بعد التحديث."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "اطبع قبل العلامة",
+          "text": "0 · 1"
+        },
+        {
+          "label": "تجاوز",
+          "text": "2"
+        },
+        {
+          "label": "كمّل بعد العلامة",
+          "text": "3 · 4"
+        }
+      ]
+    },
+    {
+      "id": "csharp-54-nested-for-rows",
+      "legacyId": "csharp:53",
+      "title": "ثبّت الصف وحرّك العمود",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 53,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "العداد الخارجي row يحدد الصف. في كل دورة له، الحلقة الداخلية تبدأ col من 1 وتزور أعمدة الصف.",
+      "whyUse": "تفهم ترتيب المرور على جدول قبل استخدام مصفوفة ثنائية.",
+      "browserMechanics": "في لقطة المستوى 2، تابع col وهي تتحرك وrow ثابت. عند الانتقال للصف التالي شاهد تهيئة col من البداية.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+      "breakdown": [
+        "ثبّت قيمة row في الحلقة الخارجية.",
+        "شغّل الحلقة الداخلية على الأعمدة.",
+        "ابدأ من أول عمود عندما يتغير الصف."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في قاعة صغيرة صفين وكل صف فيه مقعدين. امشِ على مقاعد الصف الأول بالكامل وبعدين انتقل للتاني.",
+          "instruction": "يا كمبيوتر، في قاعة صغيرة صفين وكل صف فيه مقعدين. امشِ على مقاعد الصف الأول بالكامل وبعدين انتقل للتاني.",
+          "benefit": "تفهم ترتيب المرور على جدول قبل استخدام مصفوفة ثنائية.",
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "العداد الخارجي row يحدد الصف. في كل دورة له، الحلقة الداخلية تبدأ col من 1 وتزور أعمدة الصف.",
+          "code": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "benefit": "في لقطة المستوى 2، تابع col وهي تتحرك وrow ثابت. عند الانتقال للصف التالي شاهد تهيئة col من البداية.",
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن rows = 2 وcolumns = 2. اطبع row + \"-\" + col لكل مقعد بحلقتين for تبدأ عداداتهما من 1.",
+          "instruction": "يا كمبيوتر، خزّن rows = 2 وcolumns = 2. اطبع row + \"-\" + col لكل مقعد بحلقتين for تبدأ عداداتهما من 1.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "challenge": {
+            "output": "1-1\n1-2\n2-1\n2-2\n",
+            "declared": [
+              "rows",
+              "columns"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rows": 0,
+                  "columns": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 3,
+                  "columns": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 1,
+                  "columns": 2
+                },
+                "output": "1-1\n1-2\n"
+              },
+              {
+                "inputs": {
+                  "rows": 2,
+                  "columns": 1
+                },
+                "output": "1-1\n2-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "col",
+                "columns"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، قلّل الأعمدة إلى 1 واترك الصفين.",
+          "instruction": "يا كمبيوتر، قلّل الأعمدة إلى 1 واترك الصفين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int rows = 2;\nint columns = 1;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "challenge": {
+            "output": "1-1\n2-1\n",
+            "declared": [
+              "rows",
+              "columns"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rows": 0,
+                  "columns": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 3,
+                  "columns": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 1,
+                  "columns": 2
+                },
+                "output": "1-1\n1-2\n"
+              },
+              {
+                "inputs": {
+                  "rows": 2,
+                  "columns": 1
+                },
+                "output": "1-1\n2-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "col",
+                "columns"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 2;\nint columns = 1;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب صفًا واحدًا وثلاثة أعمدة. اكتب ترتيب المقاعد المتوقع.",
+          "instruction": "يا كمبيوتر، جرّب صفًا واحدًا وثلاثة أعمدة. اكتب ترتيب المقاعد المتوقع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int rows = 1;\nint columns = 3;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "challenge": {
+            "output": "1-1\n1-2\n1-3\n",
+            "declared": [
+              "rows",
+              "columns"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rows": 0,
+                  "columns": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 3,
+                  "columns": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 1,
+                  "columns": 2
+                },
+                "output": "1-1\n1-2\n"
+              },
+              {
+                "inputs": {
+                  "rows": 2,
+                  "columns": 1
+                },
+                "output": "1-1\n2-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "col",
+                "columns"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "rows": "int",
+              "columns": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 1;\nint columns = 3;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر مقعد رقم عموده 0 في كل صف. أي تهيئة توافق ترقيم القاعة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر مقعد رقم عموده 0 في كل صف. أي تهيئة توافق ترقيم القاعة؟",
+          "options": [
+            "int col = 0",
+            "int row = 0",
+            "int col = 1"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 0; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ابدأ col من 1 داخل رأس الحلقة الداخلية.",
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ابدأ col من 1 داخل رأس الحلقة الداخلية.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ابدأ col من 1 داخل رأس الحلقة الداخلية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 0; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "solution": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "challenge": {
+            "output": "1-1\n1-2\n2-1\n2-2\n",
+            "declared": [
+              "rows",
+              "columns"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rows": 0,
+                  "columns": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 3,
+                  "columns": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 1,
+                  "columns": 2
+                },
+                "output": "1-1\n1-2\n"
+              },
+              {
+                "inputs": {
+                  "rows": 2,
+                  "columns": 1
+                },
+                "output": "1-1\n2-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "col",
+                "columns"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع ترتيب المقاعد في 3 صفوف وعمودين.",
+          "instruction": "يا كمبيوتر، اطبع ترتيب المقاعد في 3 صفوف وعمودين.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int rows = 3;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+          "challenge": {
+            "output": "1-1\n1-2\n2-1\n2-2\n3-1\n3-2\n",
+            "declared": [
+              "rows",
+              "columns"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rows": 0,
+                  "columns": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 3,
+                  "columns": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "rows": 1,
+                  "columns": 2
+                },
+                "output": "1-1\n1-2\n"
+              },
+              {
+                "inputs": {
+                  "rows": 2,
+                  "columns": 1
+                },
+                "output": "1-1\n2-1\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "col",
+                "columns"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على col عندما يبدأ الصف الثاني.",
+            "القاعدة: كل دورة خارجية تبدأ تنفيذ الحلقة الداخلية من خانة التهيئة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع for (int col = 1; col <= columns; col++) داخل جسم حلقة row.",
+            "كشف الحل:\nint rows = 3;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 0; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+        "fixedCode": "int rows = 2;\nint columns = 2;\nfor (int row = 1; row <= rows; row++)\n{\n    for (int col = 1; col <= columns; col++)\n    {\n        Console.WriteLine(row + \"-\" + col);\n    }\n}",
+        "question": "ظهر مقعد رقم عموده 0 في كل صف. أي تهيئة توافق ترقيم القاعة؟",
+        "explanation": "ابدأ col من 1 داخل رأس الحلقة الداخلية.",
+        "options": [
+          "int col = 0",
+          "int row = 0",
+          "int col = 1"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-53-for-continue"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن rows = 2 وcolumns = 2. اطبع row + \"-\" + col لكل مقعد بحلقتين for تبدأ عداداتهما من 1.",
+        "يا كمبيوتر، اطبع ترتيب المقاعد في 3 صفوف وعمودين."
+      ],
+      "commonMisconceptions": [
+        "ابدأ col من 1 داخل رأس الحلقة الداخلية."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "صف 1",
+          "text": "1-1 ثم 1-2"
+        },
+        {
+          "label": "لحظة الانتقال",
+          "text": "العمود يعود إلى 1"
+        },
+        {
+          "label": "صف 2",
+          "text": "2-1 ثم 2-2"
+        }
+      ]
+    },
+    {
+      "id": "csharp-55-foreach-values",
+      "legacyId": "csharp:54",
+      "title": "اقرأ قيمة وراء قيمة باستخدام foreach",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 54,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "foreach تضع قيمة العنصر الحالي في point. مع المصفوفة points تقرأ القيم حسب ترتيبها، وتخرج بعد آخر عنصر.",
+      "whyUse": "تمر على قيم مجموعة مباشرة عندما تكون القيمة هي المطلوبة.",
+      "browserMechanics": "تابع لقطة «اقرأ العنصر» وراقب point تستقبل قيمة جديدة كل دورة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+      "breakdown": [
+        "جهز مصفوفة int[] قصيرة بالقيم.",
+        "استخدم foreach (int point in points).",
+        "اطبع point في الجسم."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "صف فيه ثلاث بطاقات قيمها ٤ و٩ و١٢. خذ كل بطاقة بقيمتها واطبعها مرة واحدة.",
+          "instruction": "يا كمبيوتر، صف فيه ثلاث بطاقات قيمها ٤ و٩ و١٢. خذ كل بطاقة بقيمتها واطبعها مرة واحدة.",
+          "benefit": "تمر على قيم مجموعة مباشرة عندما تكون القيمة هي المطلوبة.",
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "foreach تضع قيمة العنصر الحالي في point. مع المصفوفة points تقرأ القيم حسب ترتيبها، وتخرج بعد آخر عنصر.",
+          "code": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+          "benefit": "تابع لقطة «اقرأ العنصر» وراقب point تستقبل قيمة جديدة كل دورة.",
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، جهّز int[] points = { 4, 9, 12 }. اطبع point لكل قيمة باستخدام foreach.",
+          "instruction": "يا كمبيوتر، جهّز int[] points = { 4, 9, 12 }. اطبع point لكل قيمة باستخدام foreach.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+          "challenge": {
+            "output": "4\n9\n12\n",
+            "declared": [
+              "points"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "points": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "points": [
+                    0
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "points": [
+                    9,
+                    9,
+                    -2
+                  ]
+                },
+                "output": "9\n9\n-2\n"
+              }
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "points"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "points": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، احذف 9 من المصفوفة. شاهد دورة أقل.",
+          "instruction": "يا كمبيوتر، احذف 9 من المصفوفة. شاهد دورة أقل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] points = { 4, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+          "challenge": {
+            "output": "4\n12\n",
+            "declared": [
+              "points"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "points": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "points": [
+                    0
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "points": [
+                    9,
+                    9,
+                    -2
+                  ]
+                },
+                "output": "9\n9\n-2\n"
+              }
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "points"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "points": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 4, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب قيمتين متساويتين. راقب طباعتهما في دورتين.",
+          "instruction": "يا كمبيوتر، جرّب قيمتين متساويتين. راقب طباعتهما في دورتين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] points = { 9, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+          "challenge": {
+            "output": "9\n9\n12\n",
+            "declared": [
+              "points"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "points": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "points": [
+                    0
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "points": [
+                    9,
+                    9,
+                    -2
+                  ]
+                },
+                "output": "9\n9\n-2\n"
+              }
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "points"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "points": "int[]"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 9, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "كل الدورات بتطبع 4. أنهي أمر يطبع قيمة البطاقة الحالية؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "كل الدورات بتطبع 4. أنهي أمر يطبع قيمة البطاقة الحالية؟",
+          "options": [
+            "Console.WriteLine(point);",
+            "Console.WriteLine(4);",
+            "Console.WriteLine(points.Length);"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(4);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم point. الحلقة تضع فيه قيمة العنصر الحالي.",
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم point. الحلقة تضع فيه قيمة العنصر الحالي.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم point. الحلقة تضع فيه قيمة العنصر الحالي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(4);\n}",
+          "solution": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+          "challenge": {
+            "output": "4\n9\n12\n",
+            "declared": [
+              "points"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "points": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "points": [
+                    0
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "points": [
+                    9,
+                    9,
+                    -2
+                  ]
+                },
+                "output": "9\n9\n-2\n"
+              }
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "points"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "points": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، استخدم foreach لعرض قيم 0 و-2 و7 من نفس المصفوفة.",
+          "instruction": "يا كمبيوتر، استخدم foreach لعرض قيم 0 و-2 و7 من نفس المصفوفة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] points = { 0, -2, 7 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+          "challenge": {
+            "output": "0\n-2\n7\n",
+            "declared": [
+              "points"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "points": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "points": [
+                    0
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "points": [
+                    9,
+                    9,
+                    -2
+                  ]
+                },
+                "output": "9\n9\n-2\n"
+              }
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "points"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "points": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع قيمة point وهي تنتقل للقيمة التالية.",
+            "القاعدة: point تمثل عنصرًا واحدًا، وpoints هي المصفوفة كلها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب foreach (int point in points) { Console.WriteLine(point); }.",
+            "كشف الحل:\nint[] points = { 0, -2, 7 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(4);\n}",
+        "fixedCode": "int[] points = { 4, 9, 12 };\nforeach (int point in points)\n{\n    Console.WriteLine(point);\n}",
+        "question": "كل الدورات بتطبع 4. أنهي أمر يطبع قيمة البطاقة الحالية؟",
+        "explanation": "استخدم point. الحلقة تضع فيه قيمة العنصر الحالي.",
+        "options": [
+          "Console.WriteLine(point);",
+          "Console.WriteLine(4);",
+          "Console.WriteLine(points.Length);"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-54-nested-for-rows"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، جهّز int[] points = { 4, 9, 12 }. اطبع point لكل قيمة باستخدام foreach.",
+        "يا كمبيوتر، استخدم foreach لعرض قيم 0 و-2 و7 من نفس المصفوفة."
+      ],
+      "commonMisconceptions": [
+        "استخدم point. الحلقة تضع فيه قيمة العنصر الحالي."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "البطاقة الأولى",
+          "text": "4"
+        },
+        {
+          "label": "البطاقة الثانية",
+          "text": "9"
+        },
+        {
+          "label": "البطاقة الثالثة",
+          "text": "12"
+        }
+      ]
+    },
+    {
+      "id": "csharp-56-foreach-cargo-total",
+      "legacyId": "csharp:55",
+      "title": "تطبيق مجموع الشحنات المقبولة",
+      "skill": "for وforeach والتحكم في الحلقة",
+      "order": 55,
+      "unitId": "loop-control",
+      "revision": 1,
+      "concept": "اقرأ الوزن في foreach. إذا كان أقل من minimum استخدم continue. باقي الأوزان تتجمع في total.",
+      "whyUse": "تجمع المرور على المجموعة مع قرار واضح داخل كل دورة.",
+      "browserMechanics": "شاهد انتقال continue للعنصر التالي، ثم تحديث total في دورة مقبولة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+      "breakdown": [
+        "اقرأ وزن الشحنة الحالية.",
+        "تجاوز ما دون الحد باستخدام continue.",
+        "أضف المقبول واطبع المجموع بعد الحلقة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في سجل الشحن ثلاث أوزان ٢ و٣ و٥. اترك الأوزان الأقل من ٣ خارج المجموع، واجمع المقبول.",
+          "instruction": "يا كمبيوتر، في سجل الشحن ثلاث أوزان ٢ و٣ و٥. اترك الأوزان الأقل من ٣ خارج المجموع، واجمع المقبول.",
+          "benefit": "تجمع المرور على المجموعة مع قرار واضح داخل كل دورة.",
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "اقرأ الوزن في foreach. إذا كان أقل من minimum استخدم continue. باقي الأوزان تتجمع في total.",
+          "code": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "benefit": "شاهد انتقال continue للعنصر التالي، ثم تحديث total في دورة مقبولة.",
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن loads = { 2, 3, 5 } وminimum = 3 وtotal = 0. مرّ بـ foreach، وتجاوز load < minimum. اطبع مجموع المقبول.",
+          "instruction": "يا كمبيوتر، خزّن loads = { 2, 3, 5 } وminimum = 3 وtotal = 0. مرّ بـ foreach، وتجاوز load < minimum. اطبع مجموع المقبول.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "8\n",
+            "declared": [
+              "loads",
+              "minimum",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "loads": [],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    1,
+                    2
+                  ],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    3,
+                    6,
+                    1
+                  ],
+                  "minimum": 3
+                },
+                "output": "9\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "load",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "loads"
+              ],
+              "effect": "total",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "loads": "int[]",
+              "minimum": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ارفع حد القبول إلى 4. تتبّع شحنة واحدة مقبولة.",
+          "instruction": "يا كمبيوتر، ارفع حد القبول إلى 4. تتبّع شحنة واحدة مقبولة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] loads = { 2, 3, 5 };\nint minimum = 4;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "loads",
+              "minimum",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "loads": [],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    1,
+                    2
+                  ],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    3,
+                    6,
+                    1
+                  ],
+                  "minimum": 3
+                },
+                "output": "9\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "load",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "loads"
+              ],
+              "effect": "total",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "loads": "int[]",
+              "minimum": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 2, 3, 5 };\nint minimum = 4;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، استبدل الوزن 3 بالوزن 4. شوف أثر المساواة في المجموع.",
+          "instruction": "يا كمبيوتر، استبدل الوزن 3 بالوزن 4. شوف أثر المساواة في المجموع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] loads = { 2, 4, 5 };\nint minimum = 4;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "loads",
+              "minimum",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "loads": [],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    1,
+                    2
+                  ],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    3,
+                    6,
+                    1
+                  ],
+                  "minimum": 3
+                },
+                "output": "9\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "load",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "loads"
+              ],
+              "effect": "total",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "loads": "int[]",
+              "minimum": "int",
+              "total": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 2, 4, 5 };\nint minimum = 4;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المجموع 5 رغم قبول وزن 3 في المطلوب. أي شرط يتجاوز الأوزان الأصغر فقط؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المجموع 5 رغم قبول وزن 3 في المطلوب. أي شرط يتجاوز الأوزان الأصغر فقط؟",
+          "options": [
+            "load <= minimum",
+            "load < minimum",
+            "load > minimum"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load <= minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم < داخل شرط continue حتى يتم جمع الوزن المساوي للحد.",
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم < داخل شرط continue حتى يتم جمع الوزن المساوي للحد.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم < داخل شرط continue حتى يتم جمع الوزن المساوي للحد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load <= minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "solution": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "8\n",
+            "declared": [
+              "loads",
+              "minimum",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "loads": [],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    1,
+                    2
+                  ],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    3,
+                    6,
+                    1
+                  ],
+                  "minimum": 3
+                },
+                "output": "9\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "load",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "loads"
+              ],
+              "effect": "total",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "loads": "int[]",
+              "minimum": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، طبّق العملية على 1 و4 و6 بحد قبول 4. اطبع مجموع المقبول.",
+          "instruction": "يا كمبيوتر، طبّق العملية على 1 و4 و6 بحد قبول 4. اطبع مجموع المقبول.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] loads = { 1, 4, 6 };\nint minimum = 4;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "10\n",
+            "declared": [
+              "loads",
+              "minimum",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "loads": [],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    1,
+                    2
+                  ],
+                  "minimum": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "loads": [
+                    3,
+                    6,
+                    1
+                  ],
+                  "minimum": 3
+                },
+                "output": "9\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "load",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "foreach",
+              "reads": [
+                "loads"
+              ],
+              "effect": "total",
+              "jumps": [
+                "continue"
+              ]
+            },
+            "types": {
+              "loads": "int[]",
+              "minimum": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر الشحنة التي وزنها يساوي الحد.",
+            "القاعدة: continue تتجاوز الإضافة في الدورة المرفوضة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (load < minimum) { continue; } ثم total += load.",
+            "كشف الحل:\nint[] loads = { 1, 4, 6 };\nint minimum = 4;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load <= minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+        "fixedCode": "int[] loads = { 2, 3, 5 };\nint minimum = 3;\nint total = 0;\nforeach (int load in loads)\n{\n    if (load < minimum)\n    {\n        continue;\n    }\n    total += load;\n}\nConsole.WriteLine(total);",
+        "question": "المجموع 5 رغم قبول وزن 3 في المطلوب. أي شرط يتجاوز الأوزان الأصغر فقط؟",
+        "explanation": "استخدم < داخل شرط continue حتى يتم جمع الوزن المساوي للحد.",
+        "options": [
+          "load <= minimum",
+          "load < minimum",
+          "load > minimum"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-55-foreach-values"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن loads = { 2, 3, 5 } وminimum = 3 وtotal = 0. مرّ بـ foreach، وتجاوز load < minimum. اطبع مجموع المقبول.",
+        "يا كمبيوتر، طبّق العملية على 1 و4 و6 بحد قبول 4. اطبع مجموع المقبول."
+      ],
+      "commonMisconceptions": [
+        "استخدم < داخل شرط continue حتى يتم جمع الوزن المساوي للحد."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تنظيم طابور ومقاعد وشحنات",
+      "sceneVisual": [
+        {
+          "label": "تجاوز",
+          "text": "2"
+        },
+        {
+          "label": "أضف",
+          "text": "3 ثم 5"
+        },
+        {
+          "label": "المجموع",
+          "text": "8"
+        }
+      ]
+    }
+  ]
+}

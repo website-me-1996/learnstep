@@ -1,4 +1,5 @@
 # StepLearn — منصة تعلّم البرمجة بالتجربة
+
 > **Interactive Micro-Learning Platform & Angular 22 Workbench**  
 > **تنفيذ وتصميم:** المهندس أحمد عاشور (Eng. Ahmed Ashour)
 
@@ -17,6 +18,18 @@
 
 ### In English
 **StepLearn** is a state-of-the-art interactive micro-learning platform engineered for web development mastery through guided, hands-on experimentation. Designed with an in-browser code editor and simulator, it takes learners from foundational web technologies up through a production-grade 60-lesson curriculum in **Angular 22**, concluding with a full-scale institutional capstone application (*Khotwa Cinema Pro*).
+
+---
+
+## مسار أساسيات C#
+
+افتح بطاقة C# من قائمة المسارات أو انتقل إلى `/#csharp`. يضم المسار **117 درسًا و936 خطوة** موزعة على 16 وحدة، من أول برنامج إلى هياكل البيانات والبحث والترتيب والأشجار والرسوم البيانية.
+
+يبدأ كل درس بمشهد قبل عرض الكود. يتبعه تنفيذ خطوة بخطوة وتمارين بتلميحات، مع حفظ التقدّم والمسودات لكل متعلم في المتصفح.
+
+المحاكي التعليمي المدمج يتولى التتبّع والتقييم. تشغيل .NET عبر WebAssembly متاح بصفة تجريبية، واختبار إقلاعه وإيقافه داخل المتصفح ما زال معلقًا. [تفاصيل المشغّل](runtime/csharp/README.md)
+
+أعد توليد ملفات الدروس باستخدام `npm run curriculum:csharp`، وتحقق منها باستخدام `npm run test:csharp`. تختتم الوحدة الأخيرة بمشروع يحسب أقصر مسار بين محطتين ويختبر الحالات الحدية. [خطة المسار](docs/csharp/PLAN.md) · [سجل التقدّم والاختبارات](docs/csharp/PROGRESS.md)
 
 ---
 

@@ -1,0 +1,3298 @@
+{
+  "schemaVersion": "1.0.0",
+  "track": "csharp",
+  "title": "أنشئ الكائن وتتبّع مرجعه",
+  "description": "الصنف والحقول والمنشئ والطرق والمراجع وnull والأنواع العامة.",
+  "totalLessons": 8,
+  "runtime": "csharp-foundations-subset-v10",
+  "lessons": [
+    {
+      "id": "csharp-73-class-create-object",
+      "legacyId": "csharp:72",
+      "title": "ارسم الصنف ثم أنشئ كائنًا منه",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 72,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "تعريف class يصف نوع الكائن. new Ticket() ينشئ كائنًا من نوع Ticket؛ المتغير card يمسك المرجع إليه.",
+      "whyUse": "تقدر تستخدم نفس الوصف لإنشاء كائنات في خطوات تالية.",
+      "browserMechanics": "تظهر بطاقة الكائن بعد أمر new. يشير صف card إلى رقم البطاقة. تطبع النسخة البسيطة اسم الصنف عند طباعة الكائن.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/classes",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "Ticket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+      "breakdown": [
+        "عرّف class Ticket أسفل الأوامر.",
+        "أنشئ كائنًا بـ new Ticket().",
+        "احفظه في card واطبع card."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قدامك نموذج بطاقة في الدرج. اصنع منه بطاقة واحدة وسجّل مكانها باسم card.",
+          "instruction": "يا كمبيوتر، قدامك نموذج بطاقة في الدرج. اصنع منه بطاقة واحدة وسجّل مكانها باسم card.",
+          "benefit": "تقدر تستخدم نفس الوصف لإنشاء كائنات في خطوات تالية.",
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nTicket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "تعريف class يصف نوع الكائن. new Ticket() ينشئ كائنًا من نوع Ticket؛ المتغير card يمسك المرجع إليه.",
+          "code": "Ticket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+          "benefit": "تظهر بطاقة الكائن بعد أمر new. يشير صف card إلى رقم البطاقة. تطبع النسخة البسيطة اسم الصنف عند طباعة الكائن.",
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nTicket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف class Ticket بجسم فارغ. اكتب Ticket card = new Ticket(); ثم اطبع card.",
+          "instruction": "يا كمبيوتر، عرّف class Ticket بجسم فارغ. اكتب Ticket card = new Ticket(); ثم اطبع card.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "Ticket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+          "challenge": {
+            "output": "Ticket\n",
+            "declared": [
+              "card"
+            ],
+            "printed": [
+              "card"
+            ],
+            "operation": "new",
+            "operationIn": "card",
+            "cases": [],
+            "types": {
+              "card": "Ticket"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nTicket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر اسم الصنف إلى Pass في التعريف وعدّل نوع card واستدعاء new ليتوافقا معه.",
+          "instruction": "يا كمبيوتر، غيّر اسم الصنف إلى Pass في التعريف وعدّل نوع card واستدعاء new ليتوافقا معه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "Pass card = new Pass();\nConsole.WriteLine(card);\n\nclass Pass\n{\n}",
+          "challenge": {
+            "output": "Pass\n",
+            "declared": [
+              "card"
+            ],
+            "printed": [
+              "card"
+            ],
+            "operation": "new",
+            "operationIn": "card",
+            "cases": [],
+            "types": {
+              "card": "Pass"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nPass card = new Pass();\nConsole.WriteLine(card);\n\nclass Pass\n{\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب نفس خطوات الإنشاء لصنف اسمه Badge. لاحظ اسم النوع عند طباعة card.",
+          "instruction": "يا كمبيوتر، جرّب نفس خطوات الإنشاء لصنف اسمه Badge. لاحظ اسم النوع عند طباعة card.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "Badge card = new Badge();\nConsole.WriteLine(card);\n\nclass Badge\n{\n}",
+          "challenge": {
+            "output": "Badge\n",
+            "declared": [
+              "card"
+            ],
+            "printed": [
+              "card"
+            ],
+            "operation": "new",
+            "operationIn": "card",
+            "cases": [],
+            "types": {
+              "card": "Badge"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nBadge card = new Badge();\nConsole.WriteLine(card);\n\nclass Badge\n{\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر card بقيمة null. أي تعبير ينشئ بطاقة Ticket؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر card بقيمة null. أي تعبير ينشئ بطاقة Ticket؟",
+          "options": [
+            "new Ticket()",
+            "null",
+            "\"Ticket\""
+          ],
+          "correctOptionIndex": 0,
+          "code": "Ticket card = null;\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ضع new Ticket() بعد علامة الإسناد.",
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nTicket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع new Ticket() بعد علامة الإسناد.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع new Ticket() بعد علامة الإسناد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "Ticket card = null;\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+          "solution": "Ticket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+          "challenge": {
+            "output": "Ticket\n",
+            "declared": [
+              "card"
+            ],
+            "printed": [
+              "card"
+            ],
+            "operation": "new",
+            "operationIn": "card",
+            "cases": [],
+            "types": {
+              "card": "Ticket"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nTicket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، عرّف صنف Receipt واصنع واحدًا منه، ثم اطبع المرجع الموجود في card.",
+          "instruction": "يا كمبيوتر، عرّف صنف Receipt واصنع واحدًا منه، ثم اطبع المرجع الموجود في card.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "Receipt card = new Receipt();\nConsole.WriteLine(card);\n\nclass Receipt\n{\n}",
+          "challenge": {
+            "output": "Receipt\n",
+            "declared": [
+              "card"
+            ],
+            "printed": [
+              "card"
+            ],
+            "operation": "new",
+            "operationIn": "card",
+            "cases": [],
+            "types": {
+              "card": "Receipt"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تتبّع لحظة ظهور بطاقة الكائن رقم 1.",
+            "القاعدة: new ينشئ الكائن من تعريف الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب class Ticket { } بعد الأوامر، واستخدم new Ticket() عند إنشاء card.",
+            "كشف الحل:\nReceipt card = new Receipt();\nConsole.WriteLine(card);\n\nclass Receipt\n{\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "Ticket card = null;\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+        "fixedCode": "Ticket card = new Ticket();\nConsole.WriteLine(card);\n\nclass Ticket\n{\n}",
+        "question": "ظهر card بقيمة null. أي تعبير ينشئ بطاقة Ticket؟",
+        "explanation": "ضع new Ticket() بعد علامة الإسناد.",
+        "options": [
+          "new Ticket()",
+          "null",
+          "\"Ticket\""
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-72-matrix-free-seats"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف class Ticket بجسم فارغ. اكتب Ticket card = new Ticket(); ثم اطبع card.",
+        "يا كمبيوتر، عرّف صنف Receipt واصنع واحدًا منه، ثم اطبع المرجع الموجود في card."
+      ],
+      "commonMisconceptions": [
+        "ضع new Ticket() بعد علامة الإسناد."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "نموذج البطاقة",
+          "value": "class Ticket"
+        },
+        {
+          "label": "إنشاء نسخة",
+          "value": "new Ticket()"
+        },
+        {
+          "label": "امسك البطاقة",
+          "value": "card → #1"
+        }
+      ]
+    },
+    {
+      "id": "csharp-74-object-field-value",
+      "legacyId": "csharp:73",
+      "title": "اقرأ الحقل داخل الكائن",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 73,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "الحقل يخزّن قيمة في الكائن. النقطة في counter.Points تتحرك من المرجع counter إلى الحقل Points على بطاقته.",
+      "whyUse": "تجمع البيانات الخاصة بالبطاقة في مكان واحد وتقرأ كل خانة باسمها.",
+      "browserMechanics": "تضيء خانة Points على بطاقة الكائن عند الإسناد إليها أو قراءتها.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/fields",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+      "breakdown": [
+        "أنشئ Counter وفيه الحقل int Points.",
+        "ضع starting في counter.Points.",
+        "اقرأ الحقل في shown واطبعه."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "داخل بطاقة العداد خانة للنقاط اسمها Points. اكتب فيها 6 ثم افتح البطاقة واقرأ الخانة بالاسم.",
+          "instruction": "يا كمبيوتر، داخل بطاقة العداد خانة للنقاط اسمها Points. اكتب فيها 6 ثم افتح البطاقة واقرأ الخانة بالاسم.",
+          "benefit": "تجمع البيانات الخاصة بالبطاقة في مكان واحد وتقرأ كل خانة باسمها.",
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "الحقل يخزّن قيمة في الكائن. النقطة في counter.Points تتحرك من المرجع counter إلى الحقل Points على بطاقته.",
+          "code": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "benefit": "تضيء خانة Points على بطاقة الكائن عند الإسناد إليها أو قراءتها.",
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف Counter مع public int Points;. أنشئ counter، وخزّن starting = 6 في Points. اقرأ Points في shown واطبعه.",
+          "instruction": "يا كمبيوتر، عرّف Counter مع public int Points;. أنشئ counter، وخزّن starting = 6 في Points. اقرأ Points في shown واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "6\n",
+            "declared": [
+              "starting",
+              "counter",
+              "shown"
+            ],
+            "printed": [
+              "shown"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "starting": 19
+                },
+                "output": "19\n"
+              },
+              {
+                "inputs": {
+                  "starting": -4
+                },
+                "output": "-4\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "shown": "int",
+              "counter": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ضع 9 في starting. بعد الإسناد راقب مكان ظهور 9 في البطاقة.",
+          "instruction": "يا كمبيوتر، ضع 9 في starting. بعد الإسناد راقب مكان ظهور 9 في البطاقة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int starting = 9;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "starting",
+              "counter",
+              "shown"
+            ],
+            "printed": [
+              "shown"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "starting": 19
+                },
+                "output": "19\n"
+              },
+              {
+                "inputs": {
+                  "starting": -4
+                },
+                "output": "-4\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "shown": "int",
+              "counter": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 9;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب بدء العداد من 0. تتبّع قراءة Points حتى الطباعة.",
+          "instruction": "يا كمبيوتر، جرّب بدء العداد من 0. تتبّع قراءة Points حتى الطباعة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int starting = 0;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "starting",
+              "counter",
+              "shown"
+            ],
+            "printed": [
+              "shown"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "starting": 19
+                },
+                "output": "19\n"
+              },
+              {
+                "inputs": {
+                  "starting": -4
+                },
+                "output": "-4\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "shown": "int",
+              "counter": "Counter"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 0;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "Points فيها 6، وshown يعرض 0. أي أمر ينقل قيمة الحقل إلى shown؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "Points فيها 6، وshown يعرض 0. أي أمر ينقل قيمة الحقل إلى shown؟",
+          "options": [
+            "int shown = 0;",
+            "int shown = counter.Points;",
+            "int shown = 1;"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = 0;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اقرأ Points من counter عند تعريف shown.",
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ Points من counter عند تعريف shown.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ Points من counter عند تعريف shown.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = 0;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "solution": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "6\n",
+            "declared": [
+              "starting",
+              "counter",
+              "shown"
+            ],
+            "printed": [
+              "shown"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "starting": 19
+                },
+                "output": "19\n"
+              },
+              {
+                "inputs": {
+                  "starting": -4
+                },
+                "output": "-4\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "shown": "int",
+              "counter": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جهّز عدادًا يبدأ من 15. استخرج Points من الكائن واعرضها في المخرجات.",
+          "instruction": "يا كمبيوتر، جهّز عدادًا يبدأ من 15. استخرج Points من الكائن واعرضها في المخرجات.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int starting = 15;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "15\n",
+            "declared": [
+              "starting",
+              "counter",
+              "shown"
+            ],
+            "printed": [
+              "shown"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "starting": 19
+                },
+                "output": "19\n"
+              },
+              {
+                "inputs": {
+                  "starting": -4
+                },
+                "output": "-4\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "shown": "int",
+              "counter": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تحرّك من counter إلى Points باستخدام النقطة.",
+            "القاعدة: كل وصول للحقل يحتاج المرجع الذي يحدد الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int shown = counter.Points; بعد إسناد starting للحقل.",
+            "كشف الحل:\nint starting = 15;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = 0;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+        "fixedCode": "int starting = 6;\nCounter counter = new Counter();\ncounter.Points = starting;\nint shown = counter.Points;\nConsole.WriteLine(shown);\n\nclass Counter\n{\n    public int Points;\n}",
+        "question": "Points فيها 6، وshown يعرض 0. أي أمر ينقل قيمة الحقل إلى shown؟",
+        "explanation": "اقرأ Points من counter عند تعريف shown.",
+        "options": [
+          "int shown = 0;",
+          "int shown = counter.Points;",
+          "int shown = 1;"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-73-class-create-object"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف Counter مع public int Points;. أنشئ counter، وخزّن starting = 6 في Points. اقرأ Points في shown واطبعه.",
+        "يا كمبيوتر، جهّز عدادًا يبدأ من 15. استخرج Points من الكائن واعرضها في المخرجات."
+      ],
+      "commonMisconceptions": [
+        "اقرأ Points من counter عند تعريف shown."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "البطاقة",
+          "value": "counter → #1"
+        },
+        {
+          "label": "الحقل داخلها",
+          "value": "Points = 6"
+        },
+        {
+          "label": "القراءة",
+          "value": "counter.Points → 6"
+        }
+      ]
+    },
+    {
+      "id": "csharp-75-object-separate-instances",
+      "legacyId": "csharp:74",
+      "title": "أنشئ عدّادين لكل واحد حقله",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 74,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "كل new Counter() يصنع بطاقة جديدة لها قيمة حقل مستقلة. حقل int يبدأ عند 0 إذا لم تُعطه قيمة في الصنف أو المنشئ.",
+      "whyUse": "تقدر تسجّل درجتين لأشخاص مختلفين باستخدام نفس تعريف العداد.",
+      "browserMechanics": "تظهر بطاقتان برقمين. يتغير حقل Points في بطاقة first فقط بعد الإسناد.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/classes",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+      "breakdown": [
+        "أنشئ first باستخدام new Counter().",
+        "أنشئ second بأمر new مستقل.",
+        "حدّث first.Points واطبع الحقل في الكائنين."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "اصنع بطاقتين من نموذج العداد. اكتب 5 في الأولى وراقب الثانية وهي باقية عند صفر.",
+          "instruction": "يا كمبيوتر، اصنع بطاقتين من نموذج العداد. اكتب 5 في الأولى وراقب الثانية وهي باقية عند صفر.",
+          "benefit": "تقدر تسجّل درجتين لأشخاص مختلفين باستخدام نفس تعريف العداد.",
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "كل new Counter() يصنع بطاقة جديدة لها قيمة حقل مستقلة. حقل int يبدأ عند 0 إذا لم تُعطه قيمة في الصنف أو المنشئ.",
+          "code": "int points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "benefit": "تظهر بطاقتان برقمين. يتغير حقل Points في بطاقة first فقط بعد الإسناد.",
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف Counter فيه int Points. أنشئ first وsecond بأمر new لكل واحد. ضع points = 5 في first.Points، ثم اطبع قيمة Points للاثنين.",
+          "instruction": "يا كمبيوتر، عرّف Counter فيه int Points. أنشئ first وsecond بأمر new لكل واحد. ضع points = 5 في first.Points، ثم اطبع قيمة Points للاثنين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "5\n0\n",
+            "declared": [
+              "points",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "operation": "new",
+            "operationIn": "second",
+            "cases": [
+              {
+                "inputs": {
+                  "points": 2
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": -3
+                },
+                "output": "-3\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": 0
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "points": "int",
+              "first": "Counter",
+              "second": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر points إلى 8. تابع أي بطاقة تأثرت.",
+          "instruction": "يا كمبيوتر، غيّر points إلى 8. تابع أي بطاقة تأثرت.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int points = 8;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "8\n0\n",
+            "declared": [
+              "points",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "operation": "new",
+            "operationIn": "second",
+            "cases": [
+              {
+                "inputs": {
+                  "points": 2
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": -3
+                },
+                "output": "-3\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": 0
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "points": "int",
+              "first": "Counter",
+              "second": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = 8;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب -1 في first. راقب أن الثانية ما زالت عند الصفر.",
+          "instruction": "يا كمبيوتر، جرّب -1 في first. راقب أن الثانية ما زالت عند الصفر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int points = -1;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "-1\n0\n",
+            "declared": [
+              "points",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "operation": "new",
+            "operationIn": "second",
+            "cases": [
+              {
+                "inputs": {
+                  "points": 2
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": -3
+                },
+                "output": "-3\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": 0
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "points": "int",
+              "first": "Counter",
+              "second": "Counter"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = -1;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "خرج 5 مرتين. أي سطر يعطي second عدّادًا مستقلًا؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "خرج 5 مرتين. أي سطر يعطي second عدّادًا مستقلًا؟",
+          "options": [
+            "Counter second = first;",
+            "Counter second = null;",
+            "Counter second = new Counter();"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int points = 5;\nCounter first = new Counter();\nCounter second = first;\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "نفّذ new مرة ثانية لإنشاء الكائن المستقل.",
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. نفّذ new مرة ثانية لإنشاء الكائن المستقل.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. نفّذ new مرة ثانية لإنشاء الكائن المستقل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int points = 5;\nCounter first = new Counter();\nCounter second = first;\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "solution": "int points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "5\n0\n",
+            "declared": [
+              "points",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "operation": "new",
+            "operationIn": "second",
+            "cases": [
+              {
+                "inputs": {
+                  "points": 2
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": -3
+                },
+                "output": "-3\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": 0
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "points": "int",
+              "first": "Counter",
+              "second": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جهّز عدّادًا لدفعة عندها 12 نقطة وعدّادًا جديدًا يبدأ من صفر. اطبع الاثنين.",
+          "instruction": "يا كمبيوتر، جهّز عدّادًا لدفعة عندها 12 نقطة وعدّادًا جديدًا يبدأ من صفر. اطبع الاثنين.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int points = 12;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "12\n0\n",
+            "declared": [
+              "points",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "operation": "new",
+            "operationIn": "second",
+            "cases": [
+              {
+                "inputs": {
+                  "points": 2
+                },
+                "output": "2\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": -3
+                },
+                "output": "-3\n0\n"
+              },
+              {
+                "inputs": {
+                  "points": 0
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "points": "int",
+              "first": "Counter",
+              "second": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن رقم الكائن في صف first برقم الكائن في صف second.",
+            "القاعدة: أمران منفصلان من new ينشئان كائنين منفصلين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter second = new Counter(); ثم عدّل first.Points فقط.",
+            "كشف الحل:\nint points = 12;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int points = 5;\nCounter first = new Counter();\nCounter second = first;\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+        "fixedCode": "int points = 5;\nCounter first = new Counter();\nCounter second = new Counter();\nfirst.Points = points;\nConsole.WriteLine(first.Points);\nConsole.WriteLine(second.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+        "question": "خرج 5 مرتين. أي سطر يعطي second عدّادًا مستقلًا؟",
+        "explanation": "نفّذ new مرة ثانية لإنشاء الكائن المستقل.",
+        "options": [
+          "Counter second = first;",
+          "Counter second = null;",
+          "Counter second = new Counter();"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-74-object-field-value"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف Counter فيه int Points. أنشئ first وsecond بأمر new لكل واحد. ضع points = 5 في first.Points، ثم اطبع قيمة Points للاثنين.",
+        "يا كمبيوتر، جهّز عدّادًا لدفعة عندها 12 نقطة وعدّادًا جديدًا يبدأ من صفر. اطبع الاثنين."
+      ],
+      "commonMisconceptions": [
+        "نفّذ new مرة ثانية لإنشاء الكائن المستقل."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "first → #1",
+          "value": "Points = 5"
+        },
+        {
+          "label": "second → #2",
+          "value": "Points = 0"
+        },
+        {
+          "label": "الإنشاء",
+          "value": "new مرة لكل بطاقة"
+        }
+      ]
+    },
+    {
+      "id": "csharp-76-object-instance-method",
+      "legacyId": "csharp:75",
+      "title": "اطلب من الكائن استخدام بياناته",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 75,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "counter.WithExtra(extra) تستدعي طريقة للكائن. this يشير للكائن اللي استدعاها، فتقرأ الطريقة this.Points منه وقت الحساب.",
+      "whyUse": "تحسب من بيانات الكائن في مكانها وتعيد النتيجة للسطر اللي طلبها.",
+      "browserMechanics": "عند الدخول يظهر this وفيه مرجع العداد. تابع قراءة Points ثم الرجوع إلى total.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+      "breakdown": [
+        "ضع starting في counter.Points.",
+        "استدعِ WithExtra بقيمة extra.",
+        "داخل الطريقة ارجع بـ this.Points + amount."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "العداد عليه 4 نقاط. اطلب منه حساب الإجمالي لو أضفت 3 نقاط للعرض، وراقب القيمة التي يرجع بها.",
+          "instruction": "يا كمبيوتر، العداد عليه 4 نقاط. اطلب منه حساب الإجمالي لو أضفت 3 نقاط للعرض، وراقب القيمة التي يرجع بها.",
+          "benefit": "تحسب من بيانات الكائن في مكانها وتعيد النتيجة للسطر اللي طلبها.",
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "counter.WithExtra(extra) تستدعي طريقة للكائن. this يشير للكائن اللي استدعاها، فتقرأ الطريقة this.Points منه وقت الحساب.",
+          "code": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "benefit": "عند الدخول يظهر this وفيه مرجع العداد. تابع قراءة Points ثم الرجوع إلى total.",
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف WithExtra(int amount) في Counter، واجعلها تعيد this.Points + amount. ضع 4 في Points، واستدعِ الطريقة بـ extra = 3 واطبع total.",
+          "instruction": "يا كمبيوتر، عرّف WithExtra(int amount) في Counter، واجعلها تعيد this.Points + amount. ضع 4 في Points، واستدعِ الطريقة بـ extra = 3 واطبع total.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "starting",
+              "extra",
+              "counter",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0,
+                  "extra": 4
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "starting": 10,
+                  "extra": 0
+                },
+                "output": "10\n"
+              },
+              {
+                "inputs": {
+                  "starting": 4,
+                  "extra": 9
+                },
+                "output": "13\n"
+              }
+            ],
+            "calls": {
+              "WithExtra": 1
+            },
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "extra": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، بدّل extra إلى 1 واحتفظ بقيمة Points الحالية.",
+          "instruction": "يا كمبيوتر، بدّل extra إلى 1 واحتفظ بقيمة Points الحالية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int starting = 4;\nint extra = 1;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "starting",
+              "extra",
+              "counter",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0,
+                  "extra": 4
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "starting": 10,
+                  "extra": 0
+                },
+                "output": "10\n"
+              },
+              {
+                "inputs": {
+                  "starting": 4,
+                  "extra": 9
+                },
+                "output": "13\n"
+              }
+            ],
+            "calls": {
+              "WithExtra": 1
+            },
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "extra": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 4;\nint extra = 1;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ Points من 8 مع extra = 1. تابع القراءة من الكائن.",
+          "instruction": "يا كمبيوتر، ابدأ Points من 8 مع extra = 1. تابع القراءة من الكائن.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int starting = 8;\nint extra = 1;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "starting",
+              "extra",
+              "counter",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0,
+                  "extra": 4
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "starting": 10,
+                  "extra": 0
+                },
+                "output": "10\n"
+              },
+              {
+                "inputs": {
+                  "starting": 4,
+                  "extra": 9
+                },
+                "output": "13\n"
+              }
+            ],
+            "calls": {
+              "WithExtra": 1
+            },
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "extra": "int",
+              "total": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 8;\nint extra = 1;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 3 لأن total أخذت extra وحدها. أي سطر يطلب الحساب من الكائن؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 3 لأن total أخذت extra وحدها. أي سطر يطلب الحساب من الكائن؟",
+          "options": [
+            "int total = counter.WithExtra(extra);",
+            "int total = extra;",
+            "int total = counter.Points;"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = extra;\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استدعِ WithExtra عن طريق counter ومرّر extra.",
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ WithExtra عن طريق counter ومرّر extra.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ WithExtra عن طريق counter ومرّر extra.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = extra;\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "solution": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "starting",
+              "extra",
+              "counter",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0,
+                  "extra": 4
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "starting": 10,
+                  "extra": 0
+                },
+                "output": "10\n"
+              },
+              {
+                "inputs": {
+                  "starting": 4,
+                  "extra": 9
+                },
+                "output": "13\n"
+              }
+            ],
+            "calls": {
+              "WithExtra": 1
+            },
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "extra": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اعرض إجمالي عدّاد عنده 13 نقطة مع نقطتين إضافيتين. استخدم نفس طريقة الكائن.",
+          "instruction": "يا كمبيوتر، اعرض إجمالي عدّاد عنده 13 نقطة مع نقطتين إضافيتين. استخدم نفس طريقة الكائن.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int starting = 13;\nint extra = 2;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+          "challenge": {
+            "output": "15\n",
+            "declared": [
+              "starting",
+              "extra",
+              "counter",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "starting": 0,
+                  "extra": 4
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "starting": 10,
+                  "extra": 0
+                },
+                "output": "10\n"
+              },
+              {
+                "inputs": {
+                  "starting": 4,
+                  "extra": 9
+                },
+                "output": "13\n"
+              }
+            ],
+            "calls": {
+              "WithExtra": 1
+            },
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "read"
+            },
+            "types": {
+              "starting": "int",
+              "extra": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افحص this عند الدخول، واعرف لأي كائن يشير.",
+            "القاعدة: الطريقة تقرأ حقول الكائن الذي استُدعيت منه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = counter.WithExtra(extra); وفي الطريقة return this.Points + amount;.",
+            "كشف الحل:\nint starting = 13;\nint extra = 2;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = extra;\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+        "fixedCode": "int starting = 4;\nint extra = 3;\nCounter counter = new Counter();\ncounter.Points = starting;\nint total = counter.WithExtra(extra);\nConsole.WriteLine(total);\n\nclass Counter\n{\n    public int Points;\n    public int WithExtra(int amount)\n    {\n        return this.Points + amount;\n    }\n}",
+        "question": "ظهر 3 لأن total أخذت extra وحدها. أي سطر يطلب الحساب من الكائن؟",
+        "explanation": "استدعِ WithExtra عن طريق counter ومرّر extra.",
+        "options": [
+          "int total = counter.WithExtra(extra);",
+          "int total = extra;",
+          "int total = counter.Points;"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-75-object-separate-instances"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف WithExtra(int amount) في Counter، واجعلها تعيد this.Points + amount. ضع 4 في Points، واستدعِ الطريقة بـ extra = 3 واطبع total.",
+        "يا كمبيوتر، اعرض إجمالي عدّاد عنده 13 نقطة مع نقطتين إضافيتين. استخدم نفس طريقة الكائن."
+      ],
+      "commonMisconceptions": [
+        "استدعِ WithExtra عن طريق counter ومرّر extra."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "من الكائن",
+          "value": "Points = 4"
+        },
+        {
+          "label": "من الاستدعاء",
+          "value": "amount = 3"
+        },
+        {
+          "label": "القيمة الراجعة",
+          "value": "total = 7"
+        }
+      ]
+    },
+    {
+      "id": "csharp-77-object-constructor",
+      "legacyId": "csharp:76",
+      "title": "سلّم القيمة للمنشئ وقت new",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 76,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "المنشئ له اسم الصنف ويعمل عند إنشاء الكائن. يستقبل قيمة number ويحفظها في الحقل قبل أن تصل التذكرة إلى ticket.",
+      "whyUse": "الكائن يبدأ بقيم يحتاجها من أول لحظة.",
+      "browserMechanics": "تابع دخول المنشئ مع this وnumber. راقب Number بعد الحفظ ثم الرجوع للسطر الأول من الإنشاء.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constructors",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+      "breakdown": [
+        "جهّز identifier.",
+        "مرّره إلى new Ticket(identifier).",
+        "اكتب هذا الرقم في this.Number داخل المنشئ."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "وأنت بتطلع تذكرة جديدة، سلّم الرقم للمسؤول عن إصدارها. الرقم يتكتب قبل خروج التذكرة من الشباك.",
+          "instruction": "يا كمبيوتر، وأنت بتطلع تذكرة جديدة، سلّم الرقم للمسؤول عن إصدارها. الرقم يتكتب قبل خروج التذكرة من الشباك.",
+          "benefit": "الكائن يبدأ بقيم يحتاجها من أول لحظة.",
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "المنشئ له اسم الصنف ويعمل عند إنشاء الكائن. يستقبل قيمة number ويحفظها في الحقل قبل أن تصل التذكرة إلى ticket.",
+          "code": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+          "benefit": "تابع دخول المنشئ مع this وnumber. راقب Number بعد الحفظ ثم الرجوع للسطر الأول من الإنشاء.",
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف Ticket بالحقل Number. اكتب public Ticket(int number) واحفظ number في this.Number. أنشئ ticket باستخدام identifier = 24 واطبع رقمها.",
+          "instruction": "يا كمبيوتر، عرّف Ticket بالحقل Number. اكتب public Ticket(int number) واحفظ number في this.Number. أنشئ ticket باستخدام identifier = 24 واطبع رقمها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+          "challenge": {
+            "output": "24\n",
+            "declared": [
+              "identifier",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "identifier": 17
+                },
+                "output": "17\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 53
+                },
+                "output": "53\n"
+              }
+            ],
+            "calls": {
+              "Ticket": 1
+            },
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "write"
+            },
+            "types": {
+              "identifier": "int",
+              "ticket": "Ticket"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر identifier إلى 31 وراقب وصوله للحقل داخل المنشئ.",
+          "instruction": "يا كمبيوتر، غيّر identifier إلى 31 وراقب وصوله للحقل داخل المنشئ.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int identifier = 31;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+          "challenge": {
+            "output": "31\n",
+            "declared": [
+              "identifier",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "identifier": 17
+                },
+                "output": "17\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 53
+                },
+                "output": "53\n"
+              }
+            ],
+            "calls": {
+              "Ticket": 1
+            },
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "write"
+            },
+            "types": {
+              "identifier": "int",
+              "ticket": "Ticket"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 31;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب تمرير 0. توقف عند خطوة الإسناد داخل المنشئ قبل طباعة Number.",
+          "instruction": "يا كمبيوتر، جرّب تمرير 0. توقف عند خطوة الإسناد داخل المنشئ قبل طباعة Number.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int identifier = 0;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "identifier",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "identifier": 17
+                },
+                "output": "17\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 53
+                },
+                "output": "53\n"
+              }
+            ],
+            "calls": {
+              "Ticket": 1
+            },
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "write"
+            },
+            "types": {
+              "identifier": "int",
+              "ticket": "Ticket"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 0;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "كل التذاكر رقمها 1. أي إسناد يحفظ القيمة التي وصلت للمنشئ؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "كل التذاكر رقمها 1. أي إسناد يحفظ القيمة التي وصلت للمنشئ؟",
+          "options": [
+            "this.Number = 1;",
+            "this.Number = number;",
+            "number = this.Number;"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = 1;\n    }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ضع قيمة number في الحقل this.Number.",
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع قيمة number في الحقل this.Number.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع قيمة number في الحقل this.Number.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = 1;\n    }\n}",
+          "solution": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+          "challenge": {
+            "output": "24\n",
+            "declared": [
+              "identifier",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "identifier": 17
+                },
+                "output": "17\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 53
+                },
+                "output": "53\n"
+              }
+            ],
+            "calls": {
+              "Ticket": 1
+            },
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "write"
+            },
+            "types": {
+              "identifier": "int",
+              "ticket": "Ticket"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، أصدر تذكرة رقمها 46. مرّر الرقم للمنشئ واطبع Number بعد الإنشاء.",
+          "instruction": "يا كمبيوتر، أصدر تذكرة رقمها 46. مرّر الرقم للمنشئ واطبع Number بعد الإنشاء.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int identifier = 46;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+          "challenge": {
+            "output": "46\n",
+            "declared": [
+              "identifier",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "identifier": 17
+                },
+                "output": "17\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "identifier": 53
+                },
+                "output": "53\n"
+              }
+            ],
+            "calls": {
+              "Ticket": 1
+            },
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "write"
+            },
+            "types": {
+              "identifier": "int",
+              "ticket": "Ticket"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتبع الرقم المرسل للمنشئ قبل أن يصبح الحقل جاهزًا.",
+            "القاعدة: المنشئ يعمل مع new ويجهّز حالة الكائن. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب this.Number = number; في جسم public Ticket(int number).",
+            "كشف الحل:\nint identifier = 46;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = 1;\n    }\n}",
+        "fixedCode": "int identifier = 24;\nTicket ticket = new Ticket(identifier);\nConsole.WriteLine(ticket.Number);\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int number)\n    {\n        this.Number = number;\n    }\n}",
+        "question": "كل التذاكر رقمها 1. أي إسناد يحفظ القيمة التي وصلت للمنشئ؟",
+        "explanation": "ضع قيمة number في الحقل this.Number.",
+        "options": [
+          "this.Number = 1;",
+          "this.Number = number;",
+          "number = this.Number;"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-76-object-instance-method"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف Ticket بالحقل Number. اكتب public Ticket(int number) واحفظ number في this.Number. أنشئ ticket باستخدام identifier = 24 واطبع رقمها.",
+        "يا كمبيوتر، أصدر تذكرة رقمها 46. مرّر الرقم للمنشئ واطبع Number بعد الإنشاء."
+      ],
+      "commonMisconceptions": [
+        "ضع قيمة number في الحقل this.Number."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "الرقم المتاح",
+          "value": "identifier = 24"
+        },
+        {
+          "label": "وقت الإنشاء",
+          "value": "new Ticket(identifier)"
+        },
+        {
+          "label": "البطاقة بعد الخروج",
+          "value": "Number = 24"
+        }
+      ]
+    },
+    {
+      "id": "csharp-78-object-shared-reference",
+      "legacyId": "csharp:77",
+      "title": "خلّي اسمين يشيروا لنفس الكائن",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 77,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "Counter other = original ينسخ المرجع الموجود في original. الاسمَان يوصلان للكائن نفسه، وتغيير Points من other يظهر لما تقرأه من original.",
+      "whyUse": "تعرف متى يتأثر كائن واحد بتعديل تم من مكان آخر في الكود.",
+      "browserMechanics": "يظهر الرقم #1 في صفّي المتغيرين. تتغير بطاقة واحدة عند other.Points، والرجوع يعيد بيانات البطاقة من اللقطة السابقة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+      "breakdown": [
+        "أنشئ original وسجّل before في Points.",
+        "أعطِ other نفس المرجع.",
+        "حدّث other.Points بـ after، واقرأ original.Points."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "اكتب عنوان نفس العداد في ورقتين. افتح العداد من الورقة الثانية وغيّر النقاط. افتحه بعدها من الورقة الأولى واقرأ النتيجة.",
+          "instruction": "يا كمبيوتر، اكتب عنوان نفس العداد في ورقتين. افتح العداد من الورقة الثانية وغيّر النقاط. افتحه بعدها من الورقة الأولى واقرأ النتيجة.",
+          "benefit": "تعرف متى يتأثر كائن واحد بتعديل تم من مكان آخر في الكود.",
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Counter other = original ينسخ المرجع الموجود في original. الاسمَان يوصلان للكائن نفسه، وتغيير Points من other يظهر لما تقرأه من original.",
+          "code": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "benefit": "يظهر الرقم #1 في صفّي المتغيرين. تتغير بطاقة واحدة عند other.Points، والرجوع يعيد بيانات البطاقة من اللقطة السابقة.",
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أنشئ original وضع before = 3 في Points. اكتب Counter other = original;، ثم حدّث other.Points بـ after = 9 واطبع original.Points.",
+          "instruction": "يا كمبيوتر، أنشئ original وضع before = 3 في Points. اكتب Counter other = original;، ثم حدّث other.Points بـ after = 9 واطبع original.Points.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "before",
+              "after",
+              "original",
+              "other"
+            ],
+            "printed": [
+              "original"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "before": 8,
+                  "after": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "before": 1,
+                  "after": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "before": 4,
+                  "after": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "read": [
+              "other"
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "before": "int",
+              "after": "int",
+              "original": "Counter",
+              "other": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر after إلى 4. افتح points من original في لقطة الطباعة.",
+          "instruction": "يا كمبيوتر، غيّر after إلى 4. افتح points من original في لقطة الطباعة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int before = 3;\nint after = 4;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "before",
+              "after",
+              "original",
+              "other"
+            ],
+            "printed": [
+              "original"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "before": 8,
+                  "after": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "before": 1,
+                  "after": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "before": 4,
+                  "after": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "read": [
+              "other"
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "before": "int",
+              "after": "int",
+              "original": "Counter",
+              "other": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 3;\nint after = 4;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب after = 0. ارجع خطوة لتشاهد الحقل قبل كتابته.",
+          "instruction": "يا كمبيوتر، جرّب after = 0. ارجع خطوة لتشاهد الحقل قبل كتابته.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int before = 3;\nint after = 0;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "before",
+              "after",
+              "original",
+              "other"
+            ],
+            "printed": [
+              "original"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "before": 8,
+                  "after": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "before": 1,
+                  "after": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "before": 4,
+                  "after": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "read": [
+              "other"
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "before": "int",
+              "after": "int",
+              "original": "Counter",
+              "other": "Counter"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 3;\nint after = 0;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 3 بدل 9 لأن التحديث وصل لكائن تاني. ما تعريف other المطلوب؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 3 بدل 9 لأن التحديث وصل لكائن تاني. ما تعريف other المطلوب؟",
+          "options": [
+            "Counter other = new Counter();",
+            "Counter other = null;",
+            "Counter other = original;"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = new Counter();\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "انسخ مرجع original إلى other.",
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. انسخ مرجع original إلى other.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. انسخ مرجع original إلى other.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = new Counter();\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "solution": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "before",
+              "after",
+              "original",
+              "other"
+            ],
+            "printed": [
+              "original"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "before": 8,
+                  "after": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "before": 1,
+                  "after": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "before": 4,
+                  "after": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "read": [
+              "other"
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "before": "int",
+              "after": "int",
+              "original": "Counter",
+              "other": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، استخدم مرجعين لعداد مخزون يبدأ عند 12. حدّثه من other إلى 15 واطبع عبر original.",
+          "instruction": "يا كمبيوتر، استخدم مرجعين لعداد مخزون يبدأ عند 12. حدّثه من other إلى 15 واطبع عبر original.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int before = 12;\nint after = 15;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+          "challenge": {
+            "output": "15\n",
+            "declared": [
+              "before",
+              "after",
+              "original",
+              "other"
+            ],
+            "printed": [
+              "original"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "before": 8,
+                  "after": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "before": 1,
+                  "after": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "before": 4,
+                  "after": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "read": [
+              "other"
+            ],
+            "fieldAccess": {
+              "name": "Points",
+              "mode": "write"
+            },
+            "types": {
+              "before": "int",
+              "after": "int",
+              "original": "Counter",
+              "other": "Counter"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب رقم الكائن المكتوب عند الاسمين قبل التحديث.",
+            "القاعدة: إسناد متغير من نوع صنف ينسخ المرجع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب Counter other = original; ثم other.Points = after;.",
+            "كشف الحل:\nint before = 12;\nint after = 15;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = new Counter();\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+        "fixedCode": "int before = 3;\nint after = 9;\nCounter original = new Counter();\noriginal.Points = before;\nCounter other = original;\nother.Points = after;\nConsole.WriteLine(original.Points);\n\nclass Counter\n{\n    public int Points;\n}",
+        "question": "ظهر 3 بدل 9 لأن التحديث وصل لكائن تاني. ما تعريف other المطلوب؟",
+        "explanation": "انسخ مرجع original إلى other.",
+        "options": [
+          "Counter other = new Counter();",
+          "Counter other = null;",
+          "Counter other = original;"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-77-object-constructor"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أنشئ original وضع before = 3 في Points. اكتب Counter other = original;، ثم حدّث other.Points بـ after = 9 واطبع original.Points.",
+        "يا كمبيوتر، استخدم مرجعين لعداد مخزون يبدأ عند 12. حدّثه من other إلى 15 واطبع عبر original."
+      ],
+      "commonMisconceptions": [
+        "انسخ مرجع original إلى other."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "الورقة الأولى",
+          "value": "original → #1"
+        },
+        {
+          "label": "الورقة الثانية",
+          "value": "other → #1"
+        },
+        {
+          "label": "كائن واحد",
+          "value": "Points: 3 → 9"
+        }
+      ]
+    },
+    {
+      "id": "csharp-79-object-null-guard",
+      "legacyId": "csharp:78",
+      "title": "تحقّق من وجود مرجع قبل القراءة",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 78,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "null يعني أن الخانة لا تشير إلى كائن. افحصها قبل استخدام النقطة، لأن الوصول للحقل يحتاج كائنًا موجودًا.",
+      "whyUse": "تتعامل مع غياب البطاقة برسالة تقدر تكمل بعدها البرنامج.",
+      "browserMechanics": "تابع صف ticket. يظهر null دون بطاقة كائن عند الغياب، وعند وجودها يظهر مرجع ويمكن قراءة Number.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+      "breakdown": [
+        "ابدأ Ticket? ticket = null.",
+        "عند found أنشئ تذكرة واحفظ المرجع.",
+        "افحص ticket وأخرج رسالة أو اقرأ الرقم المناسب."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "خانة مكان التذكرة فاضية. قبل ما تحاول تقرأ رقمها، اسأل هل الخانة فيها تذكرة أصلًا.",
+          "instruction": "يا كمبيوتر، خانة مكان التذكرة فاضية. قبل ما تحاول تقرأ رقمها، اسأل هل الخانة فيها تذكرة أصلًا.",
+          "benefit": "تتعامل مع غياب البطاقة برسالة تقدر تكمل بعدها البرنامج.",
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "null يعني أن الخانة لا تشير إلى كائن. افحصها قبل استخدام النقطة، لأن الوصول للحقل يحتاج كائنًا موجودًا.",
+          "code": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "benefit": "تابع صف ticket. يظهر null دون بطاقة كائن عند الغياب، وعند وجودها يظهر مرجع ويمكن قراءة Number.",
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، ابدأ ticket من النوع Ticket? بقيمة null. أنشئها عند found = true. افحص ticket == null، واطبع \"لا توجد تذكرة\" عند الغياب وticket.Number عند الوجود.",
+          "instruction": "يا كمبيوتر، ابدأ ticket من النوع Ticket? بقيمة null. أنشئها عند found = true. افحص ticket == null، واطبع \"لا توجد تذكرة\" عند الغياب وticket.Number عند الوجود.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "challenge": {
+            "output": "لا توجد تذكرة\n",
+            "declared": [
+              "found",
+              "number",
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "found": false,
+                  "number": 9
+                },
+                "output": "لا توجد تذكرة\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 12
+                },
+                "output": "12\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "ticket"
+            ],
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "read"
+            },
+            "types": {
+              "found": "bool",
+              "number": "int",
+              "ticket": "Ticket?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر found إلى true. تتبّع لحظة إنشاء التذكرة ثم قراءة Number.",
+          "instruction": "يا كمبيوتر، غيّر found إلى true. تتبّع لحظة إنشاء التذكرة ثم قراءة Number.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool found = true;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "found",
+              "number",
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "found": false,
+                  "number": 9
+                },
+                "output": "لا توجد تذكرة\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 12
+                },
+                "output": "12\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "ticket"
+            ],
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "read"
+            },
+            "types": {
+              "found": "bool",
+              "number": "int",
+              "ticket": "Ticket?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = true;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اترك found = true وجرّب تذكرة تحمل الرقم 0. قد يحتوي الكائن الموجود على قيمة صفر.",
+          "instruction": "يا كمبيوتر، اترك found = true وجرّب تذكرة تحمل الرقم 0. قد يحتوي الكائن الموجود على قيمة صفر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool found = true;\nint number = 0;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "found",
+              "number",
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "found": false,
+                  "number": 9
+                },
+                "output": "لا توجد تذكرة\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 12
+                },
+                "output": "12\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "ticket"
+            ],
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "read"
+            },
+            "types": {
+              "found": "bool",
+              "number": "int",
+              "ticket": "Ticket?"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = true;\nint number = 0;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "وصل التنفيذ إلى Number مع أن ticket فاضية. ما الشرط المناسب لمسار الرسالة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "وصل التنفيذ إلى Number مع أن ticket فاضية. ما الشرط المناسب لمسار الرسالة؟",
+          "options": [
+            "ticket == null",
+            "ticket != null",
+            "ticket.Number == 0"
+          ],
+          "correctOptionIndex": 0,
+          "code": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket != null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "افحص ticket نفسها قبل الوصول لأي حقل.",
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nbool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. افحص ticket نفسها قبل الوصول لأي حقل.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. افحص ticket نفسها قبل الوصول لأي حقل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket != null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "solution": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "challenge": {
+            "output": "لا توجد تذكرة\n",
+            "declared": [
+              "found",
+              "number",
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "found": false,
+                  "number": 9
+                },
+                "output": "لا توجد تذكرة\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 12
+                },
+                "output": "12\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "ticket"
+            ],
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "read"
+            },
+            "types": {
+              "found": "bool",
+              "number": "int",
+              "ticket": "Ticket?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، أصدر تذكرة رقمها 29 إن كانت موجودة. جرّب أيضًا الغياب وتأكد أن الرد واضح.",
+          "instruction": "يا كمبيوتر، أصدر تذكرة رقمها 29 إن كانت موجودة. جرّب أيضًا الغياب وتأكد أن الرد واضح.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "bool found = true;\nint number = 29;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+          "challenge": {
+            "output": "29\n",
+            "declared": [
+              "found",
+              "number",
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "found": false,
+                  "number": 9
+                },
+                "output": "لا توجد تذكرة\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "found": true,
+                  "number": 12
+                },
+                "output": "12\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "conditionReads": [
+              "ticket"
+            ],
+            "fieldAccess": {
+              "name": "Number",
+              "mode": "read"
+            },
+            "types": {
+              "found": "bool",
+              "number": "int",
+              "ticket": "Ticket?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع حالتي وجود البطاقة وغيابها قبل الوصول إلى Number.",
+            "القاعدة: افحص المرجع المسموح له أن يكون null قبل قراءة الحقل. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if (ticket == null) { Console.WriteLine(\"لا توجد تذكرة\"); } else { Console.WriteLine(ticket.Number); }.",
+            "كشف الحل:\nbool found = true;\nint number = 29;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket != null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+        "fixedCode": "bool found = false;\nint number = 7;\nTicket? ticket = null;\nif (found)\n{\n    ticket = new Ticket(number);\n}\nif (ticket == null)\n{\n    Console.WriteLine(\"لا توجد تذكرة\");\n}\nelse\n{\n    Console.WriteLine(ticket.Number);\n}\n\nclass Ticket\n{\n    public int Number;\n    public Ticket(int input)\n    {\n        Number = input;\n    }\n}",
+        "question": "وصل التنفيذ إلى Number مع أن ticket فاضية. ما الشرط المناسب لمسار الرسالة؟",
+        "explanation": "افحص ticket نفسها قبل الوصول لأي حقل.",
+        "options": [
+          "ticket == null",
+          "ticket != null",
+          "ticket.Number == 0"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-78-object-shared-reference"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، ابدأ ticket من النوع Ticket? بقيمة null. أنشئها عند found = true. افحص ticket == null، واطبع \"لا توجد تذكرة\" عند الغياب وticket.Number عند الوجود.",
+        "يا كمبيوتر، أصدر تذكرة رقمها 29 إن كانت موجودة. جرّب أيضًا الغياب وتأكد أن الرد واضح."
+      ],
+      "commonMisconceptions": [
+        "افحص ticket نفسها قبل الوصول لأي حقل."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "قبل أن تجدها",
+          "value": "ticket = null"
+        },
+        {
+          "label": "الفحص",
+          "value": "ticket == null"
+        },
+        {
+          "label": "إن وجدت",
+          "value": "اقرأ Number"
+        }
+      ]
+    },
+    {
+      "id": "csharp-80-generic-class-one-type",
+      "legacyId": "csharp:79",
+      "title": "اختر نوع محتوى الصندوق",
+      "skill": "الأصناف والكائنات والمراجع",
+      "order": 79,
+      "unitId": "objects-and-references",
+      "revision": 1,
+      "concept": "في تعريف Box<T> اسم T يمثل نوعًا تختاره عند الاستخدام. Box<int> يجعل Item عددًا، وBox<string> يجعل Item نصًا.",
+      "whyUse": "تستخدم تعريف صندوق واحد مع نوعين مضبوطين، ويستطيع المترجم مراجعة النوع عند إدخال القيمة.",
+      "browserMechanics": "تعرض البطاقتان اسم النوع الفعلي وقيمة Item. يطابق نوع الحقل الاختيار المكتوب بين < و >.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+      "breakdown": [
+        "عرّف class Box<T> مع public T Item.",
+        "في Box(T input) احفظ input في Item.",
+        "أنشئ Box<int> للرقم وBox<string> للاسم، واطبع محتوى كل صندوق."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عندك قالب صندوق واحد. اطلب صندوقًا لقبول عدد وصندوقًا لقبول اسم. حط كل بطاقة في صندوق النوع المناسب.",
+          "instruction": "يا كمبيوتر، عندك قالب صندوق واحد. اطلب صندوقًا لقبول عدد وصندوقًا لقبول اسم. حط كل بطاقة في صندوق النوع المناسب.",
+          "benefit": "تستخدم تعريف صندوق واحد مع نوعين مضبوطين، ويستطيع المترجم مراجعة النوع عند إدخال القيمة.",
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في تعريف Box<T> اسم T يمثل نوعًا تختاره عند الاستخدام. Box<int> يجعل Item عددًا، وBox<string> يجعل Item نصًا.",
+          "code": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "benefit": "تعرض البطاقتان اسم النوع الفعلي وقيمة Item. يطابق نوع الحقل الاختيار المكتوب بين < و >.",
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف Box<T> مع T Item ومنشئ يستقبل T input. أنشئ numberBox من Box<int> بالقيمة 7 وlabelBox من Box<string> بالقيمة \"نور\" واطبع Item لكل صندوق.",
+          "instruction": "يا كمبيوتر، عرّف Box<T> مع T Item ومنشئ يستقبل T input. أنشئ numberBox من Box<int> بالقيمة 7 وlabelBox من Box<string> بالقيمة \"نور\" واطبع Item لكل صندوق.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "challenge": {
+            "output": "7\nنور\n",
+            "declared": [
+              "number",
+              "label",
+              "numberBox",
+              "labelBox"
+            ],
+            "printed": [
+              "numberBox",
+              "labelBox"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "number": 0,
+                  "label": "أول"
+                },
+                "output": "0\nأول\n"
+              },
+              {
+                "inputs": {
+                  "number": -2,
+                  "label": ""
+                },
+                "output": "-2\n\n"
+              },
+              {
+                "inputs": {
+                  "number": 12,
+                  "label": "نور"
+                },
+                "output": "12\nنور\n"
+              }
+            ],
+            "calls": {
+              "Box": 2
+            },
+            "fieldAccess": {
+              "name": "Item",
+              "mode": "read"
+            },
+            "types": {
+              "number": "int",
+              "label": "string",
+              "numberBox": "Box<int>",
+              "labelBox": "Box<string>"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر قيمة number إلى 10 مع ثبات النوع int.",
+          "instruction": "يا كمبيوتر، غيّر قيمة number إلى 10 مع ثبات النوع int.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int number = 10;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "challenge": {
+            "output": "10\nنور\n",
+            "declared": [
+              "number",
+              "label",
+              "numberBox",
+              "labelBox"
+            ],
+            "printed": [
+              "numberBox",
+              "labelBox"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "number": 0,
+                  "label": "أول"
+                },
+                "output": "0\nأول\n"
+              },
+              {
+                "inputs": {
+                  "number": -2,
+                  "label": ""
+                },
+                "output": "-2\n\n"
+              },
+              {
+                "inputs": {
+                  "number": 12,
+                  "label": "نور"
+                },
+                "output": "12\nنور\n"
+              }
+            ],
+            "calls": {
+              "Box": 2
+            },
+            "fieldAccess": {
+              "name": "Item",
+              "mode": "read"
+            },
+            "types": {
+              "number": "int",
+              "label": "string",
+              "numberBox": "Box<int>",
+              "labelBox": "Box<string>"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 10;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اترك الرقم 10 وبدّل label إلى \"أحمد\". شاهد أي صندوق تأثر.",
+          "instruction": "يا كمبيوتر، اترك الرقم 10 وبدّل label إلى \"أحمد\". شاهد أي صندوق تأثر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int number = 10;\nstring label = \"أحمد\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "challenge": {
+            "output": "10\nأحمد\n",
+            "declared": [
+              "number",
+              "label",
+              "numberBox",
+              "labelBox"
+            ],
+            "printed": [
+              "numberBox",
+              "labelBox"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "number": 0,
+                  "label": "أول"
+                },
+                "output": "0\nأول\n"
+              },
+              {
+                "inputs": {
+                  "number": -2,
+                  "label": ""
+                },
+                "output": "-2\n\n"
+              },
+              {
+                "inputs": {
+                  "number": 12,
+                  "label": "نور"
+                },
+                "output": "12\nنور\n"
+              }
+            ],
+            "calls": {
+              "Box": 2
+            },
+            "fieldAccess": {
+              "name": "Item",
+              "mode": "read"
+            },
+            "types": {
+              "number": "int",
+              "label": "string",
+              "numberBox": "Box<int>",
+              "labelBox": "Box<string>"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 10;\nstring label = \"أحمد\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "Box<int> رفض label. ما القيمة الموافقة لاختيار int؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "Box<int> رفض label. ما القيمة الموافقة لاختيار int؟",
+          "options": [
+            "new Box<int>(label)",
+            "new Box<int>(number)",
+            "new Box<int>(\"7\")"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(label);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "مرّر number لأن نوعه int.",
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. مرّر number لأن نوعه int.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. مرّر number لأن نوعه int.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(label);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "solution": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "challenge": {
+            "output": "7\nنور\n",
+            "declared": [
+              "number",
+              "label",
+              "numberBox",
+              "labelBox"
+            ],
+            "printed": [
+              "numberBox",
+              "labelBox"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "number": 0,
+                  "label": "أول"
+                },
+                "output": "0\nأول\n"
+              },
+              {
+                "inputs": {
+                  "number": -2,
+                  "label": ""
+                },
+                "output": "-2\n\n"
+              },
+              {
+                "inputs": {
+                  "number": 12,
+                  "label": "نور"
+                },
+                "output": "12\nنور\n"
+              }
+            ],
+            "calls": {
+              "Box": 2
+            },
+            "fieldAccess": {
+              "name": "Item",
+              "mode": "read"
+            },
+            "types": {
+              "number": "int",
+              "label": "string",
+              "numberBox": "Box<int>",
+              "labelBox": "Box<string>"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، استخدم تعريف Box<T> لتخزين رقم رف 28 وعنوان \"مفتاح\". أنشئ صندوقًا لكل نوع واطبع القيم.",
+          "instruction": "يا كمبيوتر، استخدم تعريف Box<T> لتخزين رقم رف 28 وعنوان \"مفتاح\". أنشئ صندوقًا لكل نوع واطبع القيم.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int number = 28;\nstring label = \"مفتاح\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+          "challenge": {
+            "output": "28\nمفتاح\n",
+            "declared": [
+              "number",
+              "label",
+              "numberBox",
+              "labelBox"
+            ],
+            "printed": [
+              "numberBox",
+              "labelBox"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "number": 0,
+                  "label": "أول"
+                },
+                "output": "0\nأول\n"
+              },
+              {
+                "inputs": {
+                  "number": -2,
+                  "label": ""
+                },
+                "output": "-2\n\n"
+              },
+              {
+                "inputs": {
+                  "number": 12,
+                  "label": "نور"
+                },
+                "output": "12\nنور\n"
+              }
+            ],
+            "calls": {
+              "Box": 2
+            },
+            "fieldAccess": {
+              "name": "Item",
+              "mode": "read"
+            },
+            "types": {
+              "number": "int",
+              "label": "string",
+              "numberBox": "Box<int>",
+              "labelBox": "Box<string>"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "قارن اختيار int أو string بنوع الخانة في بطاقة الكائن.",
+            "القاعدة: نوع المعامل العام يحدد نوع الحقل وقت استخدام الصنف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب public T Item; وpublic Box(T input) { this.Item = input; } داخل class Box<T>.",
+            "كشف الحل:\nint number = 28;\nstring label = \"مفتاح\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(label);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+        "fixedCode": "int number = 7;\nstring label = \"نور\";\nBox<int> numberBox = new Box<int>(number);\nBox<string> labelBox = new Box<string>(label);\nConsole.WriteLine(numberBox.Item);\nConsole.WriteLine(labelBox.Item);\n\nclass Box<T>\n{\n    public T Item;\n    public Box(T input)\n    {\n        this.Item = input;\n    }\n}",
+        "question": "Box<int> رفض label. ما القيمة الموافقة لاختيار int؟",
+        "explanation": "مرّر number لأن نوعه int.",
+        "options": [
+          "new Box<int>(label)",
+          "new Box<int>(number)",
+          "new Box<int>(\"7\")"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-79-object-null-guard"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف Box<T> مع T Item ومنشئ يستقبل T input. أنشئ numberBox من Box<int> بالقيمة 7 وlabelBox من Box<string> بالقيمة \"نور\" واطبع Item لكل صندوق.",
+        "يا كمبيوتر، استخدم تعريف Box<T> لتخزين رقم رف 28 وعنوان \"مفتاح\". أنشئ صندوقًا لكل نوع واطبع القيم."
+      ],
+      "commonMisconceptions": [
+        "مرّر number لأن نوعه int."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقات عدّادات وتذاكر",
+      "sceneVisual": [
+        {
+          "label": "القالب",
+          "value": "Box<T>"
+        },
+        {
+          "label": "صندوق الرقم",
+          "value": "Box<int> → 7"
+        },
+        {
+          "label": "صندوق الاسم",
+          "value": "Box<string> → نور"
+        }
+      ]
+    }
+  ]
+}

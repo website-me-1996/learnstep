@@ -1,0 +1,3390 @@
+{
+  "schemaVersion": "1.0.0",
+  "track": "csharp",
+  "title": "الوحدة الثالثة: اربط الشروط واختر بالترتيب",
+  "description": "المقارنات عند الحد والنفي وربط الشروط وفحص عدة مسارات بالترتيب.",
+  "totalLessons": 8,
+  "runtime": "csharp-foundations-subset-v3",
+  "lessons": [
+    {
+      "id": "csharp-17-less-than",
+      "legacyId": "csharp:16",
+      "title": "هل العدد أصغر من الحد؟",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 16,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "استخدم < لما يكون المطلوب «أقل من». المقارنة tickets < 5 تُجيب true عند 4 وتُجيب false عند 5 وعند 6.",
+      "whyUse": "تقدر تفرّق بين الطلب اللي تحت الحد والطلب اللي وصل للحد نفسه.",
+      "browserMechanics": "اقرأ tickets، قارنه بالحد 5، واحفظ الإجابة في isSmall. بعدها اطبع القيمة المحفوظة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/comparison-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int tickets = 4;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+      "breakdown": [
+        "اقرأ العدد الذي على اليسار.",
+        "اسأل هل العدد أقل من الحد الذي على اليمين.",
+        "احفظ إجابة bool ثم اطبعها."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في تجربة الحجز، الطلب الصغير فيه أقل من ٥ تذاكر. معانا ٤ تذاكر وعايزين نعرف هل الطلب صغير.",
+          "instruction": "يا كمبيوتر، في تجربة الحجز، الطلب الصغير فيه أقل من ٥ تذاكر. معانا ٤ تذاكر وعايزين نعرف هل الطلب صغير.",
+          "benefit": "تقدر تفرّق بين الطلب اللي تحت الحد والطلب اللي وصل للحد نفسه.",
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي tickets على اليسار و5 على اليمين، واحفظ الإجابة في bool باسم isSmall.",
+            "كشف الحل:\nint tickets = 4;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "استخدم < لما يكون المطلوب «أقل من». المقارنة tickets < 5 تُجيب true عند 4 وتُجيب false عند 5 وعند 6.",
+          "code": "int tickets = 4;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+          "benefit": "اقرأ tickets، قارنه بالحد 5، واحفظ الإجابة في isSmall. بعدها اطبع القيمة المحفوظة.",
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي tickets على اليسار و5 على اليمين، واحفظ الإجابة في bool باسم isSmall.",
+            "كشف الحل:\nint tickets = 4;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ tickets = 4، واحسب isSmall من tickets < 5، ثم اطبع isSmall.",
+          "instruction": "يا كمبيوتر، احفظ tickets = 4، واحسب isSmall من tickets < 5، ثم اطبع isSmall.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int tickets = 4;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "tickets",
+              "isSmall"
+            ],
+            "printed": [
+              "isSmall"
+            ],
+            "operation": "<",
+            "operationIn": "isSmall",
+            "cases": [
+              {
+                "inputs": {
+                  "tickets": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 5
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 6
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "tickets": "int",
+              "isSmall": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي tickets على اليسار و5 على اليمين، واحفظ الإجابة في bool باسم isSmall.",
+            "كشف الحل:\nint tickets = 4;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر tickets وحده إلى 5. راقب نتيجة المقارنة عند التساوي.",
+          "instruction": "يا كمبيوتر، غيّر tickets وحده إلى 5. راقب نتيجة المقارنة عند التساوي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int tickets = 5;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "tickets",
+              "isSmall"
+            ],
+            "printed": [
+              "isSmall"
+            ],
+            "operation": "<",
+            "operationIn": "isSmall",
+            "cases": [
+              {
+                "inputs": {
+                  "tickets": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 5
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 6
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "tickets": "int",
+              "isSmall": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي tickets على اليسار و5 على اليمين، واحفظ الإجابة في bool باسم isSmall.",
+            "كشف الحل:\nint tickets = 5;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب ٣ تذاكر مع نفس الحد، ثم اطبع نتيجة isSmall.",
+          "instruction": "يا كمبيوتر، جرّب ٣ تذاكر مع نفس الحد، ثم اطبع نتيجة isSmall.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int tickets = 3;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "tickets",
+              "isSmall"
+            ],
+            "printed": [
+              "isSmall"
+            ],
+            "operation": "<",
+            "operationIn": "isSmall",
+            "cases": [
+              {
+                "inputs": {
+                  "tickets": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 5
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 6
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "tickets": "int",
+              "isSmall": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي tickets على اليسار و5 على اليمين، واحفظ الإجابة في bool باسم isSmall.",
+            "كشف الحل:\nint tickets = 3;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "طلب من ٥ تذاكر ظهر كطلب صغير. أي تعديل يستبعد التساوي؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "طلب من ٥ تذاكر ظهر كطلب صغير. أي تعديل يستبعد التساوي؟",
+          "options": [
+            "استخدم < مع نفس الحد 5",
+            "اترك <= واطبع tickets",
+            "غيّر العدد إلى 4"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int tickets = 5;\nbool isSmall = tickets <= 5;\nConsole.WriteLine(isSmall);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اكتب < قبل الحد 5. عند التساوي ستكون الإجابة false.",
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint tickets = 5;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب < قبل الحد 5. عند التساوي ستكون الإجابة false.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب < قبل الحد 5. عند التساوي ستكون الإجابة false.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int tickets = 5;\nbool isSmall = tickets <= 5;\nConsole.WriteLine(isSmall);",
+          "solution": "int tickets = 5;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "tickets",
+              "isSmall"
+            ],
+            "printed": [
+              "isSmall"
+            ],
+            "operation": "<",
+            "operationIn": "isSmall",
+            "cases": [
+              {
+                "inputs": {
+                  "tickets": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 5
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 6
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "tickets": "int",
+              "isSmall": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي tickets على اليسار و5 على اليمين، واحفظ الإجابة في bool باسم isSmall.",
+            "كشف الحل:\nint tickets = 5;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن age = 17. احسب isJunior من age < 18 واطبعه. جرّب الحد 18 أيضًا.",
+          "instruction": "يا كمبيوتر، خزّن age = 17. احسب isJunior من age < 18 واطبعه. جرّب الحد 18 أيضًا.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int age = 17;\nbool isJunior = age < 18;\nConsole.WriteLine(isJunior);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "age",
+              "isJunior"
+            ],
+            "printed": [
+              "isJunior"
+            ],
+            "operation": "<",
+            "operationIn": "isJunior",
+            "cases": [
+              {
+                "inputs": {
+                  "age": 18
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "age": 19
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "age": 16
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "age": "int",
+              "isJunior": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد العدد الحالي والحد قبل كتابة المقارنة.",
+            "القاعدة: المعامل < يستبعد حالة التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب المقارنة age < 18 داخل تصريح isJunior، ثم اطبع isJunior.",
+            "كشف الحل:\nint age = 17;\nbool isJunior = age < 18;\nConsole.WriteLine(isJunior);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int tickets = 5;\nbool isSmall = tickets <= 5;\nConsole.WriteLine(isSmall);",
+        "fixedCode": "int tickets = 5;\nbool isSmall = tickets < 5;\nConsole.WriteLine(isSmall);",
+        "question": "طلب من ٥ تذاكر ظهر كطلب صغير. أي تعديل يستبعد التساوي؟",
+        "explanation": "اكتب < قبل الحد 5. عند التساوي ستكون الإجابة false.",
+        "options": [
+          "استخدم < مع نفس الحد 5",
+          "اترك <= واطبع tickets",
+          "غيّر العدد إلى 4"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-16-conditional-ticket"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ tickets = 4، واحسب isSmall من tickets < 5، ثم اطبع isSmall.",
+        "يا كمبيوتر، خزّن age = 17. احسب isJunior من age < 18 واطبعه. جرّب الحد 18 أيضًا."
+      ],
+      "commonMisconceptions": [
+        "اكتب < قبل الحد 5. عند التساوي ستكون الإجابة false."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "الطلب",
+          "text": "٤ تذاكر"
+        },
+        {
+          "label": "السؤال",
+          "text": "أقل من ٥؟"
+        },
+        {
+          "label": "الإجابة",
+          "text": "نعم"
+        }
+      ]
+    },
+    {
+      "id": "csharp-18-at-most",
+      "legacyId": "csharp:17",
+      "title": "هل العدد في حدود السعة؟",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 17,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "المعامل <= يقبل العدد الأصغر من الحد والعدد المساوي له. في مثال الرف، 3 و4 يناسبان السعة. عند 5 تصبح الإجابة false.",
+      "whyUse": "قاعدة «بحد أقصى» تشمل قيمة الحد نفسها.",
+      "browserMechanics": "عند boxes = 4 يقرأ الكمبيوتر 4 <= 4 ويحفظ true في fits. بدّل عدد الصناديق لمشاهدة الحالة خارج الحد.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/comparison-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+      "breakdown": [
+        "السعة حد أقصى.",
+        "جرّب أقل من السعة ثم السعة نفسها ثم أكبر منها.",
+        "احفظ النتيجة واطبعها باسم fits."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "رف يشيل ٤ صناديق. لو حطّينا ٤ بالضبط، هنستخدم كل المساحة المتاحة.",
+          "instruction": "يا كمبيوتر، رف يشيل ٤ صناديق. لو حطّينا ٤ بالضبط، هنستخدم كل المساحة المتاحة.",
+          "benefit": "قاعدة «بحد أقصى» تشمل قيمة الحد نفسها.",
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ إجابة boxes <= 4 في fits من النوع bool.",
+            "كشف الحل:\nint boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "المعامل <= يقبل العدد الأصغر من الحد والعدد المساوي له. في مثال الرف، 3 و4 يناسبان السعة. عند 5 تصبح الإجابة false.",
+          "code": "int boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+          "benefit": "عند boxes = 4 يقرأ الكمبيوتر 4 <= 4 ويحفظ true في fits. بدّل عدد الصناديق لمشاهدة الحالة خارج الحد.",
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ إجابة boxes <= 4 في fits من النوع bool.",
+            "كشف الحل:\nint boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ boxes = 4، واحسب fits من boxes <= 4 واطبعه.",
+          "instruction": "يا كمبيوتر، احفظ boxes = 4، واحسب fits من boxes <= 4 واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "boxes",
+              "fits"
+            ],
+            "printed": [
+              "fits"
+            ],
+            "operation": "<=",
+            "operationIn": "fits",
+            "cases": [
+              {
+                "inputs": {
+                  "boxes": 3
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 5
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "boxes": "int",
+              "fits": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ إجابة boxes <= 4 في fits من النوع bool.",
+            "كشف الحل:\nint boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر boxes إلى 5 وحده. شاهد نتيجة تجاوز السعة.",
+          "instruction": "يا كمبيوتر، غيّر boxes إلى 5 وحده. شاهد نتيجة تجاوز السعة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int boxes = 5;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "boxes",
+              "fits"
+            ],
+            "printed": [
+              "fits"
+            ],
+            "operation": "<=",
+            "operationIn": "fits",
+            "cases": [
+              {
+                "inputs": {
+                  "boxes": 3
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 5
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "boxes": "int",
+              "fits": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ إجابة boxes <= 4 في fits من النوع bool.",
+            "كشف الحل:\nint boxes = 5;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب ٣ صناديق على نفس الرف، واطبع fits.",
+          "instruction": "يا كمبيوتر، جرّب ٣ صناديق على نفس الرف، واطبع fits.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int boxes = 3;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "boxes",
+              "fits"
+            ],
+            "printed": [
+              "fits"
+            ],
+            "operation": "<=",
+            "operationIn": "fits",
+            "cases": [
+              {
+                "inputs": {
+                  "boxes": 3
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 5
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "boxes": "int",
+              "fits": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ إجابة boxes <= 4 في fits من النوع bool.",
+            "كشف الحل:\nint boxes = 3;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الرف رفض ٤ صناديق بسبب boxes < 4. إزاي نقبل الـ٤ بالضبط؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الرف رفض ٤ صناديق بسبب boxes < 4. إزاي نقبل الـ٤ بالضبط؟",
+          "options": [
+            "زوّد قيمة boxes",
+            "اختبر بـ <=",
+            "حوّل fits إلى نص"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int boxes = 4;\nbool fits = boxes < 4;\nConsole.WriteLine(fits);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "أضف علامة المساواة للمقارنة. 4 <= 4 نتيجتها true.",
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أضف علامة المساواة للمقارنة. 4 <= 4 نتيجتها true.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أضف علامة المساواة للمقارنة. 4 <= 4 نتيجتها true.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int boxes = 4;\nbool fits = boxes < 4;\nConsole.WriteLine(fits);",
+          "solution": "int boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "boxes",
+              "fits"
+            ],
+            "printed": [
+              "fits"
+            ],
+            "operation": "<=",
+            "operationIn": "fits",
+            "cases": [
+              {
+                "inputs": {
+                  "boxes": 3
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 4
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 5
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "boxes": "int",
+              "fits": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ إجابة boxes <= 4 في fits من النوع bool.",
+            "كشف الحل:\nint boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن weight = 10. احسب isAllowed من weight <= 10 واطبعه. راجع ما يحدث عند 9 و11.",
+          "instruction": "يا كمبيوتر، خزّن weight = 10. احسب isAllowed من weight <= 10 واطبعه. راجع ما يحدث عند 9 و11.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int weight = 10;\nbool isAllowed = weight <= 10;\nConsole.WriteLine(isAllowed);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "weight",
+              "isAllowed"
+            ],
+            "printed": [
+              "isAllowed"
+            ],
+            "operation": "<=",
+            "operationIn": "isAllowed",
+            "cases": [
+              {
+                "inputs": {
+                  "weight": 9
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "weight": 10
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "weight": 11
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "weight": "int",
+              "isAllowed": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تصوّر آخر مكان فاضي على الرف. هل الصندوق الرابع له مكان؟",
+            "القاعدة: عند «بحد أقصى» استخدم <= علشان التساوي يدخل في الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "خلي الوزن على اليسار. قارن بالحد 10 مستخدمًا <=، ثم اطبع isAllowed.",
+            "كشف الحل:\nint weight = 10;\nbool isAllowed = weight <= 10;\nConsole.WriteLine(isAllowed);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int boxes = 4;\nbool fits = boxes < 4;\nConsole.WriteLine(fits);",
+        "fixedCode": "int boxes = 4;\nbool fits = boxes <= 4;\nConsole.WriteLine(fits);",
+        "question": "الرف رفض ٤ صناديق بسبب boxes < 4. إزاي نقبل الـ٤ بالضبط؟",
+        "explanation": "أضف علامة المساواة للمقارنة. 4 <= 4 نتيجتها true.",
+        "options": [
+          "زوّد قيمة boxes",
+          "اختبر بـ <=",
+          "حوّل fits إلى نص"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-17-less-than"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ boxes = 4، واحسب fits من boxes <= 4 واطبعه.",
+        "يا كمبيوتر، خزّن weight = 10. احسب isAllowed من weight <= 10 واطبعه. راجع ما يحدث عند 9 و11."
+      ],
+      "commonMisconceptions": [
+        "أضف علامة المساواة للمقارنة. 4 <= 4 نتيجتها true."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "السعة",
+          "text": "٤ صناديق"
+        },
+        {
+          "label": "الطلب",
+          "text": "٤ صناديق"
+        },
+        {
+          "label": "النتيجة",
+          "text": "يكفي الرف"
+        }
+      ]
+    },
+    {
+      "id": "csharp-19-logical-not",
+      "legacyId": "csharp:18",
+      "title": "اعكس حالة منطقية باستخدام !",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 18,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "المعامل ! يعكس قيمة bool. لو isBlocked تساوي true، فإن !isBlocked تُقيّم إلى false. تظل قيمة isBlocked الأصلية محفوظة.",
+      "whyUse": "اسم الحالة قد يعبّر عن المنع، بينما قرارك يحتاج إجابة عن السماح.",
+      "browserMechanics": "اقرأ isBlocked، اعكس الإجابة باستخدام !، واحفظها في canEnter. قارن القيمتين بعد التنفيذ.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "bool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+      "breakdown": [
+        "المعامل ! يظهر قبل قيمة منطقية.",
+        "true تتحول إلى false، وfalse تتحول إلى true.",
+        "احفظ الإجابة الجديدة في canEnter."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "الباب عليه حالة واحدة اسمها «مغلق». المطلوب نحفظ إجابة سؤال تاني. هل الدخول متاح؟",
+          "instruction": "يا كمبيوتر، الباب عليه حالة واحدة اسمها «مغلق». المطلوب نحفظ إجابة سؤال تاني. هل الدخول متاح؟",
+          "benefit": "اسم الحالة قد يعبّر عن المنع، بينما قرارك يحتاج إجابة عن السماح.",
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احسب bool canEnter = !isBlocked ثم اطبع canEnter.",
+            "كشف الحل:\nbool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "المعامل ! يعكس قيمة bool. لو isBlocked تساوي true، فإن !isBlocked تُقيّم إلى false. تظل قيمة isBlocked الأصلية محفوظة.",
+          "code": "bool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+          "benefit": "اقرأ isBlocked، اعكس الإجابة باستخدام !، واحفظها في canEnter. قارن القيمتين بعد التنفيذ.",
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احسب bool canEnter = !isBlocked ثم اطبع canEnter.",
+            "كشف الحل:\nbool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ isBlocked = true. احسب canEnter من !isBlocked واطبعه.",
+          "instruction": "يا كمبيوتر، احفظ isBlocked = true. احسب canEnter من !isBlocked واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "bool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "isBlocked",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "!",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "isBlocked": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isBlocked": false
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "isBlocked": "bool",
+              "canEnter": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احسب bool canEnter = !isBlocked ثم اطبع canEnter.",
+            "كشف الحل:\nbool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر isBlocked إلى false وحده. راقب نتيجة !isBlocked.",
+          "instruction": "يا كمبيوتر، غيّر isBlocked إلى false وحده. راقب نتيجة !isBlocked.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool isBlocked = false;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "isBlocked",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "!",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "isBlocked": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isBlocked": false
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "isBlocked": "bool",
+              "canEnter": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احسب bool canEnter = !isBlocked ثم اطبع canEnter.",
+            "كشف الحل:\nbool isBlocked = false;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب تفعيل المنع من جديد باستخدام isBlocked = true. اطبع canEnter ولاحظ الإجابة.",
+          "instruction": "يا كمبيوتر، جرّب تفعيل المنع من جديد باستخدام isBlocked = true. اطبع canEnter ولاحظ الإجابة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "isBlocked",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "!",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "isBlocked": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isBlocked": false
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "isBlocked": "bool",
+              "canEnter": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احسب bool canEnter = !isBlocked ثم اطبع canEnter.",
+            "كشف الحل:\nbool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المنع مفعّل والبرنامج يسمح بالدخول. أين نضع !؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المنع مفعّل والبرنامج يسمح بالدخول. أين نضع !؟",
+          "options": [
+            "بعد Console.WriteLine",
+            "بعد اسم canEnter",
+            "قبل isBlocked في تعبير الإسناد"
+          ],
+          "correctOptionIndex": 2,
+          "code": "bool isBlocked = true;\nbool canEnter = isBlocked;\nConsole.WriteLine(canEnter);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اكتب !isBlocked علشان canEnter تعكس حالة المنع.",
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nbool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب !isBlocked علشان canEnter تعكس حالة المنع.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب !isBlocked علشان canEnter تعكس حالة المنع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "bool isBlocked = true;\nbool canEnter = isBlocked;\nConsole.WriteLine(canEnter);",
+          "solution": "bool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "isBlocked",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "!",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "isBlocked": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isBlocked": false
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "isBlocked": "bool",
+              "canEnter": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احسب bool canEnter = !isBlocked ثم اطبع canEnter.",
+            "كشف الحل:\nbool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ isFull = false. احسب canAdd من !isFull واطبعه.",
+          "instruction": "يا كمبيوتر، احفظ isFull = false. احسب canAdd من !isFull واطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "bool isFull = false;\nbool canAdd = !isFull;\nConsole.WriteLine(canAdd);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "isFull",
+              "canAdd"
+            ],
+            "printed": [
+              "canAdd"
+            ],
+            "operation": "!",
+            "operationIn": "canAdd",
+            "cases": [
+              {
+                "inputs": {
+                  "isFull": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isFull": false
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "isFull": "bool",
+              "canAdd": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اقرأ معنى isBlocked قبل توقع إجابة canEnter.",
+            "القاعدة: ضع ! قبل القيمة المنطقية لتعكسها. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل canAdd تساوي !isFull ثم اطبعها.",
+            "كشف الحل:\nbool isFull = false;\nbool canAdd = !isFull;\nConsole.WriteLine(canAdd);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "bool isBlocked = true;\nbool canEnter = isBlocked;\nConsole.WriteLine(canEnter);",
+        "fixedCode": "bool isBlocked = true;\nbool canEnter = !isBlocked;\nConsole.WriteLine(canEnter);",
+        "question": "المنع مفعّل والبرنامج يسمح بالدخول. أين نضع !؟",
+        "explanation": "اكتب !isBlocked علشان canEnter تعكس حالة المنع.",
+        "options": [
+          "بعد Console.WriteLine",
+          "بعد اسم canEnter",
+          "قبل isBlocked في تعبير الإسناد"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-18-at-most"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ isBlocked = true. احسب canEnter من !isBlocked واطبعه.",
+        "يا كمبيوتر، احفظ isFull = false. احسب canAdd من !isFull واطبعه."
+      ],
+      "commonMisconceptions": [
+        "اكتب !isBlocked علشان canEnter تعكس حالة المنع."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "الحالة",
+          "text": "الباب مغلق"
+        },
+        {
+          "label": "السؤال",
+          "text": "الدخول متاح؟"
+        },
+        {
+          "label": "الإجابة",
+          "text": "لا"
+        }
+      ]
+    },
+    {
+      "id": "csharp-20-logical-and",
+      "legacyId": "csharp:19",
+      "title": "اشترط تحقق الأمرين باستخدام &&",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 19,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "مع && نحتاج true من الطرفين. احسب الأول. لو كان false، تكون الإجابة false فورًا. لو كان true، احسب الطرف الثاني.",
+      "whyUse": "تقدر تجمع متطلبين لحجز واحد. وتقدر تفحص شرطًا لازمًا قبل عملية تعتمد عليه.",
+      "browserMechanics": "في اللقطة الأولى للمقارنة المنطقية، isOpen قيمتها false. هتشوف hasSeat مكتوبة في الكود وعليها «لم يُحسب»، ثم تظهر نتيجة الحجز false.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+      "breakdown": [
+        "&& تعني أن الشرطين مطلوبان.",
+        "الطرف الأيسر يُقيّم أولًا.",
+        "إذا كانت نتيجته false، يتخطى الكمبيوتر الطرف الأيمن."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "الحجز يتطلب مكتبًا مفتوحًا ومقعدًا متاحًا. المكتب مغلق اليوم، فأول فحص كفاية لحسم الإجابة.",
+          "instruction": "يا كمبيوتر، الحجز يتطلب مكتبًا مفتوحًا ومقعدًا متاحًا. المكتب مغلق اليوم، فأول فحص كفاية لحسم الإجابة.",
+          "benefit": "تقدر تجمع متطلبين لحجز واحد. وتقدر تفحص شرطًا لازمًا قبل عملية تعتمد عليه.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب isOpen && hasSeat كقيمة canReserve من النوع bool ثم اطبعها.",
+            "كشف الحل:\nbool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "مع && نحتاج true من الطرفين. احسب الأول. لو كان false، تكون الإجابة false فورًا. لو كان true، احسب الطرف الثاني.",
+          "code": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+          "benefit": "في اللقطة الأولى للمقارنة المنطقية، isOpen قيمتها false. هتشوف hasSeat مكتوبة في الكود وعليها «لم يُحسب»، ثم تظهر نتيجة الحجز false.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب isOpen && hasSeat كقيمة canReserve من النوع bool ثم اطبعها.",
+            "كشف الحل:\nbool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ isOpen = false وhasSeat = true. احسب canReserve من isOpen && hasSeat واطبعه.",
+          "instruction": "يا كمبيوتر، احفظ isOpen = false وhasSeat = true. احسب canReserve من isOpen && hasSeat واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "isOpen",
+              "hasSeat",
+              "canReserve"
+            ],
+            "printed": [
+              "canReserve"
+            ],
+            "operation": "&&",
+            "operationIn": "canReserve",
+            "cases": [
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "isOpen": "bool",
+              "hasSeat": "bool",
+              "canReserve": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب isOpen && hasSeat كقيمة canReserve من النوع bool ثم اطبعها.",
+            "كشف الحل:\nbool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، افتح المكتب بتغيير isOpen إلى true وحده. راقب قراءة الطرف الأيمن.",
+          "instruction": "يا كمبيوتر، افتح المكتب بتغيير isOpen إلى true وحده. راقب قراءة الطرف الأيمن.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool isOpen = true;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "isOpen",
+              "hasSeat",
+              "canReserve"
+            ],
+            "printed": [
+              "canReserve"
+            ],
+            "operation": "&&",
+            "operationIn": "canReserve",
+            "cases": [
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "isOpen": "bool",
+              "hasSeat": "bool",
+              "canReserve": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب isOpen && hasSeat كقيمة canReserve من النوع bool ثم اطبعها.",
+            "كشف الحل:\nbool isOpen = true;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، أبقِ المكتب مفتوحًا وغيّر hasSeat إلى false. شاهد الإجابة بعد فحص الطرفين.",
+          "instruction": "يا كمبيوتر، أبقِ المكتب مفتوحًا وغيّر hasSeat إلى false. شاهد الإجابة بعد فحص الطرفين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool isOpen = true;\nbool hasSeat = false;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "isOpen",
+              "hasSeat",
+              "canReserve"
+            ],
+            "printed": [
+              "canReserve"
+            ],
+            "operation": "&&",
+            "operationIn": "canReserve",
+            "cases": [
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "isOpen": "bool",
+              "hasSeat": "bool",
+              "canReserve": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب isOpen && hasSeat كقيمة canReserve من النوع bool ثم اطبعها.",
+            "كشف الحل:\nbool isOpen = true;\nbool hasSeat = false;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المكتب مغلق ومع ذلك طلع الحجز متاح. أي رمز يطلب تحقق الشرطين معًا؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المكتب مغلق ومع ذلك طلع الحجز متاح. أي رمز يطلب تحقق الشرطين معًا؟",
+          "options": [
+            "&&",
+            "||",
+            "=="
+          ],
+          "correctOptionIndex": 0,
+          "code": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen || hasSeat;\nConsole.WriteLine(canReserve);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استبدل || بـ &&. وجود مقعد وحده لا يكفي للحجز.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nbool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استبدل || بـ &&. وجود مقعد وحده لا يكفي للحجز.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استبدل || بـ &&. وجود مقعد وحده لا يكفي للحجز.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen || hasSeat;\nConsole.WriteLine(canReserve);",
+          "solution": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "isOpen",
+              "hasSeat",
+              "canReserve"
+            ],
+            "printed": [
+              "canReserve"
+            ],
+            "operation": "&&",
+            "operationIn": "canReserve",
+            "cases": [
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": true,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": true
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isOpen": false,
+                  "hasSeat": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "isOpen": "bool",
+              "hasSeat": "bool",
+              "canReserve": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب isOpen && hasSeat كقيمة canReserve من النوع bool ثم اطبعها.",
+            "كشف الحل:\nbool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن tickets = 3 وtotal = 30. احسب isEnough من tickets > 0 && total / tickets >= 10، ثم اطبعه. لما tickets = 0، لازم يتخطّى البرنامج القسمة.",
+          "instruction": "يا كمبيوتر، خزّن tickets = 3 وtotal = 30. احسب isEnough من tickets > 0 && total / tickets >= 10، ثم اطبعه. لما tickets = 0، لازم يتخطّى البرنامج القسمة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int tickets = 3;\nint total = 30;\nbool isEnough = tickets > 0 && total / tickets >= 10;\nConsole.WriteLine(isEnough);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "tickets",
+              "total",
+              "isEnough"
+            ],
+            "printed": [
+              "isEnough"
+            ],
+            "operation": "&&",
+            "operationIn": "isEnough",
+            "cases": [
+              {
+                "inputs": {
+                  "tickets": 0
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 4
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "tickets": 3,
+                  "total": 33
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "tickets": "int",
+              "total": "int",
+              "isEnough": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ من حالة المكتب. هل نحتاج معرفة حالة المقعد لو المكتب مغلق؟",
+            "القاعدة: مع && يجب أن تكون القيمتان true. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب فحص العدد الموجب قبل &&. القسمة والمقارنة بالحد 10 تأتيان بعده.",
+            "كشف الحل:\nint tickets = 3;\nint total = 30;\nbool isEnough = tickets > 0 && total / tickets >= 10;\nConsole.WriteLine(isEnough);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen || hasSeat;\nConsole.WriteLine(canReserve);",
+        "fixedCode": "bool isOpen = false;\nbool hasSeat = true;\nbool canReserve = isOpen && hasSeat;\nConsole.WriteLine(canReserve);",
+        "question": "المكتب مغلق ومع ذلك طلع الحجز متاح. أي رمز يطلب تحقق الشرطين معًا؟",
+        "explanation": "استبدل || بـ &&. وجود مقعد وحده لا يكفي للحجز.",
+        "options": [
+          "&&",
+          "||",
+          "=="
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-19-logical-not"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ isOpen = false وhasSeat = true. احسب canReserve من isOpen && hasSeat واطبعه.",
+        "يا كمبيوتر، خزّن tickets = 3 وtotal = 30. احسب isEnough من tickets > 0 && total / tickets >= 10، ثم اطبعه. لما tickets = 0، لازم يتخطّى البرنامج القسمة."
+      ],
+      "commonMisconceptions": [
+        "استبدل || بـ &&. وجود مقعد وحده لا يكفي للحجز."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "الفحص الأول",
+          "text": "المكتب مفتوح؟ لا"
+        },
+        {
+          "label": "الفحص الثاني",
+          "text": "هل يوجد مقعد؟"
+        },
+        {
+          "label": "الحجز",
+          "text": "يتوقف عند أول فحص"
+        }
+      ]
+    },
+    {
+      "id": "csharp-21-logical-or",
+      "legacyId": "csharp:20",
+      "title": "اقبل أحد الخيارين باستخدام ||",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 20,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "مع || يكفي أن تكون قيمة واحدة true. لو الطرف الأيسر true، تكون النتيجة true ويُتخطى الطرف الأيمن. لو الأيسر false، نحتاج حساب الطرف الأيمن. لو الاتنين true تظل النتيجة true.",
+      "whyUse": "تستخدمها لما تكون محتاج تقبل أكثر من طريق لنفس النتيجة.",
+      "browserMechanics": "في المثال hasTicket تساوي true. التتبّع يبيّن إن hasPass لم تُحسب داخل هذا التعبير. عند إزالة التذكرة نقرأ قيمة التصريح.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "bool hasTicket = true;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+      "breakdown": [
+        "|| تقبل true من أي طرف.",
+        "افحص الطرف الأيسر أولًا.",
+        "لو الأيسر true، انتهت المقارنة المنطقية."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "الدخول مسموح بتذكرة أو بتصريح. معانا تذكرة بالفعل، ونقدر نقرر الدخول من أول فحص.",
+          "instruction": "يا كمبيوتر، الدخول مسموح بتذكرة أو بتصريح. معانا تذكرة بالفعل، ونقدر نقرر الدخول من أول فحص.",
+          "benefit": "تستخدمها لما تكون محتاج تقبل أكثر من طريق لنفس النتيجة.",
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ نتيجة hasTicket || hasPass في canEnter ثم اطبعها.",
+            "كشف الحل:\nbool hasTicket = true;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "مع || يكفي أن تكون قيمة واحدة true. لو الطرف الأيسر true، تكون النتيجة true ويُتخطى الطرف الأيمن. لو الأيسر false، نحتاج حساب الطرف الأيمن. لو الاتنين true تظل النتيجة true.",
+          "code": "bool hasTicket = true;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+          "benefit": "في المثال hasTicket تساوي true. التتبّع يبيّن إن hasPass لم تُحسب داخل هذا التعبير. عند إزالة التذكرة نقرأ قيمة التصريح.",
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ نتيجة hasTicket || hasPass في canEnter ثم اطبعها.",
+            "كشف الحل:\nbool hasTicket = true;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ hasTicket = true وhasPass = false. احسب canEnter من hasTicket || hasPass واطبعه.",
+          "instruction": "يا كمبيوتر، احفظ hasTicket = true وhasPass = false. احسب canEnter من hasTicket || hasPass واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "bool hasTicket = true;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "hasTicket",
+              "hasPass",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "||",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": false
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "hasTicket": "bool",
+              "hasPass": "bool",
+              "canEnter": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ نتيجة hasTicket || hasPass في canEnter ثم اطبعها.",
+            "كشف الحل:\nbool hasTicket = true;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر hasTicket إلى false واترك hasPass = false. هنا الكمبيوتر يحتاج يقرأ الطرف الثاني.",
+          "instruction": "يا كمبيوتر، غيّر hasTicket إلى false واترك hasPass = false. هنا الكمبيوتر يحتاج يقرأ الطرف الثاني.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool hasTicket = false;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "False\n",
+            "declared": [
+              "hasTicket",
+              "hasPass",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "||",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": false
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "hasTicket": "bool",
+              "hasPass": "bool",
+              "canEnter": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ نتيجة hasTicket || hasPass في canEnter ثم اطبعها.",
+            "كشف الحل:\nbool hasTicket = false;\nbool hasPass = false;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، أبقِ hasTicket = false وأضف تصريحًا بتغيير hasPass إلى true. راقب نتيجة تقييم الطرف الثاني.",
+          "instruction": "يا كمبيوتر، أبقِ hasTicket = false وأضف تصريحًا بتغيير hasPass إلى true. راقب نتيجة تقييم الطرف الثاني.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "bool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "hasTicket",
+              "hasPass",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "||",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": false
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "hasTicket": "bool",
+              "hasPass": "bool",
+              "canEnter": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ نتيجة hasTicket || hasPass في canEnter ثم اطبعها.",
+            "كشف الحل:\nbool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الزبون معاه تصريح وحده. البرنامج رفضه لأنه اشترط التذكرة أيضًا. أي تعديل يكفي؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الزبون معاه تصريح وحده. البرنامج رفضه لأنه اشترط التذكرة أيضًا. أي تعديل يكفي؟",
+          "options": [
+            "غيّر النص المطبوع",
+            "استخدم || بين الحالتين",
+            "اطبع hasTicket وحده"
+          ],
+          "correctOptionIndex": 1,
+          "code": "bool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket && hasPass;\nConsole.WriteLine(canEnter);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم || علشان أي إثبات من الاتنين يكفي للدخول.",
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nbool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم || علشان أي إثبات من الاتنين يكفي للدخول.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم || علشان أي إثبات من الاتنين يكفي للدخول.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "bool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket && hasPass;\nConsole.WriteLine(canEnter);",
+          "solution": "bool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "hasTicket",
+              "hasPass",
+              "canEnter"
+            ],
+            "printed": [
+              "canEnter"
+            ],
+            "operation": "||",
+            "operationIn": "canEnter",
+            "cases": [
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": true,
+                  "hasPass": false
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": true
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "hasTicket": false,
+                  "hasPass": false
+                },
+                "output": "False\n"
+              }
+            ],
+            "types": {
+              "hasTicket": "bool",
+              "hasPass": "bool",
+              "canEnter": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احفظ نتيجة hasTicket || hasPass في canEnter ثم اطبعها.",
+            "كشف الحل:\nbool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ isMember = false وhasCoupon = true. احسب getsOffer من isMember || hasCoupon واطبعه.",
+          "instruction": "يا كمبيوتر، احفظ isMember = false وhasCoupon = true. احسب getsOffer من isMember || hasCoupon واطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "bool isMember = false;\nbool hasCoupon = true;\nbool getsOffer = isMember || hasCoupon;\nConsole.WriteLine(getsOffer);",
+          "challenge": {
+            "output": "True\n",
+            "declared": [
+              "isMember",
+              "hasCoupon",
+              "getsOffer"
+            ],
+            "printed": [
+              "getsOffer"
+            ],
+            "operation": "||",
+            "operationIn": "getsOffer",
+            "cases": [
+              {
+                "inputs": {
+                  "isMember": false,
+                  "hasCoupon": false
+                },
+                "output": "False\n"
+              },
+              {
+                "inputs": {
+                  "isMember": true,
+                  "hasCoupon": false
+                },
+                "output": "True\n"
+              },
+              {
+                "inputs": {
+                  "isMember": true,
+                  "hasCoupon": true
+                },
+                "output": "True\n"
+              }
+            ],
+            "types": {
+              "isMember": "bool",
+              "hasCoupon": "bool",
+              "getsOffer": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "فكّر في حامل التذكرة من غير تصريح. هل يُسمح له بالدخول؟",
+            "القاعدة: مع || يكفي تحقق شرط واحد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع || بين isMember وhasCoupon داخل تعبير getsOffer.",
+            "كشف الحل:\nbool isMember = false;\nbool hasCoupon = true;\nbool getsOffer = isMember || hasCoupon;\nConsole.WriteLine(getsOffer);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "bool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket && hasPass;\nConsole.WriteLine(canEnter);",
+        "fixedCode": "bool hasTicket = false;\nbool hasPass = true;\nbool canEnter = hasTicket || hasPass;\nConsole.WriteLine(canEnter);",
+        "question": "الزبون معاه تصريح وحده. البرنامج رفضه لأنه اشترط التذكرة أيضًا. أي تعديل يكفي؟",
+        "explanation": "استخدم || علشان أي إثبات من الاتنين يكفي للدخول.",
+        "options": [
+          "غيّر النص المطبوع",
+          "استخدم || بين الحالتين",
+          "اطبع hasTicket وحده"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-20-logical-and"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ hasTicket = true وhasPass = false. احسب canEnter من hasTicket || hasPass واطبعه.",
+        "يا كمبيوتر، احفظ isMember = false وhasCoupon = true. احسب getsOffer من isMember || hasCoupon واطبعه."
+      ],
+      "commonMisconceptions": [
+        "استخدم || علشان أي إثبات من الاتنين يكفي للدخول."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "الفحص الأول",
+          "text": "معاه تذكرة"
+        },
+        {
+          "label": "الفحص الثاني",
+          "text": "معاه تصريح؟"
+        },
+        {
+          "label": "الدخول",
+          "text": "يكفي إثبات واحد"
+        }
+      ]
+    },
+    {
+      "id": "csharp-22-else-if",
+      "legacyId": "csharp:21",
+      "title": "افحص شرطًا بديلًا باستخدام else if",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 21,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "يبدأ الكمبيوتر بـ if. إذا لم يتحقق شرطها، يفحص else if. أول شرط يتحقق يختار جسمه. تصل إلى else إذا كانت كل الشروط السابقة false.",
+      "whyUse": "تقدر تختار رسالة واحدة عندما يكون عندك أكثر من حالتين.",
+      "browserMechanics": "عند 4 دقائق، شرط المساواة بالصفر يعطي false. انتقل إلى السطر الذي يبدأ بـ else if. المقارنة 4 <= 5 تعطي true ثم تُطبع رسالة التأخير القصير.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int minutes = 4;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+      "breakdown": [
+        "افحص minutes == 0 أولًا.",
+        "لو الشرط الأول false، افحص minutes <= 5.",
+        "الجسم المختار يطبع رسالة واحدة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "موعد الاستلام له ثلاث رسائل. لو التأخير صفر فالموعد مضبوط. لو التأخير دقائق قليلة هنقول «تأخير قصير».",
+          "instruction": "يا كمبيوتر، موعد الاستلام له ثلاث رسائل. لو التأخير صفر فالموعد مضبوط. لو التأخير دقائق قليلة هنقول «تأخير قصير».",
+          "benefit": "تقدر تختار رسالة واحدة عندما يكون عندك أكثر من حالتين.",
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ if (minutes == 0)، ثم else if (minutes <= 5)، ثم else.",
+            "كشف الحل:\nint minutes = 4;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "يبدأ الكمبيوتر بـ if. إذا لم يتحقق شرطها، يفحص else if. أول شرط يتحقق يختار جسمه. تصل إلى else إذا كانت كل الشروط السابقة false.",
+          "code": "int minutes = 4;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "benefit": "عند 4 دقائق، شرط المساواة بالصفر يعطي false. انتقل إلى السطر الذي يبدأ بـ else if. المقارنة 4 <= 5 تعطي true ثم تُطبع رسالة التأخير القصير.",
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ if (minutes == 0)، ثم else if (minutes <= 5)، ثم else.",
+            "كشف الحل:\nint minutes = 4;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ minutes = 4. اطبع «في الموعد» عند 0، و«تأخير قصير» حتى 5 بعد تجاوز الصفر، و«تأخير طويل» في else.",
+          "instruction": "يا كمبيوتر، احفظ minutes = 4. اطبع «في الموعد» عند 0، و«تأخير قصير» حتى 5 بعد تجاوز الصفر، و«تأخير طويل» في else.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int minutes = 4;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "challenge": {
+            "output": "تأخير قصير\n",
+            "declared": [
+              "minutes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 0
+                },
+                "output": "في الموعد\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 5
+                },
+                "output": "تأخير قصير\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6
+                },
+                "output": "تأخير طويل\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "minutes"
+            ],
+            "types": {
+              "minutes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ if (minutes == 0)، ثم else if (minutes <= 5)، ثم else.",
+            "كشف الحل:\nint minutes = 4;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر minutes إلى 0 فقط. شاهد أن شرط التأخير القصير تم تجاوزه.",
+          "instruction": "يا كمبيوتر، غيّر minutes إلى 0 فقط. شاهد أن شرط التأخير القصير تم تجاوزه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "challenge": {
+            "output": "في الموعد\n",
+            "declared": [
+              "minutes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 0
+                },
+                "output": "في الموعد\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 5
+                },
+                "output": "تأخير قصير\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6
+                },
+                "output": "تأخير طويل\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "minutes"
+            ],
+            "types": {
+              "minutes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ if (minutes == 0)، ثم else if (minutes <= 5)، ثم else.",
+            "كشف الحل:\nint minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، غيّر minutes إلى 6. شغّل حتى يصل السهم إلى المسار الأخير.",
+          "instruction": "يا كمبيوتر، غيّر minutes إلى 6. شغّل حتى يصل السهم إلى المسار الأخير.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int minutes = 6;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "challenge": {
+            "output": "تأخير طويل\n",
+            "declared": [
+              "minutes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 0
+                },
+                "output": "في الموعد\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 5
+                },
+                "output": "تأخير قصير\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6
+                },
+                "output": "تأخير طويل\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "minutes"
+            ],
+            "types": {
+              "minutes": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ if (minutes == 0)، ثم else if (minutes <= 5)، ثم else.",
+            "كشف الحل:\nint minutes = 6;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر سطران عند التأخير صفرًا. إزاي نخلي الفحص الثاني يحصل فقط عند تجاوز الأول؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر سطران عند التأخير صفرًا. إزاي نخلي الفحص الثاني يحصل فقط عند تجاوز الأول؟",
+          "options": [
+            "نزّل الحد إلى 0",
+            "امسح رسالة في الموعد",
+            "اكتب else if للسؤال الثاني"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nif (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اربط السؤال الثاني بالأول باستخدام else if. عند تحقق الأول يتخطى الكمبيوتر الشروط التالية.",
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اربط السؤال الثاني بالأول باستخدام else if. عند تحقق الأول يتخطى الكمبيوتر الشروط التالية.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اربط السؤال الثاني بالأول باستخدام else if. عند تحقق الأول يتخطى الكمبيوتر الشروط التالية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nif (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "solution": "int minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+          "challenge": {
+            "output": "في الموعد\n",
+            "declared": [
+              "minutes"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 0
+                },
+                "output": "في الموعد\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 5
+                },
+                "output": "تأخير قصير\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6
+                },
+                "output": "تأخير طويل\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "minutes"
+            ],
+            "types": {
+              "minutes": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ if (minutes == 0)، ثم else if (minutes <= 5)، ثم else.",
+            "كشف الحل:\nint minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ stock = 2. استخدم if وelse if وelse لطباعة «نفد» عند 0، و«متبقي قليل» عند 1 أو 2، و«متوفر» لأكثر من 2.",
+          "instruction": "يا كمبيوتر، احفظ stock = 2. استخدم if وelse if وelse لطباعة «نفد» عند 0، و«متبقي قليل» عند 1 أو 2، و«متوفر» لأكثر من 2.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int stock = 2;\nif (stock == 0)\n{\n    Console.WriteLine(\"نفد\");\n}\nelse if (stock <= 2)\n{\n    Console.WriteLine(\"متبقي قليل\");\n}\nelse\n{\n    Console.WriteLine(\"متوفر\");\n}",
+          "challenge": {
+            "output": "متبقي قليل\n",
+            "declared": [
+              "stock"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 0
+                },
+                "output": "نفد\n"
+              },
+              {
+                "inputs": {
+                  "stock": 1
+                },
+                "output": "متبقي قليل\n"
+              },
+              {
+                "inputs": {
+                  "stock": 3
+                },
+                "output": "متوفر\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "stock"
+            ],
+            "types": {
+              "stock": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد الحالة التي لازم تُفحص أولًا عند 0 دقائق.",
+            "القاعدة: else if تُفحص بعد فشل الشرط السابق. هل حددت الجزء الذي تحتاج تغييره؟",
+            "افحص الصفر أولًا. بعدها يبقى سؤال stock <= 2 كافيًا للحالتين 1 و2.",
+            "كشف الحل:\nint stock = 2;\nif (stock == 0)\n{\n    Console.WriteLine(\"نفد\");\n}\nelse if (stock <= 2)\n{\n    Console.WriteLine(\"متبقي قليل\");\n}\nelse\n{\n    Console.WriteLine(\"متوفر\");\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nif (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+        "fixedCode": "int minutes = 0;\nif (minutes == 0)\n{\n    Console.WriteLine(\"في الموعد\");\n}\nelse if (minutes <= 5)\n{\n    Console.WriteLine(\"تأخير قصير\");\n}\nelse\n{\n    Console.WriteLine(\"تأخير طويل\");\n}",
+        "question": "ظهر سطران عند التأخير صفرًا. إزاي نخلي الفحص الثاني يحصل فقط عند تجاوز الأول؟",
+        "explanation": "اربط السؤال الثاني بالأول باستخدام else if. عند تحقق الأول يتخطى الكمبيوتر الشروط التالية.",
+        "options": [
+          "نزّل الحد إلى 0",
+          "امسح رسالة في الموعد",
+          "اكتب else if للسؤال الثاني"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-21-logical-or"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ minutes = 4. اطبع «في الموعد» عند 0، و«تأخير قصير» حتى 5 بعد تجاوز الصفر، و«تأخير طويل» في else.",
+        "يا كمبيوتر، احفظ stock = 2. استخدم if وelse if وelse لطباعة «نفد» عند 0، و«متبقي قليل» عند 1 أو 2، و«متوفر» لأكثر من 2."
+      ],
+      "commonMisconceptions": [
+        "اربط السؤال الثاني بالأول باستخدام else if. عند تحقق الأول يتخطى الكمبيوتر الشروط التالية."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "صفر دقيقة",
+          "text": "في الموعد"
+        },
+        {
+          "label": "من ١ إلى ٥",
+          "text": "تأخير قصير"
+        },
+        {
+          "label": "أكثر من ٥",
+          "text": "تأخير طويل"
+        }
+      ]
+    },
+    {
+      "id": "csharp-23-condition-order",
+      "legacyId": "csharp:22",
+      "title": "رتّب الشروط التي تتداخل حدودها",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 22,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "عند تداخل الشروط، الترتيب يغيّر النتيجة. مثلًا 90 تحقق score >= 60 وscore >= 90. ضع شرط 90 أولًا كي يختار الكمبيوتر «ممتاز».",
+      "whyUse": "تتوقع أثر ترتيب القواعد قبل كتابة الكود وتختبر الأعداد على الحدود.",
+      "browserMechanics": "قارن 90 بالحد 90. عند true يُنفّذ الجسم الأول ويتجاوز ما بعده. عند 89 يُفحص الحد 60. عند 59 يعمل else.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+      "breakdown": [
+        "حد «ممتاز» هو 90 شاملًا.",
+        "حد «ناجح» هو 60 شاملًا بعد تجاوز الممتاز.",
+        "جرّب 59 و60 و89 و90، وتأكد أن كل تشغيل يطبع رسالة واحدة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "درجة الطالب ٩٠. هي تحقق «من ٦٠» و«من ٩٠» معًا. الرسالة المطلوبة هي «ممتاز»، فهنحط السؤال المحدد لها الأول.",
+          "instruction": "يا كمبيوتر، درجة الطالب ٩٠. هي تحقق «من ٦٠» و«من ٩٠» معًا. الرسالة المطلوبة هي «ممتاز»، فهنحط السؤال المحدد لها الأول.",
+          "benefit": "تتوقع أثر ترتيب القواعد قبل كتابة الكود وتختبر الأعداد على الحدود.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع score >= 90 في if، ثم score >= 60 في else if.",
+            "كشف الحل:\nint score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "عند تداخل الشروط، الترتيب يغيّر النتيجة. مثلًا 90 تحقق score >= 60 وscore >= 90. ضع شرط 90 أولًا كي يختار الكمبيوتر «ممتاز».",
+          "code": "int score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "benefit": "قارن 90 بالحد 90. عند true يُنفّذ الجسم الأول ويتجاوز ما بعده. عند 89 يُفحص الحد 60. عند 59 يعمل else.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع score >= 90 في if، ثم score >= 60 في else if.",
+            "كشف الحل:\nint score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ score = 90. افحص ممتاز عند 90 أو أكثر، ثم ناجح عند 60 أو أكثر، وإلا «حاول مرة أخرى».",
+          "instruction": "يا كمبيوتر، احفظ score = 90. افحص ممتاز عند 90 أو أكثر، ثم ناجح عند 60 أو أكثر، وإلا «حاول مرة أخرى».",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "challenge": {
+            "output": "ممتاز\n",
+            "declared": [
+              "score"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "score": 59
+                },
+                "output": "حاول مرة أخرى\n"
+              },
+              {
+                "inputs": {
+                  "score": 60
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 89
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 90
+                },
+                "output": "ممتاز\n"
+              },
+              {
+                "inputs": {
+                  "score": 95
+                },
+                "output": "ممتاز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "score"
+            ],
+            "types": {
+              "score": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع score >= 90 في if، ثم score >= 60 في else if.",
+            "كشف الحل:\nint score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر score من 90 إلى 89 واترك ترتيب الشروط كما هو. تتبّع إلى رسالة ناجح.",
+          "instruction": "يا كمبيوتر، غيّر score من 90 إلى 89 واترك ترتيب الشروط كما هو. تتبّع إلى رسالة ناجح.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int score = 89;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "challenge": {
+            "output": "ناجح\n",
+            "declared": [
+              "score"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "score": 59
+                },
+                "output": "حاول مرة أخرى\n"
+              },
+              {
+                "inputs": {
+                  "score": 60
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 89
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 90
+                },
+                "output": "ممتاز\n"
+              },
+              {
+                "inputs": {
+                  "score": 95
+                },
+                "output": "ممتاز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "score"
+            ],
+            "types": {
+              "score": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع score >= 90 في if، ثم score >= 60 في else if.",
+            "كشف الحل:\nint score = 89;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اختبر score = 59. شغّل وشوف إمتى يصل التنفيذ إلى else.",
+          "instruction": "يا كمبيوتر، اختبر score = 59. شغّل وشوف إمتى يصل التنفيذ إلى else.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int score = 59;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "challenge": {
+            "output": "حاول مرة أخرى\n",
+            "declared": [
+              "score"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "score": 59
+                },
+                "output": "حاول مرة أخرى\n"
+              },
+              {
+                "inputs": {
+                  "score": 60
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 89
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 90
+                },
+                "output": "ممتاز\n"
+              },
+              {
+                "inputs": {
+                  "score": 95
+                },
+                "output": "ممتاز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "score"
+            ],
+            "types": {
+              "score": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع score >= 90 في if، ثم score >= 60 في else if.",
+            "كشف الحل:\nint score = 59;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الكود طبع ناجح عند ٩٠ لأن شرط ٦٠ جاء أولًا. إيه الترتيب اللي يصحح التصنيف؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الكود طبع ناجح عند ٩٠ لأن شرط ٦٠ جاء أولًا. إيه الترتيب اللي يصحح التصنيف؟",
+          "options": [
+            "افحص 90 أولًا ثم 60",
+            "حوّل score إلى string",
+            "اطبع ممتاز مهما كانت الدرجة"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int score = 90;\nif (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse if (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ضع حد 90 في الأول. شرط 60 يتولى بعده الدرجات من 60 إلى 89.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع حد 90 في الأول. شرط 60 يتولى بعده الدرجات من 60 إلى 89.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع حد 90 في الأول. شرط 60 يتولى بعده الدرجات من 60 إلى 89.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int score = 90;\nif (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse if (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "solution": "int score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+          "challenge": {
+            "output": "ممتاز\n",
+            "declared": [
+              "score"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "score": 59
+                },
+                "output": "حاول مرة أخرى\n"
+              },
+              {
+                "inputs": {
+                  "score": 60
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 89
+                },
+                "output": "ناجح\n"
+              },
+              {
+                "inputs": {
+                  "score": 90
+                },
+                "output": "ممتاز\n"
+              },
+              {
+                "inputs": {
+                  "score": 95
+                },
+                "output": "ممتاز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "score"
+            ],
+            "types": {
+              "score": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع score >= 90 في if، ثم score >= 60 في else if.",
+            "كشف الحل:\nint score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ total = 100. اطبع «خصم كبير» عند 100 أو أكثر، «خصم صغير» عند 50 إلى 99، و«بدون خصم» فيما عدا ذلك. ابدأ بأعلى حد.",
+          "instruction": "يا كمبيوتر، احفظ total = 100. اطبع «خصم كبير» عند 100 أو أكثر، «خصم صغير» عند 50 إلى 99، و«بدون خصم» فيما عدا ذلك. ابدأ بأعلى حد.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int total = 100;\nif (total >= 100)\n{\n    Console.WriteLine(\"خصم كبير\");\n}\nelse if (total >= 50)\n{\n    Console.WriteLine(\"خصم صغير\");\n}\nelse\n{\n    Console.WriteLine(\"بدون خصم\");\n}",
+          "challenge": {
+            "output": "خصم كبير\n",
+            "declared": [
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "total": 49
+                },
+                "output": "بدون خصم\n"
+              },
+              {
+                "inputs": {
+                  "total": 50
+                },
+                "output": "خصم صغير\n"
+              },
+              {
+                "inputs": {
+                  "total": 99
+                },
+                "output": "خصم صغير\n"
+              },
+              {
+                "inputs": {
+                  "total": 101
+                },
+                "output": "خصم كبير\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "total"
+            ],
+            "types": {
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بتجربة العدد 90 ذهنيًا على الشرطين.",
+            "القاعدة: أول شرط يتحقق يحسم الاختيار، فالحد الأعلى يأتي أولًا هنا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بفحص total >= 100، ثم total >= 50 بعده.",
+            "كشف الحل:\nint total = 100;\nif (total >= 100)\n{\n    Console.WriteLine(\"خصم كبير\");\n}\nelse if (total >= 50)\n{\n    Console.WriteLine(\"خصم صغير\");\n}\nelse\n{\n    Console.WriteLine(\"بدون خصم\");\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int score = 90;\nif (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse if (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+        "fixedCode": "int score = 90;\nif (score >= 90)\n{\n    Console.WriteLine(\"ممتاز\");\n}\nelse if (score >= 60)\n{\n    Console.WriteLine(\"ناجح\");\n}\nelse\n{\n    Console.WriteLine(\"حاول مرة أخرى\");\n}",
+        "question": "الكود طبع ناجح عند ٩٠ لأن شرط ٦٠ جاء أولًا. إيه الترتيب اللي يصحح التصنيف؟",
+        "explanation": "ضع حد 90 في الأول. شرط 60 يتولى بعده الدرجات من 60 إلى 89.",
+        "options": [
+          "افحص 90 أولًا ثم 60",
+          "حوّل score إلى string",
+          "اطبع ممتاز مهما كانت الدرجة"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-22-else-if"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ score = 90. افحص ممتاز عند 90 أو أكثر، ثم ناجح عند 60 أو أكثر، وإلا «حاول مرة أخرى».",
+        "يا كمبيوتر، احفظ total = 100. اطبع «خصم كبير» عند 100 أو أكثر، «خصم صغير» عند 50 إلى 99، و«بدون خصم» فيما عدا ذلك. ابدأ بأعلى حد."
+      ],
+      "commonMisconceptions": [
+        "ضع حد 90 في الأول. شرط 60 يتولى بعده الدرجات من 60 إلى 89."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "الدرجة",
+          "text": "٩٠"
+        },
+        {
+          "label": "شرطان متحققان",
+          "text": "٩٠ أو أكثر، و٦٠ أو أكثر"
+        },
+        {
+          "label": "الترتيب",
+          "text": "افحص الممتاز أولًا"
+        }
+      ]
+    },
+    {
+      "id": "csharp-24-reservation-decision",
+      "legacyId": "csharp:23",
+      "title": "تطبيق قرار الحجز من عدة شروط",
+      "skill": "الشروط المركبة والاختيار المتعدد",
+      "order": 23,
+      "unitId": "compound-decisions",
+      "revision": 1,
+      "concept": "حوّل قواعد الحجز إلى سلسلة مرتبة. العدد صفر أو أقل يحتاج مراجعة. بعده راجع الدفع. عند عدد موجب ودفع مكتمل، يكفي 3 مقاعد أو تصريح للحصول على حجز مميز.",
+      "whyUse": "تجمع المنطق والترتيب في برنامج يرجّع رسالة مفهومة لكل حالة.",
+      "browserMechanics": "عند 3 مقاعد ودفع مكتمل، يصل التنفيذ إلى شرط الحجز المميز. نتيجة الاختبار الأول في || تكفي، فتظهر حالة التصريح كطرف لم يُحسب.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int seats = 3;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+      "breakdown": [
+        "أوقف الاختيار عند أول حالة تتحقق.",
+        "ضع فحص العدد أولًا وفحص عدم الدفع ثانيًا.",
+        "استخدم || بين بلوغ 3 مقاعد ووجود تصريح.",
+        "اكتب الحجز العادي في المسار الأخير."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قبل تأكيد الحجز نراجع العدد ثم الدفع. بعدهم نختار حجزًا مميزًا أو عاديًا.",
+          "instruction": "يا كمبيوتر، قبل تأكيد الحجز نراجع العدد ثم الدفع. بعدهم نختار حجزًا مميزًا أو عاديًا.",
+          "benefit": "تجمع المنطق والترتيب في برنامج يرجّع رسالة مفهومة لكل حالة.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if للعدد ثم else if للدفع ثم else if للحجز المميز وإنهها بـ else.",
+            "كشف الحل:\nint seats = 3;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "حوّل قواعد الحجز إلى سلسلة مرتبة. العدد صفر أو أقل يحتاج مراجعة. بعده راجع الدفع. عند عدد موجب ودفع مكتمل، يكفي 3 مقاعد أو تصريح للحصول على حجز مميز.",
+          "code": "int seats = 3;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "benefit": "عند 3 مقاعد ودفع مكتمل، يصل التنفيذ إلى شرط الحجز المميز. نتيجة الاختبار الأول في || تكفي، فتظهر حالة التصريح كطرف لم يُحسب.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if للعدد ثم else if للدفع ثم else if للحجز المميز وإنهها بـ else.",
+            "كشف الحل:\nint seats = 3;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، احفظ seats = 3 وisPaid = true وhasPass = false. اطبع «راجع عدد المقاعد» عند seats <= 0، و«انتظر الدفع» عند !isPaid. بعدها اطبع «حجز مميز» إذا seats >= 3 || hasPass، وإلا «حجز عادي».",
+          "instruction": "يا كمبيوتر، احفظ seats = 3 وisPaid = true وhasPass = false. اطبع «راجع عدد المقاعد» عند seats <= 0، و«انتظر الدفع» عند !isPaid. بعدها اطبع «حجز مميز» إذا seats >= 3 || hasPass، وإلا «حجز عادي».",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int seats = 3;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "challenge": {
+            "output": "حجز مميز\n",
+            "declared": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "operation": "||",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": false,
+                  "hasPass": false
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": false,
+                  "hasPass": true
+                },
+                "output": "انتظر الدفع\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز عادي\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز مميز\n"
+              },
+              {
+                "inputs": {
+                  "seats": 1,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "حجز مميز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "types": {
+              "seats": "int",
+              "isPaid": "bool",
+              "hasPass": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if للعدد ثم else if للدفع ثم else if للحجز المميز وإنهها بـ else.",
+            "كشف الحل:\nint seats = 3;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر seats إلى 2 فقط. الكود هيوصل إلى الحجز العادي لأن العدد لم يصل إلى 3 والتصريح غير موجود.",
+          "instruction": "يا كمبيوتر، غيّر seats إلى 2 فقط. الكود هيوصل إلى الحجز العادي لأن العدد لم يصل إلى 3 والتصريح غير موجود.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int seats = 2;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "challenge": {
+            "output": "حجز عادي\n",
+            "declared": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "operation": "||",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": false,
+                  "hasPass": false
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": false,
+                  "hasPass": true
+                },
+                "output": "انتظر الدفع\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز عادي\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز مميز\n"
+              },
+              {
+                "inputs": {
+                  "seats": 1,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "حجز مميز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "types": {
+              "seats": "int",
+              "isPaid": "bool",
+              "hasPass": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if للعدد ثم else if للدفع ثم else if للحجز المميز وإنهها بـ else.",
+            "كشف الحل:\nint seats = 2;\nbool isPaid = true;\nbool hasPass = false;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اترك العدد 2 والدفع مكتملًا. ضع hasPass = true وشاهد تأثير التصريح وحده.",
+          "instruction": "يا كمبيوتر، اترك العدد 2 والدفع مكتملًا. ضع hasPass = true وشاهد تأثير التصريح وحده.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "challenge": {
+            "output": "حجز مميز\n",
+            "declared": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "operation": "||",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": false,
+                  "hasPass": false
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": false,
+                  "hasPass": true
+                },
+                "output": "انتظر الدفع\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز عادي\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز مميز\n"
+              },
+              {
+                "inputs": {
+                  "seats": 1,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "حجز مميز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "types": {
+              "seats": "int",
+              "isPaid": "bool",
+              "hasPass": "bool"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if للعدد ثم else if للدفع ثم else if للحجز المميز وإنهها بـ else.",
+            "كشف الحل:\nint seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "تصريح صالح ومقعدان. الكود اختار حجزًا عاديًا. أي تغيير يعيد تطبيق قاعدة التصريح؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "تصريح صالح ومقعدان. الكود اختار حجزًا عاديًا. أي تغيير يعيد تطبيق قاعدة التصريح؟",
+          "options": [
+            "بدّل ترتيب رسالتَي العدد والدفع",
+            "استخدم || بين seats >= 3 وhasPass",
+            "غيّر عدد المقاعد إلى 3"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 && hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم || بعد اجتياز فحص العدد والدفع. وقتها يكفي الوصول إلى 3 مقاعد أو وجود تصريح.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم || بعد اجتياز فحص العدد والدفع. وقتها يكفي الوصول إلى 3 مقاعد أو وجود تصريح.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم || بعد اجتياز فحص العدد والدفع. وقتها يكفي الوصول إلى 3 مقاعد أو وجود تصريح.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 && hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "solution": "int seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+          "challenge": {
+            "output": "حجز مميز\n",
+            "declared": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "operation": "||",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 0,
+                  "isPaid": false,
+                  "hasPass": false
+                },
+                "output": "راجع عدد المقاعد\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": false,
+                  "hasPass": true
+                },
+                "output": "انتظر الدفع\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز عادي\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "isPaid": true,
+                  "hasPass": false
+                },
+                "output": "حجز مميز\n"
+              },
+              {
+                "inputs": {
+                  "seats": 1,
+                  "isPaid": true,
+                  "hasPass": true
+                },
+                "output": "حجز مميز\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "seats",
+              "isPaid",
+              "hasPass"
+            ],
+            "types": {
+              "seats": "int",
+              "isPaid": "bool",
+              "hasPass": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب if للعدد ثم else if للدفع ثم else if للحجز المميز وإنهها بـ else.",
+            "كشف الحل:\nint seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اكتب قرار استعارة. احفظ copies = 4 وhasCard = true وhasException = false. اطبع «راجع عدد النسخ» عند copies <= 0، ثم «أظهر البطاقة» عند !hasCard. بعدهما اطبع «تمت الإعارة» عندما copies <= 3 || hasException، وإلا «قلّل عدد النسخ».",
+          "instruction": "يا كمبيوتر، اكتب قرار استعارة. احفظ copies = 4 وhasCard = true وhasException = false. اطبع «راجع عدد النسخ» عند copies <= 0، ثم «أظهر البطاقة» عند !hasCard. بعدهما اطبع «تمت الإعارة» عندما copies <= 3 || hasException، وإلا «قلّل عدد النسخ».",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int copies = 4;\nbool hasCard = true;\nbool hasException = false;\nif (copies <= 0)\n{\n    Console.WriteLine(\"راجع عدد النسخ\");\n}\nelse if (!hasCard)\n{\n    Console.WriteLine(\"أظهر البطاقة\");\n}\nelse if (copies <= 3 || hasException)\n{\n    Console.WriteLine(\"تمت الإعارة\");\n}\nelse\n{\n    Console.WriteLine(\"قلّل عدد النسخ\");\n}",
+          "challenge": {
+            "output": "قلّل عدد النسخ\n",
+            "declared": [
+              "copies",
+              "hasCard",
+              "hasException"
+            ],
+            "operation": "||",
+            "cases": [
+              {
+                "inputs": {
+                  "copies": 0,
+                  "hasCard": false
+                },
+                "output": "راجع عدد النسخ\n"
+              },
+              {
+                "inputs": {
+                  "copies": 0,
+                  "hasException": true
+                },
+                "output": "راجع عدد النسخ\n"
+              },
+              {
+                "inputs": {
+                  "copies": 2,
+                  "hasCard": false,
+                  "hasException": true
+                },
+                "output": "أظهر البطاقة\n"
+              },
+              {
+                "inputs": {
+                  "copies": 3
+                },
+                "output": "تمت الإعارة\n"
+              },
+              {
+                "inputs": {
+                  "copies": 4,
+                  "hasException": true
+                },
+                "output": "تمت الإعارة\n"
+              },
+              {
+                "inputs": {
+                  "copies": 5
+                },
+                "output": "قلّل عدد النسخ\n"
+              }
+            ],
+            "branching": true,
+            "elseRequired": true,
+            "elseIfRequired": true,
+            "conditionReads": [
+              "copies",
+              "hasCard",
+              "hasException"
+            ],
+            "types": {
+              "copies": "int",
+              "hasCard": "bool",
+              "hasException": "bool"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بمراجعة العدد. اختبر صفر مقاعد مع تصريح صالح، وتوقّع الرسالة الأولى.",
+            "القاعدة: رتّب الشروط كما ستفحصها في الواقع، واستعمل || عندما يكفي أحد الخيارين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ارسم أربعة صفوف للحالات. ابدأ بفحص العدد، وبعده البطاقة، وبعدهما شرط الإعارة المركب.",
+            "كشف الحل:\nint copies = 4;\nbool hasCard = true;\nbool hasException = false;\nif (copies <= 0)\n{\n    Console.WriteLine(\"راجع عدد النسخ\");\n}\nelse if (!hasCard)\n{\n    Console.WriteLine(\"أظهر البطاقة\");\n}\nelse if (copies <= 3 || hasException)\n{\n    Console.WriteLine(\"تمت الإعارة\");\n}\nelse\n{\n    Console.WriteLine(\"قلّل عدد النسخ\");\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 && hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+        "fixedCode": "int seats = 2;\nbool isPaid = true;\nbool hasPass = true;\nif (seats <= 0)\n{\n    Console.WriteLine(\"راجع عدد المقاعد\");\n}\nelse if (!isPaid)\n{\n    Console.WriteLine(\"انتظر الدفع\");\n}\nelse if (seats >= 3 || hasPass)\n{\n    Console.WriteLine(\"حجز مميز\");\n}\nelse\n{\n    Console.WriteLine(\"حجز عادي\");\n}",
+        "question": "تصريح صالح ومقعدان. الكود اختار حجزًا عاديًا. أي تغيير يعيد تطبيق قاعدة التصريح؟",
+        "explanation": "استخدم || بعد اجتياز فحص العدد والدفع. وقتها يكفي الوصول إلى 3 مقاعد أو وجود تصريح.",
+        "options": [
+          "بدّل ترتيب رسالتَي العدد والدفع",
+          "استخدم || بين seats >= 3 وhasPass",
+          "غيّر عدد المقاعد إلى 3"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-23-condition-order"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، احفظ seats = 3 وisPaid = true وhasPass = false. اطبع «راجع عدد المقاعد» عند seats <= 0، و«انتظر الدفع» عند !isPaid. بعدها اطبع «حجز مميز» إذا seats >= 3 || hasPass، وإلا «حجز عادي».",
+        "يا كمبيوتر، اكتب قرار استعارة. احفظ copies = 4 وhasCard = true وhasException = false. اطبع «راجع عدد النسخ» عند copies <= 0، ثم «أظهر البطاقة» عند !hasCard. بعدهما اطبع «تمت الإعارة» عندما copies <= 3 || hasException، وإلا «قلّل عدد النسخ»."
+      ],
+      "commonMisconceptions": [
+        "استخدم || بعد اجتياز فحص العدد والدفع. وقتها يكفي الوصول إلى 3 مقاعد أو وجود تصريح."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "قرار حجز حسب العدد والدفع والتصريح",
+      "sceneVisual": [
+        {
+          "label": "أولًا",
+          "text": "راجع عدد المقاعد"
+        },
+        {
+          "label": "بعدها",
+          "text": "راجع الدفع"
+        },
+        {
+          "label": "أخيرًا",
+          "text": "اختَر نوع الحجز"
+        }
+      ]
+    }
+  ]
+}

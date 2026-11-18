@@ -2849,6 +2849,7 @@ function setMobilePane(name) {
 async function enterCourse() {
   if (isEntering) return;
   isEntering = true;
+  if (typeof window.dispatchEvent === "function" && typeof CustomEvent === "function") window.dispatchEvent(new CustomEvent("steplearn:coursechange", { detail: { course: "angular" } }));
   panel.hidden = false;
   mainLessonGrid.hidden = true;
   courseRoadmap.hidden = true;
@@ -2886,6 +2887,10 @@ function leaveCourse() {
   document.querySelector("#lesson > .sectionhead h2").textContent = "جلسة اليوم";
   document.querySelector("#lesson > .sectionhead p").textContent = "هدف صغير، تجربة سريعة، ونقطة نهاية واضحة.";
 }
+
+if (typeof window.addEventListener === "function") window.addEventListener("steplearn:coursechange", (event) => {
+  if (event.detail?.course !== "angular" && !panel.hidden) leaveCourse();
+});
 
 function bindInterface() {
   document.querySelectorAll("[data-angular-mode]").forEach((button) => button.addEventListener("click", () => void switchMode(button.dataset.angularMode)));

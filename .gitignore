@@ -75,3 +75,7 @@ Desktop.ini
 .env.development.local
 .env.test.local
 .env.production.local
+
+# .NET compiler build intermediates (published browser assets are tracked separately)
+**/bin/
+**/obj/
