@@ -1,0 +1,17 @@
+{
+  "name": "LearnStep",
+  "short_name": "LearnStep",
+  "description": "منصة تعلّم البرمجة خطوة بخطوة بالتجربة العملية",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14201a",
+  "theme_color": "#14201a",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

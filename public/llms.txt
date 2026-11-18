@@ -1,0 +1,16 @@
+# LearnStep — تعلّم البرمجة بالتجربة
+
+> LearnStep is an interactive Arabic-first web-based educational platform for learning modern software development (HTML, CSS, JavaScript, SQL/Databases, C#, Angular).
+
+## Tracks and Courses
+- [HTML Track](https://learn-step.dev/#courses): 54 interactive lessons covering markup, semantics, forms, and accessibility.
+- [CSS Track](https://learn-step.dev/#courses): 94 interactive lessons covering layouts, flexbox, grid, animations, and responsive design.
+- [JavaScript Track](https://learn-step.dev/#courses): 119 interactive lessons covering foundations, DOM manipulation, asynchronous programming, and modern ES6+.
+- [Database Track](https://learn-step.dev/#courses): 124 interactive lessons covering relational database design, SQL queries, joins, transactions, and indexing.
+- [C# Track](https://learn-step.dev/#csharp): 117 step-by-step lessons across 16 units, featuring an AST interpreter and sandboxed Roslyn WebAssembly runner.
+- [Angular Track](https://learn-step.dev/#courses): 106 interactive lessons running with in-browser WebContainer technology.
+
+## Core Features
+- In-browser execution with real-time feedback and step-by-step memory trace visualizers.
+- Local persistence via browser storage ensuring learner data privacy.
+- Sandboxed WebAssembly execution with zero external network access and strict Content Security Policy.

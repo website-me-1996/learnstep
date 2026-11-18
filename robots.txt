@@ -69,3 +69,5 @@ Disallow: /*.test.cjs$
 Disallow: /dist/
 Disallow: /.agents/
 Allow: /
+
+Sitemap: https://learn-step.dev/sitemap.xml

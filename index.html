@@ -9,7 +9,24 @@
 <meta name="apple-mobile-web-app-title" content="steplearn">
 <meta name="description" content="تعلّم HTML وCSS وJavaScript وقواعد البيانات (SQL) وC# وAngular بالتجربة، مع محرر كود ومعاينة مباشرة ودروس بخطوات قصيرة.">
 <title>steplearn — تعلّم البرمجة بالتجربة</title>
+<meta name="theme-color" content="#14201a">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://learn-step.dev/">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "LearnStep",
+  "alternateName": "خطوة",
+  "url": "https://learn-step.dev/",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "All",
+  "description": "تعلّم HTML وCSS وJavaScript وقواعد البيانات (SQL) وC# وAngular بالتجربة، مع محرر كود ومعاينة مباشرة ودروس بخطوات قصيرة.",
+  "inLanguage": "ar"
+}
+</script>
 <script>
   function toggleSidebar() {
     var shell = document.querySelector(".shell");
@@ -237,7 +254,7 @@
           <div class="gentle-tree-container" id="gentleTreeGuide" hidden></div>
           <div class="guide-actions" id="guideActions"></div>
           <button class="guide-previous" id="guidePrevious" type="button" disabled>← راجع الخطوة السابقة</button>
-          <button class="guide-next" id="guideNext" type="button"></button>
+          <button class="guide-next" id="guideNext" type="button" aria-label="الخطوة التالية داخل الدرس">الخطوة التالية ←</button>
         </div>
         <div class="prompt">
           <b>✳ جرّب تجربة بسيطة</b><br>
