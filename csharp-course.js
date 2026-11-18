@@ -96,14 +96,19 @@ function renderIndexedAccess(snapshot) {
   const format = value => typeof value === "string" ? JSON.stringify(value) : String(value);
   const address = document.createElement("bdi");
   address.dir = "ltr";
-  address.textContent = (access.name ?? "") + "[" + access.indices.join(", ") + "]";
+  address.textContent = (access.name ?? "") + "[" + access.indices.map(format).join(", ") + "]";
   const value = document.createElement("bdi");
   value.dir = "ltr";
-  value.textContent = access.mode === "write" ? format(access.previous) + " → " + format(access.value) : format(access.value);
+  value.textContent = access.mode === "write"
+    ? (access.previous === undefined ? "مفتاح جديد" : format(access.previous)) + " → " + format(access.value)
+    : format(access.value);
   const status = document.createElement("p");
   status.append(access.mode === "write" ? "حدّث " : "اقرأ ", address, " · ", value);
   area.append(status);
-  const collection = snapshot.variables[access.name]?.value;
+  const observed = snapshot.variables[access.name];
+  const collectionCard = snapshot.objects?.find(object => "#" + object.id === observed?.value)?.collection;
+  if (collectionCard?.kind === "Dictionary") return;
+  const collection = collectionCard?.items ?? observed?.value;
   const cells = typeof collection === "string" && collection.length <= 64 ? collection.split("") : collection;
   if (!Array.isArray(cells)) return;
   const rectangular = access.indices.length === 2;
@@ -152,6 +157,17 @@ function renderObjects(snapshot) {
     identity.dir = "ltr";
     identity.textContent = "#" + object.id + " · " + object.type;
     card.append(identity);
+    if (object.collection) {
+      const count = document.createElement("p");
+      count.dir = "ltr";
+      count.textContent = "Count = " + object.collection.count;
+      const entries = document.createElement("bdi");
+      entries.dir = "ltr";
+      entries.textContent = JSON.stringify(object.collection.items);
+      if (object.collection.kind === "Stack") entries.title = "أعلى المكدّس هو العنصر الأخير.";
+      if (object.collection.kind === "Queue") entries.title = "مقدمة الطابور هي العنصر الأول.";
+      card.append(count, entries);
+    }
     const fields = document.createElement("dl");
     fields.dir = "ltr";
     for (const [name, field] of Object.entries(object.fields)) {
@@ -198,6 +214,13 @@ function renderTrace() {
   }
   renderIndexedAccess(snapshot);
   renderObjects(snapshot);
+  const operation = snapshot?.collectionOps?.at(-1);
+  $("csharpCollectionStep").hidden = !operation;
+  if (operation) {
+    const change = operation.previousCount === operation.count ? operation.count : operation.previousCount + " → " + operation.count;
+    $("csharpCollectionStep").textContent = operation.method + " · #" + operation.id + " · Count " + change +
+      (operation.value === undefined ? "" : " · " + String(operation.value));
+  }
   const reads = snapshot?.inputReads || [];
   $("csharpInputRead").hidden = !reads.length;
   $("csharpInputRead").textContent = reads.map(line => line.number === null

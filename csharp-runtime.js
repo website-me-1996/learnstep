@@ -1,5 +1,10 @@
 // Bounded teaching interpreter for the authored C# lessons, not Roslyn/.NET.
 // No eval, Function constructor, network execution, or string-to-JS translation.
+import {
+  collectionArity, describeCollection, collectionSignature, makeCollection, collectionCount,
+  collectionIteration, collectionSnapshot, applyCollectionMethod, readCollectionIndex, writeCollectionIndex
+} from './csharp-collections.js';
+
 const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64, calls:24, objects:64, fields:16 };
 const NUMERIC_TYPES = new Set(['int', 'double', 'decimal']);
 const TYPES = new Set([...NUMERIC_TYPES, 'string', 'bool', 'char']);
@@ -83,7 +88,7 @@ export function parseProgram(source) {
     }
     return name;
   }
-  const isType = name => TYPES.has(name) || classNames.has(name) || name === genericParameter;
+  const isType = name => TYPES.has(name) || classNames.has(name) || collectionArity(name) > 0 || name === genericParameter;
   function typeName(allowVoid = false, allowArray = true, typeDepth = 0) {
     const token = expect('identifier');
     if (!isType(token.value) && !(allowVoid && token.value === 'void')) {
@@ -91,12 +96,21 @@ export function parseProgram(source) {
     }
     if (typeDepth >= LIMITS.depth) throw new CSharpError('قلّل الأنواع العامة المتداخلة.', token, 'limit');
     let type = token.value;
-    if (classNames.get(type)) {
+    const arity = classNames.has(type) ? Number(classNames.get(type)) : collectionArity(type);
+    if (arity) {
       expect('<');
-      type += '<' + typeName(false, true, typeDepth + 1) + '>';
+      const argumentsList = [typeName(false, true, typeDepth + 1)];
+      for (let index = 1; index < arity; index++) {
+        expect(',');
+        argumentsList.push(typeName(false, true, typeDepth + 1));
+      }
       expect('>');
+      type += '<' + argumentsList.join(',') + '>';
+      if (!classNames.has(token.value) && !describeCollection(type)) {
+        throw new CSharpError('جرّب المجموعة مع int أو string أو bool أو char في المحاكي.', token, 'unsupported');
+      }
     }
-    if ((type === 'string' || classNames.has(token.value)) && peek().kind === '?') type += take().value;
+    if ((type === 'string' || classNames.has(token.value) || collectionArity(token.value)) && peek().kind === '?') type += take().value;
     if (allowArray && TYPES.has(token.value) && peek().kind === '[') {
       take();
       const rank = peek().kind === ',' ? take().value : '';
@@ -313,6 +327,11 @@ export function parseProgram(source) {
       expect(')');
       node = { kind:'try-parse', op:'TryParse', expression:input, outName:output.value, token:method };
     }
+    else if (t.value === 'Array' && peek().kind === '.') {
+      expect('.');
+      const method = expect('identifier', 'IndexOf');
+      node = {...call(method), kind:'array-search', op:'Array.IndexOf'};
+    }
     else if(t.kind==='identifier'&&(!RESERVED.has(t.value)||t.value==='this'))node=peek().kind === '(' ? call(t) : {kind:'variable',name:t.value,token:t};
     else if (INCREMENTS.has(t.kind)) throw new CSharpError('اكتب تحديث ++ أو -- كأمر مستقل أو في خانة التحديث داخل for.', t, 'unsupported');
     else if(t.kind==='-'||t.kind==='+'||t.kind==='!')node={kind:'unary',op:t.kind,expression:expression(30),token:t};
@@ -410,7 +429,14 @@ export function parseProgram(source) {
   }
   const statements=[];
   // Using directives precede top-level statements, as in a C# console program.
-  while(peek().value==='using'){take();expect('identifier','System');expect(';');}
+  while (peek().value === 'using') {
+    take();
+    expect('identifier','System');
+    if (peek().kind === '.') {
+      take(); expect('identifier','Collections'); expect('.'); expect('identifier','Generic');
+    }
+    expect(';');
+  }
   while (peek().kind !== 'eof' && peek().value !== 'class' && peek().value !== 'public') statements.push(statement());
   while (peek().kind !== 'eof') statements.push(classDefinition());
   if(!statements.length)throw new CSharpError('اكتب أمرًا صغيرًا أولًا، ثم شغّله.');
@@ -471,11 +497,13 @@ function validateTypes(statements) {
   let insideClass = false;
   const lookup=name=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].available.has(name))return scopes[i].available.get(name);};
   const classFor = type => classes.get(className(type));
+  const collectionFor = type => classFor(type) ? null : describeCollection(type);
+  const isReference = type => classFor(type) || collectionFor(type);
   function canAssign(type, target) {
     return type === target || (type === 'int' && NUMERIC_TYPES.has(target)) ||
       (type === 'string' && target === 'string?') ||
-      (type === 'null' && (target === 'string?' || classFor(target))) ||
-      (classFor(type) && nonNullable(type) === nonNullable(target));
+      (type === 'null' && (target === 'string?' || isReference(target))) ||
+      (isReference(type) && nonNullable(type) === nonNullable(target));
   }
   function implicitField(name, token) {
     const receiver = lookup('this');
@@ -505,6 +533,15 @@ function validateTypes(statements) {
       return 'int';
     }
     const definition = classFor(owner);
+    const collection = collectionFor(owner);
+    if (collection) {
+      const signature = collectionSignature(collection, node.name);
+      if (!signature) throw new CSharpError('طريقة ' + node.name + ' غير مدعومة لهذه المجموعة.', node.token, 'name');
+      verifyArguments(node, signature.argumentTypes.map((type, index) => ({type, name:String(index + 1)})));
+      if (signature.resultType === 'void' && !allowVoid) throw new CSharpError('استدعِ هذه الطريقة في أمر مستقل.', node.token, 'type');
+      node.kind = 'collection-method';
+      return signature.resultType;
+    }
     const method = owner ? definition?.methods.get(node.name) : !insideClass && !lookup(node.name) && functions.get(node.name);
     if (!method) throw new CSharpError('الدالة «' + node.name + '» غير معرّفة هنا.', node.token, 'name');
     verifyArguments(node, method.parameters, definition, owner);
@@ -529,11 +566,18 @@ function validateTypes(statements) {
     }
     if (node.kind === 'read-line') return 'string?';
     if (node.kind === 'call' || node.kind === 'member-call') return inferCall(node);
+    if (node.kind === 'array-search') {
+      if (node.args.length !== 2 || infer(node.args[0]) !== 'int[]' || infer(node.args[1]) !== 'int') {
+        throw new CSharpError('مرّر مصفوفة int[] وقيمة int إلى Array.IndexOf في هذا المسار.', node.token, 'type');
+      }
+      return 'int';
+    }
     if (node.kind === 'new-object') {
       const definition = classFor(node.type);
-      if (!definition || node.type.endsWith('?')) throw new CSharpError('استخدم new متبوعة باسم صنف صالح للإنشاء.', node.token, 'type');
-      node.name = definition.name;
-      verifyArguments(node, definition.creator?.parameters ?? [], definition, node.type);
+      const collection = collectionFor(node.type);
+      if ((!definition && !collection) || node.type.endsWith('?')) throw new CSharpError('استخدم new متبوعة باسم صنف صالح للإنشاء.', node.token, 'type');
+      node.name = definition?.name ?? collection.name;
+      verifyArguments(node, definition?.creator?.parameters ?? [], definition, node.type);
       return node.type;
     }
     if (node.kind === 'array') {
@@ -566,6 +610,10 @@ function validateTypes(statements) {
         node.kind = 'length';
         return 'int';
       }
+      if (node.name === 'Count' && collectionFor(type)) {
+        node.kind = 'collection-count';
+        return 'int';
+      }
       const definition = classFor(type), field = definition?.fields.get(node.name);
       if (!definition && node.name === 'Length') throw new CSharpError('استخدم Length مع نص أو مصفوفة.', node.token, 'type');
       if (!field) throw new CSharpError('الحقل «' + node.name + '» غير معرّف للنوع ' + type + '.', node.token, 'name');
@@ -573,6 +621,13 @@ function validateTypes(statements) {
     }
     if (node.kind === 'index') {
       const type = infer(node.expression);
+      const collection = collectionFor(type);
+      if (collection) {
+        if (!collection.index || node.indices.length !== 1 || infer(node.indices[0]) !== collection.index[0]) {
+          throw new CSharpError('راجع نوع الفهرس أو المفتاح المسموح لهذه المجموعة.', node.token, 'type');
+        }
+        return collection.index[1];
+      }
       const rank = arrayRank(type);
       if (node.indices.length !== (rank || Number(TEXT_TYPES.has(type) && type !== 'null'))) {
         throw new CSharpError('استخدم فهرسًا واحدًا للنص أو المصفوفة الخطية، وفهرسي الصف والعمود للمصفوفة الثنائية.', node.token, 'type');
@@ -607,7 +662,7 @@ function validateTypes(statements) {
     const numericType = promoteNumbers(left, right);
     if (COMPARISONS.has(node.op)) {
       const compatible = left === right || (TEXT_TYPES.has(left) && TEXT_TYPES.has(right)) ||
-        (classFor(left) && canAssign(right, left)) || (classFor(right) && canAssign(left, right));
+        (isReference(left) && canAssign(right, left)) || (isReference(right) && canAssign(left, right));
       const sameTypeEquality = (node.op === '==' || node.op === '!=') && compatible;
       if (!numericType && !sameTypeEquality) throw new CSharpError('قارن قيمتين عدديتين متوافقتين أو قارن قيمتين من النوع نفسه باستخدام == أو !=.', node.token, 'type');
       return 'bool';
@@ -640,7 +695,10 @@ function validateTypes(statements) {
   function visitLoop(s) {
     if (s.kind === 'foreach') {
       const {name, token, type} = s.iterator;
-      if (infer(s.collection) !== type + '[]') throw new CSharpError('اختَر مصفوفة من النوع ' + type + '[] مع متغير foreach.', s.collection.token, 'type');
+      const collection = infer(s.collection);
+      if (collection !== type + '[]' && collectionFor(collection)?.iteratorType !== type) {
+        throw new CSharpError('اختر عناصر من النوع ' + type + ' في المصفوفة أو المجموعة.', s.collection.token, 'type');
+      }
       enterScope([[name, token]]);
       const scope = scopes.at(-1);
       scope.available.set(name, type);
@@ -787,6 +845,7 @@ function display(value, type) {
 
 const ARRAY_TYPES = {int:'Int32', double:'Double', decimal:'Decimal', bool:'Boolean', char:'Char', string:'String', 'string?':'String'};
 const isObject = value => value?.fields instanceof Map;
+const runtimeError = token => (message, code = 'runtime') => { throw new CSharpError(message, token, code); };
 
 function clrName(type) {
   if (arrayRank(type)) {
@@ -795,6 +854,8 @@ function clrName(type) {
   }
   const name = className(type);
   if (Object.hasOwn(ARRAY_TYPES, name)) return 'System.' + ARRAY_TYPES[name];
+  const collection = describeCollection(type);
+  if (collection) return 'System.Collections.Generic.' + name + '\x60' + collection.args.length + '[' + collection.args.map(clrName).join(',') + ']';
   const argument = nonNullable(type).slice(name.length + 1, -1);
   return argument ? name + '\x601[' + clrName(argument) + ']' : name;
 }
@@ -928,6 +989,7 @@ function evaluateExpression(root, variables, {source, readLine, invokeCall, crea
   const consumed = [];
   const accesses = [];
   const fields = [];
+  const collectionOps = [];
   let comparison = null, calculation = null, binding = null;
   const operand = (node, value) => ({ source: source.slice(node.start, node.end), value });
   const format = (node, value) => {
@@ -938,6 +1000,20 @@ function evaluateExpression(root, variables, {source, readLine, invokeCall, crea
   function evaluate(node) {
     if (node.kind === 'literal') return node.value;
     if (node.kind === 'call') return invokeCall(node, node.args.map(evaluate));
+    if (node.kind === 'array-search') {
+      const [items, wanted] = node.args.map(evaluate);
+      if (items === null) throw new CSharpError('مرّر مصفوفة موجودة للبحث.', node.token, 'runtime');
+      return items.indexOf(wanted);
+    }
+    if (node.kind === 'collection-count' || node.kind === 'collection-method') {
+      const collection = evaluate(node.expression);
+      const args = node.args?.map(evaluate) ?? [];
+      if (collection === null) throw new CSharpError('المرجع null. افحصه قبل استعمال المجموعة.', node.token, 'runtime');
+      if (node.kind === 'collection-count') return collectionCount(collection.collection);
+      const {value, previousCount, count} = applyCollectionMethod(collection.collection, node.name, args, LIMITS.array, runtimeError(node.token));
+      collectionOps.push({id:collection.id, method:node.name, previousCount, count, value});
+      return value;
+    }
     if (node.kind === 'member-call') {
       const receiver = evaluate(node.expression);
       const args = node.args.map(evaluate);
@@ -968,8 +1044,13 @@ function evaluateExpression(root, variables, {source, readLine, invokeCall, crea
     if (node.kind === 'index') {
       const address = {receiver:evaluate(node.expression), indices:node.indices.map(evaluate), node};
       if (addressOnly && node === root) return address;
-      const {items, index} = locateElement(address);
-      const value = items[index];
+      let value;
+      if (address.receiver?.collection) {
+        value = readCollectionIndex(address.receiver.collection, address.indices[0], runtimeError(node.token));
+      } else {
+        const {items, index} = locateElement(address);
+        value = items[index];
+      }
       accesses.push(elementAccess(address, value, 'read'));
       return value;
     }
@@ -1058,7 +1139,7 @@ function evaluateExpression(root, variables, {source, readLine, invokeCall, crea
   const value = root ? evaluate(root) : '';
   return { value, reads: [...names], comparison, logic, ...(calculation && { calculation }),
     ...(consumed.length && { inputReads: consumed }), ...(binding && { binding }),
-    ...(accesses.length && {accesses}), ...(fields.length && {fields}) };
+    ...(accesses.length && {accesses}), ...(fields.length && {fields}), ...(collectionOps.length && {collectionOps}) };
 }
 
 function allStatements(statements) {
@@ -1092,7 +1173,9 @@ function exposedObjects(variables) {
   const reached = new Map();
   function visit(value) {
     if (!isObject(value) || reached.has(value.id)) return;
-    reached.set(value.id, {id:value.id, type:value.type, fields:exposedVariables(value.fields)});
+    const snapshot = {id:value.id, type:value.type, fields:exposedVariables(value.fields)};
+    if (value.collection) snapshot.collection = {kind:value.collection.name, count:collectionCount(value.collection), items:collectionSnapshot(value.collection)};
+    reached.set(value.id, snapshot);
     for (const field of value.fields.values()) visit(field.value);
   }
   for (const variable of variables.values()) visit(variable.value);
@@ -1197,6 +1280,10 @@ export function runProgram(source,inputs={},stdin='') {
     const type = concreteType(node.type);
     const definition = classes.get(className(type));
     const object = {id:++allocatedObjects, type, fields:new Map()};
+    if (!definition) {
+      object.collection = makeCollection(describeCollection(type));
+      return object;
+    }
     for (const field of definition.fields.values()) {
       const fieldType = closedType(field.type, definition, type);
       const value = field.expression
@@ -1260,12 +1347,19 @@ export function runProgram(source,inputs={},stdin='') {
     try {
       if (s.initializer) execute(s.initializer, s.token.line);
       const collection = s.collection && evaluate(s.collection);
+      if (collection?.value === null) throw new CSharpError('افحص المرجع قبل المرور على عناصره.', s.token, 'runtime');
+      const versioned = collection?.value?.collection;
+      const items = versioned ? collectionIteration(versioned) : collection?.value;
+      const revision = versioned?.revision;
       for (;;) {
+        if (versioned && versioned.revision !== revision) {
+          throw new CSharpError('تغيّرت المجموعة أثناء foreach. أكمل المرور قبل تعديلها.', s.token, 'runtime');
+        }
         for (const line of skipped) {
           if (line >= s.body.token.line && line <= s.body.end.line) skipped.delete(line);
         }
         const evaluation = collection
-          ? {value:frame.iteration < collection.value.length, reads:collection.reads}
+          ? {value:frame.iteration < items.length, reads:collection.reads}
           : s.condition ? evaluate(s.condition) : {value:true, reads:[]};
         frame.control = new Set(evaluation.reads);
         const passed = evaluation.value;
@@ -1283,7 +1377,7 @@ export function runProgram(source,inputs={},stdin='') {
         if (collection) {
           const {name, type} = s.iterator;
           const index = frame.iteration - 1;
-          const value = collection.value[index];
+          const value = items[index];
           scope.set(name, {type, value});
           snapshot(s, {
             kind:'loop-bind', loopPhase:'bind', source:s.header, name, nextLine:firstLine(s.body),
@@ -1384,11 +1478,17 @@ export function runProgram(source,inputs={},stdin='') {
     if (s.kind === 'assign-index') {
       const target = evaluate(s.target, true);
       const evaluation = evaluate(s.expression);
-      const {items, index} = locateElement(target.value);
-      const previous = items[index];
-      const type = s.target.valueType;
-      const value = convertNumber(evaluation.value, s.expression.valueType, type, s.token);
-      items[index] = value;
+      const address = target.value;
+      const type = concreteType(s.target.valueType);
+      const value = convertNumber(evaluation.value, concreteType(s.expression.valueType), type, s.token);
+      let previous;
+      if (address.receiver?.collection) {
+        previous = writeCollectionIndex(address.receiver.collection, address.indices[0], value, LIMITS.array, runtimeError(s.token));
+      } else {
+        const {items, index} = locateElement(address);
+        previous = items[index];
+        items[index] = value;
+      }
       const write = elementAccess(target.value, value, 'write', previous);
       const inputReads = [...(target.inputReads || []), ...(evaluation.inputReads || [])];
       snapshot(s, {...evaluation, name:s.name, nextLine, value:write.value, previous:write.previous,
@@ -1436,7 +1536,9 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   for(const name of challenge.updated||[])if(!statements.some(s=>s.kind==='assign'&&s.name===name))return fail('المطلوب تحديث المتغير «'+name+'» بعد تعريفه.');
   for(const[name,expected]of Object.entries(challenge.values||{}))if(result.variables[name]?.value!==expected)return fail('راجع القيمة النهائية للمتغير «'+name+'».');
   for (const [name, count] of Object.entries(challenge.calls || {})) {
-    if (result.trace.filter(step => step.kind === 'call' && step.call.name === name).length < count) {
+    const reached = result.trace.reduce((total, step) => total + Number(step.kind === 'call' && step.call.name === name) +
+      (step.collectionOps?.filter(operation => operation.method === name).length ?? 0), 0);
+    if (reached < count) {
       return fail('استدعِ الدالة «' + name + '» في المهمة المطلوبة.');
     }
   }

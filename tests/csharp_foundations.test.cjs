@@ -10,6 +10,28 @@ const runtime = import(pathToFileURL(path.join(root, "csharp-runtime.js")));
 const progress = import(pathToFileURL(path.join(root, "csharp-progress.js")));
 const memoryStorage = () => { const entries = new Map(); return { getItem: k => entries.get(k) || null, setItem: (k, v) => entries.set(k, v) }; };
 
+test("Library collections preserve order, counts and immutable snapshots", async () => {
+  const {runProgram} = await runtime;
+  const result = runProgram('using System.Collections.Generic; Queue<int> q=new Queue<int>(); Stack<int> s=new Stack<int>(); q.Enqueue(8); q.Enqueue(4); s.Push(8); s.Push(4); Console.WriteLine(q.Dequeue()); Console.WriteLine(s.Pop()); Console.WriteLine(q.Count);');
+  assert.equal(result.output, "8\n4\n1\n");
+  const removal = result.trace.find(step => step.collectionOps?.[0].method === "Dequeue");
+  assert.deepEqual(removal.collectionOps[0], {id:1,method:"Dequeue",previousCount:2,count:1,value:8});
+  assert.deepEqual(removal.objects[0].collection.items, [4]);
+  const before = result.trace.filter(step => step.collectionOps?.[0].method === "Enqueue").at(-1);
+  assert.deepEqual(before.objects[0].collection.items, [8,4]);
+});
+
+test("Collection keys, membership, indices and enumeration are checked", async () => {
+  const {runProgram} = await runtime;
+  const result = runProgram('Dictionary<string,int> stock=new Dictionary<string,int>(); stock.Add("أ",3); stock["أ"]=9;stock["ب"]=4;HashSet<int> ids=new HashSet<int>(); Console.WriteLine(stock["أ"]); Console.WriteLine(stock.Count); Console.WriteLine(ids.Add(5)); Console.WriteLine(ids.Add(5));');
+  assert.equal(result.output, "9\n2\nTrue\nFalse\n");
+  assert.throws(() => runProgram('Dictionary<int,int> d=new Dictionary<int,int>();d.Add(7,0);d.Add(7,1);'), {code:"runtime"});
+  assert.throws(() => runProgram('Dictionary<int,int> d=new Dictionary<int,int>();Console.WriteLine(d[0]);'), {code:"runtime"});
+  assert.throws(() => runProgram('Stack<int> s=new Stack<int>();Console.WriteLine(s.Pop());'), {code:"runtime"});
+  assert.throws(() => runProgram('List<int> a=new List<int>();a.Add(2);foreach(int x in a){a[0]=4;}'), {code:"runtime"});
+  assert.throws(() => runProgram('Queue<int> q=new Queue<int>();q.Enqueue("wrong");'), {code:"type"});
+});
+
 test("Object snapshots show a shared instance, a distinct instance and the previous field value", async () => {
   const {runProgram} = await runtime;
   const result = runProgram('Counter original=new Counter(3);Counter other=original;Counter separate=new Counter(7);other.Set(9);Console.WriteLine(original.Points);Console.WriteLine(separate.Points);class Counter {public int Points;public Counter(int n){Points=n;} public void Set(int newValue){this.Points=newValue;}}');
