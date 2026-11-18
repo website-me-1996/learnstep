@@ -20,6 +20,6 @@ try {
     const result=JSON.parse(await fs.readFile(report,'utf8'));
     await fs.copyFile(report,path.join(root,'docs/csharp/native-verification.json'));
     console.log(`Native .NET compiler: ${result.passed} passed, ${result.failed} failed; ${Object.keys(expected).length} curriculum solutions compared with the teaching trace.`);
-    console.log('Browser WebAssembly loading, CSP, and real worker cancellation are separate pending checks.');
+    console.log('WebAssembly loading, CSP, and worker cancellation require separate browser checks.');
   }
 } finally {await fs.rm(temp,{recursive:true,force:true});}

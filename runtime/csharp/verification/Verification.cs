@@ -69,6 +69,7 @@ public static class Verification
         await Check("readline-qualified", "System.Console.WriteLine(global::System.Console.ReadLine());", "qualified\n", "qualified");
         await Check("readline-custom-console", "Console.WriteLine(Console.ReadLine());class Console{public static string ReadLine()=>\"custom\";public static void WriteLine(string s)=>System.Console.WriteLine(s);}", "custom\n");
         await Check("async", "await Task.Delay(1);Console.WriteLine(\"async\");", "async\n");
+        await Check("async-explicit-main", "class Program { private static async Task<int> Main() { await Task.Delay(1); Console.WriteLine(\"done\"); return 0; } }", "done\n");
         await Check("reflection", "Console.WriteLine(typeof(int).FullName);", "System.Int32\n");
         await Check("stderr-order", "Console.Write(\"out\");Console.Error.WriteLine(\"err\");", "outerr\n");
         await Check("compiler-line", "// first\nint value=\"text\";", validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("diagnostics").EnumerateArray().Any(d=>d.GetProperty("id").GetString()=="CS0029"&&d.GetProperty("line").GetInt32()==2));
@@ -88,7 +89,7 @@ public static class Verification
         await Check("recovery", "Console.WriteLine(\"again\");", "again\n");
         var json=JsonSerializer.SerializeToElement(Results);
         var passed=json.EnumerateArray().Count(r=>r.GetProperty("passed").GetBoolean());
-        var report=JsonSerializer.Serialize(new {runtime="native-dotnet",scope="Shared CompilerBridge; browser worker NOT verified",passed,failed=Results.Count-passed,results=Results},new JsonSerializerOptions{WriteIndented=true});
+        var report=JsonSerializer.Serialize(new {runtime="native-dotnet",scope="Shared CompilerBridge on native .NET",passed,failed=Results.Count-passed,results=Results},new JsonSerializerOptions{WriteIndented=true});
         if(args.Length>1)await File.WriteAllTextAsync(args[1],report+"\n");
         Console.WriteLine(report);
         return passed==Results.Count?0:1;

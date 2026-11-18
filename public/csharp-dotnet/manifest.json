@@ -172,8 +172,8 @@
     "mscorlib.dll",
     "netstandard.dll"
   ],
-  "rawBytes": 47714636,
-  "gzipBytes": 17701172,
+  "rawBytes": 47714918,
+  "gzipBytes": 17701486,
   "files": [
     {
       "file": "DOTNET-LICENSE.txt",
@@ -398,10 +398,10 @@
       "sha256": "baeae5589326de8f4a21ab467c1774d0c98008f277e6244721df16901f609a04"
     },
     {
-      "file": "_framework/StepLearn.CSharp.1vhi4uhdgf.wasm",
+      "file": "_framework/StepLearn.CSharp.x2k7esbdcx.wasm",
       "bytes": 29461,
-      "gzipBytes": 13435,
-      "sha256": "13c9f7f126564c669deb78328b2ebe1a61dfeaffee7a0d932836a6d0fcb59332"
+      "gzipBytes": 13651,
+      "sha256": "97f04a33e067008884a51333d7be21fae56013caab9db327024813bde3b7ab79"
     },
     {
       "file": "_framework/System.AppContext.2dp0f0ejq7.wasm",
@@ -1426,8 +1426,8 @@
     {
       "file": "_framework/dotnet.js",
       "bytes": 95193,
-      "gzipBytes": 25781,
-      "sha256": "5c897e6156f119ae6a2ac4f0828e41385bbb7469453b3787ede12dfa465f50c6"
+      "gzipBytes": 25779,
+      "sha256": "0fd6dec956b51f38514b277e5634b856a6cc4e14ee07bfd21a489fb8338fcea1"
     },
     {
       "file": "_framework/dotnet.native.3bptkeu1pi.wasm",
@@ -2601,9 +2601,9 @@
     },
     {
       "file": "worker.js",
-      "bytes": 2685,
-      "gzipBytes": 1210,
-      "sha256": "d7f423a6338255addd875c54c57178f743d364411b88a108fc82418efdce5278"
+      "bytes": 2967,
+      "gzipBytes": 1310,
+      "sha256": "8619c3ea6f576eacb3e527793ffd0f39bbf121b9d45adbfe4c6a326066bad13a"
     }
   ]
 }

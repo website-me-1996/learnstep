@@ -31,8 +31,14 @@ public static partial class CompilerBridge
         var tree = CSharpSyntaxTree.ParseText(request.Source, options, "Program.cs", Encoding.UTF8);
         // Same implicit imports as the standard console template. User line numbers stay unchanged.
         var imports = CSharpSyntaxTree.ParseText("global using System; global using System.Collections.Generic; global using System.Linq; global using System.Threading.Tasks;", options, "GlobalUsings.g.cs");
-        var compilation = CSharpCompilation.Create("Student_" + Guid.NewGuid().ToString("N"), [tree, imports], References,
-            new CSharpCompilationOptions(OutputKind.ConsoleApplication, optimizationLevel: OptimizationLevel.Debug, allowUnsafe: false, nullableContextOptions: NullableContextOptions.Enable));
+        var compilationOptions = new CSharpCompilationOptions(
+            OutputKind.ConsoleApplication,
+            optimizationLevel: OptimizationLevel.Debug,
+            allowUnsafe: false,
+            // The browser runtime runs without managed threads.
+            concurrentBuild: false,
+            nullableContextOptions: NullableContextOptions.Enable);
+        var compilation = CSharpCompilation.Create("Student_" + Guid.NewGuid().ToString("N"), [tree, imports], References, compilationOptions);
         // Report against the original source before input adaptation, preserving
         // both line and column even when several statements share one line.
         var originalDiagnostics = compilation.GetDiagnostics();
@@ -58,7 +64,20 @@ public static partial class CompilerBridge
             Console.SetOut(output); Console.SetError(output);
             var assembly = Assembly.Load(image.ToArray());
             var entry = assembly.EntryPoint!;
-            var result = entry.Invoke(null, entry.GetParameters().Length == 0 ? null : new object[] { Array.Empty<string>() });
+            var sourceEntry = compilation.GetEntryPoint(default)!;
+            Type[] parameterTypes = sourceEntry.Parameters.Length == 0 ? Type.EmptyTypes : [typeof(string[])];
+            // Async entry points also have a synchronous CLR wrapper. Invoke the
+            // source entry point so this single-threaded worker can await its Task.
+            if (entry.Name != sourceEntry.MetadataName)
+            {
+                entry = entry.DeclaringType!.GetMethod(
+                    sourceEntry.MetadataName,
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
+                    binder: null,
+                    types: parameterTypes,
+                    modifiers: null)!;
+            }
+            var result = entry.Invoke(null, parameterTypes.Length == 0 ? null : new object[] { Array.Empty<string>() });
             if (result is Task pending) await pending;
             return JsonSerializer.Serialize(new { ok = true, kind = "success", output = output.ToString(), diagnostics });
         }

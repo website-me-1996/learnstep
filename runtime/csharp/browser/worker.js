@@ -5,6 +5,7 @@ export async function start(files, references) {
     self.postMessage({type:'status',message:'جاري تجهيز مترجم C# داخل المتصفح…'});
     const assets = new Map(files.map(file => [file.file, file.bytes]));
     const urls = new Map();
+    const resourceLabel = name => 'https://runtime.invalid/' + name;
     const moduleURL = file => {
       if(!assets.has(file)) throw new Error('ملف تشغيل مفقود: '+file);
       if(!urls.has(file)) urls.set(file,URL.createObjectURL(new Blob([assets.get(file)],{type:'text/javascript'})));
@@ -12,13 +13,16 @@ export async function start(files, references) {
     };
     const {dotnet} = await import(moduleURL('_framework/dotnet.js'));
     const runtime = await dotnet.withDiagnosticTracing(false)
+      // Emscripten needs an absolute label because a blob URL has no relative base.
+      // The runtime loads the bytes through the resource loader and CSP blocks fetches.
+      .withModuleConfig({locateFile: resourceLabel})
       .withOnConfigLoaded(config => {
         // Blob modules have no relative HTTP base. All resources are supplied
         // below by exact filename; these URLs are labels, never fetched.
         const visit = value => {
           if(Array.isArray(value)) value.forEach(visit);
           else if(value && typeof value === 'object') {
-            if(value.name) value.resolvedUrl = value.name.endsWith('.js') ? moduleURL('_framework/'+value.name) : 'https://runtime.invalid/' + value.name;
+            if(value.name) value.resolvedUrl = value.name.endsWith('.js') ? moduleURL('_framework/'+value.name) : resourceLabel(value.name);
             else Object.values(value).forEach(visit);
           }
         };

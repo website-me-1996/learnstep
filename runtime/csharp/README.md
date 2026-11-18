@@ -1,4 +1,4 @@
-# C#/.NET browser compiler — P2 checkpoint
+# C#/.NET browser compiler
 
 **Status:** implemented experimentally; browser acceptance is pending. Native compiler tests are passing, but they do not prove WebAssembly startup, CSP enforcement, or actual worker cancellation. Read `docs/csharp/PROGRESS.md` before continuing.
 
@@ -19,7 +19,7 @@ npm run build
 
 The native check links the exact `Program.cs` used by WebAssembly and compares lesson solutions and alternate inputs with the educational interpreter, and checks compiler/runtime diagnostics. Its report is `docs/csharp/native-verification.json`. The standard Node suite additionally verifies message filtering, cancellation/recovery state, asset integrity, and learner input persistence.
 
-`tests/browser/csharp-dotnet.html` is a manual browser QA page in the development checkout. It is excluded from the production build. Run it in a permitted browser environment, using the project's normal preview. It checks real .NET output, language features, inputs, errors, output limits, manual and timeout cancellation, recovery, and opaque origin. The current cloud preview's URL policy blocked continued blob-context testing; do not bypass that restriction or mark browser QA successful from a native report.
+`tests/browser/csharp-dotnet.html` is a browser QA page in the development checkout. Use `npm run dev` and open the page in a browser that supports the isolated worker. The focused check covers startup, examples from every unit, language features, errors, output limits, blocked network access, isolation from page data, cancellation, and recovery. The full check also compares every solution and alternate input in the curriculum.
 
 ## Teaching interpreter
 
@@ -34,7 +34,7 @@ Unit 8 traces local function calls, typed arguments, and returns to the caller. 
 - Code and pre-supplied input travel by checked parent/frame messages; no source is sent to a server. Nonces, event sources, and request IDs reject unrelated replies. Results and diagnostics use text content in the UI.
 - Stop/timeout removes the owning iframe; another request can create a fresh one. The client periodically removes the iframe after 12 runs to reclaim dynamically loaded assemblies.
 
-These are implemented controls; their end-to-end browser behavior remains an acceptance item. This is a learner-side experiment, not a server sandbox or a general hostile-code evaluation service.
+The browser harness verified these controls in Chrome. See `docs/csharp/PROGRESS.md` for the acceptance results. Execution stays in the learner’s browser.
 
 ## Limits and semantics
 
@@ -60,7 +60,7 @@ Versions are recorded in the project and generated asset manifest. Upstream lice
 
 The interpreter now covers initialized `int`, `string`, and `bool` variables, arithmetic, comparisons, `!`, `&&`, `||`, and conditional branches. It checks both operand types before execution. The trace records which operands actually ran and distinguishes a skipped operand from a result of `false`. An `else if` chain records each condition it reaches and stops at the first match.
 
-Block-local variables leave scope at the closing brace. Updates to outer variables persist. Earlier snapshots preserve the values, comparisons, skipped lines, and logical evaluations from that step. String concatenation is capped at 16,000 characters. The optional WebAssembly engine awaits separate browser verification.
+Block-local variables leave scope at the closing brace. Updates to outer variables persist. Earlier snapshots preserve the values, comparisons, skipped lines, and logical evaluations from that step. String concatenation is capped at 16,000 characters. The editor also offers the experimental WebAssembly engine for actual .NET output.
 
 Unit 4 adds `double` and `decimal`, explicit integer conversions, `string.Length`, and calculation snapshots. The division snapshot shows the expression's type separately from the receiving variable's type. The teaching engine uses exact bounded decimal arithmetic for addition, subtraction, multiplication, comparison, and remainder. Decimal division, calculations that require rounding beyond that representation, and casts between `double` and `decimal` can be tried with .NET.
 

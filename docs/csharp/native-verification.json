@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
-  "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 2379,
+  "scope": "Shared CompilerBridge on native .NET",
+  "passed": 2380,
   "failed": 0,
   "results": [
     {
@@ -11816,6 +11816,11 @@
     },
     {
       "name": "async",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "async-explicit-main",
       "passed": true,
       "message": null
     },
