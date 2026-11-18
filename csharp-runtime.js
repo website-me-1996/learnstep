@@ -1,9 +1,9 @@
 // Bounded teaching interpreter for the authored C# lessons, not Roslyn/.NET.
 // No eval, Function constructor, network execution, or string-to-JS translation.
-const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64, calls:24 };
+const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64, calls:24, objects:64, fields:16 };
 const NUMERIC_TYPES = new Set(['int', 'double', 'decimal']);
 const TYPES = new Set([...NUMERIC_TYPES, 'string', 'bool', 'char']);
-const TEXT_TYPES = new Set(['string', 'string?']);
+const TEXT_TYPES = new Set(['string', 'string?', 'null']);
 const LOOP_KINDS = new Set(['while', 'for', 'foreach']);
 const INCREMENTS = new Set(['++', '--']);
 const ASSIGNMENTS = new Set(['=', '+=', '-=', '*=', '/=', '%=']);
@@ -62,7 +62,13 @@ function lex(source) {
 }
 export function parseProgram(source) {
   const text=String(source).replace(/\r\n?/g,'\n'),tokens=lex(text);
-  let cursor=0,depth=0,nesting=0,count=0;
+  const classNames = new Map();
+  for (const [index, token] of tokens.entries()) {
+    if (token.kind === 'identifier' && token.value === 'class' && tokens[index + 1]?.kind === 'identifier') {
+      classNames.set(tokens[index + 1].value, tokens[index + 2]?.kind === '<');
+    }
+  }
+  let cursor=0,depth=0,nesting=0,count=0,genericParameter=null;
   const peek=()=>tokens[Math.min(cursor,tokens.length-1)];
   const take=()=>{const t=peek();if(t.kind!=='eof')cursor++;return t;};
   function expect(kind,value) {
@@ -77,14 +83,21 @@ export function parseProgram(source) {
     }
     return name;
   }
-  function typeName(allowVoid = false) {
+  const isType = name => TYPES.has(name) || classNames.has(name) || name === genericParameter;
+  function typeName(allowVoid = false, allowArray = true, typeDepth = 0) {
     const token = expect('identifier');
-    if (!TYPES.has(token.value) && !(allowVoid && token.value === 'void')) {
+    if (!isType(token.value) && !(allowVoid && token.value === 'void')) {
       throw new CSharpError('اختَر نوعًا مدعومًا مثل int أو string.', token, 'type');
     }
+    if (typeDepth >= LIMITS.depth) throw new CSharpError('قلّل الأنواع العامة المتداخلة.', token, 'limit');
     let type = token.value;
-    if (type === 'string' && peek().kind === '?') type += take().value;
-    if (type !== 'void' && peek().kind === '[') {
+    if (classNames.get(type)) {
+      expect('<');
+      type += '<' + typeName(false, true, typeDepth + 1) + '>';
+      expect('>');
+    }
+    if ((type === 'string' || classNames.has(token.value)) && peek().kind === '?') type += take().value;
+    if (allowArray && TYPES.has(token.value) && peek().kind === '[') {
       take();
       const rank = peek().kind === ',' ? take().value : '';
       expect(']');
@@ -92,25 +105,68 @@ export function parseProgram(source) {
     }
     return type;
   }
+  function callable(kind, name, type, token) {
+    expect('(');
+    const parameters = [];
+    while (peek().kind !== ')') {
+      const type = typeName(), parameter = nameToken();
+      parameters.push({type, name:parameter.value, token:parameter});
+      if (peek().kind !== ',') break;
+      take();
+      if (peek().kind === ')') throw new CSharpError('أضف معاملًا بعد الفاصلة أو احذفها.', peek());
+    }
+    const close = expect(')');
+    if (peek().kind !== '{') throw new CSharpError('اكتب جسم الدالة بين { و }.', peek());
+    const body = statement();
+    return {kind, name, type, parameters, token, header:text.slice(token.start, close.end), body, end:body.end};
+  }
+  function classDefinition() {
+    if (peek().value === 'public') take();
+    const token = expect('identifier', 'class');
+    const name = nameToken().value;
+    if (peek().kind === '<') {
+      take();
+      genericParameter = nameToken().value;
+      expect('>');
+    }
+    expect('{');
+    const fields = new Map(), methods = new Map();
+    let creator = null;
+    while (peek().kind !== '}') {
+      const member = expect('identifier', 'public');
+      if (peek().value === name && tokens[cursor + 1]?.kind === '(') {
+        take();
+        if (creator) throw new CSharpError('استخدم منشئًا واحدًا في هذا المثال.', member, 'unsupported');
+        creator = callable('constructor', name, 'void', member);
+        continue;
+      }
+      const type = typeName(true);
+      const field = nameToken();
+      if (fields.has(field.value) || methods.has(field.value) || field.value === name) {
+        throw new CSharpError('اختَر اسمًا مختلفًا لكل عضو في الصنف.', field, 'name');
+      }
+      if (peek().kind === '(') {
+        methods.set(field.value, callable('method', field.value, type, member));
+      } else {
+        if (type === 'void') throw new CSharpError('ضع نوع قيمة للحقل.', field, 'type');
+        if (fields.size >= LIMITS.fields) throw new CSharpError('اختصر الحقول في الصنف التعليمي.', field, 'limit');
+        const initializer = peek().kind === '=' ? (take(), expression()) : null;
+        expect(';');
+        fields.set(field.value, {name:field.value, type, expression:initializer, token:field});
+      }
+    }
+    const end = expect('}');
+    const parameter = genericParameter;
+    genericParameter = null;
+    return {kind:'class', name, parameter, fields, methods, creator, token, end};
+  }
   function declaration(allowFunction = false) {
     const token = peek();
     const type = typeName(allowFunction);
     const name = nameToken().value;
     if (peek().kind === '(') {
       if (!allowFunction) throw new CSharpError('عرّف الدالة في مستوى البرنامج خارج جسم الحلقة أو الشرط.', token, 'unsupported');
-      take();
-      const parameters = [];
-      if (peek().kind !== ')') {
-        do {
-          const type = typeName(), parameter = nameToken();
-          parameters.push({type, name:parameter.value, token:parameter});
-          if (peek().kind !== ',') break;
-          take();
-        } while (true);
-      }
-      const close = expect(')');
-      if (peek().kind !== '{') throw new CSharpError('اكتب جسم الدالة بين { و }.', peek());
-      return {kind:'function', name, type, parameters, token, header:text.slice(token.start, close.end), body:statement()};
+      return callable('function', name, type, token);
     }
     if (type === 'void') throw new CSharpError('استخدم void في تعريف دالة لا تعيد قيمة.', token, 'type');
     expect('=');
@@ -164,16 +220,36 @@ export function parseProgram(source) {
     const close = expect(')');
     return {kind:'call', name:token.value, op:token.value, args, token, start:token.start, end:close.end};
   }
+  function postfix(node) {
+    while (peek().kind === '.' || peek().kind === '[') {
+      if (peek().kind === '[') {
+        node = indexAccess(node);
+        continue;
+      }
+      take();
+      const member = nameToken();
+      if (peek().kind === '(') {
+        const invocation = call(member);
+        node = {...invocation, kind:'member-call', expression:node, start:node.start};
+      } else {
+        node = {kind:'member', name:member.value, op:'.' + member.value, expression:node,
+          token:member, start:node.start, end:member.end};
+      }
+    }
+    return node;
+  }
   function assignment() {
     const start = peek();
     const prefix = INCREMENTS.has(start.kind);
     const operator = prefix ? take() : null;
-    const name = nameToken();
-    if (peek().kind === '[') {
-      const target = indexAccess({kind:'variable', name:name.value, token:name, start:name.start, end:name.end});
-      if (prefix || peek().kind !== '=') throw new CSharpError('استخدم إسنادًا بسيطًا مثل values[i] = amount لتحديث خانة.', peek(), 'unsupported');
+    const name = peek().value === 'this' ? take() : nameToken();
+    const variable = {kind:'variable', name:name.value, token:name, start:name.start, end:name.end};
+    const target = postfix(variable);
+    if (target.kind === 'member-call' && !prefix) return {kind:'invoke', expression:target, token:start};
+    if (target.kind === 'index' || target.kind === 'member') {
+      if (prefix || peek().kind !== '=') throw new CSharpError('استخدم = لإسناد قيمة إلى خانة أو حقل.', peek(), 'unsupported');
       take();
-      return {kind:'assign-index', name:name.value, target, expression:expression(), token:start};
+      return {kind:target.kind === 'index' ? 'assign-index' : 'assign-member', name:name.value, target, expression:expression(), token:start};
     }
     const op = operator || take();
     if (!ASSIGNMENTS.has(op.kind) && !INCREMENTS.has(op.kind)) {
@@ -185,14 +261,14 @@ export function parseProgram(source) {
       : expression();
     const rhs = op.kind === '=' ? right : {
       kind:'binary', op:op.kind[0], token:op,
-      left:{kind:'variable', name:name.value, token:name, start:name.start, end:name.end},
+      left:variable,
       right, start:start.start, end:tokens[cursor - 1].end
     };
     return {kind:'assign', name:name.value, update:op.kind, expression:rhs, token:start};
   }
   function forPart(part) {
     if (peek().kind === closeForPart[part]) return null;
-    const step = part === 'init' && TYPES.has(peek().value) ? declaration() : assignment();
+    const step = part === 'init' && isType(peek().value) ? declaration() : assignment();
     step.end = tokens[cursor - 1];
     step.source = text.slice(step.token.start, step.end.end);
     return step;
@@ -209,11 +285,16 @@ export function parseProgram(source) {
     }
     else if(t.kind==='string' || t.kind==='char')node={kind:'literal',type:t.kind,value:t.value,token:t};
     else if(t.value==='true'||t.value==='false')node={kind:'literal',type:'bool',value:t.value==='true',token:t};
-    else if (t.value === 'null') node = { kind:'literal', type:'string?', value:null, token:t };
+    else if (t.value === 'null') node = {kind:'literal', type:'null', value:null, token:t};
     else if (t.value === 'new') {
-      expect('identifier', 'int');
-      const indices = bracketExpressions();
-      node = {kind:'new-array', type:indices.length === 1 ? 'int[]' : 'int[,]', indices, token:t};
+      if (peek().value === 'int') {
+        take();
+        const indices = bracketExpressions();
+        node = {kind:'new-array', type:indices.length === 1 ? 'int[]' : 'int[,]', indices, token:t};
+      } else {
+        const type = typeName(false, false);
+        node = {...call(t), kind:'new-object', type, op:'new', token:t};
+      }
     }
     else if ((t.value === 'Console' || t.value === 'System') && peek().kind === '.') {
       expect('.');
@@ -232,7 +313,7 @@ export function parseProgram(source) {
       expect(')');
       node = { kind:'try-parse', op:'TryParse', expression:input, outName:output.value, token:method };
     }
-    else if(t.kind==='identifier'&&!RESERVED.has(t.value))node=peek().kind === '(' ? call(t) : {kind:'variable',name:t.value,token:t};
+    else if(t.kind==='identifier'&&(!RESERVED.has(t.value)||t.value==='this'))node=peek().kind === '(' ? call(t) : {kind:'variable',name:t.value,token:t};
     else if (INCREMENTS.has(t.kind)) throw new CSharpError('اكتب تحديث ++ أو -- كأمر مستقل أو في خانة التحديث داخل for.', t, 'unsupported');
     else if(t.kind==='-'||t.kind==='+'||t.kind==='!')node={kind:'unary',op:t.kind,expression:expression(30),token:t};
     else if (t.kind === '(') {
@@ -248,24 +329,7 @@ export function parseProgram(source) {
     else throw new CSharpError('اكتب قيمة أو اسم متغير في هذا الموضع.',t);
     node.start = t.start;
     node.end = tokens[cursor - 1].end;
-    while (peek().kind === '.' || peek().kind === '[') {
-      if (peek().kind === '[') {
-        node = indexAccess(node);
-        continue;
-      }
-      take();
-      const member = expect('identifier');
-      if (member.value === 'Length') {
-        node = {kind:'length', expression:node, token:member, op:'.Length', start:node.start, end:member.end};
-      } else if (member.value === 'GetLength') {
-        expect('(');
-        const axis = expression();
-        const close = expect(')');
-        node = {kind:'dimension', expression:node, indices:[axis], token:member, op:'.GetLength', start:node.start, end:close.end};
-      } else {
-        throw new CSharpError('استخدم Length أو GetLength مع المصفوفة.', member, 'unsupported');
-      }
-    }
+    node = postfix(node);
     while ((BINARY_PRECEDENCE[peek().kind] || 0) > min) {
       const op = take();
       const right = expression(BINARY_PRECEDENCE[op.kind] - Number(op.kind === '??'));
@@ -323,7 +387,7 @@ export function parseProgram(source) {
       s = {kind:start.value, token:start};
     } else if(start.kind===';') {end=take();s={kind:'empty',token:start};}
     else {
-      if(TYPES.has(start.value) || start.value === 'void' || start.value === 'static') {
+      if(isType(start.value) || start.value === 'void' || start.value === 'static') {
         if(embedded)throw new CSharpError('ضع تصريح المتغير داخل كتلة { }.',start,'syntax');
         if (start.value === 'static') take();
         s = declaration(nesting === 1);
@@ -337,7 +401,7 @@ export function parseProgram(source) {
         s={kind:'print',method:method.value,expression:argument,token:start};
       } else if (start.kind === 'identifier' && !RESERVED.has(start.value) && tokens[cursor + 1]?.kind === '(') {
         s = {kind:'invoke', expression:call(take()), token:start};
-      } else if((start.kind==='identifier'&&!RESERVED.has(start.value)) || INCREMENTS.has(start.kind)) {
+      } else if((start.kind==='identifier'&&(!RESERVED.has(start.value)||start.value==='this')) || INCREMENTS.has(start.kind)) {
         s = assignment();
       } else throw new CSharpError('هذا البناء خارج نطاق المحاكي. راجع الصيغ المتاحة في الدرس.',start,'unsupported');
       end = s.kind === 'function' ? s.body.end : expect(';');
@@ -347,12 +411,33 @@ export function parseProgram(source) {
   const statements=[];
   // Using directives precede top-level statements, as in a C# console program.
   while(peek().value==='using'){take();expect('identifier','System');expect(';');}
-  while(peek().kind!=='eof')statements.push(statement());
+  while (peek().kind !== 'eof' && peek().value !== 'class' && peek().value !== 'public') statements.push(statement());
+  while (peek().kind !== 'eof') statements.push(classDefinition());
   if(!statements.length)throw new CSharpError('اكتب أمرًا صغيرًا أولًا، ثم شغّله.');
   validateTypes(statements);return statements;
 }
 function localFunctions(statements) {
   return new Map(statements.filter(s => s.kind === 'function').map(s => [s.name, s]));
+}
+
+function classDefinitions(statements) {
+  const classes = new Map();
+  for (const declaration of statements.filter(s => s.kind === 'class')) {
+    if (classes.has(declaration.name)) throw new CSharpError('الصنف «' + declaration.name + '» معرّف بالفعل.', declaration.token, 'name');
+    classes.set(declaration.name, declaration);
+  }
+  return classes;
+}
+
+const nonNullable = type => type?.endsWith('?') ? type.slice(0, -1) : type;
+const className = type => nonNullable(type)?.split('<', 1)[0];
+const selfType = definition => definition.name + (definition.parameter ? '<' + definition.parameter + '>' : '');
+
+function closedType(type, definition, owner) {
+  if (!type || !definition?.parameter) return type;
+  const argument = nonNullable(owner).slice(definition.name.length + 1, -1);
+  // A parameter may be the entire type, or an argument in e.g. Box<T>.
+  return type.replace(/[^<>,[\]?]+/g, name => name === definition.parameter ? argument : name);
 }
 
 function guaranteesReturn(s) {
@@ -380,18 +465,52 @@ function checkArraySize(sizes, token) {
 function validateTypes(statements) {
   const scopes=[];
   const functions = localFunctions(statements);
+  const classes = classDefinitions(statements);
   let loopDepth = 0;
   let currentFunction = null;
+  let insideClass = false;
   const lookup=name=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].available.has(name))return scopes[i].available.get(name);};
-  function inferCall(node, allowVoid = false) {
-    const fn = functions.get(node.name);
-    if (!fn || lookup(node.name)) throw new CSharpError('الدالة «' + node.name + '» غير معرّفة في مسار المحاكي.', node.token, 'name');
-    if (fn.parameters.length !== node.args.length) throw new CSharpError('مرّر عدد القيم المطلوب للدالة ' + node.name + '.', node.token, 'type');
+  const classFor = type => classes.get(className(type));
+  function canAssign(type, target) {
+    return type === target || (type === 'int' && NUMERIC_TYPES.has(target)) ||
+      (type === 'string' && target === 'string?') ||
+      (type === 'null' && (target === 'string?' || classFor(target))) ||
+      (classFor(type) && nonNullable(type) === nonNullable(target));
+  }
+  function implicitField(name, token) {
+    const receiver = lookup('this');
+    if (!classFor(receiver)?.fields.has(name)) return null;
+    return {kind:'member', name, token, op:'.' + name, start:token.start, end:token.end,
+      expression:{kind:'variable', name:'this', token, start:token.start, end:token.end}};
+  }
+  function verifyArguments(node, parameters, definition, owner) {
+    if (parameters.length !== node.args.length) throw new CSharpError('مرّر العدد المطلوب من القيم إلى ' + node.name + '.', node.token, 'type');
     for (const [index, arg] of node.args.entries()) {
-      if (!canAssign(infer(arg), fn.parameters[index].type)) throw new CSharpError('راجع نوع القيمة الممررة للمعامل «' + fn.parameters[index].name + '».', arg.token, 'type');
+      const parameter = parameters[index];
+      if (!canAssign(infer(arg), closedType(parameter.type, definition, owner))) {
+        throw new CSharpError('راجع نوع القيمة الممررة للمعامل «' + parameter.name + '».', arg.token, 'type');
+      }
     }
-    if (fn.type === 'void' && !allowVoid) throw new CSharpError('استدعِ دالة void في سطر مستقل. الدالة لا تعيد قيمة تستخدمها هنا.', node.token, 'type');
-    return fn.type;
+  }
+  function inferCall(node, allowVoid = false) {
+    if (node.expression?.kind === 'variable' && !lookup(node.expression.name) && !implicitField(node.expression.name, node.expression.token)) {
+      throw new CSharpError('عرّف الكائن قبل استدعاء طريقة منه.', node.expression.token);
+    }
+    const owner = node.expression && infer(node.expression);
+    if (arrayRank(owner) && node.name === 'GetLength' && node.args.length === 1) {
+      if (infer(node.args[0]) !== 'int') throw new CSharpError('استخدم رقم بُعد من النوع int.', node.token, 'type');
+      node.kind = 'dimension';
+      node.op = '.GetLength';
+      node.indices = node.args;
+      return 'int';
+    }
+    const definition = classFor(owner);
+    const method = owner ? definition?.methods.get(node.name) : !insideClass && !lookup(node.name) && functions.get(node.name);
+    if (!method) throw new CSharpError('الدالة «' + node.name + '» غير معرّفة هنا.', node.token, 'name');
+    verifyArguments(node, method.parameters, definition, owner);
+    const result = closedType(method.type, definition, owner);
+    if (result === 'void' && !allowVoid) throw new CSharpError('استدعِ دالة void في سطر مستقل.', node.token, 'type');
+    return result;
   }
   function infer(node,allowMin=false,allowTryParse=false) {
     node.valueType = inferType(node, allowMin, allowTryParse);
@@ -409,7 +528,14 @@ function validateTypes(statements) {
       return node.type;
     }
     if (node.kind === 'read-line') return 'string?';
-    if (node.kind === 'call') return inferCall(node);
+    if (node.kind === 'call' || node.kind === 'member-call') return inferCall(node);
+    if (node.kind === 'new-object') {
+      const definition = classFor(node.type);
+      if (!definition || node.type.endsWith('?')) throw new CSharpError('استخدم new متبوعة باسم صنف صالح للإنشاء.', node.token, 'type');
+      node.name = definition.name;
+      verifyArguments(node, definition.creator?.parameters ?? [], definition, node.type);
+      return node.type;
+    }
     if (node.kind === 'array') {
       const element = elementType(node.type);
       const items = arrayRank(node.type) === 1 ? node.items : node.items.flat();
@@ -428,22 +554,31 @@ function validateTypes(statements) {
       return 'bool';
     }
     if(node.kind==='variable'){
-      const type=lookup(node.name);if(!type)throw new CSharpError('المتغير «'+node.name+'» غير معرّف قبل استخدامه. راجع الاسم وحالة الحروف.',node.token,'name');return type;
+      const type = lookup(node.name);
+      if (type) return type;
+      node.member = implicitField(node.name, node.token);
+      if (node.member) return infer(node.member);
+      throw new CSharpError('المتغير «'+node.name+'» غير معرّف قبل استخدامه. راجع الاسم وحالة الحروف.',node.token,'name');
     }
-    if (node.kind === 'length') {
+    if (node.kind === 'member') {
       const type = infer(node.expression);
-      if (!TEXT_TYPES.has(type) && !arrayRank(type)) throw new CSharpError('استخدم Length مع نص أو مصفوفة.', node.token, 'type');
-      return 'int';
+      if (node.name === 'Length' && ((TEXT_TYPES.has(type) && type !== 'null') || arrayRank(type))) {
+        node.kind = 'length';
+        return 'int';
+      }
+      const definition = classFor(type), field = definition?.fields.get(node.name);
+      if (!definition && node.name === 'Length') throw new CSharpError('استخدم Length مع نص أو مصفوفة.', node.token, 'type');
+      if (!field) throw new CSharpError('الحقل «' + node.name + '» غير معرّف للنوع ' + type + '.', node.token, 'name');
+      return closedType(field.type, definition, type);
     }
-    if (node.kind === 'dimension' || node.kind === 'index') {
+    if (node.kind === 'index') {
       const type = infer(node.expression);
       const rank = arrayRank(type);
-      if (node.kind === 'dimension' && !rank) throw new CSharpError('استخدم GetLength مع مصفوفة.', node.token, 'type');
-      if (node.kind === 'index' && node.indices.length !== (rank || Number(TEXT_TYPES.has(type)))) {
+      if (node.indices.length !== (rank || Number(TEXT_TYPES.has(type) && type !== 'null'))) {
         throw new CSharpError('استخدم فهرسًا واحدًا للنص أو المصفوفة الخطية، وفهرسي الصف والعمود للمصفوفة الثنائية.', node.token, 'type');
       }
       verifyIndices(node);
-      return node.kind === 'dimension' ? 'int' : rank ? elementType(type) : 'char';
+      return rank ? elementType(type) : 'char';
     }
     if (node.kind === 'cast') {
       const from = infer(node.expression);
@@ -471,7 +606,9 @@ function validateTypes(statements) {
     }
     const numericType = promoteNumbers(left, right);
     if (COMPARISONS.has(node.op)) {
-      const sameTypeEquality = (node.op === '==' || node.op === '!=') && (left === right || (TEXT_TYPES.has(left) && TEXT_TYPES.has(right)));
+      const compatible = left === right || (TEXT_TYPES.has(left) && TEXT_TYPES.has(right)) ||
+        (classFor(left) && canAssign(right, left)) || (classFor(right) && canAssign(left, right));
+      const sameTypeEquality = (node.op === '==' || node.op === '!=') && compatible;
       if (!numericType && !sameTypeEquality) throw new CSharpError('قارن قيمتين عدديتين متوافقتين أو قارن قيمتين من النوع نفسه باستخدام == أو !=.', node.token, 'type');
       return 'bool';
     }
@@ -521,7 +658,7 @@ function validateTypes(statements) {
   }
   function visit(s) {
     if(s.kind==='block'){visitBody(s.body);return;}
-    if (s.kind === 'function') return;
+    if (s.kind === 'function' || s.kind === 'class') return;
     if (s.kind === 'invoke') {
       s.expression.valueType = inferCall(s.expression, true);
       return;
@@ -543,13 +680,28 @@ function validateTypes(statements) {
       visit(s.consequent);if(s.alternate)visit(s.alternate);return;
     }
     if(s.kind==='empty')return;
+    if (s.kind === 'assign' && !lookup(s.name)) {
+      const field = implicitField(s.name, s.token);
+      if (field) {
+        if (s.update !== '=') throw new CSharpError('استخدم إسنادًا بسيطًا لتحديث الحقل.', s.token, 'unsupported');
+        s.kind = 'assign-member';
+        s.target = field;
+        s.name = 'this';
+      }
+    }
+    if (s.kind === 'assign-member') {
+      const type = infer(s.target);
+      if (s.target.kind !== 'member') throw new CSharpError('اختر حقلًا يقبل الإسناد.', s.token, 'type');
+      if (!canAssign(infer(s.expression), type)) throw new CSharpError('قيمة الحقل يجب أن توافق النوع ' + type + '.', s.token, 'type');
+      return;
+    }
     if (s.kind === 'assign-index') {
       const target = infer(s.target);
       if (TEXT_TYPES.has(s.target.expression.valueType)) throw new CSharpError('خانات النص للقراءة. أنشئ نصًا جديدًا إذا أردت تغيير الحرف.', s.token, 'type');
       if (!canAssign(infer(s.expression), target)) throw new CSharpError('ضع قيمة من النوع ' + target + ' في خانة المصفوفة.', s.token, 'type');
       return;
     }
-    if(s.kind==='assign'&&!lookup(s.name))throw new CSharpError('عرّف المتغير «'+s.name+'» قبل إسناد قيمة له.',s.token,'name');
+    if(s.kind==='assign'&&(!lookup(s.name)||s.name==='this'))throw new CSharpError('عرّف المتغير «'+s.name+'» قبل إسناد قيمة له.',s.token,'name');
     if (s.kind === 'assign' && scopes.findLast(scope => scope.available.has(s.name))?.readOnly === s.name) {
       throw new CSharpError('متغير foreach للقراءة داخل الحلقة. غيّر متغيرًا خارجيًا إذا أردت حساب مجموع أو عد.', s.token, 'type');
     }
@@ -562,17 +714,27 @@ function validateTypes(statements) {
     }
   }
   visitBody(statements);
-  for (const fn of functions.values()) {
+  function visitCallable(fn, definition) {
     currentFunction = fn;
-    enterScope(namesIn(fn.parameters));
-    for (const {name,type} of fn.parameters) scopes.at(-1).available.set(name, type);
+    const names = namesIn(fn.parameters);
+    if (definition) names.push(['this', fn.token]);
+    enterScope(names);
+    const scope = scopes.at(-1).available;
+    for (const {name,type} of fn.parameters) scope.set(name, type);
+    if (definition) scope.set('this', selfType(definition));
     visit(fn.body);
     scopes.pop();
     if (fn.type !== 'void' && !guaranteesReturn(fn.body)) throw new CSharpError('أضف return لقيمة في كل مسار من الدالة ' + fn.name + '.', fn.token, 'type');
   }
-}
-function canAssign(type, target) {
-  return type === target || (type === 'int' && NUMERIC_TYPES.has(target)) || (type === 'string' && target === 'string?');
+  for (const fn of functions.values()) visitCallable(fn);
+  insideClass = true;
+  for (const definition of classes.values()) {
+    for (const field of definition.fields.values()) {
+      if (field.expression && !canAssign(infer(field.expression), field.type)) throw new CSharpError('راجع نوع القيمة الأولية للحقل «' + field.name + '».', field.token, 'type');
+    }
+    if (definition.creator) visitCallable(definition.creator, definition);
+    for (const method of definition.methods.values()) visitCallable(method, definition);
+  }
 }
 function promoteNumbers(left, right) {
   if (!NUMERIC_TYPES.has(left) || !NUMERIC_TYPES.has(right)) return null;
@@ -619,20 +781,47 @@ function display(value, type) {
   if (value === null) return '';
   if (type === 'decimal') return decimalText(value);
   if (type === 'double') return doubleText(value);
-  if (arrayRank(type)) {
-    const element = elementType(type);
-    return 'System.' + ARRAY_TYPES[element] + type.slice(element.length);
-  }
+  if (arrayRank(type) || isObject(value)) return clrName(isObject(value) ? value.type : type);
   return typeof value === 'boolean' ? value ? 'True' : 'False' : String(value);
 }
 
 const ARRAY_TYPES = {int:'Int32', double:'Double', decimal:'Decimal', bool:'Boolean', char:'Char', string:'String', 'string?':'String'};
+const isObject = value => value?.fields instanceof Map;
+
+function clrName(type) {
+  if (arrayRank(type)) {
+    const element = elementType(type);
+    return clrName(element) + type.slice(element.length);
+  }
+  const name = className(type);
+  if (Object.hasOwn(ARRAY_TYPES, name)) return 'System.' + ARRAY_TYPES[name];
+  const argument = nonNullable(type).slice(name.length + 1, -1);
+  return argument ? name + '\x601[' + clrName(argument) + ']' : name;
+}
 
 function traceValue(value, type) {
+  if (isObject(value)) return '#' + value.id;
+  if (value === null) return null;
   const rank = arrayRank(type), element = rank && elementType(type);
   if (rank === 1) return value.map(item => traceValue(item, element));
   if (rank === 2) return value.rows.map(row => row.map(item => traceValue(item, element)));
   return type === 'decimal' ? decimalText(value) : value;
+}
+
+function snapshotText(value, type) {
+  if (value === null) return 'null';
+  if (isObject(value)) return '#' + value.id;
+  return display(value, type);
+}
+
+function fieldSlot({receiver, node}) {
+  if (receiver === null) throw new CSharpError('المرجع null. افحصه قبل الوصول إلى الحقل «' + node.name + '».', node.token, 'runtime');
+  return receiver.fields.get(node.name);
+}
+
+function objectAccess({receiver, node}, slot, mode, previous) {
+  return {id:receiver.id, field:node.name, mode, value:traceValue(slot.value, slot.type),
+    ...(mode === 'write' && {previous:traceValue(previous, slot.type)})};
 }
 
 function lengths(value, type) {
@@ -733,18 +922,36 @@ function parseInputInt(input) {
   return { value: valid ? number || 0 : 0, valid };
 }
 
-function evaluateExpression(root, variables, source, readLine, invokeCall, addressOnly = false) {
+function evaluateExpression(root, variables, {source, readLine, invokeCall, createObject, concreteType}, addressOnly = false) {
   const names = new Set();
   const logic = [];
   const consumed = [];
   const accesses = [];
+  const fields = [];
   let comparison = null, calculation = null, binding = null;
   const operand = (node, value) => ({ source: source.slice(node.start, node.end), value });
-  const format = (node, value) => TEXT_TYPES.has(node.valueType) || node.valueType === 'char' ? JSON.stringify(value) : display(value, node.valueType);
+  const format = (node, value) => {
+    const type = concreteType(node.valueType);
+    return TEXT_TYPES.has(type) || type === 'char' ? JSON.stringify(value) : display(value, type);
+  };
 
   function evaluate(node) {
     if (node.kind === 'literal') return node.value;
     if (node.kind === 'call') return invokeCall(node, node.args.map(evaluate));
+    if (node.kind === 'member-call') {
+      const receiver = evaluate(node.expression);
+      const args = node.args.map(evaluate);
+      if (receiver === null) throw new CSharpError('المرجع null. افحصه قبل استدعاء الطريقة.', node.token, 'runtime');
+      return invokeCall(node, args, receiver);
+    }
+    if (node.kind === 'new-object') return createObject(node, node.args.map(evaluate));
+    if (node.kind === 'member') {
+      const address = {receiver:evaluate(node.expression), node};
+      if (addressOnly && node === root) return address;
+      const slot = fieldSlot(address);
+      fields.push(objectAccess(address, slot, 'read'));
+      return slot.value;
+    }
     if (node.kind === 'array') {
       const element = elementType(node.type);
       const convertRow = row => row.map(item => convertNumber(evaluate(item), item.valueType, element, item.token));
@@ -782,6 +989,7 @@ function evaluateExpression(root, variables, source, readLine, invokeCall, addre
       return valid;
     }
     if (node.kind === 'variable') {
+      if (node.member) return evaluate(node.member);
       names.add(node.name);
       return variables.get(node.name).value;
     }
@@ -850,7 +1058,7 @@ function evaluateExpression(root, variables, source, readLine, invokeCall, addre
   const value = root ? evaluate(root) : '';
   return { value, reads: [...names], comparison, logic, ...(calculation && { calculation }),
     ...(consumed.length && { inputReads: consumed }), ...(binding && { binding }),
-    ...(accesses.length && {accesses}) };
+    ...(accesses.length && {accesses}), ...(fields.length && {fields}) };
 }
 
 function allStatements(statements) {
@@ -868,12 +1076,35 @@ function allStatements(statements) {
       if (statement.update) result.push(statement.update);
     }
     if (statement.kind === 'function') result.push(...allStatements(statement.body.body));
+    if (statement.kind === 'class') {
+      if (statement.creator) result.push(...allStatements(statement.creator.body.body));
+      for (const method of statement.methods.values()) result.push(...allStatements(method.body.body));
+    }
   }
   return result;
 }
 
 function exposedVariables(variables) {
   return Object.fromEntries([...variables].map(([name, { type, value }]) => [name, { type, value: traceValue(value, type) }]));
+}
+
+function exposedObjects(variables) {
+  const reached = new Map();
+  function visit(value) {
+    if (!isObject(value) || reached.has(value.id)) return;
+    reached.set(value.id, {id:value.id, type:value.type, fields:exposedVariables(value.fields)});
+    for (const field of value.fields.values()) visit(field.value);
+  }
+  for (const variable of variables.values()) visit(variable.value);
+  return [...reached.values()].sort((left, right) => left.id - right.id);
+}
+
+function defaultValue(type, token) {
+  if (type === 'bool') return false;
+  if (type === 'char') return '\0';
+  if (type === 'decimal') return decimal(0n, 0, token);
+  if (NUMERIC_TYPES.has(type)) return 0;
+  return null;
 }
 
 function inputValue(value, type, token) {
@@ -900,8 +1131,9 @@ function inputValue(value, type, token) {
 export function runProgram(source,inputs={},stdin='') {
   const text = String(source).replace(/\r\n?/g, '\n');
   const statements = parseProgram(text), trace = [];
-  const functions = localFunctions(statements), calls = [];
+  const functions = localFunctions(statements), classes = classDefinitions(statements), calls = [];
   let scopes = [new Map()], loops = [], skipped = new Set();
+  let allocatedObjects = 0;
   const sourceLines = text.split('\n');
   if (typeof stdin !== 'string' || stdin.length > LIMITS.source) throw new CSharpError('اختصر مدخلات التشغيل إلى 16 ألف حرف أو أقل.', {}, 'limit');
   const inputLines = stdin.split(/\r\n?|\n/);
@@ -914,7 +1146,12 @@ export function runProgram(source,inputs={},stdin='') {
   const visible=()=>new Map(scopes.flatMap(scope=>[...scope]));
   const owner=name=>scopes.findLast(scope=>scope.has(name));
   const firstLine=s=>s.kind==='block'?(s.body[0]?.token.line||s.end.line):s.token.line;
-  const evaluate = (expression, addressOnly = false) => evaluateExpression(expression, visible(), text, readLine, invokeCall, addressOnly);
+  const concreteType = type => {
+    const receiver = calls.at(-1)?.receiver;
+    return receiver ? closedType(type, classes.get(className(receiver.type)), receiver.type) : type;
+  };
+  const evaluationContext = {source:text, readLine, invokeCall, createObject, concreteType};
+  const evaluate = (expression, addressOnly = false) => evaluateExpression(expression, visible(), evaluationContext, addressOnly);
   function snapshot(s, {loopPhase, ...details} = {}) {
     if (trace.length >= LIMITS.trace) {
       throw new CSharpError('توقف المحاكي عند حد الخطوات. افحص شرط الحلقة وتأكد إن العداد بيتغير وبيوصل للنهاية.', s.token, 'limit');
@@ -927,16 +1164,19 @@ export function runProgram(source,inputs={},stdin='') {
     const callFrame = calls.at(-1), event = details.kind || s.kind;
     const call = callFrame && {
       name:callFrame.fn.name, depth:calls.length, callerLine:callFrame.callerLine,
-      phase:event === 'call' ? 'enter' : event === 'return' ? 'return' : 'body'
+      phase:event === 'call' ? 'enter' : event === 'return' ? 'return' : 'body',
+      ...(callFrame.receiver && {objectId:callFrame.receiver.id, memberKind:callFrame.fn.kind})
     };
+    const variables = visible(), objects = exposedObjects(variables);
     trace.push({
       line:s.token.line, source:s.source, kind:s.kind, name:null, reads:[],
-      variables:exposedVariables(visible()), output, skippedLines:[...skipped],
+      variables:exposedVariables(variables), output, skippedLines:[...skipped],
+      ...(objects.length && {objects}),
       ...(loop && {loop}), ...(call && {call}), ...details
     });
   }
   function executeBody(body, nextLine = null) {
-    const commands = body.filter(s => s.kind !== 'function');
+    const commands = body.filter(s => s.kind !== 'function' && s.kind !== 'class');
     for (const [i, statement] of commands.entries()) {
       const jump = execute(statement, commands[i + 1]?.token.line || nextLine);
       if (jump) return jump;
@@ -952,15 +1192,33 @@ export function runProgram(source,inputs={},stdin='') {
     });
     return jump;
   }
-  function invokeCall(node, args) {
-    const fn = functions.get(node.name);
+  function createObject(node, args) {
+    if (allocatedObjects >= LIMITS.objects) throw new CSharpError('وصل المحاكي إلى حد الكائنات في المثال. اختصر عدد مرات الإنشاء.', node.token, 'limit');
+    const type = concreteType(node.type);
+    const definition = classes.get(className(type));
+    const object = {id:++allocatedObjects, type, fields:new Map()};
+    for (const field of definition.fields.values()) {
+      const fieldType = closedType(field.type, definition, type);
+      const value = field.expression
+        ? convertNumber(evaluate(field.expression).value, concreteType(field.expression.valueType), fieldType, field.token)
+        : defaultValue(fieldType, field.token);
+      object.fields.set(field.name, {type:fieldType, value});
+    }
+    if (definition.creator) invokeCall(node, args, object, true);
+    return object;
+  }
+  function invokeCall(node, args, receiver = null, isConstructor = false) {
+    const definition = receiver && classes.get(className(receiver.type));
+    const fn = isConstructor ? definition.creator : receiver ? definition.methods.get(node.name) : functions.get(node.name);
     if (calls.length >= LIMITS.calls) throw new CSharpError('توقف المحاكي عند حد الاستدعاءات المتداخلة. تأكد أن الدالة تقترب من حالة التوقف.', node.token, 'limit');
     const caller = {scopes, loops, skipped};
-    const scope = new Map(fn.parameters.map(({name,type}, index) => [
-      name, {type, value:convertNumber(args[index], node.args[index].valueType, type, node.args[index].token)}
-    ]));
+    const scope = new Map(fn.parameters.map((parameter, index) => {
+      const type = closedType(parameter.type, definition, receiver?.type);
+      return [parameter.name, {type, value:convertNumber(args[index], concreteType(node.args[index].valueType), type, node.args[index].token)}];
+    }));
+    if (receiver) scope.set('this', {type:receiver.type, value:receiver});
     const callerLine = node.token.line;
-    calls.push({fn, callerLine});
+    calls.push({fn, callerLine, receiver, type:closedType(fn.type, definition, receiver?.type)});
     scopes = [scope];
     loops = [];
     skipped = new Set(caller.skipped);
@@ -971,7 +1229,7 @@ export function runProgram(source,inputs={},stdin='') {
       const target = firstLine(fn.body);
       snapshot(fn, {
         kind:'call', source:fn.header, nextLine:target,
-        action:'يا كمبيوتر، ادخل الدالة ' + fn.name + ' وابدأ من السطر ' + target + '.'
+        action:'يا كمبيوتر، ادخل ' + (isConstructor ? 'المنشئ ' : receiver ? 'الطريقة ' : 'الدالة ') + fn.name + ' وابدأ من السطر ' + target + '.'
       });
       const result = executeBlock(fn.body, callerLine, true);
       if (result?.kind === 'return') return result.value;
@@ -1063,10 +1321,9 @@ export function runProgram(source,inputs={},stdin='') {
       return;
     }
     if (s.kind === 'return') {
-      const {fn, callerLine} = calls.at(-1);
+      const {type, callerLine} = calls.at(-1);
       const result = evaluate(s.expression);
-      const type = fn.type;
-      const value = s.expression ? convertNumber(result.value, s.expression.valueType, type, s.token) : undefined;
+      const value = s.expression ? convertNumber(result.value, concreteType(s.expression.valueType), type, s.token) : undefined;
       const what = s.expression ? ' بقيمة ' + display(value, type) : '';
       snapshot(s, {...result, value:traceValue(value, type), nextLine:callerLine,
         action:'يا كمبيوتر، ارجع للسطر ' + callerLine + what + '.'});
@@ -1111,6 +1368,19 @@ export function runProgram(source,inputs={},stdin='') {
       return;
     }
     if(s.kind==='empty'){snapshot(s,{action:'يا كمبيوتر، هذه جملة فارغة؛ انتقل إلى الأمر التالي.'});return;}
+    if (s.kind === 'assign-member') {
+      const target = evaluate(s.target, true);
+      const evaluation = evaluate(s.expression);
+      const slot = fieldSlot(target.value);
+      const previous = slot.value;
+      slot.value = convertNumber(evaluation.value, concreteType(s.expression.valueType), slot.type, s.token);
+      const write = objectAccess(target.value, slot, 'write', previous);
+      snapshot(s, {...evaluation, name:s.name, nextLine, value:write.value, previous:write.previous,
+        reads:[...new Set([...target.reads, ...evaluation.reads])],
+        fields:[...(target.fields || []), ...(evaluation.fields || []), write],
+        action:'يا كمبيوتر، حدّث الحقل ' + write.field + ' في الكائن #' + write.id + '.'});
+      return;
+    }
     if (s.kind === 'assign-index') {
       const target = evaluate(s.target, true);
       const evaluation = evaluate(s.expression);
@@ -1129,12 +1399,12 @@ export function runProgram(source,inputs={},stdin='') {
       return;
     }
     const variables = visible(), previous = variables.get(s.name)?.value;
-    const expressionType = s.expression?.valueType;
-    const type = s.type || variables.get(s.name)?.type || expressionType;
+    const expressionType = concreteType(s.expression?.valueType);
+    const type = concreteType(s.type) || variables.get(s.name)?.type || expressionType;
     const override = s.kind === 'declare' && s.expression.kind !== 'try-parse' && Object.hasOwn(inputs, s.name);
     const evaluation = override
       ? { value: inputValue(inputs[s.name], type, s.token), reads: [], comparison: null, logic: [] }
-      : evaluateExpression(s.expression, variables, text, readLine, invokeCall);
+      : evaluateExpression(s.expression, variables, evaluationContext);
     const value = !override && type !== expressionType ? convertNumber(evaluation.value, expressionType, type, s.token) : evaluation.value;
     const outputValue = display(value, type);
     if (s.kind === 'print') {
@@ -1146,8 +1416,8 @@ export function runProgram(source,inputs={},stdin='') {
     }
     if(output.length>LIMITS.output)throw new CSharpError('المخرجات أكبر من حدود المحاكي.',s.token,'limit');
     const action=s.kind==='print'?'يا كمبيوتر، اطبع القيمة الحالية'+(s.method==='WriteLine'?' ثم انتقل لسطر جديد.':' واترك موضع الكتابة في السطر نفسه.')
-      :s.kind==='declare'?'يا كمبيوتر، أنشئ المتغير '+s.name+' من النوع '+s.type+' واحفظ فيه '+(value === null ? 'null' : outputValue)+'.'
-      :'يا كمبيوتر، حدّث '+s.name+' من '+display(previous,type)+' إلى '+outputValue+'.';
+      :s.kind==='declare'?'يا كمبيوتر، أنشئ المتغير '+s.name+' من النوع '+s.type+' واحفظ فيه '+snapshotText(value,type)+'.'
+      :'يا كمبيوتر، حدّث '+s.name+' من '+snapshotText(previous,type)+' إلى '+snapshotText(value,type)+'.';
     snapshot(s, { ...evaluation, name: s.name || null, nextLine, value: traceValue(value,type), previous: previous === undefined ? undefined : traceValue(previous,type), action });
   }
   executeBody(statements);return {output,trace,variables:exposedVariables(scopes[0]),statements};
@@ -1186,11 +1456,14 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   let hasLoopEffect = false;
   let testedElseIf = false;
   let reachedIndex = false;
+  let reachedField = false;
   const observe = trace => {
     for (const step of trace) {
       const required = challenge.indexAccess;
       if (required && step.accesses?.some(access => access.name === required.name &&
         access.mode === required.mode && access.indices.length === required.rank)) reachedIndex = true;
+      const field = challenge.fieldAccess;
+      if (field && step.fields?.some(access => access.field === field.name && access.mode === field.mode)) reachedField = true;
       if (challenge.loop && step.loop?.kind === challenge.loop.kind && step.loop.depth >= (challenge.loop.depth ?? 1)) {
         if (step.kind === 'loop-condition') for (const name of step.reads) loopReads.add(name);
         if (step.kind === 'break' || step.kind === 'continue') loopJumps.add(step.kind);
@@ -1216,6 +1489,10 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   if (challenge.indexAccess && !reachedIndex) {
     const {name, mode} = challenge.indexAccess;
     return fail('نفّذ ' + (mode === 'write' ? 'تحديث خانة في «' : 'قراءة خانة من «') + name + '» باستخدام فهرسها.');
+  }
+  if (challenge.fieldAccess && !reachedField) {
+    const {name, mode} = challenge.fieldAccess;
+    return fail('نفّذ ' + (mode === 'write' ? 'الإسناد للحقل «' : 'القراءة من الحقل «') + name + '» في الكائن.');
   }
   for (const name of challenge.conditionReads || []) {
     if (!conditionReads.has(name)) return fail('اجعل قرار if يقرأ المتغير «' + name + '» بدل شرط ثابت.');

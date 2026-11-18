@@ -1,8 +1,9 @@
 // Shared eight-step lesson structure. All visible content is original Arabic.
 function challenge(config, solution) {
   const result = {};
-  for (const key of ["output", "declared", "printed", "updated", "values", "operation", "operationIn", "methods", "minPrints", "cases", "read", "branching", "elseRequired", "elseIfRequired", "conditionReads", "stdin", "loop", "calls", "indexAccess"]) if (config[key] !== undefined) result[key] = config[key];
+  for (const key of ["output", "declared", "printed", "updated", "values", "operation", "operationIn", "methods", "minPrints", "cases", "read", "branching", "elseRequired", "elseIfRequired", "conditionReads", "stdin", "loop", "calls", "indexAccess", "fieldAccess"]) if (config[key] !== undefined) result[key] = config[key];
   if (config.declared) result.types = Object.fromEntries([...solution.matchAll(/\b((?:int|double|decimal|string\??|bool|char)(?:\[,?\])?)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=/g)].filter(m => config.declared.includes(m[2])).map(m => [m[2], m[1]]));
+  if (config.types) result.types = {...result.types, ...config.types};
   return result;
 }
 function makeLesson(c, index, previousId, unitId) {

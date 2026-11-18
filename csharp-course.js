@@ -133,6 +133,46 @@ function renderIndexedAccess(snapshot) {
   area.append(table);
 }
 
+function renderObjects(snapshot) {
+  const area = $("csharpObjects");
+  const objects = snapshot?.objects ?? [];
+  area.replaceChildren();
+  area.hidden = !objects.length;
+  if (!objects.length) return;
+  const heading = document.createElement("h4");
+  heading.textContent = "الكائنات والحقول";
+  const cards = document.createElement("div");
+  cards.className = "cs-object-cards";
+  const access = snapshot.fields?.at(-1);
+  for (const object of objects) {
+    const card = document.createElement("div");
+    card.className = "cs-object-card";
+    card.dataset.objectId = object.id;
+    const identity = document.createElement("bdi");
+    identity.dir = "ltr";
+    identity.textContent = "#" + object.id + " · " + object.type;
+    card.append(identity);
+    const fields = document.createElement("dl");
+    fields.dir = "ltr";
+    for (const [name, field] of Object.entries(object.fields)) {
+      const label = document.createElement("dt");
+      label.textContent = name;
+      const value = document.createElement("dd");
+      value.dir = "auto";
+      value.textContent = field.type === "string" || field.type === "string?" || field.type === "char" || Array.isArray(field.value)
+        ? JSON.stringify(field.value) : String(field.value);
+      if (access?.id === object.id && access.field === name) {
+        label.className = value.className = "cs-object-focus";
+        value.setAttribute("aria-current", "true");
+      }
+      fields.append(label, value);
+    }
+    if (fields.childElementCount) card.append(fields);
+    cards.append(card);
+  }
+  area.append(heading, cards);
+}
+
 function renderTrace() {
   const snapshot = cursor >= 0 && trace ? trace.trace[cursor] : null;
   $("csharpOutput").textContent = snapshot ? snapshot.output : "";
@@ -143,7 +183,9 @@ function renderTrace() {
   $("csharpFunctionStep").hidden = !call;
   if (call) {
     const phase = call.phase === "enter" ? "استدعِ الدالة" : call.phase === "return" ? "ارجع لمكان الاستدعاء" : "نفّذ داخل الدالة";
-    $("csharpFunctionStep").textContent = [call.name, phase, ...(call.depth > 1 ? ["مستوى " + number(call.depth)] : [])].join(" · ");
+    const role = call.memberKind === "constructor" ? "المنشئ" : "الطريقة";
+    $("csharpFunctionStep").textContent = [call.objectId ? role + " " + call.name + " #" + call.objectId : call.name,
+      phase, ...(call.depth > 1 ? ["مستوى " + number(call.depth)] : [])].join(" · ");
   }
   $("csharpLoopStep").hidden = !loop;
   if (loop) {
@@ -155,6 +197,7 @@ function renderTrace() {
     ].join(" · ");
   }
   renderIndexedAccess(snapshot);
+  renderObjects(snapshot);
   const reads = snapshot?.inputReads || [];
   $("csharpInputRead").hidden = !reads.length;
   $("csharpInputRead").textContent = reads.map(line => line.number === null

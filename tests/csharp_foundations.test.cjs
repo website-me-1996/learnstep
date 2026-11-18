@@ -10,6 +10,37 @@ const runtime = import(pathToFileURL(path.join(root, "csharp-runtime.js")));
 const progress = import(pathToFileURL(path.join(root, "csharp-progress.js")));
 const memoryStorage = () => { const entries = new Map(); return { getItem: k => entries.get(k) || null, setItem: (k, v) => entries.set(k, v) }; };
 
+test("Object snapshots show a shared instance, a distinct instance and the previous field value", async () => {
+  const {runProgram} = await runtime;
+  const result = runProgram('Counter original=new Counter(3);Counter other=original;Counter separate=new Counter(7);other.Set(9);Console.WriteLine(original.Points);Console.WriteLine(separate.Points);class Counter {public int Points;public Counter(int n){Points=n;} public void Set(int newValue){this.Points=newValue;}}');
+  assert.equal(result.output, "9\n7\n");
+  assert.equal(result.variables.original.value, result.variables.other.value);
+  assert.notEqual(result.variables.original.value, result.variables.separate.value);
+  const enters = result.trace.filter(step => step.kind === "call");
+  assert.deepEqual(enters.map(step => [step.call.memberKind,step.call.objectId]), [["constructor",1],["constructor",2],["method",1]]);
+  assert.equal(enters.at(-1).objects[0].fields.Points.value, 3);
+  assert.deepEqual(result.trace.find(step => step.fields?.at(-1)?.value === 9).fields.at(-1),
+    {id:1,field:"Points",mode:"write",previous:3,value:9});
+});
+
+test("Class fields can link nullable references and the trace visits a cycle once", async () => {
+  const {runProgram} = await runtime;
+  const result = runProgram('Node a=new Node(1);Node b=new Node(2);a.Next=b;b.Next=a;Console.WriteLine(a.Next.Value);class Node{public int Value;public Node? Next;public Node(int n){Value=n;}}');
+  assert.equal(result.output, "2\n");
+  assert.deepEqual(result.trace.at(-1).objects.map(o => o.fields.Next.value), ["#2","#1"]);
+  assert.throws(() => runProgram('Node? a=null;Console.WriteLine(a.Value);class Node{public int Value;}'), {code:"runtime"});
+});
+
+test("A generic class binds the field to the requested type and validates constructor arguments", async () => {
+  const {runProgram} = await runtime;
+  const definition = ' class Box<T>{public T Item;public Box(T initial){Item=initial;}public T Get(){return Item;}}';
+  const result = runProgram('Box<decimal> a=new Box<decimal>(0.20m);Box<string> b=new Box<string>("نور");Console.WriteLine(a.Get());Console.WriteLine(b.Item);' + definition);
+  assert.equal(result.output, "0.20\nنور\n");
+  assert.deepEqual(result.trace.at(-1).objects.map(o => o.fields.Item.type), ["decimal","string"]);
+  assert.throws(() => runProgram('Box<int> a=new Box<int>("wrong");' + definition), {code:"type"});
+  assert.throws(() => runProgram('for(int i=0;i<65;i++){Node node=new Node();}class Node{}'), {code:"limit"});
+});
+
 test("Index access reports the selected cell and keeps earlier snapshots immutable", async () => {
   const {runProgram} = await runtime;
   const result = runProgram('int[,] a={{4,7,8},{2,5,6}};int[,] b=a;b[0,1]=9;Console.WriteLine(a[0,1]);Console.WriteLine(a[1,1]);');

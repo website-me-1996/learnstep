@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
   "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 1389,
+  "passed": 1534,
   "failed": 0,
   "results": [
     {
@@ -6811,6 +6811,731 @@
     },
     {
       "name": "csharp-72-matrix-free-seats/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-73-class-create-object/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-73-class-create-object/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-73-class-create-object/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-73-class-create-object/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-73-class-create-object/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-74-object-field-value/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-75-object-separate-instances/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-76-object-instance-method/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-77-object-constructor/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-78-object-shared-reference/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-79-object-null-guard/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-80-generic-class-one-type/transfer/alternate/2",
       "passed": true,
       "message": null
     },
