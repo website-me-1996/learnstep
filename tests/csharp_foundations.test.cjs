@@ -198,7 +198,7 @@ for (const [label, source, expectedCode] of [
   ["bounded infinite while", 'while (true) {}', "limit"],
   ["unsupported increment", 'int n = ++1;', "unsupported"],
   ["out of range", 'int n = 2147483647; n = n + 1;', "unsupported"],
-  ["server/network calls", 'fetch("https://example.com");', "syntax"],
+  ["server/network calls", 'fetch("https://example.com");', "name"],
   ["JavaScript injection", 'globalThis.alert(1);', "syntax"]
 ]) test("Bounded interpreter rejects " + label, async () => {
   const { runProgram, CSharpError } = await runtime;
@@ -266,6 +266,43 @@ test("Grading requires a loop that performs the task, not just a reachable loop"
   const challenge = {output:"0\n", loop:{kind:"while", reads:["i"], effect:"print"}};
   assert.equal(checkChallenge("int i=0; while (i<1) { i++; } Console.WriteLine(0);", challenge).passed, false);
   assert.equal(checkChallenge("int i=0; while (i<1) { Console.WriteLine(i); i++; }", challenge).passed, true);
+});
+
+test("Local functions show a separate call frame and return numeric values to the caller", async () => {
+  const { runProgram } = await runtime;
+  const source = 'int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\nint AddOne(int copied)\n{\n  copied++;\n  return copied;\n}';
+  const run = runProgram(source);
+  const enter = run.trace.find(step => step.kind === "call");
+  const returned = run.trace.find(step => step.kind === "return");
+  assert.deepEqual(enter.call, {name:"AddOne",depth:1,callerLine:2,phase:"enter"});
+  assert.deepEqual(enter.variables, {copied:{type:"int",value:5}});
+  assert.equal(enter.nextLine, 7);
+  assert.equal(returned.variables.copied.value, 6);
+  assert.equal(returned.nextLine, 2);
+  assert.equal(run.variables.copied, undefined);
+  assert.equal(run.variables.original.value, 5);
+  assert.equal(run.output, "5\n6\n");
+});
+
+test("A function return leaves its loop and ends only the current call", async () => {
+  const { runProgram } = await runtime;
+  const source = 'Console.WriteLine(Find(2)); Console.WriteLine(Find(8)); int Find(int target) { for (int i=0; i<4; i++) { if(i==target) return i; } return -1; }';
+  const run = runProgram(source);
+  assert.equal(run.output, "2\n-1\n");
+  assert.deepEqual(run.trace.filter(step => step.kind === "return").map(step => step.value), [2,-1]);
+  assert.deepEqual(run.trace.filter(step => step.kind === "call").map(step => step.variables.target.value), [2,8]);
+  assert.equal(run.trace.find(step => step.kind === "return").variables.i.value, 2);
+});
+
+test("Function validation enforces parameters and return values, and call depth stays bounded", async () => {
+  const { runProgram, checkChallenge } = await runtime;
+  assert.throws(() => runProgram('int Sum(int a) { if (a > 0) return a; } Console.WriteLine(Sum(3));'), {code:"type"});
+  assert.throws(() => runProgram('int Sum(int a) { return a; } Console.WriteLine(Sum());'), {code:"type"});
+  assert.throws(() => runProgram('void Say() { Console.WriteLine("أهلًا"); } int x = Say();'), {code:"type"});
+  assert.throws(() => runProgram('int Recur(int n) { return Recur(n); } Console.WriteLine(Recur(1));'), {code:"limit"});
+  assert.equal(runProgram('Say(2); void Say(int n) { Console.WriteLine(n); }').output, "2\n");
+  const fake = "Console.WriteLine(6); int Triple(int n) { return n * 3; }";
+  assert.equal(checkChallenge(fake, {output:"6\n", calls:{Triple:1}}).passed, false);
 });
 
 test("Save/resume preserves drafts, stage, completion artifacts, and stable lesson IDs", async () => {

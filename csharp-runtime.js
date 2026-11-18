@@ -1,6 +1,6 @@
 // Bounded teaching interpreter for the authored C# lessons, not Roslyn/.NET.
 // No eval, Function constructor, network execution, or string-to-JS translation.
-const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64 };
+const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64, calls:24 };
 const NUMERIC_TYPES = new Set(['int', 'double', 'decimal']);
 const TYPES = new Set([...NUMERIC_TYPES, 'string', 'bool']);
 const TEXT_TYPES = new Set(['string', 'string?']);
@@ -12,7 +12,7 @@ const COMPARISONS = new Set(['>','>=','<','<=','==','!=']);
 const LOGICAL = new Set(['&&', '||']);
 const BINARY_PRECEDENCE = {'??':1,'||':2,'&&':3,'==':4,'!=':4,'>':5,'>=':5,'<':5,'<=':5,'+':10,'-':10,'*':20,'/':20,'%':20};
 const RESERVED = new Set(('abstract as base bool break byte case catch char checked class const continue decimal default delegate do double else enum event explicit extern false finally fixed float for foreach goto if implicit in int interface internal is lock long namespace new null object operator out override params private protected public readonly ref return sbyte sealed short sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked unsafe ushort using virtual void volatile while var').split(' '));
-export const RUNTIME_LABEL = 'محاكي أساسيات C# · القيم والحساب والشروط والحلقات';
+export const RUNTIME_LABEL = 'محاكي أساسيات C#';
 export class CSharpError extends Error {
   constructor(message,token={},code='syntax') { super(message);this.name='CSharpError';this.line=token.line||1;this.column=token.column||1;this.code=code; }
 }
@@ -75,16 +75,41 @@ export function parseProgram(source) {
     }
     return name;
   }
-  function declaration() {
-    const token = take();
+  function typeName(allowVoid = false) {
+    const token = expect('identifier');
+    if (!TYPES.has(token.value) && !(allowVoid && token.value === 'void')) {
+      throw new CSharpError('اختَر نوعًا مدعومًا مثل int أو string.', token, 'type');
+    }
     let type = token.value;
     if (type === 'string' && peek().kind === '?') type += take().value;
-    if (peek().kind === '[') {
+    if (type !== 'void' && peek().kind === '[') {
       take();
       expect(']');
       type += '[]';
     }
+    return type;
+  }
+  function declaration(allowFunction = false) {
+    const token = peek();
+    const type = typeName(allowFunction);
     const name = nameToken().value;
+    if (peek().kind === '(') {
+      if (!allowFunction) throw new CSharpError('عرّف الدالة في مستوى البرنامج خارج جسم الحلقة أو الشرط.', token, 'unsupported');
+      take();
+      const parameters = [];
+      if (peek().kind !== ')') {
+        do {
+          const type = typeName(), parameter = nameToken();
+          parameters.push({type, name:parameter.value, token:parameter});
+          if (peek().kind !== ',') break;
+          take();
+        } while (true);
+      }
+      const close = expect(')');
+      if (peek().kind !== '{') throw new CSharpError('اكتب جسم الدالة بين { و }.', peek());
+      return {kind:'function', name, type, parameters, token, header:text.slice(token.start, close.end), body:statement()};
+    }
+    if (type === 'void') throw new CSharpError('استخدم void في تعريف دالة لا تعيد قيمة.', token, 'type');
     expect('=');
     let initializer;
     if (arrayType(type) && peek().kind === '{') {
@@ -103,6 +128,19 @@ export function parseProgram(source) {
       initializer = expression();
     }
     return {kind:'declare', name, type, expression:initializer, token};
+  }
+  function call(token) {
+    expect('(');
+    const args = [];
+    if (peek().kind !== ')') {
+      do {
+        args.push(expression());
+        if (peek().kind !== ',') break;
+        take();
+      } while (true);
+    }
+    const close = expect(')');
+    return {kind:'call', name:token.value, op:token.value, args, token, start:token.start, end:close.end};
   }
   function assignment() {
     const start = peek();
@@ -161,7 +199,7 @@ export function parseProgram(source) {
       expect(')');
       node = { kind:'try-parse', op:'TryParse', expression:input, outName:output.value, token:method };
     }
-    else if(t.kind==='identifier'&&!RESERVED.has(t.value))node={kind:'variable',name:t.value,token:t};
+    else if(t.kind==='identifier'&&!RESERVED.has(t.value))node=peek().kind === '(' ? call(t) : {kind:'variable',name:t.value,token:t};
     else if (INCREMENTS.has(t.kind)) throw new CSharpError('اكتب تحديث ++ أو -- كأمر مستقل أو في خانة التحديث داخل for.', t, 'unsupported');
     else if(t.kind==='-'||t.kind==='+'||t.kind==='!')node={kind:'unary',op:t.kind,expression:expression(30),token:t};
     else if (t.kind === '(') {
@@ -228,15 +266,22 @@ export function parseProgram(source) {
       s.header = text.slice(start.start, close.end);
       s.body = statement(true);
       end = s.body.end;
+    } else if (start.value === 'return') {
+      take();
+      const result = peek().kind !== ';' ? expression() : null;
+      end = expect(';');
+      s = {kind:'return', expression:result, token:start};
     } else if (start.value === 'break' || start.value === 'continue') {
       take();
       end = expect(';');
       s = {kind:start.value, token:start};
     } else if(start.kind===';') {end=take();s={kind:'empty',token:start};}
     else {
-      if(TYPES.has(start.value)) {
+      if(TYPES.has(start.value) || start.value === 'void' || start.value === 'static') {
         if(embedded)throw new CSharpError('ضع تصريح المتغير داخل كتلة { }.',start,'syntax');
-        s = declaration();
+        if (start.value === 'static') take();
+        s = declaration(nesting === 1);
+        if (start.value === 'static' && s.kind !== 'function') throw new CSharpError('استخدم static هنا قبل تعريف دالة.', start, 'unsupported');
       } else if(start.value==='Console'||start.value==='System') {
         take();if(start.value==='System'){expect('.');expect('identifier','Console');}
         expect('.');const method=expect('identifier');
@@ -244,10 +289,12 @@ export function parseProgram(source) {
         expect('(');const argument=peek().kind===')'?null:expression();expect(')');
         if(!argument&&method.value==='Write')throw new CSharpError('Console.Write يحتاج قيمة لطباعتها.',method,'type');
         s={kind:'print',method:method.value,expression:argument,token:start};
+      } else if (start.kind === 'identifier' && !RESERVED.has(start.value) && tokens[cursor + 1]?.kind === '(') {
+        s = {kind:'invoke', expression:call(take()), token:start};
       } else if((start.kind==='identifier'&&!RESERVED.has(start.value)) || INCREMENTS.has(start.kind)) {
         s = assignment();
       } else throw new CSharpError('هذا البناء خارج نطاق المحاكي. راجع الصيغ المتاحة في الدرس.',start,'unsupported');
-      end=expect(';');
+      end = s.kind === 'function' ? s.body.end : expect(';');
     }
     s.end=end;s.source=text.slice(start.start,end.end);nesting--;return s;
   }
@@ -258,10 +305,32 @@ export function parseProgram(source) {
   if(!statements.length)throw new CSharpError('اكتب أمرًا صغيرًا أولًا، ثم شغّله.');
   validateTypes(statements);return statements;
 }
+function localFunctions(statements) {
+  return new Map(statements.filter(s => s.kind === 'function').map(s => [s.name, s]));
+}
+
+function guaranteesReturn(s) {
+  if (s.kind === 'return') return true;
+  if (s.kind === 'block') return s.body.some(guaranteesReturn);
+  return s.kind === 'if' && !!s.alternate && guaranteesReturn(s.consequent) && guaranteesReturn(s.alternate);
+}
+
 function validateTypes(statements) {
   const scopes=[];
+  const functions = localFunctions(statements);
   let loopDepth = 0;
+  let currentFunction = null;
   const lookup=name=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].available.has(name))return scopes[i].available.get(name);};
+  function inferCall(node, allowVoid = false) {
+    const fn = functions.get(node.name);
+    if (!fn || lookup(node.name)) throw new CSharpError('الدالة «' + node.name + '» غير معرّفة في مسار المحاكي.', node.token, 'name');
+    if (fn.parameters.length !== node.args.length) throw new CSharpError('مرّر عدد القيم المطلوب للدالة ' + node.name + '.', node.token, 'type');
+    for (const [index, arg] of node.args.entries()) {
+      if (!canAssign(infer(arg), fn.parameters[index].type)) throw new CSharpError('راجع نوع القيمة الممررة للمعامل «' + fn.parameters[index].name + '».', arg.token, 'type');
+    }
+    if (fn.type === 'void' && !allowVoid) throw new CSharpError('استدعِ دالة void في سطر مستقل. الدالة لا تعيد قيمة تستخدمها هنا.', node.token, 'type');
+    return fn.type;
+  }
   function infer(node,allowMin=false,allowTryParse=false) {
     node.valueType = inferType(node, allowMin, allowTryParse);
     return node.valueType;
@@ -273,6 +342,7 @@ function validateTypes(statements) {
       return node.type;
     }
     if (node.kind === 'read-line') return 'string?';
+    if (node.kind === 'call') return inferCall(node);
     if (node.kind === 'array') {
       const element = node.type.slice(0, -2);
       for (const item of node.items) {
@@ -344,7 +414,7 @@ function validateTypes(statements) {
     scopes.push({allNames, available:new Map()});
   }
   function visitBody(body) {
-    enterScope(namesIn(body.filter(s => s.kind === 'declare')));
+    enterScope(namesIn(body.filter(s => s.kind === 'declare' || s.kind === 'function')));
     body.forEach(visit);
     scopes.pop();
   }
@@ -369,6 +439,17 @@ function validateTypes(statements) {
   }
   function visit(s) {
     if(s.kind==='block'){visitBody(s.body);return;}
+    if (s.kind === 'function') return;
+    if (s.kind === 'invoke') {
+      s.expression.valueType = inferCall(s.expression, true);
+      return;
+    }
+    if (s.kind === 'return') {
+      if (!currentFunction) throw new CSharpError('اكتب return داخل جسم الدالة.', s.token);
+      const type = s.expression ? infer(s.expression) : 'void';
+      if (!canAssign(type, currentFunction.type)) throw new CSharpError('أعد قيمة من نوع ' + currentFunction.type + ' في هذه الدالة.', s.token, 'type');
+      return;
+    }
     if (LOOP_KINDS.has(s.kind)) { visitLoop(s); return; }
     if (s.kind === 'break' || s.kind === 'continue') {
       if (!loopDepth) throw new CSharpError('استخدم ' + s.kind + ' داخل حلقة.', s.token, 'syntax');
@@ -393,6 +474,14 @@ function validateTypes(statements) {
     }
   }
   visitBody(statements);
+  for (const fn of functions.values()) {
+    currentFunction = fn;
+    enterScope(namesIn(fn.parameters));
+    for (const {name,type} of fn.parameters) scopes.at(-1).available.set(name, type);
+    visit(fn.body);
+    scopes.pop();
+    if (fn.type !== 'void' && !guaranteesReturn(fn.body)) throw new CSharpError('أضف return لقيمة في كل مسار من الدالة ' + fn.name + '.', fn.token, 'type');
+  }
 }
 function canAssign(type, target) {
   return type === target || (type === 'int' && NUMERIC_TYPES.has(target)) || (type === 'string' && target === 'string?');
@@ -526,7 +615,7 @@ function parseInputInt(input) {
   return { value: valid ? number || 0 : 0, valid };
 }
 
-function evaluateExpression(root, variables, source, readLine) {
+function evaluateExpression(root, variables, source, readLine, invokeCall) {
   const names = new Set();
   const logic = [];
   const consumed = [];
@@ -536,6 +625,7 @@ function evaluateExpression(root, variables, source, readLine) {
 
   function evaluate(node) {
     if (node.kind === 'literal') return node.value;
+    if (node.kind === 'call') return invokeCall(node, node.args.map(evaluate));
     if (node.kind === 'array') {
       const element = node.type.slice(0, -2);
       return node.items.map(item => convertNumber(evaluate(item), item.valueType, element, item.token));
@@ -628,6 +718,7 @@ function allStatements(statements) {
       result.push(...allStatements([statement.body]));
       if (statement.update) result.push(statement.update);
     }
+    if (statement.kind === 'function') result.push(...allStatements(statement.body.body));
   }
   return result;
 }
@@ -648,8 +739,9 @@ function inputValue(value, type, token) {
 
 export function runProgram(source,inputs={},stdin='') {
   const text = String(source).replace(/\r\n?/g, '\n');
-  const statements = parseProgram(text), scopes = [new Map()], trace = [], skipped = new Set();
-  const loops = [];
+  const statements = parseProgram(text), trace = [];
+  const functions = localFunctions(statements), calls = [];
+  let scopes = [new Map()], loops = [], skipped = new Set();
   const sourceLines = text.split('\n');
   if (typeof stdin !== 'string' || stdin.length > LIMITS.source) throw new CSharpError('اختصر مدخلات التشغيل إلى 16 ألف حرف أو أقل.', {}, 'limit');
   const inputLines = stdin.split(/\r\n?|\n/);
@@ -662,6 +754,7 @@ export function runProgram(source,inputs={},stdin='') {
   const visible=()=>new Map(scopes.flatMap(scope=>[...scope]));
   const owner=name=>scopes.findLast(scope=>scope.has(name));
   const firstLine=s=>s.kind==='block'?(s.body[0]?.token.line||s.end.line):s.token.line;
+  const evaluate = expression => evaluateExpression(expression, visible(), text, readLine, invokeCall);
   function snapshot(s, {loopPhase, ...details} = {}) {
     if (trace.length >= LIMITS.trace) {
       throw new CSharpError('توقف المحاكي عند حد الخطوات. افحص شرط الحلقة وتأكد إن العداد بيتغير وبيوصل للنهاية.', s.token, 'limit');
@@ -671,27 +764,64 @@ export function runProgram(source,inputs={},stdin='') {
       kind:frame.kind, iteration:frame.iteration, depth:loops.length,
       phase:loopPhase || (frame.phase === 'body' && s.kind === 'assign' && frame.control.has(s.name) ? 'update' : frame.phase)
     };
+    const callFrame = calls.at(-1), event = details.kind || s.kind;
+    const call = callFrame && {
+      name:callFrame.fn.name, depth:calls.length, callerLine:callFrame.callerLine,
+      phase:event === 'call' ? 'enter' : event === 'return' ? 'return' : 'body'
+    };
     trace.push({
       line:s.token.line, source:s.source, kind:s.kind, name:null, reads:[],
       variables:exposedVariables(visible()), output, skippedLines:[...skipped],
-      ...(loop && {loop}), ...details
+      ...(loop && {loop}), ...(call && {call}), ...details
     });
   }
   function executeBody(body, nextLine = null) {
-    for (const [i, statement] of body.entries()) {
-      const jump = execute(statement, body[i + 1]?.token.line || nextLine);
+    const commands = body.filter(s => s.kind !== 'function');
+    for (const [i, statement] of commands.entries()) {
+      const jump = execute(statement, commands[i + 1]?.token.line || nextLine);
       if (jump) return jump;
     }
   }
-  function executeBlock(s, nextLine, loopBody = false) {
+  function executeBlock(s, nextLine, skipExitSnapshot = false) {
     scopes.push(new Map());
     let jump;
-    try { jump = executeBody(s.body, loopBody ? nextLine : s.end.line); }
+    try { jump = executeBody(s.body, skipExitSnapshot ? nextLine : s.end.line); }
     finally { scopes.pop(); }
-    if (!jump && !loopBody) snapshot({kind:'scope-exit',token:s.end,source:'}'},{
+    if (!jump && !skipExitSnapshot) snapshot({kind:'scope-exit',token:s.end,source:'}'},{
       nextLine, action:'يا كمبيوتر، انتهت الكتلة. أكمل من الأمر التالي، واحتفظ بتحديثات المتغيرات الخارجية.'
     });
     return jump;
+  }
+  function invokeCall(node, args) {
+    const fn = functions.get(node.name);
+    if (calls.length >= LIMITS.calls) throw new CSharpError('توقف المحاكي عند حد الاستدعاءات المتداخلة. تأكد أن الدالة تقترب من حالة التوقف.', node.token, 'limit');
+    const caller = {scopes, loops, skipped};
+    const scope = new Map(fn.parameters.map(({name,type}, index) => [
+      name, {type, value:convertNumber(args[index], node.args[index].valueType, type, node.args[index].token)}
+    ]));
+    const callerLine = node.token.line;
+    calls.push({fn, callerLine});
+    scopes = [scope];
+    loops = [];
+    skipped = new Set(caller.skipped);
+    for (const line of skipped) {
+      if (line >= fn.token.line && line <= fn.end.line) skipped.delete(line);
+    }
+    try {
+      const target = firstLine(fn.body);
+      snapshot(fn, {
+        kind:'call', source:fn.header, nextLine:target,
+        action:'يا كمبيوتر، ادخل الدالة ' + fn.name + ' وابدأ من السطر ' + target + '.'
+      });
+      const result = executeBlock(fn.body, callerLine, true);
+      if (result?.kind === 'return') return result.value;
+      snapshot({kind:'return', token:fn.end, source:'}'}, {
+        nextLine:callerLine, action:'يا كمبيوتر، انتهت الدالة. ارجع للسطر ' + callerLine + '.'
+      });
+    } finally {
+      ({scopes, loops, skipped} = caller);
+      calls.pop();
+    }
   }
   function skipLines(start, end) {
     // Dim complete source lines. A line can contain both an executed and a
@@ -711,14 +841,14 @@ export function runProgram(source,inputs={},stdin='') {
     scopes.push(scope);
     try {
       if (s.initializer) execute(s.initializer, s.token.line);
-      const collection = s.collection && evaluateExpression(s.collection, visible(), text, readLine);
+      const collection = s.collection && evaluate(s.collection);
       for (;;) {
         for (const line of skipped) {
           if (line >= s.body.token.line && line <= s.body.end.line) skipped.delete(line);
         }
         const evaluation = collection
           ? {value:frame.iteration < collection.value.length, reads:collection.reads}
-          : s.condition ? evaluateExpression(s.condition, visible(), text, readLine) : {value:true, reads:[]};
+          : s.condition ? evaluate(s.condition) : {value:true, reads:[]};
         frame.control = new Set(evaluation.reads);
         const passed = evaluation.value;
         if (passed) frame.iteration++;
@@ -748,6 +878,7 @@ export function runProgram(source,inputs={},stdin='') {
           ? executeBlock(s.body, frame.continueLine, true)
           : execute(s.body, frame.continueLine);
         if (collection) scope.delete(s.iterator.name);
+        if (jump?.kind === 'return') return jump;
         if (jump === 'break') break;
         if (s.update) {
           frame.phase = 'update';
@@ -765,7 +896,22 @@ export function runProgram(source,inputs={},stdin='') {
   }
   function execute(s, nextLine, clause = 'if') {
     if (s.kind === 'block') return executeBlock(s, nextLine);
-    if (LOOP_KINDS.has(s.kind)) { executeLoop(s, nextLine); return; }
+    if (LOOP_KINDS.has(s.kind)) return executeLoop(s, nextLine);
+    if (s.kind === 'invoke') {
+      const result = evaluate(s.expression);
+      snapshot(s, {...result, nextLine, action:'يا كمبيوتر، أكمل بعد استدعاء ' + s.expression.name + '.'});
+      return;
+    }
+    if (s.kind === 'return') {
+      const {fn, callerLine} = calls.at(-1);
+      const result = evaluate(s.expression);
+      const type = fn.type;
+      const value = s.expression ? convertNumber(result.value, s.expression.valueType, type, s.token) : undefined;
+      const what = s.expression ? ' بقيمة ' + display(value, type) : '';
+      snapshot(s, {...result, value:traceValue(value, type), nextLine:callerLine,
+        action:'يا كمبيوتر، ارجع للسطر ' + callerLine + what + '.'});
+      return {kind:'return', value};
+    }
     if (s.kind === 'break' || s.kind === 'continue') {
       const frame = loops.at(-1);
       const exits = s.kind === 'break';
@@ -775,7 +921,7 @@ export function runProgram(source,inputs={},stdin='') {
       return s.kind;
     }
     if (s.kind === 'if') {
-      const evaluation = evaluateExpression(s.condition, visible(), text, readLine);
+      const evaluation = evaluate(s.condition);
       const passed = evaluation.value;
       const chosen = passed ? s.consequent : s.alternate;
       const hasNextCondition = s.alternate?.kind === 'if';
@@ -811,7 +957,7 @@ export function runProgram(source,inputs={},stdin='') {
     const override = s.kind === 'declare' && s.expression.kind !== 'try-parse' && Object.hasOwn(inputs, s.name);
     const evaluation = override
       ? { value: inputValue(inputs[s.name], type, s.token), reads: [], comparison: null, logic: [] }
-      : evaluateExpression(s.expression, variables, text, readLine);
+      : evaluateExpression(s.expression, variables, text, readLine, invokeCall);
     const value = !override && type !== expressionType ? convertNumber(evaluation.value, expressionType, type, s.token) : evaluation.value;
     const outputValue = display(value, type);
     if (s.kind === 'print') {
@@ -842,6 +988,11 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   if(challenge.minPrints&&result.trace.filter(t=>t.kind==='print').length<challenge.minPrints)return fail('أضف أوامر الطباعة المطلوبة، ثم راقب ترتيبها.');
   for(const name of challenge.updated||[])if(!statements.some(s=>s.kind==='assign'&&s.name===name))return fail('المطلوب تحديث المتغير «'+name+'» بعد تعريفه.');
   for(const[name,expected]of Object.entries(challenge.values||{}))if(result.variables[name]?.value!==expected)return fail('راجع القيمة النهائية للمتغير «'+name+'».');
+  for (const [name, count] of Object.entries(challenge.calls || {})) {
+    if (result.trace.filter(step => step.kind === 'call' && step.call.name === name).length < count) {
+      return fail('استدعِ الدالة «' + name + '» في المهمة المطلوبة.');
+    }
+  }
   if (challenge.operation) {
     const matchesOperation = statements.some(statement => {
       if (challenge.operationIn && statement.name !== challenge.operationIn) return false;
@@ -892,4 +1043,7 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   }
   return {passed:true,result,message:'صحيح. نفّذت المطلوب وشاهدت أثره.'};
 }
-function containsOperator(node,op){return !!node&&(node.op===op||containsOperator(node.left,op)||containsOperator(node.right,op)||containsOperator(node.expression,op));}
+function containsOperator(node, op) {
+  return !!node && (node.op === op || containsOperator(node.left, op) || containsOperator(node.right, op) ||
+    containsOperator(node.expression, op) || node.args?.some(arg => containsOperator(arg, op)));
+}

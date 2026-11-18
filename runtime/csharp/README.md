@@ -17,9 +17,13 @@ npm run build
 
 `STEPLEARN_DOTNET` can select an absolute `dotnet` executable. If it is outside the normal installation location, also set `DOTNET_ROOT`. The asset build needs `Microsoft.NETCore.App.Ref/10.0.15` and the package versions in the project; it uses the prebuilt native WebAssembly runtime and does not require AOT/native workloads. A task override keeps compatible WebAssembly MSBuild tasks in-process to avoid an MSB4216 task-host startup problem in restricted Linux containers. Revalidate or remove that override when changing SDK/runtime versions.
 
-The native check links the exact `Program.cs` used by WebAssembly and compares all 120 lesson solutions to the educational interpreter, 216 alternate input cases, and 20 compiler/runtime cases. Its report is `docs/csharp/native-verification.json`. The standard Node suite additionally verifies message filtering, cancellation/recovery state, asset integrity, and learner input persistence.
+The native check links the exact `Program.cs` used by WebAssembly and compares lesson solutions and alternate inputs with the educational interpreter, and checks compiler/runtime diagnostics. Its report is `docs/csharp/native-verification.json`. The standard Node suite additionally verifies message filtering, cancellation/recovery state, asset integrity, and learner input persistence.
 
 `tests/browser/csharp-dotnet.html` is a manual browser QA page in the development checkout. It is excluded from the production build. Run it in a permitted browser environment, using the project's normal preview. It checks real .NET output, language features, inputs, errors, output limits, manual and timeout cancellation, recovery, and opaque origin. The current cloud preview's URL policy blocked continued blob-context testing; do not bypass that restriction or mark browser QA successful from a native report.
+
+## Teaching interpreter
+
+Unit 8 traces local function calls, typed arguments, and returns to the caller. Each call keeps its own parameter and local variables. Function definitions use braces at the program level and functions access their own scopes. The teaching interpreter limits execution to 24 nested calls and 1000 snapshots.
 
 ## Runtime architecture
 

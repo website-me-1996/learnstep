@@ -16,30 +16,30 @@
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Begin P5A at lesson 57 with one local function call and return. Add parameters, scope and reuse, then P5B array indexing, Length, text indexing and rectangular arrays. Keep lessons 1–56 stable.",
+  "nextAction": "Begin P5B at lesson 65 with array index and value, then index assignment, Length, traversal, text indexing and rectangular arrays. Keep lessons 1–64 stable.",
   "checks": {
     "npmTest": {
-      "passed": 594,
+      "passed": 645,
       "failed": 0
     },
-    "csharpTests": 424,
-    "canonicalLessonsValidated": 553,
+    "csharpTests": 475,
+    "canonicalLessonsValidated": 561,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 56 lessons and retained previous completion. While condition/update/jump/rewind and zero iterations passed. For continue jumped to the update; foreach bound item 4 from [4,9,12].",
+    "browserQA": "Desktop Chrome displayed 64 lessons and retained earlier completion. Lesson 57 showed the opening scene, entered Price, returned 7 to line 1 and stored 7 in price.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 1076,
+      "passed": 1221,
       "failed": 0,
-      "alternateInputCases": 772,
+      "alternateInputCases": 877,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 280
+      "curriculumSolutionsCompared": 320
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
   "runtime": {
-    "default": "bounded teaching interpreter with numeric/text expressions, console input, reversible decisions and loop traces, while/for/foreach control flow, fixed-size initializer arrays and a 1000-snapshot limit",
+    "default": "bounded teaching interpreter with console input, reversible expressions and control flow, primitive array initializers, typed local function calls and returns, and a 1000-snapshot limit",
     "experimental": ".NET 10.0.15 + Roslyn 5.0.0, SDK 10.0.204, browser WebAssembly worker",
     "assetRawMiB": 45.5,
     "assetGzipMiB": 16.9,
@@ -60,14 +60,14 @@
     "P3D": "complete",
     "P4A": "complete",
     "P4B": "complete",
-    "P5A": "pending",
+    "P5A": "complete",
     "P5B": "pending"
   },
   "curriculum": {
-    "lessons": 56,
-    "steps": 448,
-    "units": 7,
-    "latestUnit": "loop-control",
-    "nextUnit": "functions"
+    "lessons": 64,
+    "steps": 512,
+    "units": 8,
+    "latestUnit": "functions",
+    "nextUnit": "arrays-and-indexing"
   }
 }

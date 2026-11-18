@@ -2,9 +2,9 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى الحساب والشروط وقراءة المدخلات والحلقات.",
-  "totalLessons": 56,
-  "runtime": "csharp-foundations-subset-v7",
+  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال.",
+  "totalLessons": 64,
+  "runtime": "csharp-foundations-subset-v8",
   "units": [
     {
       "id": "first-programs",
@@ -109,6 +109,21 @@
         "csharp-54-nested-for-rows",
         "csharp-55-foreach-values",
         "csharp-56-foreach-cargo-total"
+      ]
+    },
+    {
+      "id": "functions",
+      "title": "الوحدة الثامنة: استدعِ دالة وارجع بقيمة",
+      "order": 7,
+      "lessonIds": [
+        "csharp-57-first-function-call",
+        "csharp-58-function-parameter",
+        "csharp-59-function-argument-order",
+        "csharp-60-function-return-value",
+        "csharp-61-function-reuse",
+        "csharp-62-function-number-copy",
+        "csharp-63-local-variable-scope",
+        "csharp-64-function-booking-total"
       ]
     }
   ],
@@ -22142,6 +22157,3314 @@
         {
           "label": "المجموع",
           "text": "8"
+        }
+      ]
+    },
+    {
+      "id": "csharp-57-first-function-call",
+      "legacyId": "csharp:56",
+      "title": "اذهب إلى الدالة ثم ارجع",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 56,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "Price() استدعاء. ينتقل التنفيذ لجسم الدالة، ثم يعود بنفس القيمة التي كتبها return وقت التنفيذ.",
+      "whyUse": "تعرف أين يذهب التنفيذ عندما يقابل اسم دالة وأقواسها.",
+      "browserMechanics": "التتبّع يعرض دخول Price، ثم return، ثم تخزين القيمة في price عند سطر الاستدعاء.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+      "breakdown": [
+        "ابدأ في السطر الذي يستدعي Price().",
+        "انتقل لجسم الدالة.",
+        "ارجع بالقيمة واطبع price."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "على ورقة الطلب خانة سعر فارغة. اذهب إلى بطاقة اسمها Price، خذ الرقم منها، وعد لملء الخانة.",
+          "instruction": "يا كمبيوتر، على ورقة الطلب خانة سعر فارغة. اذهب إلى بطاقة اسمها Price، خذ الرقم منها، وعد لملء الخانة.",
+          "benefit": "تعرف أين يذهب التنفيذ عندما يقابل اسم دالة وأقواسها.",
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Price() استدعاء. ينتقل التنفيذ لجسم الدالة، ثم يعود بنفس القيمة التي كتبها return وقت التنفيذ.",
+          "code": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+          "benefit": "التتبّع يعرض دخول Price، ثم return، ثم تخزين القيمة في price عند سطر الاستدعاء.",
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب int Price() تعيد 7. استدعِ Price() عند تعريف int price ثم اطبع المتغير.",
+          "instruction": "يا كمبيوتر، اكتب int Price() تعيد 7. استدعِ Price() عند تعريف int price ثم اطبع المتغير.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "price"
+            ],
+            "printed": [
+              "price"
+            ],
+            "operation": "Price",
+            "operationIn": "price",
+            "cases": [],
+            "calls": {
+              "Price": 1
+            },
+            "types": {
+              "price": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر الرقم عند return إلى 9. تابع أثره على price.",
+          "instruction": "يا كمبيوتر، غيّر الرقم عند return إلى 9. تابع أثره على price.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 9;\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "price"
+            ],
+            "printed": [
+              "price"
+            ],
+            "operation": "Price",
+            "operationIn": "price",
+            "cases": [],
+            "calls": {
+              "Price": 1
+            },
+            "types": {
+              "price": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 9;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب القيمة 4 من داخل Price وارجع إلى السطر الذي يستقبلها.",
+          "instruction": "يا كمبيوتر، جرّب القيمة 4 من داخل Price وارجع إلى السطر الذي يستقبلها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 4;\n}",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "price"
+            ],
+            "printed": [
+              "price"
+            ],
+            "operation": "Price",
+            "operationIn": "price",
+            "cases": [],
+            "calls": {
+              "Price": 1
+            },
+            "types": {
+              "price": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 4;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الدالة Price موجودة لكن price يبقى 0. إيه السطر اللي يطلب القيمة منها؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الدالة Price موجودة لكن price يبقى 0. إيه السطر اللي يطلب القيمة منها؟",
+          "options": [
+            "int price = Price();",
+            "int price = 0;",
+            "Console.WriteLine(0);"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int price = 0;\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استدعِ Price() عند إنشاء price حتى تستقبل القيمة العائدة.",
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Price() عند إنشاء price حتى تستقبل القيمة العائدة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Price() عند إنشاء price حتى تستقبل القيمة العائدة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int price = 0;\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+          "solution": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "price"
+            ],
+            "printed": [
+              "price"
+            ],
+            "operation": "Price",
+            "operationIn": "price",
+            "cases": [],
+            "calls": {
+              "Price": 1
+            },
+            "types": {
+              "price": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جهّز سعرًا جديدًا 12 في Price. استدعِ الدالة واطبع القيمة التي وصلت إلى price.",
+          "instruction": "يا كمبيوتر، جهّز سعرًا جديدًا 12 في Price. استدعِ الدالة واطبع القيمة التي وصلت إلى price.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 12;\n}",
+          "challenge": {
+            "output": "12\n",
+            "declared": [
+              "price"
+            ],
+            "printed": [
+              "price"
+            ],
+            "operation": "Price",
+            "operationIn": "price",
+            "cases": [],
+            "calls": {
+              "Price": 1
+            },
+            "types": {
+              "price": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد مكان الاستدعاء ومكان جسم الدالة.",
+            "القاعدة: التنفيذ يدخل الدالة عند كتابة اسمها وأقواس الاستدعاء ثم يرجع بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ int price = Price(); وضع في الدالة return 7;.",
+            "كشف الحل:\nint price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 12;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int price = 0;\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+        "fixedCode": "int price = Price();\nConsole.WriteLine(price);\n\nint Price()\n{\n    return 7;\n}",
+        "question": "الدالة Price موجودة لكن price يبقى 0. إيه السطر اللي يطلب القيمة منها؟",
+        "explanation": "استدعِ Price() عند إنشاء price حتى تستقبل القيمة العائدة.",
+        "options": [
+          "int price = Price();",
+          "int price = 0;",
+          "Console.WriteLine(0);"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-56-foreach-cargo-total"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب int Price() تعيد 7. استدعِ Price() عند تعريف int price ثم اطبع المتغير.",
+        "يا كمبيوتر، جهّز سعرًا جديدًا 12 في Price. استدعِ الدالة واطبع القيمة التي وصلت إلى price."
+      ],
+      "commonMisconceptions": [
+        "استدعِ Price() عند إنشاء price حتى تستقبل القيمة العائدة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "مكان الطلب",
+          "text": "خانة السعر"
+        },
+        {
+          "label": "داخل الدالة",
+          "text": "أعد القيمة 7"
+        },
+        {
+          "label": "عند الرجوع",
+          "text": "price = 7"
+        }
+      ]
+    },
+    {
+      "id": "csharp-58-function-parameter",
+      "legacyId": "csharp:57",
+      "title": "مرّر قيمة إلى معامل الدالة",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 57,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "وقت استدعاء Triple(orders) تُنسخ قيمة orders إلى المعامل amount. جسم الدالة يقرأ amount في هذا الاستدعاء.",
+      "whyUse": "تقدر تستخدم الحساب مع مدخلات مختلفة.",
+      "browserMechanics": "عند الدخول تظهر amount بالقيمة التي وصلت إليها، وبعد return يظهر total في نطاق البرنامج.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+      "breakdown": [
+        "احفظ مدخل البرنامج في orders.",
+        "أرسل orders إلى Triple.",
+        "ارجع بـ amount * 3 ثم اطبع total."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "اطلب من آلة أن تضرب العدد في ثلاثة. تدخل لها عدد الطلبات الحالي، ومع كل طلب جديد ممكن تبعت عددًا مختلفًا.",
+          "instruction": "يا كمبيوتر، اطلب من آلة أن تضرب العدد في ثلاثة. تدخل لها عدد الطلبات الحالي، ومع كل طلب جديد ممكن تبعت عددًا مختلفًا.",
+          "benefit": "تقدر تستخدم الحساب مع مدخلات مختلفة.",
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "وقت استدعاء Triple(orders) تُنسخ قيمة orders إلى المعامل amount. جسم الدالة يقرأ amount في هذا الاستدعاء.",
+          "code": "int orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "benefit": "عند الدخول تظهر amount بالقيمة التي وصلت إليها، وبعد return يظهر total في نطاق البرنامج.",
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن orders = 3. اكتب Triple(int amount) تعيد amount * 3. استدعِ الدالة بقيمة orders واحفظ total واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن orders = 3. اكتب Triple(int amount) تعيد amount * 3. استدعِ الدالة بقيمة orders واحفظ total واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "orders",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "Triple",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "orders": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "orders": 1
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "orders": 7
+                },
+                "output": "21\n"
+              }
+            ],
+            "read": [
+              "orders"
+            ],
+            "calls": {
+              "Triple": 1
+            },
+            "types": {
+              "orders": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر orders إلى 4 واترك جسم Triple كما هو.",
+          "instruction": "يا كمبيوتر، غيّر orders إلى 4 واترك جسم Triple كما هو.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int orders = 4;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "challenge": {
+            "output": "12\n",
+            "declared": [
+              "orders",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "Triple",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "orders": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "orders": 1
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "orders": 7
+                },
+                "output": "21\n"
+              }
+            ],
+            "read": [
+              "orders"
+            ],
+            "calls": {
+              "Triple": 1
+            },
+            "types": {
+              "orders": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 4;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب orders = 0. افحص قيمة amount عند الدخول.",
+          "instruction": "يا كمبيوتر، جرّب orders = 0. افحص قيمة amount عند الدخول.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int orders = 0;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "orders",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "Triple",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "orders": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "orders": 1
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "orders": 7
+                },
+                "output": "21\n"
+              }
+            ],
+            "read": [
+              "orders"
+            ],
+            "calls": {
+              "Triple": 1
+            },
+            "types": {
+              "orders": "int",
+              "total": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 0;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "total تساوي 3 رغم أن orders تساوي 3. أي وسيط يمرّر عدد الطلبات الفعلي؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "total تساوي 3 رغم أن orders تساوي 3. أي وسيط يمرّر عدد الطلبات الفعلي؟",
+          "options": [
+            "Triple(1)",
+            "Triple(orders)",
+            "Triple(0)"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int orders = 3;\nint total = Triple(1);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استدعِ Triple(orders) عشان تستفيد من أي قيمة تتخزن في orders.",
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Triple(orders) عشان تستفيد من أي قيمة تتخزن في orders.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Triple(orders) عشان تستفيد من أي قيمة تتخزن في orders.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int orders = 3;\nint total = Triple(1);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "solution": "int orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "challenge": {
+            "output": "9\n",
+            "declared": [
+              "orders",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "Triple",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "orders": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "orders": 1
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "orders": 7
+                },
+                "output": "21\n"
+              }
+            ],
+            "read": [
+              "orders"
+            ],
+            "calls": {
+              "Triple": 1
+            },
+            "types": {
+              "orders": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احسب عدد الملصقات إذا احتاج كل طلب ثلاثة ملصقات وكان orders يساوي 5.",
+          "instruction": "يا كمبيوتر، احسب عدد الملصقات إذا احتاج كل طلب ثلاثة ملصقات وكان orders يساوي 5.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int orders = 5;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+          "challenge": {
+            "output": "15\n",
+            "declared": [
+              "orders",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "Triple",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "orders": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "orders": 1
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "orders": 7
+                },
+                "output": "21\n"
+              }
+            ],
+            "read": [
+              "orders"
+            ],
+            "calls": {
+              "Triple": 1
+            },
+            "types": {
+              "orders": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع القيمة من orders إلى amount.",
+            "القاعدة: المعامل يأخذ قيمة الوسيط عند الاستدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int total = Triple(orders); وفي الجسم return amount * 3;.",
+            "كشف الحل:\nint orders = 5;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int orders = 3;\nint total = Triple(1);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+        "fixedCode": "int orders = 3;\nint total = Triple(orders);\nConsole.WriteLine(total);\n\nint Triple(int amount)\n{\n    return amount * 3;\n}",
+        "question": "total تساوي 3 رغم أن orders تساوي 3. أي وسيط يمرّر عدد الطلبات الفعلي؟",
+        "explanation": "استدعِ Triple(orders) عشان تستفيد من أي قيمة تتخزن في orders.",
+        "options": [
+          "Triple(1)",
+          "Triple(orders)",
+          "Triple(0)"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-57-first-function-call"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن orders = 3. اكتب Triple(int amount) تعيد amount * 3. استدعِ الدالة بقيمة orders واحفظ total واطبعه.",
+        "يا كمبيوتر، احسب عدد الملصقات إذا احتاج كل طلب ثلاثة ملصقات وكان orders يساوي 5."
+      ],
+      "commonMisconceptions": [
+        "استدعِ Triple(orders) عشان تستفيد من أي قيمة تتخزن في orders."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "القيمة المرسلة",
+          "text": "orders = 3"
+        },
+        {
+          "label": "داخل الدالة",
+          "text": "amount = 3"
+        },
+        {
+          "label": "الإرجاع",
+          "text": "9"
+        }
+      ]
+    },
+    {
+      "id": "csharp-59-function-argument-order",
+      "legacyId": "csharp:58",
+      "title": "طابق ترتيب الوسيطين مع المعاملين",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 58,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "في الاستدعاء بالمواضع، أول قيمة تذهب لأول معامل والثانية للثاني. تبديل القيم يغيّر معنى الفرق.",
+      "whyUse": "تقرأ توقيع الدالة وتراجع الترتيب قبل استخدامها.",
+      "browserMechanics": "لقطة الدخول تعرض available وused معًا. قارن ترتيب القيم بلقطة الاستدعاء.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+      "breakdown": [
+        "احفظ stock وsold.",
+        "استدعِ Remaining(stock, sold).",
+        "أعد available - used واحفظه في left."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قدامك آلة فيها خانة للرصيد وخانة للكمية المستخدمة. حط كل قيمة في مكانها عشان يظهر الفرق الصحيح.",
+          "instruction": "يا كمبيوتر، قدامك آلة فيها خانة للرصيد وخانة للكمية المستخدمة. حط كل قيمة في مكانها عشان يظهر الفرق الصحيح.",
+          "benefit": "تقرأ توقيع الدالة وتراجع الترتيب قبل استخدامها.",
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في الاستدعاء بالمواضع، أول قيمة تذهب لأول معامل والثانية للثاني. تبديل القيم يغيّر معنى الفرق.",
+          "code": "int stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "benefit": "لقطة الدخول تعرض available وused معًا. قارن ترتيب القيم بلقطة الاستدعاء.",
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن stock = 9 وsold = 4. اكتب Remaining(int available, int used) تعيد الفرق. اطبع left من الاستدعاء بالترتيب.",
+          "instruction": "يا كمبيوتر، خزّن stock = 9 وsold = 4. اكتب Remaining(int available, int used) تعيد الفرق. اطبع left من الاستدعاء بالترتيب.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "stock",
+              "sold",
+              "left"
+            ],
+            "printed": [
+              "left"
+            ],
+            "operation": "Remaining",
+            "operationIn": "left",
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 5,
+                  "sold": 5
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 10,
+                  "sold": 2
+                },
+                "output": "8\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "sold": 3
+                },
+                "output": "-1\n"
+              }
+            ],
+            "read": [
+              "stock",
+              "sold"
+            ],
+            "calls": {
+              "Remaining": 1
+            },
+            "types": {
+              "stock": "int",
+              "sold": "int",
+              "left": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، بدّل sold إلى 6. تابع المعامل الذي يتغير.",
+          "instruction": "يا كمبيوتر، بدّل sold إلى 6. تابع المعامل الذي يتغير.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int stock = 9;\nint sold = 6;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "stock",
+              "sold",
+              "left"
+            ],
+            "printed": [
+              "left"
+            ],
+            "operation": "Remaining",
+            "operationIn": "left",
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 5,
+                  "sold": 5
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 10,
+                  "sold": 2
+                },
+                "output": "8\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "sold": 3
+                },
+                "output": "-1\n"
+              }
+            ],
+            "read": [
+              "stock",
+              "sold"
+            ],
+            "calls": {
+              "Remaining": 1
+            },
+            "types": {
+              "stock": "int",
+              "sold": "int",
+              "left": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 9;\nint sold = 6;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، استخدم قيمتين متساويتين، ثم تأكد من الفرق.",
+          "instruction": "يا كمبيوتر، استخدم قيمتين متساويتين، ثم تأكد من الفرق.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int stock = 9;\nint sold = 9;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "stock",
+              "sold",
+              "left"
+            ],
+            "printed": [
+              "left"
+            ],
+            "operation": "Remaining",
+            "operationIn": "left",
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 5,
+                  "sold": 5
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 10,
+                  "sold": 2
+                },
+                "output": "8\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "sold": 3
+                },
+                "output": "-1\n"
+              }
+            ],
+            "read": [
+              "stock",
+              "sold"
+            ],
+            "calls": {
+              "Remaining": 1
+            },
+            "types": {
+              "stock": "int",
+              "sold": "int",
+              "left": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 9;\nint sold = 9;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الناتج -5. أي ترتيب يعطي available = 9 وused = 4؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الناتج -5. أي ترتيب يعطي available = 9 وused = 4؟",
+          "options": [
+            "Remaining(sold, stock)",
+            "Remaining(stock, stock)",
+            "Remaining(stock, sold)"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int stock = 9;\nint sold = 4;\nint left = Remaining(sold, stock);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "أرسل stock أولًا ثم sold.",
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أرسل stock أولًا ثم sold.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أرسل stock أولًا ثم sold.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int stock = 9;\nint sold = 4;\nint left = Remaining(sold, stock);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "solution": "int stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "stock",
+              "sold",
+              "left"
+            ],
+            "printed": [
+              "left"
+            ],
+            "operation": "Remaining",
+            "operationIn": "left",
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 5,
+                  "sold": 5
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 10,
+                  "sold": 2
+                },
+                "output": "8\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "sold": 3
+                },
+                "output": "-1\n"
+              }
+            ],
+            "read": [
+              "stock",
+              "sold"
+            ],
+            "calls": {
+              "Remaining": 1
+            },
+            "types": {
+              "stock": "int",
+              "sold": "int",
+              "left": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احسب الفرق بين رصيد 13 واستخدام 8 من نفس الدالة.",
+          "instruction": "يا كمبيوتر، احسب الفرق بين رصيد 13 واستخدام 8 من نفس الدالة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int stock = 13;\nint sold = 8;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "stock",
+              "sold",
+              "left"
+            ],
+            "printed": [
+              "left"
+            ],
+            "operation": "Remaining",
+            "operationIn": "left",
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 5,
+                  "sold": 5
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 10,
+                  "sold": 2
+                },
+                "output": "8\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "sold": 3
+                },
+                "output": "-1\n"
+              }
+            ],
+            "read": [
+              "stock",
+              "sold"
+            ],
+            "calls": {
+              "Remaining": 1
+            },
+            "types": {
+              "stock": "int",
+              "sold": "int",
+              "left": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختبر أي قيمة دخلت available وأي قيمة دخلت used.",
+            "القاعدة: أول وسيط يقابل أول معامل في الاستدعاء بالمواضع. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int left = Remaining(stock, sold);.",
+            "كشف الحل:\nint stock = 13;\nint sold = 8;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int stock = 9;\nint sold = 4;\nint left = Remaining(sold, stock);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+        "fixedCode": "int stock = 9;\nint sold = 4;\nint left = Remaining(stock, sold);\nConsole.WriteLine(left);\n\nint Remaining(int available, int used)\n{\n    return available - used;\n}",
+        "question": "الناتج -5. أي ترتيب يعطي available = 9 وused = 4؟",
+        "explanation": "أرسل stock أولًا ثم sold.",
+        "options": [
+          "Remaining(sold, stock)",
+          "Remaining(stock, stock)",
+          "Remaining(stock, sold)"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-58-function-parameter"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن stock = 9 وsold = 4. اكتب Remaining(int available, int used) تعيد الفرق. اطبع left من الاستدعاء بالترتيب.",
+        "يا كمبيوتر، احسب الفرق بين رصيد 13 واستخدام 8 من نفس الدالة."
+      ],
+      "commonMisconceptions": [
+        "أرسل stock أولًا ثم sold."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "الخانة الأولى",
+          "text": "stock → available"
+        },
+        {
+          "label": "الخانة الثانية",
+          "text": "sold → used"
+        },
+        {
+          "label": "الإرجاع",
+          "text": "available - used"
+        }
+      ]
+    },
+    {
+      "id": "csharp-60-function-return-value",
+      "legacyId": "csharp:59",
+      "title": "استخدم القيمة العائدة في حساب تاني",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 59,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "return تسلّم قيمة إلى مكان الاستدعاء. بعد تخزينها في one، تقدر تستخدم one في التعبير التالي.",
+      "whyUse": "تقسم الحساب إلى خطوة قابلة لإعادة الاستخدام وخطوة تستخدم نتيجتها.",
+      "browserMechanics": "راقب return بقيمة 7، ثم ظهور one، ثم تعبير one * 2 عندما يرجع التنفيذ.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements#the-return-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+      "breakdown": [
+        "مرّر amount إلى WithFee.",
+        "خزّن الناتج في one.",
+        "احسب two من one واطبعه."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "سعر البطاقة قبل الرسوم ٥. آلة تضيف رسوم ٢ للبطاقة الواحدة. بعد الرجوع احسب تكلفة بطاقتين.",
+          "instruction": "يا كمبيوتر، سعر البطاقة قبل الرسوم ٥. آلة تضيف رسوم ٢ للبطاقة الواحدة. بعد الرجوع احسب تكلفة بطاقتين.",
+          "benefit": "تقسم الحساب إلى خطوة قابلة لإعادة الاستخدام وخطوة تستخدم نتيجتها.",
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "return تسلّم قيمة إلى مكان الاستدعاء. بعد تخزينها في one، تقدر تستخدم one في التعبير التالي.",
+          "code": "int amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "benefit": "راقب return بقيمة 7، ثم ظهور one، ثم تعبير one * 2 عندما يرجع التنفيذ.",
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب WithFee(int value) تعيد value + 2. خزّن amount = 5 وone من WithFee(amount)، ثم two = one * 2 واطبع two.",
+          "instruction": "يا كمبيوتر، اكتب WithFee(int value) تعيد value + 2. خزّن amount = 5 وone من WithFee(amount)، ثم two = one * 2 واطبع two.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "challenge": {
+            "output": "14\n",
+            "declared": [
+              "amount",
+              "one",
+              "two"
+            ],
+            "printed": [
+              "two"
+            ],
+            "operation": "WithFee",
+            "operationIn": "one",
+            "cases": [
+              {
+                "inputs": {
+                  "amount": 0
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "amount": 1
+                },
+                "output": "6\n"
+              },
+              {
+                "inputs": {
+                  "amount": 7
+                },
+                "output": "18\n"
+              }
+            ],
+            "read": [
+              "amount",
+              "one"
+            ],
+            "calls": {
+              "WithFee": 1
+            },
+            "types": {
+              "amount": "int",
+              "one": "int",
+              "two": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر amount إلى 8 وأعد حساب البطاقة ثم البطاقتين.",
+          "instruction": "يا كمبيوتر، غيّر amount إلى 8 وأعد حساب البطاقة ثم البطاقتين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int amount = 8;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "challenge": {
+            "output": "20\n",
+            "declared": [
+              "amount",
+              "one",
+              "two"
+            ],
+            "printed": [
+              "two"
+            ],
+            "operation": "WithFee",
+            "operationIn": "one",
+            "cases": [
+              {
+                "inputs": {
+                  "amount": 0
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "amount": 1
+                },
+                "output": "6\n"
+              },
+              {
+                "inputs": {
+                  "amount": 7
+                },
+                "output": "18\n"
+              }
+            ],
+            "read": [
+              "amount",
+              "one"
+            ],
+            "calls": {
+              "WithFee": 1
+            },
+            "types": {
+              "amount": "int",
+              "one": "int",
+              "two": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 8;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب amount = 2. لاحظ أول فرق يظهر بعد الرسوم.",
+          "instruction": "يا كمبيوتر، جرّب amount = 2. لاحظ أول فرق يظهر بعد الرسوم.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int amount = 2;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "challenge": {
+            "output": "8\n",
+            "declared": [
+              "amount",
+              "one",
+              "two"
+            ],
+            "printed": [
+              "two"
+            ],
+            "operation": "WithFee",
+            "operationIn": "one",
+            "cases": [
+              {
+                "inputs": {
+                  "amount": 0
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "amount": 1
+                },
+                "output": "6\n"
+              },
+              {
+                "inputs": {
+                  "amount": 7
+                },
+                "output": "18\n"
+              }
+            ],
+            "read": [
+              "amount",
+              "one"
+            ],
+            "calls": {
+              "WithFee": 1
+            },
+            "types": {
+              "amount": "int",
+              "one": "int",
+              "two": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 2;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الناتج 10. أي تعبير يستخدم قيمة البطاقة التي رجعت من WithFee؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الناتج 10. أي تعبير يستخدم قيمة البطاقة التي رجعت من WithFee؟",
+          "options": [
+            "one * 2",
+            "amount * 2",
+            "one + 2"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int amount = 5;\nint one = WithFee(amount);\nint two = amount * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اقرأ one لحساب بطاقتين بعد الرسوم.",
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ one لحساب بطاقتين بعد الرسوم.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ one لحساب بطاقتين بعد الرسوم.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int amount = 5;\nint one = WithFee(amount);\nint two = amount * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "solution": "int amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "challenge": {
+            "output": "14\n",
+            "declared": [
+              "amount",
+              "one",
+              "two"
+            ],
+            "printed": [
+              "two"
+            ],
+            "operation": "WithFee",
+            "operationIn": "one",
+            "cases": [
+              {
+                "inputs": {
+                  "amount": 0
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "amount": 1
+                },
+                "output": "6\n"
+              },
+              {
+                "inputs": {
+                  "amount": 7
+                },
+                "output": "18\n"
+              }
+            ],
+            "read": [
+              "amount",
+              "one"
+            ],
+            "calls": {
+              "WithFee": 1
+            },
+            "types": {
+              "amount": "int",
+              "one": "int",
+              "two": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احسب تكلفة بطاقتين سعر الواحدة قبل الرسوم 6 جنيها.",
+          "instruction": "يا كمبيوتر، احسب تكلفة بطاقتين سعر الواحدة قبل الرسوم 6 جنيها.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int amount = 6;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+          "challenge": {
+            "output": "16\n",
+            "declared": [
+              "amount",
+              "one",
+              "two"
+            ],
+            "printed": [
+              "two"
+            ],
+            "operation": "WithFee",
+            "operationIn": "one",
+            "cases": [
+              {
+                "inputs": {
+                  "amount": 0
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "amount": 1
+                },
+                "output": "6\n"
+              },
+              {
+                "inputs": {
+                  "amount": 7
+                },
+                "output": "18\n"
+              }
+            ],
+            "read": [
+              "amount",
+              "one"
+            ],
+            "calls": {
+              "WithFee": 1
+            },
+            "types": {
+              "amount": "int",
+              "one": "int",
+              "two": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "يبدأ حساب two بعد الوصول لقيمة one.",
+            "القاعدة: القيمة العائدة تُستخدم في التعبير الذي استدعى الدالة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int one = WithFee(amount); ثم int two = one * 2;.",
+            "كشف الحل:\nint amount = 6;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int amount = 5;\nint one = WithFee(amount);\nint two = amount * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+        "fixedCode": "int amount = 5;\nint one = WithFee(amount);\nint two = one * 2;\nConsole.WriteLine(two);\n\nint WithFee(int value)\n{\n    return value + 2;\n}",
+        "question": "الناتج 10. أي تعبير يستخدم قيمة البطاقة التي رجعت من WithFee؟",
+        "explanation": "اقرأ one لحساب بطاقتين بعد الرسوم.",
+        "options": [
+          "one * 2",
+          "amount * 2",
+          "one + 2"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-59-function-argument-order"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب WithFee(int value) تعيد value + 2. خزّن amount = 5 وone من WithFee(amount)، ثم two = one * 2 واطبع two.",
+        "يا كمبيوتر، احسب تكلفة بطاقتين سعر الواحدة قبل الرسوم 6 جنيها."
+      ],
+      "commonMisconceptions": [
+        "اقرأ one لحساب بطاقتين بعد الرسوم."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "قبل الدالة",
+          "text": "amount = 5"
+        },
+        {
+          "label": "القيمة العائدة",
+          "text": "one = 7"
+        },
+        {
+          "label": "بعد الرجوع",
+          "text": "two = 14"
+        }
+      ]
+    },
+    {
+      "id": "csharp-61-function-reuse",
+      "legacyId": "csharp:60",
+      "title": "استدعِ نفس الدالة مرتين",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 60,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "كل استدعاء جديد يجهّز قيمة جديدة للمعامل. نتيجة الأول تفضل محفوظة بعد ما يبدأ التاني.",
+      "whyUse": "تنفذ نفس القاعدة لمدخلين بدون تكرار جسم الدالة.",
+      "browserMechanics": "شاهد لقطتين للدخول وخروجين. قيمة number في الدالة تتجدد مع كل استدعاء.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+      "breakdown": [
+        "استدعِ Double أول مرة بقيمة firstInput.",
+        "استدعِ Double تاني بقيمة secondInput.",
+        "اطبع first وsecond بالترتيب."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عندك صندوقين، الأول فيه قطعتين والتاني فيه خمس. مرّر عدد كل صندوق لنفس آلة المضاعفة وسجّل النتيجتين.",
+          "instruction": "يا كمبيوتر، عندك صندوقين، الأول فيه قطعتين والتاني فيه خمس. مرّر عدد كل صندوق لنفس آلة المضاعفة وسجّل النتيجتين.",
+          "benefit": "تنفذ نفس القاعدة لمدخلين بدون تكرار جسم الدالة.",
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "كل استدعاء جديد يجهّز قيمة جديدة للمعامل. نتيجة الأول تفضل محفوظة بعد ما يبدأ التاني.",
+          "code": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "benefit": "شاهد لقطتين للدخول وخروجين. قيمة number في الدالة تتجدد مع كل استدعاء.",
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، عرّف Double(int number) تعيد number * 2. استدعِها مرتين مع firstInput = 2 وsecondInput = 5. اطبع first وsecond.",
+          "instruction": "يا كمبيوتر، عرّف Double(int number) تعيد number * 2. استدعِها مرتين مع firstInput = 2 وsecondInput = 5. اطبع first وsecond.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "challenge": {
+            "output": "4\n10\n",
+            "declared": [
+              "firstInput",
+              "secondInput",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "firstInput": 0,
+                  "secondInput": 3
+                },
+                "output": "0\n6\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 6,
+                  "secondInput": 1
+                },
+                "output": "12\n2\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 3,
+                  "secondInput": 3
+                },
+                "output": "6\n6\n"
+              }
+            ],
+            "read": [
+              "firstInput",
+              "secondInput"
+            ],
+            "calls": {
+              "Double": 2
+            },
+            "types": {
+              "firstInput": "int",
+              "secondInput": "int",
+              "first": "int",
+              "second": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، عدّل قيمة secondInput إلى 3 وشاهد النتيجة الثانية.",
+          "instruction": "يا كمبيوتر، عدّل قيمة secondInput إلى 3 وشاهد النتيجة الثانية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int firstInput = 2;\nint secondInput = 3;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "challenge": {
+            "output": "4\n6\n",
+            "declared": [
+              "firstInput",
+              "secondInput",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "firstInput": 0,
+                  "secondInput": 3
+                },
+                "output": "0\n6\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 6,
+                  "secondInput": 1
+                },
+                "output": "12\n2\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 3,
+                  "secondInput": 3
+                },
+                "output": "6\n6\n"
+              }
+            ],
+            "read": [
+              "firstInput",
+              "secondInput"
+            ],
+            "calls": {
+              "Double": 2
+            },
+            "types": {
+              "firstInput": "int",
+              "secondInput": "int",
+              "first": "int",
+              "second": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 2;\nint secondInput = 3;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، غيّر firstInput إلى 7. راقب الاستدعاء الذي تغيّر.",
+          "instruction": "يا كمبيوتر، غيّر firstInput إلى 7. راقب الاستدعاء الذي تغيّر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int firstInput = 7;\nint secondInput = 3;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "challenge": {
+            "output": "14\n6\n",
+            "declared": [
+              "firstInput",
+              "secondInput",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "firstInput": 0,
+                  "secondInput": 3
+                },
+                "output": "0\n6\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 6,
+                  "secondInput": 1
+                },
+                "output": "12\n2\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 3,
+                  "secondInput": 3
+                },
+                "output": "6\n6\n"
+              }
+            ],
+            "read": [
+              "firstInput",
+              "secondInput"
+            ],
+            "calls": {
+              "Double": 2
+            },
+            "types": {
+              "firstInput": "int",
+              "secondInput": "int",
+              "first": "int",
+              "second": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 7;\nint secondInput = 3;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "second فيها نفس نتيجة first. أي أمر يحسب نتيجة المدخل الثاني؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "second فيها نفس نتيجة first. أي أمر يحسب نتيجة المدخل الثاني؟",
+          "options": [
+            "int second = first;",
+            "int second = Double(secondInput);",
+            "int second = secondInput;"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = first;\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استدعِ الدالة مرة ثانية بقيمة secondInput.",
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ الدالة مرة ثانية بقيمة secondInput.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ الدالة مرة ثانية بقيمة secondInput.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = first;\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "solution": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "challenge": {
+            "output": "4\n10\n",
+            "declared": [
+              "firstInput",
+              "secondInput",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "firstInput": 0,
+                  "secondInput": 3
+                },
+                "output": "0\n6\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 6,
+                  "secondInput": 1
+                },
+                "output": "12\n2\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 3,
+                  "secondInput": 3
+                },
+                "output": "6\n6\n"
+              }
+            ],
+            "read": [
+              "firstInput",
+              "secondInput"
+            ],
+            "calls": {
+              "Double": 2
+            },
+            "types": {
+              "firstInput": "int",
+              "secondInput": "int",
+              "first": "int",
+              "second": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، ضاعف كمية الدفعتين 4 و8 باستخدام نفس الدالة.",
+          "instruction": "يا كمبيوتر، ضاعف كمية الدفعتين 4 و8 باستخدام نفس الدالة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int firstInput = 4;\nint secondInput = 8;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+          "challenge": {
+            "output": "8\n16\n",
+            "declared": [
+              "firstInput",
+              "secondInput",
+              "first",
+              "second"
+            ],
+            "printed": [
+              "first",
+              "second"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "firstInput": 0,
+                  "secondInput": 3
+                },
+                "output": "0\n6\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 6,
+                  "secondInput": 1
+                },
+                "output": "12\n2\n"
+              },
+              {
+                "inputs": {
+                  "firstInput": 3,
+                  "secondInput": 3
+                },
+                "output": "6\n6\n"
+              }
+            ],
+            "read": [
+              "firstInput",
+              "secondInput"
+            ],
+            "calls": {
+              "Double": 2
+            },
+            "types": {
+              "firstInput": "int",
+              "secondInput": "int",
+              "first": "int",
+              "second": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب قيمة number في كل دخول للدالة.",
+            "القاعدة: تقدر تستدعي نفس التعريف بقيمة مختلفة كل مرة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int first = Double(firstInput); وint second = Double(secondInput);.",
+            "كشف الحل:\nint firstInput = 4;\nint secondInput = 8;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = first;\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+        "fixedCode": "int firstInput = 2;\nint secondInput = 5;\nint first = Double(firstInput);\nint second = Double(secondInput);\nConsole.WriteLine(first);\nConsole.WriteLine(second);\n\nint Double(int number)\n{\n    return number * 2;\n}",
+        "question": "second فيها نفس نتيجة first. أي أمر يحسب نتيجة المدخل الثاني؟",
+        "explanation": "استدعِ الدالة مرة ثانية بقيمة secondInput.",
+        "options": [
+          "int second = first;",
+          "int second = Double(secondInput);",
+          "int second = secondInput;"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-60-function-return-value"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، عرّف Double(int number) تعيد number * 2. استدعِها مرتين مع firstInput = 2 وsecondInput = 5. اطبع first وsecond.",
+        "يا كمبيوتر، ضاعف كمية الدفعتين 4 و8 باستخدام نفس الدالة."
+      ],
+      "commonMisconceptions": [
+        "استدعِ الدالة مرة ثانية بقيمة secondInput."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "الاستدعاء الأول",
+          "text": "Double(2) → 4"
+        },
+        {
+          "label": "الاستدعاء الثاني",
+          "text": "Double(5) → 10"
+        },
+        {
+          "label": "الحفظ",
+          "text": "خانتان مستقلتان"
+        }
+      ]
+    },
+    {
+      "id": "csharp-62-function-number-copy",
+      "legacyId": "csharp:61",
+      "title": "غيّر نسخة العدد داخل الدالة",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 61,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "معامل int العادي يستقبل نسخة من القيمة. تحديث copied يغيّر النسخة داخل الاستدعاء.",
+      "whyUse": "تتوقع القيم التي ترى أثر التغيير، وتحدد أين تحفظ النتيجة الجديدة.",
+      "browserMechanics": "تابع copied قبل الزيادة وبعدها. عند الرجوع تظهر original بالقيمة القديمة وresult بالقيمة الجديدة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+      "breakdown": [
+        "مرّر original كقيمة.",
+        "زِد copied داخل AddOne.",
+        "اطبع الأصل والنتيجة بعد العودة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "معاك رقم ٥ على ورقة. ابعت نسخة منه للمكتب التاني. المكتب يزوّد النسخة واحد ويرجّع ٦، وتفضل ورقتك الأولى فيها ٥.",
+          "instruction": "يا كمبيوتر، معاك رقم ٥ على ورقة. ابعت نسخة منه للمكتب التاني. المكتب يزوّد النسخة واحد ويرجّع ٦، وتفضل ورقتك الأولى فيها ٥.",
+          "benefit": "تتوقع القيم التي ترى أثر التغيير، وتحدد أين تحفظ النتيجة الجديدة.",
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "معامل int العادي يستقبل نسخة من القيمة. تحديث copied يغيّر النسخة داخل الاستدعاء.",
+          "code": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+          "benefit": "تابع copied قبل الزيادة وبعدها. عند الرجوع تظهر original بالقيمة القديمة وresult بالقيمة الجديدة.",
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن original = 5. داخل AddOne(int copied) زوّد copied واحدًا وأعدها. خزّن الناتج في result واطبع original ثم result.",
+          "instruction": "يا كمبيوتر، خزّن original = 5. داخل AddOne(int copied) زوّد copied واحدًا وأعدها. خزّن الناتج في result واطبع original ثم result.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+          "challenge": {
+            "output": "5\n6\n",
+            "declared": [
+              "original",
+              "result"
+            ],
+            "printed": [
+              "original",
+              "result"
+            ],
+            "updated": [
+              "copied"
+            ],
+            "operation": "AddOne",
+            "operationIn": "result",
+            "cases": [
+              {
+                "inputs": {
+                  "original": -1
+                },
+                "output": "-1\n0\n"
+              },
+              {
+                "inputs": {
+                  "original": 0
+                },
+                "output": "0\n1\n"
+              },
+              {
+                "inputs": {
+                  "original": 10
+                },
+                "output": "10\n11\n"
+              }
+            ],
+            "calls": {
+              "AddOne": 1
+            },
+            "types": {
+              "original": "int",
+              "result": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، جرّب original = 8 وراقب أين تم تخزين 9.",
+          "instruction": "يا كمبيوتر، جرّب original = 8 وراقب أين تم تخزين 9.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int original = 8;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+          "challenge": {
+            "output": "8\n9\n",
+            "declared": [
+              "original",
+              "result"
+            ],
+            "printed": [
+              "original",
+              "result"
+            ],
+            "updated": [
+              "copied"
+            ],
+            "operation": "AddOne",
+            "operationIn": "result",
+            "cases": [
+              {
+                "inputs": {
+                  "original": -1
+                },
+                "output": "-1\n0\n"
+              },
+              {
+                "inputs": {
+                  "original": 0
+                },
+                "output": "0\n1\n"
+              },
+              {
+                "inputs": {
+                  "original": 10
+                },
+                "output": "10\n11\n"
+              }
+            ],
+            "calls": {
+              "AddOne": 1
+            },
+            "types": {
+              "original": "int",
+              "result": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = 8;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب -1 واطبع الأصل والنتيجة.",
+          "instruction": "يا كمبيوتر، جرّب -1 واطبع الأصل والنتيجة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int original = -1;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+          "challenge": {
+            "output": "-1\n0\n",
+            "declared": [
+              "original",
+              "result"
+            ],
+            "printed": [
+              "original",
+              "result"
+            ],
+            "updated": [
+              "copied"
+            ],
+            "operation": "AddOne",
+            "operationIn": "result",
+            "cases": [
+              {
+                "inputs": {
+                  "original": -1
+                },
+                "output": "-1\n0\n"
+              },
+              {
+                "inputs": {
+                  "original": 0
+                },
+                "output": "0\n1\n"
+              },
+              {
+                "inputs": {
+                  "original": 10
+                },
+                "output": "10\n11\n"
+              }
+            ],
+            "calls": {
+              "AddOne": 1
+            },
+            "types": {
+              "original": "int",
+              "result": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = -1;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الدالة زوّدت copied ثم رجعت بالقيمة القديمة. أي return تسلّم النسخة بعد الزيادة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الدالة زوّدت copied ثم رجعت بالقيمة القديمة. أي return تسلّم النسخة بعد الزيادة؟",
+          "options": [
+            "return copied - 1;",
+            "return 0;",
+            "return copied;"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied - 1;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "أعد copied بعد سطر الزيادة مباشرة.",
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أعد copied بعد سطر الزيادة مباشرة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أعد copied بعد سطر الزيادة مباشرة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied - 1;\n}",
+          "solution": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+          "challenge": {
+            "output": "5\n6\n",
+            "declared": [
+              "original",
+              "result"
+            ],
+            "printed": [
+              "original",
+              "result"
+            ],
+            "updated": [
+              "copied"
+            ],
+            "operation": "AddOne",
+            "operationIn": "result",
+            "cases": [
+              {
+                "inputs": {
+                  "original": -1
+                },
+                "output": "-1\n0\n"
+              },
+              {
+                "inputs": {
+                  "original": 0
+                },
+                "output": "0\n1\n"
+              },
+              {
+                "inputs": {
+                  "original": 10
+                },
+                "output": "10\n11\n"
+              }
+            ],
+            "calls": {
+              "AddOne": 1
+            },
+            "types": {
+              "original": "int",
+              "result": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ رقم دفعة 10 واطلب الرقم التالي من الدالة. اعرض الرقمين.",
+          "instruction": "يا كمبيوتر، احفظ رقم دفعة 10 واطلب الرقم التالي من الدالة. اعرض الرقمين.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int original = 10;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+          "challenge": {
+            "output": "10\n11\n",
+            "declared": [
+              "original",
+              "result"
+            ],
+            "printed": [
+              "original",
+              "result"
+            ],
+            "updated": [
+              "copied"
+            ],
+            "operation": "AddOne",
+            "operationIn": "result",
+            "cases": [
+              {
+                "inputs": {
+                  "original": -1
+                },
+                "output": "-1\n0\n"
+              },
+              {
+                "inputs": {
+                  "original": 0
+                },
+                "output": "0\n1\n"
+              },
+              {
+                "inputs": {
+                  "original": 10
+                },
+                "output": "10\n11\n"
+              }
+            ],
+            "calls": {
+              "AddOne": 1
+            },
+            "types": {
+              "original": "int",
+              "result": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "افصل خانة original عن copied.",
+            "القاعدة: معامل int العادي يُمرّر بالقيمة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل الدالة اكتب copied = copied + 1; ثم return copied;.",
+            "كشف الحل:\nint original = 10;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied - 1;\n}",
+        "fixedCode": "int original = 5;\nint result = AddOne(original);\nConsole.WriteLine(original);\nConsole.WriteLine(result);\n\nint AddOne(int copied)\n{\n    copied = copied + 1;\n    return copied;\n}",
+        "question": "الدالة زوّدت copied ثم رجعت بالقيمة القديمة. أي return تسلّم النسخة بعد الزيادة؟",
+        "explanation": "أعد copied بعد سطر الزيادة مباشرة.",
+        "options": [
+          "return copied - 1;",
+          "return 0;",
+          "return copied;"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-61-function-reuse"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن original = 5. داخل AddOne(int copied) زوّد copied واحدًا وأعدها. خزّن الناتج في result واطبع original ثم result.",
+        "يا كمبيوتر، احفظ رقم دفعة 10 واطلب الرقم التالي من الدالة. اعرض الرقمين."
+      ],
+      "commonMisconceptions": [
+        "أعد copied بعد سطر الزيادة مباشرة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "عند الاستدعاء",
+          "text": "original = 5"
+        },
+        {
+          "label": "داخل الدالة",
+          "text": "copied تصبح 6"
+        },
+        {
+          "label": "بعد العودة",
+          "text": "original = 5 وresult = 6"
+        }
+      ]
+    },
+    {
+      "id": "csharp-63-local-variable-scope",
+      "legacyId": "csharp:62",
+      "title": "حدد مكان ظهور المتغير المحلي",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 62,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "price وcost معرفتان جوّه PackCost. بعد الرجوع يصل الناتج إلى total في البرنامج.",
+      "whyUse": "تقرأ سبب خطأ اسم متغير خارج المكان المسموح فيه.",
+      "browserMechanics": "وقت تنفيذ PackCost تظهر قيمها في الجدول. بعد الإرجاع يرجع جدول البرنامج وفيه total.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+      "breakdown": [
+        "عرّف price وcost داخل الدالة.",
+        "أعد cost.",
+        "استخدم اسم total عند الطباعة في البرنامج."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في غرفة الحساب توجد ورقة سعر وورقة إجمالي. تقدر تقرأ الورقتين داخل الغرفة. بعد الخروج تتسلّم الإجمالي فقط.",
+          "instruction": "يا كمبيوتر، في غرفة الحساب توجد ورقة سعر وورقة إجمالي. تقدر تقرأ الورقتين داخل الغرفة. بعد الخروج تتسلّم الإجمالي فقط.",
+          "benefit": "تقرأ سبب خطأ اسم متغير خارج المكان المسموح فيه.",
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "price وcost معرفتان جوّه PackCost. بعد الرجوع يصل الناتج إلى total في البرنامج.",
+          "code": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "benefit": "وقت تنفيذ PackCost تظهر قيمها في الجدول. بعد الإرجاع يرجع جدول البرنامج وفيه total.",
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن count = 3. في PackCost(int items) عرّف price = 4 وcost = items * price وأعد cost. اطبع total في البرنامج.",
+          "instruction": "يا كمبيوتر، خزّن count = 3. في PackCost(int items) عرّف price = 4 وcost = items * price وأعد cost. اطبع total في البرنامج.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "challenge": {
+            "output": "12\n",
+            "declared": [
+              "count",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "PackCost",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "count": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "count": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "count": 7
+                },
+                "output": "28\n"
+              }
+            ],
+            "calls": {
+              "PackCost": 1
+            },
+            "types": {
+              "count": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر عدد العبوات إلى 2 وشاهد cost داخل الدالة وtotal بعد العودة.",
+          "instruction": "يا كمبيوتر، غيّر عدد العبوات إلى 2 وشاهد cost داخل الدالة وtotal بعد العودة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int count = 2;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "challenge": {
+            "output": "8\n",
+            "declared": [
+              "count",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "PackCost",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "count": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "count": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "count": 7
+                },
+                "output": "28\n"
+              }
+            ],
+            "calls": {
+              "PackCost": 1
+            },
+            "types": {
+              "count": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 2;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب عبوة واحدة. تابع ظهور price في نطاق PackCost.",
+          "instruction": "يا كمبيوتر، جرّب عبوة واحدة. تابع ظهور price في نطاق PackCost.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int count = 1;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "count",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "PackCost",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "count": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "count": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "count": 7
+                },
+                "output": "28\n"
+              }
+            ],
+            "calls": {
+              "PackCost": 1
+            },
+            "types": {
+              "count": "int",
+              "total": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 1;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الاسم cost يظهر كغير معرّف في الطباعة. أي اسم موجود في مكان الاستدعاء؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الاسم cost يظهر كغير معرّف في الطباعة. أي اسم موجود في مكان الاستدعاء؟",
+          "options": [
+            "price",
+            "total",
+            "items"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(cost);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اطبع total، وهو المتغير الذي استقبل نتيجة الدالة.",
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اطبع total، وهو المتغير الذي استقبل نتيجة الدالة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اطبع total، وهو المتغير الذي استقبل نتيجة الدالة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(cost);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "solution": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "challenge": {
+            "output": "12\n",
+            "declared": [
+              "count",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "PackCost",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "count": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "count": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "count": 7
+                },
+                "output": "28\n"
+              }
+            ],
+            "calls": {
+              "PackCost": 1
+            },
+            "types": {
+              "count": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احسب تكلفة ٥ عبوات. احتفظ بتفاصيل الحساب داخل PackCost واطبع total بعد الرجوع.",
+          "instruction": "يا كمبيوتر، احسب تكلفة ٥ عبوات. احتفظ بتفاصيل الحساب داخل PackCost واطبع total بعد الرجوع.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int count = 5;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+          "challenge": {
+            "output": "20\n",
+            "declared": [
+              "count",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "PackCost",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "count": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "count": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "count": 7
+                },
+                "output": "28\n"
+              }
+            ],
+            "calls": {
+              "PackCost": 1
+            },
+            "types": {
+              "count": "int",
+              "total": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد مكان كل تعريف ومكان الطباعة.",
+            "القاعدة: المتغير المحلي متاح داخل نطاق تعريفه. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اطبع total بعد int total = PackCost(count);.",
+            "كشف الحل:\nint count = 5;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(cost);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+        "fixedCode": "int count = 3;\nint total = PackCost(count);\nConsole.WriteLine(total);\n\nint PackCost(int items)\n{\n    int price = 4;\n    int cost = items * price;\n    return cost;\n}",
+        "question": "الاسم cost يظهر كغير معرّف في الطباعة. أي اسم موجود في مكان الاستدعاء؟",
+        "explanation": "اطبع total، وهو المتغير الذي استقبل نتيجة الدالة.",
+        "options": [
+          "price",
+          "total",
+          "items"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-62-function-number-copy"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن count = 3. في PackCost(int items) عرّف price = 4 وcost = items * price وأعد cost. اطبع total في البرنامج.",
+        "يا كمبيوتر، احسب تكلفة ٥ عبوات. احتفظ بتفاصيل الحساب داخل PackCost واطبع total بعد الرجوع."
+      ],
+      "commonMisconceptions": [
+        "اطبع total، وهو المتغير الذي استقبل نتيجة الدالة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "داخل الدالة",
+          "text": "items وprice وcost"
+        },
+        {
+          "label": "الذي يرجع",
+          "text": "قيمة cost"
+        },
+        {
+          "label": "في البرنامج",
+          "text": "تُحفظ في total"
+        }
+      ]
+    },
+    {
+      "id": "csharp-64-function-booking-total",
+      "legacyId": "csharp:63",
+      "title": "تطبيق حساب حجز وإرجاع مبكر",
+      "skill": "الدوال والاستدعاء والنطاق",
+      "order": 63,
+      "unitId": "functions",
+      "revision": 1,
+      "concept": "return داخل if تنهي الاستدعاء الحالي. بقية أوامر الدالة تعمل فقط إذا لم يحصل إرجاع قبلها.",
+      "whyUse": "تفصل قرار التحقق عن باقي البرنامج وتحسب قيمة واضحة لكل حالة.",
+      "browserMechanics": "قارن مسار return 0 بمسار return count * unitPrice. في الحالتين تُخزّن القيمة في due عند العودة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/jump-statements#the-return-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int seats = 2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+      "breakdown": [
+        "اختبر count داخل الدالة.",
+        "أعد صفرًا عند count <= 0.",
+        "في المسار الآخر أعد التكلفة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "مكتب الحجز يستلم عدد المقاعد وسعر الواحد. لو العدد صفر أو سالب يرجّع صفر فورًا. لو العدد موجب يحسب التكلفة.",
+          "instruction": "يا كمبيوتر، مكتب الحجز يستلم عدد المقاعد وسعر الواحد. لو العدد صفر أو سالب يرجّع صفر فورًا. لو العدد موجب يحسب التكلفة.",
+          "benefit": "تفصل قرار التحقق عن باقي البرنامج وتحسب قيمة واضحة لكل حالة.",
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = 2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "return داخل if تنهي الاستدعاء الحالي. بقية أوامر الدالة تعمل فقط إذا لم يحصل إرجاع قبلها.",
+          "code": "int seats = 2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "benefit": "قارن مسار return 0 بمسار return count * unitPrice. في الحالتين تُخزّن القيمة في due عند العودة.",
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = 2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن seats = 2 وunit = 7. اكتب BookingTotal(int count, int unitPrice) تعيد 0 إذا count <= 0، وإلا تعيد count * unitPrice. اطبع due.",
+          "instruction": "يا كمبيوتر، خزّن seats = 2 وunit = 7. اكتب BookingTotal(int count, int unitPrice) تعيد 0 إذا count <= 0، وإلا تعيد count * unitPrice. اطبع due.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int seats = 2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "challenge": {
+            "output": "14\n",
+            "declared": [
+              "seats",
+              "unit",
+              "due"
+            ],
+            "printed": [
+              "due"
+            ],
+            "operation": "BookingTotal",
+            "operationIn": "due",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "unit": 9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": -2,
+                  "unit": 7
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "unit": 8
+                },
+                "output": "24\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "count"
+            ],
+            "calls": {
+              "BookingTotal": 1
+            },
+            "types": {
+              "seats": "int",
+              "unit": "int",
+              "due": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = 2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر seats إلى صفر وتتبّع الإرجاع المبكر.",
+          "instruction": "يا كمبيوتر، غيّر seats إلى صفر وتتبّع الإرجاع المبكر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int seats = 0;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "seats",
+              "unit",
+              "due"
+            ],
+            "printed": [
+              "due"
+            ],
+            "operation": "BookingTotal",
+            "operationIn": "due",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "unit": 9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": -2,
+                  "unit": 7
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "unit": 8
+                },
+                "output": "24\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "count"
+            ],
+            "calls": {
+              "BookingTotal": 1
+            },
+            "types": {
+              "seats": "int",
+              "unit": "int",
+              "due": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = 0;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب أربعة مقاعد، وتابع الوصول للإرجاع بعد عملية الضرب.",
+          "instruction": "يا كمبيوتر، جرّب أربعة مقاعد، وتابع الوصول للإرجاع بعد عملية الضرب.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int seats = 4;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "challenge": {
+            "output": "28\n",
+            "declared": [
+              "seats",
+              "unit",
+              "due"
+            ],
+            "printed": [
+              "due"
+            ],
+            "operation": "BookingTotal",
+            "operationIn": "due",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "unit": 9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": -2,
+                  "unit": 7
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "unit": 8
+                },
+                "output": "24\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "count"
+            ],
+            "calls": {
+              "BookingTotal": 1
+            },
+            "types": {
+              "seats": "int",
+              "unit": "int",
+              "due": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = 4;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "العدد -2 أعطى تكلفة سالبة. أي شرط يجعل الدالة ترجع 0 للصفر والأعداد السالبة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "العدد -2 أعطى تكلفة سالبة. أي شرط يجعل الدالة ترجع 0 للصفر والأعداد السالبة؟",
+          "options": [
+            "count == 0",
+            "count >= 0",
+            "count <= 0"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count == 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "افحص count <= 0 قبل حساب التكلفة.",
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. افحص count <= 0 قبل حساب التكلفة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. افحص count <= 0 قبل حساب التكلفة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count == 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "solution": "int seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "seats",
+              "unit",
+              "due"
+            ],
+            "printed": [
+              "due"
+            ],
+            "operation": "BookingTotal",
+            "operationIn": "due",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "unit": 9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": -2,
+                  "unit": 7
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "unit": 8
+                },
+                "output": "24\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "count"
+            ],
+            "calls": {
+              "BookingTotal": 1
+            },
+            "types": {
+              "seats": "int",
+              "unit": "int",
+              "due": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، استخدم الدالة لحساب تكلفة ٣ مقاعد بسعر ١١ للمقعد. جرّب التحقق من الحدود بنفس التعريف.",
+          "instruction": "يا كمبيوتر، استخدم الدالة لحساب تكلفة ٣ مقاعد بسعر ١١ للمقعد. جرّب التحقق من الحدود بنفس التعريف.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int seats = 3;\nint unit = 11;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+          "challenge": {
+            "output": "33\n",
+            "declared": [
+              "seats",
+              "unit",
+              "due"
+            ],
+            "printed": [
+              "due"
+            ],
+            "operation": "BookingTotal",
+            "operationIn": "due",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0,
+                  "unit": 9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": -2,
+                  "unit": 7
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 3,
+                  "unit": 8
+                },
+                "output": "24\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "count"
+            ],
+            "calls": {
+              "BookingTotal": 1
+            },
+            "types": {
+              "seats": "int",
+              "unit": "int",
+              "due": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع وجهة التنفيذ مباشرة بعد return 0.",
+            "القاعدة: أول return ينفّذ ينهي الاستدعاء الحالي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع if (count <= 0) { return 0; } قبل return count * unitPrice;.",
+            "كشف الحل:\nint seats = 3;\nint unit = 11;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count == 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+        "fixedCode": "int seats = -2;\nint unit = 7;\nint due = BookingTotal(seats, unit);\nConsole.WriteLine(due);\n\nint BookingTotal(int count, int unitPrice)\n{\n    if (count <= 0)\n    {\n        return 0;\n    }\n    return count * unitPrice;\n}",
+        "question": "العدد -2 أعطى تكلفة سالبة. أي شرط يجعل الدالة ترجع 0 للصفر والأعداد السالبة؟",
+        "explanation": "افحص count <= 0 قبل حساب التكلفة.",
+        "options": [
+          "count == 0",
+          "count >= 0",
+          "count <= 0"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-63-local-variable-scope"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن seats = 2 وunit = 7. اكتب BookingTotal(int count, int unitPrice) تعيد 0 إذا count <= 0، وإلا تعيد count * unitPrice. اطبع due.",
+        "يا كمبيوتر، استخدم الدالة لحساب تكلفة ٣ مقاعد بسعر ١١ للمقعد. جرّب التحقق من الحدود بنفس التعريف."
+      ],
+      "commonMisconceptions": [
+        "افحص count <= 0 قبل حساب التكلفة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تسعير وحجز",
+      "sceneVisual": [
+        {
+          "label": "المدخلات",
+          "text": "عدد وسعر"
+        },
+        {
+          "label": "إذا العدد غير موجب",
+          "text": "ارجع بصفر"
+        },
+        {
+          "label": "إذا العدد موجب",
+          "text": "أعد العدد × السعر"
         }
       ]
     }

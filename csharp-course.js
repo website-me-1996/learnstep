@@ -93,6 +93,12 @@ function renderTrace() {
   $("csharpTraceAction").textContent = snapshot ? snapshot.action : "يا كمبيوتر، انتظر عند البداية. لم يُنفّذ أي أمر بعد.";
   $("csharpTraceCount").textContent = trace ? number(cursor + 1) + " / " + number(trace.trace.length) : "";
   const loop = snapshot?.loop;
+  const call = snapshot?.call;
+  $("csharpFunctionStep").hidden = !call;
+  if (call) {
+    const phase = call.phase === "enter" ? "استدعِ الدالة" : call.phase === "return" ? "ارجع لمكان الاستدعاء" : "نفّذ داخل الدالة";
+    $("csharpFunctionStep").textContent = [call.name, phase, ...(call.depth > 1 ? ["مستوى " + number(call.depth)] : [])].join(" · ");
+  }
   $("csharpLoopStep").hidden = !loop;
   if (loop) {
     const phase = snapshot.kind === "loop-condition" && !snapshot.value ? "انتهت الحلقة" : loopPhases[loop.phase];
@@ -113,7 +119,7 @@ function renderTrace() {
     line.textContent = text || " ";
     if (snapshot?.skippedLines?.includes(index + 1)) { line.classList.add("cs-skipped-line"); line.title = "هذا السطر لم يُنفّذ في المسار المختار."; }
     if (snapshot && snapshot.line === index + 1) { line.classList.add("cs-current-line"); line.setAttribute("aria-current", "step"); }
-    else if (loop && snapshot.nextLine === index + 1) { line.classList.add("cs-next-line"); line.title = "السطر التالي في التنفيذ"; }
+    else if ((loop || call) && snapshot.nextLine === index + 1) { line.classList.add("cs-next-line"); line.title = "السطر التالي في التنفيذ"; }
     $("csharpTraceLines").append(line);
   });
   $("csharpVariables").replaceChildren();

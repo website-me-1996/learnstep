@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
   "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 1076,
+  "passed": 1221,
   "failed": 0,
   "results": [
     {
@@ -5261,6 +5261,731 @@
     },
     {
       "name": "csharp-56-foreach-cargo-total/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-57-first-function-call/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-57-first-function-call/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-57-first-function-call/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-57-first-function-call/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-57-first-function-call/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-58-function-parameter/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-59-function-argument-order/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-60-function-return-value/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-61-function-reuse/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-62-function-number-copy/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-63-local-variable-scope/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-64-function-booking-total/transfer/alternate/2",
       "passed": true,
       "message": null
     },
