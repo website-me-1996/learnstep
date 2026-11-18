@@ -16,25 +16,25 @@
     "P8": "in_progress",
     "P9": "pending"
   },
-  "nextAction": "Begin P8A at lesson 97 with problem decomposition, linear and binary search, boundaries and recursion. Continue with sorting and complexity in P8B. Keep lessons 1–96 stable.",
+  "nextAction": "Begin P8B at lesson 103 with bubble, selection and insertion sort. Merge sorted runs, add merge sort and compare operation growth. Keep lessons 1–102 stable.",
   "checks": {
     "npmTest": {
-      "passed": 844,
+      "passed": 880,
       "failed": 0
     },
-    "csharpTests": 674,
-    "canonicalLessonsValidated": 593,
+    "csharpTests": 710,
+    "canonicalLessonsValidated": 599,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 96 lessons and saved earlier completion. Lesson 95 showed HashSet.Add returning false for the repeated 2, holding Count at 1 and printing the final count 2.",
+    "browserQA": "Desktop Chrome displayed 102 lessons with earlier completion. Lesson 102 showed the official algorithm reference, reached n=0 in the fourth recursive call and printed 6.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 1859,
+      "passed": 1999,
       "failed": 0,
-      "alternateInputCases": 1352,
+      "alternateInputCases": 1462,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 480
+      "curriculumSolutionsCompared": 510
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
@@ -64,14 +64,14 @@
     "P5B": "complete",
     "P7A": "complete",
     "P7B": "complete",
-    "P8A": "pending",
+    "P8A": "complete",
     "P8B": "pending"
   },
   "curriculum": {
-    "lessons": 96,
-    "steps": 768,
-    "units": 12,
-    "latestUnit": "dotnet-collections",
-    "nextUnit": "search-and-recursion"
+    "lessons": 102,
+    "steps": 816,
+    "units": 13,
+    "latestUnit": "search-and-recursion",
+    "nextUnit": "sorting-and-cost"
   }
 }

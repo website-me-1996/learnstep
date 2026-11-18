@@ -12,14 +12,15 @@ const units = [
   ['unit_09_arrays_indexing.json', require('./author-unit-09.cjs').data],
   ['unit_10_objects_references.json', require('./author-unit-10.cjs').data],
   ['unit_11_manual_structures.json', require('./author-unit-11.cjs').data],
-  ['unit_12_dotnet_collections.json', require('./author-unit-12.cjs').data]
+  ['unit_12_dotnet_collections.json', require('./author-unit-12.cjs').data],
+  ['unit_13_search_recursion.json', require('./author-unit-13.cjs').data]
 ];
 const lessons = units.flatMap(([, unit]) => unit.lessons);
 const course = {
   schemaVersion: '1.0.0',
   track: 'csharp',
   title: 'تأسيس C# خطوة بخطوة',
-  description: 'من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والكائنات وهياكل البيانات.',
+  description: 'من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والكائنات وهياكل البيانات والبحث.',
   totalLessons: lessons.length,
   runtime: 'csharp-foundations-subset-v11',
   units: units.map(([, unit], order) => ({ id: unit.lessons[0].unitId, title: unit.title, order, lessonIds: unit.lessons.map(lesson => lesson.id) })),

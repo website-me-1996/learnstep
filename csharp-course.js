@@ -305,6 +305,9 @@ function render() {
   $("csharpExplanation").textContent = step.explanation || "";
   $("csharpExplanation").hidden = !step.explanation;
   $("csharpReference").href = lesson.documentationUrl;
+  const algorithmReference = $("csharpAlgorithmReference");
+  algorithmReference.hidden = !lesson.algorithmReferenceUrl;
+  if (lesson.algorithmReferenceUrl) algorithmReference.href = lesson.algorithmReferenceUrl;
   $("csharpWorkbench").hidden = step.id === "idea";
   $("csharpExpectedWrap").hidden = !step.challenge || step.challenge.output === undefined;
   $("csharpExpected").textContent = step.challenge?.output || "";

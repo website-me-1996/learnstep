@@ -39,7 +39,8 @@ function makeLesson(c, index, previousId, unitId) {
     commonMisconceptions: [c.bug.explanation],
     acceptanceCriteria: ["ينفذ المثال بالتتبع خطوة خطوة", "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب", "يصلح الخطأ ويطبق في موقف جديد"],
     projectContext: c.projectContext || "بطاقة حجز صغيرة",
-    ...(c.sceneVisual ? { sceneVisual: c.sceneVisual } : {})
+    ...(c.sceneVisual ? { sceneVisual: c.sceneVisual } : {}),
+    ...(c.algorithmReference ? { algorithmReferenceUrl: c.algorithmReference } : {})
   };
 }
 
