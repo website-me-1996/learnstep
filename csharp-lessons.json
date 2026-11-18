@@ -2,9 +2,9 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى الحساب والشروط وقراءة المدخلات والتحقق منها.",
-  "totalLessons": 40,
-  "runtime": "csharp-foundations-subset-v5",
+  "description": "من أول برنامج وقيمه إلى الحساب والشروط وقراءة المدخلات والحلقات.",
+  "totalLessons": 48,
+  "runtime": "csharp-foundations-subset-v6",
   "units": [
     {
       "id": "first-programs",
@@ -79,6 +79,21 @@
         "csharp-38-invalid-input-reply",
         "csharp-39-validate-positive-input",
         "csharp-40-input-booking"
+      ]
+    },
+    {
+      "id": "loop-foundations",
+      "title": "الوحدة السادسة: امشِ مع حلقة while",
+      "order": 5,
+      "lessonIds": [
+        "csharp-41-first-while",
+        "csharp-42-while-countdown",
+        "csharp-43-while-zero-iterations",
+        "csharp-44-while-inclusive-stop",
+        "csharp-45-while-running-total",
+        "csharp-46-while-count-matches",
+        "csharp-47-while-step-size",
+        "csharp-48-while-inventory"
       ]
     }
   ],
@@ -14951,6 +14966,3544 @@
         {
           "label": "اعرض",
           "text": "رسالة واحدة"
+        }
+      ]
+    },
+    {
+      "id": "csharp-41-first-while",
+      "legacyId": "csharp:40",
+      "title": "افحص الشرط وارجع للسطر",
+      "skill": "حلقة while والعدادات",
+      "order": 40,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "while تفحص الشرط قبل كل دورة. قيمة i تتحرك. limit تفضل 3. عند i = 3 الشرط يبقى False فتخرج من الحلقة.",
+      "whyUse": "هتعرف تقرأ مسار الحلقة من أول فحص لحد آخر فحص.",
+      "browserMechanics": "تابع فحص الشرط ثم طباعة القيمة وتحديثها. لقطة الرجوع تحدد سطر الشرط مرة أخرى.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+      "breakdown": [
+        "ابدأ بالقيمة i = start.",
+        "افحص i < limit قبل الطباعة.",
+        "زِد i بمقدار 1 وارجع إلى سطر الشرط."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "ابدأ عند بطاقة رقم ٠. كل مرة اسأل هل الرقم أصغر من ٣. لو أيوه اطبع الرقم وحرّكه خانة ثم ارجع لنفس السؤال.",
+          "instruction": "يا كمبيوتر، ابدأ عند بطاقة رقم ٠. كل مرة اسأل هل الرقم أصغر من ٣. لو أيوه اطبع الرقم وحرّكه خانة ثم ارجع لنفس السؤال.",
+          "benefit": "هتعرف تقرأ مسار الحلقة من أول فحص لحد آخر فحص.",
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "while تفحص الشرط قبل كل دورة. قيمة i تتحرك. limit تفضل 3. عند i = 3 الشرط يبقى False فتخرج من الحلقة.",
+          "code": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "benefit": "تابع فحص الشرط ثم طباعة القيمة وتحديثها. لقطة الرجوع تحدد سطر الشرط مرة أخرى.",
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن start = 0 وlimit = 3 وi = start. طالما i < limit اطبع i ثم زوّدها واحد.",
+          "instruction": "يا كمبيوتر، خزّن start = 0 وlimit = 3 وi = start. طالما i < limit اطبع i ثم زوّدها واحد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "0\n1\n2\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 4
+                },
+                "output": "1\n2\n3\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر limit إلى 2 وتتبّع موضع التوقف.",
+          "instruction": "يا كمبيوتر، غيّر limit إلى 2 وتتبّع موضع التوقف.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 0;\nint limit = 2;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "0\n1\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 4
+                },
+                "output": "1\n2\n3\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 0;\nint limit = 2;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب limit = 5. توقّع أول قيمة توقف الحلقة ثم شغّل.",
+          "instruction": "يا كمبيوتر، جرّب limit = 5. توقّع أول قيمة توقف الحلقة ثم شغّل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 0;\nint limit = 5;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "0\n1\n2\n3\n4\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 4
+                },
+                "output": "1\n2\n3\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 0;\nint limit = 5;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المطلوب التوقف عند i = 3، لكن البرنامج طبَع 3. إيه المقارنة المناسبة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المطلوب التوقف عند i = 3، لكن البرنامج طبَع 3. إيه المقارنة المناسبة؟",
+          "options": [
+            "i < limit",
+            "i <= limit",
+            "i > limit"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم i < limit حتى يفشل الشرط عند 3.",
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم i < limit حتى يفشل الشرط عند 3.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم i < limit حتى يفشل الشرط عند 3.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "solution": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "0\n1\n2\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 4
+                },
+                "output": "1\n2\n3\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، ابدأ من بطاقة 4 واطبع البطاقات قبل 7 بحلقة while. احتفظ بتحديث واحد بعد كل بطاقة.",
+          "instruction": "يا كمبيوتر، ابدأ من بطاقة 4 واطبع البطاقات قبل 7 بحلقة while. احتفظ بتحديث واحد بعد كل بطاقة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 4;\nint limit = 7;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "4\n5\n6\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 2
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 4
+                },
+                "output": "1\n2\n3\n"
+              },
+              {
+                "inputs": {
+                  "start": -1,
+                  "limit": 1
+                },
+                "output": "-1\n0\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اتّبع العداد الحالي من أول طباعة لحد العودة.",
+            "القاعدة: while تعيد فحص الشرط بعد كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل سطر الطباعة قبل i = i + 1 داخل الأقواس.",
+            "كشف الحل:\nint start = 4;\nint limit = 7;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+        "fixedCode": "int start = 0;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+        "question": "المطلوب التوقف عند i = 3، لكن البرنامج طبَع 3. إيه المقارنة المناسبة؟",
+        "explanation": "استخدم i < limit حتى يفشل الشرط عند 3.",
+        "options": [
+          "i < limit",
+          "i <= limit",
+          "i > limit"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-40-input-booking"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن start = 0 وlimit = 3 وi = start. طالما i < limit اطبع i ثم زوّدها واحد.",
+        "يا كمبيوتر، ابدأ من بطاقة 4 واطبع البطاقات قبل 7 بحلقة while. احتفظ بتحديث واحد بعد كل بطاقة."
+      ],
+      "commonMisconceptions": [
+        "استخدم i < limit حتى يفشل الشرط عند 3."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "العداد",
+          "text": "0"
+        },
+        {
+          "label": "الشرط",
+          "text": "أصغر من 3؟"
+        },
+        {
+          "label": "بعد الطباعة",
+          "text": "حرّك العداد وارجع"
+        }
+      ]
+    },
+    {
+      "id": "csharp-42-while-countdown",
+      "legacyId": "csharp:41",
+      "title": "حرّك العداد بعد كل دورة",
+      "skill": "حلقة while والعدادات",
+      "order": 41,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "كل دورة تغيّر remaining خطوة في اتجاه الصفر. لو القيمة ما اتغيّرتش يظل الشرط صحيحًا لحد ما المحاكي يوقف التنفيذ.",
+      "whyUse": "تقدر تشخّص حلقة بتكرر نفس القيمة.",
+      "browserMechanics": "في سطر التحديث تظهر القيمة السابقة والجديدة، ثم يرجع التتبّع للشرط.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+      "breakdown": [
+        "ابدأ بالمخزون الحالي.",
+        "اعرض العدد إذا كان أكبر من 0.",
+        "اطرح قطعة واحدة وارجع للشرط."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عندك ٣ قطع في الطابور. بعد عرض العدد المتبقي اسحب قطعة واحدة، وبعدين اسأل هل فيه قطع تانية.",
+          "instruction": "يا كمبيوتر، عندك ٣ قطع في الطابور. بعد عرض العدد المتبقي اسحب قطعة واحدة، وبعدين اسأل هل فيه قطع تانية.",
+          "benefit": "تقدر تشخّص حلقة بتكرر نفس القيمة.",
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "كل دورة تغيّر remaining خطوة في اتجاه الصفر. لو القيمة ما اتغيّرتش يظل الشرط صحيحًا لحد ما المحاكي يوقف التنفيذ.",
+          "code": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+          "benefit": "في سطر التحديث تظهر القيمة السابقة والجديدة، ثم يرجع التتبّع للشرط.",
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن remaining = 3. طالما فيه قطع اطبع العدد ثم اطرح واحد من remaining.",
+          "instruction": "يا كمبيوتر، خزّن remaining = 3. طالما فيه قطع اطبع العدد ثم اطرح واحد من remaining.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+          "challenge": {
+            "output": "3\n2\n1\n",
+            "declared": [
+              "remaining"
+            ],
+            "updated": [
+              "remaining"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "remaining": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "remaining": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "remaining": 5
+                },
+                "output": "5\n4\n3\n2\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "remaining"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "remaining": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ابدأ بقطعتين. افحص العدد بعد أول تحديث.",
+          "instruction": "يا كمبيوتر، ابدأ بقطعتين. افحص العدد بعد أول تحديث.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int remaining = 2;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+          "challenge": {
+            "output": "2\n1\n",
+            "declared": [
+              "remaining"
+            ],
+            "updated": [
+              "remaining"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "remaining": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "remaining": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "remaining": 5
+                },
+                "output": "5\n4\n3\n2\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "remaining"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "remaining": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 2;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ بأربع قطع. تابع التنازل إلى 1 ثم الخروج عند 0.",
+          "instruction": "يا كمبيوتر، ابدأ بأربع قطع. تابع التنازل إلى 1 ثم الخروج عند 0.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int remaining = 4;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+          "challenge": {
+            "output": "4\n3\n2\n1\n",
+            "declared": [
+              "remaining"
+            ],
+            "updated": [
+              "remaining"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "remaining": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "remaining": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "remaining": 5
+                },
+                "output": "5\n4\n3\n2\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "remaining"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "remaining": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 4;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الشرط يظل True والعدد يفضل 3. إيه الأمر اللي ينقص قطعة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الشرط يظل True والعدد يفضل 3. إيه الأمر اللي ينقص قطعة؟",
+          "options": [
+            "remaining = remaining;",
+            "remaining = remaining - 1;",
+            "remaining = remaining + 1;"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اطرح واحدًا من remaining داخل جسم الحلقة قبل الرجوع للشرط.",
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اطرح واحدًا من remaining داخل جسم الحلقة قبل الرجوع للشرط.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اطرح واحدًا من remaining داخل جسم الحلقة قبل الرجوع للشرط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining;\n}",
+          "solution": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+          "challenge": {
+            "output": "3\n2\n1\n",
+            "declared": [
+              "remaining"
+            ],
+            "updated": [
+              "remaining"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "remaining": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "remaining": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "remaining": 5
+                },
+                "output": "5\n4\n3\n2\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "remaining"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "remaining": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، شغّل عدًّا تنازليًا لخمسة صناديق. اطبع العدد قبل ما تنقص صندوقًا.",
+          "instruction": "يا كمبيوتر، شغّل عدًّا تنازليًا لخمسة صناديق. اطبع العدد قبل ما تنقص صندوقًا.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int remaining = 5;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+          "challenge": {
+            "output": "5\n4\n3\n2\n1\n",
+            "declared": [
+              "remaining"
+            ],
+            "updated": [
+              "remaining"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "remaining": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "remaining": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "remaining": 5
+                },
+                "output": "5\n4\n3\n2\n1\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "remaining"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "remaining": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف العداد هيقرب من الصفر في أنهي اتجاه.",
+            "القاعدة: remaining = remaining - 1 تجعل عدد القطع يقل كل دورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ضع الطرح بعد الطباعة داخل while (remaining > 0).",
+            "كشف الحل:\nint remaining = 5;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining;\n}",
+        "fixedCode": "int remaining = 3;\nwhile (remaining > 0)\n{\n    Console.WriteLine(remaining);\n    remaining = remaining - 1;\n}",
+        "question": "الشرط يظل True والعدد يفضل 3. إيه الأمر اللي ينقص قطعة؟",
+        "explanation": "اطرح واحدًا من remaining داخل جسم الحلقة قبل الرجوع للشرط.",
+        "options": [
+          "remaining = remaining;",
+          "remaining = remaining - 1;",
+          "remaining = remaining + 1;"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-41-first-while"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن remaining = 3. طالما فيه قطع اطبع العدد ثم اطرح واحد من remaining.",
+        "يا كمبيوتر، شغّل عدًّا تنازليًا لخمسة صناديق. اطبع العدد قبل ما تنقص صندوقًا."
+      ],
+      "commonMisconceptions": [
+        "اطرح واحدًا من remaining داخل جسم الحلقة قبل الرجوع للشرط."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "المتبقي",
+          "text": "3"
+        },
+        {
+          "label": "بعد سحب قطعة",
+          "text": "2"
+        },
+        {
+          "label": "التوقف",
+          "text": "0"
+        }
+      ]
+    },
+    {
+      "id": "csharp-43-while-zero-iterations",
+      "legacyId": "csharp:42",
+      "title": "شاهد حالة صفر دورات",
+      "skill": "حلقة while والعدادات",
+      "order": 42,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "الشرط الأول يحدد هل يبدأ الجسم أصلًا. عند بداية تساوي الحد في مقارنة < تُنفّذ الأوامر التي بعد الحلقة مباشرة.",
+      "whyUse": "تتأكد إن حالة مفيش عناصر ليها نتيجة واضحة.",
+      "browserMechanics": "تظهر لقطة خروج من الشرط الأول. سطر الطباعة داخل الجسم يبهت، ثم يظهر «تم».",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+      "breakdown": [
+        "قارن البداية بالحد.",
+        "تجاوز الجسم عند False.",
+        "نفّذ سطر «تم» بعد الحلقة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "نقطة البداية عند ٣ والحد ٣. افحص السؤال قبل ما تدخل الصف. لو الشرط خطأ انتقل مباشرة للوحة النهاية.",
+          "instruction": "يا كمبيوتر، نقطة البداية عند ٣ والحد ٣. افحص السؤال قبل ما تدخل الصف. لو الشرط خطأ انتقل مباشرة للوحة النهاية.",
+          "benefit": "تتأكد إن حالة مفيش عناصر ليها نتيجة واضحة.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "الشرط الأول يحدد هل يبدأ الجسم أصلًا. عند بداية تساوي الحد في مقارنة < تُنفّذ الأوامر التي بعد الحلقة مباشرة.",
+          "code": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "benefit": "تظهر لقطة خروج من الشرط الأول. سطر الطباعة داخل الجسم يبهت، ثم يظهر «تم».",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن start وlimit بقيمة 3. اطبع i داخل حلقة i < limit وحدثها. اطبع «تم» بعد الحلقة.",
+          "instruction": "يا كمبيوتر، خزّن start وlimit بقيمة 3. اطبع i داخل حلقة i < limit وحدثها. اطبع «تم» بعد الحلقة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "تم\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 6,
+                  "limit": 5
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 3
+                },
+                "output": "1\n2\nتم\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، حرّك start إلى 2. شاهد دورة واحدة قبل «تم».",
+          "instruction": "يا كمبيوتر، حرّك start إلى 2. شاهد دورة واحدة قبل «تم».",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 2;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "2\nتم\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 6,
+                  "limit": 5
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 3
+                },
+                "output": "1\n2\nتم\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 2;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب start = 4 وتوقّع أول سطر مطبوع.",
+          "instruction": "يا كمبيوتر، جرّب start = 4 وتوقّع أول سطر مطبوع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 4;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "تم\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 6,
+                  "limit": 5
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 3
+                },
+                "output": "1\n2\nتم\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 4;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "البرنامج طبع 3 قبل «تم». إيه الشرط اللي يخلي الخروج يحصل من أول فحص؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "البرنامج طبع 3 قبل «تم». إيه الشرط اللي يخلي الخروج يحصل من أول فحص؟",
+          "options": [
+            "i <= limit",
+            "i == limit",
+            "i < limit"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم i < limit. المساواة تفشل الشرط من أول فحص.",
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم i < limit. المساواة تفشل الشرط من أول فحص.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم i < limit. المساواة تفشل الشرط من أول فحص.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "solution": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "تم\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 6,
+                  "limit": 5
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 3
+                },
+                "output": "1\n2\nتم\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اختبر حالة فيها بطاقتان قبل الحد. اطبع 0 و1، وبعد الخروج اطبع «تم».",
+          "instruction": "يا كمبيوتر، اختبر حالة فيها بطاقتان قبل الحد. اطبع 0 و1، وبعد الخروج اطبع «تم».",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 0;\nint limit = 2;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+          "challenge": {
+            "output": "0\n1\nتم\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 6,
+                  "limit": 5
+                },
+                "output": "تم\n"
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 3
+                },
+                "output": "1\n2\nتم\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ابدأ بالفحص الأول قبل ما تتوقع أي طباعة.",
+            "القاعدة: جسم while يعمل فقط عندما يكون الشرط True. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل Console.WriteLine(\"تم\"); بعد القوس الإغلاق.",
+            "كشف الحل:\nint start = 0;\nint limit = 2;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+        "fixedCode": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}\nConsole.WriteLine(\"تم\");",
+        "question": "البرنامج طبع 3 قبل «تم». إيه الشرط اللي يخلي الخروج يحصل من أول فحص؟",
+        "explanation": "استخدم i < limit. المساواة تفشل الشرط من أول فحص.",
+        "options": [
+          "i <= limit",
+          "i == limit",
+          "i < limit"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-42-while-countdown"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن start وlimit بقيمة 3. اطبع i داخل حلقة i < limit وحدثها. اطبع «تم» بعد الحلقة.",
+        "يا كمبيوتر، اختبر حالة فيها بطاقتان قبل الحد. اطبع 0 و1، وبعد الخروج اطبع «تم»."
+      ],
+      "commonMisconceptions": [
+        "استخدم i < limit. المساواة تفشل الشرط من أول فحص."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "البداية",
+          "text": "3"
+        },
+        {
+          "label": "الفحص الأول",
+          "text": "3 < 3 → False"
+        },
+        {
+          "label": "المخرج",
+          "text": "تم"
+        }
+      ]
+    },
+    {
+      "id": "csharp-44-while-inclusive-stop",
+      "legacyId": "csharp:43",
+      "title": "قرّر هل الحد يدخل في العد",
+      "skill": "حلقة while والعدادات",
+      "order": 43,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "مع i <= limit تتنفّذ دورة عند التساوي. الدورة الأخيرة ترفع i فتكون نتيجة الفحص التالي False.",
+      "whyUse": "تضبط حد العد لما يكون آخر رقم جزءًا من المطلوب.",
+      "browserMechanics": "راقب اللقطة التي فيها i وlimit متساويان، ثم لقطة الرجوع والفحص الذي ينهي الحلقة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+      "breakdown": [
+        "حدّد أول رقم وآخر رقم مطلوب.",
+        "اسمح بالتساوي في الشرط.",
+        "حدّث i بعد طباعة الرقم الحالي."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قائمة التذاكر المطلوبة تبدأ من ١ وتشمل التذكرة ٣. بعد طباعة التذكرة الأخيرة، عدّيها لحد ما الشرط يفشل.",
+          "instruction": "يا كمبيوتر، قائمة التذاكر المطلوبة تبدأ من ١ وتشمل التذكرة ٣. بعد طباعة التذكرة الأخيرة، عدّيها لحد ما الشرط يفشل.",
+          "benefit": "تضبط حد العد لما يكون آخر رقم جزءًا من المطلوب.",
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "مع i <= limit تتنفّذ دورة عند التساوي. الدورة الأخيرة ترفع i فتكون نتيجة الفحص التالي False.",
+          "code": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "benefit": "راقب اللقطة التي فيها i وlimit متساويان، ثم لقطة الرجوع والفحص الذي ينهي الحلقة.",
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اطبع من start = 1 حتى limit = 3 داخل while. خلي الحد نفسه يتطبع.",
+          "instruction": "يا كمبيوتر، اطبع من start = 1 حتى limit = 3 داخل while. خلي الحد نفسه يتطبع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "1\n2\n3\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 4,
+                  "limit": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": "2\n3\n4\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر الحد الأخير إلى 2 وراقب فحص التساوي.",
+          "instruction": "يا كمبيوتر، غيّر الحد الأخير إلى 2 وراقب فحص التساوي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 1;\nint limit = 2;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "1\n2\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 4,
+                  "limit": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": "2\n3\n4\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 1;\nint limit = 2;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ عند 3 واترك الحد 3 في تجربة دورة واحدة.",
+          "instruction": "يا كمبيوتر، ابدأ عند 3 واترك الحد 3 في تجربة دورة واحدة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 3;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 4,
+                  "limit": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": "2\n3\n4\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 3;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المطلوب يشمل تذكرة 3، لكن الناتج وقف عند 2. إيه اللي يضمّ الحد؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المطلوب يشمل تذكرة 3، لكن الناتج وقف عند 2. إيه اللي يضمّ الحد؟",
+          "options": [
+            "i < limit",
+            "i <= limit",
+            "i > limit"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم <= حتى تتم طباعة الحد قبل الخروج.",
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم <= حتى تتم طباعة الحد قبل الخروج.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم <= حتى تتم طباعة الحد قبل الخروج.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "solution": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "1\n2\n3\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 4,
+                  "limit": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": "2\n3\n4\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع أرقام المقاعد من 4 إلى 6 شاملًا الطرفين.",
+          "instruction": "يا كمبيوتر، اطبع أرقام المقاعد من 4 إلى 6 شاملًا الطرفين.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 4;\nint limit = 6;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "challenge": {
+            "output": "4\n5\n6\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "start": 4,
+                  "limit": 3
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 2,
+                  "limit": 4
+                },
+                "output": "2\n3\n4\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل هل التذكرة الأخيرة مطلوبة.",
+            "القاعدة: المقارنة <= تسمح بدخول جسم الحلقة عند التساوي. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب while (i <= limit) واحتفظ بالتحديث i = i + 1.",
+            "كشف الحل:\nint start = 4;\nint limit = 6;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+        "fixedCode": "int start = 1;\nint limit = 3;\nint i = start;\nwhile (i <= limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+        "question": "المطلوب يشمل تذكرة 3، لكن الناتج وقف عند 2. إيه اللي يضمّ الحد؟",
+        "explanation": "استخدم <= حتى تتم طباعة الحد قبل الخروج.",
+        "options": [
+          "i < limit",
+          "i <= limit",
+          "i > limit"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-43-while-zero-iterations"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اطبع من start = 1 حتى limit = 3 داخل while. خلي الحد نفسه يتطبع.",
+        "يا كمبيوتر، اطبع أرقام المقاعد من 4 إلى 6 شاملًا الطرفين."
+      ],
+      "commonMisconceptions": [
+        "استخدم <= حتى تتم طباعة الحد قبل الخروج."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "أول تذكرة",
+          "text": "1"
+        },
+        {
+          "label": "آخر تذكرة مسموحة",
+          "text": "3"
+        },
+        {
+          "label": "الخروج",
+          "text": "عند 4"
+        }
+      ]
+    },
+    {
+      "id": "csharp-45-while-running-total",
+      "legacyId": "csharp:44",
+      "title": "اجمع قيمة جديدة كل دورة",
+      "skill": "حلقة while والعدادات",
+      "order": 44,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "total هو المجموع المحفوظ. i هي الإضافة الحالية. احسب total + i قبل تخزين القيمة الجديدة في نفس المتغير.",
+      "whyUse": "تجمع عددًا متغيرًا من القيم بحلقة واحدة.",
+      "browserMechanics": "تابع total قبل الإضافة وبعدها، ثم تحديث i في سطر منفصل.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+      "breakdown": [
+        "جهّز total بصفر.",
+        "أضف i إلى المجموع القديم.",
+        "اطبع total مرة واحدة بعد الخروج."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "أمامك حصالة فاضية وثلاث دفعات ١ و٢ و٣. كل دورة ضيف الدفعة الحالية للمجموع المخزّن.",
+          "instruction": "يا كمبيوتر، أمامك حصالة فاضية وثلاث دفعات ١ و٢ و٣. كل دورة ضيف الدفعة الحالية للمجموع المخزّن.",
+          "benefit": "تجمع عددًا متغيرًا من القيم بحلقة واحدة.",
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "total هو المجموع المحفوظ. i هي الإضافة الحالية. احسب total + i قبل تخزين القيمة الجديدة في نفس المتغير.",
+          "code": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "benefit": "تابع total قبل الإضافة وبعدها، ثم تحديث i في سطر منفصل.",
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن limit = 3 وtotal = 0 وi = 1. اجمع i في total طالما i <= limit ثم اطبع total بعد الحلقة.",
+          "instruction": "يا كمبيوتر، خزّن limit = 3 وtotal = 0 وi = 1. اجمع i في total طالما i <= limit ثم اطبع total بعد الحلقة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "6\n",
+            "declared": [
+              "limit",
+              "i",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "i",
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5
+                },
+                "output": "15\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "total"
+            },
+            "types": {
+              "limit": "int",
+              "total": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، اجمع لحد 4 بتغيير limit.",
+          "instruction": "يا كمبيوتر، اجمع لحد 4 بتغيير limit.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 4;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "10\n",
+            "declared": [
+              "limit",
+              "i",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "i",
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5
+                },
+                "output": "15\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "total"
+            },
+            "types": {
+              "limit": "int",
+              "total": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 4;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب الجمع لحد 2. اكتب المجموع قبل التشغيل ثم قارن.",
+          "instruction": "يا كمبيوتر، جرّب الجمع لحد 2. اكتب المجموع قبل التشغيل ثم قارن.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 2;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "limit",
+              "i",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "i",
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5
+                },
+                "output": "15\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "total"
+            },
+            "types": {
+              "limit": "int",
+              "total": "int",
+              "i": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 2;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الناتج هو 3 بدل 6. ليه المجموع القديم اختفى في كل دورة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الناتج هو 3 بدل 6. ليه المجموع القديم اختفى في كل دورة؟",
+          "options": [
+            "total = i تستبدل المجموع بالقيمة الحالية",
+            "i تبدأ من 1",
+            "الطباعة بعد الحلقة"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اكتب total = total + i حتى تستفيد من المجموع المخزّن.",
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب total = total + i حتى تستفيد من المجموع المخزّن.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب total = total + i حتى تستفيد من المجموع المخزّن.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "solution": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "6\n",
+            "declared": [
+              "limit",
+              "i",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "i",
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5
+                },
+                "output": "15\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "total"
+            },
+            "types": {
+              "limit": "int",
+              "total": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احسب مبلغ دفعات من 1 إلى 6. اطبع رقمًا واحدًا من متغير total.",
+          "instruction": "يا كمبيوتر، احسب مبلغ دفعات من 1 إلى 6. اطبع رقمًا واحدًا من متغير total.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int limit = 6;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "21\n",
+            "declared": [
+              "limit",
+              "i",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "updated": [
+              "i",
+              "total"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5
+                },
+                "output": "15\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "total"
+            },
+            "types": {
+              "limit": "int",
+              "total": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع مكان المجموع القديم في السطر.",
+            "القاعدة: total = total + i تحتفظ بالمجموع السابق وتضيف قيمة الدورة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "داخل while اكتب total = total + i ثم i = i + 1.",
+            "كشف الحل:\nint limit = 6;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+        "fixedCode": "int limit = 3;\nint total = 0;\nint i = 1;\nwhile (i <= limit)\n{\n    total = total + i;\n    i = i + 1;\n}\nConsole.WriteLine(total);",
+        "question": "الناتج هو 3 بدل 6. ليه المجموع القديم اختفى في كل دورة؟",
+        "explanation": "اكتب total = total + i حتى تستفيد من المجموع المخزّن.",
+        "options": [
+          "total = i تستبدل المجموع بالقيمة الحالية",
+          "i تبدأ من 1",
+          "الطباعة بعد الحلقة"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-44-while-inclusive-stop"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن limit = 3 وtotal = 0 وi = 1. اجمع i في total طالما i <= limit ثم اطبع total بعد الحلقة.",
+        "يا كمبيوتر، احسب مبلغ دفعات من 1 إلى 6. اطبع رقمًا واحدًا من متغير total."
+      ],
+      "commonMisconceptions": [
+        "اكتب total = total + i حتى تستفيد من المجموع المخزّن."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "البداية",
+          "text": "total = 0"
+        },
+        {
+          "label": "بعد الدفعة ٢",
+          "text": "total = 3"
+        },
+        {
+          "label": "بعد الدفعة ٣",
+          "text": "total = 6"
+        }
+      ]
+    },
+    {
+      "id": "csharp-46-while-count-matches",
+      "legacyId": "csharp:45",
+      "title": "عدّ الأرقام التي تحقق الشرط",
+      "skill": "حلقة while والعدادات",
+      "order": 45,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "i تتحرك مع كل بطاقة. matches تتحرك فقط في فرع if الذي يقبل البطاقة. النتيجة تحسب عدد البطاقات المقبولة.",
+      "whyUse": "تفصل بين مؤشر المرور وعداد النتائج.",
+      "browserMechanics": "في دورة مرفوضة يتجاوز التتبّع تحديث matches ويستمر إلى تحديث i.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+      "breakdown": [
+        "مرّ على الأرقام باستخدام i.",
+        "إذا تحقق i >= minimum زوّد matches واحدًا.",
+        "اطبع matches بعد آخر فحص."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "راجع البطاقات من ١ إلى ٥. كل مرة تقابل بطاقة رقمها ٣ أو أكبر، اعمل علامة في سجل العدد.",
+          "instruction": "يا كمبيوتر، راجع البطاقات من ١ إلى ٥. كل مرة تقابل بطاقة رقمها ٣ أو أكبر، اعمل علامة في سجل العدد.",
+          "benefit": "تفصل بين مؤشر المرور وعداد النتائج.",
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "i تتحرك مع كل بطاقة. matches تتحرك فقط في فرع if الذي يقبل البطاقة. النتيجة تحسب عدد البطاقات المقبولة.",
+          "code": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "benefit": "في دورة مرفوضة يتجاوز التتبّع تحديث matches ويستمر إلى تحديث i.",
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، مرّ من 1 إلى limit = 5. زوّد matches فقط إذا كانت i >= minimum = 3. اطبع العدد النهائي.",
+          "instruction": "يا كمبيوتر، مرّ من 1 إلى limit = 5. زوّد matches فقط إذا كانت i >= minimum = 3. اطبع العدد النهائي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "limit",
+              "minimum",
+              "i",
+              "matches"
+            ],
+            "printed": [
+              "matches"
+            ],
+            "updated": [
+              "i",
+              "matches"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 5
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 6
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 0,
+                  "minimum": 1
+                },
+                "output": "0\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "matches"
+            },
+            "types": {
+              "limit": "int",
+              "minimum": "int",
+              "i": "int",
+              "matches": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ارفع minimum إلى 4 وشوف إيه اللي يتغير في matches.",
+          "instruction": "يا كمبيوتر، ارفع minimum إلى 4 وشوف إيه اللي يتغير في matches.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 5;\nint minimum = 4;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "challenge": {
+            "output": "2\n",
+            "declared": [
+              "limit",
+              "minimum",
+              "i",
+              "matches"
+            ],
+            "printed": [
+              "matches"
+            ],
+            "updated": [
+              "i",
+              "matches"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 5
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 6
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 0,
+                  "minimum": 1
+                },
+                "output": "0\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "matches"
+            },
+            "types": {
+              "limit": "int",
+              "minimum": "int",
+              "i": "int",
+              "matches": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 4;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب minimum = 6. شوف هل المرور انتهى رغم عدم القبول.",
+          "instruction": "يا كمبيوتر، جرّب minimum = 6. شوف هل المرور انتهى رغم عدم القبول.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int limit = 5;\nint minimum = 6;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "limit",
+              "minimum",
+              "i",
+              "matches"
+            ],
+            "printed": [
+              "matches"
+            ],
+            "updated": [
+              "i",
+              "matches"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 5
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 6
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 0,
+                  "minimum": 1
+                },
+                "output": "0\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "matches"
+            },
+            "types": {
+              "limit": "int",
+              "minimum": "int",
+              "i": "int",
+              "matches": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 6;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المطلوب يقبل من 3، لكن البطاقة 3 لم تعدّ. إيه المقارنة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المطلوب يقبل من 3، لكن البطاقة 3 لم تعدّ. إيه المقارنة؟",
+          "options": [
+            "i > minimum",
+            "i == limit",
+            "i >= minimum"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i > minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم >= عشان تحسب البطاقة الأولى المقبولة كمان.",
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم >= عشان تحسب البطاقة الأولى المقبولة كمان.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم >= عشان تحسب البطاقة الأولى المقبولة كمان.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i > minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "solution": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "limit",
+              "minimum",
+              "i",
+              "matches"
+            ],
+            "printed": [
+              "matches"
+            ],
+            "updated": [
+              "i",
+              "matches"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 5
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 6
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 0,
+                  "minimum": 1
+                },
+                "output": "0\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "matches"
+            },
+            "types": {
+              "limit": "int",
+              "minimum": "int",
+              "i": "int",
+              "matches": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، عدّ الأرقام 6 أو أكبر بين 1 و8. اطبع عدد الأرقام المقبولة.",
+          "instruction": "يا كمبيوتر، عدّ الأرقام 6 أو أكبر بين 1 و8. اطبع عدد الأرقام المقبولة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int limit = 8;\nint minimum = 6;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "limit",
+              "minimum",
+              "i",
+              "matches"
+            ],
+            "printed": [
+              "matches"
+            ],
+            "updated": [
+              "i",
+              "matches"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 5
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "limit": 5,
+                  "minimum": 6
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "limit": 0,
+                  "minimum": 1
+                },
+                "output": "0\n"
+              }
+            ],
+            "branching": true,
+            "conditionReads": [
+              "i",
+              "minimum"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "matches"
+            },
+            "types": {
+              "limit": "int",
+              "minimum": "int",
+              "i": "int",
+              "matches": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدّد أي متغير يتحرك في كل دورة وأي متغير يتحرك عند القبول.",
+            "القاعدة: ضع تحديث matches داخل if وتحديث i بعد كتلة if. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب matches = matches + 1 داخل { } للشرط i >= minimum.",
+            "كشف الحل:\nint limit = 8;\nint minimum = 6;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i > minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+        "fixedCode": "int limit = 5;\nint minimum = 3;\nint i = 1;\nint matches = 0;\nwhile (i <= limit)\n{\n    if (i >= minimum)\n    {\n        matches = matches + 1;\n    }\n    i = i + 1;\n}\nConsole.WriteLine(matches);",
+        "question": "المطلوب يقبل من 3، لكن البطاقة 3 لم تعدّ. إيه المقارنة؟",
+        "explanation": "استخدم >= عشان تحسب البطاقة الأولى المقبولة كمان.",
+        "options": [
+          "i > minimum",
+          "i == limit",
+          "i >= minimum"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-45-while-running-total"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، مرّ من 1 إلى limit = 5. زوّد matches فقط إذا كانت i >= minimum = 3. اطبع العدد النهائي.",
+        "يا كمبيوتر، عدّ الأرقام 6 أو أكبر بين 1 و8. اطبع عدد الأرقام المقبولة."
+      ],
+      "commonMisconceptions": [
+        "استخدم >= عشان تحسب البطاقة الأولى المقبولة كمان."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "البطاقات",
+          "text": "1 · 2 · 3 · 4 · 5"
+        },
+        {
+          "label": "المقبولة",
+          "text": "3 · 4 · 5"
+        },
+        {
+          "label": "العدد",
+          "text": "3"
+        }
+      ]
+    },
+    {
+      "id": "csharp-47-while-step-size",
+      "legacyId": "csharp:46",
+      "title": "غيّر مسافة حركة العداد",
+      "skill": "حلقة while والعدادات",
+      "order": 46,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "قيمة التحديث تحدد الأرقام التي يمر عليها العداد. مع i = i + 2، تنتقل القيم بمقدار اثنين كل مرة.",
+      "whyUse": "تقرأ نمط التنقّل وتفصل بين خطوة العداد وحد التوقف.",
+      "browserMechanics": "راقب فرق القيمة بين لقطتين متتاليتين لسطر التحديث قبل الرجوع.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+      "breakdown": [
+        "اختر start.",
+        "اطبع عند تحقق الشرط.",
+        "حرّك i بمقدار 2 وارجع."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في الطابور عايز تنادي البطاقات ٠، ٢، ٤. بعد كل نداء امشِ خطوتين للبطاقة التالية.",
+          "instruction": "يا كمبيوتر، في الطابور عايز تنادي البطاقات ٠، ٢، ٤. بعد كل نداء امشِ خطوتين للبطاقة التالية.",
+          "benefit": "تقرأ نمط التنقّل وتفصل بين خطوة العداد وحد التوقف.",
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "قيمة التحديث تحدد الأرقام التي يمر عليها العداد. مع i = i + 2، تنتقل القيم بمقدار اثنين كل مرة.",
+          "code": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+          "benefit": "راقب فرق القيمة بين لقطتين متتاليتين لسطر التحديث قبل الرجوع.",
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، ابدأ من 0 واطبع i قبل limit = 6. زوّد i بمقدار 2 كل مرة.",
+          "instruction": "يا كمبيوتر، ابدأ من 0 واطبع i قبل limit = 6. زوّد i بمقدار 2 كل مرة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+          "challenge": {
+            "output": "0\n2\n4\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 0,
+                  "limit": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 7
+                },
+                "output": "1\n3\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 8
+                },
+                "output": "3\n5\n7\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر start فقط إلى 1. تابع نفس المسافة بين القيم.",
+          "instruction": "يا كمبيوتر، غيّر start فقط إلى 1. تابع نفس المسافة بين القيم.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 1;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+          "challenge": {
+            "output": "1\n3\n5\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 0,
+                  "limit": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 7
+                },
+                "output": "1\n3\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 8
+                },
+                "output": "3\n5\n7\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 1;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اترك start = 1 وارفع limit إلى 8.",
+          "instruction": "يا كمبيوتر، اترك start = 1 وارفع limit إلى 8.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int start = 1;\nint limit = 8;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+          "challenge": {
+            "output": "1\n3\n5\n7\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 0,
+                  "limit": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 7
+                },
+                "output": "1\n3\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 8
+                },
+                "output": "3\n5\n7\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 1;\nint limit = 8;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "النتيجة تنادي كل البطاقات. أي تحديث ينقل العداد خانتين؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "النتيجة تنادي كل البطاقات. أي تحديث ينقل العداد خانتين؟",
+          "options": [
+            "i = i + 2;",
+            "i = i + 1;",
+            "i = 2;"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم القيمة الحالية من i وأضف إليها 2.",
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم القيمة الحالية من i وأضف إليها 2.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم القيمة الحالية من i وأضف إليها 2.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+          "solution": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+          "challenge": {
+            "output": "0\n2\n4\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 0,
+                  "limit": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 7
+                },
+                "output": "1\n3\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 8
+                },
+                "output": "3\n5\n7\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع من 3 قبل 10 بحركة خانتين في كل دورة.",
+          "instruction": "يا كمبيوتر، اطبع من 3 قبل 10 بحركة خانتين في كل دورة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int start = 3;\nint limit = 10;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+          "challenge": {
+            "output": "3\n5\n7\n9\n",
+            "declared": [
+              "start",
+              "limit",
+              "i"
+            ],
+            "updated": [
+              "i"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "start": 0,
+                  "limit": 0
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "start": 1,
+                  "limit": 7
+                },
+                "output": "1\n3\n5\n"
+              },
+              {
+                "inputs": {
+                  "start": 3,
+                  "limit": 8
+                },
+                "output": "3\n5\n7\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "i",
+                "limit"
+              ],
+              "effect": "print"
+            },
+            "types": {
+              "start": "int",
+              "limit": "int",
+              "i": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على المسافة من قيمة i للقيمة التالية.",
+            "القاعدة: التحديث يحدد قيم المرور. الشرط يحدد لحظة التوقف. هل حددت الجزء الذي تحتاج تغييره؟",
+            "احتفظ بـ i < limit واكتب i = i + 2.",
+            "كشف الحل:\nint start = 3;\nint limit = 10;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 1;\n}",
+        "fixedCode": "int start = 0;\nint limit = 6;\nint i = start;\nwhile (i < limit)\n{\n    Console.WriteLine(i);\n    i = i + 2;\n}",
+        "question": "النتيجة تنادي كل البطاقات. أي تحديث ينقل العداد خانتين؟",
+        "explanation": "استخدم القيمة الحالية من i وأضف إليها 2.",
+        "options": [
+          "i = i + 2;",
+          "i = i + 1;",
+          "i = 2;"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-46-while-count-matches"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، ابدأ من 0 واطبع i قبل limit = 6. زوّد i بمقدار 2 كل مرة.",
+        "يا كمبيوتر، اطبع من 3 قبل 10 بحركة خانتين في كل دورة."
+      ],
+      "commonMisconceptions": [
+        "استخدم القيمة الحالية من i وأضف إليها 2."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "ابدأ",
+          "text": "0"
+        },
+        {
+          "label": "الحركة",
+          "text": "+2"
+        },
+        {
+          "label": "قبل الحد 6",
+          "text": "0 · 2 · 4"
+        }
+      ]
+    },
+    {
+      "id": "csharp-48-while-inventory",
+      "legacyId": "csharp:47",
+      "title": "تطبيق احتياطي المخزون",
+      "skill": "حلقة while والعدادات",
+      "order": 47,
+      "unitId": "loop-foundations",
+      "revision": 1,
+      "concept": "stock تقل مع الاستخدام. used تزيد. الشرط stock > reserve يحفظ الاحتياطي عند توقف الحلقة.",
+      "whyUse": "تطبق العد والتحديث والحد في عملية مخزون كاملة.",
+      "browserMechanics": "تابع stock وused بعد كل قطعة. reserve ثابت أثناء التنفيذ.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+      "breakdown": [
+        "اختبر هل المخزون أعلى من الاحتياطي.",
+        "اطرح واحدة من stock وزوّد used.",
+        "اطبع المستخدم والمتبقي بعد الخروج."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في المخزن ٥ قطع. هنستخدم قطعة في كل دورة ونقف لما يفضل قطعتين احتياطي.",
+          "instruction": "يا كمبيوتر، في المخزن ٥ قطع. هنستخدم قطعة في كل دورة ونقف لما يفضل قطعتين احتياطي.",
+          "benefit": "تطبق العد والتحديث والحد في عملية مخزون كاملة.",
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "stock تقل مع الاستخدام. used تزيد. الشرط stock > reserve يحفظ الاحتياطي عند توقف الحلقة.",
+          "code": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "benefit": "تابع stock وused بعد كل قطعة. reserve ثابت أثناء التنفيذ.",
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن stock = 5 وreserve = 2 وused = 0. استخدم قطعة طالما stock أكبر من reserve. اطبع سطر «مستخدم » وسطر «متبقي » مع القيمتين.",
+          "instruction": "يا كمبيوتر، خزّن stock = 5 وreserve = 2 وused = 0. استخدم قطعة طالما stock أكبر من reserve. اطبع سطر «مستخدم » وسطر «متبقي » مع القيمتين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "challenge": {
+            "output": "مستخدم 3\nمتبقي 2\n",
+            "declared": [
+              "stock",
+              "reserve",
+              "used"
+            ],
+            "printed": [
+              "stock",
+              "used"
+            ],
+            "updated": [
+              "stock",
+              "used"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 0,
+                  "reserve": 0
+                },
+                "output": "مستخدم 0\nمتبقي 0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 4,
+                  "reserve": 1
+                },
+                "output": "مستخدم 3\nمتبقي 1\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "reserve": 3
+                },
+                "output": "مستخدم 0\nمتبقي 2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "stock",
+                "reserve"
+              ],
+              "effect": "used"
+            },
+            "types": {
+              "stock": "int",
+              "reserve": "int",
+              "used": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ارفع الاحتياطي إلى 3 وأعد تشغيل نفس العملية.",
+          "instruction": "يا كمبيوتر، ارفع الاحتياطي إلى 3 وأعد تشغيل نفس العملية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int stock = 5;\nint reserve = 3;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "challenge": {
+            "output": "مستخدم 2\nمتبقي 3\n",
+            "declared": [
+              "stock",
+              "reserve",
+              "used"
+            ],
+            "printed": [
+              "stock",
+              "used"
+            ],
+            "updated": [
+              "stock",
+              "used"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 0,
+                  "reserve": 0
+                },
+                "output": "مستخدم 0\nمتبقي 0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 4,
+                  "reserve": 1
+                },
+                "output": "مستخدم 3\nمتبقي 1\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "reserve": 3
+                },
+                "output": "مستخدم 0\nمتبقي 2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "stock",
+                "reserve"
+              ],
+              "effect": "used"
+            },
+            "types": {
+              "stock": "int",
+              "reserve": "int",
+              "used": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 5;\nint reserve = 3;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابدأ بمخزون مساوي للاحتياطي. توقّع عدد القطع المستخدمة.",
+          "instruction": "يا كمبيوتر، ابدأ بمخزون مساوي للاحتياطي. توقّع عدد القطع المستخدمة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int stock = 3;\nint reserve = 3;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "challenge": {
+            "output": "مستخدم 0\nمتبقي 3\n",
+            "declared": [
+              "stock",
+              "reserve",
+              "used"
+            ],
+            "printed": [
+              "stock",
+              "used"
+            ],
+            "updated": [
+              "stock",
+              "used"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 0,
+                  "reserve": 0
+                },
+                "output": "مستخدم 0\nمتبقي 0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 4,
+                  "reserve": 1
+                },
+                "output": "مستخدم 3\nمتبقي 1\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "reserve": 3
+                },
+                "output": "مستخدم 0\nمتبقي 2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "stock",
+                "reserve"
+              ],
+              "effect": "used"
+            },
+            "types": {
+              "stock": "int",
+              "reserve": "int",
+              "used": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 3;\nint reserve = 3;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المخزون نزل إلى 1 بدل 2. أي شرط يوقف الاستخدام عند الاحتياطي؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المخزون نزل إلى 1 بدل 2. أي شرط يوقف الاستخدام عند الاحتياطي؟",
+          "options": [
+            "stock >= reserve",
+            "stock > reserve",
+            "stock != 0"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock >= reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم > حتى يخرج البرنامج عندما يصبح المتبقي مساويًا للاحتياطي.",
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم > حتى يخرج البرنامج عندما يصبح المتبقي مساويًا للاحتياطي.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم > حتى يخرج البرنامج عندما يصبح المتبقي مساويًا للاحتياطي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock >= reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "solution": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "challenge": {
+            "output": "مستخدم 3\nمتبقي 2\n",
+            "declared": [
+              "stock",
+              "reserve",
+              "used"
+            ],
+            "printed": [
+              "stock",
+              "used"
+            ],
+            "updated": [
+              "stock",
+              "used"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 0,
+                  "reserve": 0
+                },
+                "output": "مستخدم 0\nمتبقي 0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 4,
+                  "reserve": 1
+                },
+                "output": "مستخدم 3\nمتبقي 1\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "reserve": 3
+                },
+                "output": "مستخدم 0\nمتبقي 2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "stock",
+                "reserve"
+              ],
+              "effect": "used"
+            },
+            "types": {
+              "stock": "int",
+              "reserve": "int",
+              "used": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، طبّق نفس العملية على ٧ قطع واحتياطي ٤. احفظ التقرير النهائي.",
+          "instruction": "يا كمبيوتر، طبّق نفس العملية على ٧ قطع واحتياطي ٤. احفظ التقرير النهائي.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int stock = 7;\nint reserve = 4;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+          "challenge": {
+            "output": "مستخدم 3\nمتبقي 4\n",
+            "declared": [
+              "stock",
+              "reserve",
+              "used"
+            ],
+            "printed": [
+              "stock",
+              "used"
+            ],
+            "updated": [
+              "stock",
+              "used"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "stock": 0,
+                  "reserve": 0
+                },
+                "output": "مستخدم 0\nمتبقي 0\n"
+              },
+              {
+                "inputs": {
+                  "stock": 4,
+                  "reserve": 1
+                },
+                "output": "مستخدم 3\nمتبقي 1\n"
+              },
+              {
+                "inputs": {
+                  "stock": 2,
+                  "reserve": 3
+                },
+                "output": "مستخدم 0\nمتبقي 2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "stock",
+                "reserve"
+              ],
+              "effect": "used"
+            },
+            "types": {
+              "stock": "int",
+              "reserve": "int",
+              "used": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب القيمتين بعد خصم القطعة.",
+            "القاعدة: تتحرك used وstock في اتجاهين متعاكسين إلى أن يفشل الشرط. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اجعل stock = stock - 1 وused = used + 1 جسم while (stock > reserve).",
+            "كشف الحل:\nint stock = 7;\nint reserve = 4;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock >= reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+        "fixedCode": "int stock = 5;\nint reserve = 2;\nint used = 0;\nwhile (stock > reserve)\n{\n    stock = stock - 1;\n    used = used + 1;\n}\nConsole.WriteLine(\"مستخدم \" + used);\nConsole.WriteLine(\"متبقي \" + stock);",
+        "question": "المخزون نزل إلى 1 بدل 2. أي شرط يوقف الاستخدام عند الاحتياطي؟",
+        "explanation": "استخدم > حتى يخرج البرنامج عندما يصبح المتبقي مساويًا للاحتياطي.",
+        "options": [
+          "stock >= reserve",
+          "stock > reserve",
+          "stock != 0"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-47-while-step-size"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن stock = 5 وreserve = 2 وused = 0. استخدم قطعة طالما stock أكبر من reserve. اطبع سطر «مستخدم » وسطر «متبقي » مع القيمتين.",
+        "يا كمبيوتر، طبّق نفس العملية على ٧ قطع واحتياطي ٤. احفظ التقرير النهائي."
+      ],
+      "commonMisconceptions": [
+        "استخدم > حتى يخرج البرنامج عندما يصبح المتبقي مساويًا للاحتياطي."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "تتبّع دفعات ومخزون",
+      "sceneVisual": [
+        {
+          "label": "المخزون",
+          "text": "5"
+        },
+        {
+          "label": "الاحتياطي",
+          "text": "2"
+        },
+        {
+          "label": "الناتج",
+          "text": "3 مستخدمة و2 متبقية"
         }
       ]
     }

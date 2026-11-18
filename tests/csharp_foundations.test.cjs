@@ -195,7 +195,7 @@ for (const [label, source, expectedCode] of [
   ["missing semicolon", 'Console.WriteLine("hello")', "syntax"],
   ["operator requires numeric operands", 'Console.WriteLine(true * 2);', "type"],
   ["division by zero", 'int n = 0; Console.WriteLine(3 / n);', "runtime"],
-  ["unsupported loops", 'while (true) {}', "unsupported"],
+  ["bounded infinite while", 'while (true) {}', "limit"],
   ["unsupported increment", 'int n = ++1;', "unsupported"],
   ["out of range", 'int n = 2147483647; n = n + 1;', "unsupported"],
   ["server/network calls", 'fetch("https://example.com");', "syntax"],
@@ -209,6 +209,63 @@ test("Parser limits stop large or deeply nested input without executing code", a
   assert.throws(() => runProgram(" ".repeat(16001)), /أطول/);
   assert.throws(() => runProgram('Console.WriteLine(' + "(".repeat(50) + "1" + ")".repeat(50) + ");"), /أقواس/);
   assert.throws(() => runProgram('Console.WriteLine("x");'.repeat(161)), /أوامر/);
+});
+
+test("while traces each condition, update, return and final exit with independent snapshots", async () => {
+  const { runProgram } = await runtime;
+  const source = 'int i = 0;\nint limit = 3;\nwhile (i < limit)\n{\n  Console.WriteLine(i);\n  i = i + 1;\n}\nConsole.WriteLine("تم");';
+  const run = runProgram(source);
+  const checks = run.trace.filter(step => step.kind === "loop-condition");
+  assert.deepEqual(checks.map(step => [step.variables.i.value, step.value, step.nextLine]), [[0,true,5], [1,true,5], [2,true,5], [3,false,8]]);
+  assert.deepEqual(run.trace.filter(step => step.kind === "loop-jump").map(step => step.nextLine), [3,3,3]);
+  assert.deepEqual(run.trace.filter(step => step.loop?.phase === "update").map(step => [step.previous,step.value]), [[0,1], [1,2], [2,3]]);
+  assert.equal(run.output, "0\n1\n2\nتم\n");
+  assert.equal(runProgram(source, {i:3}).output, "تم\n");
+});
+
+test("for updates after continue, exits on break, and keeps the header variable scoped", async () => {
+  const { runProgram } = await runtime;
+  const source = 'for (int i = 0;\n     i < 5;\n     i++)\n{\n  if (i == 1) continue;\n  if (i == 3) break;\n  Console.WriteLine(i);\n}\nConsole.WriteLine("تم");';
+  const run = runProgram(source);
+  assert.equal(run.output, "0\n2\nتم\n");
+  assert.equal(run.trace.find(step => step.kind === "continue").nextLine, 3);
+  assert.equal(run.trace.find(step => step.kind === "break").nextLine, 9);
+  assert.equal(run.trace.filter(step => step.loop?.phase === "update").length, 3);
+  assert.equal(run.trace.filter(step => step.loop?.phase === "initialize").length, 1);
+  assert.equal(run.variables.i, undefined);
+  assert.throws(() => runProgram(source + "\nConsole.WriteLine(i);"), {code:"name"});
+  assert.throws(() => runProgram("for (;;) continue;"), {code:"limit"});
+});
+
+test("Nested loops contain jumps and refresh skipped lines for each iteration", async () => {
+  const { runProgram } = await runtime;
+  const source = 'for (int row = 1; row <= 2; row++)\n{\n  for (int col = 1; col <= 3; col++)\n  {\n    if (col == 2) break;\n    if (row == 2)\n    {\n      Console.WriteLine(row);\n    }\n  }\n}\nConsole.WriteLine("تم");';
+  const run = runProgram(source);
+  assert.equal(run.output, "2\nتم\n");
+  assert.equal(run.trace.filter(step => step.kind === "break").length, 2);
+  const print = run.trace.find(step => step.kind === "print" && step.loop?.depth === 2);
+  assert.equal(print.variables.col.value, 1);
+  assert.equal(print.skippedLines.includes(print.line), false);
+});
+
+test("foreach binds a typed item per iteration and accepts empty and alternate collections", async () => {
+  const { runProgram } = await runtime;
+  const source = 'int[] values = {4, 9, 12};\nforeach (int value in values)\n{\n  Console.WriteLine(value);\n}';
+  const run = runProgram(source);
+  assert.deepEqual(run.trace.filter(step => step.kind === "loop-bind").map(step => step.value), [4,9,12]);
+  assert.deepEqual(run.trace[0].variables.values.value, [4,9,12]);
+  assert.equal(run.variables.value, undefined);
+  assert.equal(runProgram(source, {values:[]}).output, "");
+  assert.equal(runProgram(source, {values:[1,1]}).output, "1\n1\n");
+  assert.throws(() => runProgram(source.replace("Console.WriteLine(value);", "value++;")), {code:"type"});
+  assert.throws(() => runProgram("break;"), {code:"syntax"});
+});
+
+test("Grading requires a loop that performs the task, not just a reachable loop", async () => {
+  const { checkChallenge } = await runtime;
+  const challenge = {output:"0\n", loop:{kind:"while", reads:["i"], effect:"print"}};
+  assert.equal(checkChallenge("int i=0; while (i<1) { i++; } Console.WriteLine(0);", challenge).passed, false);
+  assert.equal(checkChallenge("int i=0; while (i<1) { Console.WriteLine(i); i++; }", challenge).passed, true);
 });
 
 test("Save/resume preserves drafts, stage, completion artifacts, and stable lesson IDs", async () => {

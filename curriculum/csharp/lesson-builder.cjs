@@ -1,8 +1,8 @@
 // Shared eight-step lesson structure. All visible content is original Arabic.
 function challenge(config, solution) {
   const result = {};
-  for (const key of ["output", "declared", "printed", "updated", "values", "operation", "operationIn", "methods", "minPrints", "cases", "read", "branching", "elseRequired", "elseIfRequired", "conditionReads", "stdin"]) if (config[key] !== undefined) result[key] = config[key];
-  if (config.declared) result.types = Object.fromEntries([...solution.matchAll(/\b(int|double|decimal|string\??|bool)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=/g)].filter(m => config.declared.includes(m[2])).map(m => [m[2], m[1]]));
+  for (const key of ["output", "declared", "printed", "updated", "values", "operation", "operationIn", "methods", "minPrints", "cases", "read", "branching", "elseRequired", "elseIfRequired", "conditionReads", "stdin", "loop"]) if (config[key] !== undefined) result[key] = config[key];
+  if (config.declared) result.types = Object.fromEntries([...solution.matchAll(/\b((?:int|double|decimal|string\??|bool)(?:\[\])?)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=/g)].filter(m => config.declared.includes(m[2])).map(m => [m[2], m[1]]));
   return result;
 }
 function makeLesson(c, index, previousId, unitId) {
@@ -42,4 +42,30 @@ function makeLesson(c, index, previousId, unitId) {
   };
 }
 
-module.exports = { makeLesson };
+function makeUnit({ id, title, description, previous, lessons, skill, runtime }) {
+  const start = previous.lessons.at(-1);
+  let previousId = start.id;
+  return {
+    schemaVersion: '1.0.0', track: 'csharp', title, description, totalLessons: lessons.length, runtime,
+    lessons: lessons.map((spec, index) => {
+      const lesson = makeLesson({ ...spec, skill, sourcesReviewedAt: '2026-11-18' }, start.order + index + 1, previousId, id);
+      previousId = lesson.id;
+      return lesson;
+    })
+  };
+}
+
+const outputLines = values => values.map(value => String(value) + "\n").join("");
+
+function exercise(program, examples, checks) {
+  const cases = examples.map(([inputs, output]) => ({inputs, output:outputLines(output)}));
+  return (inputs, output, task, hints = {}) => ({
+    ...checks, solution:program(inputs), output:outputLines(output), task:"يا كمبيوتر، " + task, cases, ...hints
+  });
+}
+
+function repair(config, broken, question, options, explanation, correct = 0) {
+  return { ...config, broken, fixed:config.solution, question, options, explanation, correct };
+}
+
+module.exports = { makeLesson, makeUnit, exercise, repair };

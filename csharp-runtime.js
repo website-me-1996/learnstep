@@ -1,14 +1,18 @@
 // Bounded teaching interpreter for the authored C# lessons, not Roslyn/.NET.
 // No eval, Function constructor, network execution, or string-to-JS translation.
-const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40 };
+const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64 };
 const NUMERIC_TYPES = new Set(['int', 'double', 'decimal']);
 const TYPES = new Set([...NUMERIC_TYPES, 'string', 'bool']);
 const TEXT_TYPES = new Set(['string', 'string?']);
+const LOOP_KINDS = new Set(['while', 'for', 'foreach']);
+const INCREMENTS = new Set(['++', '--']);
+const ASSIGNMENTS = new Set(['=', '+=', '-=', '*=', '/=', '%=']);
+const arrayType = type => type?.endsWith('[]');
 const COMPARISONS = new Set(['>','>=','<','<=','==','!=']);
 const LOGICAL = new Set(['&&', '||']);
 const BINARY_PRECEDENCE = {'??':1,'||':2,'&&':3,'==':4,'!=':4,'>':5,'>=':5,'<':5,'<=':5,'+':10,'-':10,'*':20,'/':20,'%':20};
 const RESERVED = new Set(('abstract as base bool break byte case catch char checked class const continue decimal default delegate do double else enum event explicit extern false finally fixed float for foreach goto if implicit in int interface internal is lock long namespace new null object operator out override params private protected public readonly ref return sbyte sealed short sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked unsafe ushort using virtual void volatile while var').split(' '));
-export const RUNTIME_LABEL = 'محاكي أساسيات C# · القيم والحساب والشروط';
+export const RUNTIME_LABEL = 'محاكي أساسيات C# · القيم والحساب والشروط والحلقات';
 export class CSharpError extends Error {
   constructor(message,token={},code='syntax') { super(message);this.name='CSharpError';this.line=token.line||1;this.column=token.column||1;this.code=code; }
 }
@@ -27,9 +31,8 @@ function lex(source) {
       if(pos===source.length)throw new CSharpError('أغلق التعليق بعلامة */.',location);
       advance();advance();continue;
     }
-    if(['++','--','+=','-=','*=','/=','%=','=>'].some(op=>source.startsWith(op,pos)))throw new CSharpError('هذا المعامل غير مدعوم في المحاكي التعليمي بعد.',location,'unsupported');
     const pair=source.slice(pos,pos+2);
-    if(['==','!=','>=','<=','&&','||','??'].includes(pair)){advance();advance();add(pair,pair,location);continue;}
+    if(['==','!=','>=','<=','&&','||','??'].includes(pair)||INCREMENTS.has(pair)||ASSIGNMENTS.has(pair)){advance();advance();add(pair,pair,location);continue;}
     if(c==='"') {
       advance();let value='',closed=false;
       while(pos<source.length){
@@ -50,8 +53,8 @@ function lex(source) {
       continue;
     }
     if(/[\p{L}_]/u.test(c)){let value='';while(pos<source.length&&/[\p{L}\p{N}_]/u.test(source[pos]))value+=advance();add('identifier',value,location);continue;}
-    if(';=().,+-*/%{}><!?'.includes(c)){advance();add(c,c,location);continue;}
-    throw new CSharpError('الرمز «'+c+'» خارج نطاق المحاكي التعليمي. يدعم الطباعة والقيم والحساب والمقارنات وif / else.',location,'unsupported');
+    if(';=().,+-*/%{}[]><!?'.includes(c)){advance();add(c,c,location);continue;}
+    throw new CSharpError('الرمز «'+c+'» خارج نطاق المحاكي التعليمي. راجع تركيب المثال.',location,'unsupported');
   }
   tokens.push({kind:'eof',value:'',...at(),end:pos});return tokens;
 }
@@ -65,6 +68,70 @@ export function parseProgram(source) {
     if(t.kind!==kind||(value!==undefined&&t.value!==value))throw new CSharpError(kind===';'?'الفاصلة المنقوطة ; ناقصة في نهاية الأمر السابق.':'كنت أتوقع «'+(value||kind)+'» هنا.',t);
     return take();
   }
+  function nameToken() {
+    const name = expect('identifier');
+    if (RESERVED.has(name.value) || name.value === 'Console' || name.value === 'System') {
+      throw new CSharpError('اختَر اسم متغير غير محجوز.', name, 'name');
+    }
+    return name;
+  }
+  function declaration() {
+    const token = take();
+    let type = token.value;
+    if (type === 'string' && peek().kind === '?') type += take().value;
+    if (peek().kind === '[') {
+      take();
+      expect(']');
+      type += '[]';
+    }
+    const name = nameToken().value;
+    expect('=');
+    let initializer;
+    if (arrayType(type) && peek().kind === '{') {
+      const start = take(), items = [];
+      while (peek().kind !== '}') {
+        if (items.length >= LIMITS.array) {
+          throw new CSharpError('اختر مصفوفة تعليمية من 64 عنصرًا أو أقل.', peek(), 'limit');
+        }
+        items.push(expression());
+        if (peek().kind !== ',') break;
+        take();
+      }
+      const end = expect('}');
+      initializer = {kind:'array', type, items, token:start, start:start.start, end:end.end};
+    } else {
+      initializer = expression();
+    }
+    return {kind:'declare', name, type, expression:initializer, token};
+  }
+  function assignment() {
+    const start = peek();
+    const prefix = INCREMENTS.has(start.kind);
+    const operator = prefix ? take() : null;
+    const name = nameToken();
+    const op = operator || take();
+    if (!ASSIGNMENTS.has(op.kind) && !INCREMENTS.has(op.kind)) {
+      throw new CSharpError('استخدم = أو معامل تحديث مدعوم بعد اسم المتغير.', op);
+    }
+    const increment = INCREMENTS.has(op.kind);
+    const right = increment
+      ? {kind:'literal', type:'int', value:1, token:op, start:op.start, end:op.end}
+      : expression();
+    const rhs = op.kind === '=' ? right : {
+      kind:'binary', op:op.kind[0], token:op,
+      left:{kind:'variable', name:name.value, token:name, start:name.start, end:name.end},
+      right, start:start.start, end:tokens[cursor - 1].end
+    };
+    return {kind:'assign', name:name.value, update:op.kind, expression:rhs, token:start};
+  }
+  function forPart(part) {
+    if (peek().kind === closeForPart[part]) return null;
+    const step = part === 'init' && TYPES.has(peek().value) ? declaration() : assignment();
+    step.end = tokens[cursor - 1];
+    step.source = text.slice(step.token.start, step.end.end);
+    return step;
+  }
+  const closeForPart = {init:';', update:')'};
   function expression(min=0) {
     if(++depth>LIMITS.depth)throw new CSharpError('قلّل الأقواس المتداخلة في المثال.',peek(),'limit');
     const t=take();let node;
@@ -90,12 +157,12 @@ export function parseProgram(source) {
       expect('(');
       const input = expression();
       expect(','); expect('identifier', 'out'); expect('identifier', 'int');
-      const output = expect('identifier');
-      if (RESERVED.has(output.value) || output.value === 'Console' || output.value === 'System') throw new CSharpError('اختَر اسمًا لقيمة out غير محجوز.', output, 'name');
+      const output = nameToken();
       expect(')');
       node = { kind:'try-parse', op:'TryParse', expression:input, outName:output.value, token:method };
     }
     else if(t.kind==='identifier'&&!RESERVED.has(t.value))node={kind:'variable',name:t.value,token:t};
+    else if (INCREMENTS.has(t.kind)) throw new CSharpError('اكتب تحديث ++ أو -- كأمر مستقل أو في خانة التحديث داخل for.', t, 'unsupported');
     else if(t.kind==='-'||t.kind==='+'||t.kind==='!')node={kind:'unary',op:t.kind,expression:expression(30),token:t};
     else if (t.kind === '(') {
       if (peek().kind === 'identifier' && NUMERIC_TYPES.has(peek().value) && tokens[cursor + 1]?.kind === ')') {
@@ -123,7 +190,7 @@ export function parseProgram(source) {
     depth--;return node;
   }
   function statement(embedded=false) {
-    if(++nesting>LIMITS.depth)throw new CSharpError('قلّل كتل الشروط المتداخلة.',peek(),'limit');
+    if(++nesting>LIMITS.depth)throw new CSharpError('قلّل الكتل المتداخلة.',peek(),'limit');
     if(++count>LIMITS.statements)throw new CSharpError('المثال يتجاوز عدد أوامر المحاكي.',peek(),'limit');
     const start=peek();let s,end;
     if(start.kind==='{') {
@@ -136,16 +203,40 @@ export function parseProgram(source) {
       if(peek().value==='else'){elseToken=take();alternate=statement(true);}
       s={kind:'if',condition,consequent,alternate,elseToken,header:text.slice(start.start,close.end),token:start};
       end=alternate?.end||consequent.end;
+    } else if (LOOP_KINDS.has(start.value)) {
+      take();
+      expect('(');
+      const kind = start.value;
+      s = {kind, token:start};
+      if (kind === 'for') {
+        s.initializer = forPart('init');
+        expect(';');
+        s.condition = peek().kind === ';' ? null : expression();
+        expect(';');
+        s.update = forPart('update');
+      } else if (kind === 'foreach') {
+        const type = expect('identifier');
+        if (!TYPES.has(type.value)) throw new CSharpError('اكتب نوع العنصر في foreach مثل int.', type, 'type');
+        const name = nameToken();
+        expect('identifier', 'in');
+        s.iterator = {type:type.value, name:name.value, token:name};
+        s.collection = expression();
+      } else {
+        s.condition = expression();
+      }
+      const close = expect(')');
+      s.header = text.slice(start.start, close.end);
+      s.body = statement(true);
+      end = s.body.end;
+    } else if (start.value === 'break' || start.value === 'continue') {
+      take();
+      end = expect(';');
+      s = {kind:start.value, token:start};
     } else if(start.kind===';') {end=take();s={kind:'empty',token:start};}
     else {
       if(TYPES.has(start.value)) {
-        if(embedded)throw new CSharpError('ضع تصريح المتغير داخل كتلة { } تابعة للشرط.',start,'syntax');
-        take();
-        const nullable = start.value === 'string' && peek().kind === '?';
-        if (nullable) take();
-        const name=expect('identifier');
-        if(RESERVED.has(name.value)||name.value==='Console'||name.value==='System')throw new CSharpError('اختَر اسم متغير غير محجوز.',name,'name');
-        expect('=');s={kind:'declare',name:name.value,type:nullable ? 'string?' : start.value,expression:expression(),token:start};
+        if(embedded)throw new CSharpError('ضع تصريح المتغير داخل كتلة { }.',start,'syntax');
+        s = declaration();
       } else if(start.value==='Console'||start.value==='System') {
         take();if(start.value==='System'){expect('.');expect('identifier','Console');}
         expect('.');const method=expect('identifier');
@@ -153,9 +244,9 @@ export function parseProgram(source) {
         expect('(');const argument=peek().kind===')'?null:expression();expect(')');
         if(!argument&&method.value==='Write')throw new CSharpError('Console.Write يحتاج قيمة لطباعتها.',method,'type');
         s={kind:'print',method:method.value,expression:argument,token:start};
-      } else if(start.kind==='identifier'&&!RESERVED.has(start.value)) {
-        take();expect('=');s={kind:'assign',name:start.value,expression:expression(),token:start};
-      } else throw new CSharpError('هذا البناء خارج نطاق المحاكي. استخدم الطباعة أو القيم أو if / else.',start,'unsupported');
+      } else if((start.kind==='identifier'&&!RESERVED.has(start.value)) || INCREMENTS.has(start.kind)) {
+        s = assignment();
+      } else throw new CSharpError('هذا البناء خارج نطاق المحاكي. راجع الصيغ المتاحة في الدرس.',start,'unsupported');
       end=expect(';');
     }
     s.end=end;s.source=text.slice(start.start,end.end);nesting--;return s;
@@ -169,6 +260,7 @@ export function parseProgram(source) {
 }
 function validateTypes(statements) {
   const scopes=[];
+  let loopDepth = 0;
   const lookup=name=>{for(let i=scopes.length-1;i>=0;i--)if(scopes[i].available.has(name))return scopes[i].available.get(name);};
   function infer(node,allowMin=false,allowTryParse=false) {
     node.valueType = inferType(node, allowMin, allowTryParse);
@@ -181,6 +273,13 @@ function validateTypes(statements) {
       return node.type;
     }
     if (node.kind === 'read-line') return 'string?';
+    if (node.kind === 'array') {
+      const element = node.type.slice(0, -2);
+      for (const item of node.items) {
+        if (!canAssign(infer(item), element)) throw new CSharpError('استخدم عناصر من نوع ' + element + ' في المصفوفة.', item.token, 'type');
+      }
+      return node.type;
+    }
     if (node.kind === 'try-parse') {
       if (!allowTryParse) throw new CSharpError('في هذا الدرس خزّن نجاح TryParse في متغير bool مستقل، ثم افحصه.', node.token, 'unsupported');
       if (!TEXT_TYPES.has(infer(node.expression))) throw new CSharpError('اعطِ TryParse قيمة نصية واسم نتيجة out من النوع int.', node.token, 'type');
@@ -190,7 +289,8 @@ function validateTypes(statements) {
       const type=lookup(node.name);if(!type)throw new CSharpError('المتغير «'+node.name+'» غير معرّف قبل استخدامه. راجع الاسم وحالة الحروف.',node.token,'name');return type;
     }
     if (node.kind === 'length') {
-      if (infer(node.expression) !== 'string') throw new CSharpError('استخدم Length مع قيمة نصية في هذا المثال.', node.token, 'type');
+      const type = infer(node.expression);
+      if (type !== 'string' && !arrayType(type)) throw new CSharpError('استخدم Length مع نص أو مصفوفة.', node.token, 'type');
       return 'int';
     }
     if (node.kind === 'cast') {
@@ -228,19 +328,52 @@ function validateTypes(statements) {
     if (numericType === 'decimal' && node.op === '/') throw new CSharpError('قسمة decimal خارج نطاق محاكي الدرس. استخدم double للقسمة أو جرّب .NET.', node.token, 'unsupported');
     return numericType;
   }
-  function visitBody(body) {
-    const allNames=new Set();
-    for(const s of body.filter(s=>s.kind==='declare')){
-      const names = s.expression.kind === 'try-parse' ? [s.name, s.expression.outName] : [s.name];
-      for (const name of names) {
-        if(allNames.has(name)||scopes.some(scope=>scope.allNames.has(name)))throw new CSharpError('المتغير «'+name+'» موجود بالفعل في هذا النطاق أو نطاق يحيط به. لتحديثه استخدم الاسم دون النوع.',s.token,'name');
-        allNames.add(name);
+  function namesIn(declarations) {
+    return declarations.flatMap(s => s.expression?.kind === 'try-parse'
+      ? [[s.name, s.token], [s.expression.outName, s.expression.token]]
+      : [[s.name, s.token]]);
+  }
+  function enterScope(declarations) {
+    const allNames = new Set();
+    for (const [name, token] of declarations) {
+      if (allNames.has(name) || scopes.some(scope => scope.allNames.has(name))) {
+        throw new CSharpError('المتغير «' + name + '» موجود بالفعل في هذا النطاق أو نطاق يحيط به. لتحديثه استخدم الاسم دون النوع.', token, 'name');
       }
+      allNames.add(name);
     }
-    scopes.push({allNames,available:new Map()});body.forEach(visit);scopes.pop();
+    scopes.push({allNames, available:new Map()});
+  }
+  function visitBody(body) {
+    enterScope(namesIn(body.filter(s => s.kind === 'declare')));
+    body.forEach(visit);
+    scopes.pop();
+  }
+  function visitLoop(s) {
+    if (s.kind === 'foreach') {
+      const {name, token, type} = s.iterator;
+      if (infer(s.collection) !== type + '[]') throw new CSharpError('اختَر مصفوفة من النوع ' + type + '[] مع متغير foreach.', s.collection.token, 'type');
+      enterScope([[name, token]]);
+      const scope = scopes.at(-1);
+      scope.available.set(name, type);
+      scope.readOnly = name;
+    } else {
+      enterScope(namesIn(s.initializer?.kind === 'declare' ? [s.initializer] : []));
+      if (s.initializer) visit(s.initializer);
+      if (s.condition && infer(s.condition) !== 'bool') throw new CSharpError('شرط الحلقة يحتاج قيمة bool مثل i < limit.', s.condition.token, 'type');
+      if (s.update) visit(s.update);
+    }
+    loopDepth++;
+    visit(s.body);
+    loopDepth--;
+    scopes.pop();
   }
   function visit(s) {
     if(s.kind==='block'){visitBody(s.body);return;}
+    if (LOOP_KINDS.has(s.kind)) { visitLoop(s); return; }
+    if (s.kind === 'break' || s.kind === 'continue') {
+      if (!loopDepth) throw new CSharpError('استخدم ' + s.kind + ' داخل حلقة.', s.token, 'syntax');
+      return;
+    }
     if(s.kind==='if'){
       if(infer(s.condition)!=='bool')throw new CSharpError('شرط if يحتاج قيمة bool: true أو false، وليس عددًا أو نصًا.',s.token,'type');
       // Both branches are checked before any statement executes.
@@ -248,17 +381,21 @@ function validateTypes(statements) {
     }
     if(s.kind==='empty')return;
     if(s.kind==='assign'&&!lookup(s.name))throw new CSharpError('عرّف المتغير «'+s.name+'» قبل إسناد قيمة له.',s.token,'name');
+    if (s.kind === 'assign' && scopes.findLast(scope => scope.available.has(s.name))?.readOnly === s.name) {
+      throw new CSharpError('متغير foreach للقراءة داخل الحلقة. غيّر متغيرًا خارجيًا إذا أردت حساب مجموع أو عد.', s.token, 'type');
+    }
     const allowTryParse = s.kind === 'declare' && s.type === 'bool';
     const type=s.expression?infer(s.expression,false,allowTryParse):null,target=s.kind==='declare'?s.type:lookup(s.name);
-    const widensInteger = type === 'int' && NUMERIC_TYPES.has(target);
-    const acceptsNullable = type === 'string' && target === 'string?';
-    if(s.kind!=='print'&&type!==target&&!widensInteger&&!acceptsNullable)throw new CSharpError('القيمة من النوع '+type+' لا تصلح لمتغير من النوع '+target+' في هذا الدرس.',s.token,'type');
+    if(s.kind!=='print'&&!canAssign(type,target))throw new CSharpError('القيمة من النوع '+type+' لا تصلح لمتغير من النوع '+target+' في هذا الدرس.',s.token,'type');
     if(s.kind==='declare') {
       scopes.at(-1).available.set(s.name,s.type);
       if (s.expression.kind === 'try-parse') scopes.at(-1).available.set(s.expression.outName, 'int');
     }
   }
   visitBody(statements);
+}
+function canAssign(type, target) {
+  return type === target || (type === 'int' && NUMERIC_TYPES.has(target)) || (type === 'string' && target === 'string?');
 }
 function promoteNumbers(left, right) {
   if (!NUMERIC_TYPES.has(left) || !NUMERIC_TYPES.has(right)) return null;
@@ -305,10 +442,14 @@ function display(value, type) {
   if (value === null) return '';
   if (type === 'decimal') return decimalText(value);
   if (type === 'double') return doubleText(value);
+  if (arrayType(type)) return 'System.' + ARRAY_TYPES[type.slice(0, -2)] + '[]';
   return typeof value === 'boolean' ? value ? 'True' : 'False' : String(value);
 }
 
+const ARRAY_TYPES = {int:'Int32', double:'Double', decimal:'Decimal', bool:'Boolean', string:'String', 'string?':'String'};
+
 function traceValue(value, type) {
+  if (arrayType(type)) return value.map(item => traceValue(item, type.slice(0, -2)));
   return type === 'decimal' ? decimalText(value) : value;
 }
 
@@ -395,6 +536,10 @@ function evaluateExpression(root, variables, source, readLine) {
 
   function evaluate(node) {
     if (node.kind === 'literal') return node.value;
+    if (node.kind === 'array') {
+      const element = node.type.slice(0, -2);
+      return node.items.map(item => convertNumber(evaluate(item), item.valueType, element, item.token));
+    }
     if (node.kind === 'read-line') {
       const line = readLine();
       consumed.push(line);
@@ -478,6 +623,11 @@ function allStatements(statements) {
       result.push(...allStatements([statement.consequent]));
       if (statement.alternate) result.push(...allStatements([statement.alternate]));
     }
+    if (LOOP_KINDS.has(statement.kind)) {
+      if (statement.initializer) result.push(statement.initializer);
+      result.push(...allStatements([statement.body]));
+      if (statement.update) result.push(statement.update);
+    }
   }
   return result;
 }
@@ -487,10 +637,11 @@ function exposedVariables(variables) {
 }
 
 function inputValue(value, type, token) {
+  if (arrayType(type) && Array.isArray(value) && value.length <= LIMITS.array) return value.map(item => inputValue(item, type.slice(0, -2), token));
   if (type === 'decimal' && typeof value === 'string') return parseDecimal(value, token);
   if ((type === 'int' && Number.isInteger(value) && value >= -2147483648 && value <= 2147483647) ||
       (type === 'double' && Number.isFinite(value)) ||
-      (type === 'string' && typeof value === 'string') ||
+      (TEXT_TYPES.has(type) && typeof value === 'string') || (type === 'string?' && value === null) ||
       (type === 'bool' && typeof value === 'boolean')) return value;
   throw new CSharpError('قيمة الاختبار لا تطابق نوع المدخل.', token, 'type');
 }
@@ -498,6 +649,7 @@ function inputValue(value, type, token) {
 export function runProgram(source,inputs={},stdin='') {
   const text = String(source).replace(/\r\n?/g, '\n');
   const statements = parseProgram(text), scopes = [new Map()], trace = [], skipped = new Set();
+  const loops = [];
   const sourceLines = text.split('\n');
   if (typeof stdin !== 'string' || stdin.length > LIMITS.source) throw new CSharpError('اختصر مدخلات التشغيل إلى 16 ألف حرف أو أقل.', {}, 'limit');
   const inputLines = stdin.split(/\r\n?|\n/);
@@ -510,10 +662,37 @@ export function runProgram(source,inputs={},stdin='') {
   const visible=()=>new Map(scopes.flatMap(scope=>[...scope]));
   const owner=name=>scopes.findLast(scope=>scope.has(name));
   const firstLine=s=>s.kind==='block'?(s.body[0]?.token.line||s.end.line):s.token.line;
-  function snapshot(s,details={}){
-    trace.push({line:s.token.line,source:s.source,kind:s.kind,name:null,reads:[],variables:exposedVariables(visible()),output,skippedLines:[...skipped],...details});
+  function snapshot(s, {loopPhase, ...details} = {}) {
+    if (trace.length >= LIMITS.trace) {
+      throw new CSharpError('توقف المحاكي عند حد الخطوات. افحص شرط الحلقة وتأكد إن العداد بيتغير وبيوصل للنهاية.', s.token, 'limit');
+    }
+    const frame = loops.at(-1);
+    const loop = frame && {
+      kind:frame.kind, iteration:frame.iteration, depth:loops.length,
+      phase:loopPhase || (frame.phase === 'body' && s.kind === 'assign' && frame.control.has(s.name) ? 'update' : frame.phase)
+    };
+    trace.push({
+      line:s.token.line, source:s.source, kind:s.kind, name:null, reads:[],
+      variables:exposedVariables(visible()), output, skippedLines:[...skipped],
+      ...(loop && {loop}), ...details
+    });
   }
-  function executeBody(body,nextLine=null){for(let i=0;i<body.length;i++)execute(body[i],body[i+1]?.token.line||nextLine);}
+  function executeBody(body, nextLine = null) {
+    for (const [i, statement] of body.entries()) {
+      const jump = execute(statement, body[i + 1]?.token.line || nextLine);
+      if (jump) return jump;
+    }
+  }
+  function executeBlock(s, nextLine, loopBody = false) {
+    scopes.push(new Map());
+    let jump;
+    try { jump = executeBody(s.body, loopBody ? nextLine : s.end.line); }
+    finally { scopes.pop(); }
+    if (!jump && !loopBody) snapshot({kind:'scope-exit',token:s.end,source:'}'},{
+      nextLine, action:'يا كمبيوتر، انتهت الكتلة. أكمل من الأمر التالي، واحتفظ بتحديثات المتغيرات الخارجية.'
+    });
+    return jump;
+  }
   function skipLines(start, end) {
     // Dim complete source lines. A line can contain both an executed and a
     // skipped statement when the learner uses compact brace formatting.
@@ -521,10 +700,79 @@ export function runProgram(source,inputs={},stdin='') {
     const after = sourceLines[end.line - 1].slice(end.column - 1 + end.end - end.start);
     for (let line = start.line + Number(!!before.trim()); line <= end.line - Number(!!after.trim()); line++) skipped.add(line);
   }
+  const jumpTo = (line, fallback) => line ? ' اذهب إلى السطر ' + line + '.' : ' ' + fallback;
+  function executeLoop(s, nextLine) {
+    const frame = {
+      kind:s.kind, phase:'initialize', iteration:0, control:new Set(),
+      continueLine:s.update?.token.line || s.token.line, exitLine:nextLine
+    };
+    const scope = new Map();
+    loops.push(frame);
+    scopes.push(scope);
+    try {
+      if (s.initializer) execute(s.initializer, s.token.line);
+      const collection = s.collection && evaluateExpression(s.collection, visible(), text, readLine);
+      for (;;) {
+        for (const line of skipped) {
+          if (line >= s.body.token.line && line <= s.body.end.line) skipped.delete(line);
+        }
+        const evaluation = collection
+          ? {value:frame.iteration < collection.value.length, reads:collection.reads}
+          : s.condition ? evaluateExpression(s.condition, visible(), text, readLine) : {value:true, reads:[]};
+        frame.control = new Set(evaluation.reads);
+        const passed = evaluation.value;
+        if (passed) frame.iteration++;
+        else skipLines(s.body.token, s.body.end);
+        const target = passed ? (collection ? s.token.line : firstLine(s.body)) : nextLine;
+        const action = collection
+          ? passed ? 'يا كمبيوتر، باقي عنصر. اقرأ القيمة التالية.' : 'يا كمبيوتر، مفيش عناصر باقية. اخرج من الحلقة.' + jumpTo(target, 'انتهى التنفيذ.')
+          : 'يا كمبيوتر، شرط ' + s.kind + ' أعطى ' + display(passed) + '. '
+            + (passed ? 'نفّذ جسم الحلقة.' : 'اخرج من الحلقة.') + jumpTo(target, 'انتهى التنفيذ.');
+        frame.phase = 'condition';
+        snapshot(s, {...evaluation, kind:'loop-condition', source:s.header, nextLine:target, action});
+        if (!passed) break;
+
+        if (collection) {
+          const {name, type} = s.iterator;
+          const index = frame.iteration - 1;
+          const value = collection.value[index];
+          scope.set(name, {type, value});
+          snapshot(s, {
+            kind:'loop-bind', loopPhase:'bind', source:s.header, name, nextLine:firstLine(s.body),
+            value:traceValue(value, type),
+            action:'يا كمبيوتر، اقرأ قيمة العنصر رقم ' + frame.iteration + ' وضعها في ' + name + '.'
+          });
+        }
+        frame.phase = 'body';
+        const jump = s.body.kind === 'block'
+          ? executeBlock(s.body, frame.continueLine, true)
+          : execute(s.body, frame.continueLine);
+        if (collection) scope.delete(s.iterator.name);
+        if (jump === 'break') break;
+        if (s.update) {
+          frame.phase = 'update';
+          execute(s.update, s.token.line);
+        }
+        snapshot({kind:'loop-jump',token:s.body.end,source:s.body.kind === 'block' ? '}' : s.body.source}, {
+          loopPhase:'return', nextLine:s.token.line,
+          action:'يا كمبيوتر، ارجع للسطر ' + s.token.line + (collection ? ' عشان تتحقق هل باقي عنصر.' : ' عشان تفحص الشرط من جديد.')
+        });
+      }
+    } finally {
+      scopes.pop();
+      loops.pop();
+    }
+  }
   function execute(s, nextLine, clause = 'if') {
-    if(s.kind==='block'){
-      scopes.push(new Map());executeBody(s.body,s.end.line);scopes.pop();
-      snapshot({kind:'scope-exit',token:s.end,source:'}'},{action:'يا كمبيوتر، انتهت الكتلة. أكمل من الأمر التالي، واحتفظ بتحديثات المتغيرات الخارجية.'});return;
+    if (s.kind === 'block') return executeBlock(s, nextLine);
+    if (LOOP_KINDS.has(s.kind)) { executeLoop(s, nextLine); return; }
+    if (s.kind === 'break' || s.kind === 'continue') {
+      const frame = loops.at(-1);
+      const exits = s.kind === 'break';
+      const target = exits ? frame.exitLine : frame.continueLine;
+      const action = exits ? 'يا كمبيوتر، اخرج من أقرب حلقة الآن.' : 'يا كمبيوتر، تجاوز بقية أوامر الدورة الحالية.';
+      snapshot(s, {loopPhase:s.kind, nextLine:target, action:action + jumpTo(target, 'انتهى التنفيذ.')});
+      return s.kind;
     }
     if (s.kind === 'if') {
       const evaluation = evaluateExpression(s.condition, visible(), text, readLine);
@@ -553,7 +801,7 @@ export function runProgram(source,inputs={},stdin='') {
       if (branch === 'else') {
         snapshot({ kind: 'else', token: s.elseToken, source: 'else' }, { action: 'يا كمبيوتر، نفّذ جسم else لأن الشروط السابقة لم تتحقق.' });
       }
-      if (chosen) execute(chosen, nextLine, branch === 'else-if' ? 'else if' : 'if');
+      if (chosen) return execute(chosen, nextLine, branch === 'else-if' ? 'else if' : 'if');
       return;
     }
     if(s.kind==='empty'){snapshot(s,{action:'يا كمبيوتر، هذه جملة فارغة؛ انتقل إلى الأمر التالي.'});return;}
@@ -577,7 +825,7 @@ export function runProgram(source,inputs={},stdin='') {
     const action=s.kind==='print'?'يا كمبيوتر، اطبع القيمة الحالية'+(s.method==='WriteLine'?' ثم انتقل لسطر جديد.':' واترك موضع الكتابة في السطر نفسه.')
       :s.kind==='declare'?'يا كمبيوتر، أنشئ المتغير '+s.name+' من النوع '+s.type+' واحفظ فيه '+(value === null ? 'null' : outputValue)+'.'
       :'يا كمبيوتر، حدّث '+s.name+' من '+display(previous,type)+' إلى '+outputValue+'.';
-    snapshot(s, { ...evaluation, name: s.name || null, value: traceValue(value,type), previous: previous === undefined ? undefined : traceValue(previous,type), action });
+    snapshot(s, { ...evaluation, name: s.name || null, nextLine, value: traceValue(value,type), previous: previous === undefined ? undefined : traceValue(previous,type), action });
   }
   executeBody(statements);return {output,trace,variables:exposedVariables(scopes[0]),statements};
 }
@@ -605,20 +853,28 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   if(challenge.branching&&!statements.some(s=>s.kind==='if'))return fail('استخدم if ليختار البرنامج متى ينفذ الأمر.');
   if(challenge.elseRequired&&!statements.some(s=>s.kind==='if'&&s.alternate))return fail('أضف مسار else عندما لا يتحقق الشرط.');
   const conditionReads = new Set();
+  const loopReads = new Set(), loopJumps = new Set();
+  let hasLoopEffect = false;
   let testedElseIf = false;
-  const observeConditions = trace => {
+  const observe = trace => {
     for (const step of trace) {
+      if (challenge.loop && step.loop?.kind === challenge.loop.kind && step.loop.depth >= (challenge.loop.depth ?? 1)) {
+        if (step.kind === 'loop-condition') for (const name of step.reads) loopReads.add(name);
+        if (step.kind === 'break' || step.kind === 'continue') loopJumps.add(step.kind);
+        if (challenge.loop.effect === 'print' && step.kind === 'print') hasLoopEffect = true;
+        if (step.kind === 'assign' && step.name === challenge.loop.effect && step.loop.phase !== 'initialize') hasLoopEffect = true;
+      }
       if (step.kind !== 'condition') continue;
       for (const name of step.reads) conditionReads.add(name);
       if (step.clause === 'else if') testedElseIf = true;
     }
   };
-  observeConditions(result.trace);
+  observe(result.trace);
   for (const example of challenge.cases || []) {
     try {
       const alternate = runProgram(source, example.inputs, example.stdin ?? stdin);
       if (alternate.output !== example.output) return fail('الناتج الحالي صحيح، لكن الحل لم ينجح بقيم أخرى. راجع المتغيرات والحد الفاصل.');
-      observeConditions(alternate.trace);
+      observe(alternate.trace);
     } catch {
       return fail('لم تنجح إحدى حالات الاختبار. راجع الأنواع واعتماد القرار على المتغيرات.');
     }
@@ -626,6 +882,13 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   if (challenge.elseIfRequired && !testedElseIf) return fail('استخدم else if لفحص شرط بديل عند تجاوز الشرط الأول.');
   for (const name of challenge.conditionReads || []) {
     if (!conditionReads.has(name)) return fail('اجعل قرار if يقرأ المتغير «' + name + '» بدل شرط ثابت.');
+  }
+  if (challenge.loop) {
+    const {kind, depth = 1, reads = [], jumps = []} = challenge.loop;
+    const label = depth > 1 ? 'حلقات ' + kind + ' متداخلة' : 'حلقة ' + kind;
+    if (!hasLoopEffect) return fail('نفّذ التحديث أو الطباعة المطلوبة داخل ' + label + '.');
+    for (const name of reads) if (!loopReads.has(name)) return fail('اقرأ قيمة «' + name + '» عند فحص ' + label + '.');
+    for (const jump of jumps) if (!loopJumps.has(jump)) return fail('استخدم ' + jump + ' في مسار يمكن تنفيذه داخل ' + label + '.');
   }
   return {passed:true,result,message:'صحيح. نفّذت المطلوب وشاهدت أثره.'};
 }

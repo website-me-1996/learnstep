@@ -5,6 +5,12 @@
 import {DotnetRunner} from '/csharp-dotnet-client.js';
 import {runProgram} from '/csharp-runtime.js';
 const $=id=>document.getElementById(id);
+function inputLiteral(type, value) {
+ if (type.endsWith('[]')) return '{ ' + value.map(item => inputLiteral(type.slice(0, -2), item)).join(', ') + ' }';
+ if (type === 'decimal') return value + 'm';
+ if (type === 'double') return value + 'd';
+ return JSON.stringify(value);
+}
 $('start').onclick=async()=>{
  $('start').disabled=true;const started=performance.now(),results=[];
  const runner=new DotnetRunner({onStatus:m=>$('summary').textContent=m});
@@ -25,11 +31,8 @@ $('start').onclick=async()=>{
      await check(lesson.title + ' / ' + step.id + ' مدخل بديل ' + index, async () => {
       let source = step.solution;
       for (const [name, value] of Object.entries(example.inputs ?? {})) {
-       const declaration = new RegExp('\\b(int|double|decimal|string\\??|bool)\\s+' + name + '\\s*=\\s*[^;]+;');
-       source = source.replace(declaration, (_, type) => {
-        const literal = type === 'decimal' ? value + 'm' : type === 'double' ? value + 'd' : JSON.stringify(value);
-        return type + ' ' + name + ' = ' + literal + ';';
-       });
+       const declaration = new RegExp('\\b((?:int|double|decimal|string\\??|bool)(?:\\[\\])?)\\s+' + name + '\\s*=\\s*[^;]+;');
+       source = source.replace(declaration, (_, type) => type + ' ' + name + ' = ' + inputLiteral(type, value) + ';');
       }
       const actual = await runner.run(source, example.stdin ?? step.challenge.stdin ?? '');
       assert(actual.ok && actual.output === example.output, JSON.stringify(actual));

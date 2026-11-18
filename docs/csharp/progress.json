@@ -16,30 +16,30 @@
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Start while loops after lesson 40 with condition, body, update and jump snapshots. Test zero iterations, limits and infinite loops before adding for, break, continue, nested loops and foreach. Preserve lessons 1–40.",
+  "nextAction": "Author P4B after lesson 48. Cover the for header, update, break, continue, nested loops, foreach over a preset array, and a short application. Preserve lessons 1–48.",
   "checks": {
     "npmTest": {
-      "passed": 493,
+      "passed": 546,
       "failed": 0
     },
-    "csharpTests": 323,
-    "canonicalLessonsValidated": 537,
+    "csharpTests": 376,
+    "canonicalLessonsValidated": 545,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome: 40 lessons, previous progress retained, scene before numeric code, typed division and rewind, source and output during console input, both TryParse results, rejection of fractional input, and accepted input draft restored after reload.",
+    "browserQA": "Chrome desktop displayed 48 lessons with prior completion retained. Verified the pre-code scene, while condition, counter update, jump to the condition, rewind, and zero-iteration output.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 756,
+      "passed": 911,
       "failed": 0,
-      "alternateInputCases": 532,
+      "alternateInputCases": 647,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 200
+      "curriculumSolutionsCompared": 240
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
   "runtime": {
-    "default": "bounded teaching interpreter for units 1–5 with numeric and text expressions, reversible decision and calculation snapshots, bounded pre-supplied console input, nullable text, null coalescing, int.TryParse, and scoped bindings",
+    "default": "bounded teaching interpreter with numeric/text expressions, console input, reversible decisions and loop traces, while/for/foreach control flow, fixed-size initializer arrays and a 1000-snapshot limit",
     "experimental": ".NET 10.0.15 + Roslyn 5.0.0, SDK 10.0.204, browser WebAssembly worker",
     "assetRawMiB": 45.5,
     "assetGzipMiB": 16.9,
@@ -57,13 +57,15 @@
     "P3A": "complete",
     "P3B": "complete",
     "P3C": "complete",
-    "P3D": "complete"
+    "P3D": "complete",
+    "P4A": "complete",
+    "P4B": "pending"
   },
   "curriculum": {
-    "lessons": 40,
-    "steps": 320,
-    "units": 5,
-    "latestUnit": "console-input-validation",
-    "nextUnit": "loop-foundations"
+    "lessons": 48,
+    "steps": 384,
+    "units": 6,
+    "latestUnit": "loop-foundations",
+    "nextUnit": "loop-control"
   }
 }

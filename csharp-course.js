@@ -82,11 +82,26 @@ function renderCalculation(calculation) {
     cell.append(name, result); panel.append(cell);
   }
 }
+const loopPhases = {
+  initialize:"جهّز العداد", condition:"افحص الشرط", bind:"اقرأ العنصر", body:"نفّذ من الجسم",
+  update:"حدّث القيمة", return:"ارجع للشرط", break:"اخرج من الحلقة", continue:"تجاوز بقية الدورة"
+};
+
 function renderTrace() {
   const snapshot = cursor >= 0 && trace ? trace.trace[cursor] : null;
   $("csharpOutput").textContent = snapshot ? snapshot.output : "";
   $("csharpTraceAction").textContent = snapshot ? snapshot.action : "يا كمبيوتر، انتظر عند البداية. لم يُنفّذ أي أمر بعد.";
   $("csharpTraceCount").textContent = trace ? number(cursor + 1) + " / " + number(trace.trace.length) : "";
+  const loop = snapshot?.loop;
+  $("csharpLoopStep").hidden = !loop;
+  if (loop) {
+    const phase = snapshot.kind === "loop-condition" && !snapshot.value ? "انتهت الحلقة" : loopPhases[loop.phase];
+    $("csharpLoopStep").textContent = [
+      loop.kind, phase,
+      ...(loop.iteration ? ["الدورة " + number(loop.iteration)] : []),
+      ...(loop.depth > 1 ? ["مستوى " + number(loop.depth)] : [])
+    ].join(" · ");
+  }
   const reads = snapshot?.inputReads || [];
   $("csharpInputRead").hidden = !reads.length;
   $("csharpInputRead").textContent = reads.map(line => line.number === null
@@ -98,6 +113,7 @@ function renderTrace() {
     line.textContent = text || " ";
     if (snapshot?.skippedLines?.includes(index + 1)) { line.classList.add("cs-skipped-line"); line.title = "هذا السطر لم يُنفّذ في المسار المختار."; }
     if (snapshot && snapshot.line === index + 1) { line.classList.add("cs-current-line"); line.setAttribute("aria-current", "step"); }
+    else if (loop && snapshot.nextLine === index + 1) { line.classList.add("cs-next-line"); line.title = "السطر التالي في التنفيذ"; }
     $("csharpTraceLines").append(line);
   });
   $("csharpVariables").replaceChildren();
@@ -116,7 +132,7 @@ function renderTrace() {
     const row = document.createElement("tr");
     if (snapshot.name === name || snapshot.binding?.name === name) row.classList.add("cs-changed-value");
     const text = data.type === "string" || data.type === "string?";
-    for (const [index, value] of [name, data.type, text ? JSON.stringify(data.value) : String(data.value)].entries()) {
+    for (const [index, value] of [name, data.type, text || Array.isArray(data.value) ? JSON.stringify(data.value) : String(data.value)].entries()) {
       const cell = document.createElement("td"); cell.textContent = value; cell.dir = index === 2 && text ? "auto" : "ltr"; row.append(cell);
     }
     $("csharpVariables").append(row);

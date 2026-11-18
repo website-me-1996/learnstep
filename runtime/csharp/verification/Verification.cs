@@ -9,6 +9,8 @@ public static class Verification
     private static readonly List<object> Results = [];
     private static string InputLiteral(string type, JsonElement value)
     {
+        if (type.EndsWith("[]", StringComparison.Ordinal))
+            return "{ " + string.Join(", ", value.EnumerateArray().Select(item => InputLiteral(type[..^2], item))) + " }";
         return type switch
         {
             "double" => value.GetRawText() + "d",
@@ -46,7 +48,7 @@ public static class Verification
                 {
                     var modified=source;
                     if (alternative.TryGetProperty("inputs", out var replacements))
-                        foreach(var value in replacements.EnumerateObject()) modified=Regex.Replace(modified,@"\b(int|double|decimal|string\??|bool)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
+                        foreach(var value in replacements.EnumerateObject()) modified=Regex.Replace(modified,@"\b((?:int|double|decimal|string\??|bool)(?:\[\])?)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
                     var alternateStdin = alternative.TryGetProperty("stdin", out var alternateInput) ? alternateInput.GetString()! : stdin;
                     await Check(name+"/alternate/"+index++,modified,alternative.GetProperty("output").GetString()!, alternateStdin);
                 }}

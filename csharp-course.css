@@ -57,6 +57,8 @@
 .cs-trace-lines{padding:12px 12px 12px 42px;background:#0d1712;color:#b9c9bf;border-radius:8px;overflow:auto;max-height:290px;font:13px/2 Consolas,monospace;text-align:left;white-space:pre}
 .cs-trace-lines li{padding-inline:6px;border-inline-start:3px solid transparent}
 .cs-trace-lines .cs-current-line{background:#39314d;color:#eee5ff;border-inline-start-color:var(--cs-accent)}
+.cs-trace-lines .cs-next-line{border-inline-start-color:#79bca2}
+.cs-loop-step{color:#b4decf;font-size:13px;line-height:1.65;margin:10px 0}
 .cs-trace-action{padding:10px 12px;background:var(--surface-raised);border-radius:8px;font-size:14px;line-height:1.8;min-height:2em;overflow-wrap:anywhere}
 .cs-table-wrap{overflow:auto}.cs-values{border-collapse:collapse;width:100%;font-size:13px;text-align:start}
 .cs-values th,.cs-values td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:start}

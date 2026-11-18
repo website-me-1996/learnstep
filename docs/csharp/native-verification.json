@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
   "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 756,
+  "passed": 911,
   "failed": 0,
   "results": [
     {
@@ -3661,6 +3661,781 @@
     },
     {
       "name": "csharp-40-input-booking/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-41-first-while/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-42-while-countdown/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-43-while-zero-iterations/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-44-while-inclusive-stop/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-45-while-running-total/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-46-while-count-matches/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-47-while-step-size/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-48-while-inventory/transfer/alternate/2",
       "passed": true,
       "message": null
     },
