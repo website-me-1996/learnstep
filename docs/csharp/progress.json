@@ -16,25 +16,25 @@
     "P8": "complete",
     "P9": "in_progress"
   },
-  "nextAction": "Start P9 at lesson 109 with a binary tree, BST and heap, then graph adjacency, BFS and DFS, and a capstone with boundary cases. Keep lessons 1–108 stable.",
+  "nextAction": "Start P9B at lesson 113 with graph adjacency, BFS and DFS, and an unweighted shortest-route capstone with boundary cases. Keep lessons 1–112 stable.",
   "checks": {
     "npmTest": {
-      "passed": 916,
+      "passed": 940,
       "failed": 0
     },
-    "csharpTests": 746,
-    "canonicalLessonsValidated": 605,
+    "csharpTests": 770,
+    "canonicalLessonsValidated": 609,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 108 lessons with earlier completion. Lesson 103 highlighted indexed writes, preserved the saved item, and restored the prior swap snapshot on rewind.",
+    "browserQA": "Desktop Chrome displayed 112 lessons with earlier completion. Lesson 109 traced Left to object #2 and Right to #3, then restored the earlier null Right on rewind.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 2144,
+      "passed": 2244,
       "failed": 0,
-      "alternateInputCases": 1577,
+      "alternateInputCases": 1657,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 540
+      "curriculumSolutionsCompared": 560
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
@@ -65,13 +65,15 @@
     "P7A": "complete",
     "P7B": "complete",
     "P8A": "complete",
-    "P8B": "complete"
+    "P8B": "complete",
+    "P9A": "complete",
+    "P9B": "pending"
   },
   "curriculum": {
-    "lessons": 108,
-    "steps": 864,
-    "units": 14,
-    "latestUnit": "sorting-and-cost",
-    "nextUnit": "trees-and-graphs"
+    "lessons": 112,
+    "steps": 896,
+    "units": 15,
+    "latestUnit": "trees-and-heap",
+    "nextUnit": "graph-traversals"
   }
 }

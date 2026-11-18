@@ -1,7 +1,7 @@
 {
   "runtime": "native-dotnet",
   "scope": "Shared CompilerBridge; browser worker NOT verified",
-  "passed": 2144,
+  "passed": 2244,
   "failed": 0,
   "results": [
     {
@@ -10586,6 +10586,506 @@
     },
     {
       "name": "csharp-108-algorithm-sort-comparison-growth/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-109-tree-root-left-right/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-110-tree-recursive-count/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/build/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/edit/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/experiment/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/repair/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/transfer/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-111-tree-bst-search/transfer/alternate/4",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/build",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/build/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/build/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/build/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/build/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/edit",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/edit/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/edit/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/edit/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/edit/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/experiment",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/experiment/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/experiment/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/experiment/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/experiment/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/repair",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/repair/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/repair/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/repair/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/repair/alternate/3",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/transfer",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/transfer/alternate/0",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/transfer/alternate/1",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/transfer/alternate/2",
+      "passed": true,
+      "message": null
+    },
+    {
+      "name": "csharp-112-heap-insert-sift-up/transfer/alternate/3",
       "passed": true,
       "message": null
     },

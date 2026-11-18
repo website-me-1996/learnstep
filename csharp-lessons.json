@@ -2,8 +2,8 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والكائنات وهياكل البيانات والبحث والترتيب.",
-  "totalLessons": 108,
+  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والكائنات وهياكل البيانات والبحث والترتيب والأشجار.",
+  "totalLessons": 112,
   "runtime": "csharp-foundations-subset-v11",
   "units": [
     {
@@ -210,6 +210,17 @@
         "csharp-106-algorithm-merge-sorted-runs",
         "csharp-107-algorithm-merge-sort",
         "csharp-108-algorithm-sort-comparison-growth"
+      ]
+    },
+    {
+      "id": "trees-and-heap",
+      "title": "اقرأ الشجرة ورتّب الأولوية",
+      "order": 14,
+      "lessonIds": [
+        "csharp-109-tree-root-left-right",
+        "csharp-110-tree-recursive-count",
+        "csharp-111-tree-bst-search",
+        "csharp-112-heap-insert-sift-up"
       ]
     }
   ],
@@ -46738,6 +46749,2094 @@
         }
       ],
       "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/bigOnotation.html"
+    },
+    {
+      "id": "csharp-109-tree-root-left-right",
+      "legacyId": "csharp:108",
+      "title": "اربط الجذر بفرعين",
+      "skill": "الأشجار والكومة الثنائية",
+      "order": 108,
+      "unitId": "trees-and-heap",
+      "revision": 1,
+      "concept": "العقدة في الشجرة الثنائية لها مكان للابن الأيسر ومكان لليمين. كل خانة مرجع إلى عقدة، وتظل null إذا غاب الابن.",
+      "whyUse": "تقدر تبني شكلًا له تفرّع بعد ما عرفت رابط Next في القائمة.",
+      "browserMechanics": "اعرض رقم root ثم اتبع رقمي Left وRight في بطاقته. كل رقم يوصلك إلى قيمة في كائن آخر.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/classes",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+      "breakdown": [
+        "أنشئ عقدة للجذر وكل ابن.",
+        "احفظ مرجع left في Left وright في Right.",
+        "اطبع القيم من الجذر ثم اليسار ثم اليمين."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "لوحة تنظيم لها بطاقة رئيسية وبطاقتان تحتها. ضع عنوان البطاقة اليسرى في خانة Left، وعنوان اليمنى في Right.",
+          "instruction": "يا كمبيوتر، لوحة تنظيم لها بطاقة رئيسية وبطاقتان تحتها. ضع عنوان البطاقة اليسرى في خانة Left، وعنوان اليمنى في Right.",
+          "benefit": "تقدر تبني شكلًا له تفرّع بعد ما عرفت رابط Next في القائمة.",
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "العقدة في الشجرة الثنائية لها مكان للابن الأيسر ومكان لليمين. كل خانة مرجع إلى عقدة، وتظل null إذا غاب الابن.",
+          "code": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "benefit": "اعرض رقم root ثم اتبع رقمي Left وRight في بطاقته. كل رقم يوصلك إلى قيمة في كائن آخر.",
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل ربط الفرع الأيسر. اطبع قيمة الجذر 13 ثم الابن الأيسر 8 ثم الأيمن 20.",
+          "instruction": "يا كمبيوتر، أكمل ربط الفرع الأيسر. اطبع قيمة الجذر 13 ثم الابن الأيسر 8 ثم الأيمن 20.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\n// اكتب الأمر هنا\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "solution": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "13\n8\n20\n",
+            "declared": [
+              "root",
+              "left",
+              "right",
+              "rootValue",
+              "leftValue",
+              "rightValue"
+            ],
+            "printed": [
+              "root"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rootValue": 1,
+                  "leftValue": 8,
+                  "rightValue": 3
+                },
+                "output": "1\n8\n3\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 4,
+                  "leftValue": 4,
+                  "rightValue": 4
+                },
+                "output": "4\n4\n4\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 0,
+                  "leftValue": -7,
+                  "rightValue": 15
+                },
+                "output": "0\n-7\n15\n"
+              }
+            ],
+            "read": [
+              "left",
+              "right"
+            ],
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "write"
+            },
+            "types": {
+              "rootValue": "int",
+              "leftValue": "int",
+              "rightValue": "int",
+              "root": "Node",
+              "left": "Node",
+              "right": "Node"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر قيمة الابن الأيسر إلى 4. تابع رقم الكائن وقيمته.",
+          "instruction": "يا كمبيوتر، غيّر قيمة الابن الأيسر إلى 4. تابع رقم الكائن وقيمته.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int rootValue = 13;\nint leftValue = 4;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "13\n4\n20\n",
+            "declared": [
+              "root",
+              "left",
+              "right",
+              "rootValue",
+              "leftValue",
+              "rightValue"
+            ],
+            "printed": [
+              "root"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rootValue": 1,
+                  "leftValue": 8,
+                  "rightValue": 3
+                },
+                "output": "1\n8\n3\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 4,
+                  "leftValue": 4,
+                  "rightValue": 4
+                },
+                "output": "4\n4\n4\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 0,
+                  "leftValue": -7,
+                  "rightValue": 15
+                },
+                "output": "0\n-7\n15\n"
+              }
+            ],
+            "read": [
+              "left",
+              "right"
+            ],
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "write"
+            },
+            "types": {
+              "rootValue": "int",
+              "leftValue": "int",
+              "rightValue": "int",
+              "root": "Node",
+              "left": "Node",
+              "right": "Node"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 4;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب ابنين بنفس القيمة 4. قارن معرفيهما في التتبّع.",
+          "instruction": "يا كمبيوتر، جرّب ابنين بنفس القيمة 4. قارن معرفيهما في التتبّع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int rootValue = 13;\nint leftValue = 4;\nint rightValue = 4;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "13\n4\n4\n",
+            "declared": [
+              "root",
+              "left",
+              "right",
+              "rootValue",
+              "leftValue",
+              "rightValue"
+            ],
+            "printed": [
+              "root"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rootValue": 1,
+                  "leftValue": 8,
+                  "rightValue": 3
+                },
+                "output": "1\n8\n3\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 4,
+                  "leftValue": 4,
+                  "rightValue": 4
+                },
+                "output": "4\n4\n4\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 0,
+                  "leftValue": -7,
+                  "rightValue": 15
+                },
+                "output": "0\n-7\n15\n"
+              }
+            ],
+            "read": [
+              "left",
+              "right"
+            ],
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "write"
+            },
+            "types": {
+              "rootValue": "int",
+              "leftValue": "int",
+              "rightValue": "int",
+              "root": "Node",
+              "left": "Node",
+              "right": "Node"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 4;\nint rightValue = 4;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 20 مرتين رغم وجود عقدة قيمتها 8. ما الإسناد الصحيح للفرع الأيسر؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 20 مرتين رغم وجود عقدة قيمتها 8. ما الإسناد الصحيح للفرع الأيسر؟",
+          "options": [
+            "root.Left = left;",
+            "root.Left = right;",
+            "root.Left = root;"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = right;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ضع عنوان left في Left.",
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع عنوان left في Left.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع عنوان left في Left.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = right;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "solution": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "13\n8\n20\n",
+            "declared": [
+              "root",
+              "left",
+              "right",
+              "rootValue",
+              "leftValue",
+              "rightValue"
+            ],
+            "printed": [
+              "root"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rootValue": 1,
+                  "leftValue": 8,
+                  "rightValue": 3
+                },
+                "output": "1\n8\n3\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 4,
+                  "leftValue": 4,
+                  "rightValue": 4
+                },
+                "output": "4\n4\n4\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 0,
+                  "leftValue": -7,
+                  "rightValue": 15
+                },
+                "output": "0\n-7\n15\n"
+              }
+            ],
+            "read": [
+              "left",
+              "right"
+            ],
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "write"
+            },
+            "types": {
+              "rootValue": "int",
+              "leftValue": "int",
+              "rightValue": "int",
+              "root": "Node",
+              "left": "Node",
+              "right": "Node"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، جهّز خريطة فيها جذر 9 وفرع أيسر 17 وفرع أيمن 3. اطبعها بالترتيب من المراجع.",
+          "instruction": "يا كمبيوتر، جهّز خريطة فيها جذر 9 وفرع أيسر 17 وفرع أيمن 3. اطبعها بالترتيب من المراجع.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int rootValue = 9;\nint leftValue = 17;\nint rightValue = 3;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "9\n17\n3\n",
+            "declared": [
+              "root",
+              "left",
+              "right",
+              "rootValue",
+              "leftValue",
+              "rightValue"
+            ],
+            "printed": [
+              "root"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "rootValue": 1,
+                  "leftValue": 8,
+                  "rightValue": 3
+                },
+                "output": "1\n8\n3\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 4,
+                  "leftValue": 4,
+                  "rightValue": 4
+                },
+                "output": "4\n4\n4\n"
+              },
+              {
+                "inputs": {
+                  "rootValue": 0,
+                  "leftValue": -7,
+                  "rightValue": 15
+                },
+                "output": "0\n-7\n15\n"
+              }
+            ],
+            "read": [
+              "left",
+              "right"
+            ],
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "write"
+            },
+            "types": {
+              "rootValue": "int",
+              "leftValue": "int",
+              "rightValue": "int",
+              "root": "Node",
+              "left": "Node",
+              "right": "Node"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "Left تحتفظ بمرجع left. قيمة 8 موجودة داخل بطاقة العقدة.",
+            "القاعدة: كل فرع يحمل مرجعًا لعقدة مستقلة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب root.Left = left;.",
+            "كشف الحل:\nint rootValue = 9;\nint leftValue = 17;\nint rightValue = 3;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = right;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+        "fixedCode": "int rootValue = 13;\nint leftValue = 8;\nint rightValue = 20;\nNode root = new Node(rootValue);\nNode left = new Node(leftValue);\nNode right = new Node(rightValue);\nroot.Left = left;\nroot.Right = right;\nConsole.WriteLine(root.Value);\nConsole.WriteLine(root.Left.Value);\nConsole.WriteLine(root.Right.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+        "question": "ظهر 20 مرتين رغم وجود عقدة قيمتها 8. ما الإسناد الصحيح للفرع الأيسر؟",
+        "explanation": "ضع عنوان left في Left.",
+        "options": [
+          "root.Left = left;",
+          "root.Left = right;",
+          "root.Left = root;"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-108-algorithm-sort-comparison-growth"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل ربط الفرع الأيسر. اطبع قيمة الجذر 13 ثم الابن الأيسر 8 ثم الأيمن 20.",
+        "يا كمبيوتر، جهّز خريطة فيها جذر 9 وفرع أيسر 17 وفرع أيمن 3. اطبعها بالترتيب من المراجع."
+      ],
+      "commonMisconceptions": [
+        "ضع عنوان left في Left."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "شجرة مفاتيح ولوحة أولويات",
+      "sceneVisual": [
+        {
+          "label": "الجذر",
+          "value": "root · 13"
+        },
+        {
+          "label": "فرع يسار",
+          "value": "Left → 8"
+        },
+        {
+          "label": "فرع يمين",
+          "value": "Right → 20"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/binarytree.html"
+    },
+    {
+      "id": "csharp-110-tree-recursive-count",
+      "legacyId": "csharp:109",
+      "title": "عدّ عقدة واحدة ثم اجمع الفرعين",
+      "skill": "الأشجار والكومة الثنائية",
+      "order": 109,
+      "unitId": "trees-and-heap",
+      "revision": 1,
+      "concept": "Count(null) تعيد صفرًا. Count لعقدة موجودة تجمع عدد عقد الفرع الأيسر والفرع الأيمن وتضيف واحدًا للعقدة التي بدأت منها.",
+      "whyUse": "تتعامل مع فرع فارغ أو طويل بنفس قاعدة العد.",
+      "browserMechanics": "راقب current حين تنتقل الدالة يسارًا ثم يمينًا. القيمة تتجمع عند الرجوع من الفرعين.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+      "breakdown": [
+        "افحص current وأعد 0 عند null.",
+        "استدعِ Count على كل فرع.",
+        "أعد واحدًا ونتيجتي الفرعين."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عندك ثلاث بطاقات متصلة. كل بطاقة تسأل فرعيها عن عدد البطاقات تحتهما، وبعد الرجوع تضيف واحدًا لنفسها.",
+          "instruction": "يا كمبيوتر، عندك ثلاث بطاقات متصلة. كل بطاقة تسأل فرعيها عن عدد البطاقات تحتهما، وبعد الرجوع تضيف واحدًا لنفسها.",
+          "benefit": "تتعامل مع فرع فارغ أو طويل بنفس قاعدة العد.",
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "Count(null) تعيد صفرًا. Count لعقدة موجودة تجمع عدد عقد الفرع الأيسر والفرع الأيمن وتضيف واحدًا للعقدة التي بدأت منها.",
+          "code": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "benefit": "راقب current حين تنتقل الدالة يسارًا ثم يمينًا. القيمة تتجمع عند الرجوع من الفرعين.",
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل سطر الإرجاع في Count. عند وجود جذر وابنين اطبع 3.",
+          "instruction": "يا كمبيوتر، أكمل سطر الإرجاع في Count. عند وجود جذر وابنين اطبع 3.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    // اكتب الأمر هنا\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "solution": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "shape",
+              "root",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shape": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "shape": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "shape": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "shape": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "calls": {
+              "Count": 1
+            },
+            "types": {
+              "shape": "int",
+              "size": "int",
+              "root": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر shape إلى 4 لإضافة عقدة تحت الفرع الأيسر. تابع الاستدعاء الأعمق.",
+          "instruction": "يا كمبيوتر، غيّر shape إلى 4 لإضافة عقدة تحت الفرع الأيسر. تابع الاستدعاء الأعمق.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int shape = 4;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "shape",
+              "root",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shape": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "shape": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "shape": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "shape": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "calls": {
+              "Count": 1
+            },
+            "types": {
+              "shape": "int",
+              "size": "int",
+              "root": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 4;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب شجرة فارغة. توقّع ما يحدث عند أول فحص.",
+          "instruction": "يا كمبيوتر، جرّب شجرة فارغة. توقّع ما يحدث عند أول فحص.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int shape = 0;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "shape",
+              "root",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shape": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "shape": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "shape": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "shape": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "calls": {
+              "Count": 1
+            },
+            "types": {
+              "shape": "int",
+              "size": "int",
+              "root": "Node?"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 0;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "العقدة التي ليس لها أبناء رجّعت 0. كيف تجعلها تدخل في العد؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "العقدة التي ليس لها أبناء رجّعت 0. كيف تجعلها تدخل في العد؟",
+          "options": [
+            "return leftCount + rightCount;",
+            "return 1 + leftCount + rightCount;",
+            "return 1;"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "زد واحدًا للعقدة الحالية بعد جمع الفرعين.",
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. زد واحدًا للعقدة الحالية بعد جمع الفرعين.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. زد واحدًا للعقدة الحالية بعد جمع الفرعين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "solution": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "shape",
+              "root",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shape": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "shape": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "shape": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "shape": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "calls": {
+              "Count": 1
+            },
+            "types": {
+              "shape": "int",
+              "size": "int",
+              "root": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اعرض عدد عقد شجرة فيها جذر وابن أيسر فقط. اتبع الفرع الفارغ عند اليمين.",
+          "instruction": "يا كمبيوتر، اعرض عدد عقد شجرة فيها جذر وابن أيسر فقط. اتبع الفرع الفارغ عند اليمين.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int shape = 2;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "2\n",
+            "declared": [
+              "shape",
+              "root",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shape": 0
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "shape": 1
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "shape": 2
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "shape": 4
+                },
+                "output": "4\n"
+              }
+            ],
+            "calls": {
+              "Count": 1
+            },
+            "types": {
+              "shape": "int",
+              "size": "int",
+              "root": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الجذر يدخل في العد مرة مع ناتج الفرعين.",
+            "القاعدة: عدد العقد = 1 للعقدة الحالية + عدد عقد الفرعين. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب return 1 + leftCount + rightCount;.",
+            "كشف الحل:\nint shape = 2;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+        "fixedCode": "int shape = 3;\nNode? root = null;\nif (shape > 0) { root = new Node(10); }\nif (shape > 1 && root != null) { root.Left = new Node(5); }\nif (shape > 2 && root != null) { root.Right = new Node(17); }\nif (shape > 3 && root != null && root.Left != null) { root.Left.Left = new Node(3); }\nint size = Count(root);\nConsole.WriteLine(size);\n\nint Count(Node? current)\n{\n    if (current == null) { return 0; }\n    int leftCount = Count(current.Left);\n    int rightCount = Count(current.Right);\n    return 1 + leftCount + rightCount;\n}\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+        "question": "العقدة التي ليس لها أبناء رجّعت 0. كيف تجعلها تدخل في العد؟",
+        "explanation": "زد واحدًا للعقدة الحالية بعد جمع الفرعين.",
+        "options": [
+          "return leftCount + rightCount;",
+          "return 1 + leftCount + rightCount;",
+          "return 1;"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-109-tree-root-left-right"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل سطر الإرجاع في Count. عند وجود جذر وابنين اطبع 3.",
+        "يا كمبيوتر، اعرض عدد عقد شجرة فيها جذر وابن أيسر فقط. اتبع الفرع الفارغ عند اليمين."
+      ],
+      "commonMisconceptions": [
+        "زد واحدًا للعقدة الحالية بعد جمع الفرعين."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "شجرة مفاتيح ولوحة أولويات",
+      "sceneVisual": [
+        {
+          "label": "الفرع الفارغ",
+          "value": "null → 0"
+        },
+        {
+          "label": "العقدة الورقة",
+          "value": "1 + 0 + 0"
+        },
+        {
+          "label": "الجذر مع فرعين",
+          "value": "1 + 1 + 1 → 3"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/binarytree.html"
+    },
+    {
+      "id": "csharp-111-tree-bst-search",
+      "legacyId": "csharp:110",
+      "title": "اختر الفرع من قيمة العقدة",
+      "skill": "الأشجار والكومة الثنائية",
+      "order": 110,
+      "unitId": "trees-and-heap",
+      "revision": 1,
+      "concept": "في شجرة البحث هنا المفاتيح الأصغر توجد في الفرع الأيسر والأكبر في الأيمن. افحص current وحرّك المرجع إلى فرع واحد كل مرة.",
+      "whyUse": "تستبعد فرعًا كاملًا بالمقارنة مع مفتاح واحد وتعدّ العقد التي زرتها.",
+      "browserMechanics": "يعرض التتبّع current وقيمة العقدة عند كل قرار. عند null تعرف أن الفرع انتهى دون تطابق.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/classes",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+      "breakdown": [
+        "ابدأ من root وافحص المساواة.",
+        "للمفتاح الأصغر اتجه يسارًا، وللأكبر يمينًا.",
+        "أوقف البحث عند التطابق أو عند null."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "ابحث عن بطاقة 9 في شجرة مفاتيح مرتبة. عند 12 اتجه يسارًا، وعند 5 اتجه يمينًا، فتصل إلى 9.",
+          "instruction": "يا كمبيوتر، ابحث عن بطاقة 9 في شجرة مفاتيح مرتبة. عند 12 اتجه يسارًا، وعند 5 اتجه يمينًا، فتصل إلى 9.",
+          "benefit": "تستبعد فرعًا كاملًا بالمقارنة مع مفتاح واحد وتعدّ العقد التي زرتها.",
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في شجرة البحث هنا المفاتيح الأصغر توجد في الفرع الأيسر والأكبر في الأيمن. افحص current وحرّك المرجع إلى فرع واحد كل مرة.",
+          "code": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "benefit": "يعرض التتبّع current وقيمة العقدة عند كل قرار. عند null تعرف أن الفرع انتهى دون تطابق.",
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمِل حركة current عند كون wanted أصغر. ابحث عن 9 واطبع True ثم ثلاث زيارات.",
+          "instruction": "يا كمبيوتر، أكمِل حركة current عند كون wanted أصغر. ابحث عن 9 واطبع True ثم ثلاث زيارات.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = null; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "solution": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "True\n3\n",
+            "declared": [
+              "wanted",
+              "current",
+              "visits",
+              "found"
+            ],
+            "printed": [
+              "found",
+              "visits"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "wanted": 12
+                },
+                "output": "True\n1\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 17
+                },
+                "output": "True\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 4
+                },
+                "output": "False\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 9
+                },
+                "output": "True\n3\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 30
+                },
+                "output": "False\n2\n"
+              }
+            ],
+            "conditionReads": [
+              "current",
+              "wanted"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "current"
+              ],
+              "effect": "visits",
+              "jumps": [
+                "break"
+              ]
+            },
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "read"
+            },
+            "types": {
+              "wanted": "int",
+              "visits": "int",
+              "found": "bool",
+              "current": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ابحث عن 12. توقّع عدد المقارنات عندما يكون المطلوب عند الجذر.",
+          "instruction": "يا كمبيوتر، ابحث عن 12. توقّع عدد المقارنات عندما يكون المطلوب عند الجذر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int wanted = 12;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "True\n1\n",
+            "declared": [
+              "wanted",
+              "current",
+              "visits",
+              "found"
+            ],
+            "printed": [
+              "found",
+              "visits"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "wanted": 12
+                },
+                "output": "True\n1\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 17
+                },
+                "output": "True\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 4
+                },
+                "output": "False\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 9
+                },
+                "output": "True\n3\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 30
+                },
+                "output": "False\n2\n"
+              }
+            ],
+            "conditionReads": [
+              "current",
+              "wanted"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "current"
+              ],
+              "effect": "visits",
+              "jumps": [
+                "break"
+              ]
+            },
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "read"
+            },
+            "types": {
+              "wanted": "int",
+              "visits": "int",
+              "found": "bool",
+              "current": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 12;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ابحث عن 4. تابع انتقال current إلى null من العقدة 5.",
+          "instruction": "يا كمبيوتر، ابحث عن 4. تابع انتقال current إلى null من العقدة 5.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int wanted = 4;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "False\n2\n",
+            "declared": [
+              "wanted",
+              "current",
+              "visits",
+              "found"
+            ],
+            "printed": [
+              "found",
+              "visits"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "wanted": 12
+                },
+                "output": "True\n1\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 17
+                },
+                "output": "True\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 4
+                },
+                "output": "False\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 9
+                },
+                "output": "True\n3\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 30
+                },
+                "output": "False\n2\n"
+              }
+            ],
+            "conditionReads": [
+              "current",
+              "wanted"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "current"
+              ],
+              "effect": "visits",
+              "jumps": [
+                "break"
+              ]
+            },
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "read"
+            },
+            "types": {
+              "wanted": "int",
+              "visits": "int",
+              "found": "bool",
+              "current": "Node?"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 4;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "بعد مقارنة 9 مع 12 مشى الكمبيوتر إلى 17. ما الانتقال الصحيح؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "بعد مقارنة 9 مع 12 مشى الكمبيوتر إلى 17. ما الانتقال الصحيح؟",
+          "options": [
+            "current = current;",
+            "current = current.Right;",
+            "current = current.Left;"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Right; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اتجه إلى Left عند البحث عن قيمة أصغر.",
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اتجه إلى Left عند البحث عن قيمة أصغر.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اتجه إلى Left عند البحث عن قيمة أصغر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Right; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "solution": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "True\n3\n",
+            "declared": [
+              "wanted",
+              "current",
+              "visits",
+              "found"
+            ],
+            "printed": [
+              "found",
+              "visits"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "wanted": 12
+                },
+                "output": "True\n1\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 17
+                },
+                "output": "True\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 4
+                },
+                "output": "False\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 9
+                },
+                "output": "True\n3\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 30
+                },
+                "output": "False\n2\n"
+              }
+            ],
+            "conditionReads": [
+              "current",
+              "wanted"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "current"
+              ],
+              "effect": "visits",
+              "jumps": [
+                "break"
+              ]
+            },
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "read"
+            },
+            "types": {
+              "wanted": "int",
+              "visits": "int",
+              "found": "bool",
+              "current": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اعثر على 17 واطبع النتيجة وعدد العقد التي فحصتها.",
+          "instruction": "يا كمبيوتر، اعثر على 17 واطبع النتيجة وعدد العقد التي فحصتها.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int wanted = 17;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+          "challenge": {
+            "output": "True\n2\n",
+            "declared": [
+              "wanted",
+              "current",
+              "visits",
+              "found"
+            ],
+            "printed": [
+              "found",
+              "visits"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "wanted": 12
+                },
+                "output": "True\n1\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 17
+                },
+                "output": "True\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 4
+                },
+                "output": "False\n2\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 9
+                },
+                "output": "True\n3\n"
+              },
+              {
+                "inputs": {
+                  "wanted": 30
+                },
+                "output": "False\n2\n"
+              }
+            ],
+            "conditionReads": [
+              "current",
+              "wanted"
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "current"
+              ],
+              "effect": "visits",
+              "jumps": [
+                "break"
+              ]
+            },
+            "fieldAccess": {
+              "name": "Left",
+              "mode": "read"
+            },
+            "types": {
+              "wanted": "int",
+              "visits": "int",
+              "found": "bool",
+              "current": "Node?"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "في لحظة المقارنة اختر الفرع الذي يمكن أن يحتوي المفتاح.",
+            "القاعدة: المفتاح الأصغر من قيمة العقدة يوجّهك إلى Left. هل حددت الجزء الذي تحتاج تغييره؟",
+            "في شرط الأصغر استخدم current = current.Left;.",
+            "كشف الحل:\nint wanted = 17;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Right; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+        "fixedCode": "int wanted = 9;\nNode root = new Node(12);\nroot.Left = new Node(5);\nroot.Right = new Node(17);\nroot.Left.Right = new Node(9);\nNode? current = root;\nint visits = 0;\nbool found = false;\nwhile (current != null)\n{\n    visits++;\n    if (wanted == current.Value) { found = true; break; }\n    if (wanted < current.Value) { current = current.Left; }\n    else { current = current.Right; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(visits);\n\nclass Node\n{\n    public int Value;\n    public Node? Left;\n    public Node? Right;\n    public Node(int number) { Value = number; }\n}",
+        "question": "بعد مقارنة 9 مع 12 مشى الكمبيوتر إلى 17. ما الانتقال الصحيح؟",
+        "explanation": "اتجه إلى Left عند البحث عن قيمة أصغر.",
+        "options": [
+          "current = current;",
+          "current = current.Right;",
+          "current = current.Left;"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-110-tree-recursive-count"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمِل حركة current عند كون wanted أصغر. ابحث عن 9 واطبع True ثم ثلاث زيارات.",
+        "يا كمبيوتر، اعثر على 17 واطبع النتيجة وعدد العقد التي فحصتها."
+      ],
+      "commonMisconceptions": [
+        "اتجه إلى Left عند البحث عن قيمة أصغر."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "شجرة مفاتيح ولوحة أولويات",
+      "sceneVisual": [
+        {
+          "label": "قارن عند الجذر",
+          "value": "9 < 12 · يسار"
+        },
+        {
+          "label": "قارن عند 5",
+          "value": "9 > 5 · يمين"
+        },
+        {
+          "label": "التطابق",
+          "value": "9 · الزيارة الثالثة"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/binarySearchTree.html"
+    },
+    {
+      "id": "csharp-112-heap-insert-sift-up",
+      "legacyId": "csharp:111",
+      "title": "صعّد العنصر الجديد في الكومة الصغرى",
+      "skill": "الأشجار والكومة الثنائية",
+      "order": 111,
+      "unitId": "trees-and-heap",
+      "revision": 1,
+      "concept": "في الكومة الصغرى قيمة الأب أصغر من أبنائه أو تساويها. مع الفهرسة من صفر، أب الخانة index هو (index - 1) / 2 عندما index > 0.",
+      "whyUse": "تضع الأولوية الأصغر في المقدمة مع إصلاح المسار المتأثر بالإضافة.",
+      "browserMechanics": "تابع index ثم parent، وقارن الخانتين قبل كل تبديل. ينتهي الصعود عند الجذر أو أب أصغر أو مساوٍ.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+      "breakdown": [
+        "أضف القيمة في أول خانة شاغرة.",
+        "احسب الأب وتوقف إذا كان مرتبًا مع ابنه.",
+        "بدّل القيم ثم حرّك index للأب وكرر."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "على لوحة الأولوية الجذر فيه 3. حطّ تذكرة الأولوية 1 آخر اللوحة. قارنها بالأب وبدّلها لأعلى حتى يصبح الأب أصغر أو تصل للجذر.",
+          "instruction": "يا كمبيوتر، على لوحة الأولوية الجذر فيه 3. حطّ تذكرة الأولوية 1 آخر اللوحة. قارنها بالأب وبدّلها لأعلى حتى يصبح الأب أصغر أو تصل للجذر.",
+          "benefit": "تضع الأولوية الأصغر في المقدمة مع إصلاح المسار المتأثر بالإضافة.",
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في الكومة الصغرى قيمة الأب أصغر من أبنائه أو تساويها. مع الفهرسة من صفر، أب الخانة index هو (index - 1) / 2 عندما index > 0.",
+          "code": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "benefit": "تابع index ثم parent، وقارن الخانتين قبل كل تبديل. ينتهي الصعود عند الجذر أو أب أصغر أو مساوٍ.",
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، أكمل صعود index بعد التبديل. أضف 1 إلى الكومة 3 و8 و5 و12، ثم اطبع خاناتها وتبديلين.",
+          "instruction": "يا كمبيوتر، أكمل صعود index بعد التبديل. أضف 1 إلى الكومة 3 و8 و5 و12، ثم اطبع خاناتها وتبديلين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    // اكتب الأمر هنا\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "solution": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n3\n5\n12\n8\n2\n",
+            "declared": [
+              "heap",
+              "size",
+              "added",
+              "index",
+              "swaps"
+            ],
+            "printed": [
+              "heap",
+              "swaps"
+            ],
+            "operation": "/",
+            "operationIn": "parent",
+            "cases": [
+              {
+                "inputs": {
+                  "heap": [
+                    0
+                  ],
+                  "size": 0,
+                  "added": 6
+                },
+                "output": "6\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 2
+                },
+                "output": "2\n4\n1\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 4
+                },
+                "output": "4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    2,
+                    7,
+                    9,
+                    0
+                  ],
+                  "size": 3,
+                  "added": -1
+                },
+                "output": "-1\n2\n9\n7\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "index"
+              ],
+              "effect": "swaps"
+            },
+            "indexAccess": {
+              "name": "heap",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "heap": "int[]",
+              "size": "int",
+              "added": "int",
+              "index": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، أضف 10 بدل 1. راقب توقف الصعود قبل أول تبديل.",
+          "instruction": "يا كمبيوتر، أضف 10 بدل 1. راقب توقف الصعود قبل أول تبديل.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 10;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "3\n8\n5\n12\n10\n0\n",
+            "declared": [
+              "heap",
+              "size",
+              "added",
+              "index",
+              "swaps"
+            ],
+            "printed": [
+              "heap",
+              "swaps"
+            ],
+            "operation": "/",
+            "operationIn": "parent",
+            "cases": [
+              {
+                "inputs": {
+                  "heap": [
+                    0
+                  ],
+                  "size": 0,
+                  "added": 6
+                },
+                "output": "6\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 2
+                },
+                "output": "2\n4\n1\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 4
+                },
+                "output": "4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    2,
+                    7,
+                    9,
+                    0
+                  ],
+                  "size": 3,
+                  "added": -1
+                },
+                "output": "-1\n2\n9\n7\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "index"
+              ],
+              "effect": "swaps"
+            },
+            "indexAccess": {
+              "name": "heap",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "heap": "int[]",
+              "size": "int",
+              "added": "int",
+              "index": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 10;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، أضف 3. بعد تبديل واحد سيتساوى العنصر مع الأب. راقب الشرط.",
+          "instruction": "يا كمبيوتر، أضف 3. بعد تبديل واحد سيتساوى العنصر مع الأب. راقب الشرط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 3;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "3\n3\n5\n12\n8\n1\n",
+            "declared": [
+              "heap",
+              "size",
+              "added",
+              "index",
+              "swaps"
+            ],
+            "printed": [
+              "heap",
+              "swaps"
+            ],
+            "operation": "/",
+            "operationIn": "parent",
+            "cases": [
+              {
+                "inputs": {
+                  "heap": [
+                    0
+                  ],
+                  "size": 0,
+                  "added": 6
+                },
+                "output": "6\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 2
+                },
+                "output": "2\n4\n1\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 4
+                },
+                "output": "4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    2,
+                    7,
+                    9,
+                    0
+                  ],
+                  "size": 3,
+                  "added": -1
+                },
+                "output": "-1\n2\n9\n7\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "index"
+              ],
+              "effect": "swaps"
+            },
+            "indexAccess": {
+              "name": "heap",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "heap": "int[]",
+              "size": "int",
+              "added": "int",
+              "index": "int",
+              "swaps": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 3;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "عمل تبديلًا واحدًا وبقيت 1 تحت الجذر. أي حركة تخلي الفحص يتابع 1 إلى فوق؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "عمل تبديلًا واحدًا وبقيت 1 تحت الجذر. أي حركة تخلي الفحص يتابع 1 إلى فوق؟",
+          "options": [
+            "index = parent;",
+            "index = index;",
+            "index = size;"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = index;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "بعد التبديل انقل index إلى parent.",
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. بعد التبديل انقل index إلى parent.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. بعد التبديل انقل index إلى parent.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = index;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "solution": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "1\n3\n5\n12\n8\n2\n",
+            "declared": [
+              "heap",
+              "size",
+              "added",
+              "index",
+              "swaps"
+            ],
+            "printed": [
+              "heap",
+              "swaps"
+            ],
+            "operation": "/",
+            "operationIn": "parent",
+            "cases": [
+              {
+                "inputs": {
+                  "heap": [
+                    0
+                  ],
+                  "size": 0,
+                  "added": 6
+                },
+                "output": "6\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 2
+                },
+                "output": "2\n4\n1\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 4
+                },
+                "output": "4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    2,
+                    7,
+                    9,
+                    0
+                  ],
+                  "size": 3,
+                  "added": -1
+                },
+                "output": "-1\n2\n9\n7\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "index"
+              ],
+              "effect": "swaps"
+            },
+            "indexAccess": {
+              "name": "heap",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "heap": "int[]",
+              "size": "int",
+              "added": "int",
+              "index": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، أضف أولوية -1 إلى الكومة 2 و7 و9. اطبع ترتيب الخانات وعدد التبديلات.",
+          "instruction": "يا كمبيوتر، أضف أولوية -1 إلى الكومة 2 و7 و9. اطبع ترتيب الخانات وعدد التبديلات.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] heap = { 2, 7, 9, 0 };\nint size = 3;\nint added = -1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+          "challenge": {
+            "output": "-1\n2\n9\n7\n2\n",
+            "declared": [
+              "heap",
+              "size",
+              "added",
+              "index",
+              "swaps"
+            ],
+            "printed": [
+              "heap",
+              "swaps"
+            ],
+            "operation": "/",
+            "operationIn": "parent",
+            "cases": [
+              {
+                "inputs": {
+                  "heap": [
+                    0
+                  ],
+                  "size": 0,
+                  "added": 6
+                },
+                "output": "6\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 2
+                },
+                "output": "2\n4\n1\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    4,
+                    0
+                  ],
+                  "size": 1,
+                  "added": 4
+                },
+                "output": "4\n4\n0\n"
+              },
+              {
+                "inputs": {
+                  "heap": [
+                    2,
+                    7,
+                    9,
+                    0
+                  ],
+                  "size": 3,
+                  "added": -1
+                },
+                "output": "-1\n2\n9\n7\n2\n"
+              }
+            ],
+            "loop": {
+              "kind": "while",
+              "reads": [
+                "index"
+              ],
+              "effect": "swaps"
+            },
+            "indexAccess": {
+              "name": "heap",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "heap": "int[]",
+              "size": "int",
+              "added": "int",
+              "index": "int",
+              "swaps": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بعد التبديل صار العنصر الجديد في موضع parent.",
+            "القاعدة: قارن العنصر بالبنية الأعلى من موضعه الجديد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب index = parent; بعد تبديل الخانتين.",
+            "كشف الحل:\nint[] heap = { 2, 7, 9, 0 };\nint size = 3;\nint added = -1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = index;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+        "fixedCode": "int[] heap = { 3, 8, 5, 12, 0 };\nint size = 4;\nint added = 1;\nint index = size;\nheap[index] = added;\nsize++;\nint swaps = 0;\nwhile (index > 0)\n{\n    int parent = (index - 1) / 2;\n    if (heap[parent] <= heap[index]) { break; }\n    int temporary = heap[parent];\n    heap[parent] = heap[index];\n    heap[index] = temporary;\n    index = parent;\n    swaps++;\n}\nfor (int i = 0; i < size; i++) { Console.WriteLine(heap[i]); }\nConsole.WriteLine(swaps);",
+        "question": "عمل تبديلًا واحدًا وبقيت 1 تحت الجذر. أي حركة تخلي الفحص يتابع 1 إلى فوق؟",
+        "explanation": "بعد التبديل انقل index إلى parent.",
+        "options": [
+          "index = parent;",
+          "index = index;",
+          "index = size;"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-111-tree-bst-search"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، أكمل صعود index بعد التبديل. أضف 1 إلى الكومة 3 و8 و5 و12، ثم اطبع خاناتها وتبديلين.",
+        "يا كمبيوتر، أضف أولوية -1 إلى الكومة 2 و7 و9. اطبع ترتيب الخانات وعدد التبديلات."
+      ],
+      "commonMisconceptions": [
+        "بعد التبديل انقل index إلى parent."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "شجرة مفاتيح ولوحة أولويات",
+      "sceneVisual": [
+        {
+          "label": "أضف في النهاية",
+          "value": "heap[4] = 1"
+        },
+        {
+          "label": "بعد أول تبديل",
+          "value": "1 تصعد من 4 إلى 1"
+        },
+        {
+          "label": "بعد ثاني تبديل",
+          "value": "1 في الجذر"
+        }
+      ],
+      "algorithmReferenceUrl": "https://xlinux.nist.gov/dads/HTML/binaryheap.html"
     }
   ]
 }
