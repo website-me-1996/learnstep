@@ -7,6 +7,10 @@ import {runProgram} from '/csharp-runtime.js';
 const $=id=>document.getElementById(id);
 function inputLiteral(type, value) {
  if (type.endsWith('[]')) return '{ ' + value.map(item => inputLiteral(type.slice(0, -2), item)).join(', ') + ' }';
+ if (type.endsWith('[,]')) return value.length
+  ? '{ ' + value.map(row => inputLiteral(type.slice(0, -3) + '[]', row)).join(', ') + ' }'
+  : 'new ' + type.slice(0, -3) + '[0,0]';
+ if (type === 'char') return "'\\u" + value.charCodeAt(0).toString(16).padStart(4, '0') + "'";
  if (type === 'decimal') return value + 'm';
  if (type === 'double') return value + 'd';
  return JSON.stringify(value);
@@ -31,7 +35,7 @@ $('start').onclick=async()=>{
      await check(lesson.title + ' / ' + step.id + ' مدخل بديل ' + index, async () => {
       let source = step.solution;
       for (const [name, value] of Object.entries(example.inputs ?? {})) {
-       const declaration = new RegExp('\\b((?:int|double|decimal|string\\??|bool)(?:\\[\\])?)\\s+' + name + '\\s*=\\s*[^;]+;');
+       const declaration = new RegExp('\\b((?:int|double|decimal|string\\??|bool|char)(?:\\[,?\\])?)\\s+' + name + '\\s*=\\s*[^;]+;');
        source = source.replace(declaration, (_, type) => type + ' ' + name + ' = ' + inputLiteral(type, value) + ';');
       }
       const actual = await runner.run(source, example.stdin ?? step.challenge.stdin ?? '');

@@ -10,6 +10,31 @@ const runtime = import(pathToFileURL(path.join(root, "csharp-runtime.js")));
 const progress = import(pathToFileURL(path.join(root, "csharp-progress.js")));
 const memoryStorage = () => { const entries = new Map(); return { getItem: k => entries.get(k) || null, setItem: (k, v) => entries.set(k, v) }; };
 
+test("Index access reports the selected cell and keeps earlier snapshots immutable", async () => {
+  const {runProgram} = await runtime;
+  const result = runProgram('int[,] a={{4,7,8},{2,5,6}};int[,] b=a;b[0,1]=9;Console.WriteLine(a[0,1]);Console.WriteLine(a[1,1]);');
+  assert.equal(result.output, "9\n5\n");
+  assert.deepEqual(result.trace[0].variables.a.value, [[4,7,8],[2,5,6]]);
+  const [write, read] = result.trace.flatMap(step => step.accesses ?? []);
+  assert.deepEqual(write, {name:"b",indices:[0,1],mode:"write",previous:7,value:9});
+  assert.deepEqual(read, {name:"a",indices:[0,1],mode:"read",value:9});
+  assert.equal(runProgram('int[,] a=new int[0,3];Console.WriteLine(a.GetLength(0));Console.WriteLine(a.GetLength(1));Console.WriteLine(a.Length);').output, "0\n3\n0\n");
+});
+
+test("Array rank and bounds are checked and string indexing returns a read-only UTF-16 code unit", async () => {
+  const {runProgram} = await runtime;
+  const text = runProgram('string s="🧮أ";char first=s[0];char letter=s[2];Console.WriteLine(letter);');
+  assert.equal(text.variables.first.type, "char");
+  assert.equal(text.variables.first.value.charCodeAt(0), "🧮".charCodeAt(0));
+  assert.equal(text.output, "أ\n");
+  assert.throws(() => runProgram('int[] a={2};Console.WriteLine(a[-1]);'), {code:"runtime"});
+  assert.throws(() => runProgram('int[,] a={{1,2},{3,4}};Console.WriteLine(a[0,2]);'), {code:"runtime"});
+  assert.throws(() => runProgram('int[,] a={{1,2},{3,4}};Console.WriteLine(a[1]);'), {code:"type"});
+  assert.throws(() => runProgram('int[,] a={{1,2},{3}};'), {code:"type"});
+  assert.throws(() => runProgram("string s=\"X\";s[0]='A';"), {code:"type"});
+  assert.throws(() => runProgram('int[,] a=new int[9,8];'), {code:"limit"});
+});
+
 test("C# unit uses the canonical schema, stable prerequisites, and synchronized production content", () => {
   const result = validateCurriculumData(data);
   assert.equal(result.valid, true, result.errors.join("\n"));

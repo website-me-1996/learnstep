@@ -11,10 +11,14 @@ public static class Verification
     {
         if (type.EndsWith("[]", StringComparison.Ordinal))
             return "{ " + string.Join(", ", value.EnumerateArray().Select(item => InputLiteral(type[..^2], item))) + " }";
+        if (type.EndsWith("[,]", StringComparison.Ordinal))
+            return value.GetArrayLength() == 0 ? "new " + type[..^3] + "[0,0]"
+                : "{ " + string.Join(", ", value.EnumerateArray().Select(row => InputLiteral(type[..^3] + "[]", row))) + " }";
         return type switch
         {
             "double" => value.GetRawText() + "d",
             "decimal" => value.GetString() + "m",
+            "char" => "'\\u" + ((int)value.GetString()![0]).ToString("X4") + "'",
             _ => value.GetRawText()
         };
     }
@@ -48,7 +52,7 @@ public static class Verification
                 {
                     var modified=source;
                     if (alternative.TryGetProperty("inputs", out var replacements))
-                        foreach(var value in replacements.EnumerateObject()) modified=Regex.Replace(modified,@"\b((?:int|double|decimal|string\??|bool)(?:\[\])?)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
+                        foreach(var value in replacements.EnumerateObject()) modified=Regex.Replace(modified,@"\b((?:int|double|decimal|string\??|bool|char)(?:\[,?\])?)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
                     var alternateStdin = alternative.TryGetProperty("stdin", out var alternateInput) ? alternateInput.GetString()! : stdin;
                     await Check(name+"/alternate/"+index++,modified,alternative.GetProperty("output").GetString()!, alternateStdin);
                 }}
@@ -76,6 +80,9 @@ public static class Verification
         await Check("double-display", "Console.WriteLine(1e-6); Console.WriteLine(1e17); Console.WriteLine(-0.0);", "1E-06\n1E+17\n-0\n");
         await Check("decimal-display", "decimal a=0.10m; decimal b=0.20m; Console.WriteLine(a+b); Console.WriteLine(a+b == 0.3m);", "0.30\nTrue\n");
         await Check("utf16-length", "Console.WriteLine(\"🧮أ\".Length); Console.WriteLine(\"\".Length);", "3\n0\n");
+        await Check("array-index-outside", "int[] a={5};Console.WriteLine(a[1]);", validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("exceptionType").GetString()=="IndexOutOfRangeException");
+        await Check("matrix-zero-rows", "int[,] a=new int[0,3];Console.WriteLine(a.GetLength(0));Console.WriteLine(a.GetLength(1));Console.WriteLine(a.Length);", "0\n3\n0\n");
+        await Check("matrix-update-alias", "int[,] a={{4,7,8},{2,5,6}};int[,] b=a;b[0,1]=9;Console.WriteLine(a[0,1]);Console.WriteLine(a[1,1]);", "9\n5\n");
         await Check("output-limit", "for(int i=0;i<20000;i++)Console.Write(\"x\");", validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("kind").GetString()=="limit"&&r.GetProperty("output").GetString()!.Length==16000);
         await Check("source-limit", new string(' ',32001), validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("kind").GetString()=="limit");
         await Check("recovery", "Console.WriteLine(\"again\");", "again\n");

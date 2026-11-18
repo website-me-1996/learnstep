@@ -87,6 +87,52 @@ const loopPhases = {
   update:"حدّث القيمة", return:"ارجع للشرط", break:"اخرج من الحلقة", continue:"تجاوز بقية الدورة"
 };
 
+function renderIndexedAccess(snapshot) {
+  const area = $("csharpIndexStep");
+  const access = snapshot?.accesses?.at(-1);
+  area.replaceChildren();
+  area.hidden = !access;
+  if (!access) return;
+  const format = value => typeof value === "string" ? JSON.stringify(value) : String(value);
+  const address = document.createElement("bdi");
+  address.dir = "ltr";
+  address.textContent = (access.name ?? "") + "[" + access.indices.join(", ") + "]";
+  const value = document.createElement("bdi");
+  value.dir = "ltr";
+  value.textContent = access.mode === "write" ? format(access.previous) + " → " + format(access.value) : format(access.value);
+  const status = document.createElement("p");
+  status.append(access.mode === "write" ? "حدّث " : "اقرأ ", address, " · ", value);
+  area.append(status);
+  const collection = snapshot.variables[access.name]?.value;
+  const cells = typeof collection === "string" && collection.length <= 64 ? collection.split("") : collection;
+  if (!Array.isArray(cells)) return;
+  const rectangular = access.indices.length === 2;
+  const rows = rectangular ? cells : [cells];
+  const table = document.createElement("table");
+  table.setAttribute("aria-label", rectangular ? "الصفوف والأعمدة" : "الفهارس والقيم");
+  const head = table.createTHead().insertRow();
+  const appendHeading = (row, text, scope) => {
+    const heading = document.createElement("th");
+    heading.scope = scope;
+    heading.textContent = text;
+    row.append(heading);
+  };
+  if (rectangular) appendHeading(head, "صف / عمود", "col");
+  for (const [column] of rows[0].entries()) appendHeading(head, column, "col");
+  const body = table.createTBody();
+  for (const [r, values] of rows.entries()) {
+    const row = body.insertRow();
+    if (rectangular) appendHeading(row, r, "row");
+    for (const [c, value] of values.entries()) {
+      const cell = row.insertCell();
+      cell.textContent = format(value);
+      const active = rectangular ? r === access.indices[0] && c === access.indices[1] : c === access.indices[0];
+      if (active) cell.setAttribute("aria-current", "true");
+    }
+  }
+  area.append(table);
+}
+
 function renderTrace() {
   const snapshot = cursor >= 0 && trace ? trace.trace[cursor] : null;
   $("csharpOutput").textContent = snapshot ? snapshot.output : "";
@@ -108,6 +154,7 @@ function renderTrace() {
       ...(loop.depth > 1 ? ["مستوى " + number(loop.depth)] : [])
     ].join(" · ");
   }
+  renderIndexedAccess(snapshot);
   const reads = snapshot?.inputReads || [];
   $("csharpInputRead").hidden = !reads.length;
   $("csharpInputRead").textContent = reads.map(line => line.number === null
@@ -137,7 +184,7 @@ function renderTrace() {
   for (const [name, data] of Object.entries(snapshot?.variables || {})) {
     const row = document.createElement("tr");
     if (snapshot.name === name || snapshot.binding?.name === name) row.classList.add("cs-changed-value");
-    const text = data.type === "string" || data.type === "string?";
+    const text = data.type === "string" || data.type === "string?" || data.type === "char";
     for (const [index, value] of [name, data.type, text || Array.isArray(data.value) ? JSON.stringify(data.value) : String(data.value)].entries()) {
       const cell = document.createElement("td"); cell.textContent = value; cell.dir = index === 2 && text ? "auto" : "ltr"; row.append(cell);
     }

@@ -3,43 +3,43 @@
   "updatedAt": "2026-11-18",
   "branch": "feat/csharp-foundations",
   "baseCommit": "3f1d7dad3974e733cf82d5315d3760807411cf14",
-  "currentPhase": "P5",
+  "currentPhase": "P6",
   "phases": {
     "P0": "complete",
     "P1": "complete",
     "P2": "in_progress",
     "P3": "complete",
     "P4": "complete",
-    "P5": "in_progress",
-    "P6": "pending",
+    "P5": "complete",
+    "P6": "in_progress",
     "P7": "pending",
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Begin P5B at lesson 65 with array index and value, then index assignment, Length, traversal, text indexing and rectangular arrays. Keep lessons 1–64 stable.",
+  "nextAction": "Begin P6 at lesson 73 with a class definition and object creation, then fields, instance methods, constructors, references, null and generic types. Keep lessons 1–72 stable.",
   "checks": {
     "npmTest": {
-      "passed": 645,
+      "passed": 695,
       "failed": 0
     },
-    "csharpTests": 475,
-    "canonicalLessonsValidated": 561,
+    "csharpTests": 525,
+    "canonicalLessonsValidated": 569,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 64 lessons and retained earlier completion. Lesson 57 showed the opening scene, entered Price, returned 7 to line 1 and stored 7 in price.",
+    "browserQA": "Desktop Chrome displayed 72 lessons and retained earlier completion. Lesson 66 highlighted shelf[1], updated 7 to 12 and restored the prior array on rewind. Lesson 70 highlighted seats[1,2] and printed 22.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 1221,
+      "passed": 1389,
       "failed": 0,
-      "alternateInputCases": 877,
+      "alternateInputCases": 1002,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 320
+      "curriculumSolutionsCompared": 360
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
   "runtime": {
-    "default": "bounded teaching interpreter with console input, reversible expressions and control flow, primitive array initializers, typed local function calls and returns, and a 1000-snapshot limit",
+    "default": "bounded teaching interpreter with console input, reversible control flow, local functions, array and character indexing, rectangular arrays, and a 1000-snapshot limit",
     "experimental": ".NET 10.0.15 + Roslyn 5.0.0, SDK 10.0.204, browser WebAssembly worker",
     "assetRawMiB": 45.5,
     "assetGzipMiB": 16.9,
@@ -61,13 +61,13 @@
     "P4A": "complete",
     "P4B": "complete",
     "P5A": "complete",
-    "P5B": "pending"
+    "P5B": "complete"
   },
   "curriculum": {
-    "lessons": 64,
-    "steps": 512,
-    "units": 8,
-    "latestUnit": "functions",
-    "nextUnit": "arrays-and-indexing"
+    "lessons": 72,
+    "steps": 576,
+    "units": 9,
+    "latestUnit": "arrays-and-indexing",
+    "nextUnit": "objects-and-references"
   }
 }

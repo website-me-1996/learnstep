@@ -2,12 +2,13 @@
 // No eval, Function constructor, network execution, or string-to-JS translation.
 const LIMITS = { source:16000, tokens:2000, statements:160, output:16000, depth:40, trace:1000, array:64, calls:24 };
 const NUMERIC_TYPES = new Set(['int', 'double', 'decimal']);
-const TYPES = new Set([...NUMERIC_TYPES, 'string', 'bool']);
+const TYPES = new Set([...NUMERIC_TYPES, 'string', 'bool', 'char']);
 const TEXT_TYPES = new Set(['string', 'string?']);
 const LOOP_KINDS = new Set(['while', 'for', 'foreach']);
 const INCREMENTS = new Set(['++', '--']);
 const ASSIGNMENTS = new Set(['=', '+=', '-=', '*=', '/=', '%=']);
-const arrayType = type => type?.endsWith('[]');
+const arrayRank = type => type?.endsWith('[,]') ? 2 : type?.endsWith('[]') ? 1 : 0;
+const elementType = type => type.slice(0, -(arrayRank(type) + 1));
 const COMPARISONS = new Set(['>','>=','<','<=','==','!=']);
 const LOGICAL = new Set(['&&', '||']);
 const BINARY_PRECEDENCE = {'??':1,'||':2,'&&':3,'==':4,'!=':4,'>':5,'>=':5,'<':5,'<=':5,'+':10,'-':10,'*':20,'/':20,'%':20};
@@ -33,18 +34,19 @@ function lex(source) {
     }
     const pair=source.slice(pos,pos+2);
     if(['==','!=','>=','<=','&&','||','??'].includes(pair)||INCREMENTS.has(pair)||ASSIGNMENTS.has(pair)){advance();advance();add(pair,pair,location);continue;}
-    if(c==='"') {
+    if(c==='"' || c==="'") {
       advance();let value='',closed=false;
       while(pos<source.length){
-        const ch=advance();if(ch==='"'){closed=true;break;}
-        if(ch==='\n'||ch==='\r')throw new CSharpError('أغلق النص بعلامة " في السطر نفسه. للسطر الجديد استخدم \\n.',location);
+        const ch=advance();if(ch===c){closed=true;break;}
+        if(ch==='\n'||ch==='\r')throw new CSharpError('أغلق علامات الاقتباس في السطر نفسه. للسطر الجديد استخدم \\n.',location);
         if(ch!=='\\'){value+=ch;continue;}
-        const esc=advance(),escapes={n:'\n',r:'\r',t:'\t','"':'"','\\':'\\','0':'\0'};
+        const esc=advance(),escapes={n:'\n',r:'\r',t:'\t','"':'"',"'":"'",'\\':'\\','0':'\0'};
         if(!Object.hasOwn(escapes,esc))throw new CSharpError('صيغة الهروب هذه غير مدعومة في المحاكي. استخدم نصًا بسيطًا.',location,'unsupported');
         value+=escapes[esc];
       }
-      if(!closed)throw new CSharpError('علامة إغلاق النص " ناقصة.',location);
-      add('string',value,location);continue;
+      if(!closed)throw new CSharpError('علامة إغلاق القيمة ' + c + ' ناقصة.',location);
+      if(c==="'" && value.length!==1)throw new CSharpError('ضع وحدة UTF-16 واحدة بين علامتي الاقتباس المفردتين لقيمة char.',location,'type');
+      add(c==='"'?'string':'char',value,location);continue;
     }
     if (/\d/.test(c) || (c === '.' && /\d/.test(source[pos + 1] || ''))) {
       const literal = /^(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?[dDmM]?/.exec(source.slice(pos))[0];
@@ -84,8 +86,9 @@ export function parseProgram(source) {
     if (type === 'string' && peek().kind === '?') type += take().value;
     if (type !== 'void' && peek().kind === '[') {
       take();
+      const rank = peek().kind === ',' ? take().value : '';
       expect(']');
-      type += '[]';
+      type += '[' + rank + ']';
     }
     return type;
   }
@@ -112,22 +115,41 @@ export function parseProgram(source) {
     if (type === 'void') throw new CSharpError('استخدم void في تعريف دالة لا تعيد قيمة.', token, 'type');
     expect('=');
     let initializer;
-    if (arrayType(type) && peek().kind === '{') {
-      const start = take(), items = [];
-      while (peek().kind !== '}') {
-        if (items.length >= LIMITS.array) {
-          throw new CSharpError('اختر مصفوفة تعليمية من 64 عنصرًا أو أقل.', peek(), 'limit');
-        }
-        items.push(expression());
-        if (peek().kind !== ',') break;
-        take();
-      }
-      const end = expect('}');
+    const rank = arrayRank(type);
+    if (rank && peek().kind === '{') {
+      const start = peek();
+      const items = rank === 1 ? braceItems(expression) : braceItems(() => braceItems(expression));
+      if (rank === 2) matrixShape(items, start);
+      const end = tokens[cursor - 1];
       initializer = {kind:'array', type, items, token:start, start:start.start, end:end.end};
     } else {
       initializer = expression();
     }
     return {kind:'declare', name, type, expression:initializer, token};
+  }
+  function braceItems(read) {
+    expect('{');
+    const items = [];
+    while (peek().kind !== '}') {
+      if (items.length >= LIMITS.array) throw new CSharpError('اختر مصفوفة تعليمية من 64 عنصرًا أو أقل.', peek(), 'limit');
+      items.push(read());
+      if (peek().kind !== ',') break;
+      take();
+    }
+    expect('}');
+    return items;
+  }
+  function bracketExpressions() {
+    expect('[');
+    const items = [expression()];
+    if (peek().kind === ',') { take(); items.push(expression()); }
+    expect(']');
+    return items;
+  }
+  function indexAccess(receiver) {
+    const token = peek();
+    const indices = bracketExpressions();
+    return {kind:'index', op:'[]', expression:receiver, indices, token, start:receiver.start, end:tokens[cursor - 1].end};
   }
   function call(token) {
     expect('(');
@@ -147,6 +169,12 @@ export function parseProgram(source) {
     const prefix = INCREMENTS.has(start.kind);
     const operator = prefix ? take() : null;
     const name = nameToken();
+    if (peek().kind === '[') {
+      const target = indexAccess({kind:'variable', name:name.value, token:name, start:name.start, end:name.end});
+      if (prefix || peek().kind !== '=') throw new CSharpError('استخدم إسنادًا بسيطًا مثل values[i] = amount لتحديث خانة.', peek(), 'unsupported');
+      take();
+      return {kind:'assign-index', name:name.value, target, expression:expression(), token:start};
+    }
     const op = operator || take();
     if (!ASSIGNMENTS.has(op.kind) && !INCREMENTS.has(op.kind)) {
       throw new CSharpError('استخدم = أو معامل تحديث مدعوم بعد اسم المتغير.', op);
@@ -179,9 +207,14 @@ export function parseProgram(source) {
       const value = type === 'decimal' ? parseDecimal(t.value.slice(0, -1), t) : Number(suffix === 'd' ? t.value.slice(0, -1) : t.value);
       node={kind:'literal',type,value,token:t};
     }
-    else if(t.kind==='string')node={kind:'literal',type:'string',value:t.value,token:t};
+    else if(t.kind==='string' || t.kind==='char')node={kind:'literal',type:t.kind,value:t.value,token:t};
     else if(t.value==='true'||t.value==='false')node={kind:'literal',type:'bool',value:t.value==='true',token:t};
     else if (t.value === 'null') node = { kind:'literal', type:'string?', value:null, token:t };
+    else if (t.value === 'new') {
+      expect('identifier', 'int');
+      const indices = bracketExpressions();
+      node = {kind:'new-array', type:indices.length === 1 ? 'int[]' : 'int[,]', indices, token:t};
+    }
     else if ((t.value === 'Console' || t.value === 'System') && peek().kind === '.') {
       expect('.');
       if (t.value === 'System') { expect('identifier', 'Console'); expect('.'); }
@@ -215,10 +248,23 @@ export function parseProgram(source) {
     else throw new CSharpError('اكتب قيمة أو اسم متغير في هذا الموضع.',t);
     node.start = t.start;
     node.end = tokens[cursor - 1].end;
-    while (peek().kind === '.') {
+    while (peek().kind === '.' || peek().kind === '[') {
+      if (peek().kind === '[') {
+        node = indexAccess(node);
+        continue;
+      }
       take();
-      const member = expect('identifier', 'Length');
-      node = { kind:'length', expression:node, token:member, op:'.Length', start:node.start, end:member.end };
+      const member = expect('identifier');
+      if (member.value === 'Length') {
+        node = {kind:'length', expression:node, token:member, op:'.Length', start:node.start, end:member.end};
+      } else if (member.value === 'GetLength') {
+        expect('(');
+        const axis = expression();
+        const close = expect(')');
+        node = {kind:'dimension', expression:node, indices:[axis], token:member, op:'.GetLength', start:node.start, end:close.end};
+      } else {
+        throw new CSharpError('استخدم Length أو GetLength مع المصفوفة.', member, 'unsupported');
+      }
     }
     while ((BINARY_PRECEDENCE[peek().kind] || 0) > min) {
       const op = take();
@@ -315,6 +361,22 @@ function guaranteesReturn(s) {
   return s.kind === 'if' && !!s.alternate && guaranteesReturn(s.consequent) && guaranteesReturn(s.alternate);
 }
 
+function matrixShape(rows, token) {
+  const columns = rows[0]?.length ?? 0;
+  if (rows.some(row => !Array.isArray(row) || row.length !== columns)) {
+    throw new CSharpError('اكتب نفس عدد الأعمدة في كل صف من المصفوفة الثنائية.', token, 'type');
+  }
+  checkArraySize([rows.length, columns], token);
+  return columns;
+}
+
+function checkArraySize(sizes, token) {
+  if (sizes.some(size => size < 0)) throw new CSharpError('اكتب طولًا يساوي صفرًا أو أكبر.', token, 'runtime');
+  if (sizes.some(size => size > LIMITS.array) || sizes.reduce((total, size) => total * size, 1) > LIMITS.array) {
+    throw new CSharpError('اختر مصفوفة تعليمية من 64 عنصرًا أو أقل.', token, 'limit');
+  }
+}
+
 function validateTypes(statements) {
   const scopes=[];
   const functions = localFunctions(statements);
@@ -335,6 +397,11 @@ function validateTypes(statements) {
     node.valueType = inferType(node, allowMin, allowTryParse);
     return node.valueType;
   }
+  function verifyIndices(node) {
+    for (const index of node.indices) {
+      if (infer(index) !== 'int') throw new CSharpError('استخدم فهرسًا أو طولًا من النوع int.', index.token, 'type');
+    }
+  }
   function inferType(node,allowMin,allowTryParse) {
     if(node.kind==='literal'){
       if(node.type==='int'&&(!Number.isSafeInteger(node.value)||node.value>(allowMin?2147483648:2147483647)))throw new CSharpError('هذا العدد خارج نطاق int المدعوم هنا.',node.token,'unsupported');
@@ -344,10 +411,15 @@ function validateTypes(statements) {
     if (node.kind === 'read-line') return 'string?';
     if (node.kind === 'call') return inferCall(node);
     if (node.kind === 'array') {
-      const element = node.type.slice(0, -2);
-      for (const item of node.items) {
+      const element = elementType(node.type);
+      const items = arrayRank(node.type) === 1 ? node.items : node.items.flat();
+      for (const item of items) {
         if (!canAssign(infer(item), element)) throw new CSharpError('استخدم عناصر من نوع ' + element + ' في المصفوفة.', item.token, 'type');
       }
+      return node.type;
+    }
+    if (node.kind === 'new-array') {
+      verifyIndices(node);
       return node.type;
     }
     if (node.kind === 'try-parse') {
@@ -360,8 +432,18 @@ function validateTypes(statements) {
     }
     if (node.kind === 'length') {
       const type = infer(node.expression);
-      if (type !== 'string' && !arrayType(type)) throw new CSharpError('استخدم Length مع نص أو مصفوفة.', node.token, 'type');
+      if (!TEXT_TYPES.has(type) && !arrayRank(type)) throw new CSharpError('استخدم Length مع نص أو مصفوفة.', node.token, 'type');
       return 'int';
+    }
+    if (node.kind === 'dimension' || node.kind === 'index') {
+      const type = infer(node.expression);
+      const rank = arrayRank(type);
+      if (node.kind === 'dimension' && !rank) throw new CSharpError('استخدم GetLength مع مصفوفة.', node.token, 'type');
+      if (node.kind === 'index' && node.indices.length !== (rank || Number(TEXT_TYPES.has(type)))) {
+        throw new CSharpError('استخدم فهرسًا واحدًا للنص أو المصفوفة الخطية، وفهرسي الصف والعمود للمصفوفة الثنائية.', node.token, 'type');
+      }
+      verifyIndices(node);
+      return node.kind === 'dimension' ? 'int' : rank ? elementType(type) : 'char';
     }
     if (node.kind === 'cast') {
       const from = infer(node.expression);
@@ -461,6 +543,12 @@ function validateTypes(statements) {
       visit(s.consequent);if(s.alternate)visit(s.alternate);return;
     }
     if(s.kind==='empty')return;
+    if (s.kind === 'assign-index') {
+      const target = infer(s.target);
+      if (TEXT_TYPES.has(s.target.expression.valueType)) throw new CSharpError('خانات النص للقراءة. أنشئ نصًا جديدًا إذا أردت تغيير الحرف.', s.token, 'type');
+      if (!canAssign(infer(s.expression), target)) throw new CSharpError('ضع قيمة من النوع ' + target + ' في خانة المصفوفة.', s.token, 'type');
+      return;
+    }
     if(s.kind==='assign'&&!lookup(s.name))throw new CSharpError('عرّف المتغير «'+s.name+'» قبل إسناد قيمة له.',s.token,'name');
     if (s.kind === 'assign' && scopes.findLast(scope => scope.available.has(s.name))?.readOnly === s.name) {
       throw new CSharpError('متغير foreach للقراءة داخل الحلقة. غيّر متغيرًا خارجيًا إذا أردت حساب مجموع أو عد.', s.token, 'type');
@@ -531,15 +619,45 @@ function display(value, type) {
   if (value === null) return '';
   if (type === 'decimal') return decimalText(value);
   if (type === 'double') return doubleText(value);
-  if (arrayType(type)) return 'System.' + ARRAY_TYPES[type.slice(0, -2)] + '[]';
+  if (arrayRank(type)) {
+    const element = elementType(type);
+    return 'System.' + ARRAY_TYPES[element] + type.slice(element.length);
+  }
   return typeof value === 'boolean' ? value ? 'True' : 'False' : String(value);
 }
 
-const ARRAY_TYPES = {int:'Int32', double:'Double', decimal:'Decimal', bool:'Boolean', string:'String', 'string?':'String'};
+const ARRAY_TYPES = {int:'Int32', double:'Double', decimal:'Decimal', bool:'Boolean', char:'Char', string:'String', 'string?':'String'};
 
 function traceValue(value, type) {
-  if (arrayType(type)) return value.map(item => traceValue(item, type.slice(0, -2)));
+  const rank = arrayRank(type), element = rank && elementType(type);
+  if (rank === 1) return value.map(item => traceValue(item, element));
+  if (rank === 2) return value.rows.map(row => row.map(item => traceValue(item, element)));
   return type === 'decimal' ? decimalText(value) : value;
+}
+
+function lengths(value, type) {
+  return arrayRank(type) === 2 ? [value.rows.length, value.columns] : [value.length];
+}
+
+function locateElement({receiver, indices, node}) {
+  if (receiver === null) throw new CSharpError('القيمة null. افحصها قبل محاولة القراءة.', node.token, 'runtime');
+  const sizes = lengths(receiver, node.expression.valueType);
+  for (const [axis, index] of indices.entries()) {
+    if (index < 0 || index >= sizes[axis]) {
+      throw new CSharpError('الفهرس ' + index + ' خارج حدود البعد ' + axis + ' وطوله ' + sizes[axis] + '.', node.token, 'runtime');
+    }
+  }
+  return indices.length === 1
+    ? {items:receiver, index:indices[0]}
+    : {items:receiver.rows[indices[0]], index:indices[1]};
+}
+
+function elementAccess({node, indices}, value, mode, previous) {
+  return {
+    name:node.expression.name ?? null,
+    indices, mode, value:traceValue(value, node.valueType),
+    ...(mode === 'write' && {previous:traceValue(previous, node.valueType)})
+  };
 }
 
 function boundedInt(value, token) {
@@ -615,20 +733,38 @@ function parseInputInt(input) {
   return { value: valid ? number || 0 : 0, valid };
 }
 
-function evaluateExpression(root, variables, source, readLine, invokeCall) {
+function evaluateExpression(root, variables, source, readLine, invokeCall, addressOnly = false) {
   const names = new Set();
   const logic = [];
   const consumed = [];
+  const accesses = [];
   let comparison = null, calculation = null, binding = null;
   const operand = (node, value) => ({ source: source.slice(node.start, node.end), value });
-  const format = (node, value) => TEXT_TYPES.has(node.valueType) ? JSON.stringify(value) : display(value, node.valueType);
+  const format = (node, value) => TEXT_TYPES.has(node.valueType) || node.valueType === 'char' ? JSON.stringify(value) : display(value, node.valueType);
 
   function evaluate(node) {
     if (node.kind === 'literal') return node.value;
     if (node.kind === 'call') return invokeCall(node, node.args.map(evaluate));
     if (node.kind === 'array') {
-      const element = node.type.slice(0, -2);
-      return node.items.map(item => convertNumber(evaluate(item), item.valueType, element, item.token));
+      const element = elementType(node.type);
+      const convertRow = row => row.map(item => convertNumber(evaluate(item), item.valueType, element, item.token));
+      if (arrayRank(node.type) === 1) return convertRow(node.items);
+      return {rows:node.items.map(convertRow), columns:node.items[0]?.length ?? 0};
+    }
+    if (node.kind === 'new-array') {
+      const sizes = node.indices.map(evaluate);
+      checkArraySize(sizes, node.token);
+      if (sizes.length === 1) return Array(sizes[0]).fill(0);
+      const [rows, columns] = sizes;
+      return {rows:Array.from({length:rows}, () => Array(columns).fill(0)), columns};
+    }
+    if (node.kind === 'index') {
+      const address = {receiver:evaluate(node.expression), indices:node.indices.map(evaluate), node};
+      if (addressOnly && node === root) return address;
+      const {items, index} = locateElement(address);
+      const value = items[index];
+      accesses.push(elementAccess(address, value, 'read'));
+      return value;
     }
     if (node.kind === 'read-line') {
       const line = readLine();
@@ -649,11 +785,23 @@ function evaluateExpression(root, variables, source, readLine, invokeCall) {
       names.add(node.name);
       return variables.get(node.name).value;
     }
-    if (node.kind === 'cast' || node.kind === 'length') {
+    if (node.kind === 'cast' || node.kind === 'length' || node.kind === 'dimension') {
       const original = evaluate(node.expression);
-      const result = node.kind === 'length' ? original.length : convertNumber(original, node.expression.valueType, node.target, node.token);
+      let result, axis;
+      if (node.kind === 'cast') result = convertNumber(original, node.expression.valueType, node.target, node.token);
+      else {
+        if (original === null) throw new CSharpError('القيمة null. افحصها قبل قراءة الطول.', node.token, 'runtime');
+        const sizes = lengths(original, node.expression.valueType);
+        if (node.kind === 'length') result = sizes.reduce((total, size) => total * size, 1);
+        else {
+          axis = evaluate(node.indices[0]);
+          if (axis < 0 || axis >= sizes.length) throw new CSharpError('البعد ' + axis + ' غير موجود في هذه المصفوفة.', node.token, 'runtime');
+          result = sizes[axis];
+        }
+      }
       if (node === root) calculation = {
-        left: format(node.expression, original), operator: node.op, result: display(result, node.valueType), type: node.valueType
+        left: format(node.expression, original), operator: node.op,
+        ...(axis !== undefined && {right:String(axis)}), result: display(result, node.valueType), type: node.valueType
       };
       return result;
     }
@@ -701,7 +849,8 @@ function evaluateExpression(root, variables, source, readLine, invokeCall) {
 
   const value = root ? evaluate(root) : '';
   return { value, reads: [...names], comparison, logic, ...(calculation && { calculation }),
-    ...(consumed.length && { inputReads: consumed }), ...(binding && { binding }) };
+    ...(consumed.length && { inputReads: consumed }), ...(binding && { binding }),
+    ...(accesses.length && {accesses}) };
 }
 
 function allStatements(statements) {
@@ -728,12 +877,23 @@ function exposedVariables(variables) {
 }
 
 function inputValue(value, type, token) {
-  if (arrayType(type) && Array.isArray(value) && value.length <= LIMITS.array) return value.map(item => inputValue(item, type.slice(0, -2), token));
+  const rank = arrayRank(type);
+  if (rank && Array.isArray(value)) {
+    const element = elementType(type);
+    const readRow = row => row.map(item => inputValue(item, element, token));
+    if (rank === 1) {
+      checkArraySize([value.length], token);
+      return readRow(value);
+    }
+    const columns = matrixShape(value, token);
+    return {rows:value.map(readRow), columns};
+  }
   if (type === 'decimal' && typeof value === 'string') return parseDecimal(value, token);
   if ((type === 'int' && Number.isInteger(value) && value >= -2147483648 && value <= 2147483647) ||
       (type === 'double' && Number.isFinite(value)) ||
       (TEXT_TYPES.has(type) && typeof value === 'string') || (type === 'string?' && value === null) ||
-      (type === 'bool' && typeof value === 'boolean')) return value;
+      (type === 'bool' && typeof value === 'boolean') ||
+      (type === 'char' && typeof value === 'string' && value.length === 1)) return value;
   throw new CSharpError('قيمة الاختبار لا تطابق نوع المدخل.', token, 'type');
 }
 
@@ -754,7 +914,7 @@ export function runProgram(source,inputs={},stdin='') {
   const visible=()=>new Map(scopes.flatMap(scope=>[...scope]));
   const owner=name=>scopes.findLast(scope=>scope.has(name));
   const firstLine=s=>s.kind==='block'?(s.body[0]?.token.line||s.end.line):s.token.line;
-  const evaluate = expression => evaluateExpression(expression, visible(), text, readLine, invokeCall);
+  const evaluate = (expression, addressOnly = false) => evaluateExpression(expression, visible(), text, readLine, invokeCall, addressOnly);
   function snapshot(s, {loopPhase, ...details} = {}) {
     if (trace.length >= LIMITS.trace) {
       throw new CSharpError('توقف المحاكي عند حد الخطوات. افحص شرط الحلقة وتأكد إن العداد بيتغير وبيوصل للنهاية.', s.token, 'limit');
@@ -951,6 +1111,23 @@ export function runProgram(source,inputs={},stdin='') {
       return;
     }
     if(s.kind==='empty'){snapshot(s,{action:'يا كمبيوتر، هذه جملة فارغة؛ انتقل إلى الأمر التالي.'});return;}
+    if (s.kind === 'assign-index') {
+      const target = evaluate(s.target, true);
+      const evaluation = evaluate(s.expression);
+      const {items, index} = locateElement(target.value);
+      const previous = items[index];
+      const type = s.target.valueType;
+      const value = convertNumber(evaluation.value, s.expression.valueType, type, s.token);
+      items[index] = value;
+      const write = elementAccess(target.value, value, 'write', previous);
+      const inputReads = [...(target.inputReads || []), ...(evaluation.inputReads || [])];
+      snapshot(s, {...evaluation, name:s.name, nextLine, value:write.value, previous:write.previous,
+        reads:[...new Set([...target.reads, ...evaluation.reads])],
+        accesses:[...(target.accesses || []), ...(evaluation.accesses || []), write],
+        ...(inputReads.length && {inputReads}),
+        action:'يا كمبيوتر، حدّث ' + s.name + '[' + write.indices.join(', ') + '] واحفظ قيمة الخانة الجديدة.'});
+      return;
+    }
     const variables = visible(), previous = variables.get(s.name)?.value;
     const expressionType = s.expression?.valueType;
     const type = s.type || variables.get(s.name)?.type || expressionType;
@@ -996,7 +1173,8 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   if (challenge.operation) {
     const matchesOperation = statements.some(statement => {
       if (challenge.operationIn && statement.name !== challenge.operationIn) return false;
-      return statement.update === challenge.operation || containsOperator(statement.expression || statement.condition, challenge.operation);
+      return statement.update === challenge.operation || containsOperator(statement.target, challenge.operation) ||
+        containsOperator(statement.expression || statement.condition, challenge.operation);
     });
     if (!matchesOperation) return fail('استخدم المعامل ' + challenge.operation + (challenge.operationIn ? ' لحساب «' + challenge.operationIn + '».' : ' لحساب النتيجة المطلوبة.'));
   }
@@ -1007,8 +1185,12 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
   const loopReads = new Set(), loopJumps = new Set();
   let hasLoopEffect = false;
   let testedElseIf = false;
+  let reachedIndex = false;
   const observe = trace => {
     for (const step of trace) {
+      const required = challenge.indexAccess;
+      if (required && step.accesses?.some(access => access.name === required.name &&
+        access.mode === required.mode && access.indices.length === required.rank)) reachedIndex = true;
       if (challenge.loop && step.loop?.kind === challenge.loop.kind && step.loop.depth >= (challenge.loop.depth ?? 1)) {
         if (step.kind === 'loop-condition') for (const name of step.reads) loopReads.add(name);
         if (step.kind === 'break' || step.kind === 'continue') loopJumps.add(step.kind);
@@ -1031,6 +1213,10 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
     }
   }
   if (challenge.elseIfRequired && !testedElseIf) return fail('استخدم else if لفحص شرط بديل عند تجاوز الشرط الأول.');
+  if (challenge.indexAccess && !reachedIndex) {
+    const {name, mode} = challenge.indexAccess;
+    return fail('نفّذ ' + (mode === 'write' ? 'تحديث خانة في «' : 'قراءة خانة من «') + name + '» باستخدام فهرسها.');
+  }
   for (const name of challenge.conditionReads || []) {
     if (!conditionReads.has(name)) return fail('اجعل قرار if يقرأ المتغير «' + name + '» بدل شرط ثابت.');
   }
@@ -1045,5 +1231,6 @@ export function checkChallenge(source,challenge,baselineOutput=null,stdin=challe
 }
 function containsOperator(node, op) {
   return !!node && (node.op === op || containsOperator(node.left, op) || containsOperator(node.right, op) ||
-    containsOperator(node.expression, op) || node.args?.some(arg => containsOperator(arg, op)));
+    containsOperator(node.expression, op) || node.args?.some(arg => containsOperator(arg, op)) ||
+    node.indices?.some(index => containsOperator(index, op)));
 }

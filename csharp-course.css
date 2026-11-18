@@ -59,6 +59,12 @@
 .cs-trace-lines .cs-current-line{background:#39314d;color:#eee5ff;border-inline-start-color:var(--cs-accent)}
 .cs-trace-lines .cs-next-line{border-inline-start-color:#79bca2}
 .cs-loop-step{color:#b4decf;font-size:13px;line-height:1.65;margin:10px 0}
+.cs-index-step{margin:10px 0;font-size:13px;line-height:1.65;overflow:auto}
+.cs-index-step p{margin:0 0 6px;color:#b4decf}
+.cs-index-step table{border-collapse:collapse;font:13px/1.6 Consolas,monospace;direction:ltr}
+.cs-index-step th,.cs-index-step td{padding:4px 8px;border:1px solid var(--line);text-align:center;white-space:nowrap}
+.cs-index-step th{color:var(--muted);font-weight:400}
+.cs-index-step td[aria-current]{color:#eee5ff;background:#39314d;box-shadow:inset 0 0 0 1px var(--cs-accent)}
 .cs-trace-action{padding:10px 12px;background:var(--surface-raised);border-radius:8px;font-size:14px;line-height:1.8;min-height:2em;overflow-wrap:anywhere}
 .cs-table-wrap{overflow:auto}.cs-values{border-collapse:collapse;width:100%;font-size:13px;text-align:start}
 .cs-values th,.cs-values td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:start}

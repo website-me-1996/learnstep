@@ -2,9 +2,9 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال.",
-  "totalLessons": 64,
-  "runtime": "csharp-foundations-subset-v8",
+  "description": "من أول برنامج وقيمه إلى الحساب والشروط والمدخلات والحلقات والدوال والمصفوفات.",
+  "totalLessons": 72,
+  "runtime": "csharp-foundations-subset-v9",
   "units": [
     {
       "id": "first-programs",
@@ -124,6 +124,21 @@
         "csharp-62-function-number-copy",
         "csharp-63-local-variable-scope",
         "csharp-64-function-booking-total"
+      ]
+    },
+    {
+      "id": "arrays-and-indexing",
+      "title": "اقرأ الخانات وصفوفها",
+      "order": 8,
+      "lessonIds": [
+        "csharp-65-array-read-index",
+        "csharp-66-array-write-index",
+        "csharp-67-array-length",
+        "csharp-68-array-loop-by-index",
+        "csharp-69-string-index-character",
+        "csharp-70-matrix-row-column",
+        "csharp-71-matrix-dimension-lengths",
+        "csharp-72-matrix-free-seats"
       ]
     }
   ],
@@ -25465,6 +25480,4009 @@
         {
           "label": "إذا العدد موجب",
           "text": "أعد العدد × السعر"
+        }
+      ]
+    },
+    {
+      "id": "csharp-65-array-read-index",
+      "legacyId": "csharp:64",
+      "title": "اقرأ قيمة خانة بفهرسها",
+      "skill": "المصفوفات والفهارس",
+      "order": 64,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "المصفوفة تحفظ قيمًا بالترتيب. في values[position] يحدد position رقم الخانة، وتطلع منها القيمة التي فيها. أول خانة فهرسها 0.",
+      "whyUse": "تقدر تختار قيمة من مكان محدد حتى لو اتغيّرت الأعداد داخل الأدراج.",
+      "browserMechanics": "عند إسناد selected يظهر رقم الخانة أعلى القيمة، وتضاء الخانة التي قرأها السطر الحالي.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);",
+      "breakdown": [
+        "رتّب 8 و21 و30 في values.",
+        "ضع 0 في position لتختار الخانة الأولى.",
+        "اقرأ values[position] واحفظها في selected."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قدامك ثلاثة أدراج مرقّمة من ٠ إلى ٢. افتح الدرج رقم ٠ واقرأ الرقم المكتوب فيه.",
+          "instruction": "يا كمبيوتر، قدامك ثلاثة أدراج مرقّمة من ٠ إلى ٢. افتح الدرج رقم ٠ واقرأ الرقم المكتوب فيه.",
+          "benefit": "تقدر تختار قيمة من مكان محدد حتى لو اتغيّرت الأعداد داخل الأدراج.",
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "المصفوفة تحفظ قيمًا بالترتيب. في values[position] يحدد position رقم الخانة، وتطلع منها القيمة التي فيها. أول خانة فهرسها 0.",
+          "code": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);",
+          "benefit": "عند إسناد selected يظهر رقم الخانة أعلى القيمة، وتضاء الخانة التي قرأها السطر الحالي.",
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب int[] values بالقيم 8 و21 و30. خزّن position = 0، واحفظ قيمة values[position] في selected واطبعها.",
+          "instruction": "يا كمبيوتر، اكتب int[] values بالقيم 8 و21 و30. خزّن position = 0، واحفظ قيمة values[position] في selected واطبعها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);",
+          "challenge": {
+            "output": "8\n",
+            "declared": [
+              "values",
+              "position",
+              "selected"
+            ],
+            "printed": [
+              "selected"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "values": [
+                    17,
+                    4
+                  ],
+                  "position": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    42
+                  ],
+                  "position": 0
+                },
+                "output": "42\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    2,
+                    9,
+                    5
+                  ],
+                  "position": 2
+                },
+                "output": "5\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "values",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "values": "int[]",
+              "position": "int",
+              "selected": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، بدّل position إلى 1. أي خانة يظهر منها 21؟",
+          "instruction": "يا كمبيوتر، بدّل position إلى 1. أي خانة يظهر منها 21؟",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] values = { 8, 21, 30 };\nint position = 1;\nint selected = values[position];\nConsole.WriteLine(selected);",
+          "challenge": {
+            "output": "21\n",
+            "declared": [
+              "values",
+              "position",
+              "selected"
+            ],
+            "printed": [
+              "selected"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "values": [
+                    17,
+                    4
+                  ],
+                  "position": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    42
+                  ],
+                  "position": 0
+                },
+                "output": "42\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    2,
+                    9,
+                    5
+                  ],
+                  "position": 2
+                },
+                "output": "5\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "values",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "values": "int[]",
+              "position": "int",
+              "selected": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 1;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب قراءة الخانة الأخيرة بوضع position = 2.",
+          "instruction": "يا كمبيوتر، جرّب قراءة الخانة الأخيرة بوضع position = 2.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] values = { 8, 21, 30 };\nint position = 2;\nint selected = values[position];\nConsole.WriteLine(selected);",
+          "challenge": {
+            "output": "30\n",
+            "declared": [
+              "values",
+              "position",
+              "selected"
+            ],
+            "printed": [
+              "selected"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "values": [
+                    17,
+                    4
+                  ],
+                  "position": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    42
+                  ],
+                  "position": 0
+                },
+                "output": "42\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    2,
+                    9,
+                    5
+                  ],
+                  "position": 2
+                },
+                "output": "5\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "values",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "values": "int[]",
+              "position": "int",
+              "selected": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 2;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "المفروض قراءة الدرْج الأول. ليه ظهر 21؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "المفروض قراءة الدرْج الأول. ليه ظهر 21؟",
+          "options": [
+            "values[1] فتح الخانة الثانية.",
+            "أول خانة فهرسها 8.",
+            "الطباعة تغيّر الفهرس."
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[1];\nConsole.WriteLine(selected);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم values[position] بعد ضبط position على 0.",
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم values[position] بعد ضبط position على 0.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم values[position] بعد ضبط position على 0.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[1];\nConsole.WriteLine(selected);",
+          "solution": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);",
+          "challenge": {
+            "output": "8\n",
+            "declared": [
+              "values",
+              "position",
+              "selected"
+            ],
+            "printed": [
+              "selected"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "values": [
+                    17,
+                    4
+                  ],
+                  "position": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    42
+                  ],
+                  "position": 0
+                },
+                "output": "42\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    2,
+                    9,
+                    5
+                  ],
+                  "position": 2
+                },
+                "output": "5\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "values",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "values": "int[]",
+              "position": "int",
+              "selected": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ تذاكر 6 و14 و27 في values. استخدم position = 1 للحصول على التذكرة الثانية.",
+          "instruction": "يا كمبيوتر، احفظ تذاكر 6 و14 و27 في values. استخدم position = 1 للحصول على التذكرة الثانية.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] values = { 6, 14, 27 };\nint position = 1;\nint selected = values[position];\nConsole.WriteLine(selected);",
+          "challenge": {
+            "output": "14\n",
+            "declared": [
+              "values",
+              "position",
+              "selected"
+            ],
+            "printed": [
+              "selected"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "values": [
+                    17,
+                    4
+                  ],
+                  "position": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    42
+                  ],
+                  "position": 0
+                },
+                "output": "42\n"
+              },
+              {
+                "inputs": {
+                  "values": [
+                    2,
+                    9,
+                    5
+                  ],
+                  "position": 2
+                },
+                "output": "5\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "values",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "values": "int[]",
+              "position": "int",
+              "selected": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع الفهرس 0، ثم انظر داخل الخانة إلى القيمة 8.",
+            "القاعدة: الأقواس المربعة تختار خانة برقمها الذي يبدأ من صفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int selected = values[position]; قبل Console.WriteLine(selected);.",
+            "كشف الحل:\nint[] values = { 6, 14, 27 };\nint position = 1;\nint selected = values[position];\nConsole.WriteLine(selected);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[1];\nConsole.WriteLine(selected);",
+        "fixedCode": "int[] values = { 8, 21, 30 };\nint position = 0;\nint selected = values[position];\nConsole.WriteLine(selected);",
+        "question": "المفروض قراءة الدرْج الأول. ليه ظهر 21؟",
+        "explanation": "استخدم values[position] بعد ضبط position على 0.",
+        "options": [
+          "values[1] فتح الخانة الثانية.",
+          "أول خانة فهرسها 8.",
+          "الطباعة تغيّر الفهرس."
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-64-function-booking-total"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب int[] values بالقيم 8 و21 و30. خزّن position = 0، واحفظ قيمة values[position] في selected واطبعها.",
+        "يا كمبيوتر، احفظ تذاكر 6 و14 و27 في values. استخدم position = 1 للحصول على التذكرة الثانية."
+      ],
+      "commonMisconceptions": [
+        "استخدم values[position] بعد ضبط position على 0."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "الفهرس 0",
+          "value": "8"
+        },
+        {
+          "label": "الفهرس 1",
+          "value": "21"
+        },
+        {
+          "label": "الفهرس 2",
+          "value": "30"
+        }
+      ]
+    },
+    {
+      "id": "csharp-66-array-write-index",
+      "legacyId": "csharp:65",
+      "title": "حدّث خانة واحدة في المصفوفة",
+      "skill": "المصفوفات والفهارس",
+      "order": 65,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "في shelf[position] = replacement يختار الجزء قبل علامة الإسناد الخانة التي ستتغير. القيمة في يمين الإسناد تتخزن في نفس الخانة.",
+      "whyUse": "تقدر تصلح قيمة واحدة وتحتفظ بالبيانات في الخانات المجاورة.",
+      "browserMechanics": "لقطة التحديث تضيء الخانة وتعرض القيمة السابقة ثم الجديدة. اطبع الخانة المختارة والخانة الأولى للمراجعة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+      "breakdown": [
+        "جهّز shelf وخانة الاختيار position.",
+        "أسند replacement إلى shelf[position].",
+        "اطبع الخانة المختارة ثم الخانة الأولى."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "على الرف ثلاث بطاقات، قيمها 4 و7 و10. الصق بطاقة 12 مكان بطاقة 7 وسيب باقي البطاقات في أماكنها.",
+          "instruction": "يا كمبيوتر، على الرف ثلاث بطاقات، قيمها 4 و7 و10. الصق بطاقة 12 مكان بطاقة 7 وسيب باقي البطاقات في أماكنها.",
+          "benefit": "تقدر تصلح قيمة واحدة وتحتفظ بالبيانات في الخانات المجاورة.",
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في shelf[position] = replacement يختار الجزء قبل علامة الإسناد الخانة التي ستتغير. القيمة في يمين الإسناد تتخزن في نفس الخانة.",
+          "code": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "benefit": "لقطة التحديث تضيء الخانة وتعرض القيمة السابقة ثم الجديدة. اطبع الخانة المختارة والخانة الأولى للمراجعة.",
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن 4 و7 و10 في shelf. عيّن position = 1 وreplacement = 12. حدّث shelf[position]، ثم اطبعها واطبع shelf[0].",
+          "instruction": "يا كمبيوتر، خزّن 4 و7 و10 في shelf. عيّن position = 1 وreplacement = 12. حدّث shelf[position]، ثم اطبعها واطبع shelf[0].",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "challenge": {
+            "output": "12\n4\n",
+            "declared": [
+              "shelf",
+              "position",
+              "replacement"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shelf": [
+                    6,
+                    2
+                  ],
+                  "position": 0,
+                  "replacement": 13
+                },
+                "output": "13\n13\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    11,
+                    3,
+                    8
+                  ],
+                  "position": 2,
+                  "replacement": 0
+                },
+                "output": "0\n11\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    5,
+                    5
+                  ],
+                  "position": 1,
+                  "replacement": 5
+                },
+                "output": "5\n5\n"
+              }
+            ],
+            "read": [
+              "position",
+              "replacement"
+            ],
+            "indexAccess": {
+              "name": "shelf",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "shelf": "int[]",
+              "position": "int",
+              "replacement": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ضع 2 في replacement مع إبقاء position = 1.",
+          "instruction": "يا كمبيوتر، ضع 2 في replacement مع إبقاء position = 1.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 2;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "challenge": {
+            "output": "2\n4\n",
+            "declared": [
+              "shelf",
+              "position",
+              "replacement"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shelf": [
+                    6,
+                    2
+                  ],
+                  "position": 0,
+                  "replacement": 13
+                },
+                "output": "13\n13\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    11,
+                    3,
+                    8
+                  ],
+                  "position": 2,
+                  "replacement": 0
+                },
+                "output": "0\n11\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    5,
+                    5
+                  ],
+                  "position": 1,
+                  "replacement": 5
+                },
+                "output": "5\n5\n"
+              }
+            ],
+            "read": [
+              "position",
+              "replacement"
+            ],
+            "indexAccess": {
+              "name": "shelf",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "shelf": "int[]",
+              "position": "int",
+              "replacement": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 2;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اترك replacement = 2 وغيّر position إلى 0. توقّع لماذا تظهر قيمة واحدة مرتين.",
+          "instruction": "يا كمبيوتر، اترك replacement = 2 وغيّر position إلى 0. توقّع لماذا تظهر قيمة واحدة مرتين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] shelf = { 4, 7, 10 };\nint position = 0;\nint replacement = 2;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "challenge": {
+            "output": "2\n2\n",
+            "declared": [
+              "shelf",
+              "position",
+              "replacement"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shelf": [
+                    6,
+                    2
+                  ],
+                  "position": 0,
+                  "replacement": 13
+                },
+                "output": "13\n13\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    11,
+                    3,
+                    8
+                  ],
+                  "position": 2,
+                  "replacement": 0
+                },
+                "output": "0\n11\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    5,
+                    5
+                  ],
+                  "position": 1,
+                  "replacement": 5
+                },
+                "output": "5\n5\n"
+              }
+            ],
+            "read": [
+              "position",
+              "replacement"
+            ],
+            "indexAccess": {
+              "name": "shelf",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "shelf": "int[]",
+              "position": "int",
+              "replacement": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 0;\nint replacement = 2;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 7 ثم 12. أين ذهب التحديث؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 7 ثم 12. أين ذهب التحديث؟",
+          "options": [
+            "إلى خانة position.",
+            "إلى الخانة ذات الفهرس 0.",
+            "إلى كل الخانات."
+          ],
+          "correctOptionIndex": 1,
+          "code": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[0] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ضع position داخل الأقواس في جهة الإسناد.",
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع position داخل الأقواس في جهة الإسناد.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع position داخل الأقواس في جهة الإسناد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[0] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "solution": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "challenge": {
+            "output": "12\n4\n",
+            "declared": [
+              "shelf",
+              "position",
+              "replacement"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shelf": [
+                    6,
+                    2
+                  ],
+                  "position": 0,
+                  "replacement": 13
+                },
+                "output": "13\n13\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    11,
+                    3,
+                    8
+                  ],
+                  "position": 2,
+                  "replacement": 0
+                },
+                "output": "0\n11\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    5,
+                    5
+                  ],
+                  "position": 1,
+                  "replacement": 5
+                },
+                "output": "5\n5\n"
+              }
+            ],
+            "read": [
+              "position",
+              "replacement"
+            ],
+            "indexAccess": {
+              "name": "shelf",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "shelf": "int[]",
+              "position": "int",
+              "replacement": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، صحّح البطاقة الثالثة في shelf من 13 إلى 20. اطبع البطاقة المصححة ثم الأولى.",
+          "instruction": "يا كمبيوتر، صحّح البطاقة الثالثة في shelf من 13 إلى 20. اطبع البطاقة المصححة ثم الأولى.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] shelf = { 3, 8, 13 };\nint position = 2;\nint replacement = 20;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+          "challenge": {
+            "output": "20\n3\n",
+            "declared": [
+              "shelf",
+              "position",
+              "replacement"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "shelf": [
+                    6,
+                    2
+                  ],
+                  "position": 0,
+                  "replacement": 13
+                },
+                "output": "13\n13\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    11,
+                    3,
+                    8
+                  ],
+                  "position": 2,
+                  "replacement": 0
+                },
+                "output": "0\n11\n"
+              },
+              {
+                "inputs": {
+                  "shelf": [
+                    5,
+                    5
+                  ],
+                  "position": 1,
+                  "replacement": 5
+                },
+                "output": "5\n5\n"
+              }
+            ],
+            "read": [
+              "position",
+              "replacement"
+            ],
+            "indexAccess": {
+              "name": "shelf",
+              "mode": "write",
+              "rank": 1
+            },
+            "types": {
+              "shelf": "int[]",
+              "position": "int",
+              "replacement": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ثبت عينك على الخانة 1 قبل الإسناد وبعده.",
+            "القاعدة: الإسناد إلى عنصر يغيّر القيمة عند الفهرس المحدد. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب shelf[position] = replacement; قبل الطباعة.",
+            "كشف الحل:\nint[] shelf = { 3, 8, 13 };\nint position = 2;\nint replacement = 20;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[0] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+        "fixedCode": "int[] shelf = { 4, 7, 10 };\nint position = 1;\nint replacement = 12;\nshelf[position] = replacement;\nConsole.WriteLine(shelf[position]);\nConsole.WriteLine(shelf[0]);",
+        "question": "ظهر 7 ثم 12. أين ذهب التحديث؟",
+        "explanation": "ضع position داخل الأقواس في جهة الإسناد.",
+        "options": [
+          "إلى خانة position.",
+          "إلى الخانة ذات الفهرس 0.",
+          "إلى كل الخانات."
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-65-array-read-index"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن 4 و7 و10 في shelf. عيّن position = 1 وreplacement = 12. حدّث shelf[position]، ثم اطبعها واطبع shelf[0].",
+        "يا كمبيوتر، صحّح البطاقة الثالثة في shelf من 13 إلى 20. اطبع البطاقة المصححة ثم الأولى."
+      ],
+      "commonMisconceptions": [
+        "ضع position داخل الأقواس في جهة الإسناد."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "الخانة 0",
+          "value": "4"
+        },
+        {
+          "label": "الخانة 1",
+          "value": "7 → 12"
+        },
+        {
+          "label": "الخانة 2",
+          "value": "10"
+        }
+      ]
+    },
+    {
+      "id": "csharp-67-array-length",
+      "legacyId": "csharp:66",
+      "title": "اقرأ عدد خانات المصفوفة",
+      "skill": "المصفوفات والفهارس",
+      "order": 66,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "scores.Length تعطي عدد الخانات. إذا كان العدد 3 يكون آخر فهرس 2. المصفوفة الفارغة طولها 0.",
+      "whyUse": "تعرف عدد العناصر من المصفوفة نفسها لو اتغيّر حجم البيانات.",
+      "browserMechanics": "في لقطة حساب count يظهر Length والعدد قبل طباعته.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+      "breakdown": [
+        "كوّن scores بثلاث قيم.",
+        "اقرأ scores.Length داخل count.",
+        "اطبع count وقارنه بفهرس آخر خانة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "مرّ على المفاتيح المرقّمة ٠ و١ و٢. عدّها: عندك ثلاثة مفاتيح والفهرس المكتوب على آخر مفتاح هو ٢.",
+          "instruction": "يا كمبيوتر، مرّ على المفاتيح المرقّمة ٠ و١ و٢. عدّها: عندك ثلاثة مفاتيح والفهرس المكتوب على آخر مفتاح هو ٢.",
+          "benefit": "تعرف عدد العناصر من المصفوفة نفسها لو اتغيّر حجم البيانات.",
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "scores.Length تعطي عدد الخانات. إذا كان العدد 3 يكون آخر فهرس 2. المصفوفة الفارغة طولها 0.",
+          "code": "int[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+          "benefit": "في لقطة حساب count يظهر Length والعدد قبل طباعته.",
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب scores بالقيم 2 و6 و11. خزّن scores.Length في count ثم اطبع count.",
+          "instruction": "يا كمبيوتر، اكتب scores بالقيم 2 و6 و11. خزّن scores.Length في count ثم اطبع count.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "scores",
+              "count"
+            ],
+            "printed": [
+              "count"
+            ],
+            "operation": ".Length",
+            "operationIn": "count",
+            "cases": [
+              {
+                "inputs": {
+                  "scores": [
+                    42
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "scores": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "scores": [
+                    4,
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n"
+              }
+            ],
+            "types": {
+              "scores": "int[]",
+              "count": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، أضف القيمة 15 عند إنشاء scores. تابع العدد الجديد.",
+          "instruction": "يا كمبيوتر، أضف القيمة 15 عند إنشاء scores. تابع العدد الجديد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] scores = { 2, 6, 11, 15 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "scores",
+              "count"
+            ],
+            "printed": [
+              "count"
+            ],
+            "operation": ".Length",
+            "operationIn": "count",
+            "cases": [
+              {
+                "inputs": {
+                  "scores": [
+                    42
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "scores": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "scores": [
+                    4,
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n"
+              }
+            ],
+            "types": {
+              "scores": "int[]",
+              "count": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = { 2, 6, 11, 15 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اكتب مصفوفة فارغة باستخدام { }. ما طولها؟",
+          "instruction": "يا كمبيوتر، اكتب مصفوفة فارغة باستخدام { }. ما طولها؟",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] scores = {  };\nint count = scores.Length;\nConsole.WriteLine(count);",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "scores",
+              "count"
+            ],
+            "printed": [
+              "count"
+            ],
+            "operation": ".Length",
+            "operationIn": "count",
+            "cases": [
+              {
+                "inputs": {
+                  "scores": [
+                    42
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "scores": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "scores": [
+                    4,
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n"
+              }
+            ],
+            "types": {
+              "scores": "int[]",
+              "count": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = {  };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 2 رغم وجود ثلاث خانات. ماذا حسب السطر؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 2 رغم وجود ثلاث خانات. ماذا حسب السطر؟",
+          "options": [
+            "حسب أول قيمة.",
+            "حسب عدد الخانات.",
+            "حسب فهرس آخر خانة."
+          ],
+          "correctOptionIndex": 2,
+          "code": "int[] scores = { 2, 6, 11 };\nint count = scores.Length - 1;\nConsole.WriteLine(count);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "احفظ scores.Length نفسها في count.",
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ scores.Length نفسها في count.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ scores.Length نفسها في count.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] scores = { 2, 6, 11 };\nint count = scores.Length - 1;\nConsole.WriteLine(count);",
+          "solution": "int[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "scores",
+              "count"
+            ],
+            "printed": [
+              "count"
+            ],
+            "operation": ".Length",
+            "operationIn": "count",
+            "cases": [
+              {
+                "inputs": {
+                  "scores": [
+                    42
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "scores": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "scores": [
+                    4,
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n"
+              }
+            ],
+            "types": {
+              "scores": "int[]",
+              "count": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، أنشئ scores بخمس درجات واطبع عدد الخانات. احسب كل درجة متكررة ضمن العدد.",
+          "instruction": "يا كمبيوتر، أنشئ scores بخمس درجات واطبع عدد الخانات. احسب كل درجة متكررة ضمن العدد.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] scores = { 10, 10, 3, 1, 2 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "scores",
+              "count"
+            ],
+            "printed": [
+              "count"
+            ],
+            "operation": ".Length",
+            "operationIn": "count",
+            "cases": [
+              {
+                "inputs": {
+                  "scores": [
+                    42
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "scores": []
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "scores": [
+                    4,
+                    4,
+                    4,
+                    4
+                  ]
+                },
+                "output": "4\n"
+              }
+            ],
+            "types": {
+              "scores": "int[]",
+              "count": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اسأل عن عدد الخانات. آخر فهرس مكتوب تحته رقم أصغر بواحد.",
+            "القاعدة: Length ترجع عدد الخانات، وطول المصفوفة الفارغة 0. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int count = scores.Length; بدون أقواس بعد Length.",
+            "كشف الحل:\nint[] scores = { 10, 10, 3, 1, 2 };\nint count = scores.Length;\nConsole.WriteLine(count);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] scores = { 2, 6, 11 };\nint count = scores.Length - 1;\nConsole.WriteLine(count);",
+        "fixedCode": "int[] scores = { 2, 6, 11 };\nint count = scores.Length;\nConsole.WriteLine(count);",
+        "question": "ظهر 2 رغم وجود ثلاث خانات. ماذا حسب السطر؟",
+        "explanation": "احفظ scores.Length نفسها في count.",
+        "options": [
+          "حسب أول قيمة.",
+          "حسب عدد الخانات.",
+          "حسب فهرس آخر خانة."
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-66-array-write-index"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب scores بالقيم 2 و6 و11. خزّن scores.Length في count ثم اطبع count.",
+        "يا كمبيوتر، أنشئ scores بخمس درجات واطبع عدد الخانات. احسب كل درجة متكررة ضمن العدد."
+      ],
+      "commonMisconceptions": [
+        "احفظ scores.Length نفسها في count."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "الفهارس",
+          "value": "0 · 1 · 2"
+        },
+        {
+          "label": "عدد الخانات",
+          "value": "3"
+        },
+        {
+          "label": "آخر فهرس",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "csharp-68-array-loop-by-index",
+      "legacyId": "csharp:67",
+      "title": "مرّ على الفهارس لحد آخر خانة",
+      "skill": "المصفوفات والفهارس",
+      "order": 67,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "الحلقة تزود i بعد كل قراءة. عند i يساوي Length يتوقف الشرط i < daily.Length قبل محاولة فتح خانة خارج المصفوفة.",
+      "whyUse": "المرور يشتغل مع رف فيه خانة واحدة، رف كبير، أو رف فارغ بنفس شرط التوقف.",
+      "browserMechanics": "بعد كل شرط صالح يظهر الفهرس الحالي على الخانة. عند فشل الشرط لا تظهر قراءة جديدة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+      "breakdown": [
+        "ابدأ i عند 0.",
+        "افتح daily[i] طالما i أصغر من الطول.",
+        "حرّك i إلى الفهرس التالي."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "امشِ قدام رف فيه ثلاث خانات. قف عند الأولى، اقرأ بطاقتها، ثم تحرك خطوة. عند الفهرس ٣ ينتهي الرف.",
+          "instruction": "يا كمبيوتر، امشِ قدام رف فيه ثلاث خانات. قف عند الأولى، اقرأ بطاقتها، ثم تحرك خطوة. عند الفهرس ٣ ينتهي الرف.",
+          "benefit": "المرور يشتغل مع رف فيه خانة واحدة، رف كبير، أو رف فارغ بنفس شرط التوقف.",
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "الحلقة تزود i بعد كل قراءة. عند i يساوي Length يتوقف الشرط i < daily.Length قبل محاولة فتح خانة خارج المصفوفة.",
+          "code": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "benefit": "بعد كل شرط صالح يظهر الفهرس الحالي على الخانة. عند فشل الشرط لا تظهر قراءة جديدة.",
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن 5 و11 و8 في daily. اكتب for تبدأ من i = 0 وتفحص i < daily.Length. اطبع daily[i] داخلها.",
+          "instruction": "يا كمبيوتر، خزّن 5 و11 و8 في daily. اكتب for تبدأ من i = 0 وتفحص i < daily.Length. اطبع daily[i] داخلها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "challenge": {
+            "output": "5\n11\n8\n",
+            "declared": [
+              "daily"
+            ],
+            "operation": ".Length",
+            "cases": [
+              {
+                "inputs": {
+                  "daily": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    9
+                  ]
+                },
+                "output": "9\n"
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    3,
+                    3,
+                    -4,
+                    8
+                  ]
+                },
+                "output": "3\n3\n-4\n8\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "daily"
+              ],
+              "effect": "print"
+            },
+            "indexAccess": {
+              "name": "daily",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "daily": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، أضف قيمة 4 في آخر daily وشغّل الحلقة نفسها.",
+          "instruction": "يا كمبيوتر، أضف قيمة 4 في آخر daily وشغّل الحلقة نفسها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] daily = { 5, 11, 8, 4 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "challenge": {
+            "output": "5\n11\n8\n4\n",
+            "declared": [
+              "daily"
+            ],
+            "operation": ".Length",
+            "cases": [
+              {
+                "inputs": {
+                  "daily": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    9
+                  ]
+                },
+                "output": "9\n"
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    3,
+                    3,
+                    -4,
+                    8
+                  ]
+                },
+                "output": "3\n3\n-4\n8\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "daily"
+              ],
+              "effect": "print"
+            },
+            "indexAccess": {
+              "name": "daily",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "daily": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = { 5, 11, 8, 4 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، فرّغ daily. توقّع هل ينفذ جسم الحلقة أول مرة.",
+          "instruction": "يا كمبيوتر، فرّغ daily. توقّع هل ينفذ جسم الحلقة أول مرة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[] daily = {  };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "challenge": {
+            "output": "",
+            "declared": [
+              "daily"
+            ],
+            "operation": ".Length",
+            "cases": [
+              {
+                "inputs": {
+                  "daily": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    9
+                  ]
+                },
+                "output": "9\n"
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    3,
+                    3,
+                    -4,
+                    8
+                  ]
+                },
+                "output": "3\n3\n-4\n8\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "daily"
+              ],
+              "effect": "print"
+            },
+            "indexAccess": {
+              "name": "daily",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "daily": "int[]"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = {  };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "قرأ ثلاث خانات وبعدها حصل خطأ. ما الشرط الذي أوقف القراءة قبل الفهرس 3؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "قرأ ثلاث خانات وبعدها حصل خطأ. ما الشرط الذي أوقف القراءة قبل الفهرس 3؟",
+          "options": [
+            "i < daily.Length",
+            "i <= daily.Length",
+            "i == daily.Length"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i <= daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اخرج قبل الوصول إلى خانة فهرسها Length.",
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اخرج قبل الوصول إلى خانة فهرسها Length.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اخرج قبل الوصول إلى خانة فهرسها Length.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i <= daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "solution": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "challenge": {
+            "output": "5\n11\n8\n",
+            "declared": [
+              "daily"
+            ],
+            "operation": ".Length",
+            "cases": [
+              {
+                "inputs": {
+                  "daily": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    9
+                  ]
+                },
+                "output": "9\n"
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    3,
+                    3,
+                    -4,
+                    8
+                  ]
+                },
+                "output": "3\n3\n-4\n8\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "daily"
+              ],
+              "effect": "print"
+            },
+            "indexAccess": {
+              "name": "daily",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "daily": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع درجات 3 و7 و3 و9 في ترتيب الخانات باستخدام حلقة واحدة.",
+          "instruction": "يا كمبيوتر، اطبع درجات 3 و7 و3 و9 في ترتيب الخانات باستخدام حلقة واحدة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[] daily = { 3, 7, 3, 9 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+          "challenge": {
+            "output": "3\n7\n3\n9\n",
+            "declared": [
+              "daily"
+            ],
+            "operation": ".Length",
+            "cases": [
+              {
+                "inputs": {
+                  "daily": []
+                },
+                "output": ""
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    9
+                  ]
+                },
+                "output": "9\n"
+              },
+              {
+                "inputs": {
+                  "daily": [
+                    3,
+                    3,
+                    -4,
+                    8
+                  ]
+                },
+                "output": "3\n3\n-4\n8\n"
+              }
+            ],
+            "loop": {
+              "kind": "for",
+              "reads": [
+                "daily"
+              ],
+              "effect": "print"
+            },
+            "indexAccess": {
+              "name": "daily",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "daily": "int[]"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "تابع i قبل الدخول، وبعد طباعة آخر قيمة.",
+            "القاعدة: الفهارس الصالحة من 0 حتى Length - 1. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب for (int i = 0; i < daily.Length; i++) ثم Console.WriteLine(daily[i]); في الجسم.",
+            "كشف الحل:\nint[] daily = { 3, 7, 3, 9 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i <= daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+        "fixedCode": "int[] daily = { 5, 11, 8 };\nfor (int i = 0; i < daily.Length; i++)\n{\n    Console.WriteLine(daily[i]);\n}",
+        "question": "قرأ ثلاث خانات وبعدها حصل خطأ. ما الشرط الذي أوقف القراءة قبل الفهرس 3؟",
+        "explanation": "اخرج قبل الوصول إلى خانة فهرسها Length.",
+        "options": [
+          "i < daily.Length",
+          "i <= daily.Length",
+          "i == daily.Length"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-67-array-length"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن 5 و11 و8 في daily. اكتب for تبدأ من i = 0 وتفحص i < daily.Length. اطبع daily[i] داخلها.",
+        "يا كمبيوتر، اطبع درجات 3 و7 و3 و9 في ترتيب الخانات باستخدام حلقة واحدة."
+      ],
+      "commonMisconceptions": [
+        "اخرج قبل الوصول إلى خانة فهرسها Length."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "ابدأ",
+          "value": "i = 0"
+        },
+        {
+          "label": "اقرأ ثم تحرك",
+          "value": "daily[i]"
+        },
+        {
+          "label": "توقف",
+          "value": "i == Length"
+        }
+      ]
+    },
+    {
+      "id": "csharp-69-string-index-character",
+      "legacyId": "csharp:68",
+      "title": "اقرأ حرفًا واحدًا من النص",
+      "skill": "المصفوفات والفهارس",
+      "order": 68,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "word[position] ترجع قيمة char واحدة. مع هذه الحروف كل موقع يعطي حرفًا. الفهرسة تتعامل مع وحدات UTF-16، وبعض الرموز مثل الإيموجي تحتاج وحدتين.",
+      "whyUse": "تختار الحرف أو الرقم الظاهر عند موضع محدد في بطاقة مكتوبة.",
+      "browserMechanics": "بتتبّع الإسناد يظهر موقع الوحدة المختارة، ونوع symbol في جدول القيم هو char.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.string.chars",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+      "breakdown": [
+        "خزّن النص في word.",
+        "اختر فهرس الحرف في position.",
+        "خزّن char symbol من word[position] واطبعها."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "بطاقة عليها كلمة «نور». اختار الحرف عند بداية الكلمة، ثم تحرك للحرف الذي بعده.",
+          "instruction": "يا كمبيوتر، بطاقة عليها كلمة «نور». اختار الحرف عند بداية الكلمة، ثم تحرك للحرف الذي بعده.",
+          "benefit": "تختار الحرف أو الرقم الظاهر عند موضع محدد في بطاقة مكتوبة.",
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "word[position] ترجع قيمة char واحدة. مع هذه الحروف كل موقع يعطي حرفًا. الفهرسة تتعامل مع وحدات UTF-16، وبعض الرموز مثل الإيموجي تحتاج وحدتين.",
+          "code": "string word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+          "benefit": "بتتبّع الإسناد يظهر موقع الوحدة المختارة، ونوع symbol في جدول القيم هو char.",
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن \"نور\" في word و0 في position. خزّن word[position] في char symbol واطبعها.",
+          "instruction": "يا كمبيوتر، خزّن \"نور\" في word و0 في position. خزّن word[position] في char symbol واطبعها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+          "challenge": {
+            "output": "ن\n",
+            "declared": [
+              "word",
+              "position",
+              "symbol"
+            ],
+            "printed": [
+              "symbol"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "word": "مدرسة",
+                  "position": 0
+                },
+                "output": "م\n"
+              },
+              {
+                "inputs": {
+                  "word": "A17",
+                  "position": 2
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "word": "B",
+                  "position": 0
+                },
+                "output": "B\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "word",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "word": "string",
+              "position": "int",
+              "symbol": "char"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، ضع position = 1. راقب الحرف الأوسط.",
+          "instruction": "يا كمبيوتر، ضع position = 1. راقب الحرف الأوسط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string word = \"نور\";\nint position = 1;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+          "challenge": {
+            "output": "و\n",
+            "declared": [
+              "word",
+              "position",
+              "symbol"
+            ],
+            "printed": [
+              "symbol"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "word": "مدرسة",
+                  "position": 0
+                },
+                "output": "م\n"
+              },
+              {
+                "inputs": {
+                  "word": "A17",
+                  "position": 2
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "word": "B",
+                  "position": 0
+                },
+                "output": "B\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "word",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "word": "string",
+              "position": "int",
+              "symbol": "char"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 1;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، ضع position = 2. هل تظهر الخانة الأخيرة؟",
+          "instruction": "يا كمبيوتر، ضع position = 2. هل تظهر الخانة الأخيرة؟",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string word = \"نور\";\nint position = 2;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+          "challenge": {
+            "output": "ر\n",
+            "declared": [
+              "word",
+              "position",
+              "symbol"
+            ],
+            "printed": [
+              "symbol"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "word": "مدرسة",
+                  "position": 0
+                },
+                "output": "م\n"
+              },
+              {
+                "inputs": {
+                  "word": "A17",
+                  "position": 2
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "word": "B",
+                  "position": 0
+                },
+                "output": "B\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "word",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "word": "string",
+              "position": "int",
+              "symbol": "char"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 2;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهرت و. ما التعبير الذي يقرأ الحرف من position؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهرت و. ما التعبير الذي يقرأ الحرف من position؟",
+          "options": [
+            "word[1]",
+            "word[position]",
+            "word.Length"
+          ],
+          "correctOptionIndex": 1,
+          "code": "string word = \"نور\";\nint position = 0;\nchar symbol = word[1];\nConsole.WriteLine(symbol);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم position بين الأقواس المربعة حتى تختار الموضع.",
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم position بين الأقواس المربعة حتى تختار الموضع.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم position بين الأقواس المربعة حتى تختار الموضع.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string word = \"نور\";\nint position = 0;\nchar symbol = word[1];\nConsole.WriteLine(symbol);",
+          "solution": "string word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+          "challenge": {
+            "output": "ن\n",
+            "declared": [
+              "word",
+              "position",
+              "symbol"
+            ],
+            "printed": [
+              "symbol"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "word": "مدرسة",
+                  "position": 0
+                },
+                "output": "م\n"
+              },
+              {
+                "inputs": {
+                  "word": "A17",
+                  "position": 2
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "word": "B",
+                  "position": 0
+                },
+                "output": "B\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "word",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "word": "string",
+              "position": "int",
+              "symbol": "char"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، احفظ رمز التذكرة \"R45\" واستخرج char في الفهرس 2. اطبعه كما يظهر على البطاقة.",
+          "instruction": "يا كمبيوتر، احفظ رمز التذكرة \"R45\" واستخرج char في الفهرس 2. اطبعه كما يظهر على البطاقة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string word = \"R45\";\nint position = 2;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+          "challenge": {
+            "output": "5\n",
+            "declared": [
+              "word",
+              "position",
+              "symbol"
+            ],
+            "printed": [
+              "symbol"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "word": "مدرسة",
+                  "position": 0
+                },
+                "output": "م\n"
+              },
+              {
+                "inputs": {
+                  "word": "A17",
+                  "position": 2
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "word": "B",
+                  "position": 0
+                },
+                "output": "B\n"
+              }
+            ],
+            "read": [
+              "position"
+            ],
+            "indexAccess": {
+              "name": "word",
+              "mode": "read",
+              "rank": 1
+            },
+            "types": {
+              "word": "string",
+              "position": "int",
+              "symbol": "char"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "اختيار position = 0 يتجه لأول حرف محفوظ في النص.",
+            "القاعدة: قراءة موقع في string تنتج char. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب char symbol = word[position];.",
+            "كشف الحل:\nstring word = \"R45\";\nint position = 2;\nchar symbol = word[position];\nConsole.WriteLine(symbol);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string word = \"نور\";\nint position = 0;\nchar symbol = word[1];\nConsole.WriteLine(symbol);",
+        "fixedCode": "string word = \"نور\";\nint position = 0;\nchar symbol = word[position];\nConsole.WriteLine(symbol);",
+        "question": "ظهرت و. ما التعبير الذي يقرأ الحرف من position؟",
+        "explanation": "استخدم position بين الأقواس المربعة حتى تختار الموضع.",
+        "options": [
+          "word[1]",
+          "word[position]",
+          "word.Length"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-68-array-loop-by-index"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن \"نور\" في word و0 في position. خزّن word[position] في char symbol واطبعها.",
+        "يا كمبيوتر، احفظ رمز التذكرة \"R45\" واستخرج char في الفهرس 2. اطبعه كما يظهر على البطاقة."
+      ],
+      "commonMisconceptions": [
+        "استخدم position بين الأقواس المربعة حتى تختار الموضع."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "الفهرس 0",
+          "value": "ن"
+        },
+        {
+          "label": "الفهرس 1",
+          "value": "و"
+        },
+        {
+          "label": "الفهرس 2",
+          "value": "ر"
+        }
+      ]
+    },
+    {
+      "id": "csharp-70-matrix-row-column",
+      "legacyId": "csharp:69",
+      "title": "اختر الصف ثم العمود",
+      "skill": "المصفوفات والفهارس",
+      "order": 69,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "في seats[row, column] الفهرس الأول يحدد الصف، والثاني يحدد العمود داخل الصف. الفهرسان يبدأان من 0.",
+      "whyUse": "تصل لكرسي واحد في شبكة لها عدد صفوف مختلف عن عدد الأعمدة.",
+      "browserMechanics": "فيلم التنفيذ يبيّن رقم الصف والعمود، ويضيء الخانة عند التقاطع.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+      "breakdown": [
+        "اكتب صفين داخل seats من النوع int[,].",
+        "اختر row = 1 وcolumn = 2.",
+        "احفظ القيمـة عند التقاطع في ticket."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "صالة فيها صفّين وثلاثة أعمدة. قف عند الصف الثاني، ثم تحرك داخل هذا الصف للعمود الثالث واقرأ رقم التذكرة.",
+          "instruction": "يا كمبيوتر، صالة فيها صفّين وثلاثة أعمدة. قف عند الصف الثاني، ثم تحرك داخل هذا الصف للعمود الثالث واقرأ رقم التذكرة.",
+          "benefit": "تصل لكرسي واحد في شبكة لها عدد صفوف مختلف عن عدد الأعمدة.",
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "في seats[row, column] الفهرس الأول يحدد الصف، والثاني يحدد العمود داخل الصف. الفهرسان يبدأان من 0.",
+          "code": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+          "benefit": "فيلم التنفيذ يبيّن رقم الصف والعمود، ويضيء الخانة عند التقاطع.",
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب int[,] seats بصف أول 10 و11 و12 وصف ثانٍ 20 و21 و22. استخدم row = 1 وcolumn = 2 لقراءة ticket واطبعها.",
+          "instruction": "يا كمبيوتر، اكتب int[,] seats بصف أول 10 و11 و12 وصف ثانٍ 20 و21 و22. استخدم row = 1 وcolumn = 2 لقراءة ticket واطبعها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+          "challenge": {
+            "output": "22\n",
+            "declared": [
+              "seats",
+              "row",
+              "column",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      9,
+                      4,
+                      7
+                    ],
+                    [
+                      5,
+                      6,
+                      8
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      10,
+                      11
+                    ],
+                    [
+                      20,
+                      21
+                    ],
+                    [
+                      30,
+                      31
+                    ]
+                  ],
+                  "row": 2,
+                  "column": 1
+                },
+                "output": "31\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      2
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 0
+                },
+                "output": "2\n"
+              }
+            ],
+            "read": [
+              "row",
+              "column"
+            ],
+            "indexAccess": {
+              "name": "seats",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "seats": "int[,]",
+              "row": "int",
+              "column": "int",
+              "ticket": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، اترك الصف 1 وغيّر column إلى 0.",
+          "instruction": "يا كمبيوتر، اترك الصف 1 وغيّر column إلى 0.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 0;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+          "challenge": {
+            "output": "20\n",
+            "declared": [
+              "seats",
+              "row",
+              "column",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      9,
+                      4,
+                      7
+                    ],
+                    [
+                      5,
+                      6,
+                      8
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      10,
+                      11
+                    ],
+                    [
+                      20,
+                      21
+                    ],
+                    [
+                      30,
+                      31
+                    ]
+                  ],
+                  "row": 2,
+                  "column": 1
+                },
+                "output": "31\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      2
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 0
+                },
+                "output": "2\n"
+              }
+            ],
+            "read": [
+              "row",
+              "column"
+            ],
+            "indexAccess": {
+              "name": "seats",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "seats": "int[,]",
+              "row": "int",
+              "column": "int",
+              "ticket": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 0;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، غيّر row إلى 0 مع column = 0. أي قيمة تقع عند بداية الصف الأول؟",
+          "instruction": "يا كمبيوتر، غيّر row إلى 0 مع column = 0. أي قيمة تقع عند بداية الصف الأول؟",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 0;\nint column = 0;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+          "challenge": {
+            "output": "10\n",
+            "declared": [
+              "seats",
+              "row",
+              "column",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      9,
+                      4,
+                      7
+                    ],
+                    [
+                      5,
+                      6,
+                      8
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      10,
+                      11
+                    ],
+                    [
+                      20,
+                      21
+                    ],
+                    [
+                      30,
+                      31
+                    ]
+                  ],
+                  "row": 2,
+                  "column": 1
+                },
+                "output": "31\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      2
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 0
+                },
+                "output": "2\n"
+              }
+            ],
+            "read": [
+              "row",
+              "column"
+            ],
+            "indexAccess": {
+              "name": "seats",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "seats": "int[,]",
+              "row": "int",
+              "column": "int",
+              "ticket": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 0;\nint column = 0;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهرت رسالة أن الصف 2 خارج الحدود. أي ترتيب يذهب للصف الثاني والعمود الثالث؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهرت رسالة أن الصف 2 خارج الحدود. أي ترتيب يذهب للصف الثاني والعمود الثالث؟",
+          "options": [
+            "seats[column, row]",
+            "seats[row, row]",
+            "seats[row, column]"
+          ],
+          "correctOptionIndex": 2,
+          "code": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[column, row];\nConsole.WriteLine(ticket);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اختر row أولا، ثم column.",
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختر row أولا، ثم column.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختر row أولا، ثم column.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[column, row];\nConsole.WriteLine(ticket);",
+          "solution": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+          "challenge": {
+            "output": "22\n",
+            "declared": [
+              "seats",
+              "row",
+              "column",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      9,
+                      4,
+                      7
+                    ],
+                    [
+                      5,
+                      6,
+                      8
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      10,
+                      11
+                    ],
+                    [
+                      20,
+                      21
+                    ],
+                    [
+                      30,
+                      31
+                    ]
+                  ],
+                  "row": 2,
+                  "column": 1
+                },
+                "output": "31\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      2
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 0
+                },
+                "output": "2\n"
+              }
+            ],
+            "read": [
+              "row",
+              "column"
+            ],
+            "indexAccess": {
+              "name": "seats",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "seats": "int[,]",
+              "row": "int",
+              "column": "int",
+              "ticket": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، أنشئ ثلاث صفوف بقيم 1 و2 ثم 3 و4 ثم 5 و6. اطبع قيمة الصف 2 والعمود 1.",
+          "instruction": "يا كمبيوتر، أنشئ ثلاث صفوف بقيم 1 و2 ثم 3 و4 ثم 5 و6. اطبع قيمة الصف 2 والعمود 1.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[,] seats = { { 1, 2 }, { 3, 4 }, { 5, 6 } };\nint row = 2;\nint column = 1;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+          "challenge": {
+            "output": "6\n",
+            "declared": [
+              "seats",
+              "row",
+              "column",
+              "ticket"
+            ],
+            "printed": [
+              "ticket"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      9,
+                      4,
+                      7
+                    ],
+                    [
+                      5,
+                      6,
+                      8
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 1
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      10,
+                      11
+                    ],
+                    [
+                      20,
+                      21
+                    ],
+                    [
+                      30,
+                      31
+                    ]
+                  ],
+                  "row": 2,
+                  "column": 1
+                },
+                "output": "31\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      2
+                    ]
+                  ],
+                  "row": 0,
+                  "column": 0
+                },
+                "output": "2\n"
+              }
+            ],
+            "read": [
+              "row",
+              "column"
+            ],
+            "indexAccess": {
+              "name": "seats",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "seats": "int[,]",
+              "row": "int",
+              "column": "int",
+              "ticket": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "حدد الصف 1 كاملًا، ثم ابحث داخل الصف عن العمود 2.",
+            "القاعدة: صف أولًا ثم عمود في الوصول إلى مصفوفة ثنائية. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int ticket = seats[row, column];.",
+            "كشف الحل:\nint[,] seats = { { 1, 2 }, { 3, 4 }, { 5, 6 } };\nint row = 2;\nint column = 1;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[column, row];\nConsole.WriteLine(ticket);",
+        "fixedCode": "int[,] seats = { { 10, 11, 12 }, { 20, 21, 22 } };\nint row = 1;\nint column = 2;\nint ticket = seats[row, column];\nConsole.WriteLine(ticket);",
+        "question": "ظهرت رسالة أن الصف 2 خارج الحدود. أي ترتيب يذهب للصف الثاني والعمود الثالث؟",
+        "explanation": "اختر row أولا، ثم column.",
+        "options": [
+          "seats[column, row]",
+          "seats[row, row]",
+          "seats[row, column]"
+        ],
+        "correctOptionIndex": 2
+      },
+      "prerequisites": [
+        "csharp-69-string-index-character"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب int[,] seats بصف أول 10 و11 و12 وصف ثانٍ 20 و21 و22. استخدم row = 1 وcolumn = 2 لقراءة ticket واطبعها.",
+        "يا كمبيوتر، أنشئ ثلاث صفوف بقيم 1 و2 ثم 3 و4 ثم 5 و6. اطبع قيمة الصف 2 والعمود 1."
+      ],
+      "commonMisconceptions": [
+        "اختر row أولا، ثم column."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "الصف 0",
+          "value": "10 · 11 · 12"
+        },
+        {
+          "label": "الصف 1",
+          "value": "20 · 21 · 22"
+        },
+        {
+          "label": "الخانة المطلوبة",
+          "value": "[1, 2] → 22"
+        }
+      ]
+    },
+    {
+      "id": "csharp-71-matrix-dimension-lengths",
+      "legacyId": "csharp:70",
+      "title": "احسب الصفوف والأعمدة كلٌ بطوله",
+      "skill": "المصفوفات والفهارس",
+      "order": 70,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "GetLength(0) تعيد عدد الصفوف، وGetLength(1) تعيد عدد الأعمدة. Length تعيد عدد العناصر الكلي في المصفوفة.",
+      "whyUse": "أي مرور في صف يحتاج عدد الأعمدة، حتى لو كان عدد الصفوف مختلفًا.",
+      "browserMechanics": "في لقطة كل إسناد يظهر رقم البعد الذي قرأته ونتيجته في rows أو columns.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.array.getlength",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+      "breakdown": [
+        "اقرأ GetLength(0) في rows.",
+        "اقرأ GetLength(1) في columns.",
+        "اطبع الصفوف ثم الأعمدة."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عندك لافتة تعرض مقاس صالة: صفّان، وفي كل صف ثلاثة مقاعد. محتاج تجيب الرقمين وتكتب كل واحد في خانته.",
+          "instruction": "يا كمبيوتر، عندك لافتة تعرض مقاس صالة: صفّان، وفي كل صف ثلاثة مقاعد. محتاج تجيب الرقمين وتكتب كل واحد في خانته.",
+          "benefit": "أي مرور في صف يحتاج عدد الأعمدة، حتى لو كان عدد الصفوف مختلفًا.",
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "GetLength(0) تعيد عدد الصفوف، وGetLength(1) تعيد عدد الأعمدة. Length تعيد عدد العناصر الكلي في المصفوفة.",
+          "code": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "benefit": "في لقطة كل إسناد يظهر رقم البعد الذي قرأته ونتيجته في rows أو columns.",
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، اكتب seats بصفين، كل صف 3 قيم. خزّن عدد الصفوف في rows وعدد الأعمدة في columns باستخدام GetLength، ثم اطبعهما.",
+          "instruction": "يا كمبيوتر، اكتب seats بصفين، كل صف 3 قيم. خزّن عدد الصفوف في rows وعدد الأعمدة في columns باستخدام GetLength، ثم اطبعهما.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "challenge": {
+            "output": "2\n3\n",
+            "declared": [
+              "seats",
+              "rows",
+              "columns"
+            ],
+            "printed": [
+              "rows",
+              "columns"
+            ],
+            "operation": ".GetLength",
+            "operationIn": "columns",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  ]
+                },
+                "output": "1\n4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      4
+                    ],
+                    [
+                      5
+                    ],
+                    [
+                      6
+                    ]
+                  ]
+                },
+                "output": "3\n1\n"
+              },
+              {
+                "inputs": {
+                  "seats": []
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "types": {
+              "seats": "int[,]",
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، مدّ الصفين بإضافة عمود رابع فقط. راقب columns.",
+          "instruction": "يا كمبيوتر، مدّ الصفين بإضافة عمود رابع فقط. راقب columns.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[,] seats = { { 1, 2, 3, 7 }, { 4, 5, 6, 8 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "challenge": {
+            "output": "2\n4\n",
+            "declared": [
+              "seats",
+              "rows",
+              "columns"
+            ],
+            "printed": [
+              "rows",
+              "columns"
+            ],
+            "operation": ".GetLength",
+            "operationIn": "columns",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  ]
+                },
+                "output": "1\n4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      4
+                    ],
+                    [
+                      5
+                    ],
+                    [
+                      6
+                    ]
+                  ]
+                },
+                "output": "3\n1\n"
+              },
+              {
+                "inputs": {
+                  "seats": []
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "types": {
+              "seats": "int[,]",
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 1, 2, 3, 7 }, { 4, 5, 6, 8 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب ثلاثة صفوف، في كل واحد عمودان. اطبع العددين.",
+          "instruction": "يا كمبيوتر، جرّب ثلاثة صفوف، في كل واحد عمودان. اطبع العددين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[,] seats = { { 3, 4 }, { 5, 6 }, { 7, 8 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "challenge": {
+            "output": "3\n2\n",
+            "declared": [
+              "seats",
+              "rows",
+              "columns"
+            ],
+            "printed": [
+              "rows",
+              "columns"
+            ],
+            "operation": ".GetLength",
+            "operationIn": "columns",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  ]
+                },
+                "output": "1\n4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      4
+                    ],
+                    [
+                      5
+                    ],
+                    [
+                      6
+                    ]
+                  ]
+                },
+                "output": "3\n1\n"
+              },
+              {
+                "inputs": {
+                  "seats": []
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "types": {
+              "seats": "int[,]",
+              "rows": "int",
+              "columns": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 3, 4 }, { 5, 6 }, { 7, 8 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 2 ثم 6. ماذا تستخدم لعدد الأعمدة فقط؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 2 ثم 6. ماذا تستخدم لعدد الأعمدة فقط؟",
+          "options": [
+            "seats.GetLength(1)",
+            "seats.Length",
+            "seats.GetLength(0)"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.Length;\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اقرأ طول البعد 1 لوحده.",
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ طول البعد 1 لوحده.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ طول البعد 1 لوحده.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.Length;\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "solution": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "challenge": {
+            "output": "2\n3\n",
+            "declared": [
+              "seats",
+              "rows",
+              "columns"
+            ],
+            "printed": [
+              "rows",
+              "columns"
+            ],
+            "operation": ".GetLength",
+            "operationIn": "columns",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  ]
+                },
+                "output": "1\n4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      4
+                    ],
+                    [
+                      5
+                    ],
+                    [
+                      6
+                    ]
+                  ]
+                },
+                "output": "3\n1\n"
+              },
+              {
+                "inputs": {
+                  "seats": []
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "types": {
+              "seats": "int[,]",
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، اطبع عدد الصفوف والأعمدة في صالة فيها أربعة صفوف بعمود واحد.",
+          "instruction": "يا كمبيوتر، اطبع عدد الصفوف والأعمدة في صالة فيها أربعة صفوف بعمود واحد.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[,] seats = { { 12 }, { 14 }, { 16 }, { 18 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+          "challenge": {
+            "output": "4\n1\n",
+            "declared": [
+              "seats",
+              "rows",
+              "columns"
+            ],
+            "printed": [
+              "rows",
+              "columns"
+            ],
+            "operation": ".GetLength",
+            "operationIn": "columns",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  ]
+                },
+                "output": "1\n4\n"
+              },
+              {
+                "inputs": {
+                  "seats": [
+                    [
+                      4
+                    ],
+                    [
+                      5
+                    ],
+                    [
+                      6
+                    ]
+                  ]
+                },
+                "output": "3\n1\n"
+              },
+              {
+                "inputs": {
+                  "seats": []
+                },
+                "output": "0\n0\n"
+              }
+            ],
+            "types": {
+              "seats": "int[,]",
+              "rows": "int",
+              "columns": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ارجع لرقم البعد قبل اختيار القيمة.",
+            "القاعدة: البعد 0 يحصي الصفوف والبعد 1 يحصي الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int rows = seats.GetLength(0); وint columns = seats.GetLength(1);.",
+            "كشف الحل:\nint[,] seats = { { 12 }, { 14 }, { 16 }, { 18 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.Length;\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+        "fixedCode": "int[,] seats = { { 1, 2, 3 }, { 4, 5, 6 } };\nint rows = seats.GetLength(0);\nint columns = seats.GetLength(1);\nConsole.WriteLine(rows);\nConsole.WriteLine(columns);",
+        "question": "ظهر 2 ثم 6. ماذا تستخدم لعدد الأعمدة فقط؟",
+        "explanation": "اقرأ طول البعد 1 لوحده.",
+        "options": [
+          "seats.GetLength(1)",
+          "seats.Length",
+          "seats.GetLength(0)"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-70-matrix-row-column"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، اكتب seats بصفين، كل صف 3 قيم. خزّن عدد الصفوف في rows وعدد الأعمدة في columns باستخدام GetLength، ثم اطبعهما.",
+        "يا كمبيوتر، اطبع عدد الصفوف والأعمدة في صالة فيها أربعة صفوف بعمود واحد."
+      ],
+      "commonMisconceptions": [
+        "اقرأ طول البعد 1 لوحده."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "اتجاه الصفوف",
+          "value": "GetLength(0) → 2"
+        },
+        {
+          "label": "اتجاه الأعمدة",
+          "value": "GetLength(1) → 3"
+        },
+        {
+          "label": "المقاعد معًا",
+          "value": "Length → 6"
+        }
+      ]
+    },
+    {
+      "id": "csharp-72-matrix-free-seats",
+      "legacyId": "csharp:71",
+      "title": "عدّ المقاعد الفارغة صفًا بعد صف",
+      "skill": "المصفوفات والفهارس",
+      "order": 71,
+      "unitId": "arrays-and-indexing",
+      "revision": 1,
+      "concept": "الحلقة الخارجية تتحرك بين الصفوف. مع كل صف تبدأ الداخلية من العمود 0 وتقرأ الخانات، والعداد يتغير فقط عند رؤية 0.",
+      "whyUse": "تقدر تعدّ الأماكن المتاحة في غرفة بأي مقاس ضمن نموذج المصفوفة.",
+      "browserMechanics": "اسم الحلقة ورقم دورتها يظلان ظاهرين. خانة واحدة تضاء عند كل شرط، وتقدر ترجع للّقطة السابقة قبل زيادة free.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int[,] map = { { 1, 0, 1 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+      "breakdown": [
+        "ابدأ free عند 0.",
+        "خذ صفًا ثم مرّ على كل أعمدته.",
+        "زود free إذا كانت الخانة 0 ثم اطبعه بعد الحلقتين."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "مشرف يمر على كل كرسي. إذا وجد بطاقة ٠ يزود عدد الكراسي الفارغة. يكمل الصف الحالي قبل ما يبدأ صفًا جديدًا.",
+          "instruction": "يا كمبيوتر، مشرف يمر على كل كرسي. إذا وجد بطاقة ٠ يزود عدد الكراسي الفارغة. يكمل الصف الحالي قبل ما يبدأ صفًا جديدًا.",
+          "benefit": "تقدر تعدّ الأماكن المتاحة في غرفة بأي مقاس ضمن نموذج المصفوفة.",
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 0, 1 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "الحلقة الخارجية تتحرك بين الصفوف. مع كل صف تبدأ الداخلية من العمود 0 وتقرأ الخانات، والعداد يتغير فقط عند رؤية 0.",
+          "code": "int[,] map = { { 1, 0, 1 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "benefit": "اسم الحلقة ورقم دورتها يظلان ظاهرين. خانة واحدة تضاء عند كل شرط، وتقدر ترجع للّقطة السابقة قبل زيادة free.",
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 0, 1 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن خريطة صفّي المقاعد 1 و0 و1 ثم 0 و0 و1 في map. مرّ على row ثم column، وزد free عندما تكون الخانة 0. اطبع free بعد الحلقتين.",
+          "instruction": "يا كمبيوتر، خزّن خريطة صفّي المقاعد 1 و0 و1 ثم 0 و0 و1 في map. مرّ على row ثم column، وزد free عندما تكون الخانة 0. اطبع free بعد الحلقتين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int[,] map = { { 1, 0, 1 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "map",
+              "free"
+            ],
+            "printed": [
+              "free"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1,
+                      0
+                    ]
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      0
+                    ],
+                    [
+                      1
+                    ],
+                    [
+                      0
+                    ]
+                  ]
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "map": []
+                },
+                "output": "0\n"
+              }
+            ],
+            "conditionReads": [
+              "map"
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "map"
+              ],
+              "effect": "free"
+            },
+            "indexAccess": {
+              "name": "map",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "map": "int[,]",
+              "free": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 0, 1 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر الكرسي الأخير في الصف الأول من 1 إلى 0. ما العدد الجديد؟",
+          "instruction": "يا كمبيوتر، غيّر الكرسي الأخير في الصف الأول من 1 إلى 0. ما العدد الجديد؟",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[,] map = { { 1, 0, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "map",
+              "free"
+            ],
+            "printed": [
+              "free"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1,
+                      0
+                    ]
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      0
+                    ],
+                    [
+                      1
+                    ],
+                    [
+                      0
+                    ]
+                  ]
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "map": []
+                },
+                "output": "0\n"
+              }
+            ],
+            "conditionReads": [
+              "map"
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "map"
+              ],
+              "effect": "free"
+            },
+            "indexAccess": {
+              "name": "map",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "map": "int[,]",
+              "free": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 0, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب صالة كل مقاعدها محجوزة. تابع الشرط والعداد.",
+          "instruction": "يا كمبيوتر، جرّب صالة كل مقاعدها محجوزة. تابع الشرط والعداد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int[,] map = { { 1, 1, 1 }, { 1, 1, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "map",
+              "free"
+            ],
+            "printed": [
+              "free"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1,
+                      0
+                    ]
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      0
+                    ],
+                    [
+                      1
+                    ],
+                    [
+                      0
+                    ]
+                  ]
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "map": []
+                },
+                "output": "0\n"
+              }
+            ],
+            "conditionReads": [
+              "map"
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "map"
+              ],
+              "effect": "free"
+            },
+            "indexAccess": {
+              "name": "map",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "map": "int[,]",
+              "free": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 1, 1 }, { 1, 1, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "البرنامج عدّ كرسيين وترك آخر عمود. أي شرط يسمح بالمرور على كل أعمدة الصف؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "البرنامج عدّ كرسيين وترك آخر عمود. أي شرط يسمح بالمرور على كل أعمدة الصف؟",
+          "options": [
+            "column < map.GetLength(0)",
+            "column < map.GetLength(1)",
+            "column < row"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(0); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "في الحلقة الداخلية استخدم طول البعد 1 للأعمدة.",
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. في الحلقة الداخلية استخدم طول البعد 1 للأعمدة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. في الحلقة الداخلية استخدم طول البعد 1 للأعمدة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(0); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "solution": "int[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "map",
+              "free"
+            ],
+            "printed": [
+              "free"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1,
+                      0
+                    ]
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      0
+                    ],
+                    [
+                      1
+                    ],
+                    [
+                      0
+                    ]
+                  ]
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "map": []
+                },
+                "output": "0\n"
+              }
+            ],
+            "conditionReads": [
+              "map"
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "map"
+              ],
+              "effect": "free"
+            },
+            "indexAccess": {
+              "name": "map",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "map": "int[,]",
+              "free": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، كرّر العد في ثلاثة صفوف: 1 و0 ثم 0 و1 ثم 0 و0. اطبع عدد المقاعد الفارغة.",
+          "instruction": "يا كمبيوتر، كرّر العد في ثلاثة صفوف: 1 و0 ثم 0 و1 ثم 0 و0. اطبع عدد المقاعد الفارغة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int[,] map = { { 1, 0 }, { 0, 1 }, { 0, 0 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "map",
+              "free"
+            ],
+            "printed": [
+              "free"
+            ],
+            "cases": [
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1,
+                      0
+                    ]
+                  ]
+                },
+                "output": "1\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      0
+                    ],
+                    [
+                      1
+                    ],
+                    [
+                      0
+                    ]
+                  ]
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "map": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ]
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "map": []
+                },
+                "output": "0\n"
+              }
+            ],
+            "conditionReads": [
+              "map"
+            ],
+            "loop": {
+              "kind": "for",
+              "depth": 2,
+              "reads": [
+                "map"
+              ],
+              "effect": "free"
+            },
+            "indexAccess": {
+              "name": "map",
+              "mode": "read",
+              "rank": 2
+            },
+            "types": {
+              "map": "int[,]",
+              "free": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راقب العمود يرجع إلى 0 مع بداية كل صف.",
+            "القاعدة: طول الحلقة الداخلية يأتي من عدد الأعمدة. هل حددت الجزء الذي تحتاج تغييره؟",
+            "استخدم row < map.GetLength(0) وcolumn < map.GetLength(1) ثم if (map[row, column] == 0) { free++; }.",
+            "كشف الحل:\nint[,] map = { { 1, 0 }, { 0, 1 }, { 0, 0 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(0); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+        "fixedCode": "int[,] map = { { 1, 1, 0 }, { 0, 0, 1 } };\nint free = 0;\nfor (int row = 0; row < map.GetLength(0); row++)\n{\n    for (int column = 0; column < map.GetLength(1); column++)\n    {\n        if (map[row, column] == 0)\n        {\n            free++;\n        }\n    }\n}\nConsole.WriteLine(free);",
+        "question": "البرنامج عدّ كرسيين وترك آخر عمود. أي شرط يسمح بالمرور على كل أعمدة الصف؟",
+        "explanation": "في الحلقة الداخلية استخدم طول البعد 1 للأعمدة.",
+        "options": [
+          "column < map.GetLength(0)",
+          "column < map.GetLength(1)",
+          "column < row"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-71-matrix-dimension-lengths"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن خريطة صفّي المقاعد 1 و0 و1 ثم 0 و0 و1 في map. مرّ على row ثم column، وزد free عندما تكون الخانة 0. اطبع free بعد الحلقتين.",
+        "يا كمبيوتر، كرّر العد في ثلاثة صفوف: 1 و0 ثم 0 و1 ثم 0 و0. اطبع عدد المقاعد الفارغة."
+      ],
+      "commonMisconceptions": [
+        "في الحلقة الداخلية استخدم طول البعد 1 للأعمدة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "خريطة مقاعد وبطاقات مرقّمة",
+      "sceneVisual": [
+        {
+          "label": "الصف 0",
+          "value": "1 · 0 · 1"
+        },
+        {
+          "label": "الصف 1",
+          "value": "0 · 0 · 1"
+        },
+        {
+          "label": "الكراسي الفارغة",
+          "value": "3"
         }
       ]
     }
