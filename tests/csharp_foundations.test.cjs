@@ -13,9 +13,8 @@ const memoryStorage = () => { const entries = new Map(); return { getItem: k => 
 test("C# unit uses the canonical schema, stable prerequisites, and synchronized production content", () => {
   const result = validateCurriculumData(data);
   assert.equal(result.valid, true, result.errors.join("\n"));
-  assert.equal(data.lessons.length, 24);
-  assert.equal(data.units.length, 3);
-  assert.equal(new Set(data.lessons.map(l => l.id)).size, 24);
+  assert.equal(data.lessons.length, data.totalLessons);
+  assert.equal(new Set(data.lessons.map(l => l.id)).size, data.lessons.length);
   for (const [index, lesson] of data.lessons.entries()) {
     assert.equal(lesson.order, index);
     assert.deepEqual(lesson.prerequisites, index ? [data.lessons[index - 1].id] : []);
@@ -26,11 +25,19 @@ test("C# unit uses the canonical schema, stable prerequisites, and synchronized 
   }
   const raw = fs.readFileSync(path.join(root, "csharp-lessons.json"));
   assert.deepEqual(fs.readFileSync(path.join(root, "public/csharp-lessons.json")), raw);
-  for (const [file, start] of [["unit_01_first_programs.json",0],["unit_02_booleans_decisions.json",8],["unit_03_compound_decisions.json",16]]) {
-    const unit=JSON.parse(fs.readFileSync(path.join(root,"curriculum/csharp",file),"utf8"));
-    assert.deepEqual(unit.lessons,data.lessons.slice(start,start+8));
-    assert.equal(validateCurriculumData(unit).valid,true);
+  const unitDir = path.join(root, "curriculum/csharp");
+  const files = fs.readdirSync(unitDir).filter(name => /^unit_\d+_.+\.json$/.test(name)).sort();
+  assert.equal(data.units.length, files.length);
+  let start = 0;
+  for (const [order, file] of files.entries()) {
+    const unit = JSON.parse(fs.readFileSync(path.join(unitDir, file), "utf8"));
+    const end = start + unit.lessons.length;
+    assert.deepEqual(unit.lessons, data.lessons.slice(start, end));
+    assert.deepEqual(data.units[order].lessonIds, unit.lessons.map(lesson => lesson.id));
+    assert.equal(validateCurriculumData(unit).valid, true);
+    start = end;
   }
+  assert.equal(start, data.lessons.length);
 });
 
 for (const lesson of data.lessons) {
@@ -72,6 +79,40 @@ test("Arithmetic uses precedence, parentheses, integer division toward zero, and
   assert.equal(runProgram('int n = (2 + 3) * 4; Console.WriteLine(n); Console.WriteLine(-13 / 5); Console.WriteLine(-5 % 4); bool ready = true; Console.WriteLine(ready);').output, "20\n-2\n-1\nTrue\n");
   assert.equal(runProgram('int n = -2147483648; Console.WriteLine(n);').output, "-2147483648\n");
   assert.equal(runProgram('Console.WriteLine("x=" + true); Console.WriteLine("a\\n\\\"b\\\"");').output, 'x=True\na\n"b"\n');
+});
+test("Division traces the operation type independently of the variable receiving the result", async () => {
+  const { runProgram } = await runtime;
+  const result = runProgram("int total = 5;\nint count = 2;\ndouble after = total / count;\ndouble before = (double)total / count;\nConsole.WriteLine(after);\nConsole.WriteLine(before);");
+  assert.equal(result.output, "2\n2.5\n");
+  assert.deepEqual(result.trace[2].calculation, { left: "5", operator: "/", right: "2", result: "2", type: "int" });
+  assert.deepEqual(result.trace[3].calculation, { left: "5", operator: "/", right: "2", result: "2.5", type: "double" });
+  assert.deepEqual(result.trace[2].variables.after, { type: "double", value: 2 });
+  assert.equal(runProgram("Console.WriteLine(1e-6); Console.WriteLine(1e17); Console.WriteLine(-0.0);").output, "1E-06\n1E+17\n-0\n");
+});
+test("Explicit integer conversion truncates toward zero with a bounded destination", async () => {
+  const { runProgram } = await runtime;
+  const result = runProgram("double measured = -7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);");
+  assert.equal(result.output, "-7\n");
+  assert.deepEqual(result.trace[1].calculation, { left: "-7.9", operator: "(int)", result: "-7", type: "int" });
+  assert.equal(runProgram("Console.WriteLine((int)2147483647.75); Console.WriteLine((int)-2147483648.75);").output, "2147483647\n-2147483648\n");
+  assert.throws(() => runProgram("int whole = 5.9;"), { code: "type" });
+  assert.throws(() => runProgram("double n = 2147483648.0; int whole = (int)n;"), { code: "unsupported" });
+});
+test("Decimal arithmetic preserves scale and does not mix decimal and double", async () => {
+  const { runProgram } = await runtime;
+  const result = runProgram("decimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);\nConsole.WriteLine(total == 0.3m);\nConsole.WriteLine((int)-7.90m);");
+  assert.equal(result.output, "0.30\nTrue\n-7\n");
+  assert.deepEqual(result.trace[2].variables.total, { type: "decimal", value: "0.30" });
+  assert.equal(result.trace[2].calculation.result, "0.30");
+  assert.throws(() => runProgram("Console.WriteLine(0.1m + 0.2);"), { code: "type" });
+  assert.throws(() => runProgram("Console.WriteLine(1m / 3);"), { code: "unsupported" });
+});
+test("String.Length follows UTF-16, and a grouped sum is evaluated before concatenation", async () => {
+  const { runProgram } = await runtime;
+  const result = runProgram('string code = "🧮أ";\nint size = code.Length;\nConsole.WriteLine("الطول: " + size);\nConsole.WriteLine("المقاعد: " + (2 + 3));');
+  assert.equal(result.output, "الطول: 3\nالمقاعد: 5\n");
+  assert.deepEqual(result.trace[1].calculation, { left: '"🧮أ"', operator: ".Length", result: "3", type: "int" });
+  assert.throws(() => runProgram("int seats = 3; Console.WriteLine(seats.Length);"), { code: "type" });
 });
 test("Reading a value produces a snapshot rather than a reactive formula", async () => {
   const { runProgram } = await runtime;

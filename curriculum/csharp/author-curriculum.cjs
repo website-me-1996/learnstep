@@ -3,16 +3,17 @@ const path = require('node:path');
 const units = [
   ['unit_01_first_programs.json', require('./author-unit-01.cjs').data],
   ['unit_02_booleans_decisions.json', require('./author-unit-02.cjs').data],
-  ['unit_03_compound_decisions.json', require('./author-unit-03.cjs').data]
+  ['unit_03_compound_decisions.json', require('./author-unit-03.cjs').data],
+  ['unit_04_numeric_types_text.json', require('./author-unit-04.cjs').data]
 ];
 const lessons = units.flatMap(([, unit]) => unit.lessons);
 const course = {
   schemaVersion: '1.0.0',
   track: 'csharp',
   title: 'تأسيس C# خطوة بخطوة',
-  description: 'من أول برنامج وقيمه إلى المقارنات وربط الشروط واختيار المسار المناسب.',
+  description: 'من أول برنامج وقيمه إلى الشروط والقسمة والتحويل وتكوين الرسائل.',
   totalLessons: lessons.length,
-  runtime: 'csharp-foundations-subset-v3',
+  runtime: 'csharp-foundations-subset-v4',
   units: units.map(([, unit], order) => ({ id: unit.lessons[0].unitId, title: unit.title, order, lessonIds: unit.lessons.map(lesson => lesson.id) })),
   lessons
 };

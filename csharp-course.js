@@ -62,6 +62,25 @@ function renderLogic(checks) {
     panel.append(row);
   }
 }
+function renderCalculation(calculation) {
+  const panel = $("csharpCalculation");
+  panel.replaceChildren();
+  panel.hidden = !calculation;
+  if (!calculation) return;
+  const cells = [
+    ["القيمة الأولى", calculation.left],
+    ["العملية", calculation.operator],
+    ["القيمة الثانية", calculation.right],
+    ["الناتج (" + calculation.type + ")", calculation.result]
+  ];
+  for (const [label, value] of cells) {
+    if (value === undefined) continue;
+    const cell = document.createElement("div"), name = document.createElement("small"), result = document.createElement("b");
+    name.dir = "rtl"; name.textContent = label;
+    result.dir = "auto"; result.textContent = value;
+    cell.append(name, result); panel.append(cell);
+  }
+}
 function renderTrace() {
   const snapshot = cursor >= 0 && trace ? trace.trace[cursor] : null;
   $("csharpOutput").textContent = snapshot ? snapshot.output : "";
@@ -76,21 +95,22 @@ function renderTrace() {
     $("csharpTraceLines").append(line);
   });
   $("csharpVariables").replaceChildren();
+  renderCalculation(snapshot?.calculation);
   renderLogic(snapshot?.logic || []);
   $("csharpComparison").hidden = !snapshot?.comparison;
   if (snapshot?.comparison) {
     const comparison = snapshot.comparison;
-    const value = v => typeof v === "string" ? JSON.stringify(v) : String(v);
-    $("csharpCompareLeft").textContent = value(comparison.left);
+    const value = (v, type) => typeof v === "string" && type !== "decimal" ? JSON.stringify(v) : String(v);
+    $("csharpCompareLeft").textContent = value(comparison.left, comparison.leftType);
     $("csharpCompareOperator").textContent = comparison.operator;
-    $("csharpCompareRight").textContent = value(comparison.right);
+    $("csharpCompareRight").textContent = value(comparison.right, comparison.rightType);
     $("csharpCompareResult").textContent = String(comparison.result);
   }
   for (const [name, data] of Object.entries(snapshot?.variables || {})) {
     const row = document.createElement("tr");
     if (snapshot.name === name) row.classList.add("cs-changed-value");
-    for (const [index, value] of [name, data.type, typeof data.value === "string" ? JSON.stringify(data.value) : String(data.value)].entries()) {
-      const cell = document.createElement("td"); cell.textContent = value; cell.dir = index === 2 && typeof data.value === "string" ? "auto" : "ltr"; row.append(cell);
+    for (const [index, value] of [name, data.type, data.type === "string" ? JSON.stringify(data.value) : String(data.value)].entries()) {
+      const cell = document.createElement("td"); cell.textContent = value; cell.dir = index === 2 && data.type === "string" ? "auto" : "ltr"; row.append(cell);
     }
     $("csharpVariables").append(row);
   }

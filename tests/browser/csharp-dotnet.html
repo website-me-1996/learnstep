@@ -15,7 +15,22 @@ $('start').onclick=async()=>{
   const data=await(await fetch('/csharp-lessons.json')).json();
   for(const lesson of data.lessons){
    for(const step of lesson.steps.filter(s=>s.challenge)) await check(lesson.title+' / '+step.id,async()=>{const actual=await runner.run(step.solution);assert(actual.ok,JSON.stringify(actual));assert(actual.output===runProgram(step.solution).output,'output mismatch: '+JSON.stringify(actual));});
-   for(const step of lesson.steps.filter(s=>s.challenge?.cases))for(const [index,c] of step.challenge.cases.entries())await check(lesson.title+' / '+step.id+' مدخل بديل '+index,async()=>{let source=step.solution;for(const [name,value]of Object.entries(c.inputs))source=source.replace(new RegExp('\\b(int|string|bool)\\s+'+name+'\\s*=\\s*[^;]+;'),(_,type)=>type+' '+name+' = '+JSON.stringify(value)+';');const actual=await runner.run(source);assert(actual.ok&&actual.output===c.output,JSON.stringify(actual));});
+   for (const step of lesson.steps.filter(s => s.challenge?.cases)) {
+    for (const [index, example] of step.challenge.cases.entries()) {
+     await check(lesson.title + ' / ' + step.id + ' مدخل بديل ' + index, async () => {
+      let source = step.solution;
+      for (const [name, value] of Object.entries(example.inputs)) {
+       const declaration = new RegExp('\\b(int|double|decimal|string|bool)\\s+' + name + '\\s*=\\s*[^;]+;');
+       source = source.replace(declaration, (_, type) => {
+        const literal = type === 'decimal' ? value + 'm' : type === 'double' ? value + 'd' : JSON.stringify(value);
+        return type + ' ' + name + ' = ' + literal + ';';
+       });
+      }
+      const actual = await runner.run(source);
+      assert(actual.ok && actual.output === example.output, JSON.stringify(actual));
+     });
+    }
+   }
   }
   const samples=[
    ['حلقة for', 'int total=0; for(int i=1;i<=3;i++){total+=i;} Console.WriteLine(total);','6\n'],

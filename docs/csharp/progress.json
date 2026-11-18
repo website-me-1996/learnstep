@@ -3,7 +3,7 @@
   "updatedAt": "2026-11-18",
   "branch": "feat/csharp-foundations",
   "baseCommit": "3f1d7dad3974e733cf82d5315d3760807411cf14",
-  "currentPhase": "P3C",
+  "currentPhase": "P3D",
   "phases": {
     "P0": "complete",
     "P1": "complete",
@@ -16,30 +16,30 @@
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Start P3C with integer division versus fractional division, then introduce additional numeric types, explicit conversion, and text. Preserve lessons 1–24, test rounding and range boundaries against local .NET, and keep P2 browser acceptance pending.",
+  "nextAction": "Add pre-supplied console lines and trace consumption, then EOF, int.TryParse and validation. Preserve lessons 1–32 and compare empty, invalid, boundary and successful inputs against native .NET. Start P4 loops after P3D.",
   "checks": {
     "npmTest": {
-      "passed": 389,
+      "passed": 441,
       "failed": 0
     },
-    "csharpTests": 219,
-    "canonicalLessonsValidated": 521,
+    "csharpTests": 271,
+    "canonicalLessonsValidated": 529,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome: three units loaded and previous completion remained. C# stayed hidden during the scene. AND and OR show a skipped right operand. Rewind worked. Fixed-output answer rejected, correct AND solution accepted and restored after reload. else if jumped to the next condition and the integrated booking produced the expected result.",
+    "browserQA": "Desktop Chrome: 32 lessons, existing completion preserved, scene before code, double division snapshot 5 / 2 = 2.5, rewind, fixed-output solution rejected, correct solution and verification restored after reload.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 356,
+      "passed": 521,
       "failed": 0,
-      "alternateInputCases": 216,
+      "alternateInputCases": 337,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 120
+      "curriculumSolutionsCompared": 160
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
   "runtime": {
-    "default": "bounded educational interpreter for units 1–3: int/string/bool, arithmetic, comparisons, !, short-circuit &&/||, if/else-if/else, lexical blocks, and reversible snapshots",
+    "default": "bounded teaching interpreter for units 1–4: int/string/bool/double/decimal, arithmetic, explicit numeric conversion, Length, comparison, short-circuit logic, lexical blocks, and reversible snapshots",
     "experimental": ".NET 10.0.15 + Roslyn 5.0.0, SDK 10.0.204, browser WebAssembly worker",
     "assetRawMiB": 45.5,
     "assetGzipMiB": 16.9,
@@ -56,14 +56,14 @@
   "subphases": {
     "P3A": "complete",
     "P3B": "complete",
-    "P3C": "pending",
+    "P3C": "complete",
     "P3D": "pending"
   },
   "curriculum": {
-    "lessons": 24,
-    "steps": 192,
-    "units": 3,
-    "latestUnit": "compound-decisions",
-    "nextUnit": "numeric-types-and-text"
+    "lessons": 32,
+    "steps": 256,
+    "units": 4,
+    "latestUnit": "numeric-types-and-text",
+    "nextUnit": "console-input-validation"
   }
 }

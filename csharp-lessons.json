@@ -2,9 +2,9 @@
   "schemaVersion": "1.0.0",
   "track": "csharp",
   "title": "تأسيس C# خطوة بخطوة",
-  "description": "من أول برنامج وقيمه إلى المقارنات وربط الشروط واختيار المسار المناسب.",
-  "totalLessons": 24,
-  "runtime": "csharp-foundations-subset-v3",
+  "description": "من أول برنامج وقيمه إلى الشروط والقسمة والتحويل وتكوين الرسائل.",
+  "totalLessons": 32,
+  "runtime": "csharp-foundations-subset-v4",
   "units": [
     {
       "id": "first-programs",
@@ -49,6 +49,21 @@
         "csharp-22-else-if",
         "csharp-23-condition-order",
         "csharp-24-reservation-decision"
+      ]
+    },
+    {
+      "id": "numeric-types-and-text",
+      "title": "الوحدة الرابعة: احسب وحوّل واكتب رسالة",
+      "order": 3,
+      "lessonIds": [
+        "csharp-25-integer-division",
+        "csharp-26-double-division",
+        "csharp-27-decimal-prices",
+        "csharp-28-explicit-whole-cast",
+        "csharp-29-cast-before-division",
+        "csharp-30-text-length",
+        "csharp-31-compose-message",
+        "csharp-32-portion-card"
       ]
     }
   ],
@@ -8189,6 +8204,3385 @@
         {
           "label": "أخيرًا",
           "text": "اختَر نوع الحجز"
+        }
+      ]
+    },
+    {
+      "id": "csharp-25-integer-division",
+      "legacyId": "csharp:24",
+      "title": "اقسم بين عددين صحيحين",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 24,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "لما الطرفين int، المعامل / يحسب ناتجًا صحيحًا. الجزء الكسري بيتشال باتجاه الصفر، فـ 5 / 2 تدي 2، و-5 / 2 تدي -2.",
+      "whyUse": "تحسب عدد القطع الكاملة التي يمكن توزيعها أو وضعها في كل علبة.",
+      "browserMechanics": "اقرأ الطرفين، شوف نوع عملية القسمة، واحفظ النصيب الصحيح. التتبّع يعرض الطرفين والناتج.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int pieces = 5;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);",
+      "breakdown": [
+        "اقرأ pieces وpeople.",
+        "نفّذ القسمة بنوع int.",
+        "خزّن النصيب الصحيح في share واطبعه."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "وزّع ٥ تذاكر على شخصين بالتساوي. كل واحد ياخد تذكرتين كاملتين، وتفضل تذكرة.",
+          "instruction": "يا كمبيوتر، وزّع ٥ تذاكر على شخصين بالتساوي. كل واحد ياخد تذكرتين كاملتين، وتفضل تذكرة.",
+          "benefit": "تحسب عدد القطع الكاملة التي يمكن توزيعها أو وضعها في كل علبة.",
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pieces = 5;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "لما الطرفين int، المعامل / يحسب ناتجًا صحيحًا. الجزء الكسري بيتشال باتجاه الصفر، فـ 5 / 2 تدي 2، و-5 / 2 تدي -2.",
+          "code": "int pieces = 5;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);",
+          "benefit": "اقرأ الطرفين، شوف نوع عملية القسمة، واحفظ النصيب الصحيح. التتبّع يعرض الطرفين والناتج.",
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pieces = 5;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن pieces = 5 وpeople = 2. اقسم pieces على people، واحفظ النصيب الصحيح في share ثم اطبعه.",
+          "instruction": "يا كمبيوتر، خزّن pieces = 5 وpeople = 2. اقسم pieces على people، واحفظ النصيب الصحيح في share ثم اطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int pieces = 5;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);",
+          "challenge": {
+            "output": "2\n",
+            "declared": [
+              "pieces",
+              "people",
+              "share"
+            ],
+            "printed": [
+              "share"
+            ],
+            "operation": "/",
+            "operationIn": "share",
+            "cases": [
+              {
+                "inputs": {
+                  "pieces": 0,
+                  "people": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "pieces": 11,
+                  "people": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "pieces": -5,
+                  "people": 2
+                },
+                "output": "-2\n"
+              }
+            ],
+            "read": [
+              "pieces",
+              "people"
+            ],
+            "types": {
+              "pieces": "int",
+              "people": "int",
+              "share": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pieces = 5;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر pieces إلى 7 وحده. شغّل القسمة واطبع الحصة الجديدة.",
+          "instruction": "يا كمبيوتر، غيّر pieces إلى 7 وحده. شغّل القسمة واطبع الحصة الجديدة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int pieces = 7;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "pieces",
+              "people",
+              "share"
+            ],
+            "printed": [
+              "share"
+            ],
+            "operation": "/",
+            "operationIn": "share",
+            "cases": [
+              {
+                "inputs": {
+                  "pieces": 0,
+                  "people": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "pieces": 11,
+                  "people": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "pieces": -5,
+                  "people": 2
+                },
+                "output": "-2\n"
+              }
+            ],
+            "read": [
+              "pieces",
+              "people"
+            ],
+            "types": {
+              "pieces": "int",
+              "people": "int",
+              "share": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pieces = 7;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، وزّع ٩ تذاكر على نفس الشخصين. اكتب العدد الجديد واعرض النصيب.",
+          "instruction": "يا كمبيوتر، وزّع ٩ تذاكر على نفس الشخصين. اكتب العدد الجديد واعرض النصيب.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int pieces = 9;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "pieces",
+              "people",
+              "share"
+            ],
+            "printed": [
+              "share"
+            ],
+            "operation": "/",
+            "operationIn": "share",
+            "cases": [
+              {
+                "inputs": {
+                  "pieces": 0,
+                  "people": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "pieces": 11,
+                  "people": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "pieces": -5,
+                  "people": 2
+                },
+                "output": "-2\n"
+              }
+            ],
+            "read": [
+              "pieces",
+              "people"
+            ],
+            "types": {
+              "pieces": "int",
+              "people": "int",
+              "share": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pieces = 9;\nint people = 2;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 2 عند توزيع ١١ تذكرة على ٣. ازاي تحسب نصيب الشخص؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 2 عند توزيع ١١ تذكرة على ٣. ازاي تحسب نصيب الشخص؟",
+          "options": [
+            "استخدم / على نفس العددين",
+            "استخدم % على نفس العددين",
+            "اطبع عدد التذاكر قبل التوزيع"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int pieces = 11;\nint people = 3;\nint share = pieces % people;\nConsole.WriteLine(share);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "المعامل / يحسب النصيب الكامل. المعامل % يحسب عدد التذاكر الباقية.",
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint pieces = 11;\nint people = 3;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. المعامل / يحسب النصيب الكامل. المعامل % يحسب عدد التذاكر الباقية.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. المعامل / يحسب النصيب الكامل. المعامل % يحسب عدد التذاكر الباقية.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int pieces = 11;\nint people = 3;\nint share = pieces % people;\nConsole.WriteLine(share);",
+          "solution": "int pieces = 11;\nint people = 3;\nint share = pieces / people;\nConsole.WriteLine(share);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "pieces",
+              "people",
+              "share"
+            ],
+            "printed": [
+              "share"
+            ],
+            "operation": "/",
+            "operationIn": "share",
+            "cases": [
+              {
+                "inputs": {
+                  "pieces": 0,
+                  "people": 3
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "pieces": 11,
+                  "people": 3
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "pieces": -5,
+                  "people": 2
+                },
+                "output": "-2\n"
+              }
+            ],
+            "read": [
+              "pieces",
+              "people"
+            ],
+            "types": {
+              "pieces": "int",
+              "people": "int",
+              "share": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pieces = 11;\nint people = 3;\nint share = pieces / people;\nConsole.WriteLine(share);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن pencils = 13 وboxes = 4. احسب each لكل علبة باستخدام قسمة int واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن pencils = 13 وboxes = 4. احسب each لكل علبة باستخدام قسمة int واطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int pencils = 13;\nint boxes = 4;\nint each = pencils / boxes;\nConsole.WriteLine(each);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "pencils",
+              "boxes",
+              "each"
+            ],
+            "printed": [
+              "each"
+            ],
+            "operation": "/",
+            "operationIn": "each",
+            "cases": [
+              {
+                "inputs": {
+                  "pencils": 12,
+                  "boxes": 4
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "pencils": 3,
+                  "boxes": 4
+                },
+                "output": "0\n"
+              }
+            ],
+            "read": [
+              "pencils",
+              "boxes"
+            ],
+            "types": {
+              "pencils": "int",
+              "boxes": "int",
+              "each": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "بص على نوع الطرفين قبل الناتج.",
+            "القاعدة: قسمة int على int تشيل الجزء الكسري باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "جرّب int share = pieces / people;.",
+            "كشف الحل:\nint pencils = 13;\nint boxes = 4;\nint each = pencils / boxes;\nConsole.WriteLine(each);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int pieces = 11;\nint people = 3;\nint share = pieces % people;\nConsole.WriteLine(share);",
+        "fixedCode": "int pieces = 11;\nint people = 3;\nint share = pieces / people;\nConsole.WriteLine(share);",
+        "question": "ظهر 2 عند توزيع ١١ تذكرة على ٣. ازاي تحسب نصيب الشخص؟",
+        "explanation": "المعامل / يحسب النصيب الكامل. المعامل % يحسب عدد التذاكر الباقية.",
+        "options": [
+          "استخدم / على نفس العددين",
+          "استخدم % على نفس العددين",
+          "اطبع عدد التذاكر قبل التوزيع"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-24-reservation-decision"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن pieces = 5 وpeople = 2. اقسم pieces على people، واحفظ النصيب الصحيح في share ثم اطبعه.",
+        "يا كمبيوتر، خزّن pencils = 13 وboxes = 4. احسب each لكل علبة باستخدام قسمة int واطبعه."
+      ],
+      "commonMisconceptions": [
+        "المعامل / يحسب النصيب الكامل. المعامل % يحسب عدد التذاكر الباقية."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "المتاح",
+          "text": "٥ تذاكر"
+        },
+        {
+          "label": "عدد الأشخاص",
+          "text": "٢"
+        },
+        {
+          "label": "النصيب الكامل",
+          "text": "٢ لكل شخص"
+        }
+      ]
+    },
+    {
+      "id": "csharp-26-double-division",
+      "legacyId": "csharp:25",
+      "title": "احتفظ بالجزء الكسري",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 25,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "اكتب 5.0 كقيمة double. عند قسمة double على int يتحوّل العدد الصحيح أثناء الحساب، ويقدر الناتج يحتفظ بالجزء الكسري.",
+      "whyUse": "تقيس الكميات التي يمكن تقسيمها إلى أجزاء، زي اللترات أو الأطوال.",
+      "browserMechanics": "بعد قراءة liters وbottles، يظهر نوع الناتج double في سطر القسمة. بعدها تُخزّن حصة الزجاجة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "double liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+      "breakdown": [
+        "خزّن اللترات في double.",
+        "اقرأ عدد الزجاجات من bottles.",
+        "احسب portion واطبع الرقم."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "معاك ٥ لترات وعايز تقسمها على زجاجتين. كل زجاجة تاخد لترين ونص.",
+          "instruction": "يا كمبيوتر، معاك ٥ لترات وعايز تقسمها على زجاجتين. كل زجاجة تاخد لترين ونص.",
+          "benefit": "تقيس الكميات التي يمكن تقسيمها إلى أجزاء، زي اللترات أو الأطوال.",
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "اكتب 5.0 كقيمة double. عند قسمة double على int يتحوّل العدد الصحيح أثناء الحساب، ويقدر الناتج يحتفظ بالجزء الكسري.",
+          "code": "double liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "benefit": "بعد قراءة liters وbottles، يظهر نوع الناتج double في سطر القسمة. بعدها تُخزّن حصة الزجاجة.",
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن liters = 5.0 من النوع double وbottles = 2 من النوع int. احسب portion واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن liters = 5.0 من النوع double وbottles = 2 من النوع int. احسب portion واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "double liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "challenge": {
+            "output": "2.5\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "printed": [
+              "portion"
+            ],
+            "operation": "/",
+            "operationIn": "portion",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 2
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles"
+            ],
+            "types": {
+              "liters": "double",
+              "bottles": "int",
+              "portion": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر liters إلى 6.0. تابع الناتج لما تقبل الكمية القسمة بالتساوي.",
+          "instruction": "يا كمبيوتر، غيّر liters إلى 6.0. تابع الناتج لما تقبل الكمية القسمة بالتساوي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "double liters = 6.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "printed": [
+              "portion"
+            ],
+            "operation": "/",
+            "operationIn": "portion",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 2
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles"
+            ],
+            "types": {
+              "liters": "double",
+              "bottles": "int",
+              "portion": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble liters = 6.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، اقسم ١١ لترًا على الزجاجتين واطبع النصيب الكسري.",
+          "instruction": "يا كمبيوتر، اقسم ١١ لترًا على الزجاجتين واطبع النصيب الكسري.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "double liters = 11.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "challenge": {
+            "output": "5.5\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "printed": [
+              "portion"
+            ],
+            "operation": "/",
+            "operationIn": "portion",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 2
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles"
+            ],
+            "types": {
+              "liters": "double",
+              "bottles": "int",
+              "portion": "double"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble liters = 11.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "portion نوعه double لكن طبع 2. تغيّر نوع أي قيمة عشان تشوف 2.5؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "portion نوعه double لكن طبع 2. تغيّر نوع أي قيمة عشان تشوف 2.5؟",
+          "options": [
+            "غيّر liters إلى double قبل القسمة",
+            "اطبع bottles",
+            "غيّر اسم portion"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int liters = 5;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "نوع طرفي القسمة هو اللي يحدد نوع الحساب. خلّي liters من النوع double قبل التنفيذ.",
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\ndouble liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. نوع طرفي القسمة هو اللي يحدد نوع الحساب. خلّي liters من النوع double قبل التنفيذ.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. نوع طرفي القسمة هو اللي يحدد نوع الحساب. خلّي liters من النوع double قبل التنفيذ.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int liters = 5;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "solution": "double liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+          "challenge": {
+            "output": "2.5\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "printed": [
+              "portion"
+            ],
+            "operation": "/",
+            "operationIn": "portion",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 2
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles"
+            ],
+            "types": {
+              "liters": "double",
+              "bottles": "int",
+              "portion": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن distance = 15.0 وsegments = 4. احسب section كطول كل جزء واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن distance = 15.0 وsegments = 4. احسب section كطول كل جزء واطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "double distance = 15.0;\nint segments = 4;\ndouble section = distance / segments;\nConsole.WriteLine(section);",
+          "challenge": {
+            "output": "3.75\n",
+            "declared": [
+              "distance",
+              "segments",
+              "section"
+            ],
+            "printed": [
+              "section"
+            ],
+            "operation": "/",
+            "operationIn": "section",
+            "cases": [
+              {
+                "inputs": {
+                  "distance": 6,
+                  "segments": 4
+                },
+                "output": "1.5\n"
+              },
+              {
+                "inputs": {
+                  "distance": 0,
+                  "segments": 3
+                },
+                "output": "0\n"
+              }
+            ],
+            "read": [
+              "distance",
+              "segments"
+            ],
+            "types": {
+              "distance": "double",
+              "segments": "int",
+              "section": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي المتغير المقسوم نفسه double.",
+            "القاعدة: وجود طرف double يكفي لحساب القسمة بنوع double. هل حددت الجزء الذي تحتاج تغييره؟",
+            "ابدأ بـ double liters = 5.0; ثم اكتب double portion = liters / bottles;.",
+            "كشف الحل:\ndouble distance = 15.0;\nint segments = 4;\ndouble section = distance / segments;\nConsole.WriteLine(section);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int liters = 5;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+        "fixedCode": "double liters = 5.0;\nint bottles = 2;\ndouble portion = liters / bottles;\nConsole.WriteLine(portion);",
+        "question": "portion نوعه double لكن طبع 2. تغيّر نوع أي قيمة عشان تشوف 2.5؟",
+        "explanation": "نوع طرفي القسمة هو اللي يحدد نوع الحساب. خلّي liters من النوع double قبل التنفيذ.",
+        "options": [
+          "غيّر liters إلى double قبل القسمة",
+          "اطبع bottles",
+          "غيّر اسم portion"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-25-integer-division"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن liters = 5.0 من النوع double وbottles = 2 من النوع int. احسب portion واطبعه.",
+        "يا كمبيوتر، خزّن distance = 15.0 وsegments = 4. احسب section كطول كل جزء واطبعه."
+      ],
+      "commonMisconceptions": [
+        "نوع طرفي القسمة هو اللي يحدد نوع الحساب. خلّي liters من النوع double قبل التنفيذ."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "المتاح",
+          "text": "٥ لترات"
+        },
+        {
+          "label": "عدد الزجاجات",
+          "text": "٢"
+        },
+        {
+          "label": "نصيب الزجاجة",
+          "text": "٢٫٥ لتر"
+        }
+      ]
+    },
+    {
+      "id": "csharp-27-decimal-prices",
+      "legacyId": "csharp:26",
+      "title": "اجمع السعر والرسوم بـ decimal",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 26,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "decimal يمثل كسورًا عشرية مثل 0.10 بدقة في نطاقه. اكتب m بعد القيمة زي 0.10m عند شغل الأسعار.",
+      "whyUse": "تعرض مجموع السعر والرسوم كما تتوقعه من حساب الفاتورة.",
+      "browserMechanics": "اقرأ قيمتي decimal واجمعهما، ثم لاحظ الاحتفاظ بالخانتين في نتيجة 0.30.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "decimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+      "breakdown": [
+        "اكتب m مع قيمة السعر.",
+        "اكتب m مع قيمة الرسوم.",
+        "اجمع المتغيرين واطبع الإجمالي."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "على بطاقة الحساب سعر ٠٫١٠ جنيه ورسوم ٠٫٢٠ جنيه. اجمع الرقمين عشان تعرض ٠٫٣٠ جنيه.",
+          "instruction": "يا كمبيوتر، على بطاقة الحساب سعر ٠٫١٠ جنيه ورسوم ٠٫٢٠ جنيه. اجمع الرقمين عشان تعرض ٠٫٣٠ جنيه.",
+          "benefit": "تعرض مجموع السعر والرسوم كما تتوقعه من حساب الفاتورة.",
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "decimal يمثل كسورًا عشرية مثل 0.10 بدقة في نطاقه. اكتب m بعد القيمة زي 0.10m عند شغل الأسعار.",
+          "code": "decimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+          "benefit": "اقرأ قيمتي decimal واجمعهما، ثم لاحظ الاحتفاظ بالخانتين في نتيجة 0.30.",
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن price = 0.10m وfee = 0.20m. اجمعهما في decimal اسمه total واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن price = 0.10m وfee = 0.20m. اجمعهما في decimal اسمه total واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "decimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "0.30\n",
+            "declared": [
+              "price",
+              "fee",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "+",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "price": "0.10",
+                  "fee": "0.20"
+                },
+                "output": "0.30\n"
+              },
+              {
+                "inputs": {
+                  "price": "4.50",
+                  "fee": "0.25"
+                },
+                "output": "4.75\n"
+              },
+              {
+                "inputs": {
+                  "price": "2.00",
+                  "fee": "0.00"
+                },
+                "output": "2.00\n"
+              }
+            ],
+            "read": [
+              "price",
+              "fee"
+            ],
+            "types": {
+              "price": "decimal",
+              "fee": "decimal",
+              "total": "decimal"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر price إلى 1.25m. احسب الإجمالي مع نفس الرسوم.",
+          "instruction": "يا كمبيوتر، غيّر price إلى 1.25m. احسب الإجمالي مع نفس الرسوم.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "decimal price = 1.25m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "1.45\n",
+            "declared": [
+              "price",
+              "fee",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "+",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "price": "0.10",
+                  "fee": "0.20"
+                },
+                "output": "0.30\n"
+              },
+              {
+                "inputs": {
+                  "price": "4.50",
+                  "fee": "0.25"
+                },
+                "output": "4.75\n"
+              },
+              {
+                "inputs": {
+                  "price": "2.00",
+                  "fee": "0.00"
+                },
+                "output": "2.00\n"
+              }
+            ],
+            "read": [
+              "price",
+              "fee"
+            ],
+            "types": {
+              "price": "decimal",
+              "fee": "decimal",
+              "total": "decimal"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal price = 1.25m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، غيّر fee إلى 0.35m مع نفس السعر 1.25m واطبع الإجمالي.",
+          "instruction": "يا كمبيوتر، غيّر fee إلى 0.35m مع نفس السعر 1.25m واطبع الإجمالي.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "decimal price = 1.25m;\ndecimal fee = 0.35m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "1.60\n",
+            "declared": [
+              "price",
+              "fee",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "+",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "price": "0.10",
+                  "fee": "0.20"
+                },
+                "output": "0.30\n"
+              },
+              {
+                "inputs": {
+                  "price": "4.50",
+                  "fee": "0.25"
+                },
+                "output": "4.75\n"
+              },
+              {
+                "inputs": {
+                  "price": "2.00",
+                  "fee": "0.00"
+                },
+                "output": "2.00\n"
+              }
+            ],
+            "read": [
+              "price",
+              "fee"
+            ],
+            "types": {
+              "price": "decimal",
+              "fee": "decimal",
+              "total": "decimal"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal price = 1.25m;\ndecimal fee = 0.35m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "ظهر 0.30000000000000004 في جمع السعر والرسوم. اختار النوع الأنسب لهذا الحساب.",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "ظهر 0.30000000000000004 في جمع السعر والرسوم. اختار النوع الأنسب لهذا الحساب.",
+          "options": [
+            "decimal مع قيم تنتهي بـ m",
+            "اكتب الرقمين داخل نصين",
+            "اطبع سعر المنتج وحده"
+          ],
+          "correctOptionIndex": 0,
+          "code": "double price = 0.10;\ndouble fee = 0.20;\ndouble total = price + fee;\nConsole.WriteLine(total);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "استخدم decimal في المتغيرات الثلاثة وm بعد السعر والرسوم.",
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\ndecimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم decimal في المتغيرات الثلاثة وm بعد السعر والرسوم.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم decimal في المتغيرات الثلاثة وm بعد السعر والرسوم.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "double price = 0.10;\ndouble fee = 0.20;\ndouble total = price + fee;\nConsole.WriteLine(total);",
+          "solution": "decimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+          "challenge": {
+            "output": "0.30\n",
+            "declared": [
+              "price",
+              "fee",
+              "total"
+            ],
+            "printed": [
+              "total"
+            ],
+            "operation": "+",
+            "operationIn": "total",
+            "cases": [
+              {
+                "inputs": {
+                  "price": "0.10",
+                  "fee": "0.20"
+                },
+                "output": "0.30\n"
+              },
+              {
+                "inputs": {
+                  "price": "4.50",
+                  "fee": "0.25"
+                },
+                "output": "4.75\n"
+              },
+              {
+                "inputs": {
+                  "price": "2.00",
+                  "fee": "0.00"
+                },
+                "output": "2.00\n"
+              }
+            ],
+            "read": [
+              "price",
+              "fee"
+            ],
+            "types": {
+              "price": "decimal",
+              "fee": "decimal",
+              "total": "decimal"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن ticket = 7.50m وcharge = 2.25m. احسب amount واجعل نوعه decimal، ثم اطبعه.",
+          "instruction": "يا كمبيوتر، خزّن ticket = 7.50m وcharge = 2.25m. احسب amount واجعل نوعه decimal، ثم اطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "decimal ticket = 7.50m;\ndecimal charge = 2.25m;\ndecimal amount = ticket + charge;\nConsole.WriteLine(amount);",
+          "challenge": {
+            "output": "9.75\n",
+            "declared": [
+              "ticket",
+              "charge",
+              "amount"
+            ],
+            "printed": [
+              "amount"
+            ],
+            "operation": "+",
+            "operationIn": "amount",
+            "cases": [
+              {
+                "inputs": {
+                  "ticket": "1.10",
+                  "charge": "2.20"
+                },
+                "output": "3.30\n"
+              },
+              {
+                "inputs": {
+                  "ticket": "3.00",
+                  "charge": "0"
+                },
+                "output": "3.00\n"
+              }
+            ],
+            "read": [
+              "ticket",
+              "charge"
+            ],
+            "types": {
+              "ticket": "decimal",
+              "charge": "decimal",
+              "amount": "decimal"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "راجع النوع والحرف m بعد كل قيمة.",
+            "القاعدة: اللاحقة m تجعل القيمة المكتوبة من النوع decimal. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب decimal price = 0.10m; ثم احفظ price + fee داخل total.",
+            "كشف الحل:\ndecimal ticket = 7.50m;\ndecimal charge = 2.25m;\ndecimal amount = ticket + charge;\nConsole.WriteLine(amount);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "double price = 0.10;\ndouble fee = 0.20;\ndouble total = price + fee;\nConsole.WriteLine(total);",
+        "fixedCode": "decimal price = 0.10m;\ndecimal fee = 0.20m;\ndecimal total = price + fee;\nConsole.WriteLine(total);",
+        "question": "ظهر 0.30000000000000004 في جمع السعر والرسوم. اختار النوع الأنسب لهذا الحساب.",
+        "explanation": "استخدم decimal في المتغيرات الثلاثة وm بعد السعر والرسوم.",
+        "options": [
+          "decimal مع قيم تنتهي بـ m",
+          "اكتب الرقمين داخل نصين",
+          "اطبع سعر المنتج وحده"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-26-double-division"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن price = 0.10m وfee = 0.20m. اجمعهما في decimal اسمه total واطبعه.",
+        "يا كمبيوتر، خزّن ticket = 7.50m وcharge = 2.25m. احسب amount واجعل نوعه decimal، ثم اطبعه."
+      ],
+      "commonMisconceptions": [
+        "استخدم decimal في المتغيرات الثلاثة وm بعد السعر والرسوم."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "السعر",
+          "text": "٠٫١٠"
+        },
+        {
+          "label": "الرسوم",
+          "text": "٠٫٢٠"
+        },
+        {
+          "label": "الإجمالي",
+          "text": "٠٫٣٠"
+        }
+      ]
+    },
+    {
+      "id": "csharp-28-explicit-whole-cast",
+      "legacyId": "csharp:27",
+      "title": "حوّل القياس إلى عدد صحيح",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 27,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "اكتب (int) قبل قيمة double لتحويلها لصحيح. التحويل بيشيل الجزء الكسري باتجاه الصفر. استخدم قيمة نتيجتها داخل نطاق int.",
+      "whyUse": "تتحكم في لحظة تحويل القياس عند تخزين الجزء الصحيح.",
+      "browserMechanics": "يقرأ المحاكي القيمة الأصلية ويعرض (int) والناتج قبل حفظ whole. قيمة measured تظل كما هي.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/numeric-conversions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "double measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+      "breakdown": [
+        "اقرأ measured.",
+        "طبّق (int) على القيمة.",
+        "احفظ الناتج الصحيح في whole واطبعه."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "القياس طلع ٧٫٩ سنتيمتر. في الخانة المخصصة للسنتيمترات الكاملة سجّل ٧.",
+          "instruction": "يا كمبيوتر، القياس طلع ٧٫٩ سنتيمتر. في الخانة المخصصة للسنتيمترات الكاملة سجّل ٧.",
+          "benefit": "تتحكم في لحظة تحويل القياس عند تخزين الجزء الصحيح.",
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "اكتب (int) قبل قيمة double لتحويلها لصحيح. التحويل بيشيل الجزء الكسري باتجاه الصفر. استخدم قيمة نتيجتها داخل نطاق int.",
+          "code": "double measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+          "benefit": "يقرأ المحاكي القيمة الأصلية ويعرض (int) والناتج قبل حفظ whole. قيمة measured تظل كما هي.",
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن measured = 7.9 في double. حوّله إلى int اسمه whole واطبع whole.",
+          "instruction": "يا كمبيوتر، خزّن measured = 7.9 في double. حوّله إلى int اسمه whole واطبع whole.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "double measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "measured",
+              "whole"
+            ],
+            "printed": [
+              "whole"
+            ],
+            "operation": "(int)",
+            "operationIn": "whole",
+            "cases": [
+              {
+                "inputs": {
+                  "measured": 7.9
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "measured": -7.9
+                },
+                "output": "-7\n"
+              },
+              {
+                "inputs": {
+                  "measured": 0.9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "measured": 2147483647.75
+                },
+                "output": "2147483647\n"
+              }
+            ],
+            "read": [
+              "measured"
+            ],
+            "types": {
+              "measured": "double",
+              "whole": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر measured إلى 3.2 واطبع الجزء الصحيح.",
+          "instruction": "يا كمبيوتر، غيّر measured إلى 3.2 واطبع الجزء الصحيح.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "double measured = 3.2;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "measured",
+              "whole"
+            ],
+            "printed": [
+              "whole"
+            ],
+            "operation": "(int)",
+            "operationIn": "whole",
+            "cases": [
+              {
+                "inputs": {
+                  "measured": 7.9
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "measured": -7.9
+                },
+                "output": "-7\n"
+              },
+              {
+                "inputs": {
+                  "measured": 0.9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "measured": 2147483647.75
+                },
+                "output": "2147483647\n"
+              }
+            ],
+            "read": [
+              "measured"
+            ],
+            "types": {
+              "measured": "double",
+              "whole": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble measured = 3.2;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، جرّب measured = -3.8. لاحظ نتيجة الحذف باتجاه الصفر.",
+          "instruction": "يا كمبيوتر، جرّب measured = -3.8. لاحظ نتيجة الحذف باتجاه الصفر.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "double measured = -3.8;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+          "challenge": {
+            "output": "-3\n",
+            "declared": [
+              "measured",
+              "whole"
+            ],
+            "printed": [
+              "whole"
+            ],
+            "operation": "(int)",
+            "operationIn": "whole",
+            "cases": [
+              {
+                "inputs": {
+                  "measured": 7.9
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "measured": -7.9
+                },
+                "output": "-7\n"
+              },
+              {
+                "inputs": {
+                  "measured": 0.9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "measured": 2147483647.75
+                },
+                "output": "2147483647\n"
+              }
+            ],
+            "read": [
+              "measured"
+            ],
+            "types": {
+              "measured": "double",
+              "whole": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble measured = -3.8;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "خانة whole من النوع int. ماذا تكتب عند إسناد قيمة measured من double؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "خانة whole من النوع int. ماذا تكتب عند إسناد قيمة measured من double؟",
+          "options": [
+            "measured وحدها",
+            "(int)measured",
+            "اسم المتغير بين علامات تنصيص"
+          ],
+          "correctOptionIndex": 1,
+          "code": "double measured = 7.9;\nint whole = measured;\nConsole.WriteLine(whole);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اكتب (int) قبل measured ليكون التحويل صريحًا.",
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\ndouble measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب (int) قبل measured ليكون التحويل صريحًا.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب (int) قبل measured ليكون التحويل صريحًا.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "double measured = 7.9;\nint whole = measured;\nConsole.WriteLine(whole);",
+          "solution": "double measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+          "challenge": {
+            "output": "7\n",
+            "declared": [
+              "measured",
+              "whole"
+            ],
+            "printed": [
+              "whole"
+            ],
+            "operation": "(int)",
+            "operationIn": "whole",
+            "cases": [
+              {
+                "inputs": {
+                  "measured": 7.9
+                },
+                "output": "7\n"
+              },
+              {
+                "inputs": {
+                  "measured": -7.9
+                },
+                "output": "-7\n"
+              },
+              {
+                "inputs": {
+                  "measured": 0.9
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "measured": 2147483647.75
+                },
+                "output": "2147483647\n"
+              }
+            ],
+            "read": [
+              "measured"
+            ],
+            "types": {
+              "measured": "double",
+              "whole": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن duration = 12.5 من نوع double. احسب seconds الصحيحة بتحويل صريح، ثم اطبعها.",
+          "instruction": "يا كمبيوتر، خزّن duration = 12.5 من نوع double. احسب seconds الصحيحة بتحويل صريح، ثم اطبعها.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "double duration = 12.5;\nint seconds = (int)duration;\nConsole.WriteLine(seconds);",
+          "challenge": {
+            "output": "12\n",
+            "declared": [
+              "duration",
+              "seconds"
+            ],
+            "printed": [
+              "seconds"
+            ],
+            "operation": "(int)",
+            "operationIn": "seconds",
+            "cases": [
+              {
+                "inputs": {
+                  "duration": 0.5
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "duration": 1.9
+                },
+                "output": "1\n"
+              }
+            ],
+            "read": [
+              "duration"
+            ],
+            "types": {
+              "duration": "double",
+              "seconds": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "طبّق التحويل على القيمة التي تقرؤها.",
+            "القاعدة: التحويل إلى int يحذف الكسر باتجاه الصفر. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int whole = (int)measured;.",
+            "كشف الحل:\ndouble duration = 12.5;\nint seconds = (int)duration;\nConsole.WriteLine(seconds);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "double measured = 7.9;\nint whole = measured;\nConsole.WriteLine(whole);",
+        "fixedCode": "double measured = 7.9;\nint whole = (int)measured;\nConsole.WriteLine(whole);",
+        "question": "خانة whole من النوع int. ماذا تكتب عند إسناد قيمة measured من double؟",
+        "explanation": "اكتب (int) قبل measured ليكون التحويل صريحًا.",
+        "options": [
+          "measured وحدها",
+          "(int)measured",
+          "اسم المتغير بين علامات تنصيص"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-27-decimal-prices"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن measured = 7.9 في double. حوّله إلى int اسمه whole واطبع whole.",
+        "يا كمبيوتر، خزّن duration = 12.5 من نوع double. احسب seconds الصحيحة بتحويل صريح، ثم اطبعها."
+      ],
+      "commonMisconceptions": [
+        "اكتب (int) قبل measured ليكون التحويل صريحًا."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "القياس",
+          "text": "٧٫٩"
+        },
+        {
+          "label": "الجزء المطلوب",
+          "text": "السنتيمترات الكاملة"
+        },
+        {
+          "label": "القيمة المخزّنة",
+          "text": "٧"
+        }
+      ]
+    },
+    {
+      "id": "csharp-29-cast-before-division",
+      "legacyId": "csharp:28",
+      "title": "حوّل طرفًا قبل القسمة",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 28,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "حوّل طرفًا باستخدام (double) قبل تنفيذ /. لو حوّلت الناتج بعد قسمة int، الجزء الكسري يكون اتشال بالفعل.",
+      "whyUse": "تحتفظ بعدادات int في البيانات وتقدر تحسب منها متوسطًا كسريًا.",
+      "browserMechanics": "اقرأ minutes، حوّل قيمته مؤقتًا إلى double، نفّذ القسمة، ثم اكتب الناتج في rate.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/numeric-conversions",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+      "breakdown": [
+        "العدّادان minutes وtrips من النوع int.",
+        "التحويل على minutes يتم قبل /.",
+        "قسمة double تحفظ الجزء الكسري في rate."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في الدفتر ٥ دقائق وعدد الرحلات ٢. السجل بيحفظ العدادين كأعداد صحيحة، وعايز المتوسط ٢٫٥.",
+          "instruction": "يا كمبيوتر، في الدفتر ٥ دقائق وعدد الرحلات ٢. السجل بيحفظ العدادين كأعداد صحيحة، وعايز المتوسط ٢٫٥.",
+          "benefit": "تحتفظ بعدادات int في البيانات وتقدر تحسب منها متوسطًا كسريًا.",
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "حوّل طرفًا باستخدام (double) قبل تنفيذ /. لو حوّلت الناتج بعد قسمة int، الجزء الكسري يكون اتشال بالفعل.",
+          "code": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+          "benefit": "اقرأ minutes، حوّل قيمته مؤقتًا إلى double، نفّذ القسمة، ثم اكتب الناتج في rate.",
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن minutes = 5 وtrips = 2 كأعداد صحيحة. استخدم (double) على minutes قبل القسمة ثم اطبع rate.",
+          "instruction": "يا كمبيوتر، خزّن minutes = 5 وtrips = 2 كأعداد صحيحة. استخدم (double) على minutes قبل القسمة ثم اطبع rate.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+          "challenge": {
+            "output": "2.5\n",
+            "declared": [
+              "minutes",
+              "trips",
+              "rate"
+            ],
+            "printed": [
+              "rate"
+            ],
+            "operation": "(double)",
+            "operationIn": "rate",
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 7,
+                  "trips": 2
+                },
+                "output": "3.5\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6,
+                  "trips": 3
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 9,
+                  "trips": 4
+                },
+                "output": "2.25\n"
+              }
+            ],
+            "read": [
+              "minutes",
+              "trips"
+            ],
+            "types": {
+              "minutes": "int",
+              "trips": "int",
+              "rate": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر minutes إلى 8 مع نفس عدد الرحلات. اطبع rate.",
+          "instruction": "يا كمبيوتر، غيّر minutes إلى 8 مع نفس عدد الرحلات. اطبع rate.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int minutes = 8;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "minutes",
+              "trips",
+              "rate"
+            ],
+            "printed": [
+              "rate"
+            ],
+            "operation": "(double)",
+            "operationIn": "rate",
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 7,
+                  "trips": 2
+                },
+                "output": "3.5\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6,
+                  "trips": 3
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 9,
+                  "trips": 4
+                },
+                "output": "2.25\n"
+              }
+            ],
+            "read": [
+              "minutes",
+              "trips"
+            ],
+            "types": {
+              "minutes": "int",
+              "trips": "int",
+              "rate": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint minutes = 8;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، خلي minutes = 9 مع رحلتين واطبع المتوسط.",
+          "instruction": "يا كمبيوتر، خلي minutes = 9 مع رحلتين واطبع المتوسط.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int minutes = 9;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+          "challenge": {
+            "output": "4.5\n",
+            "declared": [
+              "minutes",
+              "trips",
+              "rate"
+            ],
+            "printed": [
+              "rate"
+            ],
+            "operation": "(double)",
+            "operationIn": "rate",
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 7,
+                  "trips": 2
+                },
+                "output": "3.5\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6,
+                  "trips": 3
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 9,
+                  "trips": 4
+                },
+                "output": "2.25\n"
+              }
+            ],
+            "read": [
+              "minutes",
+              "trips"
+            ],
+            "types": {
+              "minutes": "int",
+              "trips": "int",
+              "rate": "double"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint minutes = 9;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الأقواس حول القسمة جعلت القيمة 2. أي صيغة تحوّل الطرف الأول قبل القسمة؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الأقواس حول القسمة جعلت القيمة 2. أي صيغة تحوّل الطرف الأول قبل القسمة؟",
+          "options": [
+            "(double)(minutes / trips)",
+            "(double)minutes / trips",
+            "minutes / trips"
+          ],
+          "correctOptionIndex": 1,
+          "code": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)(minutes / trips);\nConsole.WriteLine(rate);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "ضع التحويل مباشرة على minutes قبل قسمة العددين.",
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع التحويل مباشرة على minutes قبل قسمة العددين.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع التحويل مباشرة على minutes قبل قسمة العددين.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)(minutes / trips);\nConsole.WriteLine(rate);",
+          "solution": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+          "challenge": {
+            "output": "2.5\n",
+            "declared": [
+              "minutes",
+              "trips",
+              "rate"
+            ],
+            "printed": [
+              "rate"
+            ],
+            "operation": "(double)",
+            "operationIn": "rate",
+            "cases": [
+              {
+                "inputs": {
+                  "minutes": 7,
+                  "trips": 2
+                },
+                "output": "3.5\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 6,
+                  "trips": 3
+                },
+                "output": "2\n"
+              },
+              {
+                "inputs": {
+                  "minutes": 9,
+                  "trips": 4
+                },
+                "output": "2.25\n"
+              }
+            ],
+            "read": [
+              "minutes",
+              "trips"
+            ],
+            "types": {
+              "minutes": "int",
+              "trips": "int",
+              "rate": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن points = 15 وmatches = 4 كأعداد صحيحة. احسب average بتحويل طرف قبل القسمة واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن points = 15 وmatches = 4 كأعداد صحيحة. احسب average بتحويل طرف قبل القسمة واطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int points = 15;\nint matches = 4;\ndouble average = (double)points / matches;\nConsole.WriteLine(average);",
+          "challenge": {
+            "output": "3.75\n",
+            "declared": [
+              "points",
+              "matches",
+              "average"
+            ],
+            "printed": [
+              "average"
+            ],
+            "operation": "(double)",
+            "operationIn": "average",
+            "cases": [
+              {
+                "inputs": {
+                  "points": 7,
+                  "matches": 2
+                },
+                "output": "3.5\n"
+              },
+              {
+                "inputs": {
+                  "points": 0,
+                  "matches": 2
+                },
+                "output": "0\n"
+              }
+            ],
+            "read": [
+              "points",
+              "matches"
+            ],
+            "types": {
+              "points": "int",
+              "matches": "int",
+              "average": "double"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "ركّز على التوقيت. التحويل يحصل قبل /.",
+            "القاعدة: نوع طرفي العملية وقت الحساب يحدد النوع الذي تخرج به. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double rate = (double)minutes / trips;.",
+            "كشف الحل:\nint points = 15;\nint matches = 4;\ndouble average = (double)points / matches;\nConsole.WriteLine(average);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)(minutes / trips);\nConsole.WriteLine(rate);",
+        "fixedCode": "int minutes = 5;\nint trips = 2;\ndouble rate = (double)minutes / trips;\nConsole.WriteLine(rate);",
+        "question": "الأقواس حول القسمة جعلت القيمة 2. أي صيغة تحوّل الطرف الأول قبل القسمة؟",
+        "explanation": "ضع التحويل مباشرة على minutes قبل قسمة العددين.",
+        "options": [
+          "(double)(minutes / trips)",
+          "(double)minutes / trips",
+          "minutes / trips"
+        ],
+        "correctOptionIndex": 1
+      },
+      "prerequisites": [
+        "csharp-28-explicit-whole-cast"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن minutes = 5 وtrips = 2 كأعداد صحيحة. استخدم (double) على minutes قبل القسمة ثم اطبع rate.",
+        "يا كمبيوتر، خزّن points = 15 وmatches = 4 كأعداد صحيحة. احسب average بتحويل طرف قبل القسمة واطبعه."
+      ],
+      "commonMisconceptions": [
+        "ضع التحويل مباشرة على minutes قبل قسمة العددين."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "المتاح",
+          "text": "٥ دقائق في السجل"
+        },
+        {
+          "label": "التحويل أثناء الحساب",
+          "text": "قيمة عددية تقبل الكسر"
+        },
+        {
+          "label": "متوسط الرحلة",
+          "text": "٢٫٥"
+        }
+      ]
+    },
+    {
+      "id": "csharp-30-text-length",
+      "legacyId": "csharp:29",
+      "title": "اقرأ طول النص",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 29,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "اقرأ code.Length للحصول على طول النص بنوع int. النص الفارغ طوله صفر. Length تعد وحدات UTF-16، فبعض الرموز المرئية تُحسب وحدتين.",
+      "whyUse": "تقدر تتحقق من طول رمز أو نص أخذته من المستخدم حتى لو اتغيّرت قيمته.",
+      "browserMechanics": "تظهر قيمة النص أولًا. الخطوة التالية تقرأ .Length وتكتب العدد في size.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.string.length?view=net-10.0",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "string code = \"AB45\";\nint size = code.Length;\nConsole.WriteLine(size);",
+      "breakdown": [
+        "اقرأ النص من code.",
+        "اقرأ خاصية Length بعد النقطة.",
+        "احفظ الناتج في size كعدد صحيح."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "قدامك رمز AB45. حدد طول الرمز عشان تعرف عدد الخانات المستخدمة.",
+          "instruction": "يا كمبيوتر، قدامك رمز AB45. حدد طول الرمز عشان تعرف عدد الخانات المستخدمة.",
+          "benefit": "تقدر تتحقق من طول رمز أو نص أخذته من المستخدم حتى لو اتغيّرت قيمته.",
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring code = \"AB45\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "اقرأ code.Length للحصول على طول النص بنوع int. النص الفارغ طوله صفر. Length تعد وحدات UTF-16، فبعض الرموز المرئية تُحسب وحدتين.",
+          "code": "string code = \"AB45\";\nint size = code.Length;\nConsole.WriteLine(size);",
+          "benefit": "تظهر قيمة النص أولًا. الخطوة التالية تقرأ .Length وتكتب العدد في size.",
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring code = \"AB45\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن الرمز AB45 في string اسمه code. احفظ code.Length في size واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن الرمز AB45 في string اسمه code. احفظ code.Length في size واطبعه.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "string code = \"AB45\";\nint size = code.Length;\nConsole.WriteLine(size);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "code",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "operation": ".Length",
+            "operationIn": "size",
+            "cases": [
+              {
+                "inputs": {
+                  "code": ""
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "code": "AZ7"
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "code": "أحمد"
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "code": "🧮أ"
+                },
+                "output": "3\n"
+              }
+            ],
+            "read": [
+              "code"
+            ],
+            "types": {
+              "code": "string",
+              "size": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring code = \"AB45\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، استبدل الرمز بالحرف A واترك سطر حساب الطول كما هو.",
+          "instruction": "يا كمبيوتر، استبدل الرمز بالحرف A واترك سطر حساب الطول كما هو.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string code = \"A\";\nint size = code.Length;\nConsole.WriteLine(size);",
+          "challenge": {
+            "output": "1\n",
+            "declared": [
+              "code",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "operation": ".Length",
+            "operationIn": "size",
+            "cases": [
+              {
+                "inputs": {
+                  "code": ""
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "code": "AZ7"
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "code": "أحمد"
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "code": "🧮أ"
+                },
+                "output": "3\n"
+              }
+            ],
+            "read": [
+              "code"
+            ],
+            "types": {
+              "code": "string",
+              "size": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring code = \"A\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، استبدل الرمز بنص فارغ واعرض طول التخزين الفارغ.",
+          "instruction": "يا كمبيوتر، استبدل الرمز بنص فارغ واعرض طول التخزين الفارغ.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "string code = \"\";\nint size = code.Length;\nConsole.WriteLine(size);",
+          "challenge": {
+            "output": "0\n",
+            "declared": [
+              "code",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "operation": ".Length",
+            "operationIn": "size",
+            "cases": [
+              {
+                "inputs": {
+                  "code": ""
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "code": "AZ7"
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "code": "أحمد"
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "code": "🧮أ"
+                },
+                "output": "3\n"
+              }
+            ],
+            "read": [
+              "code"
+            ],
+            "types": {
+              "code": "string",
+              "size": "int"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring code = \"\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "الرمز اتحوّل من AB45 إلى AZ7. ليه البرنامج لسه بيطبع 4؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "الرمز اتحوّل من AB45 إلى AZ7. ليه البرنامج لسه بيطبع 4؟",
+          "options": [
+            "لأنه بيخزّن 4 يدويًا",
+            "لأن الطول لازم يكون string",
+            "لأن الرقم 7 لا يُحسب"
+          ],
+          "correctOptionIndex": 0,
+          "code": "string code = \"AZ7\";\nint size = 4;\nConsole.WriteLine(size);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "خلّي size يقرأ code.Length عشان القيمة تتغير مع النص.",
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nstring code = \"AZ7\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. خلّي size يقرأ code.Length عشان القيمة تتغير مع النص.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. خلّي size يقرأ code.Length عشان القيمة تتغير مع النص.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "string code = \"AZ7\";\nint size = 4;\nConsole.WriteLine(size);",
+          "solution": "string code = \"AZ7\";\nint size = code.Length;\nConsole.WriteLine(size);",
+          "challenge": {
+            "output": "3\n",
+            "declared": [
+              "code",
+              "size"
+            ],
+            "printed": [
+              "size"
+            ],
+            "operation": ".Length",
+            "operationIn": "size",
+            "cases": [
+              {
+                "inputs": {
+                  "code": ""
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "code": "AZ7"
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "code": "أحمد"
+                },
+                "output": "4\n"
+              },
+              {
+                "inputs": {
+                  "code": "🧮أ"
+                },
+                "output": "3\n"
+              }
+            ],
+            "read": [
+              "code"
+            ],
+            "types": {
+              "code": "string",
+              "size": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring code = \"AZ7\";\nint size = code.Length;\nConsole.WriteLine(size);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن أحمد في label. احفظ طول label في count واطبعه.",
+          "instruction": "يا كمبيوتر، خزّن أحمد في label. احفظ طول label في count واطبعه.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "string label = \"أحمد\";\nint count = label.Length;\nConsole.WriteLine(count);",
+          "challenge": {
+            "output": "4\n",
+            "declared": [
+              "label",
+              "count"
+            ],
+            "printed": [
+              "count"
+            ],
+            "operation": ".Length",
+            "operationIn": "count",
+            "cases": [
+              {
+                "inputs": {
+                  "label": ""
+                },
+                "output": "0\n"
+              },
+              {
+                "inputs": {
+                  "label": "عمر"
+                },
+                "output": "3\n"
+              },
+              {
+                "inputs": {
+                  "label": "🧮أ"
+                },
+                "output": "3\n"
+              }
+            ],
+            "read": [
+              "label"
+            ],
+            "types": {
+              "label": "string",
+              "count": "int"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "الطول معلومة تقرأها من قيمة code.",
+            "القاعدة: خاصية Length تُقرأ من غير أقواس استدعاء. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب int size = code.Length;.",
+            "كشف الحل:\nstring label = \"أحمد\";\nint count = label.Length;\nConsole.WriteLine(count);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "string code = \"AZ7\";\nint size = 4;\nConsole.WriteLine(size);",
+        "fixedCode": "string code = \"AZ7\";\nint size = code.Length;\nConsole.WriteLine(size);",
+        "question": "الرمز اتحوّل من AB45 إلى AZ7. ليه البرنامج لسه بيطبع 4؟",
+        "explanation": "خلّي size يقرأ code.Length عشان القيمة تتغير مع النص.",
+        "options": [
+          "لأنه بيخزّن 4 يدويًا",
+          "لأن الطول لازم يكون string",
+          "لأن الرقم 7 لا يُحسب"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-29-cast-before-division"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن الرمز AB45 في string اسمه code. احفظ code.Length في size واطبعه.",
+        "يا كمبيوتر، خزّن أحمد في label. احفظ طول label في count واطبعه."
+      ],
+      "commonMisconceptions": [
+        "خلّي size يقرأ code.Length عشان القيمة تتغير مع النص."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "النص",
+          "text": "AB45"
+        },
+        {
+          "label": "الخانات",
+          "text": "A · B · 4 · 5"
+        },
+        {
+          "label": "الطول",
+          "text": "٤"
+        }
+      ]
+    },
+    {
+      "id": "csharp-31-compose-message",
+      "legacyId": "csharp:30",
+      "title": "اكتب رسالة من نص وعدد",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 30,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "لما أحد طرفي + نص، الكمبيوتر يضم قيم الطرفين في نص. استخدم القيمة الحالية للعداد وسيب مساحة بعد العنوان.",
+      "whyUse": "مخرجات البرنامج تشرح معنى الرقم، وتظهر القيمة الجديدة لما العداد يتغير.",
+      "browserMechanics": "اقرأ النص والعدد. التتبّع يبين عملية الضم والنص الناتج قبل الطباعة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/addition-operator",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int seats = 2;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+      "breakdown": [
+        "اقرأ العنوان ومعه المسافة.",
+        "اقرأ seats.",
+        "ضمّهم في message واطبعها."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "عندك خانة اسمها المقاعد وعددها ٢. اعرضهم في سطر واحد واضح للقارئ.",
+          "instruction": "يا كمبيوتر، عندك خانة اسمها المقاعد وعددها ٢. اعرضهم في سطر واحد واضح للقارئ.",
+          "benefit": "مخرجات البرنامج تشرح معنى الرقم، وتظهر القيمة الجديدة لما العداد يتغير.",
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint seats = 2;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "لما أحد طرفي + نص، الكمبيوتر يضم قيم الطرفين في نص. استخدم القيمة الحالية للعداد وسيب مساحة بعد العنوان.",
+          "code": "int seats = 2;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+          "benefit": "اقرأ النص والعدد. التتبّع يبين عملية الضم والنص الناتج قبل الطباعة.",
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint seats = 2;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن seats = 2. اضم \"المقاعد: \" مع seats داخل message واطبعها.",
+          "instruction": "يا كمبيوتر، خزّن seats = 2. اضم \"المقاعد: \" مع seats داخل message واطبعها.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int seats = 2;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+          "challenge": {
+            "output": "المقاعد: 2\n",
+            "declared": [
+              "seats",
+              "message"
+            ],
+            "printed": [
+              "message"
+            ],
+            "operation": "+",
+            "operationIn": "message",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0
+                },
+                "output": "المقاعد: 0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 14
+                },
+                "output": "المقاعد: 14\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2
+                },
+                "output": "المقاعد: 2\n"
+              }
+            ],
+            "read": [
+              "seats"
+            ],
+            "types": {
+              "seats": "int",
+              "message": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint seats = 2;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر seats إلى 4 واترك صيغة تكوين الرسالة.",
+          "instruction": "يا كمبيوتر، غيّر seats إلى 4 واترك صيغة تكوين الرسالة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int seats = 4;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+          "challenge": {
+            "output": "المقاعد: 4\n",
+            "declared": [
+              "seats",
+              "message"
+            ],
+            "printed": [
+              "message"
+            ],
+            "operation": "+",
+            "operationIn": "message",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0
+                },
+                "output": "المقاعد: 0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 14
+                },
+                "output": "المقاعد: 14\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2
+                },
+                "output": "المقاعد: 2\n"
+              }
+            ],
+            "read": [
+              "seats"
+            ],
+            "types": {
+              "seats": "int",
+              "message": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint seats = 4;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، غيّر seats إلى 0 واعرض رسالة المقاعد.",
+          "instruction": "يا كمبيوتر، غيّر seats إلى 0 واعرض رسالة المقاعد.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int seats = 0;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+          "challenge": {
+            "output": "المقاعد: 0\n",
+            "declared": [
+              "seats",
+              "message"
+            ],
+            "printed": [
+              "message"
+            ],
+            "operation": "+",
+            "operationIn": "message",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0
+                },
+                "output": "المقاعد: 0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 14
+                },
+                "output": "المقاعد: 14\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2
+                },
+                "output": "المقاعد: 2\n"
+              }
+            ],
+            "read": [
+              "seats"
+            ],
+            "types": {
+              "seats": "int",
+              "message": "string"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint seats = 0;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "العداد فيه 4 والرسالة لسه فيها 2. أي جزء يحتاج تعديلًا؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "العداد فيه 4 والرسالة لسه فيها 2. أي جزء يحتاج تعديلًا؟",
+          "options": [
+            "خلي الرسالة تستخدم seats",
+            "اكتب 4 في نص ثابت",
+            "احذف المسافة بعد العنوان"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int seats = 4;\nstring message = \"المقاعد: \" + \"2\";\nConsole.WriteLine(message);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "اقرأ seats بدل وضع الرقم داخل علامات التنصيص.",
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint seats = 4;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ seats بدل وضع الرقم داخل علامات التنصيص.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ seats بدل وضع الرقم داخل علامات التنصيص.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int seats = 4;\nstring message = \"المقاعد: \" + \"2\";\nConsole.WriteLine(message);",
+          "solution": "int seats = 4;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+          "challenge": {
+            "output": "المقاعد: 4\n",
+            "declared": [
+              "seats",
+              "message"
+            ],
+            "printed": [
+              "message"
+            ],
+            "operation": "+",
+            "operationIn": "message",
+            "cases": [
+              {
+                "inputs": {
+                  "seats": 0
+                },
+                "output": "المقاعد: 0\n"
+              },
+              {
+                "inputs": {
+                  "seats": 14
+                },
+                "output": "المقاعد: 14\n"
+              },
+              {
+                "inputs": {
+                  "seats": 2
+                },
+                "output": "المقاعد: 2\n"
+              }
+            ],
+            "read": [
+              "seats"
+            ],
+            "types": {
+              "seats": "int",
+              "message": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint seats = 4;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن boxes = 2 وextra = 1. اجمع العددين أولًا بين قوسين ثم كوّن النص \"المجموع: \" مع الناتج في totalLabel.",
+          "instruction": "يا كمبيوتر، خزّن boxes = 2 وextra = 1. اجمع العددين أولًا بين قوسين ثم كوّن النص \"المجموع: \" مع الناتج في totalLabel.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int boxes = 2;\nint extra = 1;\nstring totalLabel = \"المجموع: \" + (boxes + extra);\nConsole.WriteLine(totalLabel);",
+          "challenge": {
+            "output": "المجموع: 3\n",
+            "declared": [
+              "boxes",
+              "extra",
+              "totalLabel"
+            ],
+            "printed": [
+              "totalLabel"
+            ],
+            "operation": "+",
+            "operationIn": "totalLabel",
+            "cases": [
+              {
+                "inputs": {
+                  "boxes": 1,
+                  "extra": 2
+                },
+                "output": "المجموع: 3\n"
+              },
+              {
+                "inputs": {
+                  "boxes": 10,
+                  "extra": 0
+                },
+                "output": "المجموع: 10\n"
+              }
+            ],
+            "read": [
+              "boxes",
+              "extra"
+            ],
+            "types": {
+              "boxes": "int",
+              "extra": "int",
+              "totalLabel": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "خلي الرقم متغيرًا يُقرأ، والمسافة موجودة داخل النص.",
+            "القاعدة: ضم نص مع قيمة باستخدام + يعطي نصًا. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب string message = \"المقاعد: \" + seats;.",
+            "كشف الحل:\nint boxes = 2;\nint extra = 1;\nstring totalLabel = \"المجموع: \" + (boxes + extra);\nConsole.WriteLine(totalLabel);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int seats = 4;\nstring message = \"المقاعد: \" + \"2\";\nConsole.WriteLine(message);",
+        "fixedCode": "int seats = 4;\nstring message = \"المقاعد: \" + seats;\nConsole.WriteLine(message);",
+        "question": "العداد فيه 4 والرسالة لسه فيها 2. أي جزء يحتاج تعديلًا؟",
+        "explanation": "اقرأ seats بدل وضع الرقم داخل علامات التنصيص.",
+        "options": [
+          "خلي الرسالة تستخدم seats",
+          "اكتب 4 في نص ثابت",
+          "احذف المسافة بعد العنوان"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-30-text-length"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن seats = 2. اضم \"المقاعد: \" مع seats داخل message واطبعها.",
+        "يا كمبيوتر، خزّن boxes = 2 وextra = 1. اجمع العددين أولًا بين قوسين ثم كوّن النص \"المجموع: \" مع الناتج في totalLabel."
+      ],
+      "commonMisconceptions": [
+        "اقرأ seats بدل وضع الرقم داخل علامات التنصيص."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة حجز صغيرة",
+      "sceneVisual": [
+        {
+          "label": "القالب",
+          "text": "المقاعد:"
+        },
+        {
+          "label": "القيمة",
+          "text": "٢"
+        },
+        {
+          "label": "الرسالة",
+          "text": "المقاعد: ٢"
+        }
+      ]
+    },
+    {
+      "id": "csharp-32-portion-card",
+      "legacyId": "csharp:31",
+      "title": "تطبيق بطاقة نصيب الزجاجة",
+      "skill": "الأنواع العددية والنصوص والتحويل",
+      "order": 31,
+      "unitId": "numeric-types-and-text",
+      "revision": 1,
+      "concept": "قسّم العمل على سطرين. احسب النصيب الكسري في portion أولًا، ثم استخدمه في رسالة label.",
+      "whyUse": "تجمع حسابًا ورسالة تعرض نتيجة متغيرة، وتقدر تعرف السطر المسؤول لو ظهر رقم غلط.",
+      "browserMechanics": "شاهد نوع القسمة والنتيجة، وبعدها شاهد انضمام القيمة إلى الرسالة في لقطة منفصلة.",
+      "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators",
+      "sourcesReviewedAt": "2026-11-18",
+      "code": "int liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+      "breakdown": [
+        "اقرأ اللترات وعدد الزجاجات غير الصفري.",
+        "حوّل liters أثناء حساب portion.",
+        "ضم portion إلى \"نصيب الزجاجة: \" ثم اطبع label."
+      ],
+      "steps": [
+        {
+          "id": "idea",
+          "type": "observe",
+          "title": "المشهد قبل الكود",
+          "objective": "في محطة التعبئة عندك ٧ لترات وزجاجتين. احسب نصيب كل زجاجة واطبع بطاقة توضح الكمية.",
+          "instruction": "يا كمبيوتر، في محطة التعبئة عندك ٧ لترات وزجاجتين. احسب نصيب كل زجاجة واطبع بطاقة توضح الكمية.",
+          "benefit": "تجمع حسابًا ورسالة تعرض نتيجة متغيرة، وتقدر تعرف السطر المسؤول لو ظهر رقم غلط.",
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "trace",
+          "type": "observe",
+          "title": "شاهد أمرًا واحدًا كل مرة",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
+          "explanation": "قسّم العمل على سطرين. احسب النصيب الكسري في portion أولًا، ثم استخدمه في رسالة label.",
+          "code": "int liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "benefit": "شاهد نوع القسمة والنتيجة، وبعدها شاهد انضمام القيمة إلى الرسالة في لقطة منفصلة.",
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "build",
+          "type": "build",
+          "title": "ابنِ المثال بيدك",
+          "objective": "يا كمبيوتر، خزّن liters = 7 وbottles = 2 كـ int. احسب portion الكسري، واطبع label بصيغة \"نصيب الزجاجة: \" مع القيمة.",
+          "instruction": "يا كمبيوتر، خزّن liters = 7 وbottles = 2 كـ int. احسب portion الكسري، واطبع label بصيغة \"نصيب الزجاجة: \" مع القيمة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "",
+          "solution": "int liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "نصيب الزجاجة: 3.5\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "+",
+            "operationIn": "label",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "نصيب الزجاجة: 2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 2\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "types": {
+              "liters": "int",
+              "bottles": "int",
+              "portion": "double",
+              "label": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "edit",
+          "type": "edit",
+          "title": "غيّر شيئًا واحدًا",
+          "objective": "يا كمبيوتر، غيّر liters إلى 8 واترك عدد الزجاجات 2. شغّل البطاقة.",
+          "instruction": "يا كمبيوتر، غيّر liters إلى 8 واترك عدد الزجاجات 2. شغّل البطاقة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int liters = 8;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "نصيب الزجاجة: 4\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "+",
+            "operationIn": "label",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "نصيب الزجاجة: 2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 2\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "types": {
+              "liters": "int",
+              "bottles": "int",
+              "portion": "double",
+              "label": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint liters = 8;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "experiment",
+          "type": "experiment",
+          "title": "تجربتك أنت",
+          "objective": "يا كمبيوتر، مع ٨ لترات غيّر bottles إلى 5. اطبع البطاقة الجديدة.",
+          "instruction": "يا كمبيوتر، مع ٨ لترات غيّر bottles إلى 5. اطبع البطاقة الجديدة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": null,
+          "solution": "int liters = 8;\nint bottles = 5;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "نصيب الزجاجة: 1.6\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "+",
+            "operationIn": "label",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "نصيب الزجاجة: 2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 2\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "types": {
+              "liters": "int",
+              "bottles": "int",
+              "portion": "double",
+              "label": "string"
+            },
+            "differentOutput": true
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint liters = 8;\nint bottles = 5;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "diagnose",
+          "type": "quiz",
+          "title": "اكتشف سبب الخطأ",
+          "objective": "البطاقة بتطبع 3 بدل 3.5. فين تبدأ التصحيح؟",
+          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "question": "البطاقة بتطبع 3 بدل 3.5. فين تبدأ التصحيح؟",
+          "options": [
+            "في سطر حساب portion",
+            "في النص قبل قيمة portion فقط",
+            "في سطر Console.WriteLine فقط"
+          ],
+          "correctOptionIndex": 0,
+          "code": "int liters = 7;\nint bottles = 2;\ndouble portion = liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "benefit": "حوّل liters إلى double عند حساب portion. الرسالة تطبع القيمة المحسوبة.",
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كشف الحل:\nint liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "repair",
+          "type": "repair",
+          "title": "أصلح وشاهد الفرق",
+          "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. حوّل liters إلى double عند حساب portion. الرسالة تطبع القيمة المحسوبة.",
+          "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. حوّل liters إلى double عند حساب portion. الرسالة تطبع القيمة المحسوبة.",
+          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "starterCode": "int liters = 7;\nint bottles = 2;\ndouble portion = liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "solution": "int liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+          "challenge": {
+            "output": "نصيب الزجاجة: 3.5\n",
+            "declared": [
+              "liters",
+              "bottles",
+              "portion",
+              "label"
+            ],
+            "printed": [
+              "label"
+            ],
+            "operation": "+",
+            "operationIn": "label",
+            "cases": [
+              {
+                "inputs": {
+                  "liters": 5,
+                  "bottles": 2
+                },
+                "output": "نصيب الزجاجة: 2.5\n"
+              },
+              {
+                "inputs": {
+                  "liters": 8,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 2\n"
+              },
+              {
+                "inputs": {
+                  "liters": 1,
+                  "bottles": 4
+                },
+                "output": "نصيب الزجاجة: 0.25\n"
+              }
+            ],
+            "read": [
+              "liters",
+              "bottles",
+              "portion"
+            ],
+            "types": {
+              "liters": "int",
+              "bottles": "int",
+              "portion": "double",
+              "label": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);"
+          ]
+        },
+        {
+          "id": "transfer",
+          "type": "build",
+          "title": "طبّق واحفظ لبنتك",
+          "objective": "يا كمبيوتر، خزّن juice = 9 وcups = 4 كأعداد صحيحة. احسب amount الكسري واطبع message بصيغة \"نصيب الكوب: \" مع القيمة.",
+          "instruction": "يا كمبيوتر، خزّن juice = 9 وcups = 4 كأعداد صحيحة. احسب amount الكسري واطبع message بصيغة \"نصيب الكوب: \" مع القيمة.",
+          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "starterCode": "",
+          "solution": "int juice = 9;\nint cups = 4;\ndouble amount = (double)juice / cups;\nstring message = \"نصيب الكوب: \" + amount;\nConsole.WriteLine(message);",
+          "challenge": {
+            "output": "نصيب الكوب: 2.25\n",
+            "declared": [
+              "juice",
+              "cups",
+              "amount",
+              "message"
+            ],
+            "printed": [
+              "message"
+            ],
+            "operation": "+",
+            "operationIn": "message",
+            "cases": [
+              {
+                "inputs": {
+                  "juice": 5,
+                  "cups": 2
+                },
+                "output": "نصيب الكوب: 2.5\n"
+              },
+              {
+                "inputs": {
+                  "juice": 0,
+                  "cups": 3
+                },
+                "output": "نصيب الكوب: 0\n"
+              }
+            ],
+            "read": [
+              "juice",
+              "cups",
+              "amount"
+            ],
+            "types": {
+              "juice": "int",
+              "cups": "int",
+              "amount": "double",
+              "message": "string"
+            }
+          },
+          "errorRules": [],
+          "hints": [
+            "شوف الجزء الكسري عند سطر الحساب، وبعدها راقب الرسالة.",
+            "القاعدة: الحساب يتم قبل ضم القيمة للنص. هل حددت الجزء الذي تحتاج تغييره؟",
+            "اكتب double portion = (double)liters / bottles; ثم اجمع \"نصيب الزجاجة: \" مع portion.",
+            "كشف الحل:\nint juice = 9;\nint cups = 4;\ndouble amount = (double)juice / cups;\nstring message = \"نصيب الكوب: \" + amount;\nConsole.WriteLine(message);"
+          ]
+        }
+      ],
+      "bugRepair": {
+        "brokenCode": "int liters = 7;\nint bottles = 2;\ndouble portion = liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+        "fixedCode": "int liters = 7;\nint bottles = 2;\ndouble portion = (double)liters / bottles;\nstring label = \"نصيب الزجاجة: \" + portion;\nConsole.WriteLine(label);",
+        "question": "البطاقة بتطبع 3 بدل 3.5. فين تبدأ التصحيح؟",
+        "explanation": "حوّل liters إلى double عند حساب portion. الرسالة تطبع القيمة المحسوبة.",
+        "options": [
+          "في سطر حساب portion",
+          "في النص قبل قيمة portion فقط",
+          "في سطر Console.WriteLine فقط"
+        ],
+        "correctOptionIndex": 0
+      },
+      "prerequisites": [
+        "csharp-31-compose-message"
+      ],
+      "learningOutcomes": [
+        "يا كمبيوتر، خزّن liters = 7 وbottles = 2 كـ int. احسب portion الكسري، واطبع label بصيغة \"نصيب الزجاجة: \" مع القيمة.",
+        "يا كمبيوتر، خزّن juice = 9 وcups = 4 كأعداد صحيحة. احسب amount الكسري واطبع message بصيغة \"نصيب الكوب: \" مع القيمة."
+      ],
+      "commonMisconceptions": [
+        "حوّل liters إلى double عند حساب portion. الرسالة تطبع القيمة المحسوبة."
+      ],
+      "acceptanceCriteria": [
+        "ينفذ المثال بالتتبع خطوة خطوة",
+        "يبني حلًا يحقق الناتج ويستخدم المفهوم المطلوب",
+        "يصلح الخطأ ويطبق في موقف جديد"
+      ],
+      "projectContext": "بطاقة تعبئة الزجاجات",
+      "sceneVisual": [
+        {
+          "label": "المدخل",
+          "text": "٧ لترات لزجاجتين"
+        },
+        {
+          "label": "الحساب",
+          "text": "٣٫٥ لكل زجاجة"
+        },
+        {
+          "label": "البطاقة",
+          "text": "نصيب الزجاجة: ٣٫٥"
         }
       ]
     }

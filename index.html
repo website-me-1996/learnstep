@@ -313,7 +313,7 @@
     <section class="cs-course" id="csharpCoursePanel" hidden aria-label="مسار تأسيس C#" dir="rtl">
       <header class="cs-heading">
         <div><span class="eyebrow">C# · أساسيات البرمجة</span><h2>من الأمر إلى أثره</h2><p>شاهد خطوة واحدة، اكتبها، ثم جرّبها بنفسك.</p></div>
-        <span class="cs-count" id="csharpCourseCount">ثلاث وحدات · ٢٤ درسًا</span>
+        <span class="cs-count" id="csharpCourseCount"></span>
       </header>
       <p id="csharpLoading" role="status">نحمّل دروس مسار C#…</p>
       <div id="csharpLoadError" class="cs-notice" hidden role="alert"><p>تعذّر تحميل الدروس. تقدمك المحفوظ لم يتغير.</p><button id="csharpRetry" type="button">حاول تحميل الدروس مرة أخرى</button></div>
@@ -350,6 +350,7 @@
               <section id="csharpTracePane" class="cs-trace" aria-label="فيلم التنفيذ">
                 <div class="cs-trace-heading"><h4>فيلم التنفيذ</h4><span id="csharpTraceCount"></span></div>
                 <ol id="csharpTraceLines" class="cs-trace-lines" dir="ltr" aria-label="أسطر البرنامج والسطر الحالي"></ol>
+                <div id="csharpCalculation" class="cs-comparison" aria-label="الحساب في الخطوة الحالية" hidden></div>
                 <div id="csharpComparison" class="cs-comparison" aria-label="القيم المقارنة في الخطوة الحالية" hidden><div><small>الطرف الأيسر</small><b id="csharpCompareLeft" dir="auto"></b></div><div><small>المعامل</small><b id="csharpCompareOperator" dir="ltr"></b></div><div><small>الطرف الأيمن</small><b id="csharpCompareRight" dir="auto"></b></div><div><small>النتيجة</small><b id="csharpCompareResult" dir="ltr"></b></div></div>
                 <div id="csharpLogic" class="cs-logic" aria-label="تقييم الشرط المنطقي" hidden></div>
                 <p id="csharpTraceAction" class="cs-trace-action" role="status" aria-live="polite"></p>
@@ -641,7 +642,7 @@
       <button class="course" data-course="js"><i></i><span id="jsCourseCount">JavaScript</span></button>
       <button class="course" data-course="database"><i></i><span id="databaseCourseCount">قواعد البيانات (SQL)</span></button>
       <button class="course angular-course-button" data-angular-open type="button"><i></i><span id="angularCourseCard">Angular · من الصفر</span></button>
-      <button class="course" data-csharp-open type="button"><i></i><span id="csharpCourseCard">C# · الأساسيات · ٢٤ درسًا</span></button>
+      <button class="course" data-csharp-open type="button"><i></i><span id="csharpCourseCard">C# · الأساسيات</span></button>
     </div>
   </section>
 

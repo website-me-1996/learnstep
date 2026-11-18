@@ -7,6 +7,15 @@ namespace StepLearn.CSharp;
 public static class Verification
 {
     private static readonly List<object> Results = [];
+    private static string InputLiteral(string type, JsonElement value)
+    {
+        return type switch
+        {
+            "double" => value.GetRawText() + "d",
+            "decimal" => value.GetString() + "m",
+            _ => value.GetRawText()
+        };
+    }
     private static async Task Check(string name, string source, string expected = "", string input = "", Func<JsonElement,bool>? validate = null)
     {
         try
@@ -35,7 +44,7 @@ public static class Verification
                 if(challenge.TryGetProperty("cases",out var cases)) {var index=0; foreach(var alternative in cases.EnumerateArray())
                 {
                     var modified=source;
-                    foreach(var value in alternative.GetProperty("inputs").EnumerateObject()) modified=Regex.Replace(modified,@"\b(int|string|bool)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+value.Value.GetRawText()+";");
+                    foreach(var value in alternative.GetProperty("inputs").EnumerateObject()) modified=Regex.Replace(modified,@"\b(int|double|decimal|string|bool)\s+"+Regex.Escape(value.Name)+@"\s*=\s*[^;]+;",m=>m.Groups[1].Value+" "+value.Name+" = "+InputLiteral(m.Groups[1].Value, value.Value)+";");
                     await Check(name+"/alternate/"+index++,modified,alternative.GetProperty("output").GetString()!);
                 }}
             }
@@ -58,6 +67,10 @@ public static class Verification
         await Check("compiler-original-column", columnSource, validate:r=>r.GetProperty("diagnostics").EnumerateArray().Any(d=>d.GetProperty("id").GetString()=="CS0029"&&d.GetProperty("column").GetInt32()==columnSource.IndexOf("\"text\"",StringComparison.Ordinal)+1));
         await Check("unsafe-disabled", "unsafe { int* p=null; }", validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("kind").GetString()=="compile");
         await Check("divide-zero", "int n=0;Console.WriteLine(1/n);", validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("exceptionType").GetString()=="DivideByZeroException");
+        await Check("division-before-widening", "int n=5; int d=2; double after=n/d; double before=(double)n/d; Console.WriteLine(after); Console.WriteLine(before);", "2\n2.5\n");
+        await Check("double-display", "Console.WriteLine(1e-6); Console.WriteLine(1e17); Console.WriteLine(-0.0);", "1E-06\n1E+17\n-0\n");
+        await Check("decimal-display", "decimal a=0.10m; decimal b=0.20m; Console.WriteLine(a+b); Console.WriteLine(a+b == 0.3m);", "0.30\nTrue\n");
+        await Check("utf16-length", "Console.WriteLine(\"🧮أ\".Length); Console.WriteLine(\"\".Length);", "3\n0\n");
         await Check("output-limit", "for(int i=0;i<20000;i++)Console.Write(\"x\");", validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("kind").GetString()=="limit"&&r.GetProperty("output").GetString()!.Length==16000);
         await Check("source-limit", new string(' ',32001), validate:r=>!r.GetProperty("ok").GetBoolean()&&r.GetProperty("kind").GetString()=="limit");
         await Check("recovery", "Console.WriteLine(\"again\");", "again\n");

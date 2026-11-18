@@ -52,10 +52,12 @@ These are implemented controls; their end-to-end browser behavior remains an acc
 
 Versions are recorded in the project and generated asset manifest. Upstream licensing and notices are described in `THIRD_PARTY_NOTICES.md` and copied alongside the assets.
 
-## Teaching interpreter through unit 3
+## Teaching interpreter through unit 4
 
 The interpreter now covers initialized `int`, `string`, and `bool` variables, arithmetic, comparisons, `!`, `&&`, `||`, and conditional branches. It checks both operand types before execution. The trace records which operands actually ran and distinguishes a skipped operand from a result of `false`. An `else if` chain records each condition it reaches and stops at the first match.
 
 Block-local variables leave scope at the closing brace. Updates to outer variables persist. Earlier snapshots preserve the values, comparisons, skipped lines, and logical evaluations from that step. String concatenation is capped at 16,000 characters. The optional WebAssembly engine awaits separate browser verification.
 
-`npm run curriculum:csharp` writes the three unit files and both copies of the combined curriculum. Existing learner saving uses the same lesson IDs, revisions, and draft keys.
+Unit 4 adds `double` and `decimal`, explicit integer conversions, `string.Length`, and calculation snapshots. The division snapshot shows the expression's type separately from the receiving variable's type. The teaching engine uses exact bounded decimal arithmetic for addition, subtraction, multiplication, comparison, and remainder. Decimal division, calculations that require rounding beyond that representation, and casts between `double` and `decimal` can be tried with .NET.
+
+`npm run curriculum:csharp` writes the unit files and both copies of the combined curriculum. Existing learner saving uses the same lesson IDs, revisions, and draft keys.
