@@ -16,25 +16,25 @@
     "P8": "pending",
     "P9": "pending"
   },
-  "nextAction": "Begin P7A at lesson 81 with fixed array capacity and logical length. Teach shifting, stack, queue, linked nodes, hash lookup and seen sets before matching the operations to .NET collections in P7B. Keep lessons 1–80 stable.",
+  "nextAction": "Begin P7B at lesson 89 by connecting the manual operations to Array and generic .NET collections List, Stack, Queue, LinkedList, Dictionary and HashSet. Keep lessons 1–88 stable.",
   "checks": {
     "npmTest": {
-      "passed": 746,
+      "passed": 794,
       "failed": 0
     },
-    "csharpTests": 576,
-    "canonicalLessonsValidated": 577,
+    "csharpTests": 624,
+    "canonicalLessonsValidated": 585,
     "productionBuild": "passed",
-    "browserQA": "Desktop Chrome displayed 80 lessons and saved completion. Lesson 78 showed original and other referring to object #1, Points changing from 3 to 9, printing 9, and restoring 3 on rewind.",
+    "browserQA": "Desktop Chrome displayed 88 lessons with earlier completion intact. Lesson 84 highlighted queue[1] with 22, advanced head to 2, printed one read and opened the scaffold for the update.",
     "realMobileDevice": "not_tested",
     "dotnetCompiler": {
       "runtime": "native-dotnet",
-      "passed": 1534,
+      "passed": 1699,
       "failed": 0,
-      "alternateInputCases": 1107,
+      "alternateInputCases": 1232,
       "report": "docs/csharp/native-verification.json",
       "browserWasm": "not_verified",
-      "curriculumSolutionsCompared": 400
+      "curriculumSolutionsCompared": 440
     },
     "assetIntegrity": "SHA-256 inventory and host/worker source synchronization passed"
   },
@@ -62,14 +62,14 @@
     "P4B": "complete",
     "P5A": "complete",
     "P5B": "complete",
-    "P7A": "pending",
+    "P7A": "complete",
     "P7B": "pending"
   },
   "curriculum": {
-    "lessons": 80,
-    "steps": 640,
-    "units": 10,
-    "latestUnit": "objects-and-references",
-    "nextUnit": "manual-data-structures"
+    "lessons": 88,
+    "steps": 704,
+    "units": 11,
+    "latestUnit": "manual-data-structures",
+    "nextUnit": "dotnet-collections"
   }
 }

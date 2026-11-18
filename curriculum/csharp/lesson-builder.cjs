@@ -19,12 +19,12 @@ function makeLesson(c, index, previousId, unitId) {
   const steps = [
     { id: "idea", type: "observe", title: "المشهد قبل الكود", objective: c.scene, instruction: "يا كمبيوتر، " + c.scene, benefit: c.why, errorRules: [], hints: hints(c.build.attention, c.build.rule, c.build.help, c.code) },
     { id: "trace", type: "observe", title: "شاهد أمرًا واحدًا كل مرة", objective: "تتبع أثر كل أمر في القيم والمخرجات.", instruction: "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.", explanation: c.concept, code: c.code, benefit: c.mechanics, errorRules: [], hints: hints(c.build.attention, c.build.rule, c.build.help, c.code) },
-    practical("build", "build", "ابنِ المثال بيدك", c.build, c.code, ""),
+    practical("build", "build", "ابنِ المثال بيدك", c.build, c.code, c.build.starterCode ?? ""),
     practical("edit", "edit", "غيّر شيئًا واحدًا", c.edit, c.edit.solution, null),
     practical("experiment", "experiment", "تجربتك أنت", c.experiment, c.experiment.solution, null),
     { id: "diagnose", type: "quiz", title: "اكتشف سبب الخطأ", objective: c.bug.question, instruction: "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.", question: c.bug.question, options: c.bug.options, correctOptionIndex: c.bug.correct, code: c.bug.broken, explanation: "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.", benefit: c.bug.explanation, errorRules: [], hints: hints(c.build.attention, c.build.rule, "قارن الناتج المطلوب بسطر الكود المرتبط به.", c.bug.fixed) },
     practical("repair", "repair", "أصلح وشاهد الفرق", { ...c.bug, task: "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. " + c.bug.explanation }, c.bug.fixed, c.bug.broken),
-    practical("transfer", "build", "طبّق واحفظ لبنتك", c.transfer, c.transfer.solution, "")
+    practical("transfer", "build", "طبّق واحفظ لبنتك", c.transfer, c.transfer.solution, c.transfer.starterCode ?? "")
   ];
   steps[4].challenge.differentOutput = true;
   if (c.build.stdin !== undefined) steps[1].stdin = c.build.stdin;
