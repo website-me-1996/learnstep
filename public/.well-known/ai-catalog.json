@@ -1,0 +1,107 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "LearnStep",
+    "identifier": "did:web:learn-step.dev",
+    "documentationUrl": "https://learn-step.dev/llms.txt",
+    "logoUrl": "https://learn-step.dev/favicon.svg"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:learn-step.dev:application:web-app",
+      "displayName": "LearnStep Interactive Web Application",
+      "type": "text/html",
+      "url": "https://learn-step.dev/",
+      "description": "Interactive Arabic-first web-based educational platform for learning modern software development (HTML, CSS, JavaScript, SQL/Databases, C#, Angular) with real-time feedback and step-by-step memory trace visualizers.",
+      "representativeQueries": [
+        "Learn programming in Arabic interactively",
+        "LearnStep coding platform and exercises",
+        "Interactive browser-based coding tutorials in Arabic"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:manifest:llms-txt",
+      "displayName": "LearnStep LLM Context & Guide",
+      "type": "text/plain",
+      "url": "https://learn-step.dev/llms.txt",
+      "description": "Summary of platform tracks, lesson counts, sandboxed execution architecture, and course structures for Large Language Models and automated agents.",
+      "representativeQueries": [
+        "Overview of LearnStep courses and curriculum",
+        "Course list and lesson counts for LearnStep",
+        "How LearnStep executes code in the browser"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:curriculum:html",
+      "displayName": "LearnStep HTML Curriculum",
+      "type": "application/json",
+      "url": "https://learn-step.dev/html-lessons.json",
+      "description": "54 interactive HTML lessons covering semantic elements, page layouts, modern form controls, multimedia, and accessibility.",
+      "representativeQueries": [
+        "HTML beginner tutorials and exercises in Arabic",
+        "HTML forms and semantic tags interactive curriculum",
+        "Practice HTML web development step by step"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:curriculum:css",
+      "displayName": "LearnStep CSS Curriculum",
+      "type": "application/json",
+      "url": "https://learn-step.dev/css-lessons.json",
+      "description": "94 interactive CSS lessons covering CSS variables, Flexbox, CSS Grid layouts, keyframe animations, and mobile-first responsive design.",
+      "representativeQueries": [
+        "Learn CSS Flexbox and Grid with interactive exercises",
+        "CSS responsive styling and animations in Arabic",
+        "Practice modern CSS layouts step by step"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:curriculum:javascript",
+      "displayName": "LearnStep JavaScript Curriculum",
+      "type": "application/json",
+      "url": "https://learn-step.dev/js-lessons.json",
+      "description": "119 interactive JavaScript lessons covering ES6+ syntax, functions, DOM manipulation, asynchronous programming, Promises, and fetch API.",
+      "representativeQueries": [
+        "Learn JavaScript from scratch in Arabic",
+        "Interactive JavaScript DOM manipulation and async exercises",
+        "Practice modern ES6 JavaScript step by step"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:curriculum:database",
+      "displayName": "LearnStep Database & SQL Curriculum",
+      "type": "application/json",
+      "url": "https://learn-step.dev/database-lessons.json",
+      "description": "124 interactive database lessons covering relational database design, SQL querying, joins, aggregations, transactions, and indexing.",
+      "representativeQueries": [
+        "Learn SQL and relational database queries in Arabic",
+        "Interactive SQL exercises for joins and aggregations",
+        "Practice database schema design and querying"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:curriculum:csharp",
+      "displayName": "LearnStep C# Curriculum",
+      "type": "application/json",
+      "url": "https://learn-step.dev/csharp-lessons.json",
+      "description": "117 step-by-step C# lessons across 16 units, featuring an AST interpreter and sandboxed Roslyn WebAssembly runner with real-time memory traces.",
+      "representativeQueries": [
+        "Learn C# programming with in-browser execution in Arabic",
+        "Interactive C# algorithms, OOP, and data structures",
+        "Practice C# with WebAssembly step-by-step execution"
+      ]
+    },
+    {
+      "identifier": "urn:air:learn-step.dev:curriculum:angular",
+      "displayName": "LearnStep Angular Curriculum",
+      "type": "application/json",
+      "url": "https://learn-step.dev/angular-lessons.json",
+      "description": "106 interactive Angular lessons running with in-browser WebContainer technology, covering components, signals, reactive forms, DI, and routing.",
+      "representativeQueries": [
+        "Learn modern Angular with WebContainers in Arabic",
+        "Interactive Angular components and signals exercises",
+        "Practice Angular framework step by step"
+      ]
+    }
+  ]
+}

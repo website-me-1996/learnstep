@@ -59,6 +59,17 @@ User-agent: Applebot-Extended
 Disallow: /
 
 # -----------------------------------------------------------------------------
+# Googlebot (Search Engine Indexing & Full Page Rendering)
+# Explicitly allow Googlebot full access to scripts and resources (lessons-data.js,
+# angular-course-data.js, etc.) to eliminate the 2/8 resource blocking in Google Rich Results.
+# -----------------------------------------------------------------------------
+User-agent: Googlebot
+Allow: /
+Disallow: /*.test.cjs$
+Disallow: /dist/
+Disallow: /.agents/
+
+# -----------------------------------------------------------------------------
 # General Search Engine Crawlers
 # Allow indexing of main landing pages but protect raw curriculum data files
 # -----------------------------------------------------------------------------

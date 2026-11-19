@@ -157,7 +157,7 @@
         markup += '<section id="projectTool-' + ability.id + '" class="feature-module"><h4>نموذج تسجيل</h4><p>اختبر الحقول محليًا؛ بياناتك لا تُرسل ولا تُحفظ.</p><form data-profile-module="signup"><label>الاسم<input name="name" required placeholder="اسمك"></label><label>البريد الإلكتروني<input name="email" type="email" required placeholder="name@example.com"></label><button type="submit">جرّب النموذج</button><p class="module-status" data-form-status aria-live="polite"></p></form></section>';
       } else if (ability.id === "photo-gallery") {
         var photos = growth.projectData.gallery.map(function(photo, index) {
-          return '<figure><img src="' + escapeHtml(photo.src) + '" alt="' + escapeHtml(photo.alt) + '"><figcaption>' + escapeHtml(photo.caption) + '</figcaption>' + (exportMode ? "" : '<button type="button" data-gallery-remove="' + index + '" aria-label="احذف صورة ' + escapeHtml(photo.caption) + '">احذف</button>') + '</figure>';
+          return '<figure><img src="' + escapeHtml(photo.src) + '" alt="' + escapeHtml(photo.alt || photo.caption || "صورة من معرض أعمالي") + '"><figcaption>' + escapeHtml(photo.caption) + '</figcaption>' + (exportMode ? "" : '<button type="button" data-gallery-remove="' + index + '" aria-label="احذف صورة ' + escapeHtml(photo.caption) + '">احذف</button>') + '</figure>';
         }).join(""),
             emptyMessage = growth.projectData.gallery.length ? "" : exportMode
               ? '<p class="gallery-empty">المعرض جاهز لعرض صور من تجاربك.</p>'
@@ -392,9 +392,15 @@
     document.getElementById("profileRolePreview").textContent = profileCard.role.trim() || "مجال تتعلمه";
     document.getElementById("profileAboutPreview").textContent = profileCard.about.trim() || "اكتب نبذة قصيرة، وشاهدها هنا.";
     document.getElementById("profileInitials").textContent = profileInitials();
-    photo.hidden = !profileCard.image;
-    photo.src = profileCard.image || "";
-    photo.alt = "صورة " + (profileCard.name.trim() || "صاحب البطاقة");
+    if (profileCard.image) {
+      photo.hidden = false;
+      photo.src = profileCard.image;
+      photo.alt = "صورة " + (profileCard.name.trim() || "صاحب البطاقة");
+    } else {
+      photo.hidden = true;
+      photo.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'%3E%3C/svg%3E";
+      photo.alt = "صورة صاحب البطاقة";
+    }
     document.getElementById("profileInitials").hidden = !!profileCard.image;
     document.getElementById("profileStepTitle").textContent = stepNames[step - 1];
     document.getElementById("profileStepCount").textContent = "خطوة " + ar(step) + " من ٣";

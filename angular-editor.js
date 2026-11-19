@@ -869,6 +869,10 @@ function parseAndEvaluateForBlocks(html, scope) {
             Object.keys(item).forEach((prop) => {
               const propRe = new RegExp(`\\{\\{\\s*${itemVar}\\.${prop}\\s*\\}\\}`, "g");
               itemHtml = itemHtml.replace(propRe, escapeHtml(String(item[prop])));
+              const altRe = new RegExp(`\\[alt\\]\\s*=\\s*['"]${itemVar}\\.${prop}['"]`, "g");
+              itemHtml = itemHtml.replace(altRe, `alt="${escapeHtml(String(item[prop]))}"`);
+              const srcRe = new RegExp(`\\[src\\]\\s*=\\s*['"]${itemVar}\\.${prop}['"]`, "g");
+              itemHtml = itemHtml.replace(srcRe, `src="${escapeHtml(String(item[prop]))}"`);
             });
           }
           itemHtml = itemHtml.replace(new RegExp(`\\{\\{\\s*${itemVar}\\s*\\}\\}`, "g"), escapeHtml(String(item)));
@@ -1526,6 +1530,12 @@ function updateAngularSimulatedPreview() {
   renderedHtml = renderedHtml.replace(/\[src\]\s*=\s*['"]([^'"]+)['"]/g, (_, key) => {
     const val = props[key] !== undefined ? props[key] : key;
     return `src="${escapeHtml(String(val))}"`;
+  });
+
+  // Property binding [alt]
+  renderedHtml = renderedHtml.replace(/\[alt\]\s*=\s*['"]([^'"]+)['"]/g, (_, key) => {
+    const val = props[key] !== undefined ? props[key] : key;
+    return `alt="${escapeHtml(String(val))}"`;
   });
 
   // 7. Property binding [disabled]
