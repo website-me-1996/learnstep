@@ -34,3 +34,7 @@
   Content-Type: application/manifest+json; charset=utf-8
   Cache-Control: public, max-age=86400
   Access-Control-Allow-Origin: *
+
+/googled8154b805837a28c.html
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=0, must-revalidate
