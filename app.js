@@ -34,6 +34,16 @@
       },
       s;
 
+  function scheduleIdleTask(fn) {
+    if (typeof window !== "undefined" && typeof window.requestIdleCallback === "function") {
+      return window.requestIdleCallback(fn, { timeout: 500 });
+    }
+    if (typeof setTimeout === "function") {
+      return setTimeout(fn, 0);
+    }
+    return fn();
+  }
+
   function migrateSeededCounters(state) {
     if (!state || state.statsVersion === 2) return state;
     if (state.lessons === 4) state.lessons = 0;
@@ -388,7 +398,8 @@
     document.getElementById("profileInitials").hidden = !!profileCard.image;
     document.getElementById("profileStepTitle").textContent = stepNames[step - 1];
     document.getElementById("profileStepCount").textContent = "خطوة " + ar(step) + " من ٣";
-    document.getElementById("profileStepMeter").style.width = ((step - 1) * 50) + "%";
+    var profileStepMeter = document.getElementById("profileStepMeter");
+    if (profileStepMeter) profileStepMeter.style.transform = "scaleX(" + (Math.max(0, Math.min(100, ((step - 1) * 50) || 0)) / 100) + ")";
     document.querySelectorAll("[data-profile-step]").forEach(function(section) {
       section.hidden = +section.dataset.profileStep !== step;
     });
@@ -646,7 +657,8 @@
       growth.projectParts.length > 0
     ];
     s.project = Math.round((projectChecks[0] ? 20 : 0) + (projectChecks[1] ? 20 : 0) + (profileCard.completed ? 20 : 0) + Math.min(40, growth.projectParts.length * 7));
-    document.getElementById("projectBar").style.width = s.project + "%";
+    var projectBar = document.getElementById("projectBar");
+    if (projectBar) projectBar.style.transform = "scaleX(" + (Math.max(0, Math.min(100, s.project || 0)) / 100) + ")";
     document.getElementById("projectPct").textContent = ar(s.project) + "٪";
     document.querySelectorAll("#projectChecks .check").forEach(function(el, i) {
       var isDone = projectChecks[i];
@@ -1018,7 +1030,7 @@
     document.querySelectorAll("[data-starter-project]").forEach(function(button) {
       button.onclick = function() { miniProjects.active = button.dataset.starterProject; saveMiniProjects(); renderMiniProjects(); };
     });
-    renderMiniProjects();
+    scheduleIdleTask(renderMiniProjects);
   }
 
   function saveGrowth() {
@@ -3741,9 +3753,7 @@
       next.disabled = step.type === "quiz" || step.type === "diagnose" || step.type === "project";
     }
     if (typeof renderSlotBuilder === "function") renderSlotBuilder(step, model);
-    if (typeof inspectGentleDomTree === "function") inspectGentleDomTree(editorValue, previewCourse);
     if (typeof updateHandCraftScore === "function") updateHandCraftScore(model.key, false, 0);
-    renderGrowthDashboard();
   }
 
   function renderGrowthLesson() {
@@ -4249,13 +4259,15 @@
       document.getElementById("nextUnlockName").textContent = next.title;
       document.getElementById("nextUnlockCopy").textContent = "هتفتح أداة «" + next.tool + "» ويضاف «" + next.project + "» إلى مشروعك.";
       document.getElementById("nextUnlockProgress").textContent = ar(progress.percent) + "٪";
-      document.getElementById("nextUnlockBar").style.width = progress.percent + "%";
+      var nextUnlockBar = document.getElementById("nextUnlockBar");
+      if (nextUnlockBar) nextUnlockBar.style.transform = "scaleX(" + (Math.max(0, Math.min(100, progress.percent || 0)) / 100) + ")";
       document.getElementById("nextUnlockNeed").textContent = remaining ? "باقي " + ar(remaining) + " " + (remaining === 1 ? "خطوة من متطلباتها" : "خطوات من متطلباتها") : "أنت قريب — أكمل المتطلب الأخير.";
     } else {
       document.getElementById("nextUnlockName").textContent = "كل القدرات اتفتحت";
       document.getElementById("nextUnlockCopy").textContent = "اختر قدرة وحوّلها إلى مشروعك الخاص.";
       document.getElementById("nextUnlockProgress").textContent = "✓";
-      document.getElementById("nextUnlockBar").style.width = "100%";
+      var nextUnlockBar = document.getElementById("nextUnlockBar");
+      if (nextUnlockBar) nextUnlockBar.style.transform = "scaleX(1)";
       document.getElementById("nextUnlockNeed").textContent = "خريطة الدروس تظل متاحة عندما تحتاجها.";
     }
     document.getElementById("projectPartCount").textContent = growth.projectParts.length
@@ -4491,11 +4503,39 @@
     document.getElementById("lesson").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  var phaseCutoffs = null;
+  function getPhaseCutoffs() {
+    if (!phaseCutoffs && typeof cssSequence !== "undefined" && typeof jsSequence !== "undefined" && cssSequence && jsSequence) {
+      var r = cssSequence.indexOf("CSS Responsive Intro");
+      if (r !== -1) {
+        phaseCutoffs = {
+          cssResponsive: r,
+          cssGrid: cssSequence.indexOf("CSS Grid Intro"),
+          cssFlexbox: cssSequence.indexOf("CSS Flexbox Intro"),
+          cssAdvanced: cssSequence.indexOf("CSS Advanced: Rounded Corners"),
+          jsAjax: jsSequence.indexOf("JS AJAX"),
+          jsTemporal: jsSequence.indexOf("JS Temporal"),
+          jsWindowApi: jsSequence.indexOf("JS Window API"),
+          jsHtmlDom: jsSequence.indexOf("JS HTML DOM")
+        };
+      }
+    }
+    return phaseCutoffs;
+  }
+
   function coursePhase(key, index) {
     var curriculum = curriculumTracks[key],
         lesson = curriculum && curriculum.lessons[index];
     if (lesson && lesson.skill) return lesson.skill;
+    var cutoffs = getPhaseCutoffs();
     if (key === "css") {
+      if (cutoffs) {
+        if (index >= cutoffs.cssResponsive) return "التصميم المتجاوب · CSS Responsive";
+        if (index >= cutoffs.cssGrid) return "الشبكة · CSS Grid";
+        if (index >= cutoffs.cssFlexbox) return "المرونة · CSS Flexbox";
+        if (index >= cutoffs.cssAdvanced) return "التنسيق المتقدم · CSS Advanced";
+        return "الأساسيات · CSS Fundamentals";
+      }
       if (index >= cssSequence.indexOf("CSS Responsive Intro")) return "التصميم المتجاوب · CSS Responsive";
       if (index >= cssSequence.indexOf("CSS Grid Intro")) return "الشبكة · CSS Grid";
       if (index >= cssSequence.indexOf("CSS Flexbox Intro")) return "المرونة · CSS Flexbox";
@@ -4503,6 +4543,13 @@
       return "الأساسيات · CSS Fundamentals";
     }
     if (key === "js") {
+      if (cutoffs) {
+        if (index >= cutoffs.jsAjax) return "تقنيات أقدم · Old Technologies";
+        if (index >= cutoffs.jsTemporal) return "الموضوعات المتقدمة · JavaScript Advanced";
+        if (index >= cutoffs.jsWindowApi) return "واجهات المتصفح · JavaScript Web APIs";
+        if (index >= cutoffs.jsHtmlDom) return "عناصر الصفحة · JavaScript HTML DOM";
+        return "الأساسيات · JavaScript Tutorial";
+      }
       if (index >= jsSequence.indexOf("JS AJAX")) return "تقنيات أقدم · Old Technologies";
       if (index >= jsSequence.indexOf("JS Temporal")) return "الموضوعات المتقدمة · JavaScript Advanced";
       if (index >= jsSequence.indexOf("JS Window API")) return "واجهات المتصفح · JavaScript Web APIs";
@@ -6270,7 +6317,13 @@
   }
   window.addEventListener("scroll", throttledUpdateActiveSection, { passive: true });
   window.addEventListener("resize", throttledUpdateActiveSection);
-  updateActiveSection();
+  if (typeof window !== "undefined" && typeof window.requestAnimationFrame === "function") {
+    window.requestAnimationFrame(updateActiveSection);
+  } else if (typeof setTimeout === "function") {
+    setTimeout(updateActiveSection, 0);
+  } else {
+    updateActiveSection();
+  }
 
   var livePreviewTimer = null;
   var saveGrowthTimer = null;
