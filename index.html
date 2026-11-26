@@ -283,6 +283,22 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
       <p id="heroNextCopy">تجربة قصيرة تضيف جزءًا حقيقيًا لمشروعك.</p>
       <div class="meta growth-meta"><span id="heroProjectMeta">لبنات أُضيفت للمشروع · ٠</span><span id="heroUnlockMeta">القدرة التالية · صفحة شخصية</span><span id="heroAbilityMeta">قدراتك · ٠</span></div>
       <div class="hero-actions"><button class="cta" id="continue">كمّل من آخر خطوة ←</button><button class="hero-challenge" id="openDailyChallenge">تحدي اليوم · ١–٥ دقائق</button></div>
+      <div class="hero-curiosity-box" id="heroCuriosityBox">
+        <div class="hero-curiosity-head">
+          <span class="hero-curiosity-badge" id="heroCuriosityBadge">⚡ شرارة فضول مفتوحة</span>
+          <button type="button" class="hero-pin-toggle" id="heroPinToggle" aria-expanded="false">+ سجّل فكرة لتجربتها</button>
+        </div>
+        <p class="hero-curiosity-text" id="heroCuriosityText">ماذا يتغير في الصفحة لو عدّلت سطرًا واحدًا وشاهدت النتيجة فورًا؟</p>
+        <div class="hero-curiosity-actions">
+          <button type="button" class="hero-spark-run" id="heroSparkRun">جرّب الفكرة وشوف النتيجة ←</button>
+          <div class="hero-spark-pills" id="heroSparkPills" aria-label="أفكار سريعة للتجربة"></div>
+        </div>
+        <form class="hero-idea-form" id="heroIdeaForm" hidden>
+          <label class="sr" for="heroIdeaInput">اكتب فكرة تعديل تحب رؤية نتيجتها</label>
+          <input id="heroIdeaInput" type="text" maxlength="160" placeholder="خطرت لك فكرة؟ اكتبها هنا لتستقبلك عند العودة (مثال: أجرّب تغيير لون البطاقة)">
+          <button type="submit">ثبّت الفكرة</button>
+        </form>
+      </div>
     </div>
     <div class="book" aria-hidden="true">
       <div class="paper">
@@ -366,6 +382,7 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
           <h4 id="guideTitle"></h4>
           <p class="guide-copy" id="guideCopy"></p>
           <a class="lesson-reference" id="lessonReference" target="_blank" rel="noopener noreferrer" hidden>افتح شرح W3Schools الكامل ↗</a>
+          <div class="predict-hook-card" id="predictHookCard" hidden></div>
           <div class="guide-visual" id="guideVisual"></div>
           <div class="slot-builder-container" id="slotBuilder" hidden></div>
           <div class="gentle-tree-container" id="gentleTreeGuide" hidden></div>
@@ -394,6 +411,7 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
               <div class="editor-head-meta">
                 <span class="hand-craft-badge" id="handCraftMeter" title="نسبة الكود المكتوب بيدك دون الاعتماد على القوالب الجاهزة">🔨 كتابتك بيدك: ٠٪</span>
                 <span id="filename">script.js</span>
+                <button type="button" class="tinker-mode-btn" id="tinkerModeBtn" aria-pressed="false" title="تبديل بين الخطوة الموجهة والمعمل الحر لتجربة أفكارك بدون قيود">🧪 تجربة حرة</button>
                 <button type="button" class="layout-toggle-btn" id="layoutToggleBtn" aria-label="تبديل مظهر المحرر إلى عرض عمودي" title="تبديل إلى العرض العمودي (أسفل المحرر)" aria-pressed="false" data-layout="side">
                   <svg class="layout-icon layout-icon-side" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="display:none">
                     <rect x="1" y="2" width="6" height="12" rx="1.5" opacity="0.6"/>
@@ -407,10 +425,26 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
                 </button>
               </div>
             </div>
+            <div class="tinker-toolbar" id="tinkerToolbar" hidden>
+              <div class="tinker-toolbar-head">
+                <span id="tinkerBannerText">🧪 وضع المعمل الحر: عدّل واكسر وغيّر أي سطر وشاهد النتيجة فورًا بدون قيود الخطوة.</span>
+                <div class="tinker-toolbar-buttons">
+                  <button type="button" class="tinker-action-btn" id="tinkerSparkMutate">⚡ جرّب تعديل مفاجئ</button>
+                  <button type="button" class="tinker-action-btn primary" id="tinkerSaveSnapshot">💾 احفظ الأثر في مشروعي</button>
+                  <button type="button" class="tinker-action-btn" id="tinkerExitBtn">↩ عودة للدرس الموجه</button>
+                </div>
+              </div>
+              <form class="tinker-idea-inline" id="tinkerIdeaForm">
+                <label class="sr" for="tinkerIdeaInput">فكرة للمرة الجاية</label>
+                <input id="tinkerIdeaInput" type="text" maxlength="160" placeholder="خطرت لك فكرة تعديل جديدة؟ ثبّتها هنا لتفتح عليها المرة الجاية…">
+                <button type="submit">📌 ثبّت للمرة الجاية</button>
+              </form>
+            </div>
             <textarea id="code" dir="ltr" aria-label="محرر الكود" spellcheck="false"></textarea>
             <div class="editorfoot">
               <span id="hint">عدّل سطرًا واحدًا وشغّله</span>
               <div class="editor-actions">
+                <button class="editor-pin-idea" id="pinIdeaFromLesson" type="button" title="ثبّت فكرة أو تجربة لتعود إليها لاحقًا">📌 ثبّت فكرة</button>
                 <button class="editor-download" id="downloadLessonFile" type="button" title="نزّل كود الدرس الحالي كملف على جهازك">تنزيل الكود ⭳</button>
                 <button class="run" id="run">▶ شغّل الكود</button>
               </div>
@@ -460,18 +494,35 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
         </aside>
         <div class="cs-main">
           <article class="card cs-guide">
-            <div class="cs-guide-meta"><span id="csharpUnitLabel">فكرة واحدة · تجربة واحدة</span><span id="csharpStepCount"></span></div>
+            <div class="cs-guide-meta"><span id="csharpUnitLabel">فكرة واحدة · تجربة واحدة</span><div class="cs-guide-tools"><button id="csharpTinkerModeBtn" class="tinker-mode-btn" type="button" aria-pressed="false" title="جرّب كود C# بحرية وشاهد التتبّع والمخرجات فورًا">🧪 تجربة حرة</button><button id="csharpPinIdeaBtn" class="editor-pin-idea" type="button" title="ثبّت فكرة أو تجربة لتعود إليها لاحقًا">📌 ثبّت فكرة</button><span id="csharpStepCount"></span></div></div>
             <h3 id="csharpLessonTitle"></h3><h4 id="csharpStepTitle"></h4>
+            <div id="csharpPredictHookCard" class="predict-hook-card" hidden></div>
             <div id="csharpScene" class="cs-scene" aria-label="مشهد الفكرة قبل الكود" hidden></div>
             <p id="csharpExplanation"></p><p id="csharpInstruction" class="cs-instruction"></p>
             <details id="csharpDetails" hidden><summary>تفكيك أجزاء المثال عند الحاجة</summary><ul id="csharpBreakdown"></ul></details>
             <div id="csharpExpectedWrap" class="cs-expected" hidden><b>الناتج المطلوب</b><pre id="csharpExpected" dir="auto"></pre></div>
             <div id="csharpQuiz" class="cs-quiz" hidden></div>
             <p id="csharpFeedback" class="cs-feedback" role="status" aria-live="polite"></p>
+            <div id="csharpNextSparkBox" class="next-spark-box" hidden></div>
             <a id="csharpReference" class="cs-reference" href="https://learn.microsoft.com/en-us/training/modules/csharp-write-first/" target="_blank" rel="noopener noreferrer">مرجع الفكرة من Microsoft Learn ↗</a>
             <a id="csharpAlgorithmReference" class="cs-reference" target="_blank" rel="noopener noreferrer" hidden>مرجع الخوارزمية من NIST ↗</a>
           </article>
           <div id="csharpWorkbench" class="card cs-workbench" hidden>
+            <div id="csharpTinkerToolbar" class="tinker-toolbar" hidden>
+              <div class="tinker-toolbar-head">
+                <span>🧪 المعمل الحر لـ C#: عدّل وشغّل التتبّع أو .NET بحرية تامة بدون قيود التحدي.</span>
+                <div class="tinker-toolbar-buttons">
+                  <button type="button" class="tinker-action-btn" id="csharpTinkerSparkMutate">⚡ جرّب تعديل مفاجئ</button>
+                  <button type="button" class="tinker-action-btn primary" id="csharpTinkerSaveSnapshot">💾 احفظ الأثر في مشروعي</button>
+                  <button type="button" class="tinker-action-btn" id="csharpTinkerExitBtn">↩ عودة للخطوة الموجهة</button>
+                </div>
+              </div>
+              <form class="tinker-idea-inline" id="csharpTinkerIdeaForm">
+                <label class="sr" for="csharpTinkerIdeaInput">فكرة C# للمرة الجاية</label>
+                <input id="csharpTinkerIdeaInput" type="text" maxlength="160" placeholder="خطرت لك فكرة تجربة في C#؟ ثبّتها هنا لتفتح عليها المرة الجاية…">
+                <button type="submit">📌 ثبّت للمرة الجاية</button>
+              </form>
+            </div>
             <div class="cs-runtime"><b id="csharpRuntimeLabel"></b><p id="csharpRuntimeNote">التتبّع التعليمي يشرح القيم والحساب والمقارنات والشروط خطوة خطوة.</p>
               <div id="csharpEngineControls" class="cs-engine-controls"><label for="csharpEngine">طريقة التشغيل</label><select id="csharpEngine"><option value="trace">التتبّع التعليمي</option><option value="dotnet">C# / .NET — تجريبي، تحميل اختياري</option></select><span id="csharpDownloadSize"></span></div>
               <details id="csharpInput" hidden><summary>مدخلات البرنامج</summary><label class="sr" for="csharpStdin">مدخلات البرنامج، كل قيمة في سطر</label><textarea id="csharpStdin" class="cs-stdin" dir="auto" maxlength="16000" placeholder="كل قيمة في سطر مستقل"></textarea></details>
@@ -556,10 +607,12 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
             <h3 id="angularLessonTitle"></h3>
             <p id="angularLessonConcept" class="angular-lesson-concept"></p>
             <div id="angularLessonFlow" class="angular-lesson-flow" dir="ltr"></div>
+            <div id="angularPredictHookCard" class="predict-hook-card" hidden></div>
             <div id="angularLessonTask" class="angular-lesson-task"></div>
             <div class="slot-builder-container" id="angularSlotBuilder" hidden></div>
             <div class="gentle-tree-container" id="angularGentleTreeGuide" hidden></div>
             <div id="angularStepActions" class="guide-actions"></div>
+            <div id="angularNextSparkBox" class="next-spark-box" hidden></div>
 
             <div class="angular-step-navigation">
               <button id="angularStepPrev" type="button" class="guide-previous" disabled>← راجع الخطوة السابقة</button>
@@ -588,12 +641,29 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
               </div>
               <div class="angular-workbench-actions">
                 <button id="angularRun" class="run" type="button">▶ شغّل وافحص</button>
+                <button id="angularTinkerModeBtn" class="tinker-mode-btn" type="button" aria-pressed="false" title="جرّب تعديل ملفات Angular بحرية وشاهد المعاينة بدون قيود الخطوة">🧪 تجربة حرة</button>
+                <button id="angularPinIdeaBtn" class="editor-pin-idea" type="button" title="ثبّت فكرة أو تجربة لتعود إليها لاحقًا">📌 ثبّت فكرة</button>
                 <button id="angularNewFile" class="angular-tool-button" type="button">＋ ملف</button>
                 <button id="angularReset" class="angular-tool-button" type="button">إعادة تجربة الدرس</button>
                 <button id="angularExport" class="angular-tool-button" type="button">نزّل ZIP</button>
                 <label class="angular-tool-button angular-import-label" for="angularImport">استورد ZIP</label>
                 <input id="angularImport" type="file" accept=".zip,application/zip" hidden>
               </div>
+            </div>
+            <div id="angularTinkerToolbar" class="tinker-toolbar" hidden>
+              <div class="tinker-toolbar-head">
+                <span>🧪 المعمل الحر لـ Angular: عدّل في القالب أو TypeScript بحرية وشاهد المعاينة الحية فورًا.</span>
+                <div class="tinker-toolbar-buttons">
+                  <button type="button" class="tinker-action-btn" id="angularTinkerSparkMutate">⚡ جرّب تعديل مفاجئ</button>
+                  <button type="button" class="tinker-action-btn primary" id="angularTinkerSaveSnapshot">💾 احفظ الأثر في مشروعي</button>
+                  <button type="button" class="tinker-action-btn" id="angularTinkerExitBtn">↩ عودة للدرس الموجه</button>
+                </div>
+              </div>
+              <form class="tinker-idea-inline" id="angularTinkerIdeaForm">
+                <label class="sr" for="angularTinkerIdeaInput">فكرة Angular للمرة الجاية</label>
+                <input id="angularTinkerIdeaInput" type="text" maxlength="160" placeholder="خطرت لك فكرة في Angular؟ ثبّتها هنا لتفتح عليها المرة الجاية…">
+                <button type="submit">📌 ثبّت للمرة الجاية</button>
+              </form>
             </div>
 
             <div class="angular-workbench-body">
@@ -751,6 +821,33 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
         </div>
       </div>
     </div>
+
+    <section class="project-curiosity" id="projectCuriositySection" aria-labelledby="projectCuriosityTitle">
+      <div class="project-curiosity-grid">
+        <div class="project-ideas-panel">
+          <div class="project-panel-head">
+            <div>
+              <span class="eyebrow">دفتر الشرارات</span>
+              <h3 id="projectCuriosityTitle">أفكاري المفتوحة للتجربة</h3>
+            </div>
+            <small id="ideaQueueCount">٠ أفكار</small>
+          </div>
+          <p class="project-panel-copy">كل فكرة تخطر ببالك وتثبّتها هنا تبقى مفتوحة لتستقبلك عند العودة.</p>
+          <ul class="idea-queue-list" id="projectIdeaList" aria-live="polite"></ul>
+        </div>
+        <div class="project-snapshots-panel">
+          <div class="project-panel-head">
+            <div>
+              <span class="eyebrow">معرض المعمل الحر</span>
+              <h3>تجاربي الحية المحفوظة</h3>
+            </div>
+            <small id="tinkerSnapshotCount">٠ تجارب</small>
+          </div>
+          <p class="project-panel-copy">التجارب التي غيّرتها بيدك في المعمل الحر يمكنك معاينتها هنا والعودة لتعديلها في أي وقت.</p>
+          <div class="tinker-snapshot-grid" id="projectTinkerSnapshots" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
 
     <section class="starter-projects" aria-labelledby="starterProjectsTitle">
       <div class="starter-projects-head">
@@ -918,6 +1015,13 @@ main{grid-column:2;min-width:0;padding:20px 24px 38px;width:100%}
         if (btn) btn.click();
       });
     }
+  });
+  window.addEventListener("steplearn:open-csharp-curiosity", (event) => {
+    loadCsharp().then(() => {
+      if (window.CsharpCourse && typeof window.CsharpCourse.openCuriosityTarget === "function") {
+        window.CsharpCourse.openCuriosityTarget(event.detail || {});
+      }
+    });
   });
   document.querySelectorAll("[data-csharp-open]").forEach(btn => {
     btn.addEventListener("click", () => {

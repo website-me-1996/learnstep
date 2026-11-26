@@ -12,6 +12,7 @@ const learnerId = () => window.LearnerProfiles?.active().id || "default";
 const number = n => new Intl.NumberFormat("ar-EG").format(n);
 let course, progress, loading = false, trace = null, cursor = -1, hintLevel = 0;
 let dotnetRunner, realBusy = false, runVersion = 0;
+let csharpTinkerMode = false, csharpGuidedBackup = null, csharpActiveIdeaId = null, csharpTinkerMutationStep = 0;
 const activeLesson = () => course.lessons.find(l => l.id === progress.activeLessonId) || course.lessons[0];
 const record = () => lessonRecord(progress, activeLesson());
 const activeStep = () => activeLesson().steps[record().step];
@@ -260,6 +261,210 @@ function renderTrace() {
   $("csharpStepRun").disabled = activeStep()?.id === "diagnose" || (!!trace && cursor === trace.trace.length - 1);
   $("csharpTraceBack").disabled = cursor < 0;
 }
+function buildCsharpPredictChallenge(lesson) {
+  if (!lesson) return null;
+  const quizStep = lesson.steps?.find(s => s.type === "quiz" && Array.isArray(s.options) && s.options.length >= 2);
+  if (quizStep) {
+    return {
+      prompt: "توقّع قبل التنفيذ: " + (quizStep.question || quizStep.objective),
+      snippet: quizStep.code || lesson.code || "",
+      options: quizStep.options.slice(0, 4),
+      correct: typeof quizStep.correctOptionIndex === "number" ? quizStep.correctOptionIndex : 0,
+      note: quizStep.benefit || lesson.concept || ""
+    };
+  }
+  const repair = lesson.bugRepair;
+  if (repair && repair.question && Array.isArray(repair.options) && repair.options.length >= 2) {
+    return {
+      prompt: "توقّع قبل التنفيذ: " + repair.question,
+      snippet: repair.brokenCode || lesson.code || "",
+      options: repair.options.slice(0, 4),
+      correct: typeof repair.correctOptionIndex === "number" ? repair.correctOptionIndex : 0,
+      note: repair.explanation || lesson.concept || ""
+    };
+  }
+  return {
+    prompt: "توقّع قبل التنفيذ: ما الأثر الذي يظهر عند تشغيل مثال «" + lesson.title + "»؟",
+    snippet: lesson.code || "",
+    options: [
+      String(lesson.whyUse || lesson.concept || "ينفّذ الأمر ويعرض القيم والمخرجات خطوة بخطوة").slice(0, 120),
+      "لا ينتج أي أثر في الذاكرة أو المخرجات"
+    ],
+    correct: 0,
+    note: lesson.concept || ""
+  };
+}
+
+function renderCsharpPredictHook(lesson, r, step) {
+  const host = $("csharpPredictHookCard");
+  if (!host || !lesson) return;
+  const predId = "csharp:" + lesson.id;
+  const hasGlobal = window.StepLearnCuriosity?.hasPrediction?.(predId);
+  const shouldShow = !r.completed && !csharpTinkerMode && step?.id === "idea" && !r.predicted && !hasGlobal;
+  if (!shouldShow) {
+    host.hidden = true;
+    host.replaceChildren();
+    return;
+  }
+  const challenge = buildCsharpPredictChallenge(lesson);
+  if (!challenge) { host.hidden = true; return; }
+  host.hidden = false;
+  host.replaceChildren();
+
+  const head = document.createElement("div");
+  head.className = "predict-hook-head";
+  const badge = document.createElement("span");
+  badge.textContent = "🔮 فضول قبل التشغيل · C#";
+  const skip = document.createElement("button");
+  skip.type = "button"; skip.className = "predict-skip-btn"; skip.textContent = "تخطَّ التوقّع";
+  head.append(badge, skip);
+
+  const q = document.createElement("p");
+  q.className = "predict-hook-question";
+  q.textContent = challenge.prompt;
+
+  host.append(head, q);
+  if (challenge.snippet) {
+    const pre = document.createElement("pre");
+    pre.className = "predict-hook-code"; pre.dir = "ltr";
+    const c = document.createElement("code");
+    c.textContent = challenge.snippet;
+    pre.append(c);
+    host.append(pre);
+  }
+
+  const opts = document.createElement("div");
+  opts.className = "predict-hook-options";
+  const fb = document.createElement("p");
+  fb.className = "predict-hook-feedback";
+  fb.setAttribute("aria-live", "polite");
+
+  const reveal = (idx) => {
+    r.predicted = true;
+    window.StepLearnCuriosity?.savePrediction?.(predId, idx);
+    save();
+    if (idx < 0) { host.hidden = true; return; }
+    opts.querySelectorAll("button").forEach((b, i) => {
+      b.disabled = true;
+      b.classList.toggle("selected", i === idx);
+      b.classList.toggle("correct", i === challenge.correct);
+    });
+    fb.textContent = (idx === challenge.correct ? "✓ توقعك في محله! " : "💡 مفاجأة جميلة — ") + challenge.note + " ";
+    const jump = document.createElement("button");
+    jump.type = "button"; jump.className = "predict-tinker-jump"; jump.textContent = "جرّب تعدّلها في المعمل الحر الآن ←";
+    jump.addEventListener("click", () => { host.hidden = true; enterCsharpTinkerMode(lesson.code); });
+    fb.append(jump);
+  };
+
+  challenge.options.forEach((opt, idx) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "predict-option-btn"; b.textContent = opt;
+    b.addEventListener("click", () => reveal(idx));
+    opts.append(b);
+  });
+  skip.addEventListener("click", () => reveal(-1));
+  host.append(opts, fb);
+}
+
+function enterCsharpTinkerMode(customCode, message, ideaId) {
+  const lesson = activeLesson();
+  if (!csharpTinkerMode) csharpGuidedBackup = code.value;
+  csharpTinkerMode = true;
+  csharpActiveIdeaId = ideaId || null;
+  const starter = typeof customCode === "string" && customCode.trim()
+    ? customCode
+    : (code.value.trim() ? code.value : (lesson?.code || 'Console.WriteLine("تجربة حرة في C#");'));
+  $("csharpWorkbench").hidden = false;
+  $("csharpEditorWrap").hidden = false;
+  $("csharpRun").hidden = false;
+  $("csharpEngineControls").hidden = false;
+  $("csharpTinkerToolbar").hidden = false;
+  $("csharpTinkerModeBtn").classList.add("active");
+  $("csharpTinkerModeBtn").setAttribute("aria-pressed", "true");
+  $("csharpPredictHookCard").hidden = true;
+  code.readOnly = false;
+  code.value = starter;
+  clearTrace();
+  feedback(message || "🧪 المعمل الحر لـ C# مفتوح: عدّل الكود وشغّل التتبّع أو .NET وشاهد النتيجة فورًا.");
+}
+
+function exitCsharpTinkerMode(skipRender) {
+  if (!csharpTinkerMode) return;
+  csharpTinkerMode = false;
+  csharpActiveIdeaId = null;
+  if (csharpGuidedBackup !== null) code.value = csharpGuidedBackup;
+  csharpGuidedBackup = null;
+  $("csharpTinkerToolbar").hidden = true;
+  $("csharpTinkerModeBtn").classList.remove("active");
+  $("csharpTinkerModeBtn").setAttribute("aria-pressed", "false");
+  if (!skipRender) render();
+}
+
+function mutateCsharpSpark() {
+  csharpTinkerMutationStep = (csharpTinkerMutationStep + 1) % 3;
+  const cleaned = code.value.replace(/\n\/\/ cs-tinker-spark[\s\S]*$/, "");
+  const sparks = [
+    '\n// cs-tinker-spark\nint bonus = 7;\nConsole.WriteLine("تجربة حرة: " + bonus);',
+    '\n// cs-tinker-spark\nstring tag = "أثر جديد";\nConsole.WriteLine(tag);',
+    '\n// cs-tinker-spark\nfor (int k = 1; k <= 3; k++) { Console.WriteLine(k * 10); }'
+  ];
+  code.value = (cleaned ? cleaned : 'Console.WriteLine("مرحبًا");') + sparks[csharpTinkerMutationStep];
+  run(true);
+  feedback("⚡ أضفنا تعديلًا مفاجئًا في C#! شوف التتبّع والمخرجات أسفل المحرر.");
+}
+
+function renderCsharpNextSpark(lesson, r, step) {
+  const box = $("csharpNextSparkBox");
+  if (!box || !lesson) return;
+  const show = r.completed || step?.id === "transfer";
+  if (!show) { box.hidden = true; box.replaceChildren(); return; }
+  const next = course.lessons[lesson.order + 1];
+  box.hidden = false;
+  box.replaceChildren();
+  const title = document.createElement("b");
+  title.textContent = "🔥 شرارة المرة الجاية · C#";
+  const copy = document.createElement("p");
+  copy.textContent = next
+    ? "الدرس الجاي («" + next.title + "»): " + (next.whyUse || next.concept || "تحدٍ عملي جديد ينتظرك.")
+    : "أنهيت كل دروس مسار C#! افتح المعمل الحر وجرّب بناء خوارزميتك الخاصة.";
+
+  const btns = document.createElement("div");
+  btns.className = "next-spark-buttons";
+  if (next) {
+    const peek = document.createElement("button");
+    peek.type = "button"; peek.className = "next-spark-peek"; peek.textContent = "ألقِ نظرة على لغز الدرس الجاي ←";
+    peek.addEventListener("click", () => { progress.activeLessonId = next.id; save(); exitCsharpTinkerMode(true); render(); });
+    btns.append(peek);
+  }
+  const tinkerBtn = document.createElement("button");
+  tinkerBtn.type = "button"; tinkerBtn.className = "next-spark-tinker"; tinkerBtn.textContent = "🧪 عدّل الكود في المعمل الحر";
+  tinkerBtn.addEventListener("click", () => enterCsharpTinkerMode(lesson.code));
+  btns.append(tinkerBtn);
+
+  const form = document.createElement("form");
+  form.className = "next-spark-idea-form";
+  const input = document.createElement("input");
+  input.maxLength = 160; input.placeholder = "فكرة C# خطرت لك وتحب تجربتها المرة الجاية…";
+  input.setAttribute("aria-label", "فكرة C# للمرة الجاية");
+  const submit = document.createElement("button");
+  submit.type = "submit"; submit.textContent = "📌 ثبّتها عند العودة";
+  form.append(input, submit);
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) { input.focus(); return; }
+    window.StepLearnCuriosity?.pinIdea?.({
+      text,
+      course: "csharp",
+      topicIndex: next ? next.order : lesson.order,
+      starterCode: code.value || lesson.code || ""
+    });
+    window.StepLearnCuriosity?.celebrate?.("ثبّتنا فكرتك في C# لتستقبلك عند العودة!", "#csharpNextSparkBox");
+    input.value = "";
+  });
+  box.append(title, copy, btns, form);
+}
+
 function renderRoadmap() {
   const done = course.lessons.filter(l => progress.lessons[l.id]?.completed).length;
   $("csharpCourseCount").textContent = number(done) + " من " + number(course.lessons.length) + " درسًا";
@@ -347,6 +552,8 @@ function render() {
   $("csharpBreakdown").replaceChildren();
   for (const item of lesson.breakdown) { const li = document.createElement("li"); li.textContent = item; $("csharpBreakdown").append(li); }
   feedback(r.completed && step.id === "transfer" ? "اللبنة محفوظة. تقدر تراجعها أو تفتح الدرس التالي." : "");
+  renderCsharpPredictHook(lesson, r, step);
+  renderCsharpNextSpark(lesson, r, step);
   clearTrace(); renderRoadmap();
 }
 
@@ -410,6 +617,15 @@ function run(all = true) {
     if (!trace) trace = runProgram(code.value, {}, stdin.value);
     cursor = all ? trace.trace.length - 1 : Math.min(cursor + 1, trace.trace.length - 1);
     renderTrace();
+    if (csharpTinkerMode) {
+      if (csharpActiveIdeaId) {
+        window.StepLearnCuriosity?.markTried?.(csharpActiveIdeaId);
+        csharpActiveIdeaId = null;
+      }
+      feedback("🧪 اشتغل كود C# في المعمل الحر! راقب التتبّع والمخرجات أدناه.");
+      window.StepLearnCuriosity?.celebrate?.("أطلقت تجربة حرة في C#!", "#csharpOutput");
+      return;
+    }
     if (step.id === "trace") {
       if (cursor === trace.trace.length - 1) {
         r.verified[step.id] = true; save(); $("csharpNext").disabled = false;
@@ -462,6 +678,7 @@ async function enter() {
 }
 function leave() {
   if (panel.hidden) return;
+  exitCsharpTinkerMode(true);
   stopReal(false); dotnetRunner?.dispose(); dotnetRunner = null;
   panel.hidden = true;
   document.querySelector("#lesson > .grid").hidden = false;
@@ -478,6 +695,7 @@ $("csharpRetry").addEventListener("click", () => void enter());
 window.addEventListener("steplearn:coursechange", e => { if (e.detail?.course !== "csharp") leave(); });
 code.addEventListener("input", () => {
   stopReal(false);
+  if (csharpTinkerMode) { clearTrace(); return; }
   const step = activeStep(), r = record(); r.drafts[step.id] = code.value; r.verified[step.id] = false;
   $("csharpNext").disabled = true; feedback(""); clearTrace(); save();
 });
@@ -510,7 +728,35 @@ $("csharpReset").addEventListener("click", () => {
   if (r.stdinDrafts) delete r.stdinDrafts[step.id];
   r.verified[step.id] = false; save(); render();
 });
-$("csharpPrevious").addEventListener("click", () => { const r = record(); r.step = Math.max(0, r.step - 1); save(); render(); });
+$("csharpPrevious").addEventListener("click", () => { exitCsharpTinkerMode(true); const r = record(); r.step = Math.max(0, r.step - 1); save(); render(); });
+$("csharpTinkerModeBtn")?.addEventListener("click", () => { if (csharpTinkerMode) exitCsharpTinkerMode(); else enterCsharpTinkerMode(); });
+$("csharpTinkerExitBtn")?.addEventListener("click", () => exitCsharpTinkerMode());
+$("csharpTinkerSparkMutate")?.addEventListener("click", () => mutateCsharpSpark());
+$("csharpTinkerSaveSnapshot")?.addEventListener("click", () => {
+  if (!code.value.trim()) return;
+  let out = "";
+  try { out = runProgram(code.value, {}, stdin.value).output || ""; } catch {}
+  const lesson = activeLesson();
+  window.StepLearnCuriosity?.saveSnapshot?.("C# · " + (lesson?.title || "تجربة"), "csharp", code.value + (out ? "\n\n// المخرجات:\n" + out : ""), "من المعمل الحر لـ C#");
+  window.StepLearnCuriosity?.celebrate?.("اتحفظت تجربة C# في قسم «مشاريعي»!", "#projectCuriositySection");
+});
+$("csharpTinkerIdeaForm")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const input = $("csharpTinkerIdeaInput");
+  const text = input?.value.trim() || "";
+  if (!text) { input?.focus(); return; }
+  const lesson = activeLesson();
+  window.StepLearnCuriosity?.pinIdea?.({ text, course: "csharp", topicIndex: lesson?.order || 0, starterCode: code.value || lesson?.code || "" });
+  window.StepLearnCuriosity?.celebrate?.("ثبّتنا فكرتك في C# للمرة الجاية!", "#heroCuriosityBox");
+  input.value = "";
+});
+$("csharpPinIdeaBtn")?.addEventListener("click", () => {
+  const lesson = activeLesson();
+  const text = "أجرّب تعديل فكرة في C#: «" + (lesson?.title || "البرنامج الحالي") + "»";
+  window.StepLearnCuriosity?.pinIdea?.({ text, course: "csharp", topicIndex: lesson?.order || 0, starterCode: code.value || lesson?.code || "" });
+  window.StepLearnCuriosity?.celebrate?.("ثبّتنا شرارة العودة لهذا الدرس في C#!", "#heroCuriosityBox");
+  feedback("📌 ثبّتنا الفكرة في «أفكاري المفتوحة» لتعود إليها متى شئت.");
+});
 $("csharpNext").addEventListener("click", () => {
   const lesson = activeLesson(), r = record(), step = activeStep();
   if (step.id !== "idea" && !r.verified[step.id]) return;
@@ -534,5 +780,18 @@ $("csharpDownload").addEventListener("click", () => {
   const url = URL.createObjectURL(blob), link = document.createElement("a");
   link.href = url; link.download = "Program.cs"; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
+window.CsharpCourse = {
+  openCuriosityTarget: async (target = {}) => {
+    await enter();
+    if (course && Number.isInteger(target.index) && target.index >= 0 && target.index < course.lessons.length) {
+      progress.activeLessonId = course.lessons[target.index].id;
+      save();
+      render();
+    }
+    if (target.tinker !== false) {
+      enterCsharpTinkerMode(target.code || "", target.note ? ("⚡ فكرتك المفتوحة: «" + target.note + "» — عدّل وشغّل!") : undefined, target.ideaId || null);
+    }
+  }
+};
 window.addEventListener("pagehide", () => { stopReal(false); dotnetRunner?.dispose(); dotnetRunner=null; if (progress) save(); });
 if (location.hash === "#csharp") void enter();

@@ -793,6 +793,27 @@
         ["101", "حساب التحويل", "4500"],
         ["202", "حساب الاستقبال", "5500"]
       ];
+    } else {
+      var literalMatch = query.match(/SELECT\s+(['"])([\s\S]*?)\1(?:\s+AS\s+([A-Za-z_][A-Za-z0-9_]*))?/i);
+      if (literalMatch) {
+        entity = "custom_literal";
+        cols = [literalMatch[3] || "result_value"];
+        rows = [[literalMatch[2].slice(0, 120)]];
+      } else {
+        var fromMatch = query.match(/FROM\s+([A-Za-z_][A-Za-z0-9_]*)/i);
+        var selectColsMatch = query.match(/SELECT\s+(?:DISTINCT\s+)?([\s\S]+?)\s+FROM\b/i);
+        if (fromMatch) entity = fromMatch[1].toLowerCase();
+        if (selectColsMatch && selectColsMatch[1].trim() !== "*") {
+          var parsedCols = selectColsMatch[1].split(",").map(function(col) {
+            var aliasMatch = col.trim().match(/\bAS\s+([A-Za-z_][A-Za-z0-9_]*)$/i);
+            return (aliasMatch ? aliasMatch[1] : col.trim().replace(/.*\./, "")).slice(0, 32);
+          }).filter(Boolean).slice(0, 5);
+          if (parsedCols.length) {
+            cols = parsedCols;
+            rows = [parsedCols.map(function(c, idx) { return c + "_" + (idx + 1); })];
+          }
+        }
+      }
     }
 
     var ths = cols.map(function(c) { return "<th>" + c + "</th>"; }).join(""),
@@ -960,6 +981,42 @@
         topic: typeof stored.daily.topic === "string" ? stored.daily.topic.slice(0, 100) : "",
         result: typeof stored.daily.result === "string" ? stored.daily.result.slice(0, 180) : ""
       } : {},
+      ideaQueue: Array.isArray(stored.ideaQueue) ? stored.ideaQueue.filter(function(item) {
+        return item && typeof item === "object" && typeof item.text === "string" && item.text.trim();
+      }).slice(-12).map(function(item, idx) {
+        return {
+          id: typeof item.id === "string" && item.id ? item.id.slice(0, 64) : "idea-" + idx,
+          text: item.text.trim().slice(0, 160),
+          course: ["html", "css", "js", "database", "angular", "csharp"].indexOf(item.course) >= 0 ? item.course : "html",
+          topicIndex: typeof item.topicIndex === "number" && isFinite(item.topicIndex) && item.topicIndex >= 0 ? Math.floor(item.topicIndex) : 0,
+          starterCode: typeof item.starterCode === "string" ? item.starterCode.slice(0, 2000) : "",
+          createdAt: typeof item.createdAt === "string" ? item.createdAt.slice(0, 32) : "",
+          tried: item.tried === true
+        };
+      }) : [],
+      predictions: (function(val) {
+        var clean = {};
+        if (!val || typeof val !== "object" || Array.isArray(val)) return clean;
+        Object.keys(val).slice(-300).forEach(function(id) {
+          var p = val[id];
+          if (!/^(html|css|js|database|angular|csharp):[\w:-]{1,64}$/.test(id) || !p || typeof p !== "object" || Array.isArray(p)) return;
+          var idx = typeof p.guessedIndex === "number" && isFinite(p.guessedIndex) ? Math.max(0, Math.min(3, Math.floor(p.guessedIndex))) : 0;
+          clean[id] = { guessedIndex: idx, revealed: p.revealed === true };
+        });
+        return clean;
+      })(stored.predictions),
+      tinkerSnapshots: Array.isArray(stored.tinkerSnapshots) ? stored.tinkerSnapshots.filter(function(snap) {
+        return snap && typeof snap === "object" && typeof snap.code === "string" && snap.code.trim();
+      }).slice(-12).map(function(snap, idx) {
+        return {
+          id: typeof snap.id === "string" && snap.id ? snap.id.slice(0, 64) : "snap-" + idx,
+          title: typeof snap.title === "string" && snap.title.trim() ? snap.title.trim().slice(0, 80) : "تجربة حرة",
+          course: ["html", "css", "js", "database", "angular", "csharp"].indexOf(snap.course) >= 0 ? snap.course : "html",
+          code: snap.code.slice(0, 2000),
+          note: typeof snap.note === "string" ? snap.note.slice(0, 160) : "",
+          createdAt: typeof snap.createdAt === "string" ? snap.createdAt.slice(0, 32) : ""
+        };
+      }) : [],
       lastActiveDate: typeof stored.lastActiveDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(stored.lastActiveDate) ? stored.lastActiveDate : ""
     };
   }
@@ -1048,6 +1105,553 @@
     return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
   }
 
+  var tinkerMode = false,
+      tinkerDraft = "",
+      activeTinkerIdeaId = null,
+      preserveTinkerOnSelect = false,
+      tinkerMutationStep = 0;
+
+  function ensureCuriosityState() {
+    if (!growth || typeof growth !== "object") return;
+    if (!Array.isArray(growth.ideaQueue)) growth.ideaQueue = [];
+    if (!growth.predictions || typeof growth.predictions !== "object" || Array.isArray(growth.predictions)) growth.predictions = {};
+    if (!Array.isArray(growth.tinkerSnapshots)) growth.tinkerSnapshots = [];
+  }
+
+  function shortSnippet(text, max) {
+    var clean = String(text || "").replace(/\s+/g, " ").trim(),
+        limit = max || 42;
+    if (clean.length <= limit) return clean;
+    return clean.slice(0, limit - 1) + "…";
+  }
+
+  function curiosityTeaserForLesson(model) {
+    if (!model || typeof model !== "object") {
+      return { question: "ماذا يتغير في النتيجة لو عدّلت سطرًا واحدًا الآن؟", sparks: [] };
+    }
+    var key = model.key || "html",
+        topic = model.topic || "هذا الدرس",
+        idx = typeof model.index === "number" ? model.index : 0,
+        steps = Array.isArray(model.practiceSteps) ? model.practiceSteps : [],
+        firstStep = steps[0],
+        question = "",
+        sparks = [],
+        codeSample = typeof model.code === "string" ? model.code : "";
+
+    if (firstStep && firstStep.from && firstStep.to) {
+      question = "ماذا يتغير في النتيجة لو بدّلت «" + shortSnippet(firstStep.from, 34) + "» إلى «" + shortSnippet(firstStep.to, 34) + "»؟";
+      sparks.push({
+        label: "جرّب تبديل القيمة الأولى",
+        text: "أجرب تبديل «" + shortSnippet(firstStep.from, 28) + "» بـ «" + shortSnippet(firstStep.to, 28) + "» في " + topic,
+        course: key,
+        topicIndex: idx,
+        starterCode: firstStep.before || codeSample
+      });
+    } else if (model.bugQuestion) {
+      question = "لغز سريع في " + topic + ": " + shortSnippet(model.bugQuestion, 90);
+    } else {
+      question = "ماذا يحدث لو جرّبت تغيير سطر واحد في «" + topic + "» وشاهدت النتيجة فورًا؟";
+    }
+
+    var brokenSnippet = model.brokenCode || model.bugExample;
+    if (brokenSnippet) {
+      sparks.push({
+        label: "اختبر الكود المعطوب",
+        text: "أشوف ماذا يحدث لو شغّلت الكود المعطوب في " + topic + " ثم أصلحه بيدي",
+        course: key,
+        topicIndex: idx,
+        starterCode: brokenSnippet
+      });
+    }
+
+    var freeIdea = key === "css"
+      ? "أكسر تنسيق «" + topic + "» بلون أو مسافة جريئة وأراقب الصفحة"
+      : key === "js"
+        ? "أبدّل مدخلات «" + topic + "» وأراقب المخرجات في المعاينة"
+        : key === "database"
+          ? "أغيّر شروط الاستعلام في «" + topic + "» وأشوف الجدول الناتج"
+          : "أضيف لمستي الخاصة داخل «" + topic + "» وأرى شكلها فورًا";
+    sparks.push({
+      label: key === "css" ? "اكسر التنسيق وشوف" : key === "js" ? "غيّر المدخلات" : key === "database" ? "بدّل الاستعلام" : "أضف لمسة حرة",
+      text: freeIdea,
+      course: key,
+      topicIndex: idx,
+      starterCode: codeSample
+    });
+
+    return { question: question, sparks: sparks.slice(0, 3) };
+  }
+
+  function buildPredictChallenge(model) {
+    if (!model || typeof model !== "object") return null;
+    if (model.quiz && Array.isArray(model.quiz.options) && model.quiz.options.length >= 2) {
+      return {
+        prompt: model.quiz.question || "قبل التشغيل: ماذا تتوقع أن يحدث هنا؟",
+        snippet: String(model.code || "").split("\n").slice(0, 6).join("\n"),
+        options: model.quiz.options.slice(0, 4),
+        correct: typeof model.quiz.correct === "number" ? model.quiz.correct : 0,
+        revealNote: model.concept || model.objective || "لاحظ كيف انعكس السطر في النتيجة الحية."
+      };
+    }
+    if (model.bugQuestion && Array.isArray(model.bugOptions) && model.bugOptions.length >= 2 && model.bugExample) {
+      return {
+        prompt: "توقّع قبل التشغيل: لو شغلنا هذا السطر كما هو، ما الذي سيحدث؟",
+        snippet: String(model.bugExample || "").split("\n").slice(0, 6).join("\n"),
+        options: model.bugOptions.slice(0, 4),
+        correct: typeof model.bugCorrect === "number" ? model.bugCorrect : 0,
+        revealNote: model.bugExplanation || model.concept || "كشفنا السبب — جرّب الآن إصلاحه أو تعديله في المحرر!"
+      };
+    }
+    var first = Array.isArray(model.practiceSteps) && model.practiceSteps[0];
+    if (first && first.from && first.to) {
+      var benefit = String(first.benefit || "").replace(/^فائدة[^:]*:\s*/, "").trim();
+      var correctText = benefit ? shortSnippet(benefit, 110) : "تتغير النتيجة الحية مباشرة لتعكس «" + shortSnippet(first.to, 30) + "»";
+      var distractor1 = model.key === "css"
+        ? "لن يتأثر الشكل الظاهر إلا إذا أعدنا كتابة ملف HTML بالكامل"
+        : model.key === "js"
+          ? "سيظهر الكود نفسه كنص عادي ولن يتنفذ أي تغيير"
+          : "سيختفي محتوى الصفحة بالكامل ولن يظهر شيء";
+      var distractor2 = "يتوقف المتصفح عن قراءة باقي الأسطر تمامًا";
+      return {
+        prompt: "توقّع قبل التشغيل: لو استبدلنا «" + shortSnippet(first.from, 36) + "» بـ «" + shortSnippet(first.to, 36) + "» ماذا سيحدث؟",
+        snippet: String(first.from + "  ⟶  " + first.to),
+        options: [correctText, distractor1, distractor2],
+        correct: 0,
+        revealNote: first.explanation || model.concept || "جرب التعديل الآن في المحرر وشاهد الأثر بعينك."
+      };
+    }
+    return {
+      prompt: "توقّع قبل التشغيل: ما الدور الأساسي الذي يظهر عند تشغيل مثال «" + (model.topic || "هذا الدرس") + "»؟",
+      snippet: String(model.code || "").split("\n").slice(0, 5).join("\n"),
+      options: [
+        shortSnippet(model.objective || model.concept || "تنفيذ الفكرة وظهور أثرها في المعاينة", 110),
+        "لا يحدث أي أثر مرئي أو منطقي عند التشغيل"
+      ],
+      correct: 0,
+      revealNote: model.concept || model.objective || ""
+    };
+  }
+
+  function pinIdeaSpark(payload) {
+    ensureCuriosityState();
+    var text = String(payload && payload.text || "").trim().slice(0, 160);
+    if (!text) return null;
+    var courseKey = ["html", "css", "js", "database", "angular", "csharp"].indexOf(payload && payload.course) >= 0 ? payload.course : (typeof course === "string" ? course : "html");
+    var topicIndex = typeof (payload && payload.topicIndex) === "number" && isFinite(payload.topicIndex) ? Math.max(0, Math.floor(payload.topicIndex)) : currentTopicIndex(courseKey);
+    var starterCode = typeof (payload && payload.starterCode) === "string" ? payload.starterCode.slice(0, 2000) : "";
+    var existing = growth.ideaQueue.filter(function(item) { return item.text === text && !item.tried; })[0];
+    if (existing) return existing;
+    var item = {
+      id: "idea-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6),
+      text: text,
+      course: courseKey,
+      topicIndex: topicIndex,
+      starterCode: starterCode,
+      createdAt: todayKey(),
+      tried: false
+    };
+    growth.ideaQueue.push(item);
+    growth.ideaQueue = growth.ideaQueue.slice(-12);
+    saveGrowth();
+    if (typeof renderCuriosityHub === "function") renderCuriosityHub();
+    return item;
+  }
+
+  function markIdeaTried(id) {
+    ensureCuriosityState();
+    var changed = false;
+    growth.ideaQueue.forEach(function(item) {
+      if (item.id === id && !item.tried) {
+        item.tried = true;
+        changed = true;
+      }
+    });
+    if (changed) {
+      saveGrowth();
+      if (typeof renderCuriosityHub === "function") renderCuriosityHub();
+    }
+    return changed;
+  }
+
+  function removeIdeaSpark(id) {
+    ensureCuriosityState();
+    var before = growth.ideaQueue.length;
+    growth.ideaQueue = growth.ideaQueue.filter(function(item) { return item.id !== id; });
+    if (growth.ideaQueue.length !== before) {
+      saveGrowth();
+      if (typeof renderCuriosityHub === "function") renderCuriosityHub();
+    }
+  }
+
+  function saveTinkerSnapshot(title, courseKey, code, note) {
+    ensureCuriosityState();
+    var cleanCode = String(code || "").trim().slice(0, 2000);
+    if (!cleanCode) return null;
+    var snap = {
+      id: "snap-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6),
+      title: String(title || "تجربة حرة").trim().slice(0, 80) || "تجربة حرة",
+      course: ["html", "css", "js", "database", "angular", "csharp"].indexOf(courseKey) >= 0 ? courseKey : "html",
+      code: cleanCode,
+      note: String(note || "").trim().slice(0, 160),
+      createdAt: todayKey()
+    };
+    growth.tinkerSnapshots.push(snap);
+    growth.tinkerSnapshots = growth.tinkerSnapshots.slice(-12);
+    saveGrowth();
+    if (typeof renderCuriosityHub === "function") renderCuriosityHub();
+    return snap;
+  }
+
+  function mutateCodeSpark(code, courseKey) {
+    var src = String(code || "");
+    tinkerMutationStep = (tinkerMutationStep + 1) % 3;
+    if (courseKey === "css") {
+      var palettes = [
+        "\n/* لمسة تجربة حرة */\n.card { background: linear-gradient(135deg, #1b4332, #2d6a4f); color: #f1faee; border-radius: 20px; box-shadow: 0 10px 24px rgba(0,0,0,0.22); }\n.card h1 { color: #bbf268; letter-spacing: 0.5px; }",
+        "\n/* لمسة تجربة حرة */\n.card { background: #fff7ed; border: 2px dashed #ea580c; border-radius: 18px; transform: rotate(-1deg); }\n.card h1 { color: #9a3412; font-size: 22px; }",
+        "\n/* لمسة تجربة حرة */\n.card { background: #eff6ff; border-right: 6px solid #2563eb; padding: 18px; }\n.card h1 { color: #1e3a8a; }"
+      ];
+      return src.replace(/\n\/\* لمسة تجربة حرة \*\/[\s\S]*$/, "") + palettes[tinkerMutationStep];
+    }
+    if (courseKey === "js") {
+      var jsSparks = [
+        "\n// تجربة حرة سريعة\ndocument.querySelector('h1').textContent = '✨ عدّلت النتيجة بنفسي!';\nconsole.log('نتيجة التجربة الحرة:', new Date().toLocaleTimeString('ar-EG'));",
+        "\n// تجربة حرة سريعة\ndocument.querySelector('h1').style.color = '#1b6b4a';\nconsole.log('جرّبت تغيير لون العنوان من JavaScript!');",
+        "\n// تجربة حرة سريعة\nconst items = ['فكرة', 'تجربة', 'نتيجة'];\nconsole.log('خطواتي:', items.join(' ← '));"
+      ];
+      return src.replace(/\n\/\/ تجربة حرة سريعة[\s\S]*$/, "") + jsSparks[tinkerMutationStep];
+    }
+    if (courseKey === "database") {
+      var sqlQueries = [
+        "SELECT name, price FROM products ORDER BY price DESC;",
+        "SELECT customer_name, total_orders FROM orders;",
+        "SELECT id, name, salary FROM employees;"
+      ];
+      return sqlQueries[tinkerMutationStep];
+    }
+    var htmlBadges = [
+      "<div style=\"margin-top:10px;padding:10px;border-radius:10px;background:#e8f5e9;color:#1b5e20;font-weight:bold\">✨ أضفت هذا الصندوق في المعمل الحر!</div>",
+      "<button type=\"button\" onclick=\"this.textContent='تم التفاعل ✓'\" style=\"margin-top:10px;padding:8px 14px;border:0;border-radius:8px;background:#1f6f50;color:#fff\">اضغط وجرّبني</button>",
+      "<blockquote style=\"margin-top:10px;padding:8px 12px;border-right:4px solid #2bb07f;background:#f4faf6\">فكرة صغيرة ← نتيجة مرئية فورًا</blockquote>"
+    ];
+    var cleanedHtml = src.replace(/\s*<!-- tinker-spark -->[\s\S]*?<!-- \/tinker-spark -->/g, "");
+    var injection = "  <!-- tinker-spark -->" + htmlBadges[tinkerMutationStep] + "<!-- /tinker-spark -->";
+    if (/<\/body>/i.test(cleanedHtml)) {
+      return cleanedHtml.replace(/<\/body>/i, injection + "\n</body>");
+    }
+    return (cleanedHtml ? cleanedHtml + "\n" : "") + injection;
+  }
+
+  function enterTinkerMode(customCode, hintMessage, ideaId) {
+    var codeArea = document.getElementById("code"),
+        toolbar = document.getElementById("tinkerToolbar"),
+        btn = document.getElementById("tinkerModeBtn"),
+        card = document.querySelector("#lesson article.card"),
+        stage = document.getElementById("previewStage"),
+        predictCard = document.getElementById("predictHookCard"),
+        model = typeof growthLessonModel === "function" ? growthLessonModel() : null,
+        activeCourse = model ? model.key : course;
+    tinkerMode = true;
+    activeTinkerIdeaId = ideaId || null;
+    tinkerDraft = typeof customCode === "string" ? customCode : (codeArea && codeArea.value) || (model && model.code) || "";
+    if (codeArea) {
+      codeArea.readOnly = false;
+      codeArea.value = tinkerDraft;
+    }
+    if (toolbar) toolbar.hidden = false;
+    if (btn) {
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+    }
+    if (card) card.classList.add("tinker-active");
+    if (stage) stage.removeAttribute("data-curtain");
+    if (predictCard) predictCard.hidden = true;
+    if (typeof growthPreview === "function") growthPreview(tinkerDraft, activeCourse);
+    var hint = document.getElementById("hint");
+    if (hint) hint.textContent = hintMessage || "🧪 أنت في المعمل الحر: غيّر أي شيء واضغط تشغيل لترى الأثر فورًا.";
+  }
+
+  function exitTinkerMode(skipRender) {
+    var toolbar = document.getElementById("tinkerToolbar"),
+        btn = document.getElementById("tinkerModeBtn"),
+        card = document.querySelector("#lesson article.card");
+    tinkerMode = false;
+    activeTinkerIdeaId = null;
+    if (toolbar) toolbar.hidden = true;
+    if (btn) {
+      btn.classList.remove("active");
+      btn.setAttribute("aria-pressed", "false");
+    }
+    if (card) card.classList.remove("tinker-active");
+    if (!skipRender && typeof renderGrowthLesson === "function") renderGrowthLesson();
+  }
+
+  function runTinkerSandbox() {
+    var codeArea = document.getElementById("code"),
+        code = codeArea ? codeArea.value : tinkerDraft,
+        hint = document.getElementById("hint"),
+        model = typeof growthLessonModel === "function" ? growthLessonModel() : null,
+        previewCourse = model ? model.key : course;
+    tinkerDraft = code;
+    if (typeof growthPreview === "function") growthPreview(code, previewCourse);
+    if (typeof s === "object" && s) {
+      s.examples = (s.examples || 0) + 1;
+      save();
+      if (typeof render === "function") render();
+    }
+    if (activeTinkerIdeaId) {
+      markIdeaTried(activeTinkerIdeaId);
+      activeTinkerIdeaId = null;
+    }
+    if (hint) hint.textContent = "🧪 اشتغلت تجربتك الحرة! تقدر تكمل تعديل أو تحفظها في «مشاريعي».";
+    if (typeof celebrateGrowth === "function") celebrateGrowth("أطلقت تجربة حرة وشفت نتيجتها!", "#previewStage");
+  }
+
+  function renderPredictHook(model, steps, state) {
+    var host = document.getElementById("predictHookCard"),
+        stage = document.getElementById("previewStage");
+    if (!host) return;
+    ensureCuriosityState();
+    var completed = typeof growthLessonDone === "function" && growthLessonDone(model.id),
+        savedPrediction = growth.predictions[model.id],
+        shouldShow = !completed && !tinkerMode && state && state.current === 0 && (!savedPrediction || !savedPrediction.revealed);
+    if (!shouldShow) {
+      host.hidden = true;
+      host.innerHTML = "";
+      if (stage) stage.removeAttribute("data-curtain");
+      return;
+    }
+    var challenge = buildPredictChallenge(model);
+    if (!challenge) {
+      host.hidden = true;
+      if (stage) stage.removeAttribute("data-curtain");
+      return;
+    }
+    host.hidden = false;
+    if (stage) stage.setAttribute("data-curtain", "masked");
+    host.innerHTML =
+      '<div class="predict-hook-head"><span>🔮 فضول قبل التشغيل</span><button type="button" class="predict-skip-btn" data-predict-skip>اكشف المعاينة مباشرة</button></div>' +
+      '<p class="predict-hook-question">' + escapeHtml(challenge.prompt) + '</p>' +
+      (challenge.snippet ? '<pre class="predict-hook-code" dir="ltr"><code>' + escapeHtml(challenge.snippet) + '</code></pre>' : '') +
+      '<div class="predict-hook-options">' + challenge.options.map(function(opt, idx) {
+        return '<button type="button" class="predict-option-btn" data-predict-choice="' + idx + '">' + escapeHtml(opt) + '</button>';
+      }).join("") + '</div>' +
+      '<p class="predict-hook-feedback" aria-live="polite"></p>';
+
+    function revealPrediction(choiceIndex) {
+      growth.predictions[model.id] = { guessedIndex: choiceIndex, revealed: true };
+      saveGrowth();
+      if (stage) stage.removeAttribute("data-curtain");
+      if (choiceIndex < 0) {
+        host.hidden = true;
+        return;
+      }
+      var isMatch = choiceIndex === challenge.correct,
+          fb = host.querySelector(".predict-hook-feedback");
+      host.querySelectorAll("[data-predict-choice]").forEach(function(btn, idx) {
+        btn.disabled = true;
+        btn.classList.toggle("selected", idx === choiceIndex);
+        btn.classList.toggle("correct", idx === challenge.correct);
+      });
+      if (fb) {
+        fb.innerHTML = (isMatch ? "✓ توقعك في محله! " : "💡 مفاجأة جميلة — ") + escapeHtml(challenge.revealNote) + ' <button type="button" class="predict-tinker-jump" data-predict-tinker>جرّب تعدّلها بيدك الآن ←</button>';
+        var jump = fb.querySelector("[data-predict-tinker]");
+        if (jump) jump.onclick = function() { host.hidden = true; enterTinkerMode(model.code); };
+      }
+    }
+
+    host.querySelectorAll("[data-predict-choice]").forEach(function(btn) {
+      btn.onclick = function() { revealPrediction(+btn.dataset.predictChoice); };
+    });
+    var skipBtn = host.querySelector("[data-predict-skip]");
+    if (skipBtn) skipBtn.onclick = function() { revealPrediction(-1); };
+  }
+
+  function renderCompletionSpark(model) {
+    var actions = document.getElementById("guideActions");
+    if (!actions || !model) return;
+    var topics = typeof courseTopics === "function" ? courseTopics(model.key) : [],
+        hasNext = model.index + 1 < topics.length,
+        nextTopic = hasNext ? topics[model.index + 1] : "",
+        nextTeaser = hasNext ? "الدرس الجاي («" + nextTopic + "») يفتح لك تجربة جديدة: ترى ما الذي يتغير عند تعديل سطر واحد فيه؟" : "أنهيت هذا المسار! ما زال بإمكانك فتح المعمل الحر وابتكار فكرتك الخاصة.";
+    actions.innerHTML =
+      '<div class="basic-hint">أضفت نتيجة الدرس إلى مشروعك.</div>' +
+      '<div class="next-spark-box">' +
+        '<b>🔥 شرارة المرة الجاية</b>' +
+        '<p>' + escapeHtml(nextTeaser) + '</p>' +
+        '<div class="next-spark-buttons">' +
+          (hasNext ? '<button type="button" class="next-spark-peek" data-peek-next>ألقِ نظرة على لغز الدرس الجاي ←</button>' : '') +
+          '<button type="button" class="next-spark-tinker" data-open-tinker-done>🧪 عدّل الكود في المعمل الحر</button>' +
+        '</div>' +
+        '<form class="next-spark-idea-form" data-next-idea-form>' +
+          '<input name="nextIdea" maxlength="160" placeholder="فكرة خطرت لك الآن وتحب تجربتها المرة الجاية…" aria-label="فكرة للمرة الجاية">' +
+          '<button type="submit">📌 ثبّتها عند العودة</button>' +
+        '</form>' +
+      '</div>';
+    var peekBtn = actions.querySelector("[data-peek-next]");
+    if (peekBtn) {
+      peekBtn.onclick = function() { openRoadTopic(model.key, model.index + 1); };
+    }
+    var tinkerDoneBtn = actions.querySelector("[data-open-tinker-done]");
+    if (tinkerDoneBtn) {
+      tinkerDoneBtn.onclick = function() {
+        enterTinkerMode(document.getElementById("code").value || model.code, "🧪 حرّرنا الكود! جرّب تضيف لمسة من دماغك.");
+      };
+    }
+    var form = actions.querySelector("[data-next-idea-form]");
+    if (form) {
+      form.onsubmit = function(event) {
+        event.preventDefault();
+        var input = form.elements.nextIdea,
+            text = input.value.trim();
+        if (!text) { input.focus(); return; }
+        pinIdeaSpark({
+          text: text,
+          course: model.key,
+          topicIndex: hasNext ? model.index + 1 : model.index,
+          starterCode: document.getElementById("code").value || model.code
+        });
+        input.value = "";
+        if (typeof celebrateGrowth === "function") celebrateGrowth("فكرتك اتحفظت لتستقبلك عند العودة!", "#heroCuriosityBox");
+      };
+    }
+  }
+
+  function openIdeaSparkInEditor(ideaId) {
+    ensureCuriosityState();
+    var idea = growth.ideaQueue.filter(function(item) { return item.id === ideaId; })[0];
+    if (!idea) return;
+    if (idea.course === "angular" && typeof window !== "undefined" && window.AngularCourse && typeof window.AngularCourse.openCuriosityTarget === "function") {
+      window.AngularCourse.openCuriosityTarget(idea.topicIndex, { tinker: true, code: idea.starterCode, ideaId: idea.id, note: idea.text });
+      return;
+    }
+    if (idea.course === "csharp" && typeof window !== "undefined" && typeof CustomEvent === "function") {
+      window.dispatchEvent(new CustomEvent("steplearn:open-csharp-curiosity", { detail: { index: idea.topicIndex, tinker: true, code: idea.starterCode, ideaId: idea.id, note: idea.text } }));
+      return;
+    }
+    preserveTinkerOnSelect = true;
+    if (idea.course === "html") s.htmlLesson = idea.topicIndex;
+    else s[idea.course + "Lesson"] = idea.topicIndex;
+    save();
+    select(idea.course);
+    preserveTinkerOnSelect = false;
+    var model = typeof growthLessonModel === "function" ? growthLessonModel() : null,
+        codeToLoad = idea.starterCode || (model && model.code) || (data[idea.course] && data[idea.course].code) || "";
+    enterTinkerMode(codeToLoad, "⚡ فكرتك المفتوحة: «" + idea.text + "» — عدّل وشغّل لتشاهد النتيجة!", idea.id);
+    var lessonSection = document.getElementById("lesson");
+    if (lessonSection && typeof lessonSection.scrollIntoView === "function") {
+      lessonSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function openSnapshotInEditor(snapId) {
+    ensureCuriosityState();
+    var snap = growth.tinkerSnapshots.filter(function(item) { return item.id === snapId; })[0];
+    if (!snap) return;
+    if (snap.course === "angular" && typeof window !== "undefined" && window.AngularCourse && typeof window.AngularCourse.openCuriosityTarget === "function") {
+      window.AngularCourse.openCuriosityTarget(null, { tinker: true, code: snap.code, note: snap.title });
+      return;
+    }
+    if (snap.course === "csharp" && typeof window !== "undefined" && typeof CustomEvent === "function") {
+      window.dispatchEvent(new CustomEvent("steplearn:open-csharp-curiosity", { detail: { tinker: true, code: snap.code, note: snap.title } }));
+      return;
+    }
+    preserveTinkerOnSelect = true;
+    select(snap.course);
+    preserveTinkerOnSelect = false;
+    enterTinkerMode(snap.code, "🧪 أعدنا فتح تجربتك «" + snap.title + "» — أكمل التعديل وشغّل!");
+    var lessonSection = document.getElementById("lesson");
+    if (lessonSection && typeof lessonSection.scrollIntoView === "function") {
+      lessonSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function buildTrackSnapshotDoc(snap) {
+    if (!snap || !snap.code) return "";
+    if (typeof data !== "undefined" && data[snap.course]) return data[snap.course].build(snap.code);
+    if (snap.course === "angular" && /^\s*<!doctype|^\s*<html/i.test(snap.code)) return snap.code;
+    return "<!doctype html><html lang='ar' dir='rtl'><head><meta charset='utf-8'><style>body{margin:0;padding:10px;background:#0f1b15;color:#e6f2eb;font:12px/1.55 Consolas,monospace}pre{margin:0;white-space:pre-wrap;direction:ltr;text-align:left;color:#bbf268}p{margin:6px 0 0;font-family:Arial,sans-serif;color:#a9c4b4}</style></head><body><pre>" + escapeHtml(snap.code.slice(0, 900)) + "</pre>" + (snap.note ? "<p>" + escapeHtml(snap.note) + "</p>" : "") + "</body></html>";
+  }
+
+  function renderCuriosityHub() {
+    ensureCuriosityState();
+    var current = typeof growthLessonModel === "function" ? growthLessonModel() : null,
+        teaser = curiosityTeaserForLesson(current),
+        pendingIdeas = growth.ideaQueue.filter(function(item) { return !item.tried; }),
+        activeSpark = pendingIdeas[pendingIdeas.length - 1] || null;
+
+    var badge = document.getElementById("heroCuriosityBadge"),
+        textEl = document.getElementById("heroCuriosityText"),
+        runBtn = document.getElementById("heroSparkRun"),
+        pillsHost = document.getElementById("heroSparkPills");
+
+    if (badge) badge.textContent = activeSpark ? "📌 فكرتك المفتوحة بانتظارك" : "⚡ شرارة فضول الآن";
+    if (textEl) textEl.textContent = activeSpark ? "«" + activeSpark.text + "»" : teaser.question;
+    if (runBtn) {
+      runBtn.textContent = activeSpark ? "افتح فكرتك وشوف النتيجة ←" : "جرّب هذا اللغز في المحرر ←";
+      runBtn.dataset.sparkMode = activeSpark ? "idea" : "teaser";
+      runBtn.dataset.ideaId = activeSpark ? activeSpark.id : "";
+    }
+    if (pillsHost) {
+      pillsHost.innerHTML = teaser.sparks.map(function(spark, i) {
+        return '<button type="button" class="hero-spark-pill" data-quick-spark="' + i + '">' + escapeHtml(spark.label) + '</button>';
+      }).join("");
+      pillsHost.querySelectorAll("[data-quick-spark]").forEach(function(btn) {
+        btn.onclick = function() {
+          var spark = teaser.sparks[+btn.dataset.quickSpark];
+          if (!spark) return;
+          var pinned = pinIdeaSpark(spark);
+          if (pinned) openIdeaSparkInEditor(pinned.id);
+        };
+      });
+    }
+
+    var ideaList = document.getElementById("projectIdeaList"),
+        ideaCount = document.getElementById("ideaQueueCount");
+    if (ideaCount) ideaCount.textContent = ar(pendingIdeas.length) + " معلّقة · " + ar(growth.ideaQueue.length) + " الكل";
+    if (ideaList) {
+      if (!growth.ideaQueue.length) {
+        ideaList.innerHTML = '<li class="idea-empty">لا توجد أفكار مسجلة بعد. استخدم «+ سجّل فكرة لتجربتها» عندما يخطر ببالك سؤال أو تعديل.</li>';
+      } else {
+        ideaList.innerHTML = growth.ideaQueue.slice().reverse().map(function(item) {
+          return '<li class="idea-queue-item' + (item.tried ? ' tried' : '') + '">' +
+            '<div class="idea-queue-copy"><b>' + escapeHtml(item.text) + '</b><small>' + escapeHtml(courseLabel(item.course)) + (item.tried ? " · جُرّبت ✓" : " · بانتظار التجربة") + '</small></div>' +
+            '<div class="idea-queue-actions">' +
+              '<button type="button" data-open-idea="' + escapeHtml(item.id) + '">' + (item.tried ? "أعد التجربة ←" : "جرّب الآن ←") + '</button>' +
+              '<button type="button" class="idea-remove-btn" data-remove-idea="' + escapeHtml(item.id) + '" aria-label="احذف الفكرة">×</button>' +
+            '</div></li>';
+        }).join("");
+        ideaList.querySelectorAll("[data-open-idea]").forEach(function(btn) {
+          btn.onclick = function() { openIdeaSparkInEditor(btn.dataset.openIdea); };
+        });
+        ideaList.querySelectorAll("[data-remove-idea]").forEach(function(btn) {
+          btn.onclick = function() { removeIdeaSpark(btn.dataset.removeIdea); };
+        });
+      }
+    }
+
+    var snapGrid = document.getElementById("projectTinkerSnapshots"),
+        snapCount = document.getElementById("tinkerSnapshotCount");
+    if (snapCount) snapCount.textContent = ar(growth.tinkerSnapshots.length) + " محفوظة";
+    if (snapGrid) {
+      if (!growth.tinkerSnapshots.length) {
+        snapGrid.innerHTML = '<p class="idea-empty">عندما تفتح وضع «🧪 تجربة حرة» داخل أي درس وتضغط «احفظ الأثر في مشروعي»، ستظهر معاينتها الحية هنا.</p>';
+      } else {
+        snapGrid.innerHTML = growth.tinkerSnapshots.slice().reverse().map(function(snap) {
+          var previewDoc = buildTrackSnapshotDoc(snap);
+          return '<article class="tinker-snapshot-card">' +
+            '<div class="tinker-snapshot-head"><b>' + escapeHtml(snap.title) + '</b><span>' + escapeHtml(courseLabel(snap.course)) + '</span></div>' +
+            (previewDoc ? '<iframe class="tinker-snapshot-frame" title="معاينة ' + escapeHtml(snap.title) + '" sandbox="allow-scripts allow-modals" srcdoc="' + escapeHtml(previewDoc) + '"></iframe>' : '') +
+            '<div class="tinker-snapshot-foot"><button type="button" data-open-snapshot="' + escapeHtml(snap.id) + '">افتحها وعدّل عليها ←</button></div>' +
+          '</article>';
+        }).join("");
+        snapGrid.querySelectorAll("[data-open-snapshot]").forEach(function(btn) {
+          btn.onclick = function() { openSnapshotInEditor(btn.dataset.openSnapshot); };
+        });
+      }
+    }
+  }
+
   function lessonId(key, index) { return key + ":" + index; }
 
   function courseTopics(key) {
@@ -1055,7 +1659,44 @@
   }
 
   function courseLabel(key) {
-    return key === "html" ? "HTML" : key === "css" ? "CSS" : key === "database" ? "قواعد البيانات (SQL)" : "JavaScript";
+    return key === "html" ? "HTML" : key === "css" ? "CSS" : key === "database" ? "قواعد البيانات (SQL)" : key === "angular" ? "Angular" : key === "csharp" ? "C#" : "JavaScript";
+  }
+
+  if (typeof window !== "undefined") {
+    window.StepLearnCuriosity = {
+      pinIdea: function(payload) {
+        var res = pinIdeaSpark(payload);
+        if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
+        return res;
+      },
+      markTried: function(id) {
+        var res = markIdeaTried(id);
+        if (res && typeof renderGrowthDashboard === "function") renderGrowthDashboard();
+        return res;
+      },
+      saveSnapshot: function(title, courseKey, code, note) {
+        var res = saveTinkerSnapshot(title, courseKey, code, note);
+        if (res && typeof renderGrowthDashboard === "function") renderGrowthDashboard();
+        return res;
+      },
+      hasPrediction: function(id) {
+        ensureCuriosityState();
+        return !!(growth.predictions[id] && growth.predictions[id].revealed);
+      },
+      savePrediction: function(id, guessedIndex) {
+        ensureCuriosityState();
+        if (!/^(html|css|js|database|angular|csharp):[\w:-]{1,64}$/.test(String(id || ""))) return false;
+        growth.predictions[id] = { guessedIndex: Math.max(0, Math.min(3, Math.floor(guessedIndex || 0))), revealed: true };
+        saveGrowth();
+        return true;
+      },
+      celebrate: function(message, selector) {
+        if (typeof celebrateGrowth === "function") celebrateGrowth(message, selector);
+      },
+      refresh: function() {
+        if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
+      }
+    };
   }
 
   function completedTopic(key, topic) {
@@ -2150,6 +2791,7 @@
         }
       }
       renderGrowthLesson();
+      if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
     } catch (error) {
       curriculumTracks = {};
       if (typeof legacySequences !== "undefined") {
@@ -3200,6 +3842,7 @@
             growth.readingSteps[model.id] = readIndex + 1;
             saveGrowth();
             renderGrowthLesson();
+      if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
           };
         } else if (model.quiz) {
           actions.innerHTML = '<div class="course-lesson-question">' + lessonMixedMarkup(model.quiz.question) + '</div><div class="course-lesson-answers">' + model.quiz.options.map(function(option, i) {
@@ -3214,6 +3857,7 @@
               growth.answers[quizKey] = true;
               saveGrowth();
               renderGrowthLesson();
+      if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
               celebrateGrowth("ربطت الفكرة بالمثال. الآن جرّب تغييرًا واحدًا.", "#lesson");
             };
           });
@@ -3234,6 +3878,7 @@
             growth.answers[quizKey] = true;
             saveGrowth();
             renderGrowthLesson();
+      if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
             celebrateGrowth("ربطت الفكرة بالمثال. الآن جرّب تغييرًا واحدًا.", "#lesson");
           };
         });
@@ -3686,13 +4331,16 @@
       saved.current = Math.max(0, saved.current - 1);
       saveGrowth();
       renderGrowthLesson();
+      if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
     };
 
     if (completed) {
       title.textContent = "أنهيت خطوات الدرس";
-      setLessonCopy(copy, "كل خطوة اتجربت واتحفظت. تقدر تراجع الكود أو تنتقل للموضوع التالي.");
+      setLessonCopy(copy, "كل خطوة اتجربت واتحفظت. تقدر تراجع الكود، أو تكسر القواعد في المعمل الحر، أو تستكشف لغز الدرس التالي.");
       visual.innerHTML = '<div class="guide-finish"><b>✓ اكتمل ' + escapeHtml(model.topic) + '</b><span>المثال الكامل ما زال في المحرر.</span></div>';
       actions.innerHTML = '<div class="basic-hint">أضفت نتيجة الدرس إلى مشروعك.</div>';
+      if (typeof renderCompletionSpark === "function") renderCompletionSpark(model);
+      if (typeof renderPredictHook === "function") renderPredictHook(model, steps, state);
       next.textContent = model.index + 1 < courseTopics(model.key).length ? "افتح الدرس التالي ←" : "ارجع إلى خريطة الدروس ←";
       next.disabled = false;
       var sbDone = document.getElementById("slotBuilder"); if (sbDone) { sbDone.hidden = true; sbDone.innerHTML = ""; }
@@ -3744,6 +4392,7 @@
           completeCurrentFlowStep(model, steps);
           saveGrowth();
           renderGrowthLesson();
+      if (typeof renderGrowthDashboard === "function") renderGrowthDashboard();
           celebrateGrowth(step.type === "diagnose" ? "اكتشفت سبب الخطأ. دلوقتي أصلحه." : "ربطت التفصيلة بالمثال.", "#lesson");
         };
       });
@@ -3760,6 +4409,7 @@
     }
     if (typeof renderSlotBuilder === "function") renderSlotBuilder(step, model);
     if (typeof updateHandCraftScore === "function") updateHandCraftScore(model.key, false, 0);
+    if (typeof renderPredictHook === "function") renderPredictHook(model, steps, state);
   }
 
   function renderGrowthLesson() {
@@ -4244,19 +4894,26 @@
     document.getElementById("skillMilestonesList").innerHTML = skills.length
       ? skills.map(function(skill) { return "<li>✓ " + escapeHtml(skill.title) + " · " + courseLabels[skill.course] + "</li>"; }).join("")
       : "<li>كل مجموعة مكتملة ستظهر هنا.</li>";
+    var teaser = typeof curiosityTeaserForLesson === "function" ? curiosityTeaserForLesson(current) : null,
+        pendingIdeas = Array.isArray(growth.ideaQueue) ? growth.ideaQueue.filter(function(item) { return !item.tried; }) : [],
+        activeIdea = pendingIdeas[pendingIdeas.length - 1] || null;
     document.getElementById("heroProjectLabel").textContent = "مشروعك الحالي · " + (profileCard.name.trim() ? "بطاقة " + profileCard.name.trim() : "بطاقة تعرّف بيك");
     document.getElementById("heroNextTitle").textContent = growthLessonDone(current.id) ? "أُضيفت اللبنة بنجاح. لننتقل إلى الخطوة التالية." : "خطوتك القادمة: " + current.topic;
-    document.getElementById("heroNextCopy").textContent = "حتى خمس دقائق تكفي لتجربة خطوة وإضافة أثرها لمشروعك.";
+    document.getElementById("heroNextCopy").textContent = teaser ? teaser.question : "ماذا يتغير في النتيجة عند تجربة هذه الخطوة؟";
     document.getElementById("heroProjectMeta").textContent = "لبنات أُضيفت للمشروع · " + ar(growth.projectParts.length);
     document.getElementById("heroUnlockMeta").textContent = "القدرة التالية · " + (next ? next.title : "كل القدرات الحالية اتفتحت");
     document.getElementById("heroAbilityMeta").textContent = "قدرات مكتسبة · " + ar(unlocked.length);
-    document.getElementById("continue").textContent = growthLessonDone(current.id) ? "لننتقل إلى الخطوة التالية ←" : awayDays >= 2 ? "نكمل من آخر خطوة وصلنا إليها ←" : "ابدأ خطوة اليوم ←";
+    document.getElementById("continue").textContent = growthLessonDone(current.id) ? "لننتقل إلى الخطوة التالية ←" : awayDays >= 2 ? "نكمل من آخر خطوة وصلنا إليها ←" : "افتح وشوف النتيجة ←";
     document.getElementById("openDailyChallenge").textContent = completedToday ? "تحدي اليوم اكتمل ✓" : "تحدي اليوم · ١–٥ دقائق";
     document.getElementById("openDailyChallengeRail").textContent = completedToday ? "شوف إنجاز اليوم ✓" : "اكتشف الخطوة الصغيرة ←";
     document.getElementById("daily").textContent = completedToday ? "خطوتك اليومية اتحسبت. نكمل من آخر مكانك وقت ما تحب." : "تجربة عملية صغيرة من الدرس الحالي — من دقيقة إلى خمس دقائق.";
     document.getElementById("progressLabel").textContent = ar(unlocked.length);
     document.getElementById("meter").style.width = Math.round(unlocked.length * 100 / abilityCatalog.length) + "%";
-    document.getElementById("returnMessage").textContent = awayDays >= 2 ? "نكمل من آخر خطوة وصلنا إليها؛ لم يفُتك شيء." : "لا توجد مهام معلّقة، يمكنك خوض تجربة جديدة متى أردت.";
+    document.getElementById("returnMessage").textContent = awayDays >= 2
+      ? "نكمل من آخر خطوة وصلنا إليها؛ لم يفُتك شيء."
+      : activeIdea
+        ? "فكرتك المفتوحة بانتظار التجربة: «" + activeIdea.text + "»"
+        : "في انتظارك تجربة جديدة لاكتشاف أثرها في المحرر.";
     document.getElementById("abilitiesList").innerHTML = unlocked.length
       ? unlocked.map(function(ability) { return '<article class="ability-chip"><span>' + ability.icon + '</span><b>' + escapeHtml(ability.title) + '</b><small>أداة: ' + escapeHtml(ability.tool) + '</small><details class="ability-challenge"><summary>تحدي هذه القدرة</summary><p>' + escapeHtml(ability.challenge) + '</p><a href="#projectTool-' + escapeHtml(ability.id) + '">جرّبها في مشروعك ←</a></details></article>'; }).join("")
       : '<div class="abilities-empty">لسه بنجمع أول قدرة. ابدأ من فكرة واحدة؛ كل خطوة عملية هتظهر هنا.</div>';
@@ -4290,6 +4947,7 @@
       el.classList.toggle("done", isDone);
       var icon = el.querySelector("i"); if (icon) icon.textContent = isDone ? "✓" : "·";
     });
+    if (typeof renderCuriosityHub === "function") renderCuriosityHub();
   }
 
   function normalizeHtmlStep() {
@@ -5750,6 +6408,9 @@
   function select(k) {
     if (typeof window.dispatchEvent === "function" && typeof CustomEvent === "function") window.dispatchEvent(new CustomEvent("steplearn:coursechange", { detail: { course: k } }));
     if (!data[k]) return;
+    if (typeof preserveTinkerOnSelect !== "undefined" && !preserveTinkerOnSelect && typeof tinkerMode !== "undefined" && tinkerMode && typeof exitTinkerMode === "function") {
+      exitTinkerMode(true);
+    }
     course = k;
     activePreviewCourse = k;
     s.course = k;
@@ -5774,6 +6435,10 @@
   }
 
   function run() {
+    if (typeof tinkerMode !== "undefined" && tinkerMode && typeof runTinkerSandbox === "function") {
+      runTinkerSandbox();
+      return;
+    }
     runGrowthLesson();
   }
 
@@ -6004,6 +6669,139 @@
     select(s.course || "js");
     document.getElementById("lesson").scrollIntoView({ behavior: "smooth" });
   };
+
+  (function wireCuriosityControls() {
+    var heroPinToggle = document.getElementById("heroPinToggle"),
+        heroIdeaForm = document.getElementById("heroIdeaForm"),
+        heroIdeaInput = document.getElementById("heroIdeaInput"),
+        heroSparkRun = document.getElementById("heroSparkRun"),
+        tinkerModeBtn = document.getElementById("tinkerModeBtn"),
+        tinkerSparkMutate = document.getElementById("tinkerSparkMutate"),
+        tinkerSaveSnapshotBtn = document.getElementById("tinkerSaveSnapshot"),
+        tinkerExitBtn = document.getElementById("tinkerExitBtn"),
+        tinkerIdeaForm = document.getElementById("tinkerIdeaForm"),
+        tinkerIdeaInput = document.getElementById("tinkerIdeaInput"),
+        pinIdeaFromLesson = document.getElementById("pinIdeaFromLesson");
+
+    if (heroPinToggle && heroIdeaForm) {
+      heroPinToggle.onclick = function() {
+        var open = heroIdeaForm.hidden;
+        heroIdeaForm.hidden = !open;
+        heroPinToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open && heroIdeaInput) heroIdeaInput.focus();
+      };
+    }
+    if (heroIdeaForm && heroIdeaInput) {
+      heroIdeaForm.onsubmit = function(event) {
+        event.preventDefault();
+        var text = heroIdeaInput.value.trim();
+        if (!text) { heroIdeaInput.focus(); return; }
+        var current = growthLessonModel();
+        pinIdeaSpark({
+          text: text,
+          course: current ? current.key : course,
+          topicIndex: current ? current.index : currentTopicIndex(course),
+          starterCode: current ? current.code : ""
+        });
+        heroIdeaInput.value = "";
+        heroIdeaForm.hidden = true;
+        if (heroPinToggle) heroPinToggle.setAttribute("aria-expanded", "false");
+        renderGrowthDashboard();
+        celebrateGrowth("ثبّتنا فكرتك لتستقبلك في كل مرة تفتح فيها الموقع!", "#heroCuriosityBox");
+      };
+    }
+    if (heroSparkRun) {
+      heroSparkRun.onclick = function() {
+        var mode = heroSparkRun.dataset.sparkMode,
+            ideaId = heroSparkRun.dataset.ideaId;
+        if (mode === "idea" && ideaId) {
+          openIdeaSparkInEditor(ideaId);
+          return;
+        }
+        var current = growthLessonModel();
+        select(current.key);
+        enterTinkerMode(current.code, "⚡ المعمل مفتوح على «" + current.topic + "» — عدّل وشوف النتيجة فورًا!");
+        document.getElementById("lesson").scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+    }
+    if (tinkerModeBtn) {
+      tinkerModeBtn.onclick = function() {
+        if (tinkerMode) exitTinkerMode();
+        else enterTinkerMode();
+      };
+    }
+    if (tinkerExitBtn) {
+      tinkerExitBtn.onclick = function() { exitTinkerMode(); };
+    }
+    if (tinkerSparkMutate) {
+      tinkerSparkMutate.onclick = function() {
+        var codeArea = document.getElementById("code"),
+            model = growthLessonModel(),
+            activeCourse = model ? model.key : course;
+        if (!codeArea) return;
+        var nextCode = mutateCodeSpark(codeArea.value, activeCourse);
+        codeArea.value = nextCode;
+        tinkerDraft = nextCode;
+        growthPreview(nextCode, activeCourse);
+        document.getElementById("hint").textContent = "⚡ أضفنا تعديلًا مفاجئًا! راقب النتيجة في المعاينة وعدّل عليه بيدك.";
+        celebrateGrowth("تعديل سريع غيّر النتيجة!", "#previewStage");
+      };
+    }
+    if (tinkerSaveSnapshotBtn) {
+      tinkerSaveSnapshotBtn.onclick = function() {
+        var codeArea = document.getElementById("code"),
+            model = growthLessonModel(),
+            activeCourse = model ? model.key : course,
+            code = codeArea ? codeArea.value : "";
+        if (!String(code || "").trim()) return;
+        var snap = saveTinkerSnapshot("تجربة في " + (model ? model.topic : courseLabel(activeCourse)), activeCourse, code, "من المعمل الحر");
+        if (snap) {
+          renderGrowthDashboard();
+          document.getElementById("hint").textContent = "💾 اتحفظت تجربتك الحية في قسم «مشاريعي»!";
+          celebrateGrowth("أصبحت تجربتك الحرة معاينة محفوظة في مشروعي!", "#projectCuriositySection");
+        }
+      };
+    }
+    if (tinkerIdeaForm && tinkerIdeaInput) {
+      tinkerIdeaForm.onsubmit = function(event) {
+        event.preventDefault();
+        var text = tinkerIdeaInput.value.trim();
+        if (!text) { tinkerIdeaInput.focus(); return; }
+        var model = growthLessonModel(),
+            codeArea = document.getElementById("code");
+        pinIdeaSpark({
+          text: text,
+          course: model ? model.key : course,
+          topicIndex: model ? model.index : currentTopicIndex(course),
+          starterCode: codeArea ? codeArea.value : ""
+        });
+        tinkerIdeaInput.value = "";
+        renderGrowthDashboard();
+        celebrateGrowth("ثبّتنا فكرتك للمرة الجاية!", "#heroCuriosityBox");
+      };
+    }
+    if (pinIdeaFromLesson) {
+      pinIdeaFromLesson.onclick = function() {
+        var model = growthLessonModel(),
+            codeArea = document.getElementById("code"),
+            suggestion = model ? "أجرّب تعديل فكرة في «" + model.topic + "» بطريقتي" : "أجرّب فكرة جديدة في المحرر",
+            inlineForm = document.getElementById("tinkerIdeaForm");
+        if (tinkerMode && tinkerIdeaInput && inlineForm && !inlineForm.hidden) {
+          tinkerIdeaInput.focus();
+          return;
+        }
+        pinIdeaSpark({
+          text: suggestion,
+          course: model ? model.key : course,
+          topicIndex: model ? model.index : currentTopicIndex(course),
+          starterCode: codeArea ? codeArea.value : ""
+        });
+        renderGrowthDashboard();
+        document.getElementById("hint").textContent = "📌 ثبّتنا هذه الفكرة في «أفكاري المفتوحة» لتعود إليها متى شئت.";
+        celebrateGrowth("ثبّتنا لك شرارة عودة لهذا الدرس!", "#heroCuriosityBox");
+      };
+    }
+  })();
   document.getElementById("journey").onclick = cheer;
   document.getElementById("allCourses").onclick = function() {
     setActiveNav("courses");
@@ -6352,6 +7150,12 @@
   }
 
   document.getElementById("code").oninput = function() {
+    if (typeof tinkerMode !== "undefined" && tinkerMode) {
+      tinkerDraft = this.value;
+      clearPreviewStatus();
+      scheduleLivePreview(this.value);
+      return;
+    }
     ran = false;
     if (course === "html") s.htmlCode = this.value;
     else if (course === "css" || course === "js" || course === "database") s[course + "Code"] = this.value;

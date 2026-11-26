@@ -43,6 +43,11 @@ let json;
 let JSZip;
 let editorTheme;
 let initialized = false;
+let angularTinkerMode = false;
+let angularActiveIdeaId = null;
+let angularTinkerMutationStep = 0;
+let angularAllowPeekNext = false;
+let angularGuidedFilesBackup = null;
 
 function loadEditorModules() {
   if (!editorModulesPromise) {
@@ -2358,6 +2363,266 @@ function renderAngularSlotBuilder(step, lesson) {
   }
 }
 
+function buildAngularPredictChallenge(lesson) {
+  if (!lesson || typeof lesson !== "object") return null;
+  const quizStep = Array.isArray(lesson.steps)
+    ? lesson.steps.find((s) => s && s.type === "quiz" && Array.isArray(s.options) && s.options.length >= 2)
+    : null;
+  if (quizStep) {
+    return {
+      prompt: quizStep.question || quizStep.task || "توقّع قبل التشغيل: ما النتيجة المتوقعة في هذا الدرس؟",
+      snippet: String(quizStep.code || lesson.code || "").split("\n").slice(0, 6).join("\n"),
+      options: quizStep.options.slice(0, 4),
+      correct: typeof quizStep.correct === "number" ? quizStep.correct : 0,
+      note: quizStep.benefit || quizStep.explanation || lesson.concept || ""
+    };
+  }
+  const repair = lesson.bugRepair;
+  if (repair && repair.question && Array.isArray(repair.options) && repair.options.length >= 2) {
+    return {
+      prompt: "توقّع قبل التشغيل: " + repair.question,
+      snippet: String(repair.brokenCode || lesson.code || "").split("\n").slice(0, 6).join("\n"),
+      options: repair.options.slice(0, 4),
+      correct: typeof repair.correctOptionIndex === "number" ? repair.correctOptionIndex : 0,
+      note: repair.explanation || lesson.concept || ""
+    };
+  }
+  return {
+    prompt: "توقّع قبل التشغيل: ما الدور الذي يضيفه درس «" + (lesson.title || "Angular") + "» للتطبيق؟",
+    snippet: String(lesson.code || "").split("\n").slice(0, 5).join("\n"),
+    options: [
+      String(lesson.task || lesson.concept || "إضافة سلوك أو واجهة جديدة داخل المكون").slice(0, 120),
+      "لا يؤثر على القالب أو حالة المكون إطلاقًا"
+    ],
+    correct: 0,
+    note: lesson.concept || ""
+  };
+}
+
+function setAngularPreviewCurtain(masked) {
+  const previewPane = typeof document !== "undefined" && typeof document.querySelector === "function"
+    ? document.querySelector(".angular-preview-pane")
+    : null;
+  if (!previewPane) return;
+  if (masked && typeof previewPane.setAttribute === "function") previewPane.setAttribute("data-curtain", "masked");
+  else if (!masked && typeof previewPane.removeAttribute === "function") previewPane.removeAttribute("data-curtain");
+}
+
+function renderAngularPredictHook(lesson) {
+  const host = $("angularPredictHookCard");
+  if (!host || !lesson) return;
+  const predId = "angular:" + lesson.id;
+  const savedLocal = record.progress?.predictions?.[lesson.id];
+  const savedGlobal = typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.hasPrediction === "function"
+    ? window.StepLearnCuriosity.hasPrediction(predId)
+    : false;
+  const complete = completedSet().has(lesson.id);
+  const shouldShow = !complete && !angularTinkerMode && currentStepIndex === 0 && !savedLocal && !savedGlobal;
+  if (!shouldShow) {
+    host.hidden = true;
+    host.innerHTML = "";
+    setAngularPreviewCurtain(false);
+    return;
+  }
+  const challenge = buildAngularPredictChallenge(lesson);
+  if (!challenge) {
+    host.hidden = true;
+    setAngularPreviewCurtain(false);
+    return;
+  }
+  host.hidden = false;
+  setAngularPreviewCurtain(true);
+  host.innerHTML =
+    '<div class="predict-hook-head"><span>🔮 فضول قبل التشغيل · Angular</span><button type="button" class="predict-skip-btn" data-ng-predict-skip>اكشف المعاينة مباشرة</button></div>' +
+    '<p class="predict-hook-question">' + escapeHtml(challenge.prompt) + "</p>" +
+    (challenge.snippet ? '<pre class="predict-hook-code" dir="ltr"><code>' + escapeHtml(challenge.snippet) + "</code></pre>" : "") +
+    '<div class="predict-hook-options">' + challenge.options.map((opt, idx) => '<button type="button" class="predict-option-btn" data-ng-predict-choice="' + idx + '">' + escapeHtml(opt) + "</button>").join("") + "</div>" +
+    '<p class="predict-hook-feedback" aria-live="polite"></p>';
+
+  const reveal = (choiceIndex) => {
+    record.progress.predictions = record.progress.predictions || {};
+    record.progress.predictions[lesson.id] = { guessedIndex: choiceIndex, revealed: true };
+    if (typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.savePrediction === "function") {
+      window.StepLearnCuriosity.savePrediction(predId, choiceIndex);
+    }
+    void saveRecord();
+    setAngularPreviewCurtain(false);
+    if (choiceIndex < 0) {
+      host.hidden = true;
+      return;
+    }
+    const isMatch = choiceIndex === challenge.correct;
+    const fb = typeof host.querySelector === "function" ? host.querySelector(".predict-hook-feedback") : null;
+    if (typeof host.querySelectorAll === "function") {
+      host.querySelectorAll("[data-ng-predict-choice]").forEach((btn, idx) => {
+        btn.disabled = true;
+        if (btn.classList) {
+          btn.classList.toggle("selected", idx === choiceIndex);
+          btn.classList.toggle("correct", idx === challenge.correct);
+        }
+      });
+    }
+    if (fb) {
+      fb.innerHTML = (isMatch ? "✓ توقعك في محله! " : "💡 مفاجأة جميلة — ") + escapeHtml(challenge.note) + ' <button type="button" class="predict-tinker-jump" data-ng-predict-tinker>جرّب تعدّلها في المعمل الحر ←</button>';
+      const jump = typeof fb.querySelector === "function" ? fb.querySelector("[data-ng-predict-tinker]") : null;
+      if (jump) jump.onclick = () => { host.hidden = true; enterAngularTinkerMode(); };
+    }
+  };
+
+  if (typeof host.querySelectorAll === "function") {
+    host.querySelectorAll("[data-ng-predict-choice]").forEach((btn) => {
+      btn.onclick = () => reveal(Number(btn.dataset.ngPredictChoice));
+    });
+  }
+  const skipBtn = typeof host.querySelector === "function" ? host.querySelector("[data-ng-predict-skip]") : null;
+  if (skipBtn) skipBtn.onclick = () => reveal(-1);
+}
+
+function enterAngularTinkerMode(customCode, hintMessage, ideaId) {
+  const lesson = activeLesson();
+  if (!angularTinkerMode) {
+    saveCurrentWorkspace();
+    angularGuidedFilesBackup = cloneFiles(currentFiles);
+  }
+  angularTinkerMode = true;
+  angularActiveIdeaId = ideaId || null;
+  if (typeof customCode === "string" && customCode.trim()) {
+    const targetPath = (lesson && lesson.file && currentFiles[lesson.file] !== undefined) ? lesson.file : activePath;
+    if (/^\s*<!doctype|^\s*<html/i.test(customCode) && currentFiles["src/app/app.html"] !== undefined) {
+      const bodyMatch = customCode.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+      currentFiles["src/app/app.html"] = bodyMatch ? bodyMatch[1].trim() : customCode;
+      activePath = "src/app/app.html";
+    } else if (targetPath) {
+      currentFiles[targetPath] = customCode;
+      activePath = targetPath;
+    }
+    createEditor(activePath);
+  }
+  const toolbar = $("angularTinkerToolbar");
+  const btn = $("angularTinkerModeBtn");
+  const card = $("angularLessonCard");
+  if (toolbar) toolbar.hidden = false;
+  if (btn) { btn.classList.add("active"); btn.setAttribute("aria-pressed", "true"); }
+  if (card) card.classList.add("tinker-active");
+  setAngularPreviewCurtain(false);
+  const predictHost = $("angularPredictHookCard");
+  if (predictHost) predictHost.hidden = true;
+  updateAngularSimulatedPreview();
+  if ($("angularLessonFeedback")) {
+    $("angularLessonFeedback").textContent = hintMessage || "🧪 أنت في المعمل الحر لـ Angular: عدّل القالب أو الكود بحرية ثم اضغط تشغيل لمشاهدة النتيجة.";
+  }
+}
+
+function exitAngularTinkerMode(skipRestore) {
+  if (!angularTinkerMode) return;
+  angularTinkerMode = false;
+  angularActiveIdeaId = null;
+  if (!skipRestore && angularGuidedFilesBackup) {
+    currentFiles = cloneFiles(angularGuidedFilesBackup);
+    if (mode === "project") record.workspaces.project = cloneFiles(currentFiles);
+    else if (activeLesson()) record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
+  }
+  angularGuidedFilesBackup = null;
+  const toolbar = $("angularTinkerToolbar");
+  const btn = $("angularTinkerModeBtn");
+  const card = $("angularLessonCard");
+  if (toolbar) toolbar.hidden = true;
+  if (btn) { btn.classList.remove("active"); btn.setAttribute("aria-pressed", "false"); }
+  if (card) card.classList.remove("tinker-active");
+  if (!skipRestore && activePath) createEditor(activePath);
+  renderLesson();
+}
+
+function mutateAngularSpark() {
+  angularTinkerMutationStep = (angularTinkerMutationStep + 1) % 3;
+  const htmlPath = currentFiles["src/app/app.html"] !== undefined ? "src/app/app.html" : activePath;
+  const currentHtml = currentFiles[htmlPath] || "";
+  const badges = [
+    '<section class="welcome-card" style="border-color:#bbf268;background:#1d3b2c;color:#eef8ee"><b>✨ لمسة من المعمل الحر</b><p>أضفت هذه البطاقة مباشرة في قالب Angular!</p></section>',
+    '<div class="ticket-summary"><span>🎟️ تجربة حرة في السينما</span><b>{{ title }} · تفاعلي</b></div>',
+    '<div class="booking-confirmed">🚀 تم تحديث واجهة Angular بلمستك الخاصة</div>'
+  ];
+  if (htmlPath.endsWith(".html")) {
+    const cleaned = currentHtml.replace(/\s*<!-- ng-tinker-spark -->[\s\S]*?<!-- \/ng-tinker-spark -->/g, "");
+    const block = "\n<!-- ng-tinker-spark -->\n" + badges[angularTinkerMutationStep] + "\n<!-- /ng-tinker-spark -->";
+    currentFiles[htmlPath] = /<\/main>/i.test(cleaned)
+      ? cleaned.replace(/<\/main>/i, block + "\n</main>")
+      : cleaned + block;
+    activePath = htmlPath;
+  } else {
+    const cleanedTs = currentFiles[activePath].replace(/\n\/\/ ng-tinker-spark[\s\S]*$/, "");
+    currentFiles[activePath] = cleanedTs + "\n// ng-tinker-spark\n// تجربة تعديل سريع في Angular #" + (angularTinkerMutationStep + 1);
+  }
+  createEditor(activePath);
+  updateAngularSimulatedPreview();
+  if ($("angularLessonFeedback")) {
+    $("angularLessonFeedback").textContent = "⚡ أضفنا تعديلًا مفاجئًا في Angular! راقب المعاينة وعدّل عليه بيدك.";
+  }
+}
+
+function renderAngularCompletionSpark(lesson) {
+  const box = $("angularNextSparkBox");
+  if (!box || !lesson) return;
+  const complete = completedSet().has(lesson.id);
+  const steps = Array.isArray(lesson.steps) ? lesson.steps : [];
+  const onLastStep = currentStepIndex >= Math.max(0, steps.length - 1);
+  if (!complete && !onLastStep) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  const hasNext = currentLessonIndex + 1 < COURSE.lessons.length;
+  const nextLesson = hasNext ? COURSE.lessons[currentLessonIndex + 1] : null;
+  const teaser = nextLesson
+    ? "الدرس الجاي («" + nextLesson.title + "»): " + String(nextLesson.task || nextLesson.concept || "تحدٍ جديد ينتظرك في مشروع السينما.").slice(0, 110)
+    : "أنهيت جميع دروس Angular! يمكنك استخدام المعمل الحر لابتكار مكونات جديدة في مشروع السينما.";
+
+  box.hidden = false;
+  box.innerHTML =
+    "<b>🔥 شرارة المرة الجاية · Angular</b>" +
+    "<p>" + escapeHtml(teaser) + "</p>" +
+    '<div class="next-spark-buttons">' +
+      (hasNext ? '<button type="button" class="next-spark-peek" data-ng-peek-next>ألقِ نظرة على لغز الدرس الجاي ←</button>' : "") +
+      '<button type="button" class="next-spark-tinker" data-ng-tinker-done>🧪 عدّل في المعمل الحر</button>' +
+    "</div>" +
+    '<form class="next-spark-idea-form" data-ng-next-idea-form>' +
+      '<input name="nextIdea" maxlength="160" placeholder="فكرة خطرت لك في Angular وتحب تجربتها المرة الجاية…" aria-label="فكرة Angular للمرة الجاية">' +
+      '<button type="submit">📌 ثبّتها عند العودة</button>' +
+    "</form>";
+
+  if (typeof box.querySelector !== "function") return;
+  const peekBtn = box.querySelector("[data-ng-peek-next]");
+  if (peekBtn) {
+    peekBtn.onclick = () => {
+      angularAllowPeekNext = true;
+      void selectLesson(currentLessonIndex + 1);
+    };
+  }
+  const tinkerBtn = box.querySelector("[data-ng-tinker-done]");
+  if (tinkerBtn) {
+    tinkerBtn.onclick = () => enterAngularTinkerMode(null, "🧪 المعمل الحر مفتوح! عدّل أي ملف وشاهد تطبيق السينما يتغير فورًا.");
+  }
+  const form = box.querySelector("[data-ng-next-idea-form]");
+  if (form) {
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      const input = form.elements.nextIdea;
+      const text = input.value.trim();
+      if (!text) { input.focus(); return; }
+      if (typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.pinIdea === "function") {
+        window.StepLearnCuriosity.pinIdea({
+          text,
+          course: "angular",
+          topicIndex: hasNext ? currentLessonIndex + 1 : currentLessonIndex,
+          starterCode: currentFiles[activePath] || lesson.code || ""
+        });
+        window.StepLearnCuriosity.celebrate("ثبّتنا فكرتك في Angular لتستقبلك عند العودة!", "#angularNextSparkBox");
+      }
+      input.value = "";
+    };
+  }
+}
+
 function renderLesson() {
   const lesson = activeLesson();
   if (!lesson) return;
@@ -2488,6 +2753,8 @@ function renderLesson() {
   });
 
   updateAngularHandCraftScore(false, 0);
+  renderAngularPredictHook(lesson);
+  renderAngularCompletionSpark(lesson);
   renderAngularSlotBuilder(currentStep, lesson);
   inspectAngularGentleTree();
   renderRoadmap();
@@ -2534,13 +2801,16 @@ async function loadCurrentWorkspace() {
   }
 }
 
-async function selectLesson(index) {
+async function selectLesson(index, options = {}) {
   if (!Number.isInteger(index) || index < 0 || index >= COURSE.lessons.length) return;
   const isDone = completedSet().has(COURSE.lessons[index].id);
-  if (index > firstIncompleteIndex() && !isDone) {
+  const canPeek = angularAllowPeekNext || options.peek === true;
+  angularAllowPeekNext = false;
+  if (index > firstIncompleteIndex() && !isDone && !canPeek) {
     $("angularLessonFeedback").textContent = "كمّل خطوة الدرس الحالي أولًا؛ كل جزء يجهّزك للي بعده.";
     return;
   }
+  if (angularTinkerMode && !options.preserveTinker) exitAngularTinkerMode(false);
   saveCurrentWorkspace();
   if (runtime) {
     await syncAllFiles();
@@ -2618,6 +2888,18 @@ async function runLesson() {
   saveCurrentWorkspace();
   try {
     const lesson = activeLesson();
+    if (angularTinkerMode) {
+      updateAngularSimulatedPreview();
+      if (angularActiveIdeaId && typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.markTried === "function") {
+        window.StepLearnCuriosity.markTried(angularActiveIdeaId);
+        angularActiveIdeaId = null;
+      }
+      $("angularLessonFeedback").textContent = "🧪 اشتغلت تجربتك الحرة في Angular! يمكنك حفظها في «مشاريعي» أو متابعة التعديل.";
+      if (typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.celebrate === "function") {
+        window.StepLearnCuriosity.celebrate("أطلقت تجربة حرة في Angular!", "#angularPreview");
+      }
+      return;
+    }
     let runtimeActive = false;
     try {
       if (window.crossOriginIsolated && window.isSecureContext) {
@@ -2920,6 +3202,51 @@ function bindInterface() {
   if (stepNext) stepNext.addEventListener("click", () => advanceStep());
   $("angularPrevious").addEventListener("click", () => void selectLesson(currentLessonIndex - 1));
   $("angularNext").addEventListener("click", () => void selectLesson(currentLessonIndex + 1));
+  const ngTinkerBtn = $("angularTinkerModeBtn");
+  if (ngTinkerBtn) ngTinkerBtn.addEventListener("click", () => { if (angularTinkerMode) exitAngularTinkerMode(); else enterAngularTinkerMode(); });
+  const ngTinkerExit = $("angularTinkerExitBtn");
+  if (ngTinkerExit) ngTinkerExit.addEventListener("click", () => exitAngularTinkerMode());
+  const ngTinkerMutate = $("angularTinkerSparkMutate");
+  if (ngTinkerMutate) ngTinkerMutate.addEventListener("click", () => mutateAngularSpark());
+  const ngTinkerSave = $("angularTinkerSaveSnapshot");
+  if (ngTinkerSave) {
+    ngTinkerSave.addEventListener("click", () => {
+      updateAngularSimulatedPreview();
+      const lesson = activeLesson();
+      const codeOrDoc = ($("angularPreview") && $("angularPreview").srcdoc) || currentFiles[activePath] || "";
+      if (typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.saveSnapshot === "function") {
+        window.StepLearnCuriosity.saveSnapshot("Angular · " + (lesson ? lesson.title : "تجربة"), "angular", codeOrDoc, "من المعمل الحر لـ Angular");
+        window.StepLearnCuriosity.celebrate("اتحفظت تجربتك الحية في قسم «مشاريعي»!", "#projectCuriositySection");
+      }
+    });
+  }
+  const ngTinkerIdeaForm = $("angularTinkerIdeaForm");
+  const ngTinkerIdeaInput = $("angularTinkerIdeaInput");
+  if (ngTinkerIdeaForm && ngTinkerIdeaInput) {
+    ngTinkerIdeaForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = ngTinkerIdeaInput.value.trim();
+      if (!text) { ngTinkerIdeaInput.focus(); return; }
+      const lesson = activeLesson();
+      if (typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.pinIdea === "function") {
+        window.StepLearnCuriosity.pinIdea({ text, course: "angular", topicIndex: currentLessonIndex, starterCode: currentFiles[activePath] || (lesson && lesson.code) || "" });
+        window.StepLearnCuriosity.celebrate("ثبّتنا فكرتك في Angular للمرة الجاية!", "#heroCuriosityBox");
+      }
+      ngTinkerIdeaInput.value = "";
+    });
+  }
+  const ngPinBtn = $("angularPinIdeaBtn");
+  if (ngPinBtn) {
+    ngPinBtn.addEventListener("click", () => {
+      const lesson = activeLesson();
+      const text = "أجرّب تعديل فكرة في Angular: «" + (lesson ? lesson.title : "مكون السينما") + "»";
+      if (typeof window !== "undefined" && window.StepLearnCuriosity && typeof window.StepLearnCuriosity.pinIdea === "function") {
+        window.StepLearnCuriosity.pinIdea({ text, course: "angular", topicIndex: currentLessonIndex, starterCode: currentFiles[activePath] || (lesson && lesson.code) || "" });
+        window.StepLearnCuriosity.celebrate("ثبّتنا شرارة العودة لهذا الدرس في Angular!", "#heroCuriosityBox");
+      }
+      $("angularLessonFeedback").textContent = "📌 ثبّتنا الفكرة في «أفكاري المفتوحة» لتعود إليها متى شئت.";
+    });
+  }
   document.querySelectorAll("[data-angular-pane]").forEach((button) => button.addEventListener("click", () => setMobilePane(button.dataset.angularPane)));
   window.addEventListener("pagehide", () => {
     saveCurrentWorkspace();
@@ -2958,8 +3285,20 @@ async function initialize() {
   initialized = true;
 }
 
+async function openCuriosityTarget(lessonIndex, options = {}) {
+  await enterCourse();
+  if (typeof lessonIndex === "number" && Number.isInteger(lessonIndex) && lessonIndex >= 0 && COURSE && lessonIndex < COURSE.lessons.length) {
+    angularAllowPeekNext = true;
+    await selectLesson(lessonIndex, { peek: true, preserveTinker: true });
+  }
+  if (options.tinker !== false) {
+    enterAngularTinkerMode(options.code || "", options.note ? ("⚡ فكرتك المفتوحة: «" + options.note + "» — عدّل وشغّل!") : undefined, options.ideaId || null);
+  }
+}
+
 window.AngularCourse = {
   enter: enterCourse,
+  openCuriosityTarget,
   isStepCompleted,
   advanceStep,
   previousStep,
