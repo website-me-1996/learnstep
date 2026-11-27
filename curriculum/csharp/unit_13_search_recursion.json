@@ -14,9 +14,9 @@
       "order": 96,
       "unitId": "search-and-recursion",
       "revision": 1,
-      "concept": "حدد القيم الداخلة، واكتب القاعدة على عنصر واحد، ثم قرر ماذا تعيد. الدالة CountAccepted تستقبل الدرجات والحد وتعيد العدد.",
-      "whyUse": "تقدر تفحص فهمك للمطلوب بمثال صغير قبل تركيب التفاصيل.",
-      "browserMechanics": "عند كل درجة تابع القرار، وعدّ الحالات المقبولة. عند الرجوع تظهر الحصيلة في result.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ حدد القيم الداخلة، واكتب القاعدة على عنصر واحد، ثم قرر ماذا تعيد. الدالة CountAccepted تستقبل الدرجات والحد وتعيد العدد.",
+      "whyUse": "تقدر تفحص فهمك للمطلوب بمثال صغير قبل تركيب التفاصيل. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "عند كل درجة تابع القرار، وعدّ الحالات المقبولة. عند الرجوع تظهر الحصيلة في result. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
@@ -32,12 +32,12 @@
           "title": "المشهد قبل الكود",
           "objective": "قدامك قائمة درجات 7 و10 و13. المطلوب عدد اللي وصلوا إلى 10 أو أعلى. اكتب مثال ناتجه 2 قبل ما تكتب الكود.",
           "instruction": "يا كمبيوتر، قدامك قائمة درجات 7 و10 و13. المطلوب عدد اللي وصلوا إلى 10 أو أعلى. اكتب مثال ناتجه 2 قبل ما تكتب الكود.",
-          "benefit": "تقدر تفحص فهمك للمطلوب بمثال صغير قبل تركيب التفاصيل.",
+          "benefit": "تقدر تفحص فهمك للمطلوب بمثال صغير قبل تركيب التفاصيل. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -45,16 +45,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "حدد القيم الداخلة، واكتب القاعدة على عنصر واحد، ثم قرر ماذا تعيد. الدالة CountAccepted تستقبل الدرجات والحد وتعيد العدد.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ حدد القيم الداخلة، واكتب القاعدة على عنصر واحد، ثم قرر ماذا تعيد. الدالة CountAccepted تستقبل الدرجات والحد وتعيد العدد.",
           "code": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
-          "benefit": "عند كل درجة تابع القرار، وعدّ الحالات المقبولة. عند الرجوع تظهر الحصيلة في result.",
+          "benefit": "عند كل درجة تابع القرار، وعدّ الحالات المقبولة. عند الرجوع تظهر الحصيلة في result. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -64,7 +64,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل قاعدة القبول في CountAccepted. عند درجات 7 و10 و13 وحد 10 لازم تظهر 2.",
           "instruction": "يا كمبيوتر، أكمل قاعدة القبول في CountAccepted. عند درجات 7 و10 و13 وحد 10 لازم تظهر 2.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج» بمخرجات قابلة للقياس.",
           "starterCode": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (false) { accepted++; }\n    }\n    return accepted;\n}",
           "solution": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
           "challenge": {
@@ -124,9 +124,9 @@
           },
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -136,7 +136,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ارفع الحد إلى 12 واكتب توقعك قبل التشغيل.",
           "instruction": "يا كمبيوتر، ارفع الحد إلى 12 واكتب توقعك قبل التشغيل.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] scores = { 7, 10, 13 };\nint minimum = 12;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
           "challenge": {
@@ -196,9 +196,9 @@
           },
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 7, 10, 13 };\nint minimum = 12;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -208,7 +208,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب درجات فارغة. تابع عدد مرات تطبيق الشرط.",
           "instruction": "يا كمبيوتر، جرّب درجات فارغة. تابع عدد مرات تطبيق الشرط.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] scores = {  };\nint minimum = 12;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
           "challenge": {
@@ -269,9 +269,9 @@
           },
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = {  };\nint minimum = 12;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -280,7 +280,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "خرج 1 بدل 2. ما الفحص الذي يضم الحد نفسه؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "خرج 1 بدل 2. ما الفحص الذي يضم الحد نفسه؟",
           "options": [
             "score >= threshold",
@@ -289,13 +289,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score > threshold) { accepted++; }\n    }\n    return accepted;\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم >= إذا كانت الدرجة التي تساوي الحد مقبولة.",
           "benefit": "استخدم >= إذا كانت الدرجة التي تساوي الحد مقبولة.",
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -305,7 +305,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم >= إذا كانت الدرجة التي تساوي الحد مقبولة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم >= إذا كانت الدرجة التي تساوي الحد مقبولة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score > threshold) { accepted++; }\n    }\n    return accepted;\n}",
           "solution": "int[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
           "challenge": {
@@ -365,9 +365,9 @@
           },
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "قارن ما تتوقع حدوثه في «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 7, 10, 13 };\nint minimum = 10;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         },
@@ -377,7 +377,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، عدّ المقبولين من 5 و9 و9 و14 عند الحد 9، ثم قارن الناتج بتوقعك.",
           "instruction": "يا كمبيوتر، عدّ المقبولين من 5 و9 و9 و14 عند الحد 9، ثم قارن الناتج بتوقعك.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] scores = { 5, 9, 9, 14 };\nint minimum = 9;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}",
           "challenge": {
@@ -437,9 +437,9 @@
           },
           "errorRules": [],
           "hints": [
-            "الدرجة التي تساوي الحد تتحسب.",
-            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (score >= threshold) { accepted++; } داخل foreach.",
+            "الدرجة التي تساوي الحد تتحسب. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «حوّل مسألة صغيرة إلى مدخل وقاعدة وناتج».",
+            "القاعدة: حوّل وصف القبول إلى مقارنة على درجة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (score >= threshold) { accepted++; } داخل foreach. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scores = { 5, 9, 9, 14 };\nint minimum = 9;\nint result = CountAccepted(scores, minimum);\nConsole.WriteLine(result);\n\nint CountAccepted(int[] values, int threshold)\n{\n    int accepted = 0;\n    foreach (int score in values)\n    {\n        if (score >= threshold) { accepted++; }\n    }\n    return accepted;\n}"
           ]
         }
@@ -495,9 +495,9 @@
       "order": 97,
       "unitId": "search-and-recursion",
       "revision": 1,
-      "concept": "البحث الخطي يبدأ بالفهرس 0 ويفحص الخانات بالترتيب. يسجل أول فهرس مطابق، ويظل found عند -1 إذا خلصت الخانات دون تطابق.",
-      "whyUse": "تقدر تبحث حتى لو القيم مترتبة بأي شكل، وتحسب كم خانة احتجت تفحصها.",
-      "browserMechanics": "تضيء كل خانة وقت المقارنة ويزيد probes. عند التطابق تقف الحلقة فورًا.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ البحث الخطي يبدأ بالفهرس 0 ويفحص الخانات بالترتيب. يسجل أول فهرس مطابق، ويظل found عند -1 إذا خلصت الخانات دون تطابق.",
+      "whyUse": "تقدر تبحث حتى لو القيم مترتبة بأي شكل، وتحسب كم خانة احتجت تفحصها. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تضيء كل خانة وقت المقارنة ويزيد probes. عند التطابق تقف الحلقة فورًا. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
@@ -513,12 +513,12 @@
           "title": "المشهد قبل الكود",
           "objective": "أرقام تذاكر على رف من غير ترتيب. ابدأ من اليسار وافحص كل رقم. أول ما تلاقي التذكرة المطلوبة اكتب رقم خانتها.",
           "instruction": "يا كمبيوتر، أرقام تذاكر على رف من غير ترتيب. ابدأ من اليسار وافحص كل رقم. أول ما تلاقي التذكرة المطلوبة اكتب رقم خانتها.",
-          "benefit": "تقدر تبحث حتى لو القيم مترتبة بأي شكل، وتحسب كم خانة احتجت تفحصها.",
+          "benefit": "تقدر تبحث حتى لو القيم مترتبة بأي شكل، وتحسب كم خانة احتجت تفحصها. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -526,16 +526,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "البحث الخطي يبدأ بالفهرس 0 ويفحص الخانات بالترتيب. يسجل أول فهرس مطابق، ويظل found عند -1 إذا خلصت الخانات دون تطابق.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «فتّش خانة خانة حتى أول تطابق».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ البحث الخطي يبدأ بالفهرس 0 ويفحص الخانات بالترتيب. يسجل أول فهرس مطابق، ويظل found عند -1 إذا خلصت الخانات دون تطابق.",
           "code": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
-          "benefit": "تضيء كل خانة وقت المقارنة ويزيد probes. عند التطابق تقف الحلقة فورًا.",
+          "benefit": "تضيء كل خانة وقت المقارنة ويزيد probes. عند التطابق تقف الحلقة فورًا. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -545,7 +545,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، كمّل found عند التطابق. ابحث عن 19 في 8 و2 و19 و2، واطبع الفهرس 2 وثلاثة فحوص.",
           "instruction": "يا كمبيوتر، كمّل found عند التطابق. ابحث عن 19 في 8 و2 و19 و2، واطبع الفهرس 2 وثلاثة فحوص.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «فتّش خانة خانة حتى أول تطابق» بمخرجات قابلة للقياس.",
           "starterCode": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        // اكتب الأمر هنا\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "solution": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -614,9 +614,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -626,7 +626,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابحث عن 2 المكرر. في أي موضع يوقف break المرور؟",
           "instruction": "يا كمبيوتر، ابحث عن 2 المكرر. في أي موضع يوقف break المرور؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 2;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -695,9 +695,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 2;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -707,7 +707,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابحث عن 91. توقع عدد الخانات التي تتفحصها.",
           "instruction": "يا كمبيوتر، ابحث عن 91. توقع عدد الخانات التي تتفحصها.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 91;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -777,9 +777,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 91;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -788,7 +788,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر 19 بعد البحث. إيه القيمة التي ينبغي حفظها لتحديد المكان؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «فتّش خانة خانة حتى أول تطابق» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر 19 بعد البحث. إيه القيمة التي ينبغي حفظها لتحديد المكان؟",
           "options": [
             "wanted",
@@ -797,13 +797,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = wanted;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "احفظ i، فهرس الخانة التي تحقق الشرط.",
           "benefit": "احفظ i، فهرس الخانة التي تحقق الشرط.",
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -813,7 +813,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ i، فهرس الخانة التي تحقق الشرط.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ i، فهرس الخانة التي تحقق الشرط.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = wanted;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "solution": "int[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -882,9 +882,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "قارن ما تتوقع حدوثه في «فتّش خانة خانة حتى أول تطابق» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 2, 19, 2 };\nint wanted = 19;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -894,7 +894,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، ابحث عن أول 14 بين 22 و14 و7 و14. اطبع فهرسها وعدد الفحوص.",
           "instruction": "يا كمبيوتر، ابحث عن أول 14 بين 22 و14 و7 و14. اطبع فهرسها وعدد الفحوص.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «فتّش خانة خانة حتى أول تطابق» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] codes = { 22, 14, 7, 14 };\nint wanted = 14;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -963,9 +963,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة.",
-            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب found = i; قبل break.",
+            "شوف فهرس الخانة وقت التطابق، ثم قارن بينه وبين قيمة التذكرة. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «فتّش خانة خانة حتى أول تطابق».",
+            "القاعدة: يسجل البحث الفهرس الحالي عند أول تطابق. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب found = i; قبل break. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 22, 14, 7, 14 };\nint wanted = 14;\nint found = -1;\nint probes = 0;\nfor (int i = 0; i < codes.Length; i++)\n{\n    probes++;\n    if (codes[i] == wanted)\n    {\n        found = i;\n        break;\n    }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         }
@@ -1022,9 +1022,9 @@
       "order": 98,
       "unitId": "search-and-recursion",
       "revision": 1,
-      "concept": "الترتيب التصاعدي مع السماح بالتكرار يعني كل عنصر أكبر من أو يساوي الذي قبله. تكفي مرة واحدة أصغر منه لإرجاع false.",
-      "whyUse": "تراجع شرط ترتيب البيانات قبل الاعتماد على البحث الثنائي.",
-      "browserMechanics": "راقب المقارنة عند الفهرس 1 فأعلى، ثم أول مكان يُغيّر ordered.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الترتيب التصاعدي مع السماح بالتكرار يعني كل عنصر أكبر من أو يساوي الذي قبله. تكفي مرة واحدة أصغر منه لإرجاع false.",
+      "whyUse": "تراجع شرط ترتيب البيانات قبل الاعتماد على البحث الثنائي. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب المقارنة عند الفهرس 1 فأعلى، ثم أول مكان يُغيّر ordered. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.array.binarysearch?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] values = { 2, 5, 4 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
@@ -1040,12 +1040,12 @@
           "title": "المشهد قبل الكود",
           "objective": "قبل استخدام الرف المرقّم في بحث بالنصف، امشِ من ثاني خانة وقارن كل بطاقة بجارتها على الشمال. لو الرقم قلّ، بلغ أن الترتيب مكسور.",
           "instruction": "يا كمبيوتر، قبل استخدام الرف المرقّم في بحث بالنصف، امشِ من ثاني خانة وقارن كل بطاقة بجارتها على الشمال. لو الرقم قلّ، بلغ أن الترتيب مكسور.",
-          "benefit": "تراجع شرط ترتيب البيانات قبل الاعتماد على البحث الثنائي.",
+          "benefit": "تراجع شرط ترتيب البيانات قبل الاعتماد على البحث الثنائي. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 5, 4 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1053,16 +1053,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "الترتيب التصاعدي مع السماح بالتكرار يعني كل عنصر أكبر من أو يساوي الذي قبله. تكفي مرة واحدة أصغر منه لإرجاع false.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «افحص ترتيب الخانات المتجاورة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الترتيب التصاعدي مع السماح بالتكرار يعني كل عنصر أكبر من أو يساوي الذي قبله. تكفي مرة واحدة أصغر منه لإرجاع false.",
           "code": "int[] values = { 2, 5, 4 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
-          "benefit": "راقب المقارنة عند الفهرس 1 فأعلى، ثم أول مكان يُغيّر ordered.",
+          "benefit": "راقب المقارنة عند الفهرس 1 فأعلى، ثم أول مكان يُغيّر ordered. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 5, 4 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1072,7 +1072,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، افحص ترتيب 2 و5 و4 واطبع ordered. أكمل المقارنة التي تكشف أول انخفاض.",
           "instruction": "يا كمبيوتر، افحص ترتيب 2 و5 و4 واطبع ordered. أكمل المقارنة التي تكشف أول انخفاض.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «افحص ترتيب الخانات المتجاورة» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "int[] values = { 2, 5, 4 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
           "challenge": {
@@ -1139,9 +1139,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 5, 4 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1151,7 +1151,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل آخر قيمتين إلى 4 و5 بالترتيب. راقب النتيجة.",
           "instruction": "يا كمبيوتر، بدّل آخر قيمتين إلى 4 و5 بالترتيب. راقب النتيجة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] values = { 2, 4, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
           "challenge": {
@@ -1218,9 +1218,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 4, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1230,7 +1230,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب ترتيبًا ينخفض في الوسط. حدّد أول موضع خاطئ.",
           "instruction": "يا كمبيوتر، جرّب ترتيبًا ينخفض في الوسط. حدّد أول موضع خاطئ.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] values = { 2, 5, 3, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
           "challenge": {
@@ -1298,9 +1298,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 5, 3, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1309,7 +1309,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "رفض البرنامج الرقمين المتساويين. أي مقارنة ترفض الانخفاض فقط؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «افحص ترتيب الخانات المتجاورة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "رفض البرنامج الرقمين المتساويين. أي مقارنة ترفض الانخفاض فقط؟",
           "options": [
             "values[i] <= values[i - 1]",
@@ -1318,13 +1318,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int[] values = { 2, 2, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] <= values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اجعل التساوي مسموحًا باستخدام < في اختبار الانخفاض.",
           "benefit": "اجعل التساوي مسموحًا باستخدام < في اختبار الانخفاض.",
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 2, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1334,7 +1334,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اجعل التساوي مسموحًا باستخدام < في اختبار الانخفاض.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اجعل التساوي مسموحًا باستخدام < في اختبار الانخفاض.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] values = { 2, 2, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] <= values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
           "solution": "int[] values = { 2, 2, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
           "challenge": {
@@ -1401,9 +1401,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن ما تتوقع حدوثه في «افحص ترتيب الخانات المتجاورة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 2, 2, 5 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         },
@@ -1413,7 +1413,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، تحقق من ترتيب 1 و3 و3 و9 قبل البحث الثنائي. اقبل الرقمين المتساويين.",
           "instruction": "يا كمبيوتر، تحقق من ترتيب 1 و3 و3 و9 قبل البحث الثنائي. اقبل الرقمين المتساويين.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «افحص ترتيب الخانات المتجاورة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] values = { 1, 3, 3, 9 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);",
           "challenge": {
@@ -1480,9 +1480,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن الخانة الحالية بالخانة i - 1.",
-            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (values[i] < values[i - 1]).",
+            "قارن الخانة الحالية بالخانة i - 1. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «افحص ترتيب الخانات المتجاورة».",
+            "القاعدة: إذا كانت الحالية أصغر من السابقة، فالترتيب غير صالح لهذا البحث. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (values[i] < values[i - 1]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] values = { 1, 3, 3, 9 };\nbool ordered = true;\nfor (int i = 1; i < values.Length; i++)\n{\n    if (values[i] < values[i - 1])\n    {\n        ordered = false;\n        break;\n    }\n}\nConsole.WriteLine(ordered);"
           ]
         }
@@ -1539,9 +1539,9 @@
       "order": 99,
       "unitId": "search-and-recursion",
       "revision": 1,
-      "concept": "في بيانات مرتّبة، تحدد مقارنة الوسط أي نصف ممكن يحتوي الهدف. استبعد الوسط الذي فُحص باستخدام middle + 1 أو middle - 1.",
-      "whyUse": "تضيّق مكان البحث مع كل مقارنة حتى تجد الهدف أو ينتهي المجال.",
-      "browserMechanics": "راقب low وhigh ثم خانة middle. كل خطوة تستبعد الخانات التي يستحيل أن تحتوي الهدف.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ في بيانات مرتّبة، تحدد مقارنة الوسط أي نصف ممكن يحتوي الهدف. استبعد الوسط الذي فُحص باستخدام middle + 1 أو middle - 1.",
+      "whyUse": "تضيّق مكان البحث مع كل مقارنة حتى تجد الهدف أو ينتهي المجال. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب low وhigh ثم خانة middle. كل خطوة تستبعد الخانات التي يستحيل أن تحتوي الهدف. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.array.binarysearch?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
@@ -1557,12 +1557,12 @@
           "title": "المشهد قبل الكود",
           "objective": "رف الأرقام مرتب. تفتحه من الوسط، ولو التذكرة اللي عايزها أكبر، تنقل البداية لما بعد الخانة دي. تبحث في الجزء اللي ممكن يحتويها.",
           "instruction": "يا كمبيوتر، رف الأرقام مرتب. تفتحه من الوسط، ولو التذكرة اللي عايزها أكبر، تنقل البداية لما بعد الخانة دي. تبحث في الجزء اللي ممكن يحتويها.",
-          "benefit": "تضيّق مكان البحث مع كل مقارنة حتى تجد الهدف أو ينتهي المجال.",
+          "benefit": "تضيّق مكان البحث مع كل مقارنة حتى تجد الهدف أو ينتهي المجال. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -1570,16 +1570,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "في بيانات مرتّبة، تحدد مقارنة الوسط أي نصف ممكن يحتوي الهدف. استبعد الوسط الذي فُحص باستخدام middle + 1 أو middle - 1.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «ضيّق مجال البحث حول المنتصف».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ في بيانات مرتّبة، تحدد مقارنة الوسط أي نصف ممكن يحتوي الهدف. استبعد الوسط الذي فُحص باستخدام middle + 1 أو middle - 1.",
           "code": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
-          "benefit": "راقب low وhigh ثم خانة middle. كل خطوة تستبعد الخانات التي يستحيل أن تحتوي الهدف.",
+          "benefit": "راقب low وhigh ثم خانة middle. كل خطوة تستبعد الخانات التي يستحيل أن تحتوي الهدف. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -1589,7 +1589,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل تحديث high للبحث الثنائي. احسب middle بصيغة low + (high - low) / 2. اطبع فهرس 20 وعدد الخانات المفحوصة.",
           "instruction": "يا كمبيوتر، أكمل تحديث high للبحث الثنائي. احسب middle بصيغة low + (high - low) / 2. اطبع فهرس 20 وعدد الخانات المفحوصة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «ضيّق مجال البحث حول المنتصف» بمخرجات قابلة للقياس.",
           "starterCode": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { // اكتب الأمر هنا }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "solution": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -1676,9 +1676,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 20;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -1688,7 +1688,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابحث عن 2 عند أول خانة. تابع high في كل دورة.",
           "instruction": "يا كمبيوتر، ابحث عن 2 عند أول خانة. تابع high في كل دورة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 2;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -1775,9 +1775,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 2;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -1787,7 +1787,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب 9 وهي غير موجودة. حدّد لحظة low تتخطى high.",
           "instruction": "يا كمبيوتر، جرّب 9 وهي غير موجودة. حدّد لحظة low تتخطى high.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -1875,9 +1875,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -1886,7 +1886,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ثبت المجال عند خانة واحدة وكرر فحصها. أي تحديث يستبعدها عندما تكون أكبر من الهدف؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «ضيّق مجال البحث حول المنتصف» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ثبت المجال عند خانة واحدة وكرر فحصها. أي تحديث يستبعدها عندما تكون أكبر من الهدف؟",
           "options": [
             "high = middle - 1;",
@@ -1895,13 +1895,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اجعل high قبل الوسط الذي فُحص.",
           "benefit": "اجعل high قبل الوسط الذي فُحص.",
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -1911,7 +1911,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اجعل high قبل الوسط الذي فُحص.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اجعل high قبل الوسط الذي فُحص.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "solution": "int[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -1998,9 +1998,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "قارن ما تتوقع حدوثه في «ضيّق مجال البحث حول المنتصف» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 2, 5, 8, 12, 15, 20, 23 };\nint wanted = 9;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         },
@@ -2010,7 +2010,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، ابحث عن 25 في 4 و6 و9 و18 و25 و31 بالمنتصف الأقل. اعرض الفهرس والفحوص.",
           "instruction": "يا كمبيوتر، ابحث عن 25 في 4 و6 و9 و18 و25 و31 بالمنتصف الأقل. اعرض الفهرس والفحوص.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «ضيّق مجال البحث حول المنتصف» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] codes = { 4, 6, 9, 18, 25, 31 };\nint wanted = 25;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { // اكتب الأمر هنا }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "solution": "int[] codes = { 4, 6, 9, 18, 25, 31 };\nint wanted = 25;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -2097,9 +2097,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله.",
-            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب high = middle - 1; في else.",
+            "عند الهدف الأصغر نستبعد الوسط ونحرّك high قبله. راقب عدد الأسطر (17 أسطر) وتسلسل العمليات داخل «ضيّق مجال البحث حول المنتصف».",
+            "القاعدة: كل تحديث بعد عدم التطابق يستبعد الخانة الحالية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب high = middle - 1; في else. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 4, 6, 9, 18, 25, 31 };\nint wanted = 25;\nint low = 0;\nint high = codes.Length - 1;\nint found = -1;\nint probes = 0;\nwhile (low <= high)\n{\n    int middle = low + (high - low) / 2;\n    int inspected = codes[middle];\n    probes++;\n    if (inspected == wanted) { found = middle; break; }\n    if (inspected < wanted) { low = middle + 1; }\n    else { high = middle - 1; }\n}\nConsole.WriteLine(found);\nConsole.WriteLine(probes);"
           ]
         }
@@ -2156,9 +2156,9 @@
       "order": 100,
       "unitId": "search-and-recursion",
       "revision": 1,
-      "concept": "المرور الكامل يزيد مع n، فنعبّر عن نموه بـ O(n). التنصيف يحتاج نحو خطوة إضافية عند مضاعفة n، فنعبّر عن نموه بـ O(log n). المقارنة هنا بعدد الخطوات.",
-      "whyUse": "تتوقع تأثير كبر المدخلات على عدد العمليات وقت تصميم الحل.",
-      "browserMechanics": "يشير linear إلى عدد المرور، وتظهر قيمة remaining بعد كل قسمة صحيحة على 2.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ المرور الكامل يزيد مع n، فنعبّر عن نموه بـ O(n). التنصيف يحتاج نحو خطوة إضافية عند مضاعفة n، فنعبّر عن نموه بـ O(log n). المقارنة هنا بعدد الخطوات.",
+      "whyUse": "تتوقع تأثير كبر المدخلات على عدد العمليات وقت تصميم الحل. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "يشير linear إلى عدد المرور، وتظهر قيمة remaining بعد كل قسمة صحيحة على 2. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
@@ -2174,12 +2174,12 @@
           "title": "المشهد قبل الكود",
           "objective": "رف فيه 8 تذاكر. خطة تمرّ بكل خانة. خطة ثانية تقلل المجال للنصف كل مرة. عدّ عدد المرات لما تكبّر الرف للضعف.",
           "instruction": "يا كمبيوتر، رف فيه 8 تذاكر. خطة تمرّ بكل خانة. خطة ثانية تقلل المجال للنصف كل مرة. عدّ عدد المرات لما تكبّر الرف للضعف.",
-          "benefit": "تتوقع تأثير كبر المدخلات على عدد العمليات وقت تصميم الحل.",
+          "benefit": "تتوقع تأثير كبر المدخلات على عدد العمليات وقت تصميم الحل. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2187,16 +2187,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "المرور الكامل يزيد مع n، فنعبّر عن نموه بـ O(n). التنصيف يحتاج نحو خطوة إضافية عند مضاعفة n، فنعبّر عن نموه بـ O(log n). المقارنة هنا بعدد الخطوات.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ المرور الكامل يزيد مع n، فنعبّر عن نموه بـ O(n). التنصيف يحتاج نحو خطوة إضافية عند مضاعفة n، فنعبّر عن نموه بـ O(log n). المقارنة هنا بعدد الخطوات.",
           "code": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
-          "benefit": "يشير linear إلى عدد المرور، وتظهر قيمة remaining بعد كل قسمة صحيحة على 2.",
+          "benefit": "يشير linear إلى عدد المرور، وتظهر قيمة remaining بعد كل قسمة صحيحة على 2. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2206,7 +2206,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل التنصيف في الحلقة. عند size = 8 اطبع 8 للمرور و4 للتنصيف.",
           "instruction": "يا كمبيوتر، أكمل التنصيف في الحلقة. عند size = 8 اطبع 8 للمرور و4 للتنصيف.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «عدّ خطوات المرور وقارنها بالتنصيف» بمخرجات قابلة للقياس.",
           "starterCode": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    // اكتب الأمر هنا\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "solution": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "challenge": {
@@ -2263,9 +2263,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2275,7 +2275,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ضاعف size إلى 16. كم زاد كل عداد؟",
           "instruction": "يا كمبيوتر، ضاعف size إلى 16. كم زاد كل عداد؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int size = 16;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "challenge": {
@@ -2332,9 +2332,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 16;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2344,7 +2344,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب حجمًا 0. افحص لماذا لا تُنفذ أي خطوة.",
           "instruction": "يا كمبيوتر، جرّب حجمًا 0. افحص لماذا لا تُنفذ أي خطوة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int size = 0;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "challenge": {
@@ -2402,9 +2402,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 0;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2413,7 +2413,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر عدّادان يساويان 8. أي سطر يجعل الثاني يقيس التنصيف؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «عدّ خطوات المرور وقارنها بالتنصيف» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر عدّادان يساويان 8. أي سطر يجعل الثاني يقيس التنصيف؟",
           "options": [
             "remaining--;",
@@ -2422,13 +2422,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining--;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اقسم remaining على 2 مرة في كل دورة.",
           "benefit": "اقسم remaining على 2 مرة في كل دورة.",
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2438,7 +2438,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقسم remaining على 2 مرة في كل دورة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقسم remaining على 2 مرة في كل دورة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining--;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "solution": "int size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "challenge": {
@@ -2495,9 +2495,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "قارن ما تتوقع حدوثه في «عدّ خطوات المرور وقارنها بالتنصيف» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         },
@@ -2507,7 +2507,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، توقع العددين عند حجم 32، وشغّل البرنامج واطبعهما للتأكد.",
           "instruction": "يا كمبيوتر، توقع العددين عند حجم 32، وشغّل البرنامج واطبعهما للتأكد.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «عدّ خطوات المرور وقارنها بالتنصيف» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int size = 32;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);",
           "challenge": {
@@ -2564,9 +2564,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف.",
-            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب remaining /= 2;.",
+            "راقب الفرق بين تقليل العدد بواحد وتقليله للنصف. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «عدّ خطوات المرور وقارنها بالتنصيف».",
+            "القاعدة: كل دورة تنصيف تحتفظ بباقٍ يساوي نصف الحجم تقريبًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب remaining /= 2;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 32;\nint linear = 0;\nfor (int i = 0; i < size; i++) { linear++; }\nint remaining = size;\nint halving = 0;\nwhile (remaining > 0)\n{\n    halving++;\n    remaining /= 2;\n}\nConsole.WriteLine(linear);\nConsole.WriteLine(halving);"
           ]
         }
@@ -2623,9 +2623,9 @@
       "order": 101,
       "unitId": "search-and-recursion",
       "revision": 1,
-      "concept": "الاستدعاء الذاتي يطلب مسألة أصغر من نفس الدالة. عند حالة التوقف تعيد الدالة قيمة مباشرة. كل استدعاء معلق يكمل حسابه عند الرجوع.",
-      "whyUse": "تعرف أين تتوقف الاستدعاءات المتداخلة وأين تتجمع النتائج.",
-      "browserMechanics": "راقب قيمة n وعمق الاستدعاء أثناء الذهاب. عند الرجوع احفظ rest، ثم أضف n في الاستدعاء الحالي.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الاستدعاء الذاتي يطلب مسألة أصغر من نفس الدالة. عند حالة التوقف تعيد الدالة قيمة مباشرة. كل استدعاء معلق يكمل حسابه عند الرجوع.",
+      "whyUse": "تعرف أين تتوقف الاستدعاءات المتداخلة وأين تتجمع النتائج. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب قيمة n وعمق الاستدعاء أثناء الذهاب. عند الرجوع احفظ rest، ثم أضف n في الاستدعاء الحالي. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
@@ -2641,12 +2641,12 @@
           "title": "المشهد قبل الكود",
           "objective": "عاوز مجموع 3 و2 و1. اطلب من زميلك مجموع الأعداد حتى 2، وانتظر. زميلك يطلب مجموعًا أصغر. عند الصفر يرجع 0، ثم كل واحد يضيف رقمه وهو راجع.",
           "instruction": "يا كمبيوتر، عاوز مجموع 3 و2 و1. اطلب من زميلك مجموع الأعداد حتى 2، وانتظر. زميلك يطلب مجموعًا أصغر. عند الصفر يرجع 0، ثم كل واحد يضيف رقمه وهو راجع.",
-          "benefit": "تعرف أين تتوقف الاستدعاءات المتداخلة وأين تتجمع النتائج.",
+          "benefit": "تعرف أين تتوقف الاستدعاءات المتداخلة وأين تتجمع النتائج. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2654,16 +2654,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "الاستدعاء الذاتي يطلب مسألة أصغر من نفس الدالة. عند حالة التوقف تعيد الدالة قيمة مباشرة. كل استدعاء معلق يكمل حسابه عند الرجوع.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الاستدعاء الذاتي يطلب مسألة أصغر من نفس الدالة. عند حالة التوقف تعيد الدالة قيمة مباشرة. كل استدعاء معلق يكمل حسابه عند الرجوع.",
           "code": "int start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
-          "benefit": "راقب قيمة n وعمق الاستدعاء أثناء الذهاب. عند الرجوع احفظ rest، ثم أضف n في الاستدعاء الحالي.",
+          "benefit": "راقب قيمة n وعمق الاستدعاء أثناء الذهاب. عند الرجوع احفظ rest، ثم أضف n في الاستدعاء الحالي. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2673,7 +2673,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل سطر الرجوع بعد Sum(n - 1). اطبع مجموع 3 و2 و1.",
           "instruction": "يا كمبيوتر، أكمل سطر الرجوع بعد Sum(n - 1). اطبع مجموع 3 و2 و1.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «صغّر طلب الدالة حتى حالة التوقف» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "int start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
           "challenge": {
@@ -2721,9 +2721,9 @@
           },
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2733,7 +2733,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل start إلى 4. تابع عدد مرات الرجوع قبل ظهور total.",
           "instruction": "يا كمبيوتر، بدّل start إلى 4. تابع عدد مرات الرجوع قبل ظهور total.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int start = 4;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
           "challenge": {
@@ -2781,9 +2781,9 @@
           },
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 4;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2793,7 +2793,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابدأ عند صفر. راقب هل تحتاج الدالة إلى استدعاء إضافي.",
           "instruction": "يا كمبيوتر، ابدأ عند صفر. راقب هل تحتاج الدالة إلى استدعاء إضافي.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int start = 0;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
           "challenge": {
@@ -2842,9 +2842,9 @@
           },
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 0;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2853,7 +2853,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "وصلنا لحالة التوقف ثم خرج مجموع 0. أي قيمة يجمعها كل استدعاء عند الرجوع؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «صغّر طلب الدالة حتى حالة التوقف» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "وصلنا لحالة التوقف ثم خرج مجموع 0. أي قيمة يجمعها كل استدعاء عند الرجوع؟",
           "options": [
             "return rest;",
@@ -2862,13 +2862,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return rest;\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "أعد n مع نتيجة الاستدعاء الأصغر.",
           "benefit": "أعد n مع نتيجة الاستدعاء الأصغر.",
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2878,7 +2878,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أعد n مع نتيجة الاستدعاء الأصغر.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أعد n مع نتيجة الاستدعاء الأصغر.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return rest;\n}",
           "solution": "int start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
           "challenge": {
@@ -2926,9 +2926,9 @@
           },
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "قارن ما تتوقع حدوثه في «صغّر طلب الدالة حتى حالة التوقف» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 3;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         },
@@ -2938,7 +2938,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، استخدم الاستدعاء الذاتي لجمع الأعداد من 1 إلى 5. تابع أول رجوع من 0 وآخر رجوع إلى total.",
           "instruction": "يا كمبيوتر، استخدم الاستدعاء الذاتي لجمع الأعداد من 1 إلى 5. تابع أول رجوع من 0 وآخر رجوع إلى total.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «صغّر طلب الدالة حتى حالة التوقف» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int start = 5;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}",
           "challenge": {
@@ -2986,9 +2986,9 @@
           },
           "errorRules": [],
           "hints": [
-            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة.",
-            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر.",
+            "كل استدعاء يحتفظ بـ n الخاصة به بينما ينتظر رجوع الدالة. راقب عدد الأسطر (9 أسطر) وتسلسل العمليات داخل «صغّر طلب الدالة حتى حالة التوقف».",
+            "القاعدة: حالة التوقف تؤمّن الرجوع، وكل مسألة أصغر تقرب منها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب return n + rest; بعد أن تعود نتيجة الاستدعاء الأصغر. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint start = 5;\nint total = Sum(start);\nConsole.WriteLine(total);\n\nint Sum(int n)\n{\n    if (n <= 0) { return 0; }\n    int rest = Sum(n - 1);\n    return n + rest;\n}"
           ]
         }

@@ -14,9 +14,9 @@
       "order": 80,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "حجم مصفوفة int يحدده العدد الذي تمرّره إلى new int[capacity]. كل خانة تبدأ بصفر، وتحديد position يوصلك لخانة مباشرة.",
-      "whyUse": "تقدر تعرف حجم الرف من جديد وتفصل عدد الكتابات عن السعة.",
-      "browserMechanics": "تظهر خاناتها بأصفار، ثم تضيء الخانة المحددة. راقب writes بعد الكتابة.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ حجم مصفوفة int يحدده العدد الذي تمرّره إلى new int[capacity]. كل خانة تبدأ بصفر، وتحديد position يوصلك لخانة مباشرة.",
+      "whyUse": "تقدر تعرف حجم الرف من جديد وتفصل عدد الكتابات عن السعة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تظهر خاناتها بأصفار، ثم تضيء الخانة المحددة. راقب writes بعد الكتابة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
@@ -32,12 +32,12 @@
           "title": "المشهد قبل الكود",
           "objective": "جهّز رفًا فيه أربع خانات فاضية. سجّل تذكرة واحدة في خانة معروفة، وعدّ مرات الكتابة.",
           "instruction": "يا كمبيوتر، جهّز رفًا فيه أربع خانات فاضية. سجّل تذكرة واحدة في خانة معروفة، وعدّ مرات الكتابة.",
-          "benefit": "تقدر تعرف حجم الرف من جديد وتفصل عدد الكتابات عن السعة.",
+          "benefit": "تقدر تعرف حجم الرف من جديد وتفصل عدد الكتابات عن السعة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -45,16 +45,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "حجم مصفوفة int يحدده العدد الذي تمرّره إلى new int[capacity]. كل خانة تبدأ بصفر، وتحديد position يوصلك لخانة مباشرة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اكتب في خانة من مصفوفة ثابتة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ حجم مصفوفة int يحدده العدد الذي تمرّره إلى new int[capacity]. كل خانة تبدأ بصفر، وتحديد position يوصلك لخانة مباشرة.",
           "code": "int capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
-          "benefit": "تظهر خاناتها بأصفار، ثم تضيء الخانة المحددة. راقب writes بعد الكتابة.",
+          "benefit": "تظهر خاناتها بأصفار، ثم تضيء الخانة المحددة. راقب writes بعد الكتابة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -64,7 +64,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، احجز 4 خانات في slots، وضع item = 7 في position = 2. زد writes عند الإسناد، واطبع الخانة ثم عدد الكتابات ثم Length.",
           "instruction": "يا كمبيوتر، احجز 4 خانات في slots، وضع item = 7 في position = 2. زد writes عند الإسناد، واطبع الخانة ثم عدد الكتابات ثم Length.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اكتب في خانة من مصفوفة ثابتة» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "int capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
           "challenge": {
@@ -121,9 +121,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -133,7 +133,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر item إلى 12. راقب عداد الكتابة.",
           "instruction": "يا كمبيوتر، غيّر item إلى 12. راقب عداد الكتابة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int capacity = 4;\nint position = 2;\nint item = 12;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
           "challenge": {
@@ -190,9 +190,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 4;\nint position = 2;\nint item = 12;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -202,7 +202,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، وسّع الرف إلى 6 عند إنشائه. كم كتابة احتجت للخانة 2؟",
           "instruction": "يا كمبيوتر، وسّع الرف إلى 6 عند إنشائه. كم كتابة احتجت للخانة 2؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int capacity = 6;\nint position = 2;\nint item = 12;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
           "challenge": {
@@ -260,9 +260,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 6;\nint position = 2;\nint item = 12;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -271,7 +271,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "الخانة المطلوبة ما زالت 0. فين راح الرقم؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اكتب في خانة من مصفوفة ثابتة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "الخانة المطلوبة ما زالت 0. فين راح الرقم؟",
           "options": [
             "إلى الخانة 0.",
@@ -280,13 +280,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[0] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم position داخل الأقواس في الإسناد.",
           "benefit": "استخدم position داخل الأقواس في الإسناد.",
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -296,7 +296,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم position داخل الأقواس في الإسناد.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم position داخل الأقواس في الإسناد.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[0] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
           "solution": "int capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
           "challenge": {
@@ -353,9 +353,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن ما تتوقع حدوثه في «اكتب في خانة من مصفوفة ثابتة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 4;\nint position = 2;\nint item = 7;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         },
@@ -365,7 +365,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، جهّز ثلاث خانات واحفظ 16 في الثانية. اطبع القيمة والكتابات والسعة.",
           "instruction": "يا كمبيوتر، جهّز ثلاث خانات واحفظ 16 في الثانية. اطبع القيمة والكتابات والسعة.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اكتب في خانة من مصفوفة ثابتة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int capacity = 3;\nint position = 1;\nint item = 16;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);",
           "challenge": {
@@ -422,9 +422,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4.",
-            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;.",
+            "قارن تغيّر خانة واحدة بالسعة التي بقيت 4. راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «اكتب في خانة من مصفوفة ثابتة».",
+            "القاعدة: الإسناد لفهرس صالح يزور خانة واحدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int[] slots = new int[capacity]; ثم slots[position] = item;. بعده writes++;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint capacity = 3;\nint position = 1;\nint item = 16;\nint[] slots = new int[capacity];\nint writes = 0;\nslots[position] = item;\nwrites++;\nConsole.WriteLine(slots[position]);\nConsole.WriteLine(writes);\nConsole.WriteLine(slots.Length);"
           ]
         }
@@ -480,9 +480,9 @@
       "order": 81,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "لما تشيل عنصرًا من وسط ترتيب متصل، كل عنصر بعده يتحرك خانة لليسار. count يحدد الخانات التي تعتبرها جزءًا من القائمة.",
-      "whyUse": "تلاحظ لماذا الحذف من أول القائمة قد يحتاج نقلات أكثر من الحذف عند آخر عنصر.",
-      "browserMechanics": "تضيء خانة الوجهة في كل إسناد، وترى shifts يزيد مع كل خانة تُنقل.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ لما تشيل عنصرًا من وسط ترتيب متصل، كل عنصر بعده يتحرك خانة لليسار. count يحدد الخانات التي تعتبرها جزءًا من القائمة.",
+      "whyUse": "تلاحظ لماذا الحذف من أول القائمة قد يحتاج نقلات أكثر من الحذف عند آخر عنصر. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تضيء خانة الوجهة في كل إسناد، وترى shifts يزيد مع كل خانة تُنقل. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
@@ -498,12 +498,12 @@
           "title": "المشهد قبل الكود",
           "objective": "في أول ثلاث خانات تذاكر 17 و22 و41. شيل تذكرة 22 وانقل 41 خطوة ناحية الفراغ. طول الجزء المستخدم بقى اثنين.",
           "instruction": "يا كمبيوتر، في أول ثلاث خانات تذاكر 17 و22 و41. شيل تذكرة 22 وانقل 41 خطوة ناحية الفراغ. طول الجزء المستخدم بقى اثنين.",
-          "benefit": "تلاحظ لماذا الحذف من أول القائمة قد يحتاج نقلات أكثر من الحذف عند آخر عنصر.",
+          "benefit": "تلاحظ لماذا الحذف من أول القائمة قد يحتاج نقلات أكثر من الحذف عند آخر عنصر. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -511,16 +511,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "لما تشيل عنصرًا من وسط ترتيب متصل، كل عنصر بعده يتحرك خانة لليسار. count يحدد الخانات التي تعتبرها جزءًا من القائمة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ لما تشيل عنصرًا من وسط ترتيب متصل، كل عنصر بعده يتحرك خانة لليسار. count يحدد الخانات التي تعتبرها جزءًا من القائمة.",
           "code": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
-          "benefit": "تضيء خانة الوجهة في كل إسناد، وترى shifts يزيد مع كل خانة تُنقل.",
+          "benefit": "تضيء خانة الوجهة في كل إسناد، وترى shifts يزيد مع كل خانة تُنقل. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -530,7 +530,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل سطر النقل في الحلقة. احذف الفهرس 1 من أول 3 عناصر، فتظهر 17 و41 وعمليّة نقل واحدة.",
           "instruction": "يا كمبيوتر، أكمل سطر النقل في الحلقة. احذف الفهرس 1 من أول 3 عناصر، فتظهر 17 و41 وعمليّة نقل واحدة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اسدّ فراغ القائمة بنقل الخانات» بمخرجات قابلة للقياس.",
           "starterCode": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        // اكتب الأمر هنا\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "solution": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -605,9 +605,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -617,7 +617,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر remove إلى 0. تابع نقلتين بدل واحدة.",
           "instruction": "يا كمبيوتر، غيّر remove إلى 0. تابع نقلتين بدل واحدة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 0;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -692,9 +692,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 0;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -704,7 +704,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، احذف آخر عنصر مستخدم بوضع remove = 2. احسب النقلات.",
           "instruction": "يا كمبيوتر، احذف آخر عنصر مستخدم بوضع remove = 2. احسب النقلات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 2;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -780,9 +780,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 2;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -791,7 +791,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "بعد الحذف بقي 22 مكانه. أي إسناد ينقل قيمة الخانة التالية؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اسدّ فراغ القائمة بنقل الخانات» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "بعد الحذف بقي 22 مكانه. أي إسناد ينقل قيمة الخانة التالية؟",
           "options": [
             "items[i] = items[i];",
@@ -800,13 +800,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اقرأ من i + 1 واكتب عند i.",
           "benefit": "اقرأ من i + 1 واكتب عند i.",
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -816,7 +816,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ من i + 1 واكتب عند i.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ من i + 1 واكتب عند i.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "solution": "int[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -891,9 +891,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "قارن ما تتوقع حدوثه في «اسدّ فراغ القائمة بنقل الخانات» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 17, 22, 41, 0 };\nint count = 3;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         },
@@ -903,7 +903,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، احذف 6 من الجزء المستخدم ذي القيم 5 و6 و7 و8، واعرض النقلات.",
           "instruction": "يا كمبيوتر، احذف 6 من الجزء المستخدم ذي القيم 5 و6 و7 و8، واعرض النقلات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اسدّ فراغ القائمة بنقل الخانات» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] items = { 5, 6, 7, 8, 0 };\nint count = 4;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        // اكتب الأمر هنا\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "solution": "int[] items = { 5, 6, 7, 8, 0 };\nint count = 4;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -978,9 +978,9 @@
           },
           "errorRules": [],
           "hints": [
-            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها.",
-            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[i] = items[i + 1]; داخل الحلقة.",
+            "شوف مين هيملا الخانة i. مصدره الخانة اللي بعدها. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «اسدّ فراغ القائمة بنقل الخانات».",
+            "القاعدة: نقل الخانة التالية يسد الفراغ قبل تقليل count. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[i] = items[i + 1]; داخل الحلقة. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 6, 7, 8, 0 };\nint count = 4;\nint remove = 1;\nint shifts = 0;\nif (remove >= 0 && remove < count)\n{\n    for (int i = remove; i < count - 1; i++)\n    {\n        items[i] = items[i + 1];\n        shifts++;\n    }\n    count--;\n}\nfor (int i = 0; i < count; i++)\n{\n    Console.WriteLine(items[i]);\n}\nConsole.WriteLine(shifts);"
           ]
         }
@@ -1036,9 +1036,9 @@
       "order": 82,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "المكدّس يخرج آخر عنصر دخل. إذا كان الجزء المستخدم طوله size فالخانة العليا فهرسها size - 1.",
-      "whyUse": "تقدر تتبع الرجوع عن آخر إجراء من دون البحث بين العناصر.",
-      "browserMechanics": "ينقص size أولًا، ثم تضيء الخانة التي أصبح رقمها يساوي size.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ المكدّس يخرج آخر عنصر دخل. إذا كان الجزء المستخدم طوله size فالخانة العليا فهرسها size - 1.",
+      "whyUse": "تقدر تتبع الرجوع عن آخر إجراء من دون البحث بين العناصر. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "ينقص size أولًا، ثم تضيء الخانة التي أصبح رقمها يساوي size. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
@@ -1054,12 +1054,12 @@
           "title": "المشهد قبل الكود",
           "objective": "رصّ 14 ثم 22 ثم 39 فوق بعض. اسحب الورقة اللي فوق. زد عداد القراءة مرة واحدة.",
           "instruction": "يا كمبيوتر، رصّ 14 ثم 22 ثم 39 فوق بعض. اسحب الورقة اللي فوق. زد عداد القراءة مرة واحدة.",
-          "benefit": "تقدر تتبع الرجوع عن آخر إجراء من دون البحث بين العناصر.",
+          "benefit": "تقدر تتبع الرجوع عن آخر إجراء من دون البحث بين العناصر. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1067,16 +1067,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "المكدّس يخرج آخر عنصر دخل. إذا كان الجزء المستخدم طوله size فالخانة العليا فهرسها size - 1.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اسحب آخر شيء دخل المكدّس».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ المكدّس يخرج آخر عنصر دخل. إذا كان الجزء المستخدم طوله size فالخانة العليا فهرسها size - 1.",
           "code": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
-          "benefit": "ينقص size أولًا، ثم تضيء الخانة التي أصبح رقمها يساوي size.",
+          "benefit": "ينقص size أولًا، ثم تضيء الخانة التي أصبح رقمها يساوي size. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1086,7 +1086,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، كمّل سطر أخذ العنصر بعد size--. اطبع 39 ثم عدد البطاقات الباقية 2 ثم عدد القراءات 1.",
           "instruction": "يا كمبيوتر، كمّل سطر أخذ العنصر بعد size--. اطبع 39 ثم عدد البطاقات الباقية 2 ثم عدد القراءات 1.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اسحب آخر شيء دخل المكدّس» بمخرجات قابلة للقياس.",
           "starterCode": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    // اكتب الأمر هنا\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "solution": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1155,9 +1155,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1167,7 +1167,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابدأ بجزء مستخدم فيه ورقتان فقط. توقّع الورقة التي ستخرج.",
           "instruction": "يا كمبيوتر، ابدأ بجزء مستخدم فيه ورقتان فقط. توقّع الورقة التي ستخرج.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] stack = { 14, 22, 39, 0 };\nint size = 2;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1236,9 +1236,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 2;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1248,7 +1248,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، اعتبر المكدّس فارغًا بوضع size = 0. راجع عدد القراءات.",
           "instruction": "يا كمبيوتر، اعتبر المكدّس فارغًا بوضع size = 0. راجع عدد القراءات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] stack = { 14, 22, 39, 0 };\nint size = 0;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1318,9 +1318,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 0;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1329,7 +1329,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "خرجت 14 وهي أول ورقة دخلت. أي فهرس يقرأ الأعلى بعد size--؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اسحب آخر شيء دخل المكدّس» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "خرجت 14 وهي أول ورقة دخلت. أي فهرس يقرأ الأعلى بعد size--؟",
           "options": [
             "0",
@@ -1338,13 +1338,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[0];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "بعد الإنقاص استخدم size.",
           "benefit": "بعد الإنقاص استخدم size.",
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1354,7 +1354,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. بعد الإنقاص استخدم size.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. بعد الإنقاص استخدم size.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[0];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "solution": "int[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1423,9 +1423,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "قارن ما تتوقع حدوثه في «اسحب آخر شيء دخل المكدّس» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 14, 22, 39, 0 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1435,7 +1435,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، طبّق السحب على رصة أرقام الطلبات 101 و205 و306. اطبع الرقم الذي خرج والعدد الباقي والقراءات.",
           "instruction": "يا كمبيوتر، طبّق السحب على رصة أرقام الطلبات 101 و205 و306. اطبع الرقم الذي خرج والعدد الباقي والقراءات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اسحب آخر شيء دخل المكدّس» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] stack = { 101, 205, 306 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    // اكتب الأمر هنا\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "solution": "int[] stack = { 101, 205, 306 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1504,9 +1504,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب.",
-            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع int taken = stack[size]; بعد size--.",
+            "بعد الإنقاص يشير size مباشرة للفهرس المطلوب. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اسحب آخر شيء دخل المكدّس».",
+            "القاعدة: آخر عنصر مستخدم قبل الإزالة هو أول عنصر يخرج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع int taken = stack[size]; بعد size--. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] stack = { 101, 205, 306 };\nint size = 3;\nint reads = 0;\nif (size > 0)\n{\n    size--;\n    int taken = stack[size];\n    reads++;\n    Console.WriteLine(taken);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(size);\nConsole.WriteLine(reads);"
           ]
         }
@@ -1562,9 +1562,9 @@
       "order": 83,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "الطابور يخرج أسبق عنصر دخل. head مكان أول منتظر. بعد القراءة يتحرك head خانة، وعند نهاية المصفوفة يرجع إلى 0.",
-      "whyUse": "تستفيد من الخانات مرة ثانية من غير نقل كل الناس في الصف.",
-      "browserMechanics": "تضيء خانة القراءة الحالية؛ في لقطة التحديث يظهر head بعد الحركة.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الطابور يخرج أسبق عنصر دخل. head مكان أول منتظر. بعد القراءة يتحرك head خانة، وعند نهاية المصفوفة يرجع إلى 0.",
+      "whyUse": "تستفيد من الخانات مرة ثانية من غير نقل كل الناس في الصف. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تضيء خانة القراءة الحالية؛ في لقطة التحديث يظهر head بعد الحركة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
@@ -1580,12 +1580,12 @@
           "title": "المشهد قبل الكود",
           "objective": "الدور واقف عند الخانة 1 وعليها 22. نادِ 22 وحوّل المقدمة للخانة 2.",
           "instruction": "يا كمبيوتر، الدور واقف عند الخانة 1 وعليها 22. نادِ 22 وحوّل المقدمة للخانة 2.",
-          "benefit": "تستفيد من الخانات مرة ثانية من غير نقل كل الناس في الصف.",
+          "benefit": "تستفيد من الخانات مرة ثانية من غير نقل كل الناس في الصف. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1593,16 +1593,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "الطابور يخرج أسبق عنصر دخل. head مكان أول منتظر. بعد القراءة يتحرك head خانة، وعند نهاية المصفوفة يرجع إلى 0.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «خد أول المنتظرين وحرّك المقدمة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الطابور يخرج أسبق عنصر دخل. head مكان أول منتظر. بعد القراءة يتحرك head خانة، وعند نهاية المصفوفة يرجع إلى 0.",
           "code": "int[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
-          "benefit": "تضيء خانة القراءة الحالية؛ في لقطة التحديث يظهر head بعد الحركة.",
+          "benefit": "تضيء خانة القراءة الحالية؛ في لقطة التحديث يظهر head بعد الحركة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1612,7 +1612,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل تحديث head بعد القراءة. اطبع رقم المنتظر 22، ثم 2 للمقدمة الجديدة، ثم عدد القراءات.",
           "instruction": "يا كمبيوتر، أكمل تحديث head بعد القراءة. اطبع رقم المنتظر 22، ثم 2 للمقدمة الجديدة، ثم عدد القراءات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «خد أول المنتظرين وحرّك المقدمة» بمخرجات قابلة للقياس.",
           "starterCode": "int[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    // اكتب الأمر هنا\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "solution": "int[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1683,9 +1683,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 10, 22, 35, 0 };\nint head = 1;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1695,7 +1695,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابدأ بالمقدمة 2 مع منتظر واحد. تابع الفهرس بعد خدمته.",
           "instruction": "يا كمبيوتر، ابدأ بالمقدمة 2 مع منتظر واحد. تابع الفهرس بعد خدمته.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] queue = { 10, 22, 35, 0 };\nint head = 2;\nint count = 1;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1766,9 +1766,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 10, 22, 35, 0 };\nint head = 2;\nint count = 1;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1778,7 +1778,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ضع المقدمة عند آخر خانة وعليها 36. راقب رجوع head إلى 0.",
           "instruction": "يا كمبيوتر، ضع المقدمة عند آخر خانة وعليها 36. راقب رجوع head إلى 0.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1850,9 +1850,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1861,7 +1861,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر head = 4 في مصفوفة طولها 4. أي تعبير يلفّ إلى الصفر؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «خد أول المنتظرين وحرّك المقدمة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر head = 4 في مصفوفة طولها 4. أي تعبير يلفّ إلى الصفر؟",
           "options": [
             "(head + 1) % queue.Length",
@@ -1870,13 +1870,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = head + 1;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم باقي القسمة بحجم المصفوفة.",
           "benefit": "استخدم باقي القسمة بحجم المصفوفة.",
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1886,7 +1886,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم باقي القسمة بحجم المصفوفة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم باقي القسمة بحجم المصفوفة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = head + 1;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "solution": "int[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -1957,9 +1957,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "قارن ما تتوقع حدوثه في «خد أول المنتظرين وحرّك المقدمة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 14, 0, 0, 36 };\nint head = 3;\nint count = 2;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         },
@@ -1969,7 +1969,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، نادِ أول طلب وهو 46 عند الفهرس 3. اعرض مكان المقدمة بعده والقراءات.",
           "instruction": "يا كمبيوتر، نادِ أول طلب وهو 46 عند الفهرس 3. اعرض مكان المقدمة بعده والقراءات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «خد أول المنتظرين وحرّك المقدمة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] queue = { 61, 70, 18, 46 };\nint head = 3;\nint count = 3;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    // اكتب الأمر هنا\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "solution": "int[] queue = { 61, 70, 18, 46 };\nint head = 3;\nint count = 3;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);",
           "challenge": {
@@ -2040,9 +2040,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد.",
-            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head = (head + 1) % queue.Length;.",
+            "اقرأ أولًا من head القديم. بعدها احسب الفهرس الجديد. راقب عدد الأسطر (18 أسطر) وتسلسل العمليات داخل «خد أول المنتظرين وحرّك المقدمة».",
+            "القاعدة: باقي قسمة head + 1 على السعة يعيد المؤشر إلى صفر عند النهاية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head = (head + 1) % queue.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] queue = { 61, 70, 18, 46 };\nint head = 3;\nint count = 3;\nint reads = 0;\nif (count > 0)\n{\n    int served = queue[head];\n    head = (head + 1) % queue.Length;\n    count--;\n    reads++;\n    Console.WriteLine(served);\n}\nelse\n{\n    Console.WriteLine(\"فارغ\");\n}\nConsole.WriteLine(head);\nConsole.WriteLine(reads);"
           ]
         }
@@ -2098,8 +2098,8 @@
       "order": 84,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "عقدة Node فيها قيمة Value ومرجع Next لعقدة تالية. Node? Next يسمح بأن تكون النهاية null.",
-      "whyUse": "ترتب عناصر في سلسلة باتباع عناوين الخانات المتصلة.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ عقدة Node فيها قيمة Value ومرجع Next لعقدة تالية. Node? Next يسمح بأن تكون النهاية null.",
+      "whyUse": "ترتب عناصر في سلسلة باتباع عناوين الخانات المتصلة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
       "browserMechanics": "يظهر Next في بطاقة head وبداخله رقم بطاقة tail. عند القراءة يضيء حقل Value على البطاقة التالية.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
@@ -2116,12 +2116,12 @@
           "title": "المشهد قبل الكود",
           "objective": "في يدك كارت 8 وكارت 3. اكتب على كارت 8 الرقم الذي يوصّلك إلى كارت 3. افتح الرابط واقرأ قيمة الكارت الثاني.",
           "instruction": "يا كمبيوتر، في يدك كارت 8 وكارت 3. اكتب على كارت 8 الرقم الذي يوصّلك إلى كارت 3. افتح الرابط واقرأ قيمة الكارت الثاني.",
-          "benefit": "ترتب عناصر في سلسلة باتباع عناوين الخانات المتصلة.",
+          "benefit": "ترتب عناصر في سلسلة باتباع عناوين الخانات المتصلة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2129,16 +2129,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "عقدة Node فيها قيمة Value ومرجع Next لعقدة تالية. Node? Next يسمح بأن تكون النهاية null.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اربط عقدة بالتي بعدها».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ عقدة Node فيها قيمة Value ومرجع Next لعقدة تالية. Node? Next يسمح بأن تكون النهاية null.",
           "code": "int firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "benefit": "يظهر Next في بطاقة head وبداخله رقم بطاقة tail. عند القراءة يضيء حقل Value على البطاقة التالية.",
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2148,7 +2148,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل رابط head.Next. اطبع قيمة head 8 ثم انتقل بالرابط لقيمة 3.",
           "instruction": "يا كمبيوتر، أكمل رابط head.Next. اطبع قيمة head 8 ثم انتقل بالرابط لقيمة 3.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اربط عقدة بالتي بعدها» بمخرجات قابلة للقياس.",
           "starterCode": "int firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\n// اكتب الأمر هنا\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "solution": "int firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2201,9 +2201,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2213,7 +2213,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر قيمة العقدة الأخيرة إلى 12. تابع أي رقم مرجع تغيّر وأي قيمة تغيّرت.",
           "instruction": "يا كمبيوتر، غيّر قيمة العقدة الأخيرة إلى 12. تابع أي رقم مرجع تغيّر وأي قيمة تغيّرت.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int firstValue = 8;\nint lastValue = 12;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2266,9 +2266,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 8;\nint lastValue = 12;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2278,7 +2278,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، استخدم 12 في العقدتين. افحص رقمي الكائن للتأكد من أنهما بطاقتان.",
           "instruction": "يا كمبيوتر، استخدم 12 في العقدتين. افحص رقمي الكائن للتأكد من أنهما بطاقتان.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int firstValue = 12;\nint lastValue = 12;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2332,9 +2332,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 12;\nint lastValue = 12;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2343,7 +2343,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر 8 مرتين. أي قيمة لـ Next توصّل للبطاقة الثانية؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اربط عقدة بالتي بعدها» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر 8 مرتين. أي قيمة لـ Next توصّل للبطاقة الثانية؟",
           "options": [
             "head",
@@ -2352,13 +2352,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = head;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "ضع المرجع الموجود في tail داخل head.Next.",
           "benefit": "ضع المرجع الموجود في tail داخل head.Next.",
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2368,7 +2368,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع المرجع الموجود في tail داخل head.Next.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. ضع المرجع الموجود في tail داخل head.Next.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = head;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "solution": "int firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2421,9 +2421,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن ما تتوقع حدوثه في «اربط عقدة بالتي بعدها» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 8;\nint lastValue = 3;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2433,7 +2433,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، جهّز عقدة 60 وبعدها عقدة 41، ثم اطبعهما من الرأس والرابط.",
           "instruction": "يا كمبيوتر، جهّز عقدة 60 وبعدها عقدة 41، ثم اطبعهما من الرأس والرابط.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اربط عقدة بالتي بعدها» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int firstValue = 60;\nint lastValue = 41;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\n// اكتب الأمر هنا\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "solution": "int firstValue = 60;\nint lastValue = 41;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2486,9 +2486,9 @@
           },
           "errorRules": [],
           "hints": [
-            "قارن رقم tail بالرقم الموجود داخل حقل Next.",
-            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب head.Next = tail;.",
+            "قارن رقم tail بالرقم الموجود داخل حقل Next. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «اربط عقدة بالتي بعدها».",
+            "القاعدة: Next يخزّن مرجع عقدة، وValue تحمل بياناتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب head.Next = tail;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint firstValue = 60;\nint lastValue = 41;\nNode head = new Node(firstValue);\nNode tail = new Node(lastValue);\nhead.Next = tail;\nConsole.WriteLine(head.Value);\nConsole.WriteLine(head.Next.Value);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         }
@@ -2544,9 +2544,9 @@
       "order": 85,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "يحمل current مرجع العقدة التي يعمل عليها الكمبيوتر. current = current.Next يحرّكه للعقدة التالية دون تعديل رابط العقدة القديمة.",
-      "whyUse": "تقدر تعدّ أو تقرأ عناصر القائمة من الرأس للنهاية بما فيها حالة القائمة الفارغة.",
-      "browserMechanics": "رقم current يتغير مع كل انتقال. بمجرد أن يصبح null يتوقف شرط while.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ يحمل current مرجع العقدة التي يعمل عليها الكمبيوتر. current = current.Next يحرّكه للعقدة التالية دون تعديل رابط العقدة القديمة.",
+      "whyUse": "تقدر تعدّ أو تقرأ عناصر القائمة من الرأس للنهاية بما فيها حالة القائمة الفارغة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "رقم current يتغير مع كل انتقال. بمجرد أن يصبح null يتوقف شرط while. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
@@ -2562,12 +2562,12 @@
           "title": "المشهد قبل الكود",
           "objective": "أمامك سلسلة بطاقتين. امسك الأولى، اقرأها، وانتقل للبطاقة التي تشير إليها. توقف لما تجد خانة العنوان التالي فاضية.",
           "instruction": "يا كمبيوتر، أمامك سلسلة بطاقتين. امسك الأولى، اقرأها، وانتقل للبطاقة التي تشير إليها. توقف لما تجد خانة العنوان التالي فاضية.",
-          "benefit": "تقدر تعدّ أو تقرأ عناصر القائمة من الرأس للنهاية بما فيها حالة القائمة الفارغة.",
+          "benefit": "تقدر تعدّ أو تقرأ عناصر القائمة من الرأس للنهاية بما فيها حالة القائمة الفارغة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2575,16 +2575,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "يحمل current مرجع العقدة التي يعمل عليها الكمبيوتر. current = current.Next يحرّكه للعقدة التالية دون تعديل رابط العقدة القديمة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اتبع Next إلى أن تصل إلى null».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ يحمل current مرجع العقدة التي يعمل عليها الكمبيوتر. current = current.Next يحرّكه للعقدة التالية دون تعديل رابط العقدة القديمة.",
           "code": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
-          "benefit": "رقم current يتغير مع كل انتقال. بمجرد أن يصبح null يتوقف شرط while.",
+          "benefit": "رقم current يتغير مع كل انتقال. بمجرد أن يصبح null يتوقف شرط while. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2594,7 +2594,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل سطر حركة current. اطبع 8 ثم 3 ثم عدد الزيارات 2.",
           "instruction": "يا كمبيوتر، أكمل سطر حركة current. اطبع 8 ثم 3 ثم عدد الزيارات 2.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اتبع Next إلى أن تصل إلى null» بمخرجات قابلة للقياس.",
           "starterCode": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    // اكتب الأمر هنا\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "solution": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2648,9 +2648,9 @@
           },
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2660,7 +2660,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر length إلى 1 فتوجد عقدة واحدة. تتبّع آخر انتقال.",
           "instruction": "يا كمبيوتر، غيّر length إلى 1 فتوجد عقدة واحدة. تتبّع آخر انتقال.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int length = 1;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2714,9 +2714,9 @@
           },
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 1;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2726,7 +2726,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ضع length = 0. تابع شرط الحلقة وعدد الزيارات.",
           "instruction": "يا كمبيوتر، ضع length = 0. تابع شرط الحلقة وعدد الزيارات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int length = 0;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2781,9 +2781,9 @@
           },
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 0;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2792,7 +2792,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "طُبعت 8 فقط. ما الإسناد الذي يوصلك للعقدة التالية؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اتبع Next إلى أن تصل إلى null» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "طُبعت 8 فقط. ما الإسناد الذي يوصلك للعقدة التالية؟",
           "options": [
             "current = head;",
@@ -2801,13 +2801,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = null;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "حدّث current بعنوان Next الموجود في العقدة الحالية.",
           "benefit": "حدّث current بعنوان Next الموجود في العقدة الحالية.",
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2817,7 +2817,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. حدّث current بعنوان Next الموجود في العقدة الحالية.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. حدّث current بعنوان Next الموجود في العقدة الحالية.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = null;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "solution": "int length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2871,9 +2871,9 @@
           },
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "قارن ما تتوقع حدوثه في «اتبع Next إلى أن تصل إلى null» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 2;\nint firstValue = 8;\nint lastValue = 3;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         },
@@ -2883,7 +2883,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، امشِ على البطاقتين 11 ثم 17 واعرض عدد الزيارات.",
           "instruction": "يا كمبيوتر، امشِ على البطاقتين 11 ثم 17 واعرض عدد الزيارات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اتبع Next إلى أن تصل إلى null» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int length = 2;\nint firstValue = 11;\nint lastValue = 17;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    // اكتب الأمر هنا\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "solution": "int length = 2;\nint firstValue = 11;\nint lastValue = 17;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}",
           "challenge": {
@@ -2937,9 +2937,9 @@
           },
           "errorRules": [],
           "hints": [
-            "مع كل دورة تابع رقم الكائن في صف current.",
-            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب current = current.Next; بعد الطباعة.",
+            "مع كل دورة تابع رقم الكائن في صف current. راقب عدد الأسطر (24 أسطر) وتسلسل العمليات داخل «اتبع Next إلى أن تصل إلى null».",
+            "القاعدة: أقرأ العقدة الحالية قبل التحرك، وشرط while يحمي الوصول عند null. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب current = current.Next; بعد الطباعة. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint length = 2;\nint firstValue = 11;\nint lastValue = 17;\nNode? head = null;\nif (length > 0) { head = new Node(firstValue); }\nif (length > 1 && head != null) { head.Next = new Node(lastValue); }\nNode? current = head;\nint visited = 0;\nwhile (current != null)\n{\n    Console.WriteLine(current.Value);\n    current = current.Next;\n    visited++;\n}\nConsole.WriteLine(visited);\n\nclass Node\n{\n    public int Value;\n    public Node? Next;\n    public Node(int input)\n    {\n        Value = input;\n    }\n}"
           ]
         }
@@ -2995,9 +2995,9 @@
       "order": 86,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "في نموذج جدول التجزئة الصغير نحسب خانة البداية من المفتاح. لو الخانة تحمل مفتاحًا مختلفًا نتحرك للخانة التالية. -1 علامة الفراغ في هذا المثال.",
-      "whyUse": "تقدر ترى سبب تكرار الفحص عند التصادم، وتعرف ماذا يعدّ probes.",
-      "browserMechanics": "انتبه إلى slot بعد كل تعارض. عند المساواة يقرأ البرنامج amount من خانة لها نفس الفهرس.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ في نموذج جدول التجزئة الصغير نحسب خانة البداية من المفتاح. لو الخانة تحمل مفتاحًا مختلفًا نتحرك للخانة التالية. -1 علامة الفراغ في هذا المثال.",
+      "whyUse": "تقدر ترى سبب تكرار الفحص عند التصادم، وتعرف ماذا يعدّ probes. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "انتبه إلى slot بعد كل تعارض. عند المساواة يقرأ البرنامج amount من خانة لها نفس الفهرس. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
@@ -3013,12 +3013,12 @@
           "title": "المشهد قبل الكود",
           "objective": "رقما 13 و9 يختاران الخانة 1 في رف من أربع خانات باستخدام باقي القسمة. تجد 13 في الخانة، فتجرب اللي بعدها وتصل إلى 9.",
           "instruction": "يا كمبيوتر، رقما 13 و9 يختاران الخانة 1 في رف من أربع خانات باستخدام باقي القسمة. تجد 13 في الخانة، فتجرب اللي بعدها وتصل إلى 9.",
-          "benefit": "تقدر ترى سبب تكرار الفحص عند التصادم، وتعرف ماذا يعدّ probes.",
+          "benefit": "تقدر ترى سبب تكرار الفحص عند التصادم، وتعرف ماذا يعدّ probes. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3026,16 +3026,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "في نموذج جدول التجزئة الصغير نحسب خانة البداية من المفتاح. لو الخانة تحمل مفتاحًا مختلفًا نتحرك للخانة التالية. -1 علامة الفراغ في هذا المثال.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «جرّب الخانة التالية عند التصادم».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ في نموذج جدول التجزئة الصغير نحسب خانة البداية من المفتاح. لو الخانة تحمل مفتاحًا مختلفًا نتحرك للخانة التالية. -1 علامة الفراغ في هذا المثال.",
           "code": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
-          "benefit": "انتبه إلى slot بعد كل تعارض. عند المساواة يقرأ البرنامج amount من خانة لها نفس الفهرس.",
+          "benefit": "انتبه إلى slot بعد كل تعارض. عند المساواة يقرأ البرنامج amount من خانة لها نفس الفهرس. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3045,7 +3045,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل حساب slot حتى تتقدم عند التصادم. ابحث عن 9 واطبع قيمة 90 ثم عدد الفحوص 2.",
           "instruction": "يا كمبيوتر، أكمل حساب slot حتى تتقدم عند التصادم. ابحث عن 9 واطبع قيمة 90 ثم عدد الفحوص 2.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «جرّب الخانة التالية عند التصادم» بمخرجات قابلة للقياس.",
           "starterCode": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    // اكتب الأمر هنا\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "solution": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -3113,9 +3113,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3125,7 +3125,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، جرّب المفتاح 13. تابع عدد الفحوص عند إصابة الخانة من أول محاولة.",
           "instruction": "يا كمبيوتر، جرّب المفتاح 13. تابع عدد الفحوص عند إصابة الخانة من أول محاولة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 13;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -3193,9 +3193,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 13;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3205,7 +3205,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب مفتاحًا غير موجود وهو 5. توقّع نقطة التوقف.",
           "instruction": "يا كمبيوتر، جرّب مفتاحًا غير موجود وهو 5. توقّع نقطة التوقف.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 5;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -3274,9 +3274,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 5;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3285,7 +3285,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "زاد probes لكن الخانة ما اتحركتش. أي تعبير يضم رقم المحاولة؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «جرّب الخانة التالية عند التصادم» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "زاد probes لكن الخانة ما اتحركتش. أي تعبير يضم رقم المحاولة؟",
           "options": [
             "start",
@@ -3294,13 +3294,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = start;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اضف offset إلى start عند اختيار الخانة.",
           "benefit": "اضف offset إلى start عند اختيار الخانة.",
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3310,7 +3310,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اضف offset إلى start عند اختيار الخانة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اضف offset إلى start عند اختيار الخانة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = start;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "solution": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -3378,9 +3378,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "قارن ما تتوقع حدوثه في «جرّب الخانة التالية عند التصادم» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 9;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         },
@@ -3390,7 +3390,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، ابحث عن المفتاح 0. اخرج عند الخانة الفارغة واطبع -1 وأربع فحوص.",
           "instruction": "يا كمبيوتر، ابحث عن المفتاح 0. اخرج عند الخانة الفارغة واطبع -1 وأربع فحوص.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «جرّب الخانة التالية عند التصادم» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 0;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    // اكتب الأمر هنا\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "solution": "int[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 0;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);",
           "challenge": {
@@ -3458,9 +3458,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1.",
-            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int slot = (start + offset) % keys.Length;.",
+            "في الزيارة الأولى offset يساوي 0. في الثانية يساوي 1. راقب عدد الأسطر (19 أسطر) وتسلسل العمليات داخل «جرّب الخانة التالية عند التصادم».",
+            "القاعدة: فحص خانة جديدة يضيف الإزاحة ثم يلف داخل عدد الخانات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int slot = (start + offset) % keys.Length;. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] keys = { 8, 13, 9, -1 };\nint[] amounts = { 80, 130, 90, 0 };\nint wanted = 0;\nint start = wanted % keys.Length;\nint probes = 0;\nint amount = -1;\nfor (int offset = 0; offset < keys.Length; offset++)\n{\n    int slot = (start + offset) % keys.Length;\n    probes++;\n    if (keys[slot] == -1) { break; }\n    if (keys[slot] == wanted)\n    {\n        amount = amounts[slot];\n        break;\n    }\n}\nConsole.WriteLine(amount);\nConsole.WriteLine(probes);"
           ]
         }
@@ -3516,9 +3516,9 @@
       "order": 87,
       "unitId": "manual-data-structures",
       "revision": 1,
-      "concept": "كل معرّف من 0 إلى 5 يقابل خانة bool. يزداد عدد المعرّفات المختلفة عندما تنتقل خانة من false إلى true.",
-      "whyUse": "تمنع العد المكرر مع الاستمرار في فحص كل عنصر جديد.",
-      "browserMechanics": "في كل مرور يظهر id. اقرأ علامة seen[id] ثم راقب إن كانت ستتغير ويزيد unique.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ كل معرّف من 0 إلى 5 يقابل خانة bool. يزداد عدد المعرّفات المختلفة عندما تنتقل خانة من false إلى true.",
+      "whyUse": "تمنع العد المكرر مع الاستمرار في فحص كل عنصر جديد. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "في كل مرور يظهر id. اقرأ علامة seen[id] ثم راقب إن كانت ستتغير ويزيد unique. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
@@ -3534,12 +3534,12 @@
           "title": "المشهد قبل الكود",
           "objective": "بوابة تستقبل المسح 2 ثم 2 ثم 4. ضع علامة عند الزيارة الأولى لكل رقم في لوحة صغيرة، واحسب عدد الأرقام المختلفة.",
           "instruction": "يا كمبيوتر، بوابة تستقبل المسح 2 ثم 2 ثم 4. ضع علامة عند الزيارة الأولى لكل رقم في لوحة صغيرة، واحسب عدد الأرقام المختلفة.",
-          "benefit": "تمنع العد المكرر مع الاستمرار في فحص كل عنصر جديد.",
+          "benefit": "تمنع العد المكرر مع الاستمرار في فحص كل عنصر جديد. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3547,16 +3547,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "كل معرّف من 0 إلى 5 يقابل خانة bool. يزداد عدد المعرّفات المختلفة عندما تنتقل خانة من false إلى true.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «سجّل المعرّف مرة واحدة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ كل معرّف من 0 إلى 5 يقابل خانة bool. يزداد عدد المعرّفات المختلفة عندما تنتقل خانة من false إلى true.",
           "code": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
-          "benefit": "في كل مرور يظهر id. اقرأ علامة seen[id] ثم راقب إن كانت ستتغير ويزيد unique.",
+          "benefit": "في كل مرور يظهر id. اقرأ علامة seen[id] ثم راقب إن كانت ستتغير ويزيد unique. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3566,7 +3566,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل شرط العلامة في seen لمعرّفات 2 و2 و4. اطبع 2 للأرقام المختلفة و3 لعدد الفحوص.",
           "instruction": "يا كمبيوتر، أكمل شرط العلامة في seen لمعرّفات 2 و2 و4. اطبع 2 للأرقام المختلفة و3 لعدد الفحوص.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «سجّل المعرّف مرة واحدة» بمخرجات قابلة للقياس.",
           "starterCode": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (false)\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "solution": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "challenge": {
@@ -3634,9 +3634,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3646,7 +3646,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل 4 إلى 2. تابع عدد العلامات الجديدة رغم بقاء ثلاث فحوص.",
           "instruction": "يا كمبيوتر، بدّل 4 إلى 2. تابع عدد العلامات الجديدة رغم بقاء ثلاث فحوص.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] scans = { 2, 2, 2 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "challenge": {
@@ -3714,9 +3714,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 2, 2, 2 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3726,7 +3726,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب scans فارغة. هل حصل فحص أو إضافة؟",
           "instruction": "يا كمبيوتر، جرّب scans فارغة. هل حصل فحص أو إضافة؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] scans = {  };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "challenge": {
@@ -3795,9 +3795,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = {  };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3806,7 +3806,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر 3 للأرقام المختلفة. أي شرط يمنع زيادة العدد بعد وجود العلامة؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «سجّل المعرّف مرة واحدة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر 3 للأرقام المختلفة. أي شرط يمنع زيادة العدد بعد وجود العلامة؟",
           "options": [
             "true",
@@ -3815,13 +3815,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (true)\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "افحص أن خانة المعرّف لم تُعلّم بعد.",
           "benefit": "افحص أن خانة المعرّف لم تُعلّم بعد.",
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3831,7 +3831,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. افحص أن خانة المعرّف لم تُعلّم بعد.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. افحص أن خانة المعرّف لم تُعلّم بعد.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (true)\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "solution": "int[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "challenge": {
@@ -3899,9 +3899,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "قارن ما تتوقع حدوثه في «سجّل المعرّف مرة واحدة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 2, 2, 4 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         },
@@ -3911,7 +3911,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، عدّ الأرقام المختلفة ضمن 0 و3 و0 و5 و3، واطبع عدد المحاولات أيضًا.",
           "instruction": "يا كمبيوتر، عدّ الأرقام المختلفة ضمن 0 و3 و0 و5 و3، واطبع عدد المحاولات أيضًا.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «سجّل المعرّف مرة واحدة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] scans = { 0, 3, 0, 5, 3 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (false)\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "solution": "int[] scans = { 0, 3, 0, 5, 3 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);",
           "challenge": {
@@ -3979,9 +3979,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل.",
-            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!seen[id]) قبل الكتلة التي تضع true.",
+            "المرة الثانية للرقم 2 تقرأ علامة موجودة بالفعل. راقب عدد الأسطر (15 أسطر) وتسلسل العمليات داخل «سجّل المعرّف مرة واحدة».",
+            "القاعدة: الزيادة في unique تحصل أول مرة فقط لكل معرّف. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!seen[id]) قبل الكتلة التي تضع true. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] scans = { 0, 3, 0, 5, 3 };\nbool[] seen = { false, false, false, false, false, false };\nint checks = 0;\nint unique = 0;\nforeach (int id in scans)\n{\n    checks++;\n    if (!seen[id])\n    {\n        seen[id] = true;\n        unique++;\n    }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(checks);"
           ]
         }

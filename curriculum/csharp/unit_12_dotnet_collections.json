@@ -14,9 +14,9 @@
       "order": 88,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "Array.IndexOf(codes, wanted) تبحث عن أول عنصر يساوي wanted، وتعيد فهرسه. تعيد -1 عند الغياب.",
-      "whyUse": "تقدر تسأل المكتبة عن موضع رقم دون كتابة كل خطوة بحث في برنامجك.",
-      "browserMechanics": "تتبع وصول نتيجة الاستدعاء إلى index. جرّب رقمًا مكررًا ورقمًا غائبًا.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Array.IndexOf(codes, wanted) تبحث عن أول عنصر يساوي wanted، وتعيد فهرسه. تعيد -1 عند الغياب.",
+      "whyUse": "تقدر تسأل المكتبة عن موضع رقم دون كتابة كل خطوة بحث في برنامجك. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تتبع وصول نتيجة الاستدعاء إلى index. جرّب رقمًا مكررًا ورقمًا غائبًا. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.array.indexof?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
@@ -32,12 +32,12 @@
           "title": "المشهد قبل الكود",
           "objective": "عندك أرقام تذاكر 8 و5 و8. ابحث عن أول خانة تحمل 8. لو الرقم غايب سجّل علامة الغياب.",
           "instruction": "يا كمبيوتر، عندك أرقام تذاكر 8 و5 و8. ابحث عن أول خانة تحمل 8. لو الرقم غايب سجّل علامة الغياب.",
-          "benefit": "تقدر تسأل المكتبة عن موضع رقم دون كتابة كل خطوة بحث في برنامجك.",
+          "benefit": "تقدر تسأل المكتبة عن موضع رقم دون كتابة كل خطوة بحث في برنامجك. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -45,16 +45,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Array.IndexOf(codes, wanted) تبحث عن أول عنصر يساوي wanted، وتعيد فهرسه. تعيد -1 عند الغياب.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اطلب أول فهرس من Array.IndexOf».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Array.IndexOf(codes, wanted) تبحث عن أول عنصر يساوي wanted، وتعيد فهرسه. تعيد -1 عند الغياب.",
           "code": "int[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
-          "benefit": "تتبع وصول نتيجة الاستدعاء إلى index. جرّب رقمًا مكررًا ورقمًا غائبًا.",
+          "benefit": "تتبع وصول نتيجة الاستدعاء إلى index. جرّب رقمًا مكررًا ورقمًا غائبًا. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -64,7 +64,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، احفظ 8 و5 و8 في codes. استخدم Array.IndexOf لحفظ أول موضع للرقم wanted = 8 في index، واطبعه.",
           "instruction": "يا كمبيوتر، احفظ 8 و5 و8 في codes. استخدم Array.IndexOf لحفظ أول موضع للرقم wanted = 8 في index، واطبعه.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اطلب أول فهرس من Array.IndexOf» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "int[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
           "challenge": {
@@ -118,9 +118,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -130,7 +130,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر wanted إلى 5. تابع الفهرس الجديد.",
           "instruction": "يا كمبيوتر، غيّر wanted إلى 5. تابع الفهرس الجديد.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] codes = { 8, 5, 8 };\nint wanted = 5;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
           "challenge": {
@@ -184,9 +184,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 5;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -196,7 +196,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابحث عن 9. راقب علامة الغياب.",
           "instruction": "يا كمبيوتر، ابحث عن 9. راقب علامة الغياب.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] codes = { 8, 5, 8 };\nint wanted = 9;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
           "challenge": {
@@ -251,9 +251,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 9;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -262,7 +262,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر الرقم 8 نفسه. ما التعبير الذي يعيد فهرسه؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اطلب أول فهرس من Array.IndexOf» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر الرقم 8 نفسه. ما التعبير الذي يعيد فهرسه؟",
           "options": [
             "Array.IndexOf(codes, wanted)",
@@ -271,13 +271,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = wanted;\nConsole.WriteLine(index);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اطلب الفهرس بـ Array.IndexOf.",
           "benefit": "اطلب الفهرس بـ Array.IndexOf.",
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -287,7 +287,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اطلب الفهرس بـ Array.IndexOf.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اطلب الفهرس بـ Array.IndexOf.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = wanted;\nConsole.WriteLine(index);",
           "solution": "int[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
           "challenge": {
@@ -341,9 +341,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "قارن ما تتوقع حدوثه في «اطلب أول فهرس من Array.IndexOf» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 8, 5, 8 };\nint wanted = 8;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         },
@@ -353,7 +353,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، اعثر على أول 12 في القيم 40 و8 و12 و12. اطبع مكانها.",
           "instruction": "يا كمبيوتر، اعثر على أول 12 في القيم 40 و8 و12 و12. اطبع مكانها.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اطلب أول فهرس من Array.IndexOf» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] codes = { 40, 8, 12, 12 };\nint wanted = 12;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);",
           "challenge": {
@@ -407,9 +407,9 @@
           },
           "errorRules": [],
           "hints": [
-            "المطلوب فهرس الخانة التي تحمل 8 أول مرة.",
-            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int index = Array.IndexOf(codes, wanted);.",
+            "المطلوب فهرس الخانة التي تحمل 8 أول مرة. راقب عدد الأسطر (4 أسطر) وتسلسل العمليات داخل «اطلب أول فهرس من Array.IndexOf».",
+            "القاعدة: ترجع IndexOf أول فهرس، وترجع -1 إذا غابت القيمة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int index = Array.IndexOf(codes, wanted);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] codes = { 40, 8, 12, 12 };\nint wanted = 12;\nint index = Array.IndexOf(codes, wanted);\nConsole.WriteLine(index);"
           ]
         }
@@ -465,9 +465,9 @@
       "order": 89,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "RemoveAt تأخذ فهرسًا صالحًا، وتحذف العنصر عنده. لو فيه عناصر بعده تتحرك داخل القائمة وينقص Count.",
-      "whyUse": "تستخدم العملية نفسها التي نفذتها يدويًا في درس نقل الخانات.",
-      "browserMechanics": "اعرض بطاقة records قبل الحذف وبعده. يوضح التتبّع Count وقيم العناصر الجديدة.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ RemoveAt تأخذ فهرسًا صالحًا، وتحذف العنصر عنده. لو فيه عناصر بعده تتحرك داخل القائمة وينقص Count.",
+      "whyUse": "تستخدم العملية نفسها التي نفذتها يدويًا في درس نقل الخانات. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "اعرض بطاقة records قبل الحذف وبعده. يوضح التتبّع Count وقيم العناصر الجديدة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
@@ -483,12 +483,12 @@
           "title": "المشهد قبل الكود",
           "objective": "أضف 17 و22 و41 إلى قائمة. اطلب إزالة الموضع 1، وافحص شكل القائمة وعددها بعد الطلب.",
           "instruction": "يا كمبيوتر، أضف 17 و22 و41 إلى قائمة. اطلب إزالة الموضع 1، وافحص شكل القائمة وعددها بعد الطلب.",
-          "benefit": "تستخدم العملية نفسها التي نفذتها يدويًا في درس نقل الخانات.",
+          "benefit": "تستخدم العملية نفسها التي نفذتها يدويًا في درس نقل الخانات. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -496,16 +496,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "RemoveAt تأخذ فهرسًا صالحًا، وتحذف العنصر عنده. لو فيه عناصر بعده تتحرك داخل القائمة وينقص Count.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ RemoveAt تأخذ فهرسًا صالحًا، وتحذف العنصر عنده. لو فيه عناصر بعده تتحرك داخل القائمة وينقص Count.",
           "code": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
-          "benefit": "اعرض بطاقة records قبل الحذف وبعده. يوضح التتبّع Count وقيم العناصر الجديدة.",
+          "benefit": "اعرض بطاقة records قبل الحذف وبعده. يوضح التتبّع Count وقيم العناصر الجديدة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -515,7 +515,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل إزالة الفهرس 1 في List. اطبع 17 و41، ثم Count الذي يساوي 2.",
           "instruction": "يا كمبيوتر، أكمل إزالة الفهرس 1 في List. اطبع 17 و41، ثم Count الذي يساوي 2.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «احذف موضعًا من List باستخدام RemoveAt» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    // اكتب الأمر هنا\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "challenge": {
@@ -571,9 +571,9 @@
           },
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -583,7 +583,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر remove إلى 0. ما أول عنصر بعد الحذف؟",
           "instruction": "يا كمبيوتر، غيّر remove إلى 0. ما أول عنصر بعد الحذف؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 0;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "challenge": {
@@ -639,9 +639,9 @@
           },
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 0;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -651,7 +651,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، احذف الفهرس 2. راقب كيف تنتهي القائمة بعد الحذف.",
           "instruction": "يا كمبيوتر، احذف الفهرس 2. راقب كيف تنتهي القائمة بعد الحذف.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 2;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "challenge": {
@@ -708,9 +708,9 @@
           },
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 2;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -719,7 +719,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "اختفت 17. أي نداء يستخدم الفهرس المطلوب في remove؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «احذف موضعًا من List باستخدام RemoveAt» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "اختفت 17. أي نداء يستخدم الفهرس المطلوب في remove؟",
           "options": [
             "records.RemoveAt(0);",
@@ -728,13 +728,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(0);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "مرر remove إلى RemoveAt.",
           "benefit": "مرر remove إلى RemoveAt.",
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -744,7 +744,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. مرر remove إلى RemoveAt.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. مرر remove إلى RemoveAt.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(0);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "challenge": {
@@ -800,9 +800,9 @@
           },
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "قارن ما تتوقع حدوثه في «احذف موضعًا من List باستخدام RemoveAt» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 17, 22, 41 };\nint remove = 1;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         },
@@ -812,7 +812,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، أزل 6 من قائمة الأكواد 8 و2 و6 و11. اطبع الباقي ثم العد.",
           "instruction": "يا كمبيوتر، أزل 6 من قائمة الأكواد 8 و2 و6 و11. اطبع الباقي ثم العد.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «احذف موضعًا من List باستخدام RemoveAt» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "using System.Collections.Generic;\n\nint[] codes = { 8, 2, 6, 11 };\nint remove = 2;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    // اكتب الأمر هنا\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] codes = { 8, 2, 6, 11 };\nint remove = 2;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);",
           "challenge": {
@@ -868,9 +868,9 @@
           },
           "errorRules": [],
           "hints": [
-            "RemoveAt تستقبل رقم الموقع، فاستخدم remove.",
-            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب records.RemoveAt(remove); بعد الفحص.",
+            "RemoveAt تستقبل رقم الموقع، فاستخدم remove. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «احذف موضعًا من List باستخدام RemoveAt».",
+            "القاعدة: Count هو عدد عناصر القائمة الموجودة الآن. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب records.RemoveAt(remove); بعد الفحص. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] codes = { 8, 2, 6, 11 };\nint remove = 2;\nList<int> records = new List<int>();\nforeach (int code in codes) { records.Add(code); }\nif (remove >= 0 && remove < records.Count)\n{\n    records.RemoveAt(remove);\n}\nfor (int i = 0; i < records.Count; i++) { Console.WriteLine(records[i]); }\nConsole.WriteLine(records.Count);"
           ]
         }
@@ -926,9 +926,9 @@
       "order": 90,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "Push تضع عنصرًا في الأعلى وPop تعيده وتحذفه. افحص Count قبل Pop. Peek تقرأ الأعلى وتتركه مكانه.",
-      "whyUse": "تكتب عملية الرجوع عن آخر عمل مباشرة باسمها.",
-      "browserMechanics": "ترى المجموعة تتغير مع Push وPop. عند Pop تخرج قيمة 39 ويتحول Count من 3 إلى 2.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Push تضع عنصرًا في الأعلى وPop تعيده وتحذفه. افحص Count قبل Pop. Peek تقرأ الأعلى وتتركه مكانه.",
+      "whyUse": "تكتب عملية الرجوع عن آخر عمل مباشرة باسمها. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "ترى المجموعة تتغير مع Push وPop. عند Pop تخرج قيمة 39 ويتحول Count من 3 إلى 2. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
@@ -944,12 +944,12 @@
           "title": "المشهد قبل الكود",
           "objective": "حط 14 ثم 22 ثم 39 في المكدس. اسحب الورقة العليا واعرف عدد البطاقات التي ظلت فيه.",
           "instruction": "يا كمبيوتر، حط 14 ثم 22 ثم 39 في المكدس. اسحب الورقة العليا واعرف عدد البطاقات التي ظلت فيه.",
-          "benefit": "تكتب عملية الرجوع عن آخر عمل مباشرة باسمها.",
+          "benefit": "تكتب عملية الرجوع عن آخر عمل مباشرة باسمها. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -957,16 +957,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Push تضع عنصرًا في الأعلى وPop تعيده وتحذفه. افحص Count قبل Pop. Peek تقرأ الأعلى وتتركه مكانه.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Push تضع عنصرًا في الأعلى وPop تعيده وتحذفه. افحص Count قبل Pop. Peek تقرأ الأعلى وتتركه مكانه.",
           "code": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
-          "benefit": "ترى المجموعة تتغير مع Push وPop. عند Pop تخرج قيمة 39 ويتحول Count من 3 إلى 2.",
+          "benefit": "ترى المجموعة تتغير مع Push وPop. عند Pop تخرج قيمة 39 ويتحول Count من 3 إلى 2. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -976,7 +976,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل السحب من Stack بعد فحص Count. اطبع 39 وعدد البطاقات الباقية 2.",
           "instruction": "يا كمبيوتر، أكمل السحب من Stack بعد فحص Count. اطبع 39 وعدد البطاقات الباقية 2.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «أزل آخر بطاقة باستدعاء Stack.Pop» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    // اكتب الأمر هنا\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "challenge": {
@@ -1025,9 +1025,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -1037,7 +1037,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل ترتيب آخر بطاقتين. توقّع القيمة التي تخرج.",
           "instruction": "يا كمبيوتر، بدّل ترتيب آخر بطاقتين. توقّع القيمة التي تخرج.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 14, 39, 22 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "challenge": {
@@ -1086,9 +1086,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 14, 39, 22 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -1098,7 +1098,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب بطاقة واحدة 22. تابع Count بعد السحب.",
           "instruction": "يا كمبيوتر، جرّب بطاقة واحدة 22. تابع Count بعد السحب.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 22 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "challenge": {
@@ -1148,9 +1148,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 22 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -1159,7 +1159,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر 39 لكن Count بقي 3. أي أمر يزيل البطاقة؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «أزل آخر بطاقة باستدعاء Stack.Pop» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر 39 لكن Count بقي 3. أي أمر يزيل البطاقة؟",
           "options": [
             "stack.Peek()",
@@ -1168,13 +1168,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Peek();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم Pop لسحب البطاقة.",
           "benefit": "استخدم Pop لسحب البطاقة.",
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -1184,7 +1184,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم Pop لسحب البطاقة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم Pop لسحب البطاقة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Peek();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "challenge": {
@@ -1233,9 +1233,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "قارن ما تتوقع حدوثه في «أزل آخر بطاقة باستدعاء Stack.Pop» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 14, 22, 39 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         },
@@ -1245,7 +1245,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، احفظ عمليتين 61 ثم 62 في مكدس وتراجع عن الأخيرة. اطبعها ثم عدد الباقي.",
           "instruction": "يا كمبيوتر، احفظ عمليتين 61 ثم 62 في مكدس وتراجع عن الأخيرة. اطبعها ثم عدد الباقي.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «أزل آخر بطاقة باستدعاء Stack.Pop» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 61, 62 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);",
           "challenge": {
@@ -1294,9 +1294,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راقب آخر عنصر وصل للمكدس.",
-            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = stack.Pop();.",
+            "راقب آخر عنصر وصل للمكدس. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «أزل آخر بطاقة باستدعاء Stack.Pop».",
+            "القاعدة: Pop تزيل آخر عنصر دخل وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = stack.Pop();. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 61, 62 };\nStack<int> stack = new Stack<int>();\nforeach (int id in ids) { stack.Push(id); }\nif (stack.Count > 0)\n{\n    int ticket = stack.Pop();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(stack.Count);"
           ]
         }
@@ -1352,9 +1352,9 @@
       "order": 91,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "Enqueue تضيف إلى آخر الطابور وDequeue تأخذ أول عنصر وتزيله. افحص Count حتى تعرف هل يوجد منتظر.",
-      "whyUse": "تنفذ خدمة بالترتيب الذي وصلت به الطلبات.",
-      "browserMechanics": "تعرض بطاقة الطابور الطلبات من المقدمة. عند Dequeue يختفي أول رقم وينقص Count.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Enqueue تضيف إلى آخر الطابور وDequeue تأخذ أول عنصر وتزيله. افحص Count حتى تعرف هل يوجد منتظر.",
+      "whyUse": "تنفذ خدمة بالترتيب الذي وصلت به الطلبات. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تعرض بطاقة الطابور الطلبات من المقدمة. عند Dequeue يختفي أول رقم وينقص Count. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
@@ -1370,12 +1370,12 @@
           "title": "المشهد قبل الكود",
           "objective": "سجّل 24 ثم 19 ثم 28 في طابور الخدمة. أول من يصل يأخذ دوره أولًا.",
           "instruction": "يا كمبيوتر، سجّل 24 ثم 19 ثم 28 في طابور الخدمة. أول من يصل يأخذ دوره أولًا.",
-          "benefit": "تنفذ خدمة بالترتيب الذي وصلت به الطلبات.",
+          "benefit": "تنفذ خدمة بالترتيب الذي وصلت به الطلبات. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1383,16 +1383,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Enqueue تضيف إلى آخر الطابور وDequeue تأخذ أول عنصر وتزيله. افحص Count حتى تعرف هل يوجد منتظر.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Enqueue تضيف إلى آخر الطابور وDequeue تأخذ أول عنصر وتزيله. افحص Count حتى تعرف هل يوجد منتظر.",
           "code": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
-          "benefit": "تعرض بطاقة الطابور الطلبات من المقدمة. عند Dequeue يختفي أول رقم وينقص Count.",
+          "benefit": "تعرض بطاقة الطابور الطلبات من المقدمة. عند Dequeue يختفي أول رقم وينقص Count. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1402,7 +1402,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل أخذ أول رقم من Queue. اطبع 24 ثم Count ويساوي 2.",
           "instruction": "يا كمبيوتر، أكمل أخذ أول رقم من Queue. اطبع 24 ثم Count ويساوي 2.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «خد أول منتظر باستدعاء Queue.Dequeue» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    // اكتب الأمر هنا\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "challenge": {
@@ -1451,9 +1451,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1463,7 +1463,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، خلّي 19 يصل قبل 24. راقب من خرج.",
           "instruction": "يا كمبيوتر، خلّي 19 يصل قبل 24. راقب من خرج.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 19, 24, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "challenge": {
@@ -1512,9 +1512,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 19, 24, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1524,7 +1524,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب 19 وحده. افحص العدد بعد خدمته.",
           "instruction": "يا كمبيوتر، جرّب 19 وحده. افحص العدد بعد خدمته.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 19 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "challenge": {
@@ -1574,9 +1574,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 19 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1585,7 +1585,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "تم عرض 24 لكن العدد ما اتغيرش. أي طريقة تسحب أول عنصر؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «خد أول منتظر باستدعاء Queue.Dequeue» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "تم عرض 24 لكن العدد ما اتغيرش. أي طريقة تسحب أول عنصر؟",
           "options": [
             "line.Dequeue()",
@@ -1594,13 +1594,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Peek();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم Dequeue لإزالة الرقم.",
           "benefit": "استخدم Dequeue لإزالة الرقم.",
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1610,7 +1610,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم Dequeue لإزالة الرقم.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم Dequeue لإزالة الرقم.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Peek();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "challenge": {
@@ -1659,9 +1659,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "قارن ما تتوقع حدوثه في «خد أول منتظر باستدعاء Queue.Dequeue» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 24, 19, 28 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         },
@@ -1671,7 +1671,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، سجّل 27 ثم 93. نفّذ خدمة واحدة واطبع رقم أول منتظر وعدد المتبقي.",
           "instruction": "يا كمبيوتر، سجّل 27 ثم 93. نفّذ خدمة واحدة واطبع رقم أول منتظر وعدد المتبقي.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «خد أول منتظر باستدعاء Queue.Dequeue» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 27, 93 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);",
           "challenge": {
@@ -1720,9 +1720,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا.",
-            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count.",
+            "أول قيمة في بطاقة الطابور هي الأسبق وصولًا. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «خد أول منتظر باستدعاء Queue.Dequeue».",
+            "القاعدة: Dequeue تخرج أسبق عنصر دخل، وتعيده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int ticket = line.Dequeue(); في الكتلة التي فحصت Count. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 27, 93 };\nQueue<int> line = new Queue<int>();\nforeach (int id in ids) { line.Enqueue(id); }\nif (line.Count > 0)\n{\n    int ticket = line.Dequeue();\n    Console.WriteLine(ticket);\n}\nelse { Console.WriteLine(\"فارغ\"); }\nConsole.WriteLine(line.Count);"
           ]
         }
@@ -1778,9 +1778,9 @@
       "order": 92,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "AddLast تربط القيمة في نهاية LinkedList. AddFirst تضع القيمة في البداية. foreach تقرأ القيم حسب ترتيب القائمة.",
-      "whyUse": "تربط آخر محطة جديدة من خلال واجهة المكتبة بعد فهم رابط Next.",
-      "browserMechanics": "تعرض بطاقة القائمة قيم العناصر بالترتيب. ثم يعرض foreach كل عنصر أخذته في الدورة.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ AddLast تربط القيمة في نهاية LinkedList. AddFirst تضع القيمة في البداية. foreach تقرأ القيم حسب ترتيب القائمة.",
+      "whyUse": "تربط آخر محطة جديدة من خلال واجهة المكتبة بعد فهم رابط Next. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تعرض بطاقة القائمة قيم العناصر بالترتيب. ثم يعرض foreach كل عنصر أخذته في الدورة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
@@ -1796,12 +1796,12 @@
           "title": "المشهد قبل الكود",
           "objective": "عندك سلسلة محطتين. اربط المحطة 9 بعد 5، واتبع ترتيب السلسلة لتقرأهما.",
           "instruction": "يا كمبيوتر، عندك سلسلة محطتين. اربط المحطة 9 بعد 5، واتبع ترتيب السلسلة لتقرأهما.",
-          "benefit": "تربط آخر محطة جديدة من خلال واجهة المكتبة بعد فهم رابط Next.",
+          "benefit": "تربط آخر محطة جديدة من خلال واجهة المكتبة بعد فهم رابط Next. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -1809,16 +1809,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "AddLast تربط القيمة في نهاية LinkedList. AddFirst تضع القيمة في البداية. foreach تقرأ القيم حسب ترتيب القائمة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «وصّل القيم بآخر LinkedList».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ AddLast تربط القيمة في نهاية LinkedList. AddFirst تضع القيمة في البداية. foreach تقرأ القيم حسب ترتيب القائمة.",
           "code": "using System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
-          "benefit": "تعرض بطاقة القائمة قيم العناصر بالترتيب. ثم يعرض foreach كل عنصر أخذته في الدورة.",
+          "benefit": "تعرض بطاقة القائمة قيم العناصر بالترتيب. ثم يعرض foreach كل عنصر أخذته في الدورة. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -1828,7 +1828,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أضف 5 ثم 9 إلى نهاية LinkedList. استخدم foreach لطباعتهما بالترتيب ثم اطبع العدد.",
           "instruction": "يا كمبيوتر، أضف 5 ثم 9 إلى نهاية LinkedList. استخدم foreach لطباعتهما بالترتيب ثم اطبع العدد.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «وصّل القيم بآخر LinkedList» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
           "challenge": {
@@ -1879,9 +1879,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -1891,7 +1891,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر second إلى 12. افحص مكان القيمة الجديدة.",
           "instruction": "يا كمبيوتر، غيّر second إلى 12. افحص مكان القيمة الجديدة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint first = 5;\nint second = 12;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
           "challenge": {
@@ -1942,9 +1942,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 5;\nint second = 12;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -1954,7 +1954,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب محطتين تحملان الرقم 12. راقب عدّ العناصر.",
           "instruction": "يا كمبيوتر، جرّب محطتين تحملان الرقم 12. راقب عدّ العناصر.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint first = 12;\nint second = 12;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
           "challenge": {
@@ -2006,9 +2006,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 12;\nint second = 12;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -2017,7 +2017,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "خرج 9 قبل 5. ما النداء الذي يضعه آخرًا؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «وصّل القيم بآخر LinkedList» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "خرج 9 قبل 5. ما النداء الذي يضعه آخرًا؟",
           "options": [
             "chain.AddFirst(second);",
@@ -2026,13 +2026,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "using System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddFirst(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "أضف second باستخدام AddLast.",
           "benefit": "أضف second باستخدام AddLast.",
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -2042,7 +2042,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أضف second باستخدام AddLast.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. أضف second باستخدام AddLast.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddFirst(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
           "solution": "using System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
           "challenge": {
@@ -2093,9 +2093,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "قارن ما تتوقع حدوثه في «وصّل القيم بآخر LinkedList» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 5;\nint second = 9;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         },
@@ -2105,7 +2105,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، رتّب محطتي 42 و67 في قائمة مترابطة واطبع ترتيبهما وعددهما.",
           "instruction": "يا كمبيوتر، رتّب محطتي 42 و67 في قائمة مترابطة واطبع ترتيبهما وعددهما.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «وصّل القيم بآخر LinkedList» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint first = 42;\nint second = 67;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);",
           "challenge": {
@@ -2156,9 +2156,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أين تذهب second عند AddLast؟",
-            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب chain.AddLast(second); بعد chain.AddLast(first);.",
+            "أين تذهب second عند AddLast؟ راقب عدد الأسطر (8 أسطر) وتسلسل العمليات داخل «وصّل القيم بآخر LinkedList».",
+            "القاعدة: الإضافة عند النهاية تُبقي القيم القديمة قبل الجديدة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب chain.AddLast(second); بعد chain.AddLast(first);. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint first = 42;\nint second = 67;\nLinkedList<int> chain = new LinkedList<int>();\nchain.AddLast(first);\nchain.AddLast(second);\nforeach (int value in chain) { Console.WriteLine(value); }\nConsole.WriteLine(chain.Count);"
           ]
         }
@@ -2214,9 +2214,9 @@
       "order": 93,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "Dictionary<string,int> تربط مفتاحًا نصيًا بقيمة عددية. ContainsKey تفحص وجوده، وبعدها prices[code] تأخذ قيمة نفس المفتاح.",
-      "whyUse": "تقدر تطلب سعرًا برمز التذكرة وتعالج الرمز الغائب.",
-      "browserMechanics": "تظهر المفاتيح والقيم أزواجًا. عند وجود المفتاح يعرض التتبّع الخانة التي قرأها.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Dictionary<string,int> تربط مفتاحًا نصيًا بقيمة عددية. ContainsKey تفحص وجوده، وبعدها prices[code] تأخذ قيمة نفس المفتاح.",
+      "whyUse": "تقدر تطلب سعرًا برمز التذكرة وتعالج الرمز الغائب. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تظهر المفاتيح والقيم أزواجًا. عند وجود المفتاح يعرض التتبّع الخانة التي قرأها. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
@@ -2232,12 +2232,12 @@
           "title": "المشهد قبل الكود",
           "objective": "جدول أسعار فيه بطاقة A بسعر 6 وبطاقة B بسعر 12. اسأل عن B. افحص وجود صف باسم B وبعدها اقرأ السعر.",
           "instruction": "يا كمبيوتر، جدول أسعار فيه بطاقة A بسعر 6 وبطاقة B بسعر 12. اسأل عن B. افحص وجود صف باسم B وبعدها اقرأ السعر.",
-          "benefit": "تقدر تطلب سعرًا برمز التذكرة وتعالج الرمز الغائب.",
+          "benefit": "تقدر تطلب سعرًا برمز التذكرة وتعالج الرمز الغائب. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2245,16 +2245,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Dictionary<string,int> تربط مفتاحًا نصيًا بقيمة عددية. ContainsKey تفحص وجوده، وبعدها prices[code] تأخذ قيمة نفس المفتاح.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «هات القيمة بالمفتاح من Dictionary».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Dictionary<string,int> تربط مفتاحًا نصيًا بقيمة عددية. ContainsKey تفحص وجوده، وبعدها prices[code] تأخذ قيمة نفس المفتاح.",
           "code": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
-          "benefit": "تظهر المفاتيح والقيم أزواجًا. عند وجود المفتاح يعرض التتبّع الخانة التي قرأها.",
+          "benefit": "تظهر المفاتيح والقيم أزواجًا. عند وجود المفتاح يعرض التتبّع الخانة التي قرأها. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2264,7 +2264,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل قراءة السعر في فرع وجود code. اطبع 12 للمفتاح B.",
           "instruction": "يا كمبيوتر، أكمل قراءة السعر في فرع وجود code. اطبع 12 للمفتاح B.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «هات القيمة بالمفتاح من Dictionary» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    // اكتب الأمر هنا\n}\nConsole.WriteLine(price);",
           "solution": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
           "challenge": {
@@ -2324,9 +2324,9 @@
           },
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2336,7 +2336,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل code إلى A. اقرأ السعر المخزن لها.",
           "instruction": "يا كمبيوتر، بدّل code إلى A. اقرأ السعر المخزن لها.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nstring code = \"A\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
           "challenge": {
@@ -2396,9 +2396,9 @@
           },
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"A\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2408,7 +2408,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب C. تابع متى يظل السعر عند -1.",
           "instruction": "يا كمبيوتر، جرّب C. تابع متى يظل السعر عند -1.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nstring code = \"C\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
           "challenge": {
@@ -2469,9 +2469,9 @@
           },
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"C\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2480,7 +2480,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "فحصنا وجود B، لكن طُبع سعر A. أي تعبير يقرأ حسب code؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «هات القيمة بالمفتاح من Dictionary» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "فحصنا وجود B، لكن طُبع سعر A. أي تعبير يقرأ حسب code؟",
           "options": [
             "prices[\"A\"]",
@@ -2489,13 +2489,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[\"A\"];\n}\nConsole.WriteLine(price);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم code في فهرسة القاموس.",
           "benefit": "استخدم code في فهرسة القاموس.",
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2505,7 +2505,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم code في فهرسة القاموس.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم code في فهرسة القاموس.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[\"A\"];\n}\nConsole.WriteLine(price);",
           "solution": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
           "challenge": {
@@ -2565,9 +2565,9 @@
           },
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "قارن ما تتوقع حدوثه في «هات القيمة بالمفتاح من Dictionary» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 6;\nint express = 12;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         },
@@ -2577,7 +2577,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، جهّز سعرين 30 و45. اطلب سعر B من القاموس واطبعه.",
           "instruction": "يا كمبيوتر، جهّز سعرين 30 و45. اطلب سعر B من القاموس واطبعه.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «هات القيمة بالمفتاح من Dictionary» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 30;\nint express = 45;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    // اكتب الأمر هنا\n}\nConsole.WriteLine(price);",
           "solution": "using System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 30;\nint express = 45;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);",
           "challenge": {
@@ -2637,9 +2637,9 @@
           },
           "errorRules": [],
           "hints": [
-            "القيمة المطلوبة من المفتاح المحفوظ في code.",
-            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code).",
+            "القيمة المطلوبة من المفتاح المحفوظ في code. راقب عدد الأسطر (13 أسطر) وتسلسل العمليات داخل «هات القيمة بالمفتاح من Dictionary».",
+            "القاعدة: استخدم نفس المفتاح في اختبار الوجود والقراءة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع price = prices[code]; داخل شرط prices.ContainsKey(code). (ابدأ بملاحظة البنية حول `string`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nstring code = \"B\";\nint standard = 30;\nint express = 45;\nDictionary<string,int> prices = new Dictionary<string,int>();\nprices.Add(\"A\", standard);\nprices.Add(\"B\", express);\nint price = -1;\nif (prices.ContainsKey(code))\n{\n    price = prices[code];\n}\nConsole.WriteLine(price);"
           ]
         }
@@ -2695,9 +2695,9 @@
       "order": 94,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "HashSet.Add تعيد true إذا حفظت عنصرًا جديدًا، وتعيد false عندما يكون موجودًا. اعتمد على هذه القيمة لعدّ الإضافات الجديدة.",
-      "whyUse": "تحتفظ بمجموعة معرّفات فريدة، حتى لو تكرر المسح أو تنوعت الأرقام.",
-      "browserMechanics": "راقب Count في كل استدعاء. حين ترى نتيجة false يبقى العدد كما كان.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ HashSet.Add تعيد true إذا حفظت عنصرًا جديدًا، وتعيد false عندما يكون موجودًا. اعتمد على هذه القيمة لعدّ الإضافات الجديدة.",
+      "whyUse": "تحتفظ بمجموعة معرّفات فريدة، حتى لو تكرر المسح أو تنوعت الأرقام. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب Count في كل استدعاء. حين ترى نتيجة false يبقى العدد كما كان. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
@@ -2713,12 +2713,12 @@
           "title": "المشهد قبل الكود",
           "objective": "تدخل للبوابة قراءات 2 و2 و4. اقبل الرقم أول مرة واكتشف أنها محاولة مكررة لو ظهر مرة ثانية.",
           "instruction": "يا كمبيوتر، تدخل للبوابة قراءات 2 و2 و4. اقبل الرقم أول مرة واكتشف أنها محاولة مكررة لو ظهر مرة ثانية.",
-          "benefit": "تحتفظ بمجموعة معرّفات فريدة، حتى لو تكرر المسح أو تنوعت الأرقام.",
+          "benefit": "تحتفظ بمجموعة معرّفات فريدة، حتى لو تكرر المسح أو تنوعت الأرقام. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -2726,16 +2726,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "HashSet.Add تعيد true إذا حفظت عنصرًا جديدًا، وتعيد false عندما يكون موجودًا. اعتمد على هذه القيمة لعدّ الإضافات الجديدة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ HashSet.Add تعيد true إذا حفظت عنصرًا جديدًا، وتعيد false عندما يكون موجودًا. اعتمد على هذه القيمة لعدّ الإضافات الجديدة.",
           "code": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
-          "benefit": "راقب Count في كل استدعاء. حين ترى نتيجة false يبقى العدد كما كان.",
+          "benefit": "راقب Count في كل استدعاء. حين ترى نتيجة false يبقى العدد كما كان. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -2745,7 +2745,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، اكتب شرط seen.Add(id) لزيادة unique عند إدخال رقم جديد. اطبع unique ثم Count.",
           "instruction": "يا كمبيوتر، اكتب شرط seen.Add(id) لزيادة unique عند إدخال رقم جديد. اطبع unique ثم Count.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «استخدم نتيجة HashSet.Add لمنع التكرار» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
           "challenge": {
@@ -2809,9 +2809,9 @@
           },
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -2821,7 +2821,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل آخر 4 إلى 2. تابع كم مرة أعادت Add قيمة true.",
           "instruction": "يا كمبيوتر، بدّل آخر 4 إلى 2. تابع كم مرة أعادت Add قيمة true.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 2 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
           "challenge": {
@@ -2885,9 +2885,9 @@
           },
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 2, 2 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -2897,7 +2897,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، استخدم ثلاث قيم مختلفة: 2 و7 و9. تابع Count بعد كل إضافة.",
           "instruction": "يا كمبيوتر، استخدم ثلاث قيم مختلفة: 2 و7 و9. تابع Count بعد كل إضافة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 2, 7, 9 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
           "challenge": {
@@ -2962,9 +2962,9 @@
           },
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 7, 9 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -2973,7 +2973,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "زاد unique في كل دورة، والمجموعة بقيت فارغة. أي شرط يحفظ الرقم ويعرف لو جديد؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «استخدم نتيجة HashSet.Add لمنع التكرار» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "زاد unique في كل دورة، والمجموعة بقيت فارغة. أي شرط يحفظ الرقم ويعرف لو جديد؟",
           "options": [
             "seen.Add(id)",
@@ -2982,13 +2982,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (true) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "نفّذ Add واجعل قيمة إرجاعها تحدد الزيادة.",
           "benefit": "نفّذ Add واجعل قيمة إرجاعها تحدد الزيادة.",
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -2998,7 +2998,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. نفّذ Add واجعل قيمة إرجاعها تحدد الزيادة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. نفّذ Add واجعل قيمة إرجاعها تحدد الزيادة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (true) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
           "challenge": {
@@ -3062,9 +3062,9 @@
           },
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "قارن ما تتوقع حدوثه في «استخدم نتيجة HashSet.Add لمنع التكرار» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 2, 2, 4 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         },
@@ -3074,7 +3074,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، عدّ الأكواد الفريدة من 5 و8 و5 و3. قارن الحصيلة بـ Count.",
           "instruction": "يا كمبيوتر، عدّ الأكواد الفريدة من 5 و8 و5 و3. قارن الحصيلة بـ Count.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «استخدم نتيجة HashSet.Add لمنع التكرار» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[] ids = { 5, 8, 5, 3 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);",
           "challenge": {
@@ -3138,9 +3138,9 @@
           },
           "errorRules": [],
           "hints": [
-            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟",
-            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { unique++; }.",
+            "هل كانت محاولة الإضافة الثانية للرقم 2 ناجحة؟ راقب عدد الأسطر (10 أسطر) وتسلسل العمليات داخل «استخدم نتيجة HashSet.Add لمنع التكرار».",
+            "القاعدة: Add تُرجع true عند إضافة قيمة جديدة، وfalse عند وجودها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { unique++; }. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] ids = { 5, 8, 5, 3 };\nHashSet<int> seen = new HashSet<int>();\nint unique = 0;\nforeach (int id in ids)\n{\n    if (seen.Add(id)) { unique++; }\n}\nConsole.WriteLine(unique);\nConsole.WriteLine(seen.Count);"
           ]
         }
@@ -3196,9 +3196,9 @@
       "order": 95,
       "unitId": "dotnet-collections",
       "revision": 1,
-      "concept": "HashSet.Add تحدد لو هذا أول وصول. عند الموافقة يدخل المعرّف إلى Queue، ثم تخرج الأدوار بترتيب الدخول.",
-      "whyUse": "تستعمل كل بنية لغرض محدد في نفس البرنامج.",
-      "browserMechanics": "راقب حالة seen وخط line. في التكرار تظهر false، والطابور يظل كما هو.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ HashSet.Add تحدد لو هذا أول وصول. عند الموافقة يدخل المعرّف إلى Queue، ثم تخرج الأدوار بترتيب الدخول.",
+      "whyUse": "تستعمل كل بنية لغرض محدد في نفس البرنامج. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب حالة seen وخط line. في التكرار تظهر false، والطابور يظل كما هو. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/standard/collections/",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
@@ -3214,12 +3214,12 @@
           "title": "المشهد قبل الكود",
           "objective": "استقبال سجل المسحات 7 و7 و9 و7 و12. كل معرّف جديد يأخذ دورًا، والخدمة تحصل حسب أول ظهور.",
           "instruction": "يا كمبيوتر، استقبال سجل المسحات 7 و7 و9 و7 و12. كل معرّف جديد يأخذ دورًا، والخدمة تحصل حسب أول ظهور.",
-          "benefit": "تستعمل كل بنية لغرض محدد في نفس البرنامج.",
+          "benefit": "تستعمل كل بنية لغرض محدد في نفس البرنامج. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3227,16 +3227,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "HashSet.Add تحدد لو هذا أول وصول. عند الموافقة يدخل المعرّف إلى Queue، ثم تخرج الأدوار بترتيب الدخول.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ HashSet.Add تحدد لو هذا أول وصول. عند الموافقة يدخل المعرّف إلى Queue، ثم تخرج الأدوار بترتيب الدخول.",
           "code": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
-          "benefit": "راقب حالة seen وخط line. في التكرار تظهر false، والطابور يظل كما هو.",
+          "benefit": "راقب حالة seen وخط line. في التكرار تظهر false، والطابور يظل كما هو. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3246,7 +3246,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل شرط قبول المسح لأول مرة. اطبع 7 و9 و12 بالترتيب ثم 3 للفريدين و5 للمحاولات.",
           "instruction": "يا كمبيوتر، أكمل شرط قبول المسح لأول مرة. اطبع 7 و9 و12 بالترتيب ثم 3 للفريدين و5 للمحاولات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «خلّي كل معرّف ياخد دورًا واحدًا» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    // اكتب الأمر هنا\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "solution": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "challenge": {
@@ -3309,9 +3309,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3321,7 +3321,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، اجعل 9 يدخل قبل 7. هل يبقى ترتيب الخدمة مطابقًا لأول وصول؟",
           "instruction": "يا كمبيوتر، اجعل 9 يدخل قبل 7. هل يبقى ترتيب الخدمة مطابقًا لأول وصول؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] visitors = { 9, 9, 7, 9, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "challenge": {
@@ -3384,9 +3384,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 9, 9, 7, 9, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3396,7 +3396,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب ثلاث مسحات للرقم 9. احسب كم مرة خُدم وكم مرة مُسح.",
           "instruction": "يا كمبيوتر، جرّب ثلاث مسحات للرقم 9. احسب كم مرة خُدم وكم مرة مُسح.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[] visitors = { 9, 9, 9 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "challenge": {
@@ -3460,9 +3460,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 9, 9, 9 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3471,7 +3471,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "دخل الرقم 7 ثلاث مرات. ما الشرط الذي يقبل ظهوره الأول فقط؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «خلّي كل معرّف ياخد دورًا واحدًا» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "دخل الرقم 7 ثلاث مرات. ما الشرط الذي يقبل ظهوره الأول فقط؟",
           "options": [
             "true",
@@ -3480,13 +3480,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (true) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اجعل Add تختبر حداثة المعرّف قبل دخوله الطابور.",
           "benefit": "اجعل Add تختبر حداثة المعرّف قبل دخوله الطابور.",
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3496,7 +3496,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اجعل Add تختبر حداثة المعرّف قبل دخوله الطابور.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اجعل Add تختبر حداثة المعرّف قبل دخوله الطابور.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (true) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "solution": "using System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "challenge": {
@@ -3559,9 +3559,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "قارن ما تتوقع حدوثه في «خلّي كل معرّف ياخد دورًا واحدًا» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 7, 7, 9, 7, 12 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         },
@@ -3571,7 +3571,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، اخدم المسحات 3 و8 و3 و0 و8 مرة لكل شخص. اطبع الطلبات بالترتيب ثم الفريدين والمحاولات.",
           "instruction": "يا كمبيوتر، اخدم المسحات 3 و8 و3 و0 و8 مرة لكل شخص. اطبع الطلبات بالترتيب ثم الفريدين والمحاولات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «خلّي كل معرّف ياخد دورًا واحدًا» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "using System.Collections.Generic;\n\nint[] visitors = { 3, 8, 3, 0, 8 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    // اكتب الأمر هنا\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "solution": "using System.Collections.Generic;\n\nint[] visitors = { 3, 8, 3, 0, 8 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);",
           "challenge": {
@@ -3634,9 +3634,9 @@
           },
           "errorRules": [],
           "hints": [
-            "راجع أول شرط قبل أن يدخل رقم إلى الطابور.",
-            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts.",
+            "راجع أول شرط قبل أن يدخل رقم إلى الطابور. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «خلّي كل معرّف ياخد دورًا واحدًا».",
+            "القاعدة: تستقبل Queue فقط المعرف الذي نجحت إضافته إلى المجموعة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (seen.Add(id)) { line.Enqueue(id); } بعد زيادة attempts. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[] visitors = { 3, 8, 3, 0, 8 };\nHashSet<int> seen = new HashSet<int>();\nQueue<int> line = new Queue<int>();\nint attempts = 0;\nforeach (int id in visitors)\n{\n    attempts++;\n    if (seen.Add(id)) { line.Enqueue(id); }\n}\nwhile (line.Count > 0)\n{\n    Console.WriteLine(line.Dequeue());\n}\nConsole.WriteLine(seen.Count);\nConsole.WriteLine(attempts);"
           ]
         }

@@ -2355,6 +2355,31 @@
           }
         }
 
+        // Smart line-targeted & predictive analysis on learner's actual code
+        var coach = typeof SmartCodeCoach !== "undefined" ? SmartCodeCoach : (typeof window !== "undefined" ? window.SmartCodeCoach : null);
+        if (coach && rawCode.trim()) {
+          var coachEval = coach.evaluate({
+            language: (model && model.key) || "html",
+            userCode: rawCode,
+            beforeCode: rawBefore,
+            targetCode: rawAfter || step.to || "",
+            step: step,
+            model: model,
+            tier: tier
+          });
+          if (coachEval && coachEval.detected && coachEval.message) {
+            return {
+              valid: false,
+              passed: false,
+              message: coachEval.message,
+              hintText: coachEval.message,
+              tier: tier,
+              ruleMatched: coachEval.kind === "typo" || coachEval.kind === "syntax" || coachEval.kind === "delimiter" || coachEval.kind === "scope",
+              solutionRevealable: solutionRevealable
+            };
+          }
+        }
+
         // Custom step hints if defined
         if (step.hints && Array.isArray(step.hints) && step.hints.length >= 4) {
           var stepHintText = typeof step.hints[tier - 1] === "string" ? step.hints[tier - 1] : (step.hints[tier - 1] && step.hints[tier - 1].text ? step.hints[tier - 1].text : "");
@@ -2506,6 +2531,30 @@
         if (model && model.key === "js") {
           if ((/console\.log\(\s*["']وصلت هنا\s*["']\s*\)/.test(rawCode) || normLineFn2(rawCode).indexOf('console.log("وصلت هنا")') >= 0) && (typeof validateJsSource !== "function" || validateJsSource(rawCode))) {
             return { valid: true, passed: true, message: "", hintText: "", tier: tier, ruleMatched: false, solutionRevealable: false };
+          }
+        }
+
+        var coachRep = typeof SmartCodeCoach !== "undefined" ? SmartCodeCoach : (typeof window !== "undefined" ? window.SmartCodeCoach : null);
+        if (coachRep && rawCode.trim()) {
+          var repDiag = coachRep.evaluate({
+            language: (model && model.key) || "html",
+            userCode: rawCode,
+            beforeCode: (model && model.brokenCode) || "",
+            targetCode: rawFixed,
+            step: step,
+            model: model,
+            tier: tier
+          });
+          if (repDiag && repDiag.detected && repDiag.message) {
+            return {
+              valid: false,
+              passed: false,
+              message: repDiag.message,
+              hintText: repDiag.message,
+              tier: tier,
+              ruleMatched: repDiag.kind !== "diff",
+              solutionRevealable: solutionRevealable
+            };
           }
         }
 
@@ -4503,7 +4552,28 @@
       try { new Function(code); } catch(error) {
         isRunnable = false;
         if (typeof showPreviewError === "function") showPreviewError(error && error.message || error);
-        hint.textContent = "فيه خطأ صياغة يمنع التشغيل. راجع الأقواس وعلامات التنصيص ثم جرّب تاني.";
+        var jsCoach = typeof SmartCodeCoach !== "undefined" ? SmartCodeCoach : (typeof window !== "undefined" ? window.SmartCodeCoach : null);
+        var jsStepKey = (model ? model.id : "") + ":" + (step.id || step.type || "step");
+        var jsAttempts = 1;
+        if (typeof growth !== "undefined" && growth) {
+          growth.stepAttempts = growth.stepAttempts || {};
+          jsAttempts = (growth.stepAttempts[jsStepKey] || 0) + 1;
+          growth.stepAttempts[jsStepKey] = jsAttempts;
+          if (typeof saveGrowth === "function") saveGrowth();
+        }
+        var jsDiag = jsCoach ? jsCoach.evaluate({
+          language: "js",
+          userCode: code,
+          beforeCode: step.before || model.code || "",
+          targetCode: step.after || step.to || model.fixedCode || "",
+          step: step,
+          model: model,
+          tier: Math.min(4, jsAttempts),
+          runtimeError: error
+        }) : null;
+        hint.textContent = (jsDiag && jsDiag.detected && jsDiag.message)
+          ? jsDiag.message
+          : "توقف التنفيذ عند خطأ صياغة (" + String(error && error.message || "") + ") — راجع الأقواس وعلامات التنصيص ثم جرّب تاني.";
       }
     }
     if (!isRunnable) return;
@@ -7149,6 +7219,33 @@
     }, 180);
   }
 
+  var liveCoachTimer = null;
+  function scheduleLiveCoachHint(code) {
+    if (liveCoachTimer) clearTimeout(liveCoachTimer);
+    liveCoachTimer = setTimeout(function() {
+      var coach = typeof SmartCodeCoach !== "undefined" ? SmartCodeCoach : (typeof window !== "undefined" ? window.SmartCodeCoach : null);
+      if (!coach || typeof growthLessonModel !== "function" || typeof growthLessonSteps !== "function") return;
+      var model = growthLessonModel();
+      if (!model || (typeof growthLessonDone === "function" && growthLessonDone(model.id))) return;
+      var steps = growthLessonSteps(model),
+          state = growthLessonFlowState(model, steps),
+          step = steps[state.current];
+      if (!step || (step.type !== "edit" && step.type !== "repair" && !step.build)) return;
+      var target = step.type === "repair" ? (model.fixedCode || "") : (step.after || (step.build && step.build.line) || step.to || "");
+      var before = step.type === "repair" ? (model.brokenCode || "") : (step.before || "");
+      var pred = coach.livePredict({
+        language: model.key || "html",
+        userCode: code,
+        beforeCode: before,
+        targetCode: target
+      });
+      var hintEl = document.getElementById("hint");
+      if (pred && pred.text && hintEl) {
+        hintEl.textContent = "🔮 " + pred.text;
+      }
+    }, 320);
+  }
+
   document.getElementById("code").oninput = function() {
     if (typeof tinkerMode !== "undefined" && tinkerMode) {
       tinkerDraft = this.value;
@@ -7163,6 +7260,7 @@
     clearPreviewStatus();
     if (typeof updateHandCraftScore === "function") updateHandCraftScore(course, true);
     scheduleLivePreview(this.value);
+    scheduleLiveCoachHint(this.value);
     scheduleSaveGrowth();
   };
   document.getElementById("code").onblur = function() {

@@ -6,23 +6,44 @@ function challenge(config, solution) {
   if (config.types) result.types = {...result.types, ...config.types};
   return result;
 }
+const {
+  getUnitCue,
+  enhanceConcept,
+  enhanceWhy,
+  enhanceMechanics,
+  buildStepBenefit,
+  buildStepHints
+} = require('./curiosity-copy.cjs');
+
 function makeLesson(c, index, previousId, unitId) {
   const id = "csharp-" + String(index + 1).padStart(2, "0") + "-" + c.slug;
-  const hints = (attention, rule, help, solution) => [attention, "القاعدة: " + rule + " هل حددت الجزء الذي تحتاج تغييره؟", help, "كشف الحل:\n" + solution];
+  const unitCue = getUnitCue(unitId);
+  const conceptText = enhanceConcept(c, unitId);
+  const whyText = enhanceWhy(c, unitId);
+  const mechanicsText = enhanceMechanics(c, unitId);
+  const hints = (stepId, attention, rule, help, solution) => buildStepHints({
+    stepId,
+    attention,
+    rule,
+    help,
+    solution,
+    lessonTitle: c.title,
+    bugBroken: c.bug && c.bug.broken
+  });
   const practical = (stepId, type, title, config, solution, starterCode) => ({
     id: stepId, type, title, objective: config.task, instruction: config.task,
-    benefit: stepId === "transfer" ? "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك." : "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+    benefit: buildStepBenefit(stepId, c.title),
     starterCode, solution, challenge: challenge(config, solution), errorRules: [],
-    hints: hints(config.attention || c.build.attention, c.build.rule, config.help || c.build.help, solution),
+    hints: hints(stepId, config.attention || c.build.attention, c.build.rule, config.help || c.build.help, solution),
     ...(config.stdin !== undefined && { stdin: config.starterStdin ?? config.stdin })
   });
   const steps = [
-    { id: "idea", type: "observe", title: "المشهد قبل الكود", objective: c.scene, instruction: "يا كمبيوتر، " + c.scene, benefit: c.why, errorRules: [], hints: hints(c.build.attention, c.build.rule, c.build.help, c.code) },
-    { id: "trace", type: "observe", title: "شاهد أمرًا واحدًا كل مرة", objective: "تتبع أثر كل أمر في القيم والمخرجات.", instruction: "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.", explanation: c.concept, code: c.code, benefit: c.mechanics, errorRules: [], hints: hints(c.build.attention, c.build.rule, c.build.help, c.code) },
+    { id: "idea", type: "observe", title: "المشهد قبل الكود", objective: c.scene, instruction: "يا كمبيوتر، " + c.scene, benefit: whyText, errorRules: [], hints: hints("idea", c.build.attention, c.build.rule, c.build.help, c.code) },
+    { id: "trace", type: "observe", title: "شاهد أمرًا واحدًا كل مرة", objective: "تتبع أثر كل أمر في القيم والمخرجات داخل «" + c.title + "».", instruction: "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. " + unitCue.question, explanation: conceptText, code: c.code, benefit: mechanicsText, errorRules: [], hints: hints("trace", c.build.attention, c.build.rule, c.build.help, c.code) },
     practical("build", "build", "ابنِ المثال بيدك", c.build, c.code, c.build.starterCode ?? ""),
     practical("edit", "edit", "غيّر شيئًا واحدًا", c.edit, c.edit.solution, null),
     practical("experiment", "experiment", "تجربتك أنت", c.experiment, c.experiment.solution, null),
-    { id: "diagnose", type: "quiz", title: "اكتشف سبب الخطأ", objective: c.bug.question, instruction: "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.", question: c.bug.question, options: c.bug.options, correctOptionIndex: c.bug.correct, code: c.bug.broken, explanation: "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.", benefit: c.bug.explanation, errorRules: [], hints: hints(c.build.attention, c.build.rule, "قارن الناتج المطلوب بسطر الكود المرتبط به.", c.bug.fixed) },
+    { id: "diagnose", type: "quiz", title: "اكتشف سبب الخطأ", objective: c.bug.question, instruction: "يا كمبيوتر، اعرض المثال المرتبط بـ «" + c.title + "» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.", question: c.bug.question, options: c.bug.options, correctOptionIndex: c.bug.correct, code: c.bug.broken, explanation: c.bug.explanation, benefit: c.bug.explanation, errorRules: [], hints: hints("diagnose", c.build.attention, c.build.rule, "قارن الناتج المتوقع بسطر الكود المسؤول عنه.", c.bug.fixed) },
     practical("repair", "repair", "أصلح وشاهد الفرق", { ...c.bug, task: "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. " + c.bug.explanation }, c.bug.fixed, c.bug.broken),
     practical("transfer", "build", "طبّق واحفظ لبنتك", c.transfer, c.transfer.solution, c.transfer.starterCode ?? "")
   ];
@@ -31,7 +52,7 @@ function makeLesson(c, index, previousId, unitId) {
   if (c.bug.stdin !== undefined) steps[5].stdin = c.bug.starterStdin ?? c.bug.stdin;
   return {
     id, legacyId: "csharp:" + index, title: c.title, skill: c.skill || "أول برنامج وقيمه", order: index, unitId,
-    revision: 1, concept: c.concept, whyUse: c.why, browserMechanics: c.mechanics, documentationUrl: c.reference,
+    revision: 1, concept: conceptText, whyUse: whyText, browserMechanics: mechanicsText, documentationUrl: c.reference,
     sourcesReviewedAt: c.sourcesReviewedAt || "2026-11-17", code: c.code, breakdown: c.breakdown, steps,
     bugRepair: { brokenCode: c.bug.broken, fixedCode: c.bug.fixed, question: c.bug.question, explanation: c.bug.explanation, options: c.bug.options, correctOptionIndex: c.bug.correct },
     prerequisites: previousId ? [previousId] : [],

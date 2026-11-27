@@ -14,9 +14,9 @@
       "order": 102,
       "unitId": "sorting-and-cost",
       "revision": 1,
-      "concept": "Bubble Sort تقارن الجيران وتبدّل المقلوبين. كل مرور يوصل أكبر عنصر في الجزء الحالي إلى آخره، فتقصر المسافة في المرور التالي.",
-      "whyUse": "تشوف أثر ترتيب القيم من تبديل بسيط متكرر.",
-      "browserMechanics": "تابع i ثم i + 1، وراقب saved لحفظ القيمة قبل الكتابة، ثم عدّ المقارنات والتبديلات.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Bubble Sort تقارن الجيران وتبدّل المقلوبين. كل مرور يوصل أكبر عنصر في الجزء الحالي إلى آخره، فتقصر المسافة في المرور التالي.",
+      "whyUse": "تشوف أثر ترتيب القيم من تبديل بسيط متكرر. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تابع i ثم i + 1، وراقب saved لحفظ القيمة قبل الكتابة، ثم عدّ المقارنات والتبديلات. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
@@ -32,12 +32,12 @@
           "title": "المشهد قبل الكود",
           "objective": "في رف فيه 5 و2 و4، فحص كل كارت مع جاره على اليمين. لو الأكبر على الشمال، بدّلهما. بعد مرور واحد، 5 وصلت لآخر الرف.",
           "instruction": "يا كمبيوتر، في رف فيه 5 و2 و4، فحص كل كارت مع جاره على اليمين. لو الأكبر على الشمال، بدّلهما. بعد مرور واحد، 5 وصلت لآخر الرف.",
-          "benefit": "تشوف أثر ترتيب القيم من تبديل بسيط متكرر.",
+          "benefit": "تشوف أثر ترتيب القيم من تبديل بسيط متكرر. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -45,16 +45,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Bubble Sort تقارن الجيران وتبدّل المقلوبين. كل مرور يوصل أكبر عنصر في الجزء الحالي إلى آخره، فتقصر المسافة في المرور التالي.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «بدّل كل جارَين بترتيب معكوس».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Bubble Sort تقارن الجيران وتبدّل المقلوبين. كل مرور يوصل أكبر عنصر في الجزء الحالي إلى آخره، فتقصر المسافة في المرور التالي.",
           "code": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
-          "benefit": "تابع i ثم i + 1، وراقب saved لحفظ القيمة قبل الكتابة، ثم عدّ المقارنات والتبديلات.",
+          "benefit": "تابع i ثم i + 1، وراقب saved لحفظ القيمة قبل الكتابة، ثم عدّ المقارنات والتبديلات. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -64,7 +64,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل كتابة القيمة المحفوظة في مكان الجار. اطبع 2 و4 و5 ثم ثلاث مقارنات وتبديلين.",
           "instruction": "يا كمبيوتر، أكمل كتابة القيمة المحفوظة في مكان الجار. اطبع 2 و4 و5 ثم ثلاث مقارنات وتبديلين.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «بدّل كل جارَين بترتيب معكوس» بمخرجات قابلة للقياس.",
           "starterCode": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            // اكتب الأمر هنا\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "solution": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -136,9 +136,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -148,7 +148,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابدأ بترتيب 2 و4 و5. هل احتجت تبديلًا؟ افحص عدد المقارنات.",
           "instruction": "يا كمبيوتر، ابدأ بترتيب 2 و4 و5. هل احتجت تبديلًا؟ افحص عدد المقارنات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] items = { 2, 4, 5 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -220,9 +220,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 4, 5 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -232,7 +232,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، اعكس البداية إلى 5 و4 و2. راقب التبديل في كل مقارنة.",
           "instruction": "يا كمبيوتر، اعكس البداية إلى 5 و4 و2. راقب التبديل في كل مقارنة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] items = { 5, 4, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -305,9 +305,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 4, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -316,7 +316,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "القيم تكررت واختفت 5. بعد الكتابة الأولى، أين توجد قيمة الخانة القديمة؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «بدّل كل جارَين بترتيب معكوس» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "القيم تكررت واختفت 5. بعد الكتابة الأولى، أين توجد قيمة الخانة القديمة؟",
           "options": [
             "saved",
@@ -325,13 +325,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = items[i];\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اقرأ القيمة من saved عند ملء الجار.",
           "benefit": "اقرأ القيمة من saved عند ملء الجار.",
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -341,7 +341,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ القيمة من saved عند ملء الجار.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اقرأ القيمة من saved عند ملء الجار.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = items[i];\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "solution": "int[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -413,9 +413,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "قارن ما تتوقع حدوثه في «بدّل كل جارَين بترتيب معكوس» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 2, 4 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -425,7 +425,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، رتب 7 و1 و6 و2. اكتب الجزء الخاص بالتبديل، ثم اعرض الترتيب والمقارنات والتبديلات.",
           "instruction": "يا كمبيوتر، رتب 7 و1 و6 و2. اكتب الجزء الخاص بالتبديل، ثم اعرض الترتيب والمقارنات والتبديلات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «بدّل كل جارَين بترتيب معكوس» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] items = { 7, 1, 6, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            // اكتب الأمر هنا\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "solution": "int[] items = { 7, 1, 6, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -497,9 +497,9 @@
           },
           "errorRules": [],
           "hints": [
-            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved.",
-            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i].",
+            "بعد الكتابة الأولى، القيمة القديمة تنتظر في saved. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «بدّل كل جارَين بترتيب معكوس».",
+            "القاعدة: التبديل يحتاج حفظ قيمة قبل استبدال خانتها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أكمل items[i + 1] = saved; بعد نقل الجار إلى items[i]. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 7, 1, 6, 2 };\nint comparisons = 0;\nint swaps = 0;\nfor (int end = items.Length - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++)\n    {\n        comparisons++;\n        if (items[i] > items[i + 1])\n        {\n            int saved = items[i];\n            items[i] = items[i + 1];\n            items[i + 1] = saved;\n            swaps++;\n        }\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         }
@@ -556,9 +556,9 @@
       "order": 103,
       "unitId": "sorting-and-cost",
       "revision": 1,
-      "concept": "Selection Sort تبحث عن فهرس أصغر عنصر متبقٍ أولًا. بعد انتهاء البحث تثبّت هذا العنصر في مكان i بتبديل واحد عند الحاجة.",
-      "whyUse": "تميز قراءة مكان الأصغر عن نقل العنصر لمكانه.",
-      "browserMechanics": "راقب best تتحرك أثناء الفحص. تحصل الكتابة في الخانتين بعد انتهاء الحلقة الداخلية.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Selection Sort تبحث عن فهرس أصغر عنصر متبقٍ أولًا. بعد انتهاء البحث تثبّت هذا العنصر في مكان i بتبديل واحد عند الحاجة.",
+      "whyUse": "تميز قراءة مكان الأصغر عن نقل العنصر لمكانه. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب best تتحرك أثناء الفحص. تحصل الكتابة في الخانتين بعد انتهاء الحلقة الداخلية. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
@@ -574,12 +574,12 @@
           "title": "المشهد قبل الكود",
           "objective": "قدامك 5 و3 و8 و1. ابحث عن أصغر بطاقة في الجزء الباقي. بعد ما تخلص الفحص، ضعها في أول مكان في هذا الجزء.",
           "instruction": "يا كمبيوتر، قدامك 5 و3 و8 و1. ابحث عن أصغر بطاقة في الجزء الباقي. بعد ما تخلص الفحص، ضعها في أول مكان في هذا الجزء.",
-          "benefit": "تميز قراءة مكان الأصغر عن نقل العنصر لمكانه.",
+          "benefit": "تميز قراءة مكان الأصغر عن نقل العنصر لمكانه. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -587,16 +587,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Selection Sort تبحث عن فهرس أصغر عنصر متبقٍ أولًا. بعد انتهاء البحث تثبّت هذا العنصر في مكان i بتبديل واحد عند الحاجة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Selection Sort تبحث عن فهرس أصغر عنصر متبقٍ أولًا. بعد انتهاء البحث تثبّت هذا العنصر في مكان i بتبديل واحد عند الحاجة.",
           "code": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
-          "benefit": "راقب best تتحرك أثناء الفحص. تحصل الكتابة في الخانتين بعد انتهاء الحلقة الداخلية.",
+          "benefit": "راقب best تتحرك أثناء الفحص. تحصل الكتابة في الخانتين بعد انتهاء الحلقة الداخلية. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -606,7 +606,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، كمّل تحديث فهرس الأصغر. اطبع 1 و3 و5 و8، ثم ست مقارنات وتبديلين.",
           "instruction": "يا كمبيوتر، كمّل تحديث فهرس الأصغر. اطبع 1 و3 و5 و8، ثم ست مقارنات وتبديلين.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اختَر أصغر خانة من الجزء المتبقّي» بمخرجات قابلة للقياس.",
           "starterCode": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { /* اكتب التحديث هنا */ }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "solution": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -677,9 +677,9 @@
           },
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -689,7 +689,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، جرّب القيم مرتبة. راقب بقاء best عند i في كل مرة.",
           "instruction": "يا كمبيوتر، جرّب القيم مرتبة. راقب بقاء best عند i في كل مرة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] items = { 1, 3, 5, 8 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -760,9 +760,9 @@
           },
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 1, 3, 5, 8 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -772,7 +772,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب رقمين متساويين مع أصغر رقم في الآخر. تابع عدد التبديلات.",
           "instruction": "يا كمبيوتر، جرّب رقمين متساويين مع أصغر رقم في الآخر. تابع عدد التبديلات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] items = { 3, 3, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -844,9 +844,9 @@
           },
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 3, 3, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -855,7 +855,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "تابع الفحص الرقم 1 ولم يحرّك best. أي أمر يحفظ مكان الرقم الجديد؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اختَر أصغر خانة من الجزء المتبقّي» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "تابع الفحص الرقم 1 ولم يحرّك best. أي أمر يحفظ مكان الرقم الجديد؟",
           "options": [
             "best = i;",
@@ -864,13 +864,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = i; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "احفظ الفهرس j عشان تستخدمه وقت التبديل.",
           "benefit": "احفظ الفهرس j عشان تستخدمه وقت التبديل.",
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -880,7 +880,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ الفهرس j عشان تستخدمه وقت التبديل.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ الفهرس j عشان تستخدمه وقت التبديل.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = i; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "solution": "int[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -951,9 +951,9 @@
           },
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "قارن ما تتوقع حدوثه في «اختَر أصغر خانة من الجزء المتبقّي» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 3, 8, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         },
@@ -963,7 +963,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، رتب 9 و2 و5 و1 بالاختيار. راقب المواضع التي تحتاج تبديلًا واحسب الإجمالي.",
           "instruction": "يا كمبيوتر، رتب 9 و2 و5 و1 بالاختيار. راقب المواضع التي تحتاج تبديلًا واحسب الإجمالي.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اختَر أصغر خانة من الجزء المتبقّي» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] items = { 9, 2, 5, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);",
           "challenge": {
@@ -1034,9 +1034,9 @@
           },
           "errorRules": [],
           "hints": [
-            "خزّن رقم الخانة j عند إيجاد قيمة أصغر.",
-            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت الجزء الذي تحتاج تغييره؟",
-            "ضع best = j; داخل if (items[j] < items[best]).",
+            "خزّن رقم الخانة j عند إيجاد قيمة أصغر. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «اختَر أصغر خانة من الجزء المتبقّي».",
+            "القاعدة: الفحص الداخلي يجمع مكان الأصغر ثم يأتي التبديل بعده. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "ضع best = j; داخل if (items[j] < items[best]). (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 9, 2, 5, 1 };\nint comparisons = 0;\nint swaps = 0;\nfor (int i = 0; i < items.Length - 1; i++)\n{\n    int best = i;\n    for (int j = i + 1; j < items.Length; j++)\n    {\n        comparisons++;\n        if (items[j] < items[best]) { best = j; }\n    }\n    if (best != i)\n    {\n        int saved = items[i];\n        items[i] = items[best];\n        items[best] = saved;\n        swaps++;\n    }\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\nConsole.WriteLine(swaps);"
           ]
         }
@@ -1093,9 +1093,9 @@
       "order": 104,
       "unitId": "sorting-and-cost",
       "revision": 1,
-      "concept": "Insertion Sort تمسك العنصر الجديد في picked. تزحزح للقادم أكبر من picked لليمين، ثم تضع picked في الفراغ عند j + 1.",
-      "whyUse": "تقدر تكمّل ترتيب جزء جاهز بإضافة بطاقة واحدة كل مرة.",
-      "browserMechanics": "تابع قيمة j خطوة خطوة وراقب الأرقام الأكبر تتحرك حتى يثبت مكان picked.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Insertion Sort تمسك العنصر الجديد في picked. تزحزح للقادم أكبر من picked لليمين، ثم تضع picked في الفراغ عند j + 1.",
+      "whyUse": "تقدر تكمّل ترتيب جزء جاهز بإضافة بطاقة واحدة كل مرة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تابع قيمة j خطوة خطوة وراقب الأرقام الأكبر تتحرك حتى يثبت مكان picked. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
@@ -1111,12 +1111,12 @@
           "title": "المشهد قبل الكود",
           "objective": "أمامك ترتيب 2 ثم 5. تدخل بطاقة 3. حرّك 5 خانة لليمين، ثم ضع 3 في الفراغ قبلها.",
           "instruction": "يا كمبيوتر، أمامك ترتيب 2 ثم 5. تدخل بطاقة 3. حرّك 5 خانة لليمين، ثم ضع 3 في الفراغ قبلها.",
-          "benefit": "تقدر تكمّل ترتيب جزء جاهز بإضافة بطاقة واحدة كل مرة.",
+          "benefit": "تقدر تكمّل ترتيب جزء جاهز بإضافة بطاقة واحدة كل مرة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1124,16 +1124,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Insertion Sort تمسك العنصر الجديد في picked. تزحزح للقادم أكبر من picked لليمين، ثم تضع picked في الفراغ عند j + 1.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Insertion Sort تمسك العنصر الجديد في picked. تزحزح للقادم أكبر من picked لليمين، ثم تضع picked في الفراغ عند j + 1.",
           "code": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
-          "benefit": "تابع قيمة j خطوة خطوة وراقب الأرقام الأكبر تتحرك حتى يثبت مكان picked.",
+          "benefit": "تابع قيمة j خطوة خطوة وراقب الأرقام الأكبر تتحرك حتى يثبت مكان picked. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1143,7 +1143,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل سطر وضع picked بعد انتهاء النقل. اطبع 2 و3 و5 و7 ثم عدد النقلات 1.",
           "instruction": "يا كمبيوتر، أكمل سطر وضع picked بعد انتهاء النقل. اطبع 2 و3 و5 و7 ثم عدد النقلات 1.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «افتح مكانًا للبطاقة في الجزء المرتّب» بمخرجات قابلة للقياس.",
           "starterCode": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    // اكتب الأمر هنا\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "solution": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -1213,9 +1213,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1225,7 +1225,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، جرّب ترتيبًا تنازليًا. تابع اكتمال حركة picked حتى بداية المصفوفة.",
           "instruction": "يا كمبيوتر، جرّب ترتيبًا تنازليًا. تابع اكتمال حركة picked حتى بداية المصفوفة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] items = { 5, 4, 3, 2 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -1295,9 +1295,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 5, 4, 3, 2 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1307,7 +1307,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابدأ بترتيب جاهز مع تكرار 3. ما عدد النقلات؟",
           "instruction": "يا كمبيوتر، ابدأ بترتيب جاهز مع تكرار 3. ما عدد النقلات؟",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] items = { 1, 3, 3, 6 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -1378,9 +1378,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 1, 3, 3, 6 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1389,7 +1389,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "كتب البرنامج في الجار الذي سبَق الفراغ. أي فهرس يستخدمه سطر إدراج picked؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «افتح مكانًا للبطاقة في الجزء المرتّب» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "كتب البرنامج في الجار الذي سبَق الفراغ. أي فهرس يستخدمه سطر إدراج picked؟",
           "options": [
             "i",
@@ -1398,13 +1398,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اكتب عند j + 1 بعد انتهاء الفحص.",
           "benefit": "اكتب عند j + 1 بعد انتهاء الفحص.",
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1414,7 +1414,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب عند j + 1 بعد انتهاء الفحص.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب عند j + 1 بعد انتهاء الفحص.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "solution": "int[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -1484,9 +1484,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "قارن ما تتوقع حدوثه في «افتح مكانًا للبطاقة في الجزء المرتّب» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 5, 3, 7 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         },
@@ -1496,7 +1496,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، رتب 9 و2 و2 و3 بالإدراج. اطبع الترتيب ثم عدد نقلات العناصر الأكبر.",
           "instruction": "يا كمبيوتر، رتب 9 و2 و2 و3 بالإدراج. اطبع الترتيب ثم عدد نقلات العناصر الأكبر.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «افتح مكانًا للبطاقة في الجزء المرتّب» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] items = { 9, 2, 2, 3 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);",
           "challenge": {
@@ -1566,9 +1566,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1.",
-            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب items[j + 1] = picked; بعد while.",
+            "عند التوقف يشير j إلى خانة قبل الفراغ، وقد يساوي -1. راقب عدد الأسطر (16 أسطر) وتسلسل العمليات داخل «افتح مكانًا للبطاقة في الجزء المرتّب».",
+            "القاعدة: الفهرس الذي يقبل picked هو j + 1. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب items[j + 1] = picked; بعد while. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 9, 2, 2, 3 };\nint shifts = 0;\nfor (int i = 1; i < items.Length; i++)\n{\n    int picked = items[i];\n    int j = i - 1;\n    while (j >= 0 && items[j] > picked)\n    {\n        items[j + 1] = items[j];\n        j--;\n        shifts++;\n    }\n    items[j + 1] = picked;\n}\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(shifts);"
           ]
         }
@@ -1625,9 +1625,9 @@
       "order": 105,
       "unitId": "sorting-and-cost",
       "revision": 1,
-      "concept": "الدمج يأخذ أصغر المتاح من المقدمتين. يتحرك مؤشر المصدر الذي أخذنا منه فقط، وإذا انتهى صف نكمّل بالقيم الباقية في الصف الآخر.",
-      "whyUse": "تجمع جزأين مرتبين مع الحفاظ على الترتيب دون إعادة فحص العناصر التي كتبتها.",
-      "browserMechanics": "راقب l وr مع كل كتابة في merged. يتغير مؤشر واحد، ثم يتقدم فهرس الناتج.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الدمج يأخذ أصغر المتاح من المقدمتين. يتحرك مؤشر المصدر الذي أخذنا منه فقط، وإذا انتهى صف نكمّل بالقيم الباقية في الصف الآخر.",
+      "whyUse": "تجمع جزأين مرتبين مع الحفاظ على الترتيب دون إعادة فحص العناصر التي كتبتها. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب l وr مع كل كتابة في merged. يتغير مؤشر واحد، ثم يتقدم فهرس الناتج. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
@@ -1643,12 +1643,12 @@
           "title": "المشهد قبل الكود",
           "objective": "على اليسار 2 و6 بالترتيب، وعلى اليمين 1 و7. قارن أول كارت في الصفّين، ضعه في الناتج، وحرّك مقدمة صفه.",
           "instruction": "يا كمبيوتر، على اليسار 2 و6 بالترتيب، وعلى اليمين 1 و7. قارن أول كارت في الصفّين، ضعه في الناتج، وحرّك مقدمة صفه.",
-          "benefit": "تجمع جزأين مرتبين مع الحفاظ على الترتيب دون إعادة فحص العناصر التي كتبتها.",
+          "benefit": "تجمع جزأين مرتبين مع الحفاظ على الترتيب دون إعادة فحص العناصر التي كتبتها. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -1656,16 +1656,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "الدمج يأخذ أصغر المتاح من المقدمتين. يتحرك مؤشر المصدر الذي أخذنا منه فقط، وإذا انتهى صف نكمّل بالقيم الباقية في الصف الآخر.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «ادمج صفّين مرتّبين من المقدمة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الدمج يأخذ أصغر المتاح من المقدمتين. يتحرك مؤشر المصدر الذي أخذنا منه فقط، وإذا انتهى صف نكمّل بالقيم الباقية في الصف الآخر.",
           "code": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
-          "benefit": "راقب l وr مع كل كتابة في merged. يتغير مؤشر واحد، ثم يتقدم فهرس الناتج.",
+          "benefit": "راقب l وr مع كل كتابة في merged. يتغير مؤشر واحد، ثم يتقدم فهرس الناتج. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -1675,7 +1675,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل اختيار قيمة اليمين في حالة else. اطبع الترتيب المدمج 1 و2 و6 و7 ثم أربع كتابات.",
           "instruction": "يا كمبيوتر، أكمل اختيار قيمة اليمين في حالة else. اطبع الترتيب المدمج 1 و2 و6 و7 ثم أربع كتابات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «ادمج صفّين مرتّبين من المقدمة» بمخرجات قابلة للقياس.",
           "starterCode": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        // اكتب الأمر هنا\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "solution": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "challenge": {
@@ -1749,9 +1749,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -1761,7 +1761,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، غيّر مقدمة اليمين إلى 2. عند التعادل اختر اليسار ثم تابع باقي القيم.",
           "instruction": "يا كمبيوتر، غيّر مقدمة اليمين إلى 2. عند التعادل اختر اليسار ثم تابع باقي القيم.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] left = { 2, 6 };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "challenge": {
@@ -1835,9 +1835,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -1847,7 +1847,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب صفًا يساريًا فارغًا. راقب كيف يحمي الشرط قراءة l بعد نهاية الصف.",
           "instruction": "يا كمبيوتر، جرّب صفًا يساريًا فارغًا. راقب كيف يحمي الشرط قراءة l بعد نهاية الصف.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] left = {  };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "challenge": {
@@ -1922,9 +1922,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = {  };\nint[] right = { 2, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -1933,7 +1933,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "بدأ الناتج بالبطاقة 2 قبل 1. كيف نختار اليسار عند توفر الصفّين؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «ادمج صفّين مرتّبين من المقدمة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "بدأ الناتج بالبطاقة 2 قبل 1. كيف نختار اليسار عند توفر الصفّين؟",
           "options": [
             "left[l] <= right[r]",
@@ -1942,13 +1942,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] >= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اختر اليسار لما تكون قيمته أصغر أو مساوية.",
           "benefit": "اختر اليسار لما تكون قيمته أصغر أو مساوية.",
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -1958,7 +1958,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختر اليسار لما تكون قيمته أصغر أو مساوية.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اختر اليسار لما تكون قيمته أصغر أو مساوية.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] >= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "solution": "int[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "challenge": {
@@ -2032,9 +2032,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "قارن ما تتوقع حدوثه في «ادمج صفّين مرتّبين من المقدمة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 2, 6 };\nint[] right = { 1, 7 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         },
@@ -2044,7 +2044,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، ادمج 1 و5 و7 مع 2 و2 و9. اعرض الترتيب ست عمليات كتابة.",
           "instruction": "يا كمبيوتر، ادمج 1 و5 و7 مع 2 و2 و9. اعرض الترتيب ست عمليات كتابة.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «ادمج صفّين مرتّبين من المقدمة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[] left = { 1, 5, 7 };\nint[] right = { 2, 2, 9 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);",
           "challenge": {
@@ -2118,9 +2118,9 @@
           },
           "errorRules": [],
           "hints": [
-            "في كل دورة حرّك المؤشر الذي قرأت منه فقط.",
-            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت الجزء الذي تحتاج تغييره؟",
-            "في else اكتب merged[i] = right[r]; ثم زد r.",
+            "في كل دورة حرّك المؤشر الذي قرأت منه فقط. راقب عدد الأسطر (22 أسطر) وتسلسل العمليات داخل «ادمج صفّين مرتّبين من المقدمة».",
+            "القاعدة: اختيار الأصغر من المقدمتين يحافظ على ترتيب الناتج. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "في else اكتب merged[i] = right[r]; ثم زد r. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] left = { 1, 5, 7 };\nint[] right = { 2, 2, 9 };\nint[] merged = new int[left.Length + right.Length];\nint l = 0;\nint r = 0;\nint writes = 0;\nfor (int i = 0; i < merged.Length; i++)\n{\n    if (r == right.Length || (l < left.Length && left[l] <= right[r]))\n    {\n        merged[i] = left[l];\n        l++;\n    }\n    else\n    {\n        merged[i] = right[r];\n        r++;\n    }\n    writes++;\n}\nforeach (int item in merged) { Console.WriteLine(item); }\nConsole.WriteLine(writes);"
           ]
         }
@@ -2177,9 +2177,9 @@
       "order": 106,
       "unitId": "sorting-and-cost",
       "revision": 1,
-      "concept": "Merge Sort تستدعي نفس الدالة على جزأين أصغر، حتى يبقى في الجزء عنصر واحد أو أقل. بعد رجوع النصفين تطبق Merge على الجزأين المرتبين.",
-      "whyUse": "تعيد استخدام قاعدة الدمج لمشكلة ترتيب مصفوفة كاملة.",
-      "browserMechanics": "كل استدعاء يعرض start وend. شوف Merge بعد اكتمال النصفين، ثم النسخ من workspace.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Merge Sort تستدعي نفس الدالة على جزأين أصغر، حتى يبقى في الجزء عنصر واحد أو أقل. بعد رجوع النصفين تطبق Merge على الجزأين المرتبين.",
+      "whyUse": "تعيد استخدام قاعدة الدمج لمشكلة ترتيب مصفوفة كاملة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "كل استدعاء يعرض start وend. شوف Merge بعد اكتمال النصفين، ثم النسخ من workspace. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
@@ -2195,12 +2195,12 @@
           "title": "المشهد قبل الكود",
           "objective": "قسّم 7 و2 و4 و1 إلى مجموعتين صغيرتين. كل مجموعة تترتب لوحدها أولًا. بعدها ادمجهما في صف واحد.",
           "instruction": "يا كمبيوتر، قسّم 7 و2 و4 و1 إلى مجموعتين صغيرتين. كل مجموعة تترتب لوحدها أولًا. بعدها ادمجهما في صف واحد.",
-          "benefit": "تعيد استخدام قاعدة الدمج لمشكلة ترتيب مصفوفة كاملة.",
+          "benefit": "تعيد استخدام قاعدة الدمج لمشكلة ترتيب مصفوفة كاملة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2208,16 +2208,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "Merge Sort تستدعي نفس الدالة على جزأين أصغر، حتى يبقى في الجزء عنصر واحد أو أقل. بعد رجوع النصفين تطبق Merge على الجزأين المرتبين.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «رتّب النصفين ثم ادمجهما».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ Merge Sort تستدعي نفس الدالة على جزأين أصغر، حتى يبقى في الجزء عنصر واحد أو أقل. بعد رجوع النصفين تطبق Merge على الجزأين المرتبين.",
           "code": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
-          "benefit": "كل استدعاء يعرض start وend. شوف Merge بعد اكتمال النصفين، ثم النسخ من workspace.",
+          "benefit": "كل استدعاء يعرض start وend. شوف Merge بعد اكتمال النصفين، ثم النسخ من workspace. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2227,7 +2227,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، كمّل استدعاء ترتيب النصف الأول داخل Sort. اطبع 1 و2 و4 و7 ثم المقارنات 5.",
           "instruction": "يا كمبيوتر، كمّل استدعاء ترتيب النصف الأول داخل Sort. اطبع 1 و2 و4 و7 ثم المقارنات 5.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «رتّب النصفين ثم ادمجهما» بمخرجات قابلة للقياس.",
           "starterCode": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    // اكتب الأمر هنا\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "solution": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "challenge": {
@@ -2294,9 +2294,9 @@
           },
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2306,7 +2306,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، جرّب ترتيبًا جاهزًا. قارن عدد المقارنات بحالة البداية.",
           "instruction": "يا كمبيوتر، جرّب ترتيبًا جاهزًا. قارن عدد المقارنات بحالة البداية.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[] items = { 1, 2, 3, 4 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "challenge": {
@@ -2373,9 +2373,9 @@
           },
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 1, 2, 3, 4 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2385,7 +2385,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب أصغر مدخل يحتاج دمجًا. شاهد دورتين تستوفيان حالة التوقف ثم دمجًا واحدًا.",
           "instruction": "يا كمبيوتر، جرّب أصغر مدخل يحتاج دمجًا. شاهد دورتين تستوفيان حالة التوقف ثم دمجًا واحدًا.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[] items = { 2, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "challenge": {
@@ -2453,9 +2453,9 @@
           },
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 2, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2464,7 +2464,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "دخل النصف الأول إلى Merge وهو 7 ثم 2. ما الاستدعاء الذي يرتبه قبل الدمج؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «رتّب النصفين ثم ادمجهما» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "دخل النصف الأول إلى Merge وهو 7 ثم 2. ما الاستدعاء الذي يرتبه قبل الدمج؟",
           "options": [
             "Sort(values, workspace, middle, end)",
@@ -2473,13 +2473,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = 0;\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
           "benefit": "استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2489,7 +2489,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استدعِ Sort على الجزء الأول فقط من start حتى قبل middle.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = 0;\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "solution": "int[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "challenge": {
@@ -2556,9 +2556,9 @@
           },
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "قارن ما تتوقع حدوثه في «رتّب النصفين ثم ادمجهما» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 7, 2, 4, 1 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         },
@@ -2568,7 +2568,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، طبّق التقسيم والدمج على 3 و0 و3 و2 واطبع الناتج وعدد المقارنات.",
           "instruction": "يا كمبيوتر، طبّق التقسيم والدمج على 3 و0 و3 و2 واطبع الناتج وعدد المقارنات.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «رتّب النصفين ثم ادمجهما» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "int[] items = { 3, 0, 3, 2 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    // اكتب الأمر هنا\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "solution": "int[] items = { 3, 0, 3, 2 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}",
           "challenge": {
@@ -2635,9 +2635,9 @@
           },
           "errorRules": [],
           "hints": [
-            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء.",
-            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int leftCost = Sort(values, workspace, start, middle);.",
+            "end يمثل الحد الذي يأتي بعد آخر خانة في الجزء. راقب عدد الأسطر (32 أسطر) وتسلسل العمليات داخل «رتّب النصفين ثم ادمجهما».",
+            "القاعدة: يبدأ الدمج بعد اكتمال ترتيب كلا النصفين. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int leftCost = Sort(values, workspace, start, middle);. (ابدأ بملاحظة البنية حول `int[]`).",
             "كشف الحل:\nint[] items = { 3, 0, 3, 2 };\nint[] buffer = new int[items.Length];\nint comparisons = Sort(items, buffer, 0, items.Length);\nforeach (int item in items) { Console.WriteLine(item); }\nConsole.WriteLine(comparisons);\n\nint Sort(int[] values, int[] workspace, int start, int end)\n{\n    if (end - start <= 1) { return 0; }\n    int middle = start + (end - start) / 2;\n    int leftCost = Sort(values, workspace, start, middle);\n    int rightCost = Sort(values, workspace, middle, end);\n    return leftCost + rightCost + Merge(values, workspace, start, middle, end);\n}\n\nint Merge(int[] values, int[] workspace, int start, int middle, int end)\n{\n    int l = start;\n    int r = middle;\n    int count = 0;\n    for (int i = start; i < end; i++)\n    {\n        bool fromLeft = r == end;\n        if (!fromLeft && l < middle)\n        {\n            count++;\n            fromLeft = values[l] <= values[r];\n        }\n        if (fromLeft) { workspace[i] = values[l]; l++; }\n        else { workspace[i] = values[r]; r++; }\n    }\n    for (int i = start; i < end; i++) { values[i] = workspace[i]; }\n    return count;\n}"
           ]
         }
@@ -2694,9 +2694,9 @@
       "order": 107,
       "unitId": "sorting-and-cost",
       "revision": 1,
-      "concept": "عدد مقارنات الفقاعات في النسخة التي تمرّ دائمًا ينمو كـ O(n²). المرور على n عنصرًا عبر عدد طبقات ينمو لوغاريتميًا يعطي للدمج O(n log n). نقارن عدّاد الفقاعات بسقف زيارات الدمج.",
-      "whyUse": "تقدر تتوقع شكل النمو من بنية الخوارزمية وتختبر توقعك بالأرقام.",
-      "browserMechanics": "راقب زيادة comparisons داخل الحلقتين، ثم ضرب عدد العناصر في عدد طبقات الدمج.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ عدد مقارنات الفقاعات في النسخة التي تمرّ دائمًا ينمو كـ O(n²). المرور على n عنصرًا عبر عدد طبقات ينمو لوغاريتميًا يعطي للدمج O(n log n). نقارن عدّاد الفقاعات بسقف زيارات الدمج.",
+      "whyUse": "تقدر تتوقع شكل النمو من بنية الخوارزمية وتختبر توقعك بالأرقام. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب زيادة comparisons داخل الحلقتين، ثم ضرب عدد العناصر في عدد طبقات الدمج. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
@@ -2712,12 +2712,12 @@
           "title": "المشهد قبل الكود",
           "objective": "المصفوفة كبرت من 4 إلى 8. في الفقاعات عندك مرور بأطوال تتناقص واحدًا واحدًا. في الدمج يزيد عدد الطبقات واحدة ويزيد شغل كل طبقة.",
           "instruction": "يا كمبيوتر، المصفوفة كبرت من 4 إلى 8. في الفقاعات عندك مرور بأطوال تتناقص واحدًا واحدًا. في الدمج يزيد عدد الطبقات واحدة ويزيد شغل كل طبقة.",
-          "benefit": "تقدر تتوقع شكل النمو من بنية الخوارزمية وتختبر توقعك بالأرقام.",
+          "benefit": "تقدر تتوقع شكل النمو من بنية الخوارزمية وتختبر توقعك بالأرقام. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -2725,16 +2725,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "عدد مقارنات الفقاعات في النسخة التي تمرّ دائمًا ينمو كـ O(n²). المرور على n عنصرًا عبر عدد طبقات ينمو لوغاريتميًا يعطي للدمج O(n log n). نقارن عدّاد الفقاعات بسقف زيارات الدمج.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ عدد مقارنات الفقاعات في النسخة التي تمرّ دائمًا ينمو كـ O(n²). المرور على n عنصرًا عبر عدد طبقات ينمو لوغاريتميًا يعطي للدمج O(n log n). نقارن عدّاد الفقاعات بسقف زيارات الدمج.",
           "code": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
-          "benefit": "راقب زيادة comparisons داخل الحلقتين، ثم ضرب عدد العناصر في عدد طبقات الدمج.",
+          "benefit": "راقب زيادة comparisons داخل الحلقتين، ثم ضرب عدد العناصر في عدد طبقات الدمج. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -2744,7 +2744,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل mergeBudget بضرب الحجم في عدد الطبقات. مع أربعة عناصر اطبع 6 و8.",
           "instruction": "يا كمبيوتر، أكمل mergeBudget بضرب الحجم في عدد الطبقات. مع أربعة عناصر اطبع 6 و8.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «قارن زيادات المقارنات مع كبر المصفوفة» بمخرجات قابلة للقياس.",
           "starterCode": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\n// اكتب الأمر هنا\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "solution": "int size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "challenge": {
@@ -2804,9 +2804,9 @@
           },
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 4;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -2816,7 +2816,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ضاعف الحجم إلى 8. قارن تغير العددين.",
           "instruction": "يا كمبيوتر، ضاعف الحجم إلى 8. قارن تغير العددين.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "challenge": {
@@ -2876,9 +2876,9 @@
           },
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -2888,7 +2888,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب عنصرًا واحدًا. توقع عدد طبقات الدمج.",
           "instruction": "يا كمبيوتر، جرّب عنصرًا واحدًا. توقع عدد طبقات الدمج.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int size = 1;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "challenge": {
@@ -2949,9 +2949,9 @@
           },
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 1;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -2960,7 +2960,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر 3 للدمج. أي تعبير يحسب سقف الزيارات لكل الطبقات؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «قارن زيادات المقارنات مع كبر المصفوفة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر 3 للدمج. أي تعبير يحسب سقف الزيارات لكل الطبقات؟",
           "options": [
             "layers",
@@ -2969,13 +2969,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اضرب الحجم الكلي في عدد الطبقات.",
           "benefit": "اضرب الحجم الكلي في عدد الطبقات.",
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -2985,7 +2985,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اضرب الحجم الكلي في عدد الطبقات.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اضرب الحجم الكلي في عدد الطبقات.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "solution": "int size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "challenge": {
@@ -3045,9 +3045,9 @@
           },
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "قارن ما تتوقع حدوثه في «قارن زيادات المقارنات مع كبر المصفوفة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 8;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         },
@@ -3057,7 +3057,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، توقع عمل الفقاعات والدمج عند 16 عنصرًا. اطبع 120 مقارنة وسقف 64 زيارة لطبقات الدمج.",
           "instruction": "يا كمبيوتر، توقع عمل الفقاعات والدمج عند 16 عنصرًا. اطبع 120 مقارنة وسقف 64 زيارة لطبقات الدمج.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «قارن زيادات المقارنات مع كبر المصفوفة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int size = 16;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);",
           "challenge": {
@@ -3117,9 +3117,9 @@
           },
           "errorRules": [],
           "hints": [
-            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج.",
-            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int mergeBudget = size * layers;.",
+            "واحد من العدّادين مقارنات الفقاعات، والثاني سقف زيارات الدمج. راقب عدد الأسطر (12 أسطر) وتسلسل العمليات داخل «قارن زيادات المقارنات مع كبر المصفوفة».",
+            "القاعدة: عمل طبقة كاملة من الدمج يمر على ما يصل إلى n عنصرًا. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int mergeBudget = size * layers;. (ابدأ بملاحظة البنية حول `int`).",
             "كشف الحل:\nint size = 16;\nint comparisons = 0;\nfor (int end = size - 1; end > 0; end--)\n{\n    for (int i = 0; i < end; i++) { comparisons++; }\n}\nint layers = 0;\nint width = 1;\nwhile (width < size) { width *= 2; layers++; }\nint mergeBudget = size * layers;\nConsole.WriteLine(comparisons);\nConsole.WriteLine(mergeBudget);"
           ]
         }

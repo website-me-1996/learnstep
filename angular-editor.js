@@ -1649,6 +1649,7 @@ function createEditor(path) {
             else record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
             scheduleSave();
             schedulePreviewUpdate();
+            scheduleAngularLiveCoach();
             updateStepNavigation();
             if (runtime) scheduleRuntimeWrite(activePath, currentFiles[activePath]);
           })
@@ -1668,6 +1669,7 @@ function createEditor(path) {
       else record.workspaces.playground[activeLesson().id] = cloneFiles(currentFiles);
       scheduleSave();
       schedulePreviewUpdate();
+      scheduleAngularLiveCoach();
       updateStepNavigation();
       if (runtime) scheduleRuntimeWrite(activePath, currentFiles[activePath]);
     };
@@ -1680,6 +1682,29 @@ function createEditor(path) {
   renderFileTree();
   renderEditorTabs();
   updateAngularSimulatedPreview();
+}
+
+let angularLiveCoachTimer = 0;
+function scheduleAngularLiveCoach() {
+  window.clearTimeout(angularLiveCoachTimer);
+  angularLiveCoachTimer = window.setTimeout(() => {
+    if (!window.SmartCodeCoach || typeof angularTinkerMode !== "undefined" && angularTinkerMode) return;
+    const lesson = activeLesson();
+    if (!lesson || completedSet().has(lesson.id)) return;
+    const targetFile = lesson.file || (lesson.edits && lesson.edits[0] && lesson.edits[0].file) || activePath;
+    const userContent = currentFiles[targetFile] || currentFiles[activePath] || "";
+    const target = lesson.expected || lesson.code || "";
+    if (!target) return;
+    const pred = window.SmartCodeCoach.livePredict({
+      language: /\.html?$/i.test(targetFile) ? "html" : /\.css$/i.test(targetFile) ? "css" : "angular",
+      userCode: userContent,
+      beforeCode: (playgroundBaseline && playgroundBaseline[targetFile]) || "",
+      targetCode: target
+    });
+    if (pred && pred.text && $("angularLessonFeedback")) {
+      $("angularLessonFeedback").textContent = "🔮 " + pred.text;
+    }
+  }, 340);
 }
 
 let previewDebounceTimer = 0;
@@ -2932,15 +2957,25 @@ async function runLesson() {
         record.progress.stepAttempts[attemptKey] = (record.progress.stepAttempts[attemptKey] || 0) + 1;
         const attempts = record.progress.stepAttempts[attemptKey];
         const tier = Math.min(4, attempts);
+        const targetFile = lesson.file || files[0] || activePath;
+        const ngDiag = window.SmartCodeCoach ? window.SmartCodeCoach.evaluate({
+          language: /\.html?$/i.test(targetFile) ? "html" : /\.css$/i.test(targetFile) ? "css" : "angular",
+          userCode: currentFiles[targetFile] || "",
+          beforeCode: (playgroundBaseline && playgroundBaseline[targetFile]) || "",
+          targetCode: lesson.expected || lesson.code || "",
+          tier
+        }) : null;
         let feedback = "";
-        if (tier === 1) {
-          feedback = "الجزء المطلوب لم يظهر في " + files.join("، ") + ". أضف التعديلات المعروضة ثم شغّل من جديد.";
+        if (ngDiag && ngDiag.detected && ngDiag.message && tier < 4) {
+          feedback = "[" + targetFile + "] " + ngDiag.message;
+        } else if (tier === 1) {
+          feedback = "في ملف " + files.join("، ") + " لم يكتمل الأثر المطلوب بعد — دقّق في السطر الذي كتبته وشغّل من جديد.";
         } else if (tier === 2) {
-          feedback = "قاعدة: " + (lesson.task || "المطلوب إضافة التعديل المحدد في مكانه الصحيح.") + " هل راجعت صياغة الكود وخصائص Angular؟";
+          feedback = "لماذا لم يطابق الفحص؟ " + (lesson.task || "تأكد من موضع الكود وصياغته في Angular") + " — هل راجعت الأقواس والأنواع؟";
         } else if (tier === 3) {
-          feedback = "مساعدة محددة: الجزء المطلوب لم يظهر في " + files.join("، ") + ". تأكد من تضمين: " + (lesson.expected || "التعديلات المطلوبة");
+          feedback = "مساعدة محددة لملف " + files.join("، ") + ": تأكد من وجود `" + (lesson.expected || "التعديلات المطلوبة") + "`.";
         } else {
-          feedback = "كشف الحل: الجزء المطلوب في " + (lesson.file || files[0]) + " هو:\n" + (lesson.expected || "");
+          feedback = "كشف الحل في " + targetFile + ":\n" + (lesson.expected || "");
         }
         $("angularLessonFeedback").textContent = feedback;
         await saveRecord();
@@ -2957,15 +2992,25 @@ async function runLesson() {
         record.progress.stepAttempts[attemptKey] = (record.progress.stepAttempts[attemptKey] || 0) + 1;
         const attempts = record.progress.stepAttempts[attemptKey];
         const tier = Math.min(4, attempts);
+        const targetFile = lesson.file || files[0] || activePath;
+        const ngDiag = window.SmartCodeCoach ? window.SmartCodeCoach.evaluate({
+          language: /\.html?$/i.test(targetFile) ? "html" : /\.css$/i.test(targetFile) ? "css" : "angular",
+          userCode: currentFiles[targetFile] || "",
+          beforeCode: (playgroundBaseline && playgroundBaseline[targetFile]) || "",
+          targetCode: lesson.expected || lesson.code || "",
+          tier
+        }) : null;
         let feedback = "";
-        if (tier === 1) {
-          feedback = "الجزء المطلوب لم يظهر في " + files.join("، ") + ". أضف التعديل المطلوب ثم شغّل من جديد.";
+        if (ngDiag && ngDiag.detected && ngDiag.message && tier < 4) {
+          feedback = "[" + targetFile + "] " + ngDiag.message;
+        } else if (tier === 1) {
+          feedback = "في ملف " + files.join("، ") + " لم يكتمل الأثر المطلوب بعد — دقّق في السطر الذي كتبته وشغّل من جديد.";
         } else if (tier === 2) {
-          feedback = "قاعدة: " + (lesson.task || "المطلوب إضافة التعديل المحدد في مكانه الصحيح.") + " هل راجعت صياغة الكود وخصائص Angular؟";
+          feedback = "لماذا لم يطابق الفحص؟ " + (lesson.task || "تأكد من موضع الكود وصياغته في Angular") + " — هل راجعت الأقواس والأنواع؟";
         } else if (tier === 3) {
-          feedback = "مساعدة محددة: الجزء المطلوب لم يظهر في " + files.join("، ") + ". تأكد من تضمين: " + (lesson.expected || "التعديل المعروض");
+          feedback = "مساعدة محددة لملف " + files.join("، ") + ": تأكد من تضمين `" + (lesson.expected || "التعديل المعروض") + "`.";
         } else {
-          feedback = "كشف الحل: الجزء المطلوب في " + (lesson.file || files[0]) + " هو:\n" + (lesson.expected || "");
+          feedback = "كشف الحل في " + targetFile + ":\n" + (lesson.expected || "");
         }
         $("angularLessonFeedback").textContent = feedback;
         await saveRecord();

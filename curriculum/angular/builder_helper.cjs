@@ -27,57 +27,55 @@ const MODULES = RAW_COURSE.modules;
  */
 function getWhyUseForLesson(lesson) {
   const phase = lesson.phase || lesson.module || "";
-  const title = lesson.title || "";
-  const summary = lesson.summary || "";
+  const title = lesson.title || "هذا المفهوم";
 
   if (/typescript/i.test(phase) || /phase-1/i.test(phase)) {
-    return "يوفر نظام الأنواع الصارم في TypeScript شبكة أمان تمنع تمرير البيانات غير المتوافقة بين أجزاء التطبيق، ويكشف الأخطاء الإملائية والمنطقية أثناء مرحلة التطوير مباشرة وقبل وصول الشفرة للمتصفح، مما يجعل صيانة المشاريع المؤسسية الضخمة قابلة للتوسع وموثوقة بنسبة 100%.";
+    return `في درس «${title}»، تكمن الفائدة العملية لنظام الأنواع في اكتشاف عدم توافق البيانات داخل المحرر قبل تشغيل المتصفح، بدل أن يمر الخطأ صامتًا إلى حسابات التذاكر أو أسماء الأفلام.`;
   }
   if (/classic/i.test(phase) || /المرحلة الثانية/i.test(phase)) {
-    return "فهم المعمارية الكلاسيكية لـ Angular القائمة على وحدات NgModule والتوجيهات الهيكلية وحقن المنشئ ضروري جداً لسوق العمل البرمجي؛ حيث تشكل هذه الأنماط الأساس المعماري لأكثر من 85% من الأنظمة والتطبيقات البنكية والمؤسسية القائمة التي تتطلب صيانة وتطويراً مستمراً.";
+    return `معرفة «${title}» في البنية الكلاسيكية تساعدك على قراءة وصيانة تطبيقات Angular القائمة المبنية على NgModule والتوجيهات التقليدية وفهم سبب انتقال الإطار لاحقًا إلى البدائل الحديثة.`;
   }
   if (/modern|standalone|control flow/i.test(phase) || /المرحلة الثالثة/i.test(phase)) {
-    return "يمثل التحول إلى المكونات المستقلة Standalone ونظام التحكم بالتدفق المدمج (@if, @for, @defer) قفزة نوعية في تبسيط شفرة Angular وتقليل التعقيد البرمجي وتسريع وقت بناء التطبيق وتقليص حجم الحزم البرمجية المرسلة للمستخدم.";
+    return `في «${title}»، يزيل المكون المستقل وبُنى التحكم المدمجة الحاجة إلى وحدات وسيطة وتوجيهات هيكلية معقدة، مما يجعل قراءة القالب وتتبع أخطائه أوضح للمطور وللمترجم.`;
   }
   if (/signal/i.test(phase) || /المرحلة الرابعة/i.test(phase)) {
-    return "تمثل الإشارات Signals نموذج التفاعلية المعاصر في Angular، وتتيح إدارة دقيقة وحبيبية لحالة التطبيق دون الحاجة لفحص شجرة المكونات بأكملها، مما يرفع كفاءة المعالجة ويقلل استهلاك الذاكرة ويجعل تدفق البيانات قابلاً للتتبع والاستنتاج الرياضي بسهولة.";
+    return `عند تطبيق «${title}» عبر الإشارات Signals، يرتبط التحديث بالبيانات التي تغيرت فعلًا دون إعادة فحص الشجرة كلها، وهو ما يبقي تدفق الحالة سهل التتبع والتوقع.`;
   }
   if (/di|http|خدمات/i.test(phase) || /المرحلة الخامسة/i.test(phase)) {
-    return "يتيح نظام حقن التبعيات الوظيفي الحديث عبر دالة inject() إلى جانب عميل HttpClient المدعوم بـ withFetch() بناء خدمات موحدة ومنفصلة لجلب البيانات وحمايتها، مع دعم كامل للاعتراض الوظيفي ومعالجة الأخطاء والربط السلس بين RxJS و Signals.";
+    return `يتيح «${title}» عزل منطق الشبكة والحالة المشتركة داخل خدمات حقن واضحة، بحيث تتغير بيانات السينما في مكان واحد وتنعكس بأمان على كل مكون يحتاجها.`;
   }
   if (/routing|form|توجيه|نماذج/i.test(phase) || /المرحلة السادسة/i.test(phase)) {
-    return "يضمن التوجيه الحديث دعم التحميل الكسول للوحات والشاشات وربط معاملات الرابط مباشرة كإشارات Signal Inputs، بينما تضمن النماذج الصارمة Typed Forms التحقق المحكم من مدخلات المستخدم ومنع إرسال بيانات ناقصة أو غير صالحة للسيرفر.";
+    return `يساعدك «${title}» على ضبط التنقل وتحميل الصفحات عند الطلب وفحص مدخلات المستخدم بأنواع واضحة قبل وصول أي طلب غير مكتمل إلى الخادم.`;
   }
-  return summary && summary.length >= 50
-    ? `تطبيق هذا المفهوم في نظام حجز السينما يضمن بناء تجربة مستخدم سلسة وعالية الكفاءة، محققاً مبادئ هندسة البرمجيات النظيفة وقابلية التوسع والصيانة طويلة الأمد.`
-    : "يعد هذا المفهوم ركيزة أساسية في معمارية تطبيقات Angular الحديثة، حيث يضمن فصلاً محكماً بين طبقات المنطق والعرض ويحقق أعلى معايير الجودة والأداء البرمجي.";
+  return `تطبيق «${title}» داخل مشروع حجز السينما يربط بين التنظيم النظيف للكود ووضوح الاختبار والصيانة عندما تتوسع شاشات التطبيق.`;
 }
 
 /**
- * Returns deep authentic Arabic 'browserMechanics' explanation based on lesson phase and topic.
+ * Returns calm, accurate Arabic 'browserMechanics' explanation based on lesson phase and topic.
  */
 function getBrowserMechanicsForLesson(lesson) {
   const phase = lesson.phase || lesson.module || "";
+  const title = lesson.title || "الدرس";
 
   if (/typescript/i.test(phase) || /phase-1/i.test(phase)) {
-    return "يقوم مترجم TypeScript بفحص الأنواع ساكناً وإزالة كافة الواجهات والتعريفات الصريحة (Type Erasure)، ثم يولد كود JavaScript قياسي متوافق مع كافة المتصفحات، لتقوم محركات V8 و SpiderMonkey بتنفيذه بأقصى سرعة استجابة دون أي عبء وقت التشغيل.";
+    return `يفحص مترجم TypeScript الصياغة والأنواع أثناء التطوير ثم يزيل التعريفات الخاصة بالأنواع (Type Erasure) ويولّد JavaScript قياسيًا ينفذه المتصفح مباشرة بدون طبقة إضافية في وقت التشغيل (${title}).`;
   }
   if (/classic/i.test(phase) || /المرحلة الثانية/i.test(phase)) {
-    return "يقوم مترجم Angular (ngc) بتحويل القوالب إلى تعليمات تنفيذية، حيث يرتبط المكون بدورة فحص التغييرات التي تقودها مكتبة Zone.js، والتي تعترض الأحداث غير المتزامنة وتطلق عمليات تحديث لشجرة المكونات وتعديل عناصر DOM المتأثرة.";
+    return `يحوّل مترجم Angular القوالب الكلاسيكية والتوجيهات إلى تعليمات تحديث DOM، وتراقب Zone.js الأحداث غير المتزامنة لتشغيل فحص التغييرات في شجرة المكونات عند تطبيق «${title}».`;
   }
   if (/modern|standalone|control flow/i.test(phase) || /المرحلة الثالثة/i.test(phase)) {
-    return "تُدمج كتل التحكم الحديثة (@if, @for) مباشرة داخل المحلل اللغوي لقوالب Angular بدلاً من توجيهات وقت التشغيل الهيكلية، مما يلغي عبء إنشاء حاويات القوالب الوسيطة (ng-template)، ويسمح بتوليد كود تحديث مباشر لشجرة DOM ينفذه المتصفح بأقل زمن تأخير.";
+    return `يحلل مترجم Angular كتل التحكم المدمجة مثل @if و @for مباشرة داخل القالب في «${title}» دون حاويات ng-template وسيطة، ويحدّث العقد المتغيرة في شجرة DOM بدقة.`;
   }
   if (/signal/i.test(phase) || /المرحلة الرابعة/i.test(phase)) {
-    return "تبني مكتبة Signals رسماً بيانياً للتبعيات (Reactive Dependency Graph) في ذاكرة المتصفح؛ فعند تحديث قيمة إشارة، تخطر الإشارة كافة المشتقات والمؤثرات المعتمدة عليها فقط لتحديث خانات DOM المحددة بدقة متناهية دون الحاجة لتشغيل دورة فحص التغييرات العامة.";
+    return `تنشئ Signals في «${title}» رسمًا لتبعيات القيم في الذاكرة؛ فعند تغير الإشارة المصدر يُخطر المترجم المواضع والقيم المشتقة المعتمدة عليها وحدها لتحديث DOM عند اللزوم.`;
   }
   if (/di|http|خدمات/i.test(phase) || /المرحلة الخامسة/i.test(phase)) {
-    return "يعتمد حقن التبعيات على سياق الحقن المعتمد في Angular أثناء إنشاء الفئات، بينما يستخدم HttpClient واجهة المتصفح الأصلية Fetch API لإرسال الطلبات عبر شبكة HTTP غير المتزامنة، مع إدارة محكمة للذاكرة وتخفيف حمل معالجة استجابات JSON.";
+    return `تستدعي دالة inject() المزود من شجرة الحقن وقت إنشاء السياق، بينما يرسل HttpClient عبر Fetch API طلبات غير متزامنة ويعيد استجابات منظمة يمكن ربطها بالإشارات في «${title}».`;
   }
   if (/routing|form|توجيه|نماذج/i.test(phase) || /المرحلة السادسة/i.test(phase)) {
-    return "يراقب موجه Angular تاريخ التصفح (HTML5 History API) ويستجيب لتغيرات العنوان URL ليقوم بتحميل شفرة المكون المستهدف ديناميكياً عبر استيراد وحدات JavaScript (Dynamic Imports)، ثم يركبه في مقبس router-outlet دون إعادة تحميل الصفحة.";
+    return `يراقب موجه Angular تغير العنوان عبر History API ويجلب المكون المطلوب عند الطلب، كما تتحقق ضوابط النماذج من الصلاحية لحظيًا قبل السماح بالإرسال في «${title}».`;
   }
-  return "يقوم محرك بناء الإنتاج (Angular Build Application) بتجميع وتصغير الشفرة (Minification) وتطبيق شجرة التخلص من الأكواد غير المستخدمة (Tree-shaking)، ليحصل المتصفح على حزم فائقة الخفة تُحمّل وتُنفّذ بأقصى سرعة ممكنة.";
+  return `تجمع أدوات البناء مكونات السينما وتزيل الشيفرة غير المستعملة (Tree-shaking) وتضغط المخرجات في «${title}» ليصل المتصفح إلى ملفات واضحة وصغيرة الحجم.`;
 }
 
 /**
@@ -137,37 +135,55 @@ function buildBugRepairForLesson(lesson, order) {
 /**
  * Transforms a raw Angular lesson into a canonical schema v1.0.0 lesson object.
  */
+function summarizeAngularTarget(stepTarget) {
+  const s = String(stepTarget || "").trim();
+  const lineCount = s ? s.split(/\r?\n/).length : 1;
+  if (/@for\b/.test(s)) return "حلقة @for ومعرّف track";
+  if (/@if\b/.test(s)) return "شرط @if في القالب";
+  if (/@defer\b/.test(s)) return "كتلة التحميل المؤجل @defer";
+  if (/signal\(|computed\(|effect\(/.test(s)) return "دالة الإشارة التفاعلية (Signals)";
+  if (/inject\(|HttpClient|provideHttpClient/.test(s)) return "دالة الحقن أو عميل الشبكة";
+  if (/input\(|output\(|model\(/.test(s)) return "مدخلات ومخرجات المكون الحديثة";
+  if (/FormGroup|FormControl|Validators/.test(s)) return "حقول وضوابط النموذج";
+  if (/\{\{.*\}\}/.test(s)) return "ربط القيمة داخل القالب {{ ... }}";
+  if (/interface\b|type\b|enum\b/.test(s)) return "تعريف النوع في TypeScript";
+  return lineCount > 1 ? `بنية من ${lineCount} أسطر` : "السطر المستهدف في الخطوة";
+}
+
 function transformToCanonicalLesson(rawLesson, index) {
   const targetSolution = (rawLesson.expected || rawLesson.code || "").trim();
+  const lessonTitle = rawLesson.title || "هذا الدرس";
 
-  // Enhance all 5 steps with canonical required fields
+  // Enhance all steps with canonical required fields and curiosity-driven 4-tier hints
   const steps = (rawLesson.steps || []).map((step, sIdx) => {
     const stepTarget = (step.expected || step.code || targetSolution || step.title || "").trim();
+    const fileName = step.file || rawLesson.file || "المشروع";
+    const shapeCue = summarizeAngularTarget(stepTarget);
 
-    // Tier 1: Attention prompt without leaking stepTarget
-    let tier1 = `انتبه إلى موضع التعديل المطلوب في ملف ${step.file || rawLesson.file || "المشروع"}؛ راجع المطلوب في بطاقة الخطوة بدقة.`;
+    // Tier 1: Curiosity-oriented attention prompt without leaking stepTarget
+    let tier1 = `في ملف ${fileName} لدرس «${lessonTitle}»، تأمل كيف تتأثر الصياغة حول ${shapeCue} عند تنفيذ «${step.title || "هذه الخطوة"}».`;
 
-    // Tier 2: Conceptual rule + Guiding question ending with ؟
-    let tier2 = `قاعدة: يعتمد إطار Angular على الصياغة الدقيقة والأنواع الصارمة لضمان موثوقية الأداء. هل راجعت تركيب الكود ومطابقته للمطلوب في الخطوة؟`;
+    // Tier 2: Conceptual rule + Guiding question ending with ؟ (>= 25 chars)
+    let tier2 = `تعتمد موثوقية ${shapeCue} في Angular وTypeScript على الدقة في الاسم والنوع وموضع القوس. هل تحققت من مطابقة السطر لما تطلبه الخطوة في ${fileName}؟`;
 
     // Tier 3: Actionable guidance containing stepTarget
     let tier3 = stepTarget
-      ? `مساعدة محددة: اكتب الكود المطلوب بدقة: ${stepTarget}.`
-      : `مساعدة محددة: راجع المطلوب في بطاقة الخطوة ونفّذه بدقة في المحرر.`;
+      ? `توجيه محدد في ${fileName}: ركّز على كتابة الصيغة المطلوبة: ${stepTarget}`
+      : `توجيه محدد: راجع المطلوب في بطاقة الخطوة ونفّذه في ${fileName}.`;
 
     // Tier 4: Exact solution reveal containing stepTarget
     let tier4 = stepTarget
-      ? `كشف الحل: الكود الدقيق المطلوب للخطوة هو: ${stepTarget}`
-      : `كشف الحل: راجع الشرح واعتمد الكود النموذجي المطلوب.`;
+      ? `كشف الحل لملف ${fileName}: ${stepTarget}`
+      : `كشف الحل: راجع الشرح واعتمد الصياغة الكاملة للخطوة.`;
 
     return {
       ...step,
       id: step.id || `step-${sIdx + 1}`,
       title: step.title || `خطوة ${sIdx + 1}`,
       type: step.type || "edit",
-      objective: step.task || step.explanation || "تنفيذ المطلوب في الخطوة وملاحظة النتيجة.",
-      instruction: step.task || step.explanation || "اكتب الكود المطلوب وشغّل لتتأكد من سلامة التنفيذ.",
-      benefit: step.benefit || "فائدة ما طبقته: استيعاب المفهوم وتثبيته عملياً في المشروع.",
+      objective: step.task || step.explanation || `تطبيق «${step.title || lessonTitle}» وملاحظة أثره.`,
+      instruction: step.task || step.explanation || `نفّذ المطلوب داخل ${fileName} وشغّل المعاينة للمقارنة.`,
+      benefit: step.benefit || `أثر الخطوة: لاحظت عمليًا كيف يتعامل Angular مع ${shapeCue} في «${lessonTitle}».`,
       errorRules: [
         ANGULAR_RULES.unclosedBrace,
         ANGULAR_RULES.unclosedInterpolation,

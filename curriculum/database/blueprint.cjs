@@ -289,6 +289,8 @@ function buildChanges(code, title, index) {
   ];
 }
 
+const { makeDatabaseCopy } = require("./curiosity-copy.cjs");
+
 function lessonFrom(module, title, order) {
   const code = sqlExample(title, order);
   const changes = buildChanges(code, title, order);
@@ -296,6 +298,7 @@ function lessonFrom(module, title, order) {
   const skill = module.id.replace(/^phase-/, "");
   const analysis = module.id === "phase-2-system-analysis";
   const project = module.id === "phase-12-capstones" ? title.match(/الصيدلية|POS|المدرسة/)[0] : "الصيدلية والكاشير والمدرسة";
+  const curiosity = makeDatabaseCopy({ module, title, order, code, changes, project, analysis });
   const repairOptions = [
     "اعتماد النتيجة دون سؤال يثبت قاعدة العمل أو نطاقها.",
     "تغيير لون محرر SQL سيصلح البيانات تلقائيًا.",
@@ -305,21 +308,18 @@ function lessonFrom(module, title, order) {
   const correctOptionIndex = order % repairOptions.length;
   const correctOption = repairOptions.shift();
   repairOptions.splice(correctOptionIndex, 0, correctOption);
-  const parts = [
-    "المشهد: " + title + " داخل " + project + ".",
-    "القرار: نكتب ما نعرفه الآن ونترك ما يحتاج سؤالًا إضافيًا واضحًا.",
-    "الأثر: هذا القرار يظهر لاحقًا في الجدول أو القيد أو الاستعلام أو الاختبار."
-  ];
+  const parts = curiosity.breakdown;
   const steps = changes.map(function(change, stepIndex) {
     const before = stepIndex === 0 ? code : changes.slice(0, stepIndex).reduce((value, item) => value.replace(item.from, item.to), code);
     const after = before.replace(change.from, change.to);
+    const copy = curiosity.steps[stepIndex];
     return {
       id: "step-" + (stepIndex + 1),
       title: change.title,
-      objective: analysis ? "استخراج قرار واحد من مشهد واقعي قبل تسمية المصطلح التقني." : "تنفيذ قرار واحد وملاحظة أثره في نتيجة الدرس.",
+      objective: copy.objective,
       type: "edit",
-      instruction: analysis ? "صف القرار في المثال ثم نفّذه في النص الظاهر وشغّل للمراجعة." : "عدّل الجزء المحدد فقط، ثم شغّل وقارن النتيجة بالسؤال.",
-      benefit: "فائدة الخطوة: صار لدينا دليل صغير يمكن مراجعته بدل تخمين التصميم كاملًا.",
+      instruction: copy.instruction,
+      benefit: copy.benefit,
       from: change.from,
       to: change.to,
       expectedLine: change.to,
@@ -327,12 +327,7 @@ function lessonFrom(module, title, order) {
         { pattern: "\\bUPDATE\\b(?![\\s\\S]*\\bWHERE\\b)", flags: "i", type: "logic", message: "تأكد من وجود شرط يحدد السجلات قبل تحديث بيانات مشتركة." },
         { pattern: "=\\s*NULL|!=\\s*NULL|<>\\s*NULL", flags: "i", type: "logic", message: "NULL يحتاج IS NULL أو IS NOT NULL، لا مقارنة مساواة عادية." }
       ],
-      hints: [
-        "انتبه إلى الجزء الذي يمثل قرار الخطوة الحالية فقط.",
-        "القاعدة: لا نقفز إلى قرار أكبر من السؤال؛ ثبّت المعلومة ثم راجع أثرها. هل عرفت ما الذي نحتاج إثباته الآن؟",
-        "قرّب التعديل من هذا الجزء: " + change.to,
-        "الحل الدقيق للخطوة هو: " + change.to
-      ]
+      hints: copy.hints
     };
   });
   return {
@@ -345,14 +340,14 @@ function lessonFrom(module, title, order) {
     skill,
     duration: analysis || module.id === "phase-12-capstones" ? "25 دقيقة" : "18 دقيقة",
     level: order < 15 ? "مبتدئ" : order < 60 ? "متوسط" : "متقدم",
-    summary: "درس تطبيقي يربط " + title + " بسؤال واقعي، ثم يحوّل القرار إلى أثر قابل للتنفيذ والاختبار.",
-    concept: "نبدأ من مشهد أو مشكلة مرتبطة بـ" + title + ". لا نحتاج إلى حسم النظام كله الآن؛ نحدد المعلومة أو القاعدة التي أمامنا، نوضح ما نعرفه وما زال مجهولًا، ثم نختار تمثيلًا يمكن تغييره بعد الاختبار.",
-    whyUse: "يظهر هذا القرار عندما نحتاج إلى بناء منتج يعتمد على بيانات قابلة للمراجعة. تجاهله قد ينتج سجلًا مكررًا أو علاقة وهمية أو نتيجة تقرير لا يمكن تفسيرها.",
-    browserMechanics: "يحلل محرك PostgreSQL النص، يتحقق من الأسماء والقيود، يختار خطة تنفيذ، ثم ينفذ القراءة أو التعديل. في درس التحليل نمثل القرار بتعليق واستعلام صغير حتى يبقى أثر التفكير قابلًا للملاحظة في المحرر.",
+    summary: curiosity.summary,
+    concept: curiosity.concept,
+    whyUse: curiosity.whyUse,
+    browserMechanics: curiosity.browserMechanics,
     documentationUrl: module.id.includes("sql") || module.id.includes("reporting") || module.id.includes("relations") ? docs.select : module.id.includes("schema") ? docs.ddl : module.id.includes("production") ? docs.performance : docs.foundation,
     file: "query.sql",
     flow: "مشهد واقعي ⟶ سؤال اكتشاف ⟶ قرار صغير ⟶ تمثيل SQL ⟶ اختبار النتيجة",
-    task: "حلّل السؤال المرتبط بالدرس، نفّذ التعديل الصغير، ثم راجع النتيجة مقابل قاعدة العمل.",
+    task: "تتبع السؤال المحرك لـ «" + title + "»، نفّذ التعديل الصغير، ثم قارن النتيجة بقاعدة العمل.",
     code,
     expected: finalCode,
     reference: docs.foundation,
@@ -361,8 +356,8 @@ function lessonFrom(module, title, order) {
     bugRepair: {
       brokenCode: code + "\n-- خطأ محتمل: القرار لم يرتبط بقاعدة عمل واضحة",
       fixedCode: finalCode,
-      question: "ما المشكلة الأقرب في هذا المثال قبل اعتماده داخل منتج؟",
-      explanation: "الإجابة الجيدة تربط الخطأ بقاعدة العمل أو سلامة البيانات، لا بمجرد اختلاف شكلي في النص.",
+      question: curiosity.bugRepair.question,
+      explanation: curiosity.bugRepair.explanation,
       options: repairOptions,
       correctOptionIndex
     },

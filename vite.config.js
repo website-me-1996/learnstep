@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { transform } from "esbuild";
 
-const classicScripts = ["lessons-data.js", "angular-course-data.js", "learner-profiles.js", "app.js", "content-protection.js"];
+const classicScripts = ["lessons-data.js", "angular-course-data.js", "learner-profiles.js", "smart-code-coach.js", "app.js", "content-protection.js"];
 
 const isolationHeaders = {
   "Cross-Origin-Embedder-Policy": "credentialless",

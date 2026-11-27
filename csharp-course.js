@@ -635,12 +635,34 @@ function run(all = true) {
       const baseline = activeLesson().steps.find(s => s.id === "edit").challenge.output;
       const checked = checkChallenge(code.value, step.challenge, baseline, stdin.value);
       r.verified[step.id] = checked.passed; save(); $("csharpNext").disabled = !checked.passed;
-      feedback(checked.message + (checked.passed ? " " + step.benefit : ""), !checked.passed);
+      if (!checked.passed && window.SmartCodeCoach) {
+        const csDiag = window.SmartCodeCoach.evaluate({
+          language: "csharp",
+          userCode: code.value,
+          beforeCode: step.starterCode || "",
+          targetCode: step.solution || "",
+          step,
+          tier: Math.max(1, hintLevel || 1)
+        });
+        const msg = csDiag && csDiag.detected && csDiag.message ? csDiag.message : checked.message;
+        feedback(msg, true);
+      } else {
+        feedback(checked.message + (checked.passed ? " " + step.benefit : ""), !checked.passed);
+      }
     }
   } catch (error) {
     trace = null; cursor = -1; renderTrace();
     r.verified[step.id] = false; save(); $("csharpNext").disabled = true;
-    feedback("السطر " + number(error.line || 1) + ": " + error.message, true);
+    const csErrDiag = window.SmartCodeCoach ? window.SmartCodeCoach.evaluate({
+      language: "csharp",
+      userCode: code.value,
+      beforeCode: step.starterCode || "",
+      targetCode: step.solution || "",
+      step,
+      tier: Math.max(1, hintLevel || 1),
+      runtimeError: error
+    }) : null;
+    feedback((csErrDiag && csErrDiag.detected && csErrDiag.message) ? csErrDiag.message : ("السطر " + number(error.line || 1) + ": " + error.message), true);
   }
 }
 
@@ -693,11 +715,23 @@ $("csharpRuntimeLabel").textContent = RUNTIME_LABEL;
 document.querySelectorAll("[data-csharp-open]").forEach(b => b.addEventListener("click", () => void enter()));
 $("csharpRetry").addEventListener("click", () => void enter());
 window.addEventListener("steplearn:coursechange", e => { if (e.detail?.course !== "csharp") leave(); });
+let csharpLivePredictTimer = null;
 code.addEventListener("input", () => {
   stopReal(false);
   if (csharpTinkerMode) { clearTrace(); return; }
   const step = activeStep(), r = record(); r.drafts[step.id] = code.value; r.verified[step.id] = false;
   $("csharpNext").disabled = true; feedback(""); clearTrace(); save();
+  if (csharpLivePredictTimer) clearTimeout(csharpLivePredictTimer);
+  csharpLivePredictTimer = setTimeout(() => {
+    if (!practical() || !window.SmartCodeCoach) return;
+    const pred = window.SmartCodeCoach.livePredict({
+      language: "csharp",
+      userCode: code.value,
+      beforeCode: step.starterCode || "",
+      targetCode: step.solution || ""
+    });
+    if (pred && pred.text) feedback("🔮 " + pred.text);
+  }, 320);
 });
 $("csharpRun").addEventListener("click", () => $("csharpEngine").value === "dotnet" ? void runReal() : run(true));
 $("csharpEngine").addEventListener("change", () => { stopReal(false); applyEngine(); });
@@ -718,7 +752,22 @@ $("csharpTraceBack").addEventListener("click", () => { cursor--; renderTrace(); 
 $("csharpTraceRestart").addEventListener("click", () => { cursor = -1; renderTrace(); });
 $("csharpHintButton").addEventListener("click", () => {
   hintLevel = Math.min(hintLevel + 1, 4);
-  $("csharpHint").hidden = false; $("csharpHint").textContent = activeStep().hints[hintLevel - 1];
+  const step = activeStep();
+  let hintText = step.hints[hintLevel - 1];
+  if (window.SmartCodeCoach && code.value.trim()) {
+    const diag = window.SmartCodeCoach.evaluate({
+      language: "csharp",
+      userCode: code.value,
+      beforeCode: step.starterCode || "",
+      targetCode: step.solution || "",
+      step,
+      tier: hintLevel
+    });
+    if (diag && diag.detected && diag.message && hintLevel < 4) {
+      hintText = diag.message;
+    }
+  }
+  $("csharpHint").hidden = false; $("csharpHint").textContent = hintText;
   $("csharpHintButton").textContent = hintLevel === 3 ? "اكشف الحل" : "التلميح " + number(hintLevel + 1);
   $("csharpHintButton").disabled = hintLevel === 4;
 });

@@ -14,9 +14,9 @@
       "order": 112,
       "unitId": "graph-traversals",
       "revision": 1,
-      "concept": "الرسم البياني يربط محطات بوصلات. في هذه المصفوفة، 1 عند [source, target] تعني وجود وصلة من المصدر إلى الهدف. كل اتجاه له خانته.",
-      "whyUse": "تقدر تسأل عن اتصال مباشر بلغتك المعتادة لاختيار خانة من مصفوفة.",
-      "browserMechanics": "تضيء خانة صف الانطلاق وعمود الوصول، ويظهر رقم الوصلة في direct.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الرسم البياني يربط محطات بوصلات. في هذه المصفوفة، 1 عند [source, target] تعني وجود وصلة من المصدر إلى الهدف. كل اتجاه له خانته.",
+      "whyUse": "تقدر تسأل عن اتصال مباشر بلغتك المعتادة لاختيار خانة من مصفوفة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "تضيء خانة صف الانطلاق وعمود الوصول، ويظهر رقم الوصلة في direct. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
@@ -32,12 +32,12 @@
           "title": "المشهد قبل الكود",
           "objective": "محطة 0 لها طريق إلى محطة 1. ارسم صفًا لمحطة الانطلاق وعمودًا لمحطة الوصول. ضع 1 عند الوصلة من 0 إلى 1.",
           "instruction": "يا كمبيوتر، محطة 0 لها طريق إلى محطة 1. ارسم صفًا لمحطة الانطلاق وعمودًا لمحطة الوصول. ضع 1 عند الوصلة من 0 إلى 1.",
-          "benefit": "تقدر تسأل عن اتصال مباشر بلغتك المعتادة لاختيار خانة من مصفوفة.",
+          "benefit": "تقدر تسأل عن اتصال مباشر بلغتك المعتادة لاختيار خانة من مصفوفة. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -45,16 +45,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "الرسم البياني يربط محطات بوصلات. في هذه المصفوفة، 1 عند [source, target] تعني وجود وصلة من المصدر إلى الهدف. كل اتجاه له خانته.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ الرسم البياني يربط محطات بوصلات. في هذه المصفوفة، 1 عند [source, target] تعني وجود وصلة من المصدر إلى الهدف. كل اتجاه له خانته.",
           "code": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
-          "benefit": "تضيء خانة صف الانطلاق وعمود الوصول، ويظهر رقم الوصلة في direct.",
+          "benefit": "تضيء خانة صف الانطلاق وعمود الوصول، ويظهر رقم الوصلة في direct. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -64,7 +64,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، اقرأ هل فيه طريق مباشر من 0 إلى 1. خزّن نتيجة مصفوفة الجوار في direct واطبعها.",
           "instruction": "يا كمبيوتر، اقرأ هل فيه طريق مباشر من 0 إلى 1. خزّن نتيجة مصفوفة الجوار في direct واطبعها.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «حوّل الوصلة إلى خانة في مصفوفة الجوار» بمخرجات قابلة للقياس.",
           "starterCode": "",
           "solution": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
           "challenge": {
@@ -131,9 +131,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -143,7 +143,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، اعكس الاتجاه إلى 1 ثم 0. انظر إلى الخانة الجديدة.",
           "instruction": "يا كمبيوتر، اعكس الاتجاه إلى 1 ثم 0. انظر إلى الخانة الجديدة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 1;\nint target = 0;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
           "challenge": {
@@ -210,9 +210,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 1;\nint target = 0;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -222,7 +222,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، جرّب الاتصال من 2 إلى 3. حدد مكانه في المصفوفة قبل التنفيذ.",
           "instruction": "يا كمبيوتر، جرّب الاتصال من 2 إلى 3. حدد مكانه في المصفوفة قبل التنفيذ.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 2;\nint target = 3;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
           "challenge": {
@@ -290,9 +290,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 2;\nint target = 3;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -301,7 +301,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "بحثت عن المسار من 0 إلى 1، فحص البرنامج العكس. ما الترتيب المناسب للفهارس؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «حوّل الوصلة إلى خانة في مصفوفة الجوار» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "بحثت عن المسار من 0 إلى 1، فحص البرنامج العكس. ما الترتيب المناسب للفهارس؟",
           "options": [
             "graph[source, target]",
@@ -310,13 +310,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[target, source];\nConsole.WriteLine(direct);",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اكتب source أولًا وtarget ثانيًا.",
           "benefit": "اكتب source أولًا وtarget ثانيًا.",
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -326,7 +326,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب source أولًا وtarget ثانيًا.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اكتب source أولًا وtarget ثانيًا.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[target, source];\nConsole.WriteLine(direct);",
           "solution": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
           "challenge": {
@@ -393,9 +393,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "قارن ما تتوقع حدوثه في «حوّل الوصلة إلى خانة في مصفوفة الجوار» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 0;\nint target = 1;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         },
@@ -405,7 +405,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، اقرأ الوصلة من 3 إلى 0 واطبع النتيجة.",
           "instruction": "يا كمبيوتر، اقرأ الوصلة من 3 إلى 0 واطبع النتيجة.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «حوّل الوصلة إلى خانة في مصفوفة الجوار» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "int[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 3;\nint target = 0;\nint direct = graph[source, target];\nConsole.WriteLine(direct);",
           "challenge": {
@@ -472,9 +472,9 @@
           },
           "errorRules": [],
           "hints": [
-            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود.",
-            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب int direct = graph[source, target];.",
+            "اتجاه الحركة يحدد أي الرقمين صف وأيهما عمود. راقب عدد الأسطر (11 أسطر) وتسلسل العمليات داخل «حوّل الوصلة إلى خانة في مصفوفة الجوار».",
+            "القاعدة: الصف نقطة الانطلاق والعمود نقطة الوصول في هذا الرسم. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب int direct = graph[source, target];. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint source = 3;\nint target = 0;\nint direct = graph[source, target];\nConsole.WriteLine(direct);"
           ]
         }
@@ -531,8 +531,8 @@
       "order": 113,
       "unitId": "graph-traversals",
       "revision": 1,
-      "concept": "في BFS اقرأ أول محطة من الطابور وأضف جيرانها الجدد إلى آخره. علّم المحطة عند الإضافة حتى تدخل مرة واحدة، حتى مع وجود دورة.",
-      "whyUse": "تزور كل محطة يمكن الوصول إليها بحسب عدد الوصلات من نقطة البداية.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ في BFS اقرأ أول محطة من الطابور وأضف جيرانها الجدد إلى آخره. علّم المحطة عند الإضافة حتى تدخل مرة واحدة، حتى مع وجود دورة.",
+      "whyUse": "تزور كل محطة يمكن الوصول إليها بحسب عدد الوصلات من نقطة البداية. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
       "browserMechanics": "تُظهر بطاقة pending ترتيب الانتظار، وتوضح Add إذا كانت المحطة جديدة. أثناء الفحص تظهر خانة الجوار الحالية.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
@@ -549,12 +549,12 @@
           "title": "المشهد قبل الكود",
           "objective": "أنت في محطة 0. سجّل أقرب المحطات 1 و2 في الطابور. محطة 3 تدخل بعدهما عندما تفتح الطريق إليها من 1.",
           "instruction": "يا كمبيوتر، أنت في محطة 0. سجّل أقرب المحطات 1 و2 في الطابور. محطة 3 تدخل بعدهما عندما تفتح الطريق إليها من 1.",
-          "benefit": "تزور كل محطة يمكن الوصول إليها بحسب عدد الوصلات من نقطة البداية.",
+          "benefit": "تزور كل محطة يمكن الوصول إليها بحسب عدد الوصلات من نقطة البداية. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -562,16 +562,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "في BFS اقرأ أول محطة من الطابور وأضف جيرانها الجدد إلى آخره. علّم المحطة عند الإضافة حتى تدخل مرة واحدة، حتى مع وجود دورة.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ في BFS اقرأ أول محطة من الطابور وأضف جيرانها الجدد إلى آخره. علّم المحطة عند الإضافة حتى تدخل مرة واحدة، حتى مع وجود دورة.",
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "benefit": "تُظهر بطاقة pending ترتيب الانتظار، وتوضح Add إذا كانت المحطة جديدة. أثناء الفحص تظهر خانة الجوار الحالية.",
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -581,7 +581,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل شرط إضافة جار جديد إلى pending. ابدأ من 0 واطبع ترتيب الزيارة 0 ثم 1 ثم 2 ثم 3.",
           "instruction": "يا كمبيوتر، أكمل شرط إضافة جار جديد إلى pending. ابدأ من 0 واطبع ترتيب الزيارة 0 ثم 1 ثم 2 ثم 3.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «زُر المحطات الأقرب أولًا باستخدام BFS» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && false)\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "challenge": {
@@ -679,9 +679,9 @@
           },
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -691,7 +691,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابدأ من 2. شوف 0 تدخل الطابور بعدما تزور 3.",
           "instruction": "يا كمبيوتر، ابدأ من 2. شوف 0 تدخل الطابور بعدما تزور 3.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "challenge": {
@@ -789,9 +789,9 @@
           },
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -801,7 +801,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابدأ من المحطة المنعزلة 4. راقب انتهاء الطابور بعد أول زيارة.",
           "instruction": "يا كمبيوتر، ابدأ من المحطة المنعزلة 4. راقب انتهاء الطابور بعد أول زيارة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 4;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "challenge": {
@@ -900,9 +900,9 @@
           },
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 4;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -911,7 +911,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "الطابور انتهى بعد طباعة 0. ما العملية التي تسجّل الجار وتخبرك أنه جديد؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «زُر المحطات الأقرب أولًا باستخدام BFS» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "الطابور انتهى بعد طباعة 0. ما العملية التي تسجّل الجار وتخبرك أنه جديد؟",
           "options": [
             "visited.Contains(next)",
@@ -920,13 +920,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Contains(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استعمل Add لتعليم المحطة الجديدة في نفس الشرط.",
           "benefit": "استعمل Add لتعليم المحطة الجديدة في نفس الشرط.",
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -936,7 +936,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استعمل Add لتعليم المحطة الجديدة في نفس الشرط.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استعمل Add لتعليم المحطة الجديدة في نفس الشرط.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Contains(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "challenge": {
@@ -1034,9 +1034,9 @@
           },
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "قارن ما تتوقع حدوثه في «زُر المحطات الأقرب أولًا باستخدام BFS» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         },
@@ -1046,7 +1046,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، ابدأ من 1 واطبع كل محطة يمكن الوصول لها بترتيب BFS.",
           "instruction": "يا كمبيوتر، ابدأ من 1 واطبع كل محطة يمكن الوصول لها بترتيب BFS.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «زُر المحطات الأقرب أولًا باستخدام BFS» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 1;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}",
           "challenge": {
@@ -1144,9 +1144,9 @@
           },
           "errorRules": [],
           "hints": [
-            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة.",
-            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (graph[current, next] == 1 && visited.Add(next)).",
+            "تحقق من الوصلة أولًا، ثم اسأل visited.Add هل المحطة جديدة. راقب عدد الأسطر (25 أسطر) وتسلسل العمليات داخل «زُر المحطات الأقرب أولًا باستخدام BFS».",
+            "القاعدة: تعليم المحطة عند دخولها الطابور يمنع تكرار دخولها. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (graph[current, next] == 1 && visited.Add(next)). (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 1;\nHashSet<int> visited = new HashSet<int>();\nQueue<int> pending = new Queue<int>();\nvisited.Add(start);\npending.Enqueue(start);\nwhile (pending.Count > 0)\n{\n    int current = pending.Dequeue();\n    Console.WriteLine(current);\n    for (int next = 0; next < graph.GetLength(1); next++)\n    {\n        if (graph[current, next] == 1 && visited.Add(next))\n        {\n            pending.Enqueue(next);\n        }\n    }\n}"
           ]
         }
@@ -1203,9 +1203,9 @@
       "order": 114,
       "unitId": "graph-traversals",
       "revision": 1,
-      "concept": "DFS تتابع جارًا عبر استدعاء جديد قبل الانتقال للجار التالي. تعود Visit فورًا من محطة سبق تعليمها، وتكمّل الاستدعاءات السابقة بعد الرجوع.",
-      "whyUse": "تقدر تستكشف عُمق الفرع وتعود لبقية المسارات عند قفل الفرع الأول.",
-      "browserMechanics": "راقب عمق Visit ورقم current. عند محطة مكررة تظهر نتيجة Add بقيمة false ثم يعود التنفيذ.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ DFS تتابع جارًا عبر استدعاء جديد قبل الانتقال للجار التالي. تعود Visit فورًا من محطة سبق تعليمها، وتكمّل الاستدعاءات السابقة بعد الرجوع.",
+      "whyUse": "تقدر تستكشف عُمق الفرع وتعود لبقية المسارات عند قفل الفرع الأول. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "راقب عمق Visit ورقم current. عند محطة مكررة تظهر نتيجة Add بقيمة false ثم يعود التنفيذ. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/building-software/local-functions",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
@@ -1221,12 +1221,12 @@
           "title": "المشهد قبل الكود",
           "objective": "تبدأ من 0 ولديك طريقان. امشِ في الأول عبر 1 إلى 3. لما تلاقي طريقًا يرجع إلى محطة زرتها، ارجع وجرب الفرع الآخر.",
           "instruction": "يا كمبيوتر، تبدأ من 0 ولديك طريقان. امشِ في الأول عبر 1 إلى 3. لما تلاقي طريقًا يرجع إلى محطة زرتها، ارجع وجرب الفرع الآخر.",
-          "benefit": "تقدر تستكشف عُمق الفرع وتعود لبقية المسارات عند قفل الفرع الأول.",
+          "benefit": "تقدر تستكشف عُمق الفرع وتعود لبقية المسارات عند قفل الفرع الأول. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1234,16 +1234,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "DFS تتابع جارًا عبر استدعاء جديد قبل الانتقال للجار التالي. تعود Visit فورًا من محطة سبق تعليمها، وتكمّل الاستدعاءات السابقة بعد الرجوع.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ DFS تتابع جارًا عبر استدعاء جديد قبل الانتقال للجار التالي. تعود Visit فورًا من محطة سبق تعليمها، وتكمّل الاستدعاءات السابقة بعد الرجوع.",
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
-          "benefit": "راقب عمق Visit ورقم current. عند محطة مكررة تظهر نتيجة Add بقيمة false ثم يعود التنفيذ.",
+          "benefit": "راقب عمق Visit ورقم current. عند محطة مكررة تظهر نتيجة Add بقيمة false ثم يعود التنفيذ. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1253,7 +1253,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل شرط التوقف في Visit قبل الطباعة. ابدأ من 0 واطبع 0 و1 و3 و2 بترتيب DFS.",
           "instruction": "يا كمبيوتر، أكمل شرط التوقف في Visit قبل الطباعة. ابدأ من 0 واطبع 0 و1 و3 و2 بترتيب DFS.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اتبع فرعًا حتى النهاية باستخدام DFS» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (true) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "challenge": {
@@ -1341,9 +1341,9 @@
           },
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1353,7 +1353,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، ابدأ من 2. تتبّع الفرع الذي يمر بـ3 ويصل إلى 0.",
           "instruction": "يا كمبيوتر، ابدأ من 2. تتبّع الفرع الذي يمر بـ3 ويصل إلى 0.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "challenge": {
@@ -1441,9 +1441,9 @@
           },
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1453,7 +1453,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابدأ من 4. هل توجد محطة مجاورة تحتاج زيارتها؟ راقب نهاية الفرع.",
           "instruction": "يا كمبيوتر، ابدأ من 4. هل توجد محطة مجاورة تحتاج زيارتها؟ راقب نهاية الفرع.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 4;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "challenge": {
@@ -1542,9 +1542,9 @@
           },
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 4;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1553,7 +1553,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "رجعت الدالة قبل طباعة المحطة الأولى. أي شرط يوقف الزيارة عندما يكون الرقم مكررًا؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اتبع فرعًا حتى النهاية باستخدام DFS» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "رجعت الدالة قبل طباعة المحطة الأولى. أي شرط يوقف الزيارة عندما يكون الرقم مكررًا؟",
           "options": [
             "visited.Add(current)",
@@ -1562,13 +1562,13 @@
           ],
           "correctOptionIndex": 2,
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "اعكس نتيجة Add للرجوع عندما تعطي false.",
           "benefit": "اعكس نتيجة Add للرجوع عندما تعطي false.",
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1578,7 +1578,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اعكس نتيجة Add للرجوع عندما تعطي false.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. اعكس نتيجة Add للرجوع عندما تعطي false.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "challenge": {
@@ -1666,9 +1666,9 @@
           },
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "قارن ما تتوقع حدوثه في «اتبع فرعًا حتى النهاية باستخدام DFS» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         },
@@ -1678,7 +1678,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، ابدأ من 3 واطبع الترتيب 3 ثم 0 ثم 1 ثم 2. راقب الرجوع عند اكتشاف الدورة.",
           "instruction": "يا كمبيوتر، ابدأ من 3 واطبع الترتيب 3 ثم 0 ثم 1 ثم 2. راقب الرجوع عند اكتشاف الدورة.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اتبع فرعًا حتى النهاية باستخدام DFS» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 3;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}",
           "challenge": {
@@ -1766,9 +1766,9 @@
           },
           "errorRules": [],
           "hints": [
-            "حافظ على نفس مجموعة visited في كل الاستدعاءات.",
-            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب if (!visited.Add(current)) { return; }.",
+            "حافظ على نفس مجموعة visited في كل الاستدعاءات. راقب عدد الأسطر (20 أسطر) وتسلسل العمليات داخل «اتبع فرعًا حتى النهاية باستخدام DFS».",
+            "القاعدة: الزيارة المكررة ترجع قبل استكشاف الجيران مرة ثانية. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب if (!visited.Add(current)) { return; }. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 3;\nHashSet<int> seen = new HashSet<int>();\nVisit(graph, start, seen);\n\nvoid Visit(int[,] map, int current, HashSet<int> visited)\n{\n    if (!visited.Add(current)) { return; }\n    Console.WriteLine(current);\n    for (int next = 0; next < map.GetLength(1); next++)\n    {\n        if (map[current, next] == 1) { Visit(map, next, visited); }\n    }\n}"
           ]
         }
@@ -1825,8 +1825,8 @@
       "order": 115,
       "unitId": "graph-traversals",
       "revision": 1,
-      "concept": "وقت إضافة next لأول مرة في BFS خزن current في previous[next]. للوصول للمسار اتبع previous من الهدف للخلف، ثم استخدم Stack لإخراج المحطات من البداية.",
-      "whyUse": "تحوّل نتيجة البحث إلى طريق يمكن عرضه، وتحصل على أقل عدد وصلات في رسم غير موزون.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ وقت إضافة next لأول مرة في BFS خزن current في previous[next]. للوصول للمسار اتبع previous من الهدف للخلف، ثم استخدم Stack لإخراج المحطات من البداية.",
+      "whyUse": "تحوّل نتيجة البحث إلى طريق يمكن عرضه، وتحصل على أقل عدد وصلات في رسم غير موزون. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
       "browserMechanics": "بجوار distance ترى الخانة التي سجلت previous. يعرض الطابور الزيارات والمكدّس ترتيب المسار عند طباعته.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1?view=net-10.0",
       "sourcesReviewedAt": "2026-11-18",
@@ -1843,12 +1843,12 @@
           "title": "المشهد قبل الكود",
           "objective": "عندك مشوار من 0 إلى 3 وكل وصلة لها نفس التكلفة. عندما تصل لأول مرة لمحطة، اكتب بجوارها المحطة اللي جيت منها. عند الهدف اتبع العلامات للخلف لتعرف الطريق.",
           "instruction": "يا كمبيوتر، عندك مشوار من 0 إلى 3 وكل وصلة لها نفس التكلفة. عندما تصل لأول مرة لمحطة، اكتب بجوارها المحطة اللي جيت منها. عند الهدف اتبع العلامات للخلف لتعرف الطريق.",
-          "benefit": "تحوّل نتيجة البحث إلى طريق يمكن عرضه، وتحصل على أقل عدد وصلات في رسم غير موزون.",
+          "benefit": "تحوّل نتيجة البحث إلى طريق يمكن عرضه، وتحصل على أقل عدد وصلات في رسم غير موزون. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -1856,16 +1856,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "وقت إضافة next لأول مرة في BFS خزن current في previous[next]. للوصول للمسار اتبع previous من الهدف للخلف، ثم استخدم Stack لإخراج المحطات من البداية.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ وقت إضافة next لأول مرة في BFS خزن current في previous[next]. للوصول للمسار اتبع previous من الهدف للخلف، ثم استخدم Stack لإخراج المحطات من البداية.",
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "benefit": "بجوار distance ترى الخانة التي سجلت previous. يعرض الطابور الزيارات والمكدّس ترتيب المسار عند طباعته.",
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -1875,7 +1875,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل حفظ المحطة السابقة في BFS. اطبع المسافة 2 ثم المحطات 0 و1 و3.",
           "instruction": "يا كمبيوتر، أكمل حفظ المحطة السابقة في BFS. اطبع المسافة 2 ثم المحطات 0 و1 و3.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «مشروع المحطات، احفظ الوصلة السابقة» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                // اكتب الأمر هنا\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -1974,9 +1974,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -1986,7 +1986,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، اجعل الهدف 2. توقع عدد الوصلات وتسلسل المحطات الجديد.",
           "instruction": "يا كمبيوتر، اجعل الهدف 2. توقع عدد الوصلات وتسلسل المحطات الجديد.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 2;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2085,9 +2085,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 2;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2097,7 +2097,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، اجعل الهدف 4. افحص حالة عدم وجود مسار.",
           "instruction": "يا كمبيوتر، اجعل الهدف 4. افحص حالة عدم وجود مسار.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 4;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2197,9 +2197,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 4;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2208,7 +2208,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "البرنامج أخرج 0 ثم 3 رغم أن المسافة 2. أي سطر يحفظ المحطة الوسيطة عند الاكتشاف؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «مشروع المحطات، احفظ الوصلة السابقة» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "البرنامج أخرج 0 ثم 3 رغم أن المسافة 2. أي سطر يحفظ المحطة الوسيطة عند الاكتشاف؟",
           "options": [
             "previous[next] = current;",
@@ -2217,13 +2217,13 @@
           ],
           "correctOptionIndex": 0,
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = start;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "احفظ current باعتبارها السابقة لكل next جديدة.",
           "benefit": "احفظ current باعتبارها السابقة لكل next جديدة.",
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2233,7 +2233,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ current باعتبارها السابقة لكل next جديدة.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. احفظ current باعتبارها السابقة لكل next جديدة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = start;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2332,9 +2332,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "قارن ما تتوقع حدوثه في «مشروع المحطات، احفظ الوصلة السابقة» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 0;\nint goal = 3;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2344,7 +2344,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، اطبع أقصر طريق من 2 إلى 1. عُد من الهدف بالمراجع ثم أخرج الطريق من البداية.",
           "instruction": "يا كمبيوتر، اطبع أقصر طريق من 2 إلى 1. عُد من الهدف بالمراجع ثم أخرج الطريق من البداية.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «مشروع المحطات، احفظ الوصلة السابقة» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nint goal = 1;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                // اكتب الأمر هنا\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nint goal = 1;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2443,9 +2443,9 @@
           },
           "errorRules": [],
           "hints": [
-            "أضف السهم من next المكتشفة إلى current التي وصلنا منها.",
-            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت الجزء الذي تحتاج تغييره؟",
-            "اكتب previous[next] = current; بعد تحديث distance[next].",
+            "أضف السهم من next المكتشفة إلى current التي وصلنا منها. راقب عدد الأسطر (53 أسطر) وتسلسل العمليات داخل «مشروع المحطات، احفظ الوصلة السابقة».",
+            "القاعدة: لكل محطة جديدة احفظ السابقة في لحظة تسجيل أقصر مسافة. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "اكتب previous[next] = current; بعد تحديث distance[next]. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint start = 2;\nint goal = 1;\nPrintRoute(graph, start, goal);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         }
@@ -2502,9 +2502,9 @@
       "order": 116,
       "unitId": "graph-traversals",
       "revision": 1,
-      "concept": "نفس الدالة تمرّ باختبارات ذات نتائج معروفة. المسار إلى البداية طوله صفر، والهدف الصحيح الغائب يعيد -1، والمدخل خارج الفهارس يتوقف في الحارس قبل البحث.",
-      "whyUse": "تتأكد من أن مشروعك يعطي ردًا يمكن تفسيره في الحالات التي تفشل فيها البرامج عادةً.",
-      "browserMechanics": "يظهر فصل كل استدعاء داخل PrintRoute. عند رقم غير صالح يعيد التنفيذ قبل إنشاء طابور.",
+      "concept": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ نفس الدالة تمرّ باختبارات ذات نتائج معروفة. المسار إلى البداية طوله صفر، والهدف الصحيح الغائب يعيد -1، والمدخل خارج الفهارس يتوقف في الحارس قبل البحث.",
+      "whyUse": "تتأكد من أن مشروعك يعطي ردًا يمكن تفسيره في الحالات التي تفشل فيها البرامج عادةً. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
+      "browserMechanics": "يظهر فصل كل استدعاء داخل PrintRoute. عند رقم غير صالح يعيد التنفيذ قبل إنشاء طابور. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
       "documentationUrl": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
       "sourcesReviewedAt": "2026-11-18",
       "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
@@ -2520,12 +2520,12 @@
           "title": "المشهد قبل الكود",
           "objective": "قبل تسليم دليل المحطات جرّب ثلاث تذاكر. الأولى لنفس المحطة، والثانية لمحطة منعزلة، والثالثة برقم خارج الخريطة. توقع مخرجاتها قبل الضغط على التشغيل.",
           "instruction": "يا كمبيوتر، قبل تسليم دليل المحطات جرّب ثلاث تذاكر. الأولى لنفس المحطة، والثانية لمحطة منعزلة، والثالثة برقم خارج الخريطة. توقع مخرجاتها قبل الضغط على التشغيل.",
-          "benefit": "تتأكد من أن مشروعك يعطي ردًا يمكن تفسيره في الحالات التي تفشل فيها البرامج عادةً.",
+          "benefit": "تتأكد من أن مشروعك يعطي ردًا يمكن تفسيره في الحالات التي تفشل فيها البرامج عادةً. أي لبس بين قيمة محفوظة ونص حرفي يظهر فورًا كخطأ ترجمة أو ناتج مختلف عما توقعته.",
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2533,16 +2533,16 @@
           "id": "trace",
           "type": "observe",
           "title": "شاهد أمرًا واحدًا كل مرة",
-          "objective": "تتبع أثر كل أمر في القيم والمخرجات.",
-          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. تابع السطر الحالي والقيم والمخرجات حتى نهاية المثال.",
-          "explanation": "نفس الدالة تمرّ باختبارات ذات نتائج معروفة. المسار إلى البداية طوله صفر، والهدف الصحيح الغائب يعيد -1، والمدخل خارج الفهارس يتوقف في الحارس قبل البحث.",
+          "objective": "تتبع أثر كل أمر في القيم والمخرجات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+          "instruction": "يا كمبيوتر، نفّذ أمرًا واحدًا في كل ضغطة. ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟",
+          "explanation": "ماذا يظن الكمبيوتر عندما يرى أمر طباعة أو نصًا بلا تنصيص، وكيف يفرّق بين القيمة واسمها؟ نفس الدالة تمرّ باختبارات ذات نتائج معروفة. المسار إلى البداية طوله صفر، والهدف الصحيح الغائب يعيد -1، والمدخل خارج الفهارس يتوقف في الحارس قبل البحث.",
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
-          "benefit": "يظهر فصل كل استدعاء داخل PrintRoute. عند رقم غير صالح يعيد التنفيذ قبل إنشاء طابور.",
+          "benefit": "يظهر فصل كل استدعاء داخل PrintRoute. عند رقم غير صالح يعيد التنفيذ قبل إنشاء طابور. ينفذ المترجم السطر تلو الآخر بالترتيب الذي كتبته، لا بالترتيب الذي قرأته بعينك.",
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2552,7 +2552,7 @@
           "title": "ابنِ المثال بيدك",
           "objective": "يا كمبيوتر، أكمل الحارس ليختبر الحد الأعلى للهدف. شغّل حالات 0 إلى 0، و0 إلى 4، و0 إلى 5 وتحقق من الردود.",
           "instruction": "يا كمبيوتر، أكمل الحارس ليختبر الحد الأعلى للهدف. شغّل حالات 0 إلى 0، و0 إلى 4، و0 إلى 5 وتحقق من الردود.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: بنيت السلوك بيدك من البداية وربطت «اختبر الوصول والغياب وحدود الفهارس» بمخرجات قابلة للقياس.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0)\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2620,9 +2620,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2632,7 +2632,7 @@
           "title": "غيّر شيئًا واحدًا",
           "objective": "يا كمبيوتر، بدّل المحطة الثانية إلى 3 القابلة للوصول. راجع أن الحالات الأخرى لها نفس الردود.",
           "instruction": "يا كمبيوتر، بدّل المحطة الثانية إلى 3 القابلة للوصول. راجع أن الحالات الأخرى لها نفس الردود.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: شاهدت كيف غيّر تعديل قيمة واحدة مسار القيم والمخرجات في التتبع.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 3;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2700,9 +2700,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 3;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2712,7 +2712,7 @@
           "title": "تجربتك أنت",
           "objective": "يا كمبيوتر، ابدأ من المحطة المنعزلة 4 وجرّب هدفًا سالبًا كالحالة الثالثة.",
           "instruction": "يا كمبيوتر، ابدأ من المحطة المنعزلة 4 وجرّب هدفًا سالبًا كالحالة الثالثة.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: اختبرت فرضيتك أنت بحالة جديدة، وتأكدت من أثرها دون تقليد أعمى.",
           "starterCode": null,
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 4;\nint second = 0;\nint outside = -1;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2781,9 +2781,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 4;\nint second = 0;\nint outside = -1;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2792,7 +2792,7 @@
           "type": "quiz",
           "title": "اكتشف سبب الخطأ",
           "objective": "ظهر خطأ عند رقم هدف يساوي طول المصفوفة. أي شرط يمنع الفهرس الأول بعد آخر محطة؟",
-          "instruction": "يا كمبيوتر، اعرض المثال الذي يحتاج إصلاحًا. حدّد السبب قبل تغيير الكود.",
+          "instruction": "يا كمبيوتر، اعرض المثال المرتبط بـ «اختبر الوصول والغياب وحدود الفهارس» الذي يحتاج إصلاحًا. حدّد السبب قبل لمس الكود.",
           "question": "ظهر خطأ عند رقم هدف يساوي طول المصفوفة. أي شرط يمنع الفهرس الأول بعد آخر محطة؟",
           "options": [
             "goal > map.GetLength(0)",
@@ -2801,13 +2801,13 @@
           ],
           "correctOptionIndex": 1,
           "code": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal > map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
-          "explanation": "قد يكون الكود صالحًا لكن نتيجته لا تحقق الهدف. قارن المطلوب بما يحدث.",
+          "explanation": "استخدم >= كي يشمل الحارس الحد نفسه.",
           "benefit": "استخدم >= كي يشمل الحارس الحد نفسه.",
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "قارن الناتج المطلوب بسطر الكود المرتبط به.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "قارن الناتج المتوقع بسطر الكود المسؤول عنه. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2817,7 +2817,7 @@
           "title": "أصلح وشاهد الفرق",
           "objective": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم >= كي يشمل الحارس الحد نفسه.",
           "instruction": "يا كمبيوتر، أصلح المثال وفق السبب الذي حددته. استخدم >= كي يشمل الحارس الحد نفسه.",
-          "benefit": "شاهدت أثر قرارك في القيم والمخرجات بدل تخمين النتيجة.",
+          "benefit": "أثر الخطوة: ميّزت بين كود يترجم بلا أخطاء وكود يحقق المطلوب بدقة.",
           "starterCode": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal > map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2885,9 +2885,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "قارن ما تتوقع حدوثه في «اختبر الوصول والغياب وحدود الفهارس» بما يفعله السطر المعطوب حاليًا.",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 0;\nint second = 4;\nint outside = 5;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         },
@@ -2897,7 +2897,7 @@
           "title": "طبّق واحفظ لبنتك",
           "objective": "يا كمبيوتر، اختبر 1 إلى 1، و1 إلى 3، و1 إلى 12. قارن المسافة والطريق ورسالة المدخل غير الصالح.",
           "instruction": "يا كمبيوتر، اختبر 1 إلى 1، و1 إلى 3، و1 إلى 12. قارن المسافة والطريق ورسالة المدخل غير الصالح.",
-          "benefit": "صنعت تطبيقًا جديدًا باستخدام فكرة الدرس، وسنحفظه مع تقدمك.",
+          "benefit": "أثر الخطوة: نقلت فكرة «اختبر الوصول والغياب وحدود الفهارس» إلى سياق مختلف تمامًا، وسيُحفظ هذا التطبيق مع تقدمك.",
           "starterCode": "",
           "solution": "using System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 1;\nint second = 3;\nint outside = 12;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}",
           "challenge": {
@@ -2965,9 +2965,9 @@
           },
           "errorRules": [],
           "hints": [
-            "عدد المحطات هو أول فهرس خارج الحدود.",
-            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت الجزء الذي تحتاج تغييره؟",
-            "أضف || goal >= map.GetLength(0) إلى شرط الحارس.",
+            "عدد المحطات هو أول فهرس خارج الحدود. راقب عدد الأسطر (56 أسطر) وتسلسل العمليات داخل «اختبر الوصول والغياب وحدود الفهارس».",
+            "القاعدة: كل فهرس صالح أكبر من أو يساوي صفرًا وأصغر من عدد المحطات. هل حددت السطر أو القيمة التي تغيّر السلوك هنا؟",
+            "أضف || goal >= map.GetLength(0) إلى شرط الحارس. (ابدأ بملاحظة البنية حول `int[,]`).",
             "كشف الحل:\nusing System.Collections.Generic;\n\nint[,] graph = {\n    { 0, 1, 1, 0, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 0, 0, 0, 1, 0 },\n    { 1, 0, 0, 0, 0 },\n    { 0, 0, 0, 0, 0 }\n};\nint begin = 1;\nint second = 3;\nint outside = 12;\nPrintRoute(graph, begin, begin);\nPrintRoute(graph, begin, second);\nPrintRoute(graph, begin, outside);\n\nvoid PrintRoute(int[,] map, int start, int goal)\n{\n    if (map.GetLength(0) != map.GetLength(1) || start < 0 || start >= map.GetLength(0) || goal < 0 || goal >= map.GetLength(0))\n    {\n        Console.WriteLine(\"مدخل غير صالح\");\n        return;\n    }\n    int[] distance = new int[map.GetLength(0)];\n    int[] previous = new int[map.GetLength(0)];\n    for (int i = 0; i < distance.Length; i++)\n    {\n        distance[i] = -1;\n        previous[i] = -1;\n    }\n    Queue<int> pending = new Queue<int>();\n    distance[start] = 0;\n    pending.Enqueue(start);\n    while (pending.Count > 0)\n    {\n        int current = pending.Dequeue();\n        if (current == goal) { break; }\n        for (int next = 0; next < map.GetLength(1); next++)\n        {\n            if (map[current, next] == 1 && distance[next] == -1)\n            {\n                distance[next] = distance[current] + 1;\n                previous[next] = current;\n                pending.Enqueue(next);\n            }\n        }\n    }\n    Console.WriteLine(distance[goal]);\n    if (distance[goal] < 0) { return; }\n    Stack<int> path = new Stack<int>();\n    int step = goal;\n    while (step != -1)\n    {\n        path.Push(step);\n        step = previous[step];\n    }\n    while (path.Count > 0) { Console.WriteLine(path.Pop()); }\n}"
           ]
         }
